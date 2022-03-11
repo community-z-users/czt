@@ -1,0 +1,21 @@
+
+\begin{zsection}
+  \SECTION\ basic\_processes2 \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circchannel\ out: \nat
+\end{circus}
+
+
+\begin{circus}
+    \circprocess\ JustMainActionBasicProcessMultiple ~~\circdef~~ \circbegin
+\end{circus}
+
+\begin{circusaction}
+    \circspot out.0 \then \Skip
+\end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus} 

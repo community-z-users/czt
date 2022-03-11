@@ -1,0 +1,975 @@
+\chapter[Lemmas]{Lemmas and their proofs}\label{apC}
+
+\section{Lemma `deterministic'}
+
+%%------------------
+%\begin{lemmareprise}[deterministic]\index{lemma `deterministic'}%
+%  {\rm The correctness proof for a general $Okay$ branch consists of
+%    the following three proof obligations:
+%    }%
+%  \footnote{ Used in: lemma `$AbIgnore$', section~\ref{abignore};
+%    lemma `$Ignore$', section~\ref{ignore}; lemma `$Abort$ refines
+%    $AbIgnore$', section~\ref{proof-gen-abort-lemma}; used to simplify
+%    every \Abs-\Betw\ operation proof.  }
+%
+%  \noindent {\bf exists-pd}:
+%  \begin{zed}
+%%%\forall
+%    \PhiBOp; BOpPurseOkay; RabOut; RabCl'; RabIn
+%%%@
+%    \\ %
+%    \shows
+%    \\ %
+%    \exists pdThis: PayDetails @ \pdThisPred
+%  \end{zed}
+%
+%  \noindent {\bf exists-chosenLost}:
+%  \begin{zed}
+%%%\forall
+%    \PhiBOp; BOpPurseOkay; RabOut; RabClPd'[pdThis/pdThis']; RabIn |
+%    \\ %
+%    \t1 \pdThisPred
+%    \\ %
+%    \shows
+%    \\ %
+%    \exists chosenLost: \power PayDetails @ \chosenLostPred \land
+%    chosenLost \subseteq maybeLost
+%  \end{zed}
+%
+%  \noindent {\bf check-operation}:
+%  \begin{zed}
+%%% \forall
+%    \PhiBOp; BOpPurseOkay; RabOut; RabClPd'[pdThis / pdThis'];
+%    \\ %
+%    \t2 AbWorld; RabClPd; RabIn |
+%    \\ %
+%    \t1 \pdThisPred \land \chosenLostPred
+%%% @
+%    \\ %
+%    \shows
+%    \\ %
+%    AOp
+%  \end{zed}
+%\end{lemmareprise}
+%{\bf Proof:}
+%
+%\noindent See section~\ref{ch14.general-summary}.
+%
+%$\Box$ \ref{lemma-deterministic}
+%%------------------
+%\section{Lemma `lost unchanged'}
+%\printlabel{lemma-maybeLost-unchanged}
+%%------------------
+%\index{lemma `lost unchanged'}
+%\begin{lemmareprise}[lost unchanged]
+%  {\rm For $BOp\Xi Lost$ operations, where we have that
+%    $may$\-$be$\-$Lost'$ $=$ $may$\-$be$\-$Lost$ and $definitelyLost'
+%    = definitelyLost$, the proof obligations {\bf exists-pd} and {\bf
+%      exists-chosenLost} are satisfied automatically by the
+%    instantiation of the predicates $\pdThisPred$ and
+%    $\chosenLostPred$ as:
+%    }%
+%  \footnote{%
+%    Used in
+%    $ExceptionLogEnquiry$, chapter~\ref{proof-logenq};
+%    $ExceptionLogClear$, chapter~\ref{proof-logclear}.  }
+%  \begin{zed}
+%    \pdThisPred \iff true
+%    \also %
+%%% \forall \Delta RabClPd @
+%    \chosenLostPred \iff chosenLost = chosenLost'
+%  \end{zed}
+%\end{lemmareprise}
+%{\bf Proof:}
+%
+%\noindent See section~\ref{lost-unchanged}
+%
+%$\Box$ \ref{lemma-maybeLost-unchanged}
+%%------------------
+%\section{Lemma `$AbIgnore$'}
+%\printlabel{lemma-abignore}
+%%------------------
+%Consider an operation $BOpIg$ which refines $AbIgnore$.  The
+%operation should have the following properties.
+%
+%\begin{itemize}
+%\item $BOpIg$ is a promoted operation, and thus alters only one
+%  concrete purse.
+%\item for any purse, the $name$ is unchanged.
+%\item the domain of $conAuthPurse$ is unchanged (by construction of
+%  the promotion)
+%\item for any purse, either $nextSeqNo$ is unchanged, or increased.
+%\end{itemize}
+%
+%Where these properties hold for $BOpIg$, we can apply lemma
+%$AbIgnore$.
+%
+%\begin{lemmareprise}[$AbIgnore$]\index{lemma `AbIgnore'@lemma `$AbIgnore$'}%
+%  {\rm For a $BOpIg$ operation, the {\bf check-operation} proof
+%    obligation reduces to %
+%    \footnote{ Used in: `$Ignore$', section~\ref{ignore}; lemma
+%      `$Abort$ refines $AbIgnore$',
+%      section~\ref{proof-gen-abort-lemma}; used to simplify every
+%      \Abs-\Betw\ operation proof that refines $AbIgnore$.  }  }
+%  \begin{zed}
+%%%\forall
+%    \PhiBOp; BOpIgPurse; RabClPd'[pdThis/pdThis']; AbWorld; RabClPd |
+%    \\ %
+%    \t1          \pdThisPred \land \chosenLostPred
+%%% @
+%    \\ %
+%    \shows
+%    \\ %
+%    \forall n: \dom abAuthPurse @
+%    \\ %
+%    \t1 (abAuthPurse'~n).lost = (abAuthPurse~n).lost
+%    \\ %
+%    \t1 \land (abAuthPurse'~n).balance = (abAuthPurse~n).balance
+%  \end{zed}
+%\end{lemmareprise}
+%{\bf Proof:}
+%
+%\noindent See section~\ref{abignore}.
+%
+%$\Box$ \ref{lemma-abignore}
+%
+%%------------------
+%\section{Lemma `$Abort$ refines $AbIgnore$'}
+%\printlabel{lemma-abort}
+%%------------------
+%
+%\begin{lemmareprise}[$Abort$ refines $AbIgnore$]
+%  \index{lemma `Abort refines Abignore'@lemma `$Abort$ refines $AbIgnore$'}%
+%  {\rm Concrete $Abort$ refines abstract $AbIgnore$.}%
+%  \footnote{ Used in: lemma `abort backward',
+%    section~\ref{lemma-abort-ignore} }
+%  \begin{zed}
+%%% \forall RabOut;
+%    Abort; Rab'; RabOut
+%%% @
+%    \shows \exists AbWorld; a?:AIN @ Rab \land RabIn \land AbIgnore
+%  \end{zed}
+%\end{lemmareprise}
+%{\bf Proof:}
+%
+%\noindent See section~\ref{proof-gen-abort-lemma}.
+%
+%$\Box$ \ref{lemma-abort}
+%%%------------------
+%%\section{$Abort$--$Ignore$}
+%%\printlabel{lemma-abort-ignore}
+%%%------------------
+%%\begin{lemmareprise}[Abort--Ignore]\index{lemma `{\it Abort--Ignore}'}%
+%%        Given a concrete operation which satisfies the hypotheses of Lemma
+%%        $AbIgnore$ and of Lemma `$Abort$ refines $AbIgnore$',
+%%         then that operation refines
+%%        $AbIgnore$.
+%%\end{lemmareprise}
+%%{\bf Proof:}
+%%
+%%\noindent
+%%See section~\ref{proof-abort-ignore-lemma}.
+%%
+%%$\Box$ \ref{lemma-abort-ignore}
+%
+%%------------------
+%\section{Lemma `abort backward'}
+%\printlabel{lemma-abort-ignore}
+%%------------------
+%
+%\index{lemma `abort backward'}
+%\begin{lemmareprise}[abort backward]
+%  {\rm Where a concrete operation is written as a composition of
+%    $AbortPurseOkay$ and a simpler operation starting from $eaFrom$,
+%    it is sufficient to prove that the promotion of the simpler
+%    operation alone refines the relevant abstract operation.
+%    \footnote{%
+%      Used in: {\it Start\-From}, section~\ref{startfrom}; {\it
+%        Start\-To}, section~\ref{startto}; {\it
+%        Clear\-Ex\-cep\-tion\-Log}, section~\ref{proof-logclear}; {\it
+%        Read\-Ex\-cep\-tion\-Log}, section~\ref{proof-logenq} } }
+%
+%  \[
+%  (~\exists \Delta ConPurse @ \PhiBOp \land (AbortPurseOkay \semi
+%  BOpPurseEafromOkay)~);
+%  \\ %
+%  \t2 Rab'; RabOut;
+%  \\ %
+%  \t2 (~\forall BOpEafromOkay; Rab'; RabOut @
+%  \\ %
+%  \t3 \exists AbWorld; a?:AIN @ Rab \land RabIn \land AOp~)
+%  \\ %
+%  \shows
+%  \\ %
+%  \exists AbWorld; a?:AIN @ Rab \land RabIn \land AOp
+%  \]
+%\end{lemmareprise}
+%
+%\noindent {\bf Proof:}
+%
+%\noindent See section~\ref{ignore-abort-op}.
+%
+%$\Box$ \ref{lemma-abort-ignore}
+%
+%%------------------
+\section{Lemma `constraint'}
+\label{lemma-constraint}
+%%------------------
+%
+%\begin{lemmareprise}[constraint]\index{lemma `constraint'}%
+%  {\rm If an operation does not change purse status and does not
+%    change the presence of payment detail messages in the ether
+%    (either by not emitting such a message, or by emitting an already
+%    existing message), then it preserves the $BetweenWorld$
+%    constraints.
+%    \footnote{%
+%      Used in: $Increase$, section~\ref{bc-increase}; {\it
+%        CClear\-Exception\-Log}, section~\ref{bc-clearexlog}; {\it
+%        CArchive}, section~\ref{bc-archive}.  }  }
+%\end{lemmareprise}
+%{\bf Proof:}
+%
+%\noindent See section~\ref{bc-cons}.
+%
+%$\Box$ \ref{lemma-constraint}
+%%------------------
+\section{Lemma `logs unchanged'}
+\label{lemma-logs-unchanged}
+%%------------------
+%\begin{lemmareprise}[logs unchanged]\index{lemma `logs unchanged'}%
+%  {\rm When the $archive$ and the individual purse logs do not change,
+%    and when no new $req$ messages are added to the $ether$, the set
+%    of $PayDetails$ representing all the logs does not change either.
+%    \footnote{%
+%      Used in: lemma `constraint', section~\ref{bc-cons}; {\it
+%        CStart\-From}, section~\ref{bc-startfrom}; {\it CReq},
+%      section~\ref{bc-req}; {\it CVal}, section~\ref{bc-val}; {\it
+%        CAck}, section~\ref{bc-ack}; {\it CRead\-Exception\-Log},
+%      section~\ref{bc-readexlog}; {\it CAuthor\-ise\-Ex\-Log\-Clear},
+%      section~\ref{bc-authexlogclear}.  }  }
+%  \[
+%  BOpOkay | archive' = archive
+%  \\ %
+%  \t1 \land (\ran req) \cap ether' = (\ran req) \cap ether @
+%  \\ %
+%  \t1 \land \forall n : \dom conAuthPurse @
+%  \\ %
+%  \t2 (conAuthPurse'~n).exLog = (conAuthPurse~n).exLog
+%  \\ %
+%  \shows
+%  \\ %
+%  allLogs' = allLogs
+%  \\ %
+%  \land toLogged' = toLogged
+%  \\ %
+%  \land fromLogged' = fromLogged
+%  \]
+%\end{lemmareprise}
+%{\bf Proof:}
+%
+%\noindent See section~\ref{logs-unchanged}.
+%
+%$\Box$ \ref{lemma-logs-unchanged}
+%%------------------
+%\section{Lemma `abort forward'}
+%\printlabel{lemma-abort-fwd}
+%%------------------
+%\index{lemma `abort forward'}%
+%\begin{lemmareprise}[abort forward]
+%  {\rm Where a \Conc\ operation is written as a composition of
+%    $CAbort$ and a simpler operation starting from $eaFrom$, and the
+%    corresponding \Betw\ operation is structured similarly, it is
+%    sufficient to prove that the simpler \Conc\ operation refines
+%    corresponding \Betw\ operation
+%    \footnote{%
+%      Used in: $CStartFrom$, section~\ref{bc-startfrom}; $CStartTo$,
+%      section~\ref{bc-startto}; {\it CRead\-Exception\-Log},
+%      section~\ref{bc-readexlog}; {\it CClear\-Exception\-Log},
+%      section~\ref{bc-clearexlog}.  }.  }
+%  \[
+%  (CAbort \semi COpEafrom); Rbc;
+%  \\ %
+%  \t2 (~\forall COpEafrom; Rbc @ \exists BetweenWorld' @ Rbc' \land
+%  BOpEafrom~)
+%  \\ %
+%  \shows
+%  \\ %
+%  \exists BetweenWorld' @ Rbc' \land (Abort \semi BOpEafrom)
+%  \]
+%\end{lemmareprise}
+%{\bf Proof:}
+%
+%\noindent See section~\ref{ignore-abort-bc-op}.
+%
+%$\Box$ \ref{lemma-abort-fwd}
+%
+%%------------------
+\section{Lemma `compose backward'}
+\label{lemma-compose}
+%%------------------
+%
+%\begin{lemma}[compose backward]\index{lemma `compose backward'}%
+%  {\rm If, under the backwards refinement rules, a concrete operation
+%    $COp_1$ is a refinement of abstract operation $AOp_1$, and $COp_2$
+%    is a refinement of $AOp_2$, then their composition is a refinement
+%    of the abstract composition
+%    \footnote{%
+%      Used in: lemma `abort backward',
+%      section~\ref{lemma-abort-ignore}.  }.  }
+%
+%  \begin{zed}
+%    (COp_1 \semi COp_2) ; R'; ROut;
+%    \\ %
+%    \t2 (~\forall COp_1; R'; ROut @ (~\exists A; AIn @ R \land RIn
+%    \land AOp_1~)~);
+%    \\ %
+%    \t2 (~\forall COp_2; R'; ROut @ (~\exists A; AIn @ R \land RIn
+%    \land AOp_2~)~)
+%    \\ %
+%    \shows
+%    \\ %
+%    \exists A; AIn @ R \land RIn \land (AOp_1 \semi AOp_2)
+%  \end{zed}
+%\end{lemma}
+%
+%\noindent {\bf Proof:}
+%
+%\noindent This result is reasonably self-evident, from the
+%definition of refinement in terms of complete programs.
+%
+%We show that the particular form of the theorem holds here.  Without
+%loss of generality, assume that the concrete and abstract state
+%schemas have a single component, $c$ and $a$ respectively.  (A
+%multi-component state is isomorphic to a single component state
+%consisting of all the multi-components bundled into a single schema
+%or Cartesian product.)
+%
+%Expand the compositions, and rename the quantified variables in the
+%hypothesis.
+%\begin{zed}
+%  (~ \exists C_0 @ COp_1[c_0/c'] \land COp_2[c_0/c] ~) ; R'; ROut;
+%  \\ %
+%  \t1 (~\forall COp_1[c_0/c']; R_0; ROut @ (~\exists A; AIn @ R \land
+%  RIn \land AOp_1[a_0/a']~)~);
+%  \\ %
+%  \t1 (~\forall COp_2[c_0/c]; R'; ROut @ (~\exists A_0; AIn @ R_0
+%  \land RIn \land AOp_2[a_0/a]~)~)
+%  \\ %
+%  \shows
+%  \\ %
+%  \exists A; AIn @ R \land RIn \land (~ \exists A_0 @ AOp_1[a_0/a']
+%  \land AOp_2[a_0/a]~)
+%\end{zed}
+%
+%\noindent Use [\hypexists] to drop the $\exists$ in the hypothesis,
+%then simplify.
+%\begin{zed}
+%  COp_1[c_0/c'] ; COp_2[c_0/c] ; R'; ROut;
+%  \\ %
+%  \t1 (~\forall COp_1[c_0/c']; R_0; ROut @
+%  \\ %
+%  \t2 (~\exists A; AIn @ R \land RIn \land AOp_1[a_0/a']~)~);
+%  \\ %
+%  \t2 (~\forall COp_2[c_0/c]; R'; ROut @
+%  \\ %
+%  \t3 (~\exists A_0; AIn @ R_0 \land RIn \land AOp_2[a_0/a]~)~)
+%  \\ %
+%  \shows
+%  \\ %
+%  \exists A; AIn @ R \land RIn \land (~ \exists A_0 @ AOp_1[a_0/a']
+%  \land AOp_2[a_0/a]~)
+%\end{zed}
+%
+%\noindent Use $D \land (\forall D @ P) \implies P$ to simplify the
+%second universal quantifier in the hypothesis.
+%
+%\begin{zed}
+%  COp_1[c_0/c'] ; COp_2[c_0/c] ; R'; ROut;
+%  \\ %
+%  \t1 (~\forall COp_1[c_0/c']; R_0; ROut @
+%  \\ %
+%  \t1 (~\exists A; AIn @ R \land RIn \land AOp_1[a_0/a']~)~) |
+%  \\ %
+%  \t1 \exists A_0; AIn @ R_0 \land RIn \land AOp_2[a_0/a]
+%  \\ %
+%  \shows
+%  \\ %
+%  \exists A; AIn @ R \land RIn \land (~ \exists A_0 @ AOp_1[a_0/a']
+%  \land AOp_2[a_0/a]~)
+%\end{zed}
+%
+%\noindent Use [\hypexists] to drop the $\exists$ in the hypothesis,
+%then simplify.
+%\begin{zed}
+%  COp_1[c_0/c'] ; COp_2[c_0/c] ; R_0 ; R'; ROut; RIn ; AOp_2[a_0/a] ;
+%  \\ %
+%  \t1 (~\forall COp_1[c_0/c']; R_0; ROut @
+%  \\ %
+%  \t2 (~\exists A; AIn @ R \land RIn \land AOp_1[a_0/a']~)~)
+%  \\ %
+%  \shows
+%  \\ %
+%  \exists A; AIn @ R \land RIn \land (~ \exists A_0 @ AOp_1[a_0/a']
+%  \land AOp_2[a_0/a]~)
+%\end{zed}
+%
+%\noindent Repeat the previous three steps to simplify the remaining
+%quantifier in the hypothesis.
+%\begin{zed}
+%  COp_1[c_0/c'] ; COp_2[c_0/c] ; R; R_0 ; R'; ROut; RIn ;
+%  \\ %
+%  AOp_1[a_0/a']; AOp_2[a_0/a]
+%  \\ %
+%  \shows
+%  \\ %
+%  \exists A; AIn @ R \land RIn \land (~ \exists A_0 @ AOp_1[a_0/a']
+%  \land AOp_2[a_0/a]~)
+%\end{zed}
+%
+%\noindent Move the inner $\exists$ in the consequent outwards.
+%\begin{zed}
+%  COp_1[c_0/c'] ; COp_2[c_0/c] ; R; R_0 ; R'; ROut; RIn;
+%  \\ %
+%  AOp_1[a_0/a']; AOp_2[a_0/a]
+%  \\ %
+%  \shows
+%  \\ %
+%  \exists A; A_0; AIn @ R \land RIn \land AOp_1[a_0/a'] \land
+%  AOp_2[a_0/a]
+%\end{zed}
+%
+%\noindent All the terms are in the hypothesis.
+%
+%$\Box$ \ref{lemma-compose}
+%%------------------
+\section{Lemma `compose forward'}
+\label{lemma-compose-fwd}
+%%------------------
+%\begin{lemma}[compose forward]\index{lemma `compose forward'}%
+%  {\rm If, under the forwards refinement rules, concrete operation
+%    $COp_1$ is a refinement of abstract operation $AOp_1$, and $COp_2$
+%    is a refinement of $AOp_2$, then their composition is a refinement
+%    of the abstract composition
+%    \footnote{%
+%      Used in: lemma `abort forward',
+%      section~\ref{ignore-abort-bc-op}.  }.  }
+%  \begin{zed}
+%    (COp_1 \semi COp_2) ; R;
+%    \\ %
+%    \t2 (~\forall COp_1; R @ (~\exists A' @ R' \land AOp_1~)~);
+%    \\ %
+%    \t2 (~\forall COp_2; R @ (~\exists A' @ R' \land AOp_2~)~)
+%    \\ %
+%    \shows
+%    \\ %
+%    \exists A' @ R' \land (AOp_1 \semi AOp_2)
+%  \end{zed}
+%\end{lemma}
+%
+%\noindent {\bf Proof:}
+%
+%Follows as for lemma `compose backward', above.
+%
+%$\Box$ \ref{lemma-compose-fwd}
+%%------------------
+\section{Lemma `promoted composition'}
+\label{lemma-promoted-composition}
+%%------------------
+%\begin{lemma}[promoted composition]\index{lemma `promoted composition'}%
+%  {\rm The promotion of the composition of two operations is equal to
+%    the composition of the promotions of the two operations
+%    \footnote{%
+%      Used in: lemma `abort backward',
+%      section~\ref{lemma-abort-ignore} }.
+%
+%    Assume the existence of a local state $Local$, which, without loss
+%    of generality we assume has a single variable $x$; a global state
+%    $Global$, with a standard promotion framing schema, $\Phi$
+%%%\begin{zed} [X] \end{zed}
+%    \begin{schema}{Local}
+%      x : X
+%    \end{schema}
+%    \begin{schema}{Global}
+%      locals : NAME \pfun Local
+%    \end{schema}
+%    \begin{schema}{\Phi}
+%      \Delta Global
+%      \\ %
+%      \Delta Local
+%      \\ %
+%      n? : NAME
+%      \where
+%      n? \in \dom locals
+%      \\ %
+%      locals~n? = \theta Local
+%      \\ %
+%      locals' = locals \oplus \{  n? \mapsto \theta Local'  \}
+%    \end{schema}
+%%%\begin{zed}
+%%%      Op_1 \defs [ Local; Local' ]
+%%%      Op_2 \defs [ Local; Local' ]
+%%%\end{zed}
+%    }
+%  \begin{zed}
+%%%\forall
+%    \Phi; Op_1; Op_2
+%    \\ %
+%    \shows
+%%%@
+%    \\ %
+%    \exists \Delta Local @ \Phi \land ( Op_1 \semi Op_2 )
+%    \\ %
+%    \t1 = (~ \exists \Delta Local @ \Phi \land Op_1 ~) \semi (~
+%    \exists \Delta Local @ \Phi \land Op_2 ~)
+%  \end{zed}
+%\end{lemma}
+%
+%\noindent {\bf Proof:}
+%
+%\noindent We prove this by expanding the definition of composition
+%as an existential quantification, and then showing that this
+%quantification and the quantification used in the promotion commute.
+%
+%Expand the composition on the right hand side, and then expand the
+%definition of $\Phi$.
+%\begin{zed}
+%  (~\exists \Delta Local @ \Phi \land Op_1) \semi (~\exists \Delta
+%  Local @ \Phi \land Op_2~)
+%  \also %
+%  \t1 = \exists Global_0 @ (~\exists \Delta Local @
+%  \Phi[locals_0/locals'] \land Op_1~)
+%  \\ %
+%  \t2 \land (~\exists \Delta Local @ \Phi[locals_0/locals] \land
+%  Op_2~)
+%  \also %
+%  \t1 = \exists Global_0 @
+%  \\ %
+%  \t2 (~ \exists \Delta Local @
+%  \\ %
+%  \t3 [~ locals; locals_0 : NAME \pfun Local |
+%  \\ %
+%  \t4 n? \in \dom locals
+%  \\ %
+%  \t4 \land locals~n? = \theta Local
+%  \\ %
+%  \t4 \land locals_0 = locals \oplus \{ n? \mapsto \theta Local' \} ~]
+%  \\ %
+%  \t3 \land Op_1 ~)
+%  \also %
+%  \t2 \land (~ \exists \Delta Local @
+%  \\ %
+%  \t3 [~ locals_0; locals' : NAME \pfun Local |
+%  \\ %
+%  \t4 n? \in \dom locals_0
+%  \\ %
+%  \t4 \land locals_0~n? = \theta Local
+%  \\ %
+%  \t4 \land locals' = locals_0 \oplus \{ n? \mapsto \theta Local' \}
+%  ~]
+%  \\ %
+%  \t3 \land Op_2 ~)
+%\end{zed}
+%
+%\noindent Rename the after state in the first operation to $Local_a$
+%and the before state in the second operation to $Local_b$.  Choosing
+%different names makes it easier to combine the schemas across the
+%quantifiers.
+%
+%\begin{zed}
+%  \t1 = \exists Global_0 @
+%  \\ %
+%  \t2 (~ \exists Local; Local_a @
+%  \\ %
+%  \t3 [~ locals; locals_0 : NAME \pfun Local |
+%  \\ %
+%  \t4 n? \in \dom locals
+%  \\ %
+%  \t4 \land locals~n? = \theta Local
+%  \\ %
+%  \t4 \land locals_0 = locals \oplus \{ n? \mapsto \theta Local_a \}
+%  ~]
+%  \\ %
+%  \t3 \land Op_1[x_a/x'] ~)
+%  \also %
+%  \t2 \land (~ \exists Local_b; Local' @
+%  \\ %
+%  \t3 [~ locals_0; locals' : NAME \pfun Local |
+%  \\ %
+%  \t4 n? \in \dom locals_0
+%  \\ %
+%  \t4 \land locals_0~n? = \theta Local_b
+%  \zbreak
+%  \\ %
+%  \t4 \land locals' = locals_0 \oplus \{ n? \mapsto \theta Local' \}
+%  ~]
+%  \\ %
+%  \t3 \land Op_2[x_b/x] ~)
+%\end{zed}
+%
+%\noindent Combine all these as a single schema, putting the
+%quantifications into the predicate.
+%
+%\begin{zed}
+%  \t1 = [~ locals; locals' : NAME \pfun Local |
+%  \\ %
+%  \t2 \exists local_0; Local; Local'; Local_a; Local_b @
+%  \\ %
+%  \t3 n? \in \dom locals
+%  \\ %
+%  \t3 \land locals~n? = \theta Local
+%  \\ %
+%  \t3 \land locals_0 = locals \oplus \{ n? \mapsto \theta Local_a \}
+%  \\ %
+%  \t3 \land n? \in \dom locals_0
+%  \\ %
+%  \t3 \land locals_0~n? = \theta Local_b
+%  \\ %
+%  \t3 \land locals' = locals_0 \oplus \{ n? \mapsto \theta Local' \}
+%  \\ %
+%  \t3 \land Op_1[x_a/x']
+%  \\ %
+%  \t3 \land Op_2[x_b/x] ~]
+%\end{zed}
+%
+%\noindent We can remove the quantification of $local_0$ because we
+%have a full definition of it in terms of other variables.  This
+%leaves the following equations relating the remaining variables.
+%
+%\begin{zed}
+%  \t1 = [~ locals; locals' : NAME \pfun Local |
+%  \\ %
+%  \t2 \exists Local; Local'; Local_a; Local_b @
+%  \\ %
+%  \t3 n? \in \dom locals
+%  \\ %
+%  \t3 \land locals~n? = \theta Local
+%  \\ %
+%  \t3 \land \theta Local_b = \theta Local_a
+%  \\ %
+%  \t3 \land locals' = locals \oplus \{ n? \mapsto \theta Local' \}
+%  \\ %
+%  \t3 \land Op_1[x_a/x']
+%  \\ %
+%  \t3 \land Op_2[x_b/x] ~]
+%\end{zed}
+%
+%\noindent Using the equation that $\theta Local_b = \theta Local_a$,
+%rename $Local_a$ and $Local_b$ both to $Local_0$.
+%
+%\begin{zed}
+%  \t1 = [~ locals; locals' : NAME \pfun Local |
+%  \\ %
+%  \t2 \exists Local; Local'; Local_0 @
+%  \\ %
+%  \t3 n? \in \dom locals
+%  \\ %
+%  \t3 \land locals~n? = \theta Local
+%  \\ %
+%  \t3 \land locals' = locals \oplus \{ n? \mapsto \theta Local' \}
+%  \\ %
+%  \t3 \land Op_1[x_0/x']
+%  \\ %
+%  \t3 \land Op_2[x_0/x] ~]
+%\end{zed}
+%
+%\noindent Redistribute the quantifications
+%
+%\begin{zed}
+%  \t1 = \exists Local; Local' @
+%  \\ %
+%  \t2 [~ locals; locals' : NAME \pfun Local |
+%  \\ %
+%  \t3 n? \in \dom locals
+%  \\ %
+%  \t3 \land locals~n? = \theta Local
+%  \\ %
+%  \t3 \land locals' = locals \oplus \{ n? \mapsto \theta Local' \}
+%  \\ %
+%  \t3 \land (~ \exists Local_0 @ Op_1[x_0/x'] \land Op_2[x_0/x] ~) ~]
+%\end{zed}
+%
+%\noindent and rewrite in terms of composition
+%
+%\begin{zed}
+%  \t1 = \exists Local; Local' @ \Phi \land ( Op_1\semi Op_2 )
+%  \also %
+%  \t1 = \exists \Delta Local @ \Phi \land ( Op_1\semi Op_2 )
+%\end{zed}
+%
+%\noindent This is the left hand side of the equation, and hence the
+%proof is complete.
+%
+%$\Box$ \ref{lemma-promoted-composition}
+%
+%%------------------
+%\section{Lemma `notLoggedAndIn'}
+%\printlabel{lemma-notLoggedAndIn}
+%%------------------
+%
+%\begin{lemma}[notLoggedAndIn]\index{lemma `notLoggedAndIn'}%
+%  {\rm If a purse is engaged in a transaction, it does not have a log
+%    for that transaction
+%    \footnote{%
+%      Used in: $Val$, behaviour of $toLogged$,
+%      section~\ref{proof-val-bhvr-toLog}; $Ack$, behaviour of
+%      $definitelyLost$, section~\ref{proof-ack-proof-dLost}; $CVal$,
+%      B--\ref{b-req-no-ack}, section~\ref{bc-val}; lemma `lost',
+%      section~\ref{lemma-lost}; lemma `not lost before',
+%      section~\ref{lemma-notlostbefore}.  }.  }
+%  \begin{zed}
+%%%\forall
+%    BetweenWorld
+%%%@
+%    \\ %
+%    \shows
+%    \\ %
+%    (fromInEpr \cup fromInEpa) \cap fromLogged = \emptyset
+%    \\ %
+%    \land (toInEpv \cup toInEapayee) \cap toLogged = \emptyset
+%  \end{zed}
+%\end{lemma}
+%{\bf Proof:}
+%
+%\noindent Consider the $to$ purse case.  We consider the $pd$ stored
+%in the $to$ purse, so
+%\[
+%pd \in (toInEpv \cup toInEapayee) \implies
+%\\ %
+%\t1 pd.toSeqNo = (conAuthPurse~pd.to).pdAuth.toSeqNo
+%\]
+%We have, from $BetweenWorld$ constraint B--\ref{b-to-trans-seq},
+%that
+%\[
+%pd \in toLogged \implies pd.toSeqNo <
+%(conAuthPurse~pd.to).pdAuth.toSeqNo
+%\]
+%Hence there can be no $pd$ in both sets.
+%
+%The arguments for the $from$ cases follow similarly, from
+%$BetweenWorld$ constraint B--\ref{b-from-trans-seq}.
+%
+%$\Box$ \ref{lemma-notLoggedAndIn}
+%%------------------
+%\section{Lemma `lost'}
+%\printlabel{lemma-lost}
+%%------------------
+%\begin{lemma}[lost]\index{lemma `lost'}%
+%  {\rm The sets $definitelyLost$ and $maybeLost$ are disjoint: a $pd$
+%    can never be in both.
+%    }%
+%  \footnote{ Used in: $Req$, case 1,
+%    section~\ref{req-okay-lemma-lost}; $Req$, case 2,
+%    section~\ref{req-willbelost-lemma-lost}; $Req$, case 3,
+%    section~\ref{req-hasbeenlost-lemma-lost}.  }
+%  \begin{zed}
+%%%\forall
+%    BetweenWorld
+%%%@
+%    \shows definitelyLost \cap maybeLost = \emptyset
+%\end{zed}
+%\end{lemma}
+%{\bf Proof:}
+%\begin{argue}
+%%%\forall ConWorld @
+%  definitelyLost \cap maybeLost
+%  \also %
+%  \t1 = toLogged \cap (fromLogged \cup fromInEpa)
+%  \\ %
+%  \t2 {} \cap (fromInEpa \cup fromLogged) \cap toInEpv & defn.
+%  \also %
+%  \t1 = toLogged \cap toInEpv \cap (fromLogged \cup fromInEpa) &
+%  rearranging
+%  \also %
+%  \t1 = \emptyset & Lemma `notLoggedAndIn'
+%  (section~\ref{lemma-notLoggedAndIn})
+%\end{argue}
+%
+%$\Box$ \ref{lemma-lost}
+%%------------------
+%\section{Lemma `not lost before'}
+%\printlabel{lemma-notlostbefore}
+%%------------------
+%\begin{lemma}[not lost before]\index{lemma `not lost before'}%
+%  {\rm $pdThis$ is not lost before the $Req$ operation, although it
+%    maybe lost after.
+%    }%
+%  \footnote{ Used in: $Req$, {\bf exists-chosenLost},
+%    section~\ref{req-exists-chosenlost}; $Req$, {\bf check-operation},
+%    section~\ref{req-check-operation}.  }
+%  \begin{zed}
+%%%\forall
+%    \PhiBOp; ReqPurseOkay ; pdThis:PayDetails | (req \inv m?) = pdThis
+%%%@
+%    \\ %
+%    \shows
+%    \\ %
+%    definitelyLost = definitelyLost' \setminus \{ pdThis \}
+%    \\ %
+%    \land maybeLost = maybeLost' \setminus \{ pdThis \}
+%  \end{zed}
+%\end{lemma}
+%{\bf Proof:}
+%
+%\noindent From the definition of the way the state changes in
+%$ReqOkay$ we can say that the following sets are the same before and
+%afterward:
+%\begin{zed}
+%%%\forall ConWorld; ConWorld' @
+%  fromLogged = fromLogged'
+%  \\ %
+%  \land toLogged = toLogged'
+%  \\ %
+%  \land toInEpv = toInEpv'
+%\end{zed}
+%For the set $fromInEpa$, we know from $ReqOkay$ that beforehand this
+%$pdThis$ was {\sl not} in the set and afterward it {\sl was}.  So
+%\begin{zed}
+%%%\forall ConWorld; ConWorld'; pdThis:PayDetails @
+%  pdThis \in fromInEpa'
+%  \\ %
+%  \land fromInEpa = fromInEpa' \setminus \{ pdThis \}
+%\end{zed}
+%From Lemma `notLoggedAndIn' (section~\ref{lemma-notLoggedAndIn}), we
+%have:
+%\[
+%pdThis \in fromInEpa' \implies pdThis \notin fromLogged'
+%\]
+%
+%\noindent Reminding ourselves of the definitions of $definitelyLost$
+%and using the identities above, we have
+%\begin{argue}
+%%%\forall ConWorld; ConWorld'; pdThis:PayDetails @
+%  definitelyLost
+%  \\ %
+%  \t1 = toLogged \cap (fromLogged \cup fromInEpa) & defn
+%  \\ %
+%  \t1 = toLogged' \cap (fromLogged' \cup fromInEpa' \setminus
+%  \{pdThis\}) & above
+%  \\ %
+%  \t1 = toLogged' \cap (fromLogged' \cup fromInEpa') \setminus
+%  \{pdThis\}
+%  \\ %
+%  & $pdThis \notin fromLogged'$
+%  \\ %
+%  \t1 = (toLogged' \cap (fromLogged' \cup fromInEpa'))\setminus
+%  \{pdThis\} & Spivey
+%  \\ %
+%  \t1 = definitelyLost' \setminus \{ pdThis \} & defn
+%\end{argue}
+%Similarly for $maybeLost$:
+%\begin{argue}
+%%%\forall ConWorld; ConWorld'; pdThis:PayDetails @
+%  maybeLost
+%  \\ %
+%  \t1 = (fromInEpa \cup fromLogged) \cap toInEpv & defn
+%  \\ %
+%  \t1 = ((fromInEpa' \setminus \{ pdThis \}) \cup fromLogged') \cap
+%  toInEpv' & above
+%  \\ %
+%  \t1 = ((fromInEpa' \cup fromLogged') \setminus \{ pdThis \}) \cap
+%  toInEpv'
+%  \\ %
+%  & $pdThis \notin fromLogged'$
+%  \\ %
+%  \t1 = ((fromInEpa' \cup fromLogged' ) \cap toInEpv' ) \setminus \{
+%  pdThis \} & prop $\setminus$
+%  \\ %
+%  \t1 = maybeLost' \setminus \{ pdThis \} & def
+%\end{argue}
+%
+%$\Box$ \ref{lemma-notlostbefore}
+%%%------------------
+%%\section{reqPD}
+%%\printlabel{lemma-reqpd}
+%%%------------------
+%%\begin{lemma}[reqPD]\index{lemma `reqPD'}%
+%%{\rm A $req$ $pd$ exists.
+%%}%
+%%\footnote{
+%%Lemma `reqPD' is used in the proof of $Req$,
+%%where we cut in such a $pd$ (section~\ref{req-lemma-pd}).
+%%}
+%%\begin{zed}
+%%%%\forall
+%%       ReqOkay
+%%%%@
+%%\\
+%% \t1         \shows \exists pd: PayDetails @
+%%\\
+%% \t2         \exists m?:ether; \Delta ConPurse @
+%%\\
+%% \t3                 ReqPurseOkayNoOutput \land req \inv m? = pd
+%%\end{zed}
+%%\end{lemma}
+%%{\bf Proof:}
+%%
+%%\begin{argue}
+%%%%\forall ReqOkay @
+%%ReqOkay
+%%\\
+%% \t1         \implies (\exists \Delta ConPurse @
+%%                       \PhiBOp \land ReqPurseOkay)             & defn
+%%\also %
+%%\t1    \implies
+%%               (\exists \Delta ConPurse @
+%%\\
+%% \t2                 \PhiBOp \land ReqPurseOkay
+%%\\
+%% \t2                 \land req \inv m? =  req \inv m?)
+%%                               & reflx and $ReqOkay$
+%%\also %
+%%\t1    \implies
+%%               (\exists \Delta ConPurse ;
+%%                       pd: PayDetails @
+%%\\
+%% \t2                 \PhiBOp \land ReqPurseOkay
+%%\\
+%% \t2                 \land req \inv m? =  pd)                & one point rule
+%%\end{argue}
+%%
+%%$\Box$ \ref{lemma-reqpd}
+%%------------------
+%\section{Lemma `$AbWorld$ unique'}
+%\printlabel{lemma-abworldunique}
+%%------------------
+%\begin{lemma}[$AbWorld$ unique]%
+%  \index{lemma `AbWorld unique'@lemma `$AbWorld$ unique'}%
+%  {\rm Given $BetweenWorld$ and a choice of which transactions will be
+%    lost, there is always exactly one $AbWorld$ that
+%    retrieves.%
+%    \footnote{%
+%      Used in: lemma `deterministic', section~\ref{exists-abworld}.  }
+%    }
+%  \begin{zed}
+%%%\forall
+%    BetweenWorld; chosenLost: \power PayDetails; pdThis: PayDetails |
+%    \\ %
+%    \t1 chosenLost \subseteq maybeLost
+%%%@
+%    \\ %
+%    \shows
+%    \\ %
+%    \exists_1 AbWorld @ RabClPd
+%  \end{zed}
+%\end{lemma}
+%{\bf Proof:}
+%
+%\noindent Each element of $AbWorld$ has an explicit equation in
+%$Rab$ defining it uniquely in terms of $BeweenWorld$ components.
+%The components are entirely independent, and the only constraint
+%that ties any together is that on $chosenLost$ and $maybeLost$,
+%which we have directly in the hypothesis.
+%
+%The constraints required of any $AbWorld$ can be shown to hold as
+%follows:
+%\begin{itemize}
+%\item $abAuthPurse : NAME \ffun AbPurse$
+%
+%  $conAuthPurse$ is a finite function.  From the retrieve {\it
+%    Abstract\-Between} the domain of {\it ab\-Auth\-Purse} equals the
+%  domain of {\it con\-Auth\-Purse}, and so is finite, too.
+%\end{itemize}
+%
+%$\Box$ \ref{lemma-abworldunique}
+%
+%$\Box$ \ref{lemma-proof}

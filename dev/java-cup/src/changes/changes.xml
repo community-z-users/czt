@@ -1,0 +1,49 @@
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+  <properties>
+    <title>Java CUP Parser Generator</title>
+  </properties>
+  <body>
+    <release version="0.11-a-czt02" date="2013-03-01" description="CZT updates">
+      <action type="update" dev="leouk">
+        Added two new flags for suppressing warnings of generated code, specifically
+        unchecked and unused. The former is local to all non-terminals declared with
+        generic types, whereas the latter is global on cUP$actions class for now. Later,
+        we wanted to make them local to every int left/right for terminals, but that's 
+        tricky string manipulation and rather error prone.  
+      </action>
+      <action type="update" dev="leouk">
+        emit.java to contain flags at places to show what part of the code generates what bits.
+        also reformatted the source for both production and emit. java
+      </action>
+    </release>
+    <release version="0.11-a-czt01" date="2012-10-19" description="CZT updates">
+      <action type="fix" dev="andriusvelykis">
+        Further changes to java_cup.emit class to avoid "code too large" Java compiler
+        errors. If the parser tables (e.g. action_table) are too large, they are serialized
+        to an external file (e.g. action_table.dat) and loaded during runtime.
+        Added an option "-external_tables" to always use external file for all parser tables.
+      </action>
+      <action type="update" dev="andriusvelykis">
+        Replaced System.exit() calls on fatal errors with unchecked exception: 
+        java_cup.CupParserException. This makes parser generation within IDEs better, 
+        since an error in generator no longer kills the IDE with it.
+      </action>
+      <action type="update" dev="andriusvelykis">
+        Updated to use Java Generics and avoid other warnings.
+      </action>
+      <action type="fix" dev="timmiller">
+        Changed the java_cup.emit class to break up each case in the parse table into its own
+        method. This prevents do_action() method from growing too large, thus avoiding the 
+        "code too large" Java compiler error.
+      </action>
+    </release>
+
+    <release version="0.11-a" date="2006-06-08" description="Java CUP release 0.11a">
+      <action type="update">
+        Latest official release of CUP parser generator for Java from Technical University of Munich.
+      </action>
+    </release>
+  </body>
+</document>

@@ -1,0 +1,786 @@
+\documentclass{article}
+
+\usepackage{vmargin}
+\usepackage{circus}
+
+\setpapersize{A4}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
+%\setmarginsrb{20mm}{10mm}{20mm}{10mm}{12pt}{11mm}{0pt}{11mm}
+%\setmarginsrb{25mm}{20mm}{25mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\begin{document}
+
+\title{\Circus\ Grammar Explained --- Processes}
+\author{Leonardo Freitas}
+\date{March 2006}
+
+\maketitle
+
+\begin{abstract}
+    \noindent This article documents the various ways one can declare \Circus\ processes using \LaTeX\ markup.
+    It also documents the open issues of the language related to this syntactic category.
+\end{abstract}
+
+\section{Introduction}
+
+In this file, we explain the various aspect of \Circus\ related to
+process declarations. At each section relevant to the grammar, we
+include its corresponding CUP rule, as ``Section name ---
+\texttt{grammarRule}''.
+
+\Circus\ productions must be included within the \textsf{circus}
+\LaTeX\ environment in order to be recognised by the parser.
+Therefore, to use \Circus\ one needs to have the current version of
+the \textsf{circus.sty} \LaTeX\ style file.
+
+Amongst other commands, it contains all \Circus\ keywords, and some
+useful environments.
+
+\begin{issue}[creating \texttt{circus.sty} and \texttt{circus.dtx}]
+   Make a suitable \texttt{circus.dtx} with nice and up-to-date \Circus\
+   typesetting commands, as well as embedded documentation.
+
+   Join version of \texttt{circus.sty} and add literate documentation.
+   Also, gather the information for solving the spacing problem of the
+   \code{circus} environment.
+\end{issue}
+
+\section{\Circus\ process paragraphs --- \grammar{processPara}}
+
+In \Circus\ processes are global paragraphs at section level. Other
+global paragraphs are channel, channel sets, and all other Z
+paragraphs. Firstly, we need to create a new section containing the
+\textsf{circus\_toolkit} as a parent.
+
+\begin{zsection}
+  \SECTION\ circus\_processes \parents\ circus\_toolkit
+\end{zsection}
+%
+\begin{verbatim}
+   begin{zsection}
+      \SECTION\ circus\_channels \parents\ circus\_toolkit
+   end{zsection}
+\end{verbatim}
+%
+We include with each typeset text the corresponded \LaTeX\ code.
+
+\Circus\ processes enables encapsulated specification of both state and
+behavioural aspects of systems. They are defined by a process paragraph that
+introduces a name for a process description. Like schemas and axiomatic
+definitions, process paragraphs can also have formal parameters.
+%
+\[
+   \circprocess\ [X, Y] P \circdef \cdots
+\]
+%
+For the processes below, we define some channels.
+%
+\begin{circus}
+   \circchannel\ [X] a, b: X \\
+   \circchannel\ c,d: \nat \\
+   \circchannel\ s1, s2
+\end{circus}
+%
+More information on the syntax of channels can be found in the \textsf{channels.pdf} file.
+
+In \Circus\ every process paragraph contains a name attached to a process description,
+where formal parameters are optional.
+%
+\[
+    \circprocess\ [N^+] N \circdef ProcessDesc
+\]
+%
+Process names must be unique across the specification and the available process descriptions
+are defined below. They usually come between \verb'begin{circus}...end{circus}' environments.
+
+%\section{Process description --- \grammar{processDesc}}
+%
+%Processes can be described in four different ways:~(i)~basic, (ii)~``normal'', (iii)~parameterised, or (iv)~indexed.
+%Basic processes encapsulate state information defined using Z and \Circus\ actions defined using CSP operators.
+%Normal processes are those that use the usual CSP operators.
+%Parameterised processes are process descriptions preceded by a qualified list parameters.
+%Indexed processes like parameterised processes but with the special semantics, which includes
+%change in channel type and name to accommodate the communication of indexes.
+%Each of these categories is detailed below.
+%
+%\subsection{Basic process --- \grammar{basicProcess}}
+%
+%\begin{issue}[\LaTeX\ environments!]
+%\end{issue}
+%
+%\begin{circusprocess}
+%    \begin{procheader}
+%        [X, Y] P \circdef x, y: X @ Q~(x) \extchoice R~(y)
+%    \end{procheader}
+%\end{circusprocess}
+%
+%\begin{circusprocess}[-10pt]
+%    Starting the definition of process $P$
+%    \begin{procheader}
+%        [X, Y] P \circdef \circbegin
+%    \end{procheader}
+%    Now defining an action for $P$
+%    \begin{circusaction}
+%        A \circdef c \then A
+%    \end{circusaction}
+%    Now defining the main action of $P$
+%    \begin{mainaction}
+%        A
+%    \end{mainaction}
+%\end{circusprocess}
+%%... define $BASIC$ later on...
+%
+%\begin{circus}
+%  \circprocess [X] BASIC \circdef BASIC[X]
+%\end{circus}
+
+
+\subsection{Process definition --- \grammar{process}}
+
+Normal process definition uses the various CSP operators to combine process.
+They are detailed below.
+
+\subsubsection{Hiding}
+
+Process hiding conceals the events from the given channel set from the given process.
+As mentioned before in the \textsf{channels.tex} file, channel set expressions cannot
+mix Z expressions with \code{BasicChannelSetExpr}, hence the need for $HCS0$ and $HCS1$.
+The typechecker will infer the type types of channels from $HCS$ in the definition of process $H_1$.
+%
+\begin{circus}
+    \circchannelset\ HCS0 == \lchanset a, b \rchanset \\ % \cup \lchanset c \rchanset \\ !! Not yet valid!!
+    \circchannelset\ HCS1 == \lchanset c \rchanset \\
+    \circchannelset\ HCS == HCS0 \cup HCS1 \\
+%    \circprocess\ H \circdef BASIC[\nat] \circhide \lchanset a[\nat], b[\nat] \rchanset \\
+    \circprocess\ [X, Y] H1 \circdef BASIC[X \setminus Y] \circhide HCS
+\end{circus}
+%
+\begin{verbatim}
+     begin{circus}
+         \circchannelset\ HCS0 == \lchanset a, b \rchanset \\
+         \circchannelset\ HCS1 == \lchanset c \rchanset \\
+         \circchannelset\ HCS == HCS0 \cup HCS1 \\
+         \circprocess\ H \circdef BASIC[\nat] \circhide
+                               \lchanset a[\nat], b[\nat] \rchanset \\
+         \circprocess\ [X, Y] H1 \circdef BASIC[X \setminus Y]
+                                 \circhide HCS
+     end{circus}
+\end{verbatim}
+%
+Another interesting point is about typesetting. Although, the hiding ($\circhide$) keyword operator
+does look like the set difference ($\setminus$) operator, their Unicode characters \textbf{*must*}
+be different in order to avoid inaccurate scanning. This rule is applied everything. For instance,
+the prefixing arrow ($\then$) is slightly bigger than the else guarded command arrow ($\circthen$),
+and slightly smaller than the function symbol ($\fun$) from $relation\_toolkit$.
+
+\subsubsection{Interleaving}
+
+If $IL$ does not have generic formals, or $H_1$ does not receive adequate generic actual parameters,
+the type checker will issue an error since calls to generic process must contain enough information
+to infer the needed types.
+%
+\begin{circus}
+    \circprocess\ [X, Y]\ IL \circdef H \interleave H1[X, Y]
+\end{circus}
+%
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ [X, Y]\ IL \circdef H \interleave H1[X, Y]
+     end{circus}
+\end{verbatim}
+
+\subsubsection{Parallelism}
+
++ $HCS$ generic actuals
+\begin{circus}
+    \circprocess\ P \circdef BASIC[\nat] \lpar HCS[\nat] \rpar H
+\end{circus}
+%
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ P \circdef BASIC[\nat] \lpar HCS[\nat] \rpar H
+     end{circus}
+\end{verbatim}
+
+\subsubsection{External choice}
+
+\begin{circus}
+    \circprocess\ EC \circdef IL \extchoice P
+\end{circus}
+%
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ EC \circdef IL \extchoice P
+     end{circus}
+\end{verbatim}
+
+
+\subsubsection{Internal choice}
+
+\begin{circus}
+    \circprocess\ [X, Y]\ IC \circdef BASIC[X] \intchoice H1[Y \cross X, X \fun Y]
+\end{circus}
+%
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ [X, Y]\ IC \circdef BASIC[X] \intchoice
+                                          H1[Y \cross X, X \fun Y]
+     end{circus}
+\end{verbatim}
+
+\subsubsection{Sequential composition}
+
+\begin{circus}
+    \circprocess\ SC \circdef EC \circseq EC
+\end{circus}
+%
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ SC \circdef EC \circseq EC
+     end{circus}
+\end{verbatim}
+
+\subsubsection{Prefixing}
+
+For fields, something very tricky happens: strokes!
+Channel names are just refName (hence DECORDWORD), which
+means strokes are scanned accordingly.
+So, \verb'c?x' is tokenised differently from \verb'c~?x' as:
+\[
+(DECORWORD, "c?"), (DECORDWORD, "x") \mbox{ and} \\
+(DECORWORD, "c"), (INSTROKE, "?"), (DECORDWORD, "x")
+\]
+%
+In this situation we run out of luck because all possible
+solutions around it do create trouble somewhere else.
+
+\begin{enumerate}
+    \item New Unicode for "?" (input field)
+
+    That means LaTeX typeset as: \verb'c\commIn x'.
+    This also incurs change in the \code{KeywordScanner} (or \code{ContextFreeScanner})
+    to recognise this new type of "word-glue".
+
+    \item Channel names without strokes
+
+    Doesn't change the fact the scanner will recognise $c?$ as
+    one DECORWORD, which means no good will be done here.
+    This in fact is the harder solution, as it demands various
+    changes in both \code{ContextFree} and \code{Latex2Unicode} scanners.
+    As a consequence, everywhere that channel appear, require
+    new productions for refName/declName and corresponding lists.
+    ABSOLUTE NIGHTMARE! Forget it.
+
+    \item Using INSTROKE to represent input field
+
+    That means disappearing with CIRCCOMMQUERY (easy) and using
+    INSTROKE instead. This does not require any change anywhere else.
+    The price to pay, is that the LaTeX must have a hard space as \verb'c~?x'.
+
+    That is somehow similar to what happens with DOT. The difference
+    is that "?" and "!" are more complicated because they can be lexed
+    as either part of a DECORWORD or as STROKES.
+
+
+\end{enumerate}
+
+%\begin{circus}
+%    \circprocess\ PR \circdef s1 \then c~?x \then a~!x \then PR  \\
+%    \circprocess\ PR1 \circdef s1 \then c~?x \then a~!x \then PR1 \circseq \\
+%                                s2 \then d~?y \prefixcolon y \leq 20 \then PR1
+%\end{circus}
+
+%\begin{circus}
+%    \circprocess\ PR \circdef s1 \then c?x \then a!x \then PR \circseq \\
+%                             \t3\ \ s2 \then d?y: y \geq 20 \then PR
+%\end{circus}
+
+\begin{issue}[Processes do not have prefixing]
+    Discussed with Ana already: processes do not have prefixing, guards, or recursion.
+\end{issue}
+
+\subsubsection{Some examples on precedences}
+
+The following processes are equivalent. The names are given as acronyms of
+the operator used, where the subscripted version is the parenthesised equivalent.
+Thus, for instance, $IC\_EC\_SC$ means a tree with $\intchoice$ as its root and
+$\extchoice$ and $\circseq$ as its left and right branches respectively.
+%
+%\[
+%\begin{array}{rcl}
+%IC\_EC\_SC   & = & \intchoice(\extchoice(\circseq(SC, SC), EC), IC) \\
+%IC\_EC\_SC_0 & = & \intchoice((\extchoice((\circseq(SC, SC)), EC)), IC)
+%\end{array}
+%\]
+\begin{circus}
+    \circprocess\ IC\_EC\_SC   \circdef SC \circseq SC \extchoice EC \intchoice IC[\nat, \nat] \\
+    \circprocess\ IC\_EC\_SC0 \circdef (~(SC \circseq SC) \extchoice EC) \intchoice IC[\nat, \nat]
+\end{circus}
+%
+%\begin{verbatim}
+%     begin{circus}
+%        \circprocess\ IC\_EC\_SC   \circdef SC \circseq SC \extchoice EC \intchoice IC[\nat, \nat] \\
+%        \circprocess\ IC\_EC\_SC_0 \circdef (~(SC \circseq SC) \extchoice EC) \intchoice IC[\nat, \nat]
+%     end{circus}
+%\end{verbatim}
+
+%\[
+%\begin{array}{rcl}
+%IC\_SC\_EC   & = & \circseq(SC, \intchoice(\extchoice(SC, EC), IC)) \\
+%IC\_SC\_EC_0 & = & \circseq(SC, (\intchoice((\extchoice(SC, EC), IC))))
+%\end{array}
+%\]
+\begin{circus}
+    \circprocess\ SC\_IC\_EC   \circdef SC \circseq (SC \extchoice EC \intchoice IC[\nat, \nat]) \\
+    \circprocess\ SC\_IC\_EC0 \circdef SC \circseq ((SC \extchoice EC) \intchoice IC[\nat, \nat])
+\end{circus}
+
+%\[
+%\begin{array}{rcl}
+%EC\_SC\_IC     &=& \extchoice(\circseq(SC, SC), \intchoice(EC, IC))\\
+%EC\_SC\_IC_0   &=& \extchoice((\circseq(SC, SC)), (\intchoice(EC, IC)))
+%\end{array}
+%\]
+\begin{circus}
+    \circprocess\ EC\_SC\_IC   \circdef SC \circseq SC \extchoice (EC \intchoice IC[\nat, \nat]) \\
+    \circprocess\ EC\_SC\_IC0 \circdef (SC \circseq SC) \extchoice (EC \intchoice IC[\nat, \nat])
+\end{circus}
+
+\begin{circus}
+    \circprocess\ IC\_SC\_EC   \circdef SC \circseq (SC \extchoice EC) \intchoice IC[\nat, \nat] \\
+    \circprocess\ IC\_SC\_EC0 \circdef (SC \circseq (SC \extchoice EC)) \intchoice IC[\nat, \nat]
+\end{circus}
+
+\begin{circus}
+    \circprocess\ IL\_\_EC\_SC\_\_IC\_SC   \circdef SC \circseq SC \extchoice EC \interleave EC \intchoice EC \circseq SC \\
+    \circprocess\ IL\_\_EC\_SC\_\_IC\_SC0 \circdef ((SC \circseq SC) \extchoice EC) \interleave (EC \intchoice (EC \circseq SC))
+\end{circus}
+
+\subsubsection{Some examples with hard new lines and spaces}
+
+Just like in Z, it is desirable to allow special scanning of hard new lines and spaces,
+such as the \verb'\\' and \verb'\tN' symbols. This enables pretty printing and should
+not affect parsing.
+%
+\begin{circus}
+    \circprocess\ [X, Y]\ IC2 \circdef BASIC[X] \intchoice \\ \t5 H1[Y \cross X, X \fun Y]
+\end{circus}
+%
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ [X, Y]\ IC2 \circdef BASIC[X] \intchoice \\
+                                     \t5  H1[Y \cross X, X \fun Y]
+     end{circus}
+\end{verbatim}
+%
+From the grammar point of view, such tokens are a nuisance: they introduce nasty conflicts,
+and badly affect the size of the parsing tables. Fortunately,
+
+CZT has a very elegant solution for this, namely a layered architecture involving around
+$10$ different specialised scanners, one of which is responsible for handling new line
+problems alone! That means, a simple configuration on the \code{NewLineScanner} terminals
+telling which tokens allows new lines before and/or after them to be treated specially.
+This directly (and specifically) implements the specialised handling of new line lexis,
+as defined in the Z standard Section $7.5$.
+
+%\begin{circus}
+%    \circprocess\ PR \circdef s1 \then c~?x \then a~!x \then PR  \\
+%    \circprocess\ PR1 \circdef s1 \then c~?x \then a~!x \then PR1 \circseq \\
+%                                s2 \then d~?y \prefixcolon y \leq 20 \then PR1
+%\end{circus}
+
+%\begin{circus}
+%    \circprocess\ PR \circdef s1 \then c?x \then a!x \then PR \circseq \\
+%                             \t3\ \ s2 \then d?y: y \geq 20 \then PR
+%\end{circus}
+
+
+\subsection{Parameterised process --- \grammar{paramProcess}}
+
+Parameteri
+
+\subsection{Indexed process --- \grammar{indexedProcess}}
+
+%\begin{circus}
+%    \circprocess\ [X, Y] S \circdef \circindex A \circseq B
+%\end{circus}
+%
+%\begin{circus}
+%    \circprocess\ R \circdef x, y: \nat @ A \circseq B \\
+%    \circprocess\ [X, Y] S \circdef a, b: X \rel Y \circindex A \circseq B
+%\end{circus}
+%
+%%\hspace{10pt}\begin{minipage}{0.8\linewidth}
+%%  Vejamos....
+%%  \begin{zed}\circprocess\ Oxente? \end{zed}\ignorespacesafterend
+%%\end{minipage}\ignorespacesafterend
+%
+%% via (possibly empty generic formals
+%%and) a given name
+%%
+%%
+%%
+%%There are two types of processes:~(i)~compound processes, where one can define
+%%different processes combined using CSP operators;~(ii)~basic processes, where
+%%one can define state and behaviour through Z paragraphs, action paragraphs
+%%using CSP operators, or name set paragraphs.
+%%
+%%
+%%Basic process
+%%
+%%
+%%
+%%
+%%
+%%
+%%Untyped channels are also allowed. They represent synchronisation points with
+%%the given type $Synch$. Thus, declaring a untyped channel has the same effect
+%%as declaring the channel with type $Synch$, as defined in the
+%%\textsf{circus\_toolkit.tex} file.
+%%
+%%Channels are declared within the \textsf{circus} \LaTeX\ environment, which are
+%%typeset as Z unboxed items like in the \textsf{zed} \LaTeX\ environment. As the
+%%Z standard, various unboxed \Circus\ items can be declared within the same
+%%environment, as long as they are separated by a \grammar{NL} (new-line) token.
+%%
+%%\subsubsection{Typed channels}
+%%
+%%Let us define some typed channels,
+%%%
+%%\begin{circus}
+%%  \circchannel\ a, b: \nat
+%%\end{circus}%
+%%%
+%%\begin{verbatim}
+%%     \begin{circus}
+%%        \circchannel\ a, b: \nat
+%%     \end{circus}%
+%%\end{verbatim}
+%%%
+%%as well as typed channels with strokes.
+%%%
+%%\begin{circus}
+%%  \circchannel\ x_1~, r, q'~, y_2: \num
+%%\end{circus}%
+%%%
+%%\begin{verbatim}
+%%     \begin{circus}
+%%        \circchannel\ x_1~, r, q'~, y_2: \num
+%%     \end{circus}%
+%%\end{verbatim}
+%%%
+%%Note that due to the Z standard idiosyncrasy regarding name lists with strokes
+%%and commas (\textit{i.e.}, \grammar{DECORWORD} or \grammar{DECLWORD} in CZT),
+%%we \textbf{*must*} include a hard space to separate these names (see Z Standard
+%%section 7.3). This is needed, for instance, to allow distinction between set
+%%extensions and a list of variable names in a declaration. The soft space
+%%through \verb'\ ' is optional, though.
+%%
+%%\subsubsection{Generic channels}
+%%
+%%Generic channels can also be declared, where generic formal parameters given
+%%are right after the $\circchannel$ keyword.
+%%%
+%%\begin{circus}
+%%   \circchannel\ [X, Y]\ g, h_1~, i: (X \rel Y)
+%%\end{circus}%
+%%%
+%%\begin{verbatim}
+%%     \begin{circus}
+%%        \circchannel\ [X, Y]\ g, h_1~, i: (X \rel Y)
+%%     \end{circus}%
+%%\end{verbatim}
+%%%
+%%As before, names with decorations must have hard spaces before hitting a
+%%\texttt{COMMA} token, as shown above.
+%%
+%%\begin{issue}[type inference on generic channels usage]
+%%    In practice, how should generic actuals be instantiated for channels?
+%%    The implications are clear at parallel composition and implementation of
+%%    ``generically defined'' communications.
+%%
+%%    For example, in:
+%%
+%%    \[
+%%        \circchannel\ [X] c, d: X \\
+%%
+%%        \vdots \\
+%%
+%%        c?x \then d!x \then \Skip [|c, d|] c.v \then d?x \then \Skip
+%%    \]
+%%
+%%    Could the typechecker infer the types of both $c$ and $d$ to be the
+%%    type of $v$? In a multisychronisation scenario, however, this would
+%%    become a typechecking nightmare!
+%%
+%%    The suggestion is then to enforce generic actuals instantiation on
+%%    generically defined channels, so that no type inference is needed,
+%%    as in:
+%%
+%%    \[
+%%       c[\nat]?x \then d[\nat]!x \then \Skip [|c[\nat], d[\nat]|] c[\nat].v \then d[\nat]?x \then \Skip
+%%    \]
+%%
+%%    This involves a clumsy and too verbose specification, but simpler
+%%    typechecking. What would be the compromise? Just leave it out for the
+%%    moment?!
+%%\end{issue}
+%%
+%%\subsubsection{Synchronisation channels}
+%%
+%%Synchronisation channels are defined without a type expression. The parser
+%%introduces a $Synch$ \code{RefExpr} for it automatically, as it is necessary
+%%for translation to and from ZML. This name is defined as a given set in the
+%%\textsf{circus\_toolkit.tex} file.
+%%%
+%%\begin{circus}
+%%   \circchannel\ c, d \\
+%%   \circchannel\ z_2~, w_3
+%%\end{circus}%
+%%%
+%%\begin{verbatim}
+%%     \begin{circus}
+%%        \circchannel\ c, d \\
+%%        \circchannel\ z_2~, w_3
+%%     \end{circus}%
+%%\end{verbatim}
+%%%
+%%This time, we left two declarations within the same Z box, but separated by a
+%%\grammar{NL} (new-line) token.
+%%
+%%% SOLVED: Discussion in an e-mail with Tim and Mark (CZT), 20,21/03/2006
+%%%         (subject: Exception thrown while marshiling ZML with null Expr in VarDecl)
+%%%
+%%\begin{issue}[technicality about representation of $Synch$]
+%%    Perhaps we shall remove the $Synch$ type from \texttt{circus\_toolkit} and
+%%    set it as a reserved word that the typechecker does not allow anyone else to
+%%    use.
+%%
+%%    If that is the path to choose, we can to do this by extending the
+%%    directives of the parser to have something like \code{\%\%Zreserved}.
+%%\end{issue}
+%%
+%%\subsection{Channels through schemas --- \grammar{channelFromDecl}}
+%%
+%%Another way of declaring typed channels is through schema references. Let us
+%%define a schema named $S$ with two channels $a$ and $b$
+%%%
+%%\begin{schema}{S}
+%%   a, b: \nat
+%%\where
+%%   a > b \land b \neq 0
+%%\end{schema}
+%%%
+%%\begin{verbatim}
+%%     \begin{schema}{S}
+%%         a, b: \nat
+%%     \where
+%%         a > b \land b \neq 0
+%%     \end{schema}
+%%\end{verbatim}
+%%%
+%%With the $\circchannelfrom$ keyword, we can declare these channels in various
+%%ways, depending on the chosen decoration.
+%%%
+%%\begin{circus}
+%%   \circchannelfrom\ S \\
+%%   \circchannelfrom\ S_1
+%%\end{circus}%
+%%%
+%%\begin{verbatim}
+%%     \begin{circus}
+%%        \circchannelfrom\ S \\
+%%        \circchannelfrom\ S_1
+%%     \end{circus}%
+%%\end{verbatim}
+%%%
+%%These declarations include four channels of type $\nat$, namely:~$a$, $b$,
+%%$a_1$, and $b_1$.
+%%
+%%% SOLVED: Invariants of schemas are ignored on channelFrom - Jim
+%%%
+%%\begin{issue}[invariant of schemas in channelFrom]
+%%  What happen with the invariant of $S$?
+%%  Should it be enforced on the communication patterns or just be ignored?
+%%\end{issue}
+%%
+%%% SOLVED: Restricted to RefExpr only - Jim
+%%%
+%%\begin{issue}[channelFrom with any expression]
+%%What about this kind of declaration?
+%%%
+%%\begin{circus}
+%%   \circchannelfrom\ S \cross S
+%%\end{circus}%
+%%%
+%%\begin{verbatim}
+%%     \begin{circus}
+%%        \circchannelfrom\ S \cross S
+%%     \end{circus}%
+%%\end{verbatim}
+%%
+%%At the moment the grammar does allow it. The option is to restrict it to
+%%\code{RefExpr} only (\textit{i.e.}, reference expressions that could carry
+%%generic actuals).
+%%\end{issue}
+%%
+%%Another option is to have schemas with generic types.
+%%%
+%%\begin{schema}{T}[X]
+%%   x, y: \power~X
+%%\where
+%%   x \subseteq y
+%%\end{schema}
+%%%
+%%\begin{verbatim}
+%%     \begin{schema}{T}[X]
+%%         x, y: \power~X
+%%     \where
+%%         x \subseteq y
+%%     \end{schema}
+%%\end{verbatim}
+%%%
+%%In this case, one can define the channels from the schema via
+%%either:~(i)~declaring the schema name with corresponding number of generic
+%%actuals;~(ii)~leaving the original generic formal parameters (possibly renaming
+%%them);~(iii)~letting the typechecker decide;~or (iii)~redefining the generic
+%%formal parameters of channel types in terms of a new pattern of formal
+%%parameters for the schema generic actuals.
+%%%
+%%\begin{circus}
+%%    \circchannelfrom\ T[\nat] \\
+%%    \circchannelfrom\ [Y]\ T_1[Y] \\
+%%    \circchannelfrom\ T_2 \\
+%%    \circchannelfrom\ [A, B]\ T_3[A \cross B]
+%%\end{circus}%
+%%%
+%%\begin{verbatim}
+%%     \begin{circus}
+%%         \circchannelfrom\ T[\nat] \\
+%%         \circchannelfrom\ [Y]\ T_1[Y] \\
+%%         \circchannelfrom\ T_2 \\
+%%         \circchannelfrom\ [A, B]\ T_3[A \cross B]
+%%     \end{circus}%
+%%\end{verbatim}
+%%%
+%%It is the task of the typechecker to guarantee that either the instantiation or
+%%(re)definitions are type-correct. For each case we would have:
+%%%
+%%\begin{itemize}
+%%    \item[i] $\circchannel\ x, y: \power~\nat$
+%%    \item[ii] $\circchannel\ [Y]\ x_1~, y_1: \power~Y$
+%%    \item[iii] $\circchannel\ x_2~, y_2: \power~X$
+%%    \item[iv] $\circchannel\ [A, B]\ x_3~, y_3: \power~(A \cross B)$
+%%\end{itemize}
+%%%
+%%Thus, $\circchannelfrom$ is just syntactic sugar for a corresponding
+%%$\circchannel$ declaration.
+%%
+%%% SOLVED: Allow ``layered'' generics. Typechecker needs to sort it out
+%%%         and adjust the AST appropriately - Jim
+%%%
+%%\begin{issue}[desugaring $\circchannelfrom$ into $\circchannel$]
+%%   The AST allows room for quite powerful use of generic types within channel
+%%   declaration from generic schemas via the two set of generic types on each
+%%   production (\textit{i.e.}, \code{AxPara} and \code{ChannelDecl}).
+%%
+%%   The burden is given to the typechecker to infer the appropriate generic
+%%   formals/actuals, as well as to match/update the lists of generic names (and
+%%   their corresponding type expressions).
+%%
+%%   Anyway, the possibly tricky business comes if we decide to restrict the
+%%   communication patterns with the corresponding schema invariant. As it
+%%   stands, it is left for the typechecker to solve.
+%%\end{issue}
+%%
+%%\section{Channel sets --- \grammar{channelSetPara}}
+%%
+%%Channel sets defines an expression to represent a particular set of channels.
+%%They are normally used as reference names for other \Circus\ operators that
+%%have channel references as parts of their AST, such as the parallel and the
+%%hiding operators.
+%%
+%%Channel sets are given as a name and a corresponding expression.
+%%%
+%%%\begin{circus}
+%%%    \circchanset\ C1 ==
+%%%\end{circus}%
+%%%
+%%The channel set expressions mostly used are: set union, intersection and
+%%difference expressions;~set extension expressions;~reference expressions;~and
+%%application expressions.
+%%
+%%% SOLVED: Generalise channel set expressions to allow any Z expression - Jim
+%%%         Should it simplify typechecking in a great extent?
+%%%
+%%\begin{issue}[generalising channel set expressions]
+%%  The restricted form of channel sets complicate the grammar in a great
+%%  extent because it demands filtering through the (very complex) expression
+%%  subtree, which also mixes with the predicate subtree.
+%%
+%%  If application expressions were not to be considered, the limitation would be
+%%  rather simple, as the other channel set expressions are easy to (hard) code. Nevertheless,
+%%  as one might like (or even require) to define particular functions for
+%%  channel sets to be used over replicated operators, application expressions may not (or cannot) be
+%%  avoided.
+%%
+%%  For example, this scenario might appear as a requirement when one needs to perform
+%%  synchronisation between disjoint set of channels amongst more than two processes,
+%%  in order to avoid multisynchronisation complexities.
+%%
+%%  Therefore, because of application expression, we need to include channel sets with mostly
+%%  all expressibility power of Z expressions. The best choice seems to reuse the
+%%  Z grammar for abbreviations, and encoded as an AST of \code{ChannelSet}
+%%  encapsulating a \code{ConstDecl}. This is useful for simplifying typechecking
+%%  (and perhaps other purposes).
+%%
+%%  This choice will also normalise the language with respect to generically
+%%  defined channels, as Z abbreviations already take care of generic formal and
+%%  actual parameters. \textbf{This would simplify the parser grammar as well as the AST structure in a grater
+%%  extend.} Furthermore, a nice side effect is the ability to have generic
+%%  operators as possible channel set functions!
+%%
+%%  On the other hand, if one wants to keep the restrictions, one possible
+%%  approach would be to leave the parser with Z abbreviations, but restrict
+%%  its use through the type checking of channel sets.
+%%\end{issue}
+%%
+%%\begin{issue}[show rob about text]
+%%  Let us see how it goes.
+%%\end{issue}
+%
+\end{document}
+
+%* AST structure for Qualified parameters reviewed.
+%
+%* DeclPart for Circus changed to accomodate conflicts.
+%
+%   -> That is to say, avoid using Expr:e
+%       but use RefName for SchemaRef instead
+%
+%* Various minor changes on KeywordScanner and CircusChar for accomodating overlapping keywords.
+
+%* Added process call
+%
+%* Identified conflicts:
+%
+%-> guards x call, due to parenthesis
+%-> declPart needs fixing
+%
+%* Added communication to processes
+%
+%* Added parenthesized processes
+%
+%* Various tests including precedence
+%
+%* Problem with communication x strokes
+
+%All work
+%\circprocess\ IRingCell \circdef i: RingIndex \circindex RingCell
+%\circprocess\ IRingCell \circdef (i: RingIndex \circindex RingCell) \lcircindex i \rcircindex
+%
+%This fails, otherwise it would hard to distinguish between on-the-fly process call.
+%That means, indexed processes when defined like this, cannot be parenthesised.
+%And that makes sense since  (i: RingIndex \circindex RingCell) \extchoice P should be ruled out.
+%\circprocess\ IRingCell \circdef (i: RingIndex \circindex RingCell)

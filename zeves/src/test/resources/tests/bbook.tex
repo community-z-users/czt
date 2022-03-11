@@ -1,0 +1,195 @@
+
+\begin{zsection}
+   \SECTION  bbook \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+  [NAME, DATE]
+\end{zed}
+
+\begin{schema}{BirthdayBook}
+  known: \power NAME \\
+  birthday: NAME \pfun DATE
+\where
+  known = \dom  birthday
+\end{schema}
+
+\begin{theorem}{BirthdayBookPredicate}
+\vdash? \forall BirthdayBook @ known = \dom birthday
+\end{theorem}
+
+\begin{zproof}[BirthdayBookPredicate]
+reduce;
+\end{zproof}
+
+\begin{schema}{InitBirthdayBook}
+  BirthdayBook~'
+\where
+  birthday' = \emptyset\\
+  known' = \emptyset
+\end{schema}
+
+\begin{theorem}{InitIsOK}
+\vdash? \exists  BirthdayBook~' @ InitBirthdayBook
+\end{theorem}
+
+\begin{zproof}[InitIsOK]
+prove by reduce;
+\end{zproof}
+
+\begin{schema}{AddBirthday}
+  \Delta BirthdayBook\\
+  name?: NAME\\
+  date?: DATE
+\where
+  name? \notin  known\\
+  birthday' = birthday \cup  \{(name? \mapsto  date?)\}
+\end{schema}
+
+\begin{theorem}{AddBirthdayIsHonest}
+\vdash? \forall  BirthdayBook; name?: NAME; date?: DATE @ name? \notin  known \implies  \pre  AddBirthday
+\end{theorem}
+
+\begin{zproof}[AddBirthdayIsHonest]
+prove by reduce;
+\end{zproof}
+
+\begin{theorem}{knownAddBirthday}
+\vdash? \forall AddBirthday @ known' = known \cup  \{name?\}
+\end{theorem}
+
+\begin{zproof}[knownAddBirthday]
+prove by reduce;
+\end{zproof}
+
+\begin{schema}{FindBirthday}
+  \Xi BirthdayBook\\
+  name?: NAME\\
+  date!: DATE
+\where
+  name? \in  known\\
+  date! = birthday(name?)
+\end{schema}
+
+\begin{zproof}[FindBirthday\$domainCheck]
+simplify;
+\end{zproof}
+
+\begin{zed}
+AddThenFind == AddBirthday \semi  FindBirthday
+\end{zed}
+
+\begin{theorem}{AddFind}
+\vdash? \forall AddThenFind @ date! = date?
+\end{theorem}
+
+\begin{zproof}[AddFind]
+prove by reduce;
+\end{zproof}
+
+\begin{schema}{Remind1}
+  \Xi BirthdayBook\\
+  today?: DATE\\
+  cards!: \power  NAME
+\where
+  cards! = \{  n: NAME | birthday~(n) = today? \}
+\end{schema}
+
+\begin{zproof}[Remind1\$domainCheck]
+prove;
+\end{zproof}
+
+Here we had a problem before: the newline followed by "to" was being wrongly
+captured by the lexer because of complex apply commands. We just changed the
+lexing rule to disallow newlines before TO
+\begin{schema}{Remind}
+  \Xi BirthdayBook \\
+  today?: DATE\\
+  cards!: \power  NAME
+\where
+  cards! = \{  n: known | birthday(n) = today? \}
+\end{schema}
+
+\begin{zproof}[Remind\$domainCheck]
+prove;
+\end{zproof}
+
+\begin{zed}
+REPORT ::= ok | already\_known | not\_known
+\end{zed}
+
+\begin{schema}{Success}
+  result!: REPORT
+\where
+  result! = ok
+\end{schema}
+
+\begin{schema}{AlreadyKnown}
+  \Xi BirthdayBook\\
+  name?: NAME\\
+  result!: REPORT
+\where
+  name? \in  known\\
+  result! = already\_known
+\end{schema}
+
+\begin{zed}
+RAddBirthday == AddBirthday \land  Success \lor  AlreadyKnown
+\end{zed}
+
+\begin{theorem}{RAddBirthdayIsTotal}
+\vdash? \forall  BirthdayBook; name?: NAME; date?: DATE @ \pre  RAddBirthday
+\end{theorem}
+
+\begin{zproof}[RAddBirthdayIsTotal]
+prove by reduce;
+split name? \in  known;
+prove;
+\end{zproof}
+
+\begin{axdef}
+  name: NAME\\
+  VALUE: \nat
+\where
+  VALUE > 0
+\end{axdef}
+
+\begin{theorem}{tAddBirthdayPRE}
+\vdash? \forall  BirthdayBook; name?: NAME; date?: DATE @ \pre  AddBirthday
+\end{theorem}
+
+\begin{zproof}[tAddBirthdayPRE]
+invoke AddBirthday;
+invoke \Delta BirthdayBook;
+rewrite;
+invoke BirthdayBook;
+simplify;
+cases;
+next;
+next;
+next;
+conjunctive;
+simplify;
+disjunctive;
+simplify;
+cases;
+apply domInPower to predicate \dom  (birthday \cup  \{(name?, date?)\}) \in  \power  NAME;
+rewrite;
+next;
+rewrite;
+prove by reduce;
+equality substitute \dom  birthday;
+\end{zproof}
+
+\begin{theorem}{myThm}
+\vdash? \forall  x: \nat  @ x \geq  0
+\end{theorem}
+
+\begin{theorem}{test}
+\vdash? \forall BirthdayBook @ true
+\end{theorem}
+
+\begin{zproof}[test]
+invoke BirthdayBook;
+\end{zproof}
+

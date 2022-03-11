@@ -1,0 +1,38 @@
+/**
+   Saves a given string to a file using the specified encoding.
+   If no file is given, a file chooser is opened.
+   If no encoding is given, the default encoding is used.
+*/
+save(String content)
+{
+  chooser = new JFileChooser();
+  value = chooser.showSaveDialog(null);
+  if(value == JFileChooser.APPROVE_OPTION) {
+    return save(content, chooser.getSelectedFile());
+  }
+}
+
+save(String content, String filename)
+{
+  file = pathToFile(filename);
+  if (file.exists()) {
+    System.err.println("File " + filename + " already exists.");
+    return;
+  }
+  fileWriter = new FileWriter(file);
+  fileWriter.write(content);
+  fileWriter.close();
+}
+
+save(String content, String filename, encoding)
+{
+  file = pathToFile(filename);
+  if (file.exists()) {
+    System.err.println("File " + filename + " already exists.");
+    return;
+  }
+  fileOutputStream = new FileOutputStream(file);
+  writer = new OutputStreamWriter(fileOutputStream, encoding);
+  writer.write(content);
+  writer.close();
+}

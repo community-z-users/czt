@@ -1,0 +1,745 @@
+%\documentstyle[12pt,coz,times]{report}
+\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+
+\begin{document}
+
+\begin{zsection}
+\SECTION golf \parents standard\_toolkit
+\end{zsection}
+
+Basically, the specification is for a golf tournament. It has a set of players with their corresponding
+scores. New players can be assigned while it can delete a player in the list. Also, it can calculate
+the score for each player based on their own shots.
+
+
+Using Name as a set to present players.
+\begin{zed}
+[Name]
+\end{zed}
+Using an axiomatic definition to limit the number of players in the tournament.
+\begin{axdef}
+maxPlayer : \nat
+\where maxPlayer \geq 100
+\end{axdef}
+This is the state schema for the tournament. It contains a set of players, with a full function
+named "score" to calculate the grade of a specific player.
+\begin{schema}{Tournament}
+players : \power Name \\
+score : Name \pfun \num
+\where \# players \leq maxPlayer \\
+\dom score = players
+\end{schema}
+
+Intially, the set of players is empty.
+\begin{schema}{TournamentInit}
+Tournament
+\where players = \emptyset
+\end{schema}
+
+The "Newplayer" schema can add a new player to the set of players.
+\begin{schema}{NewPlayer}
+\Delta Tournament \\
+p? : Name
+\where p? \notin players \\
+players' = players \cup \{p?\} \\
+score' = score \cup \{ p? \mapsto 0 \}
+\end{schema}
+
+The "PlayerResigns" schema can resign a player from the set of players.
+\begin{schema}{PlayerResigns}
+\Delta Tournament \\
+p? : Name
+\where p? \in players\\
+players' = players - \{p?\} \\
+score' = \{p?\} \ndres score
+\end{schema}
+
+The operation schema "PlayHole" can update the player's score based on the shots he/she has
+\begin{schema}{PlayHole}
+\Delta Tournament \\
+p? : Name \\
+shots? : \num
+\where p? \in players \\
+players' = players \\
+score' = score \oplus \{ p? \mapsto score(p?) + shots? \}
+\end{schema}
+
+
+
+\begin{zsection}
+\SECTION enterprise \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+[NAME]
+\end{zed}
+\begin{zed}
+ID == \nat
+\end{zed}
+\begin{zed}
+DEPARTMENT ::= administration | manufacturing | research
+\end{zed}
+\begin{zed}
+EMPLOYEE == ID \cross NAME \cross DEPARTMENT
+\end{zed}
+\begin{axdef}
+  Frank, Aki : EMPLOYEE \\
+\where Frank = (12, chen, administration) \\
+  Aki = (24, chun, research)
+\end{axdef}
+
+\begin{zsection}
+\SECTION editor \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+[CHAR]
+\end{zed}
+\begin{zed}
+TEXT == \seq CHAR
+\end{zed}
+\begin{axdef}
+maxsize: \nat\\
+\where maxsize \leq 65535
+\end{axdef}
+\begin{schema}{Editor}
+left, right : TEXT\\
+\where \#(left \cat right) \leq maxsize
+\end{schema}
+\begin{schema}{Init}
+Editor\\
+\where left=right=\langle \rangle
+\end{schema}
+\begin{axdef}
+printing: \power CHAR
+\end{axdef}
+\begin{schema}{Insert}
+\Delta Editor \\
+ch? : CHAR\\
+\where ch? \in printing \\
+left'= left \cat \langle ch? \rangle\\
+right'= right
+\end{schema}
+\begin{axdef}
+right\_arrow: CHAR \\
+\where right\_arrow \notin printing
+\end{axdef}
+\begin{schema}{Forward}
+\Delta Editor \\
+ch? : CHAR \\
+\where ch? = right\_arrow \\
+left'= left \cat \langle head (right) \rangle \\
+right'= tail (right)
+\end{schema}
+\begin{schema}{EOF}
+Editor \\
+\where right = \langle \rangle
+\end{schema}
+\begin{schema}{RightArrow}
+ch? : CHAR \\
+\where ch? = right\_arrow
+\end{schema}
+\begin{zed}
+T\_Forward == Forward \lor (EOF \land RightArrow \land \Xi
+Editor)
+\end{zed}
+
+
+
+\begin{zsection}
+\SECTION console \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+[EVENT]
+\end{zed}
+\begin{schema}{Event}
+\Delta Console\\
+e? : EVENT
+\end{schema}
+\begin{zed}
+Ignore == Event \land \Xi Console
+\end{zed}
+
+\begin{zed}
+[DISPLAY, SETTING, VALUE, CHAR]
+\end{zed}
+\begin{zed}
+TEXT == \seq CHAR
+\end{zed}
+\begin{zed}
+MODE ::= idle | dialog
+\end{zed}
+\begin{zed}
+BUTTON ::= accept | cancel
+\end{zed}
+\begin{schema}{Console}
+display: DISPLAY \\
+mode: MODE \\
+buffer: TEXT \\
+setting: SETTING
+\end{schema}
+
+\begin{axdef}
+disp: EVENT \pfun DISPLAY
+\end{axdef}
+\begin{schema}{SelectDisplay}
+Event \\
+\where mode = idle \\
+e? \in \dom disp \\
+display' = disp (e?) \\
+mode' = mode
+\end{schema}
+\begin{schema}{IgnoreDisplay}
+Ignore \\
+\where e? \in \dom disp\\
+mode = dialog
+\end{schema}
+\begin{zed}
+DisplayEvent == SelectDisplay \lor IgnoreDisplay
+\end{zed}
+
+\begin{axdef}
+stg : EVENT \pfun SETTING
+\end{axdef}
+\begin{schema}{SelectSetting}
+Event \\
+\where mode = idle \\
+e? \in \dom stg \\
+setting' = stg(e?) \\
+mode' = dialog \\
+buffer' = \emptyset \\
+display' = display
+\end{schema}
+\begin{schema}{IgnoreSetting}
+Ignore \\
+\where e? \in \dom stg \\
+mode = dialog
+\end{schema}
+\begin{zed}
+Setting == SelectSetting \lor IgnoreSetting
+\end{zed}
+
+\begin{axdef}
+char : EVENT \pfun CHAR \\
+edit : (TEXT \cross CHAR) \fun TEXT
+\end{axdef}
+\begin{schema}{GetChar}
+Event \\
+\where mode = dialog \\
+e? \in \dom char \\
+buffer' = edit(buffer, char ) \\
+mode' = mode \\
+setting' = setting \\
+display' = display
+\end{schema}
+\begin{schema}{IgnoreChar}
+Ignore \\
+\where e? \in \dom char \\
+mode = idle
+\end{schema}
+\begin{zed}
+CharEvent == GetChar \lor IgnoreChar
+\end{zed}
+
+\begin{axdef}
+button : EVENT \pfun BUTTON \\
+value : TEXT \fun VALUE \\
+valid \_ : SETTING \rel VALUE
+\end{axdef}
+\begin{schema}{Accept}
+Event \\
+\where mode = dialog \\
+e? \in \dom button \\
+button(e?)= accept \\
+value(buffer) = valid(setting)\\
+mode' = idle \\
+display' = display
+\end{schema}
+\begin{schema}{Reprompt}
+Event \\
+\where mode = dialog \\
+e? \in \dom button \\
+button(e?) = accept \\
+\lnot valid(setting, value)\\
+buffer' = buffer \\
+mode' = mode \\
+display' = display
+\end{schema}
+\begin{schema}{Cancel}
+Event \\
+\where mode = dialog \\
+e? \in \dom button \\
+button(e?) = cancel \\
+mode' = idle \\
+display' = display
+\end{schema}
+\begin{zed}
+ButtonEvent == Accept \lor Cancel \lor Reprompt
+\end{zed}
+
+\begin{schema}{Machine}
+measure, prescribed : SETTING \fun VALUE
+\end{schema}
+\begin{schema}{NewSetting}
+\Delta Machine \\
+s? : SETTING; v? : VALUE \\
+\where prescribed' = prescribed \oplus \{s? \mapsto v? \}\\
+actual' = actual
+\end{schema}
+\begin{schema}{Sys}
+Console \\
+Machine
+\end{schema}
+\begin{schema}{ChangeSetting}
+\Delta Sys \\
+Accept \\
+NewSetting \\
+\where s? = setting \\
+v? = value(buffer)
+\end{schema}
+\begin{zed}
+SysDisplayEvent == DisplayEvent \land \Xi Machine
+\end{zed}
+\begin{zed}
+SysSettingEvent == SettingEvent \land \Xi Machine
+\end{zed}
+\begin{zed}
+SysCharEvent == CharEvent \land \Xi Machine
+\end{zed}
+\begin{zed}
+SysButtonEvent == ChangeSetting \lor (Reprompt \land \Xi
+Machine) \lor (Cancel \land \Xi Machine)
+\end{zed}
+
+
+
+\begin{zsection}
+\SECTION queens \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+SIZE == 8
+\end{zed}
+
+\begin{zed}
+FILE == 1 \upto SIZE
+\end{zed}
+
+\begin{zed}
+RANK == 1 \upto SIZE
+\end{zed}
+
+\begin{zed}
+SQUARE == FILE \cross RANK
+\end{zed}
+
+\begin{zed}
+DIAGONAL == 1 - SIZE \upto 2 * SIZE
+\end{zed}
+
+\begin{axdef}
+up, down: SQUARE \fun DIAGONAL\\
+\where \forall f : FILE; r : RANK @ up(f, r) = r - f \land down(f, r)
+= r + f
+\end{axdef}
+
+\begin{schema}{Queens}
+squares : FILE \bij RANK \\
+\where \{squares \dres up, squares \dres down \} \subseteq SQUARE
+\inj DIAGONAL
+\end{schema}
+
+
+
+\begin{zsection}
+\SECTION documents \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+[PERSON, DOCUMENT]
+\end{zed}
+
+\begin{axdef}
+permission: DOCUMENT \rel PERSON
+\end{axdef}
+
+\begin{axdef}
+doug, aki, phil : PERSON \\
+spec, design, code : DOCUMENT
+\end{axdef}
+
+\begin{schema}{Documents}
+check\_out: DOCUMENT \pfun PERSON
+\where
+check\_out \subseteq permission
+\end{schema}
+
+\begin{schema}{CheckOut}
+\Delta Documents \\
+p? : PERSON \\
+d? : DOCUMENT
+\where
+d? \notin \dom checked\_out \\
+(d?, p?) \in permission \\
+check\_out' = checked\_out \cup \{(d?, p?)\}
+\end{schema}
+
+\begin{zed}
+CheckedOut == [\Xi Documents; d? : DOCUMENT | d? \in \dom
+check\_out]
+\end{zed}
+
+\begin{schema}{Unauthorized}
+\Xi Documents \\
+p? : PERSON \\
+d? : DOCUMENT \\
+\where (d?, p?) \notin permission
+\end{schema}
+
+\begin{zed}
+T\_CheckOut == CheckOut \lor CheckedOut \lor Unauthorized
+\end{zed}
+
+
+
+\begin{zsection}
+\SECTION birthday\_book \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{BirthdayBook}
+knonw: \power NAME \\
+birthday : NAME \pfun DATE
+\where
+known = \dom birthday
+\end{schema}
+\begin{schema}{BirthdayBook1}
+names : \nat \fun NAME \\
+dates: \nat \fun DATE \\
+hwm: \nat
+\where
+\forall i, j : 1 \upto hwm @ i \neq j \implies names(i) \neq names(j)
+\end{schema}
+\begin{schema}{Abs}
+BirthdayBook \\
+BirthdayBook1
+\where
+known = \{i : 1 \upto hwm @ names(i) \} \\
+\forall i : 1 \upto hwm @ birthday(names(i)) = dates(i)
+\end{schema}
+
+\begin{schema}{AddBirthday1}
+\Delta BirthdayBook1 \\
+name? : NAME \\
+date? : DATE
+\where
+\forall i : 1 \upto hwm @ name? \neq names(i) \\
+hwm' = hwm + 1 \\
+names' = names \oplus \{ hwm' \mapsto name? \} \\
+dates' = dates \oplus \{ hwm' \mapsto date? \}
+\end{schema}
+
+\begin{schema}{FindBirthday1}
+\Xi BirthdayBook1 \\
+name? : NAME \\
+date! : DATE
+\where
+\exists i: 1 \upto hwm @ name? = names(i) \land date! = dates(i)
+\end{schema}
+
+\begin{schema}{AbsCards}
+cards : \power NAME \\
+cardlist : \nat \fun NAME \\
+ncards : \nat
+\where
+cards = \{ i : 1 \upto ncards @ cardlist(i) \}
+\end{schema}
+
+\begin{schema}{Remind1}
+\Xi BirthdayBook1 \\
+today? : DATE \\
+cardlist! : \nat \fun NAME \\
+ncards! : \nat
+\where
+\{ i : 1 \upto ncards! @ cardlist!(i) \} = \{ j : 1 \upto hwm | dates(j) = today? @ names(i) \}
+\end{schema}
+\begin{schema}{InitBirthdayBook1}
+BirthdayBook1
+\where
+hwm = 0
+\end{schema}
+
+
+
+\begin{zsection}
+\SECTION access \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+[ADDR, PAGE]
+\end{zed}
+
+\begin{zed}
+DATABASE == ADDR \fun PAGE
+\end{zed}
+
+\begin{schema}{CheckSys}
+working: DATABASE \\
+backup: DATABASE
+\end{schema}
+
+\begin{schema}{Access}
+\Xi CheckSys \\
+a? : ADDR \\
+p! : PAGE
+\where
+p! = working(a?)
+\end{schema}
+
+\begin{schema}{Update}
+\Delta CheckSys \\
+a? : ADDR \\
+p? : PAGE
+\where
+working' = working \oplus \{a? \mapsto p? \} \\
+backup' = backup
+\end{schema}
+
+\begin{schema}{CheckPoint}
+\Delta CheckSys
+\where
+working' = working \\
+backup' = working
+\end{schema}
+
+\begin{schema}{Restart}
+\Delta CheckSys
+\where
+working' = backup \\
+backup' = backup
+\end{schema}
+
+\begin{schema}{Master}
+master : DATABASE
+\end{schema}
+
+\begin{schema}{Changes}
+changes : ADDR \pfun PAGE
+\end{schema}
+
+\begin{schema}{CheckSys1}
+Master \\
+Changes
+\end{schema}
+
+\begin{schema}{Abs}
+CheckSys \\
+CheckSys1
+\where
+backup = master \\
+working = master \oplus changes
+\end{schema}
+
+\begin{schema}{ReadMaster}
+\Xi Master \\
+a? : ADDR \\
+p! : PAGE
+\where
+p! = master(a?)
+\end{schema}
+
+\begin{schema}{Update1}
+\Delta CheckSys1 \\
+a? : ADDR \\
+p? : PAGE
+\where
+master' = master \\
+changes' = changes \oplus \{a? \mapsto p? \}
+\end{schema}
+
+\begin{schema}{CheckPoint1}
+\Delta CheckSys1
+\where
+master' = master \oplus changes \\
+changes' = \emptyset
+\end{schema}
+
+\begin{schema}{Restart1}
+\Delta CheckSys1
+\where master' = master \\
+changes' = \emptyset
+\end{schema}
+
+
+
+\begin{zsection}
+\SECTION pool \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{Gimel}
+y, z : \num \\
+z : 1 \upto 10
+\where
+1 \leq z \leq 10 \\
+y = z * z
+\end{schema}
+\begin{schema}{Aleph}
+x, y : \num
+\where
+x < y
+\end{schema}
+\begin{axdef}
+limit : \nat
+\where
+limit \leq 65535
+\end{axdef}
+
+\begin{schema}{Counter}
+value : \nat
+\where
+value \leq limit
+\end{schema}
+
+\begin{genschema}{Pool}{RESOURCE}
+owner: RESOURCE \pfun USER \\
+free : \power RESOURCE
+\where
+(\dom owner) \uni free = RESOURCE \\
+(\dom owner) \int free = \emptyset
+\end{genschema}
+
+
+
+\begin{zsection}
+\SECTION something \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+[FIELD, SETTING]
+\end{zed}
+\begin{zed}
+VALUE == \num
+\end{zed}
+\begin{zed}
+SETUP == SETTING \fun VALUE
+\end{zed}
+\begin{axdef}
+prescription : FIELD \pfun SETUP
+\end{axdef}
+
+\begin{zed}
+  abs == \lambda x:\num @ max \{ x, \negate x \}
+\end{zed}
+
+\begin{schema}{Field}
+field: FIELD \\
+measured, prescribed: SETUP \\
+overridden : SETTING \pfun VALUE \\
+\where field \in \dom prescription \\
+prescribed = prescription(field)
+\end{schema}
+
+\begin{zed}
+[INTERLOCK]
+\end{zed}
+\begin{zed}
+INTLK ::= clear | set
+\end{zed}
+\begin{zed}
+READY ::= ready | not\_ready | override
+\end{zed}
+
+\begin{schema}{Intlk}
+therapy\_intlk : INTLK \\
+intlk : INTERLOCK \fun INTLK \\
+status : SETTING \fun READY
+\end{schema}
+
+\begin{axdef}
+safe\_ : \power SETUP \\
+match\_ : SETUP \rel SETUP
+\end{axdef}
+
+\begin{schema}{SafeTreatment}
+measured, prescribed : SETUP \\
+\where safe(measured) \\
+match(measured, prescribed) \\
+prescribed \in \ran prescription
+\end{schema}
+
+\begin{axdef}
+selection, scale : \power SETTING
+\end{axdef}
+
+\begin{axdef}
+tol : scale \fun VALUE \\
+valid : SETTING \fun \power VALUE
+\end{axdef}
+
+\begin{zed}
+  \relation ( Match \varg )
+\end{zed}
+
+\begin{zed}
+  \relation ( Safe \varg )
+\end{zed}
+
+\begin{zed}
+  \relation ( Overridden \varg )
+\end{zed}
+
+\begin{zed}
+  \relation ( Ready \varg )
+\end{zed}
+
+\begin{axdef}
+Match \varg : \power(SETTING \cross SETUP \cross Field) \\
+Safe \varg, Overridden \varg, Ready \varg : SETTING \rel Field \\
+\where \forall s : SETTING; setup : SETUP; Field @ \\
+\t1 (Safe(s, \theta Field) \iff measured (s) \in valid(s)) \land
+\also
+\t1 (Match(s, setup, \theta Field) \iff (s \in selection \land
+measured(s) = setup(s) \lor \\
+\t1 \t1 (s \in scale \land abs(measured(s) - setup (s)) \leq
+tol(s))))\land
+\also
+\t1 (Overridden(s, \theta Field) \iff s \in \dom overridden \land
+Safe(s, \theta Field) \land \\
+\t1 \t1 Match(s, overridden, \theta Field)) \land
+\also
+\t1 (Ready(s, \theta Field) \iff Safe(s, \theta Field) \land
+Match(s, prescribed, \theta Field))
+\end{axdef}
+
+\begin{schema}{TreatmentStatus}
+Field \\
+Intlk \\
+\where status = \\
+\t1 (\lambda s: SETTING @ not\_ready) \oplus \\
+\t1 (\lambda s: SETTING | Overridden(s, \theta Field)@ override)
+\oplus \\
+\t1 (\lambda s: SETTING | Ready(s, \theta Field) @ ready)
+\end{schema}
+
+\begin{schema}{SafeTreatment}
+TreatmentStatus \\
+\where \ran intlk = \{clear\} \\
+\ran status \subseteq \{ready, override\}
+\end{schema}
+
+\begin{schema}{ScanIntlk}
+\Xi Field \\
+\Delta Intlk \\
+\where TreatmentStatus' \\
+therapy\_intlk' = if \, SafeTreatment' \, then \, clear \, else \,
+set
+\end{schema}
+
+\end{document}

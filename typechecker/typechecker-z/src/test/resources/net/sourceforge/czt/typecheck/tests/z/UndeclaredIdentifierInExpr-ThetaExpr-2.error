@@ -1,0 +1,13 @@
+\begin{zsection}
+ \SECTION UndeclaredIdentifier\_In\_ThetaExpr\_2
+\end{zsection}
+
+\begin{schema}{S}
+  n : \nat
+\end{schema}
+
+\begin{axdef}
+  n' : \nat
+\where
+  \theta~S~ = \theta~S~'
+\end{axdef}

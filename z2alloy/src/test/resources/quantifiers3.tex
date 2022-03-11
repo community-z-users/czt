@@ -1,0 +1,24 @@
+\begin{schema}{A}
+	x, y, z: \num
+\end{schema}
+
+\begin{schema}{B}
+	x : \num \\
+	a : \power \num \\
+\end{schema}
+
+\begin{schema}{B2}
+	x : \num \\
+	a : \power \num \\
+\end{schema}
+
+\begin{zed}
+	C == \exists A @ B \\
+	D == \exists A @ B \land B2 \\
+	E == \exists x : \num @ B \\
+	F == \exists x : \num; A @ B \\
+	G == \exists x : \num | x > 5 @ B \\
+	H == \exists A | x > 5 @ B \\
+	I == B \hide (a) \\
+	J == B \hide (x, a) \\
+\end{zed}

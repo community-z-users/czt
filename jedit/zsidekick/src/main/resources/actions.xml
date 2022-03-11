@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE ACTIONS SYSTEM "actions.dtd">
+
+<ACTIONS>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.toLatex">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.toLatex(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.toOldLatex">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.toOldLatex(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.toUnicode">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.toUnicode(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.toXml">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.toXml(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.domainCheck">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.vcg(view,
+        net.sourceforge.czt.vcg.z.dc.DomainCheckUtils.getDCUtils(),
+        net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.fsbCheck">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.vcg(view,
+        net.sourceforge.czt.vcg.z.feasibility.FeasibilityUtils.getFeasibilityUtils(),
+        net.sourceforge.czt.vcg.z.feasibility.FeasibilityPropertyKeys.VCG_FEASIBILITY_SOURCENAME_SUFFIX);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.nextWff">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.highlightNextWff(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.gotoDefinition">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.gotoDefinition(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.insertTypeForCurrentWff">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.insertTypeForCurrentWff(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.proveCurrentWff">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.prove(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.rewriteCurrentWff">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.innermost(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.interactiveRewriteCurrentWff">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.interactive_rewrite(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.disableTypechecking">
+    <CODE>
+      buffer.putBooleanProperty("net.sourceforge.czt.jedit.zsidekick.disable-typechecking",
+                ! buffer.getBooleanProperty("net.sourceforge.czt.jedit.zsidekick.disable-typechecking"));
+    </CODE>
+    <IS_SELECTED>
+      return buffer.getBooleanProperty("net.sourceforge.czt.jedit.zsidekick.disable-typechecking");
+    </IS_SELECTED>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.show_current_sm_options">
+    <CODE>
+      net.sourceforge.czt.jedit.zsidekick.ZSideKickActions.showOptions(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.reset_sm">
+    <CODE>
+      jEdit.setBooleanProperty("net.sourceforge.czt.jedit.zsidekick.reset_sm", true);
+    </CODE>
+  </ACTION>
+  <!--
+  <ACTION NAME="net.sourceforge.czt.jedit.zsidekick.showCompleteTree">
+    <CODE>
+      buffer.putBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE,
+                ! buffer.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE));
+    </CODE>
+    <IS_SELECTED>
+      return buffer.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE);
+    </IS_SELECTED>
+  </ACTION>
+  -->
+</ACTIONS>

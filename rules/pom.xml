@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+  <artifactId>rules</artifactId>
+  <packaging>jar</packaging>
+  <name>CZT Rules</name>
+  <description>
+    Provides classes for transforming and proving Z specifications.
+  </description>
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>parser-zpatt</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>typechecker-z</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>typechecker-z</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>${czt.dev.groupId}</groupId>
+        <artifactId>gnast-maven-plugin</artifactId>
+        <version>1.6-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <configuration>
+              <sourceSchemaLocation>net/sourceforge/czt/zml/xsd/ZPattern.xsd</sourceSchemaLocation>
+              <packageName>net.sourceforge.czt.rules.ast</packageName>
+            </configuration>
+            <goals>
+              <goal>rulecodegen</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <!-- Depend on ZML to locate the ZML schema files -->
+            <groupId>${project.groupId}</groupId>
+            <artifactId>zml</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- exclude old rewriter -->
+            <exclude>**/RewriteTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

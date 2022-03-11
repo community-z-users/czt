@@ -1,0 +1,202 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+
+  <groupId>net.sourceforge.czt.jedit</groupId>
+  <artifactId>jedit-parent</artifactId>
+
+  <packaging>pom</packaging>
+  <name>CZT jEdit</name>
+
+  <properties>
+    <jedit.groupId>jedit</jedit.groupId>
+    <jedit.artifactId>jedit</jedit.artifactId>
+    <jedit.plugin.groupId>jedit.plugins</jedit.plugin.groupId>
+    <console.artifactId>Console</console.artifactId>
+    <errorlist.artifactId>ErrorList</errorlist.artifactId>
+    <sidekick.artifactId>SideKick</sidekick.artifactId>
+
+    <jedit.dir>${project.basedir}</jedit.dir>
+    <czt.aggregate.dir>${project.basedir}/../../lib</czt.aggregate.dir>
+    <output.jar.name>${project.artifactId}.jar</output.jar.name>
+  </properties>
+
+  <modules>
+    <module>zsidekick</module>
+    <module>zcharmap</module>
+    <module>zlive</module>
+    <module>zeves</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+     <!-- jEdit -->
+      <dependency>
+        <groupId>${jedit.groupId}</groupId>
+        <artifactId>${jedit.artifactId}</artifactId>
+        <version>5.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>${jedit.plugin.groupId}</groupId>
+        <artifactId>${console.artifactId}</artifactId>
+        <version>5.0</version>
+      </dependency>
+      <dependency>
+        <groupId>${jedit.plugin.groupId}</groupId>
+        <artifactId>${errorlist.artifactId}</artifactId>
+        <version>2.1</version>
+      </dependency>
+      <dependency>
+        <groupId>${jedit.plugin.groupId}</groupId>
+        <artifactId>${sidekick.artifactId}</artifactId>
+        <version>1.4</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <!-- Skip deployment of jEdit plug-ins to Maven Central for now.
+             This is because the core jEdit libraries are not in Central, and the transitive
+             dependencies thus unresolvable.
+             TODO: deploy if/when the jEdit libraries are in Central. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <!-- Copy the results to /lib at root for manual deployment (for child modules) -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-to-lib</id>
+            <phase>install</phase>
+            <configuration>
+              <!-- skip in parent -->
+              <skip>true</skip>
+              <target>
+                <property name="dir" location="${czt.aggregate.dir}"/>
+                <property name="file"
+                  location="${project.build.directory}/${project.artifactId}-${project.version}.jar"/>
+                <mkdir dir="${dir}"/>
+                <copy failonerror="false"
+                  file="${file}" tofile="${dir}/${output.jar.name}"/>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <!-- A profile to deploy nightly build artifacts to release area.
+           Deploy using `mvn clean deploy -P nightly -P release` and provide the
+           appropriate logins in settings.xml.
+           -->
+      <id>nightly</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <nightly.jedit.path>czt-jedit/nightly/${timestamp}</nightly.jedit.path>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>wagon-maven-plugin</artifactId>
+            <version>1.0-beta-4</version>
+            <executions>
+              <execution>
+                <!-- Upload `modes` directory to jEdit nightly -->
+                <id>upload-modes</id>
+                <phase>deploy</phase>
+                <!-- do not inherit - parent only -->
+                <inherited>false</inherited>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.basedir}</fromDir>
+                  <includes>modes/**</includes>
+                  <url>${files.deploy.url}/${nightly.jedit.path}</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+
+              <execution>
+                <!-- Upload each jEdit plugin to nightly (used by child modules) -->
+                <id>upload-jedit</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${czt.aggregate.dir}</fromDir>
+                  <includes>${output.jar.name}</includes>
+                  <url>${files.deploy.url}/${nightly.jedit.path}</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <repositories>
+    <!-- Local Maven repository for jEdit libraries, because they are not available in
+         Maven Central.
+
+         See http://devcenter.heroku.com/articles/local-maven-dependencies for details. -->
+    <repository>
+      <id>jedit.local</id>
+      <name>jEdit local</name>
+      <url>file:${jedit.dir}/jedit-mvn-repo</url>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+
+  <!-- Put site under /jedit -->
+  <url>${site.url}/jedit</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/jedit</url>
+    </site>
+  </distributionManagement>
+
+</project>

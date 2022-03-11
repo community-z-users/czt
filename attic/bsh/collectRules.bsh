@@ -1,0 +1,28 @@
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.zpatt.ast.Rule;
+
+collectRules(String file)
+{
+  reader = new net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader();
+  return collectRules(reader.read(new File(file)));
+}
+
+collectRules(Term term)
+{
+  result = new ArrayList();  
+  if (term instanceof Spec) {
+    for (Iterator i = term.getSect().iterator(); i.hasNext(); ) {
+      sect = i.next();
+      if (sect instanceof ZSect) {
+        for (Iterator j = sect.getPara().iterator(); j.hasNext(); ) {
+          para = j.next();
+          if (para instanceof Rule) {
+            result.add(para);
+          }
+        }
+      }
+    }
+  }
+  return result;
+}

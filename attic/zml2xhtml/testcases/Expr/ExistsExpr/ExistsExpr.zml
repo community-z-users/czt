@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE unicode SYSTEM "file:///home/ga11/development/cvsdev/czt/translators/zml2xhtml/unicode.dtd"> -->
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  >
+
+  <ZSect>
+    <Name>A 'Exists' (&#x2203;) expression</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <ExistsExpr>
+            <SchText>
+              <VarDecl>
+                <DeclName>
+                  <Word>x</Word>
+                </DeclName>
+                <RefExpr>
+                  <RefName>
+                    <Word>
+                      Point
+                    </Word>
+                  </RefName>
+                </RefExpr>
+              </VarDecl>
+            </SchText>
+            <NumExpr Value="1"/>
+          </ExistsExpr>         
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

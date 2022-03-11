@@ -1,0 +1,23 @@
+\begin{zsection}
+  \SECTION forest \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed} [Y] \end{zed}
+
+\begin{zed}
+   MForest == \{ f: Y \fun Y \}
+\end{zed}
+\begin{axdef}
+    null: Y
+\\
+    links: MForest \fun \finset_1~Y
+\end{axdef}
+
+\begin[disabled]{theorem}{dlMForestNStepLinkage}
+	\forall mf: MForest | d \in links~(mf) @ \exists n : 1 \upto \#~(links~(mf)) @ (d, null) \in mf\plus
+\end{theorem}
+
+
+\begin{zed}
+root\_step ~~==~~ (\lambda o: Y; n: \nat; p: Y \cross (Y \pfun Y) @ p.2~(o))
+\end{zed}

@@ -1,0 +1,16 @@
+\begin{zsection}
+   \SECTION hide\_test
+\end{zsection}
+
+%% Channel definitions:
+\begin{circus}
+  \circchannel\ a : \nat
+\end{circus}
+
+\begin{circus}
+  \circprocess\ P \circdef \circbegin \circspot a.0 \then \Skip \circend
+\end{circus}
+
+\begin{circus}
+  \circprocess\ TEST \circdef P \circhide \lchanset a \rchanset
+\end{circus}

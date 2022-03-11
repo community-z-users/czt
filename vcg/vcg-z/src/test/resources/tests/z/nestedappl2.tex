@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION nestedappl2 \parents function\_toolkit
+\end{zsection}
+
+\begin{zed}
+   [X, Y, Z, V]
+\end{zed}
+
+Appl expr composition
+\begin{axdef}
+   f: Y \pfun Z \\
+   g: X \pfun Y \\
+   h: V \pfun X \\ 
+   v: V \\
+   z: Z
+\where
+   f~(g~(h~v)) = z  
+\end{axdef}
+
+Layered curried appl expressions
+\begin{axdef}
+  fcn: V \pfun X \pfun Y \pfun Z \\
+  x: X \\
+  y: Y
+\where
+   (((fcn~v)~x)~y) = z
+\end{axdef}
+
+\end{document}

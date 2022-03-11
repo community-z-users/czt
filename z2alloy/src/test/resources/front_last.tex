@@ -1,0 +1,12 @@
+\begin{zed}
+[A]
+\end{zed}
+
+ \begin{schema}{B}
+  x : \seq A \\
+  y : A \\
+  z : \seq A \\
+ \where
+  y = last(x) \\
+  z = front(x) \\
+ \end{schema}

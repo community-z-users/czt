@@ -1,0 +1,37 @@
+\begin{zsection}
+  \SECTION DoubleRename \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{R1[X]}
+  \begin{axdef}
+    x : X
+  \end{axdef}
+  \begin{state}
+    r2 : R2[X]
+  \end{state}
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{R2[Z]}
+  \begin{state}
+   r1 : (R1[RenamedX/x, RenamedOp1/Op1])[DoubleRenamedX/RenamedX,DoubleRenamedOp1/RenamedOp1]
+  \where
+    r1.DoubleRenamedX \in Z\\
+    r1.r2.r1.r2.r1.r2.r1.r2.r1.r2.r1.DoubleRenamedX \in Z
+  \end{state}
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{Top[G]}
+  \begin{state}
+    r1 : R1[\nat]\\
+    r2 : R2[\power\power\nat]\\
+  \where\\
+   r1.r2.r1.DoubleRenamedX = 1\\
+   r1.r2.r1.r2.r1.r2.r1.r2.r1.DoubleRenamedX \in \{\}\\
+  \end{state}\\
+%  Op1 \sdef  r1.r2.r1.r2.r1.r2.r1.r2.r1.DoubleRenamedOp1 \land
+%            r2.r1.r2.r1.r2.r1.r2.r1.r2.r1.r2.Op1\\
+  Op2 \sdef %r1.Op1 \land 
+r2.r1.DoubleRenamedOp1
+\end{class}

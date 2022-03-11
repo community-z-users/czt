@@ -1,0 +1,11 @@
+\begin{zsection}
+  \SECTION RedeclaredGlobalName\_GivenPara
+\end{zsection}
+
+\begin{zed}  
+  x == 1
+\end{zed}
+
+\begin{zed}
+  [x]
+\end{zed}

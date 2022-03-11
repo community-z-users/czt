@@ -1,0 +1,12 @@
+\begin{zsection}
+  \SECTION TypeMismatchInSignature\_Local\_InclDecl
+\end{zsection}
+
+\begin{zed}
+  S == [x : \nat; x' : \power \nat]
+\end{zed}
+
+\begin{axdef}
+\where
+  \exists \Delta S @ true
+\end{axdef}

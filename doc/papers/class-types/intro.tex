@@ -1,0 +1,45 @@
+\section{Introduction}
+
+Object-Z \cite{smith00} is an object-oriented extension of the ISO
+standardised Z specification language \cite{isoz}. Since both Z
+and Object-Z mandate explicit type declarations over variables,
+checking for type consistency over expressions (static-semantic
+analysis) can be automated. Unlike Z, however, typechecking Object-Z
+has been given little attention in the research community.  At
+present, Wizard \cite{johnston96} is the only implemented typechecker
+of which we are aware that even partially supports Object-Z.
+
+The Community Z Tools (CZT) project\footnote{See
+\url{http://czt.sourceforge.net}} is an open-source project to build a
+suite of tools implemented in Java for the ISO standardised version of
+Z \cite{isoz}, and extensions to Z, such as Object-Z. Work so far has
+seen the development of core classes and libraries for generating
+abstract syntax trees, and parsers for Z, Object-Z, and other Z
+extensions, as well as a typechecker for Z, and of course,
+Object-Z. Other development includes an editing environment, a Z
+animator, and a simple theorem prover for  Z transformations, such as
+schema unfolding.
+
+Typechecking Object-Z is a difficult task, and presents many more
+problems than typechecking standard Z. Object-Z introduces such
+notions as inheritance and polymorphism, which create types containing
+many different (possibly unrelated) subtypes; implicit downcasting, in
+which an object can be implicitly downcast to one of many subtypes
+that cannot be determined statically, thus making the detection of
+type errors difficult; generic classes, which specify a set of classes
+instead of a single class; and feature renaming, which, in allowing
+the specifier to rename operations or attributes in a class, creates a
+new interface for a class, but does not introduce a new class type.
+
+In this paper, we present our model of {\em class types}, which are
+used to annotate expressions in an abstract syntax tree of a parsed
+Object-Z specification, and to allow automatic application of type
+rules to find type inconsistencies in specifications. This class type
+is flexible enough to solve the problems discussed above. We also
+present two unification algorithms used for type inference and
+determining type consistency between two class types. The first
+enforces a {\em weak} form of consistency between two class types, and
+the second enforces a {\em strong} form. Our class type model and
+unification algorithms should be flexible enough to work for other
+formal object-oriented specification languages with type systems
+similar to Object-Z.

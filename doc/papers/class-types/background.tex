@@ -1,0 +1,138 @@
+\section{Background and Motivation}
+\label{background}
+
+In this section, we discuss some background and the motivation for the
+work discussed in this paper.
+
+\subsection{Object-Z}
+
+The Object-Z specification language extends Z with modularity and reuse
+constructs that resemble the object-oriented programming paradigm. Such
+constructs include classes, inheritance, and polymorphism. Late-binding
+of types is typical in such languages, and allows for a high degree of
+flexibility when specifying or implementing a system. However, the
+Object-Z language provides no specific mechanism for explicit
+type-casting of objects to aid the static analysis of type consistency
+in such circumstances. Thus, an automated approach to type-checking
+Object-Z must make inferences of object types taking into account the
+inheritance hierarchy and object identity sets (which will be discussed
+in further detail in the next section). 
+
+Because casting of types is a dynamic property of the system (it is
+essentially a test for set membership), and must be inferred
+statically by the type-checker, a {\em completely} automated analysis
+of type-consistency is an intractable problem; it requires proofs to
+be discharged. As a consequence, the type-analysis algorithm discussed
+in this paper can only provide a warning when an object is being
+down-cast and the onus is upon the user to determine whether it is
+possibly an illegal downcast (in Object-Z such a situation would
+result in an operation being blocked). Detecting when such warnings
+must be issued, and when it is not necessary, relies upon a thorough
+understanding of how object identity is treated in Object-Z.
+
+\subsection{Object Identity and Classes}
+
+An object's identity distinguishes it from all other objects. The
+value of an object is its identity, therefore two
+different objects of the same type, $o_{1}$ and $o_{2}$, can have the
+same values for their state, yet still be distinct objects; that is
+$o_{1} \neq o_{2}$. The predicate $o_{1} = o_{2}$ is true if and only
+if $o_{1}$ and $o_{2}$ reference the same object.
+
+Object-Z's semantics implicitly include the concept of object identity
+in the language, therefore giving it a {\em reference semantics}
+similar to the treatment of object equality and assignment in
+languages such as Smalltalk \cite{goldberg83} and
+Java\footnote{\url{http://java.sun.com}}. This is opposed to a {\em
+value-based semantics}, in which objects are denoted by the value of
+the state.
+% Tim, I had to make the distinction in that paragraph about assignment
+% because Java actually has a pass-by-value semantics, and someone could
+% pick on that.
+
+The {\em dot notation} is commonly used in object-oriented languages
+to dereference attributes or operations\footnote{From here on
+the collective terms for attributes and operations is {\em features}.}
+of an object. For example, the feature $x$ of an object $a$ is
+accessed using the syntax $a.x$.
+
+Using these semantics, an Object-Z class is a countably infinite set
+of object identities, defined syntactically using a class
+paragraph. The set $\oid$ represents the set of all object identities
+in a system, such that for any class $A$, $A \subseteq \oid$ is true,
+and for the set $\{ A_{1}, ..., A_{n} \}$ containing all classes in a
+system, $\duni \{ A_{1}, ..., A_{n} \} = \oid$ is true.
+
+In Object-Z, classes can be unioned to create polymorphic types. That
+is, two classes $A$ and $B$ that share no common superclass, can be
+unioned together to create a new set of object identities: $A
+\classuni B$. The Object-Z type rules specify that any commonly named
+attributes or operations in $A$ and $B$ must share the same types or
+signatures respectively. These commonly named features are known as
+the {\em polymorphic core} of the class union \cite{dong93}.
+
+Object-Z also provides a {\em polymorphic operator}. That is, for a
+class $A$, the expression $\poly A$ refers to the set of object
+identities in $A$ and any subclasses of $A$, and is type consistence
+if and only if each subclass of $A$ has at least the features in $A$
+with the same types. The polymorphic core of this expression is the
+features of $A$.
+
+\subsection{Motivation}
+
+Chen \cite{chen94} discusses a model in which an Object-Z class type
+is a set of classes. That is, if we have a class $A$ with subclasses
+$B$ and $C$, then the expression $\poly A$ is the set of classes $\{A,
+B, C\}$. This idea is similar to the class types in our typechecker,
+but we make two significant improvements.
+
+Firstly, Chen does not discuss how to represent classes. In Object-Z,
+classes are defined as countably infinite sets of object
+identities. However, we need a way to represent these sets in the
+typechecker, which requires some thought because programming languages
+do not support infinite sets, and Object-Z provides us with no idea of
+what the value object identities look like. Chen's examples use the
+class names to represent the classes, but this does not provide
+complete support for generic classes. For example, take the Object-Z
+class defined in Figure~\ref{generic-class-A}.  In this example, we
+have the generic class $A$, with generic parameter $X$ and no
+features.  Two objects are declared using $A$: one with $X$
+instantiated to $\nat$ and the other to $\power \nat$. The equality
+$a_{1} = a_{2}$ is type incorrect because $A[\nat]$ and $A[\power
+\nat]$ are disjoint sets of object identities. If only the class name
+is used, we cannot not detect this, because the types of both
+instances is $\{A\}$.
+
+\begin{figure}[t]
+\input{fig/generic-class-A.tex}
+\caption{An Ill-Typed Paragraph containing a Generic Reference}
+\label{generic-class-A}
+\end{figure}
+
+The second difference is that we model the polymorphic core as part of
+the class type. This is used to support Object-Z's renaming of
+features in a class, for example, renaming an operation. The class $A$
+with operation $op$ is not disjoint from the class $A[newOp/op]$,
+which is the class $A$ with the operation $op$ renamed to $newOp$. The
+Object-Z reference manual \cite{smith00} defines the set of object
+identities of a renamed class to be equal to that of its base
+class. Using only the object identities is not flexible enough to
+detect whether a reference to a feature is valid.
+
+In addition, if we reference a feature of an instance (for example,
+$a.x$), then we have to lookup the type of $x$ in $a$ each time we
+encounter such a reference, because the class type itself does not
+maintain features and their signatures or types.  Similarly, if we
+have a reference to a type $\{ A, B, C\}$ constructed via a class
+union, then for a reference $a.x$, we need to calculate the
+polymorphic core of $\{A,B,C\}$ each time it is referenced. We believe
+a class type that records features, including those inherited from any
+superclasses, simplifies and optimises the implementation of the
+typechecker.
+
+The purpose of the work in this paper is to provide a way of modelling
+classes to provide a suitable class type that supports class union,
+polymorphic expressions, and appropriately manages dereferencing on
+objects, and to specify a unification algorithm for these types to
+support type inference.
+

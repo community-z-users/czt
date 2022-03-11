@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>A RenameExpr with multiple renamings</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <RenameExpr>
+            <RefExpr>              
+              <RefName>
+                <Word>W</Word>
+              </RefName>
+            </RefExpr>
+            <NameNamePair>
+              <OldName>
+                <Word>A</Word>
+              </OldName>
+              <NewName>
+                <Word>B</Word>
+              </NewName>
+            </NameNamePair>
+            <NameNamePair>
+              <OldName>
+                <Word>C</Word>
+              </OldName>
+              <NewName>
+                <Word>D</Word>
+              </NewName>
+            </NameNamePair>
+          </RenameExpr>          
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

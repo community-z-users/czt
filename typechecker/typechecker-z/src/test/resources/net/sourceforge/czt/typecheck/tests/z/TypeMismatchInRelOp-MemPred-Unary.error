@@ -1,0 +1,17 @@
+\begin{zsection}
+  \SECTION TypeMismatchInRelOp\_MemPred\_Unary
+\end{zsection}
+
+\begin{zed}
+  \relation (prefixRel~ \_)
+\end{zed}
+
+\begin{axdef}
+  prefixRel~ \_ : \power \nat
+\end{axdef}
+
+\begin{axdef}
+  a == \{1\}
+\where
+ prefixRel~ \{1\}
+\end{axdef}

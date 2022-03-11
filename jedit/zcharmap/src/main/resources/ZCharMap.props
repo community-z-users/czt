@@ -1,0 +1,18 @@
+# Plugin properties
+
+# Basic plugin information properties
+plugin.net.sourceforge.czt.jedit.zcharmap.CommunityZToolsPlugin.activate=startup
+plugin.net.sourceforge.czt.jedit.zcharmap.CommunityZToolsPlugin.name=ZCharMap
+plugin.net.sourceforge.czt.jedit.zcharmap.CommunityZToolsPlugin.author=Petra Malik
+plugin.net.sourceforge.czt.jedit.zcharmap.CommunityZToolsPlugin.version=${project.version}
+plugin.net.sourceforge.czt.jedit.zcharmap.CommunityZToolsPlugin.docs=ZCharMap.html
+
+# Plugin dependency properties
+plugin.net.sourceforge.czt.jedit.zcharmap.CommunityZToolsPlugin.depend.0=jdk 1.6
+plugin.net.sourceforge.czt.jedit.zcharmap.CommunityZToolsPlugin.depend.1=jedit 04.05.99.00
+
+plugin.net.sourceforge.czt.jedit.zcharmap.CommunityZToolsPlugin.menu=zcharmap
+
+# labels
+zcharmap.title=ZCharMap
+zcharmap.label=Z Character Map

@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>ZSideKick Plugin</title>
+</head>
+
+<body>
+
+<h1>ZSideKick plugin user's guide</h1>
+
+<h3>by Petra Malik and Mark Utting</h3>
+
+<p>
+  The ZSideKick plugin is an extension of the SideKick plugin (see its
+  documentation as well) that allows Z and Object Z specifications to
+  be parsed and typechecked automatically.  Any errors found are
+  reported to the ErrorList plugin, which means that they are
+  displayed in the ErrorList plugin window and highlighted in the text
+  area.  Also supported are the selection of well formed formulae and
+  actions based on this selection like jumping to the definition of a
+  referencing name.
+</p>
+
+<p>
+  The ZSideKick plugin shares its view with other SideKick plugins
+  through the SideKick Structure Browser.  It is most convenient to
+  dock the Structure Browser on the left or right.  In the Structure
+  Browser, a tree view for the sections and paragraphs of a
+  specification is shown.  A mouse click on one of the nodes in the
+  tree will highlight the line in the jEdit buffer where that item
+  begins.  Shift-click on a node will select that node in the buffer.
+  The tree will also follow the cursor in the buffer, that is, the
+  selected node in the tree will change depending on the cursor
+  position.
+</p>
+
+<p>
+  The parser used for a particular buffer depends on the mode.  By
+  default, the Unicode Z parser is associated to a mode called "z",
+  the Unicode Object Z parser to "oz", the Unicode Circus parser to
+  "circus", the LaTeX Z parser to "zlatex", the LaTeX Object Z parser
+  to "ozlatex", and the LaTeX Circus parser to "circuslatex".  These
+  associations can be customised in the SideKick options dialog.  It
+  is also possible to associate files or file endings to particular
+  modes by modifying the jEdit catalog file.  See the jEdit
+  documentation on how to install edit modes for more information
+  about this.
+</p>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+\begin{zsection}
+  \SECTION ss \parents ds
+\end{zsection}
+
+In the file storage system, files can be stored and retrieved using
+file identifiers.
+
+\begin{zed}
+%  [FID]
+   FID == \nat
+\end{zed}
+
+The file storage system is described by a partial function from file
+identifiers to $FILE$.
+
+\begin{zed}
+  SS == [ fstore : FID \pfun FILE ]
+\end{zed}
+
+\begin{schema}{InitSS}
+  SS~'
+\where
+  fstore' = \emptyset
+\end{schema}
+
+The operation that creates an empty file is defined by
+
+\begin{schema}{createSS}
+  \Delta SS \\
+  fid? : FID
+\where
+  fstore' = fstore \oplus \{ fid? \mapsto \emptyset \}
+\end{schema}
+
+Destroying a file is defined as
+
+\begin{schema}{destroySS}
+  \Delta SS \\
+  fid? : FID
+\where
+  fid? \in \dom fstore \\
+  fstore' = \{ fid? \} \ndres fstore
+\end{schema}
+
+To be destroyed, the file must exist and the new file store is
+identical to the old except that there is no file referred to by fid.
+
+\begin{schema}{\Phi SS}
+  \Delta SS;  ~
+  \Delta DS;  ~
+  fid? : FID
+\where
+  fid? \in \dom fstore \\
+  file = fstore(fid?) \\
+  fstore' = fstore \oplus \{ fid? \mapsto file' \}
+\end{schema}
+
+\begin{zed}
+  readSS == (\Phi SS \land readFILE) \hide (file, file') \\
+  writeSS == (\Phi SS \land writeFILE) \hide (file, file')
+\end{zed}

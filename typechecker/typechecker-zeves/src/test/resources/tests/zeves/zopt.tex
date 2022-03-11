@@ -1,0 +1,20 @@
+\begin{zsection}
+   \SECTION zopt \parents standard\_toolkit
+\end{zsection}
+
+Some weird uses of Z operators
+
+\begin{axdef}
+   x: \nat
+\where
+   x = (\_ + \_)(1, 2)
+\end{axdef}
+
+\begin{theorem}{lZOpsinProof}
+   true
+\end{theorem}
+
+\begin{zproof}[lZOpsinProof]
+  prove by reduce;
+  use finiteFunction[Y, X][f := f (\_ \inv) [X, Y]];
+\end{zproof}

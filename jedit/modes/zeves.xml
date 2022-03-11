@@ -1,0 +1,123 @@
+x<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+<MODE>
+  <PROPS>
+    <PROPERTY NAME="indentNextLine" VALUE="\s*(((?|?|?)"/>
+    <PROPERTY NAME="commentStart" VALUE="/*"/>
+    <PROPERTY NAME="commentEnd" VALUE="*/"/>
+    <PROPERTY NAME="lineComment" VALUE="//"/>
+  </PROPS>
+  <RULES ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="COMMENT1">
+    <!-- schema definition -->
+    <SPAN DELEGATE="ZEVES">
+      <BEGIN>&#x250C;</BEGIN>  <!-- SCHCHAR -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- generic schema definition -->
+    <SPAN DELEGATE="ZEVES">
+      <BEGIN>&#x250C;&#x2550;</BEGIN>  <!-- GENSCH  -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- axiomatic description -->
+    <SPAN DELEGATE="ZEVES">
+      <BEGIN>&#x2577;</BEGIN>  <!-- AXCHAR -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- generic axiomatic description -->
+    <SPAN DELEGATE="ZEVES">
+      <BEGIN>&#x2577;&#x2550;</BEGIN>  <!-- GENAX -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- all other Zed that begin with ZED -->
+    <SPAN DELEGATE="ZEVES">
+      <BEGIN>&#x2500;</BEGIN> <!-- ZEDCHAR -->
+      <END>&#x2514;</END>
+    </SPAN>
+    <!-- ZPROOF char -->
+    <SPAN DELEGATE="ZEVES">
+      <BEGIN>&#x251C;</BEGIN> <!-- ZPROOFCHAR -->
+      <END>&#x2514;</END>
+    </SPAN>
+    <!-- the name part of a vertical Z schema definition -->
+    <EOL_SPAN TYPE="KEYWORD1" AT_LINE_START="TRUE">&#x250C;</EOL_SPAN>
+  </RULES>
+  <RULES SET="ZEVES" ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="KEYWORD2">
+    <SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
+      <BEGIN>"</BEGIN>
+      <END>"</END>
+    </SPAN>
+    <!-- Zeves operators and other markup sitll missing -->
+    <SEQ TYPE="OPERATOR">(</SEQ>
+    <SEQ TYPE="OPERATOR">)</SEQ>
+    <SEQ TYPE="OPERATOR">}</SEQ>
+    <SEQ TYPE="OPERATOR">{</SEQ>
+    <SEQ TYPE="OPERATOR">]</SEQ>
+    <SEQ TYPE="OPERATOR">[</SEQ>
+    <!-- symbolic keywords -->
+    <SEQ TYPE="OPERATOR">:</SEQ>
+    <SEQ TYPE="OPERATOR">==</SEQ>
+    <SEQ TYPE="OPERATOR">,</SEQ>
+    <SEQ TYPE="OPERATOR">::=</SEQ>
+    <SEQ TYPE="OPERATOR">|</SEQ>		
+    <SEQ TYPE="OPERATOR">&amp;</SEQ>
+    <SEQ TYPE="OPERATOR">\</SEQ>
+    <SEQ TYPE="OPERATOR">/</SEQ>
+    <SEQ TYPE="OPERATOR">.</SEQ>
+    <SEQ TYPE="OPERATOR">;</SEQ>
+    <SEQ TYPE="OPERATOR">=</SEQ>
+    <!-- toolkit operators -->
+    <SEQ TYPE="OPERATOR">&gt;</SEQ>
+    <SEQ TYPE="OPERATOR">&lt;</SEQ>
+    <SEQ TYPE="OPERATOR">*</SEQ>
+    <SEQ TYPE="OPERATOR">+</SEQ>
+    <SEQ TYPE="OPERATOR">~</SEQ>
+    <SEQ TYPE="OPERATOR">-</SEQ>
+    <SEQ TYPE="OPERATOR">^</SEQ>
+    <KEYWORDS>
+      <!-- Z related keywrds -->
+      <KEYWORD1>else</KEYWORD1>
+      <KEYWORD1>false</KEYWORD1>
+      <KEYWORD1>function</KEYWORD1>
+      <KEYWORD1>generic</KEYWORD1>
+      <KEYWORD1>if</KEYWORD1>
+      <KEYWORD1>leftassoc</KEYWORD1>
+      <KEYWORD1>let</KEYWORD1>
+      <KEYWORD1>parents</KEYWORD1>
+      <KEYWORD1>pre</KEYWORD1>
+      <KEYWORD1>relation</KEYWORD1>
+      <KEYWORD1>rightassoc</KEYWORD1>
+      <KEYWORD1>section</KEYWORD1>
+      <KEYWORD1>then</KEYWORD1>
+      <KEYWORD1>true</KEYWORD1>
+      <!-- ZEves related keywords -->
+      <KEYWORD1>apply</KEYWORD1>
+      <KEYWORD1>back</KEYWORD1>
+      <KEYWORD1>cases</KEYWORD1>
+      <KEYWORD1>conjunctive</KEYWORD1>
+      <KEYWORD1>disjunctive</KEYWORD1>
+      <KEYWORD1>equality</KEYWORD1>
+      <KEYWORD1>instantiate</KEYWORD1>
+      <KEYWORD1>invoke</KEYWORD1>
+      <KEYWORD1>next</KEYWORD1>
+      <KEYWORD1>prenex</KEYWORD1>
+      <KEYWORD1>prove</KEYWORD1>
+      <KEYWORD1>rearrange</KEYWORD1>
+      <KEYWORD1>reduce</KEYWORD1>
+      <KEYWORD1>rewrite</KEYWORD1>
+      <KEYWORD1>simplify</KEYWORD1>
+      <KEYWORD1>trivial</KEYWORD1>
+      <KEYWORD1>try</KEYWORD1>
+      <KEYWORD1>split</KEYWORD1>
+      <KEYWORD1>use</KEYWORD1>
+      <KEYWORD1>with</KEYWORD1>
+      <KEYWORD1>by</KEYWORD1>
+      <KEYWORD1>enabled</KEYWORD1>
+      <KEYWORD1>expression</KEYWORD1>
+      <KEYWORD1>lemma</KEYWORD1>
+      <KEYWORD1>normalization</KEYWORD1>
+      <KEYWORD1>predicate</KEYWORD1>
+      <KEYWORD1>substitute</KEYWORD1>
+      <KEYWORD1>to</KEYWORD1>
+    </KEYWORDS>
+  </RULES>
+</MODE>

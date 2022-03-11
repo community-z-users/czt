@@ -1,0 +1,1658 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.4.2" class="java.beans.XMLDecoder"> 
+ <void property="owner"> 
+  <void property="history"> 
+   <object class="net.sourceforge.czt.animation.gui.temp.BirthdayBookFullHistory"> 
+    <void property="initSchema"> 
+     <string>InitBirthdayBook</string> 
+    </void> 
+    <void property="stateSchema"> 
+     <string>BirthdayBook</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="initScript"> 
+   <string>function getScript(url) {  importClass(Packages.org.apache.bsf.util.IOUtils);  importClass(java.io.InputStreamReader);  return String(IOUtils.getStringFromReader(new InputStreamReader(url)));};function getLibraryScript(name) {  importClass(java.lang.ClassLoader);  return getScript(ClassLoader.getSystemResourceAsStream(      &quot;net/sourceforge/czt/animation/gui/scripts/&quot;+name+&quot;.js&quot;));};eval(getLibraryScript(&quot;fillBeans&quot;));eval(getLibraryScript(&quot;fillHistory&quot;));eval(getLibraryScript(&quot;clearBeans&quot;));</string> 
+  </void> 
+  <void property="initScriptLanguage"> 
+   <string>javascript</string> 
+  </void> 
+  <void property="specificationURL"> 
+   <string>file:/home/ntd1/usr/czt/zml/examples/birthdaybook_unfolded.xml</string> 
+  </void> 
+ </void> 
+ <object class="net.sourceforge.czt.animation.gui.Form"> 
+  <void method="addBean"> 
+   <object id="Script0" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>Forms.lookup(&quot;AddBirthday input&quot;).setVisible(true);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script1" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>thisForm.lookup(&quot;historyPanel . historyLabel&quot;).text=&quot;History: &quot;+History.positionLabel;
+thisForm.lookup(&quot;historyPanel . solutionLabel&quot;).text=&quot;Solutions: &quot;+(History.hasCurrentSolution()?History.currentSolutionSet.positionLabel:&quot;0/0&quot;);importClass(Packages.javax.swing.JOptionPane);if(!History.hasCurrentSolution())  JOptionPane.showMessageDialog(null, &quot;The operation you chose produced no solutions.&quot;, &quot;Operation Failed&quot;,                                 JOptionPane.WARNING_MESSAGE);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script2" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>History.nextSolution();</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="HistoryProxy0" class="net.sourceforge.czt.animation.gui.beans.HistoryProxy"/> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script3" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>Forms.lookup(&quot;FindBirthday input&quot;).setVisible(true);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script4" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>History.previousSolutionSet();</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script5" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>if(typeof(lastOutputWindow)==&quot;undefined&quot; || lastOutputWindow==null)  thisForm.lookup(&quot;Show Outputs Button&quot;).enabled=false;else  lastOutputWindow.setVisible(true);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script6" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>java.lang.System.exit(0);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script7" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>History.previousSolution();</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script8" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>Forms.lookup(&quot;Remind input&quot;).setVisible(true);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script9" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>fillBeans(thisForm);
+lastOutputWindow=Forms.lookup(History.currentSolutionSet.schemaName+&quot; output&quot;);
+thisForm.lookup(&quot;historyPanel . previousHistory&quot;).setEnabled(History.hasPreviousSolutionSet());
+thisForm.lookup(&quot;historyPanel . nextHistory&quot;).setEnabled(History.hasNextSolutionSet());
+thisForm.lookup(&quot;historyPanel . previousSolution&quot;).setEnabled(History.hasPreviousSolution());
+thisForm.lookup(&quot;historyPanel . nextSolution&quot;).setEnabled(History.hasNextSolution());
+var opsButtons=thisForm.lookup(&quot;Operation Panel&quot;).components;
+for(var i in opsButtons) if(opsButtons[i] instanceof Packages.javax.swing.JButton)
+  opsButtons[i].enabled=History.hasCurrentSolution();
+thisForm.lookup(&quot;Show Outputs Button&quot;).setEnabled(lastOutputWindow!=null);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="HistoryProxy1" class="net.sourceforge.czt.animation.gui.beans.HistoryProxy"/> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script10" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>History.nextSolutionSet();</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="size"> 
+   <object class="java.awt.Dimension"> 
+    <int>609</int> 
+    <int>517</int> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel0" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JPanel1" class="javax.swing.JPanel"> 
+      <void method="add"> 
+       <object id="JLabel0" class="javax.swing.JLabel"> 
+        <void property="text"> 
+         <string>birthday</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object id="JTextField0" class="javax.swing.JTextField"> 
+        <void property="background"> 
+         <object id="ColorUIResource0" class="javax.swing.plaf.ColorUIResource"> 
+          <int>204</int> 
+          <int>204</int> 
+          <int>204</int> 
+         </object> 
+        </void> 
+        <void property="editable"> 
+         <boolean>false</boolean> 
+        </void> 
+        <void property="name"> 
+         <string>birthday&apos;</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object id="JLabel1" class="javax.swing.JLabel"> 
+        <void property="text"> 
+         <string>known</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object id="JScrollPane0" class="javax.swing.JScrollPane"> 
+        <void property="viewport"> 
+         <void method="add"> 
+          <object class="javax.swing.JTable"> 
+           <void property="model"> 
+            <object class="net.sourceforge.czt.animation.gui.beans.table.SetModel"/> 
+           </void> 
+           <void property="name"> 
+            <string>known&apos;</string> 
+           </void> 
+          </object> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+      <void property="layout"> 
+       <object class="java.awt.GridBagLayout"> 
+        <void method="addLayoutComponent"> 
+         <object idref="JTextField0"/> 
+         <object class="java.awt.GridBagConstraints"> 
+          <int>-1</int> 
+          <int>-1</int> 
+          <int>0</int> 
+          <int>1</int> 
+          <double>1.0</double> 
+          <double>0.0</double> 
+          <int>23</int> 
+          <int>1</int> 
+          <object class="java.awt.Insets"> 
+           <int>0</int> 
+           <int>0</int> 
+           <int>0</int> 
+           <int>0</int> 
+          </object> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
+        <void method="addLayoutComponent"> 
+         <object idref="JLabel0"/> 
+         <object class="java.awt.GridBagConstraints"> 
+          <int>-1</int> 
+          <int>-1</int> 
+          <int>1</int> 
+          <int>1</int> 
+          <double>0.0</double> 
+          <double>0.0</double> 
+          <int>23</int> 
+          <int>0</int> 
+          <object class="java.awt.Insets"> 
+           <int>0</int> 
+           <int>0</int> 
+           <int>0</int> 
+           <int>0</int> 
+          </object> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
+        <void method="addLayoutComponent"> 
+         <object idref="JScrollPane0"/> 
+         <object class="java.awt.GridBagConstraints"> 
+          <int>-1</int> 
+          <int>-1</int> 
+          <int>0</int> 
+          <int>1</int> 
+          <double>1.0</double> 
+          <double>0.0</double> 
+          <int>23</int> 
+          <int>1</int> 
+          <object class="java.awt.Insets"> 
+           <int>0</int> 
+           <int>0</int> 
+           <int>0</int> 
+           <int>0</int> 
+          </object> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
+        <void method="addLayoutComponent"> 
+         <object idref="JLabel1"/> 
+         <object class="java.awt.GridBagConstraints"> 
+          <int>-1</int> 
+          <int>-1</int> 
+          <int>1</int> 
+          <int>1</int> 
+          <double>0.0</double> 
+          <double>0.0</double> 
+          <int>23</int> 
+          <int>0</int> 
+          <object class="java.awt.Insets"> 
+           <int>0</int> 
+           <int>0</int> 
+           <int>0</int> 
+           <int>0</int> 
+          </object> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JPanel2" class="javax.swing.JPanel"> 
+      <void method="add"> 
+       <object id="JPanel3" class="javax.swing.JPanel"> 
+        <void method="add"> 
+         <object id="JButton0" class="javax.swing.JButton"> 
+          <string>AddBirthday</string> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object id="JButton1" class="javax.swing.JButton"> 
+          <string>FindBirthday</string> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object id="JButton2" class="javax.swing.JButton"> 
+          <string>Remind</string> 
+         </object> 
+        </void> 
+        <void property="layout"> 
+         <void property="alignment"> 
+          <int>0</int> 
+         </void> 
+        </void> 
+        <void property="name"> 
+         <string>Operation Panel</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object id="JPanel4" class="javax.swing.JPanel"> 
+        <void method="add"> 
+         <object id="JButton3" class="javax.swing.JButton"> 
+          <string>Show Outputs</string> 
+          <void property="enabled"> 
+           <boolean>false</boolean> 
+          </void> 
+          <void property="name"> 
+           <string>Show Outputs Button</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object id="JButton4" class="javax.swing.JButton"> 
+          <string>Quit</string> 
+         </object> 
+        </void> 
+        <void property="layout"> 
+         <void property="alignment"> 
+          <int>2</int> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+      <void property="layout"> 
+       <object class="java.awt.BorderLayout"> 
+        <void method="addLayoutComponent"> 
+         <object idref="JPanel4"/> 
+         <string>East</string> 
+        </void> 
+        <void method="addLayoutComponent"> 
+         <object idref="JPanel3"/> 
+         <string>Center</string> 
+        </void> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="layout"> 
+     <object class="java.awt.BorderLayout"> 
+      <void method="addLayoutComponent"> 
+       <object idref="JPanel2"/> 
+       <string>South</string> 
+      </void> 
+      <void method="addLayoutComponent"> 
+       <object idref="JPanel1"/> 
+       <string>Center</string> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel5" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JButton5" class="javax.swing.JButton"> 
+      <string>&lt; History</string> 
+      <void property="enabled"> 
+       <boolean>false</boolean> 
+      </void> 
+      <void property="name"> 
+       <string>historyPanel . previousHistory</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object class="javax.swing.JLabel"> 
+      <void property="name"> 
+       <string>historyPanel . historyLabel</string> 
+      </void> 
+      <void property="text"> 
+       <string>History: 1/1</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JButton6" class="javax.swing.JButton"> 
+      <string>History &gt;</string> 
+      <void property="enabled"> 
+       <boolean>false</boolean> 
+      </void> 
+      <void property="name"> 
+       <string>historyPanel . nextHistory</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JButton7" class="javax.swing.JButton"> 
+      <string>&lt; Solutions</string> 
+      <void property="enabled"> 
+       <boolean>false</boolean> 
+      </void> 
+      <void property="name"> 
+       <string>historyPanel . previousSolution</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object class="javax.swing.JLabel"> 
+      <void property="name"> 
+       <string>historyPanel . solutionLabel</string> 
+      </void> 
+      <void property="text"> 
+       <string>Solutions: 1/1</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JButton8" class="javax.swing.JButton"> 
+      <string>Solutions &gt;</string> 
+      <void property="enabled"> 
+       <boolean>false</boolean> 
+      </void> 
+      <void property="name"> 
+       <string>historyPanel . nextSolution</string> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="layout"> 
+   <object class="java.awt.BorderLayout"> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel5"/> 
+     <string>South</string> 
+    </void> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel0"/> 
+     <string>Center</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="name"> 
+   <string>BirthdayBook</string> 
+  </void> 
+  <void property="startsVisible"> 
+   <boolean>true</boolean> 
+  </void> 
+  <void property="title"> 
+   <string>BirthdayBook</string> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script4"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script10"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script7"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script2"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="HistoryProxy1"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>81</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script1"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script0"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script3"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script8"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script5"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script6"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="HistoryProxy0"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>81</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script9"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton5"/> 
+    <object idref="Script4"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton6"/> 
+    <object idref="Script10"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton7"/> 
+    <object idref="Script7"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton8"/> 
+    <object idref="Script2"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="HistoryProxy1"/> 
+    <object idref="Script1"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton0"/> 
+    <object idref="Script0"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton1"/> 
+    <object idref="Script3"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton2"/> 
+    <object idref="Script8"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton3"/> 
+    <object idref="Script5"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton4"/> 
+    <object idref="Script6"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="HistoryProxy0"/> 
+    <object idref="Script9"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="net.sourceforge.czt.animation.gui.Form"> 
+  <void method="addBean"> 
+   <object id="Script11" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>clearBeans(thisForm);thisForm.setVisible(false);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script12" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>fillHistory(thisForm);
+History.activateSchema(&quot;AddBirthday&quot;);
+clearBeans(thisForm);
+thisForm.setVisible(false);
+var outputWindow=Forms.lookup(&quot;AddBirthday output&quot;);
+if(outputWindow!=null)
+  outputWindow.setVisible(true);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="size"> 
+   <object class="java.awt.Dimension"> 
+    <int>153</int> 
+    <int>98</int> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel6" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JLabel2" class="javax.swing.JLabel"> 
+      <void property="text"> 
+       <string>date?</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JTextField1" class="javax.swing.JTextField"> 
+      <void property="name"> 
+       <string>date?</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JLabel3" class="javax.swing.JLabel"> 
+      <void property="text"> 
+       <string>name?</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JTextField2" class="javax.swing.JTextField"> 
+      <void property="name"> 
+       <string>name?</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="layout"> 
+     <object class="java.awt.GridBagLayout"> 
+      <void method="addLayoutComponent"> 
+       <object idref="JTextField2"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>0</int> 
+        <int>1</int> 
+        <double>1.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>1</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+      <void method="addLayoutComponent"> 
+       <object idref="JLabel2"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>1</int> 
+        <int>1</int> 
+        <double>0.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>0</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+      <void method="addLayoutComponent"> 
+       <object idref="JLabel3"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>1</int> 
+        <int>1</int> 
+        <double>0.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>0</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+      <void method="addLayoutComponent"> 
+       <object idref="JTextField1"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>0</int> 
+        <int>1</int> 
+        <double>1.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>1</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel7" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JButton9" class="javax.swing.JButton"> 
+      <string>OK</string> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JButton10" class="javax.swing.JButton"> 
+      <string>Cancel</string> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="layout"> 
+   <object class="java.awt.BorderLayout"> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel7"/> 
+     <string>South</string> 
+    </void> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel6"/> 
+     <string>Center</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="name"> 
+   <string>AddBirthday input</string> 
+  </void> 
+  <void property="title"> 
+   <string>AddBirthday input</string> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script12"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script11"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton9"/> 
+    <object idref="Script12"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton10"/> 
+    <object idref="Script11"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="net.sourceforge.czt.animation.gui.Form"> 
+  <void method="addBean"> 
+   <object id="Script13" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>clearBeans(thisForm);thisForm.setVisible(false);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script14" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>fillHistory(thisForm);
+History.activateSchema(&quot;FindBirthday&quot;);
+clearBeans(thisForm);
+thisForm.setVisible(false);
+var outputWindow=Forms.lookup(&quot;FindBirthday output&quot;);
+if(outputWindow!=null)
+  outputWindow.setVisible(true);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="size"> 
+   <object class="java.awt.Dimension"> 
+    <int>153</int> 
+    <int>79</int> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel8" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JLabel4" class="javax.swing.JLabel"> 
+      <void property="text"> 
+       <string>name?</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JTextField3" class="javax.swing.JTextField"> 
+      <void property="name"> 
+       <string>name?</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="layout"> 
+     <object class="java.awt.GridBagLayout"> 
+      <void method="addLayoutComponent"> 
+       <object idref="JTextField3"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>0</int> 
+        <int>1</int> 
+        <double>1.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>1</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+      <void method="addLayoutComponent"> 
+       <object idref="JLabel4"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>1</int> 
+        <int>1</int> 
+        <double>0.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>0</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel9" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JButton11" class="javax.swing.JButton"> 
+      <string>OK</string> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JButton12" class="javax.swing.JButton"> 
+      <string>Cancel</string> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="layout"> 
+   <object class="java.awt.BorderLayout"> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel9"/> 
+     <string>South</string> 
+    </void> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel8"/> 
+     <string>Center</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="name"> 
+   <string>FindBirthday input</string> 
+  </void> 
+  <void property="title"> 
+   <string>FindBirthday input</string> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script14"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script13"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton11"/> 
+    <object idref="Script14"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton12"/> 
+    <object idref="Script13"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="net.sourceforge.czt.animation.gui.Form"> 
+  <void method="addBean"> 
+   <object id="Script15" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>fillBeans(thisForm)</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="HistoryProxy2" class="net.sourceforge.czt.animation.gui.beans.HistoryProxy"/> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script16" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>thisForm.setVisible(false);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="size"> 
+   <object class="java.awt.Dimension"> 
+    <int>89</int> 
+    <int>79</int> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel10" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JLabel5" class="javax.swing.JLabel"> 
+      <void property="text"> 
+       <string>date!</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JTextField4" class="javax.swing.JTextField"> 
+      <void property="background"> 
+       <object idref="ColorUIResource0"/> 
+      </void> 
+      <void property="editable"> 
+       <boolean>false</boolean> 
+      </void> 
+      <void property="name"> 
+       <string>date!</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="layout"> 
+     <object class="java.awt.GridBagLayout"> 
+      <void method="addLayoutComponent"> 
+       <object idref="JTextField4"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>0</int> 
+        <int>1</int> 
+        <double>1.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>1</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+      <void method="addLayoutComponent"> 
+       <object idref="JLabel5"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>1</int> 
+        <int>1</int> 
+        <double>0.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>0</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel11" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JButton13" class="javax.swing.JButton"> 
+      <string>Close</string> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="layout"> 
+   <object class="java.awt.BorderLayout"> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel11"/> 
+     <string>South</string> 
+    </void> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel10"/> 
+     <string>Center</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="name"> 
+   <string>FindBirthday output</string> 
+  </void> 
+  <void property="title"> 
+   <string>FindBirthday output</string> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script16"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="HistoryProxy2"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>81</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script15"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton13"/> 
+    <object idref="Script16"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="HistoryProxy2"/> 
+    <object idref="Script15"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="net.sourceforge.czt.animation.gui.Form"> 
+  <void method="addBean"> 
+   <object id="Script17" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>clearBeans(thisForm);thisForm.setVisible(false);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script18" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>fillHistory(thisForm);
+History.activateSchema(&quot;Remind&quot;);
+clearBeans(thisForm);
+thisForm.setVisible(false);
+var outputWindow=Forms.lookup(&quot;Remind output&quot;);
+if(outputWindow!=null)
+  outputWindow.setVisible(true);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="size"> 
+   <object class="java.awt.Dimension"> 
+    <int>153</int> 
+    <int>79</int> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel12" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JLabel6" class="javax.swing.JLabel"> 
+      <void property="text"> 
+       <string>today?</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JTextField5" class="javax.swing.JTextField"> 
+      <void property="name"> 
+       <string>today?</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="layout"> 
+     <object class="java.awt.GridBagLayout"> 
+      <void method="addLayoutComponent"> 
+       <object idref="JLabel6"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>1</int> 
+        <int>1</int> 
+        <double>0.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>0</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+      <void method="addLayoutComponent"> 
+       <object idref="JTextField5"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>0</int> 
+        <int>1</int> 
+        <double>1.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>1</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel13" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JButton14" class="javax.swing.JButton"> 
+      <string>OK</string> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JButton15" class="javax.swing.JButton"> 
+      <string>Cancel</string> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="layout"> 
+   <object class="java.awt.BorderLayout"> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel13"/> 
+     <string>South</string> 
+    </void> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel12"/> 
+     <string>Center</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="name"> 
+   <string>Remind input</string> 
+  </void> 
+  <void property="title"> 
+   <string>Remind input</string> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script18"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script17"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton14"/> 
+    <object idref="Script18"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton15"/> 
+    <object idref="Script17"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="net.sourceforge.czt.animation.gui.Form"> 
+  <void method="addBean"> 
+   <object id="HistoryProxy3" class="net.sourceforge.czt.animation.gui.beans.HistoryProxy"/> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script19" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>thisForm.setVisible(false);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script20" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>fillBeans(thisForm)</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="size"> 
+   <object class="java.awt.Dimension"> 
+    <int>500</int> 
+    <int>463</int> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel14" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JLabel7" class="javax.swing.JLabel"> 
+      <void property="text"> 
+       <string>cards!</string> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object id="JScrollPane1" class="javax.swing.JScrollPane"> 
+      <void property="viewport"> 
+       <void method="add"> 
+        <object class="javax.swing.JTable"> 
+         <void property="model"> 
+          <object class="net.sourceforge.czt.animation.gui.beans.table.SetModel"/> 
+         </void> 
+         <void property="name"> 
+          <string>cards!</string> 
+         </void> 
+        </object> 
+       </void> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="layout"> 
+     <object class="java.awt.GridBagLayout"> 
+      <void method="addLayoutComponent"> 
+       <object idref="JLabel7"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>1</int> 
+        <int>1</int> 
+        <double>0.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>0</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+      <void method="addLayoutComponent"> 
+       <object idref="JScrollPane1"/> 
+       <object class="java.awt.GridBagConstraints"> 
+        <int>-1</int> 
+        <int>-1</int> 
+        <int>0</int> 
+        <int>1</int> 
+        <double>1.0</double> 
+        <double>0.0</double> 
+        <int>23</int> 
+        <int>1</int> 
+        <object class="java.awt.Insets"> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+         <int>0</int> 
+        </object> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="JPanel15" class="javax.swing.JPanel"> 
+    <void method="add"> 
+     <object id="JButton16" class="javax.swing.JButton"> 
+      <string>Close</string> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="layout"> 
+   <object class="java.awt.BorderLayout"> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel15"/> 
+     <string>South</string> 
+    </void> 
+    <void method="addLayoutComponent"> 
+     <object idref="JPanel14"/> 
+     <string>Center</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="name"> 
+   <string>Remind output</string> 
+  </void> 
+  <void property="title"> 
+   <string>Remind output</string> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script19"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="HistoryProxy3"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>81</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script20"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>0</int> 
+      <int>0</int> 
+      <int>37</int> 
+      <int>17</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton16"/> 
+    <object idref="Script19"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="HistoryProxy3"/> 
+    <object idref="Script20"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+ </object> 
+</java> 

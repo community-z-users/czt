@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION TypeMismatchInSetExpr\_SetExpr\_1
+\end{zsection}
+
+\begin{zed}
+  x == \{1, \{1\}\}
+\end{zed}

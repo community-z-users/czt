@@ -1,0 +1,20 @@
+\begin{zsection}
+   \SECTION sorryTest \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{Sr}
+   x: \nat \\
+   f: \nat \fun \nat
+\where
+   f~x > x
+\end{schema}
+
+\begin{zproof}[Sr\$domainCheck]
+   prove by reduce;
+   sorry;
+\end{zproof}
+
+\begin{zproof}[Sr\$domainCheck]
+   prove by reduce;
+   oops;
+\end{zproof}

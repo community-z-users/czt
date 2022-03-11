@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSchExprInSchExpr2\_CompExpr\_Left
+\end{zsection}
+
+\begin{zed}
+  error == 1 \semi [x : \nat]
+\end{zed}

@@ -1,0 +1,104 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION axioms \parents set\_toolkit
+\end{zsection}
+
+table consistency is now strict: won't allow colluded bindings, unless user handles it.
+\begin{schema}{S}
+   x: \nat %\{ 1, 3, 5, 7, 9 \}
+\where
+   true
+\end{schema}
+
+Coliding names in AxDef (from schema inclusion S) is not handled yet in DefTbl
+\begin{axdef}
+   C == \nat \cross \nat \\
+   D: \power(\nat \cross \nat) \\
+   S \\
+   x: \nat
+\where
+   (x,x) \in C \\
+   (x,x) \in D \\
+   D = C
+\end{axdef}
+Wierd axiomatic boxed abbreviation is okay.
+
+Duplication can occur in axdef, although it is again rather odd a construct.
+In this case, variable $z$ appears twice with different, yet unifiable, types(!).
+Should we have unification checks? No? Assume the spec is well-formed and raise error.
+\begin{axdef}
+   a, y: \nat \\
+   z: \power~\nat; w: \nat \cross \nat \\
+   z == \{ 0 \}
+   %z: \{0\}
+\where
+   a \in z
+\end{axdef}
+
+\begin{gendef}[X]
+   E == X \cross X \\
+   e: X
+\where
+   (e,e) \in E
+\end{gendef}
+
+For schemas this is different.
+\begin{schema}{T}
+   S \\
+   x: \nat
+ \where
+    x = (\IF x = 0 \THEN x \ELSE x+1)
+\end{schema}
+
+\begin{zed}
+   R == \forall S @ T
+   %
+   % Ignore unusual defs of complex schema calculus
+   %\\
+   %Oh == \IF true \THEN S \ELSE \lnot S
+   \\
+   Doh == \IF true \THEN \{0\} \ELSE \{1\}
+\end{zed}
+
+\begin{schema}{Odd}
+   P == \nat \cross \nat \\
+   Q == [ a,b : \nat ] \\
+   S[k/x] \\
+   t: \nat
+\where 
+   true
+\end{schema}
+
+%POWER [
+%  P : POWER (GIVEN A x GIVEN A); 
+%  Q : POWER [a : GIVEN A; b: GIVEN A]; 
+%  x : GIVEN A; 
+%  t : GIVEN A] !!
+
+
+\begin{axdef}
+   test1: Doh \\
+   test2: Odd \\
+   \Delta Odd % hahaha! twice as odd!
+\where
+   % Doh is a normal (non-schema) Expr
+   test1 = 0 
+   \\
+   % a schema as type is a power set of its signature
+   test2 \in Odd \land \{ test2 \} \subseteq Odd
+   \\
+   % a ConstDecl within a schema has power type (!) e.g., Q is a set of schemas!!!
+   \forall q: Q @ q.a = q.b \land (q.a, k) \in P   
+\end{axdef}
+
+\begin{schema}{Usual}
+   \Delta S \\
+   i?, o!: \nat
+\where
+    true
+\end{schema}
+
+\end{document}

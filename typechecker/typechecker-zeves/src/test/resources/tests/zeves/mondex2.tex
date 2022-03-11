@@ -1,0 +1,22 @@
+
+
+\begin{zed}
+   S \defs [ x: \nat ]
+\\
+   T \defs [ y: \nat ]
+\\
+   R \defs [ z: \nat ]
+\\
+  % example of schema calculus (parenthesised) expression
+   SE \defs S \lor (\exists \Delta R @ T[z/y] \land [ a, a': \nat | a = z \land a' = z' ])
+\end{zed}
+
+example of "complex" bind expression
+
+\begin{theorem}{test1}
+  \forall S; T @ \{(x, \theta T)\} \in \power~(\nat \cross \lblot y: \nat \rblot)
+\end{theorem}
+
+\begin{theorem}{test2}
+  \forall S; T @ \{(x, \theta T)\} \cup \{ (y, \theta S[y/x]) \} \in \power~(\nat \cross \lblot y: \nat \rblot)
+\end{theorem}

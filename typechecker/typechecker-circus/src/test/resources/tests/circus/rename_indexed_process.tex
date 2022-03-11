@@ -1,0 +1,20 @@
+\begin{zsection}
+  \SECTION\ rename\_indexed\_process \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{zed}
+   [NAME]
+\end{zed}
+
+\begin{circus}
+     \circchannel\ c: \nat \\
+     \circchannel\ cnew: NAME \cross \nat
+\end{circus}
+
+TODO: FIXME - uncomment the renaming below!
+\begin{circus}
+   \circprocess P \circdef \circbegin \circspot c?x \then \Skip \circend \\
+   \circprocess IdxP \circdef (i : NAME \circindex P) \\ %\lcircrename c := cnew \rcircrename \\
+   \circprocess Purses \circdef \Interleave i: NAME \circspot (IdxP \lcircindex i \rcircindex)
+\end{circus}
+

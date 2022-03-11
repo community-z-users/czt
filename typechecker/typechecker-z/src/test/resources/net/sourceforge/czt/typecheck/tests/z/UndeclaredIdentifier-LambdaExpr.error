@@ -1,0 +1,10 @@
+\begin{zsection}
+  \SECTION UndeclaredIdentifier\_LambdaExpr
+\end{zsection}
+
+\begin{axdef}
+  y : \nat \cross \nat
+\where
+  y \in (\lambda x : \nat @ x)\\
+  (x,x) =  y
+\end{axdef}

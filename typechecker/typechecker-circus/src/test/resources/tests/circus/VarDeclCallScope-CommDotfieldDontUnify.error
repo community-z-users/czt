@@ -1,0 +1,19 @@
+\begin{zsection}
+  \SECTION VarDeclCallScope \parents circus\_toolkit
+\end{zsection}
+
+Different actions within a basic process declaring same variables are not allowed.
+That is, in action $A$ we declare a variable $A$, which overrides the scope for variable
+name, but then we can no longer use $A$ for an action call in this context. However, 
+outside the $\circvar$ scope, $A$ can be called in the main action. The same applies
+for parameterised actions.
+%
+\begin{circus}
+   \circchannel\ c: \nat \cross \nat \\
+   \circprocess\ P \circdef\ \circbegin \\
+        \t1 \circstate S == [~ x: \nat ~] \\
+        \t1 A \circdef\ \circvar\ A: \nat \circspot c!A \then A \\
+        \t1 B \circdef\ x: \nat \circspot \circvar\ B: \nat \circspot c!B \then B(B) \\
+	\t1 \circspot A \\
+  \circend
+\end{circus}

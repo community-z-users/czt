@@ -1,0 +1,2046 @@
+\documentclass{article}
+
+\usepackage{multicol}    % needed for Appendix reference card
+%\usepackage{circus} % this document describes czt.sty
+\usepackage[colour,cntbysection]{circus} % to test lucida bright
+
+%%%%%%%%%% FOR HERE ONLY %%%%%%%%%%%
+
+% Circus toolkit files - extra
+%\usepackage{xspace}
+\newcommand{\emfile}[1]{\texttt{#1}}%\xspace}} % adds trailing space if needed
+\newcommand{\circuspreludefile}{\emfile{circu\_prelude.tex}}
+\newcommand{\circustkfile}{\emfile{circus\_toolkit.tex}}
+
+\makeatletter
+% Code from Mike Spivey's zed2e.tex for demonstrating \LaTeX{} markup
+\def\demo{\par\vbox\bgroup\begingroup\quote}
+\def\gives{\endquote\endgroup\egroup}
+\def\enddemo{\global\@ignoretrue}
+
+% Code from Paul King's ozguide.tex for generating Appendix reference card
+\newbox\zstrutbox   \setbox\zstrutbox=\copy\strutbox
+\def\zstrut{\relax\ifmmode\copy\zstrutbox\else\unhcopy\zstrutbox\fi}
+\def\symbol#1{#1 & \tt\string#1}
+\def\symbols{\@ifnextchar[{\@symbols}{\@symbols[0]}}
+\def\@symbols[#1]{\interzedlinepenalty=\interdisplaylinepenalty\@@zed
+        \openup #1\@jot
+        \halign\bgroup\zstrut\hbox to 3.8em{$##$\hss}\tabskip=0pt&##\hss\cr
+        \noalign{\vskip-#1\@jot}}% equal vspace above and below argue display
+\let\endsymbols=\endzed
+\makeatother
+
+% list dependencies in log file
+\listfiles
+
+\begin{document}
+
+\title{\Circus-\LaTeX{} style explained\\ Community Z Tools (CZT)}
+\author{Leo Freitas \\ \texttt{leo@cs.york.ac.uk} \\ \\ Department of Computer Science \\ University of York, YO10 5DD \\ York, United Kingdom \\ }
+\date{October 2008}
+\maketitle
+
+\tableofcontents
+\listoftables
+
+%\section{Introduction}\label{sec:intro}
+%
+%In this document, we present a guide to the \textit{Community Z Tools} (CZT)~\cite{czt}
+%style file (\cztstylefile). It is used to typeset ISO Standard Z notation~\cite{isoz} that is
+%machine readable by CZT tools.
+%
+%The guide present all the Standard Z characters, as provided in
+%the \textit{Community Z Tools} (CZT)~\cite{czt} \emfile{zchar.xml} file (from
+%the \texttt{corejava} project within the SVN distribution). It implements the Unicode
+%rendering and lexis as given in~\cite[Ch.~6--7]{isoz}. In what follows, each
+%section corresponds to the XML groups within this XML file. Before we start, let us
+%introduce some context and design decisions within the CZT Standard Z style file (\cztstylefile).
+%
+%The structure presented in this guide follows the structure presented in Standard Z for
+%lexing, markup directives processor, and parsing. More details about all these symbols
+%and their \LaTeX{} rendering can be found in~\cite[Appendix~A]{isoz}. For easy of
+%reference, we mention at each table caption which part of that appendix symbols are related to.
+%We summarise them all in the end of this document.
+%Furthermore, some characters listed come from the mathematical toolkits, as defined
+%in~\cite[Appendix~B]{isoz}. We add reference to them and the toolkit files
+%within CZT where they come from. Mathematical toolkit files for Standard Z can
+%be found within the CZT distribution under the \texttt{parser} project~\cite{czt} in
+%its \texttt{lib} directory.
+%
+%Also, CZT lexing/parsing strategy is so that all markup formats are translated
+%to a Unicode stream, which is then lexed/parsed according to the Standard Z
+%concrete syntax grammar~\cite[Ch.~8]{isoz}. This way, we only need to have one parser and various
+%markup translators, which reduces the work considerably. Unicode is chosen as
+%a target (among other reasons) because it is an international ISO Standard for lexing. Now, that
+%decision implies in some differences in rendering, as one would expect. For
+%instance, subscripting, which in \LaTeX{} is done with ``\verb|\_|'', is represented
+%in Unicode with so called \textit{word glues}.
+%
+%Similarly, whitespace and hard space are also treated differently:~in \LaTeX{}
+%hard spaces are typeset as ``\verb|~|'', whereas in Unicode they are just normal spaces. Thus,
+%as this document is only concerned with \LaTeX{} markup, word glues and Unicode
+%considerations will not be discussed. On the other hand, \LaTeX{} specific issues,
+%such as hard spaces, will be explained.
+%
+%\subsection{Design decisions}\label{sec:intro-design}
+%
+%The main design decision behind this document follows CZT guideline that
+%``what you type is what you model''. That is, the document ``as-is'' becomes
+%the source Standard Z (\LaTeX) specification to be processed by tools. Other
+%design decisions included:~i)~keep the style file as minimal, simple, and
+%consistent as possible;~ii)~document and acknowledge macro definition choices
+%and their origin (when different);~iii)~normalise definitions for
+%consistency;~iv)~complete missing cases with either normative rules from
+%the Standard or using common sense;~v)~keep the style file well documented,
+%but not verbose;~and vi)~follow order of definitions from Z Standard document.
+%
+%As the \cztstylefile may be used by both language extensions and \LaTeX{} users,
+%we also provided and explained a series of useful macros for \LaTeX{} rendering
+%that bare no relation with the Standard or the tools. They are useful for \LaTeX{}
+%typesetting only, and are explained in Section~\ref{sec:intro-cztopt}, and
+%Section~\ref{sec:cztsty}.
+%
+%\subsection{\cztstylefile{} package options and few useful commands}\label{sec:intro-cztopt}
+%
+%The \cztstylefile has few options, which are described below:
+%%
+%\begin{enumerate}
+%   \item \texttt{mathit}:~Latin letters in italic shape when in math mode;
+%   \item \texttt{mathrm}:~Latin letters in roman shape when in math mode;
+%   \item \texttt{lucida}:~use Lucida Bright fonts (\textit{e.g.,}~\texttt{lucidabr.sty});
+%   \item \texttt{tkkeyword}:~make some toolkit names render as keywords;
+%   \item \texttt{color}:~typeset Z-\LaTeX{} using colours;
+%   \item \texttt{colour}:~synonym for \texttt{color}
+%\end{enumerate}
+%%
+%The default option for when the \cztstylefile is loaded is \texttt{mathit}.
+%To change it to have \texttt{colour}ful \texttt{lucida} fonts, you can load it with
+%%
+%\begin{verbatim}
+%\usepackage[colour,lucida]{czt}
+%\end{verbatim}
+%%
+%AMS fonts are used when Lucida Bright is not loaded.
+%
+%A few style parameters affect the way Z text is set out; they can be
+%changed at any time if your taste doesn't match mine.
+%
+%Other useful macros might be used in order to change the various
+%space adjustment registers. They are detailed below, and were
+%inherited from Mike Spivey's \texttt{zed.sty}.
+%%
+%\begin{description}
+%\item[\tt\string\zedindent] The indentation for mathematical text.
+%        By default, this is the same as \verb|\leftmargini|, the
+%        indentation used for list environments.
+%\item[\tt\string\zedleftsep] The space between the vertical line on the left
+%        of schemas, etc., and the maths inside. The default is 1em.
+%\item[\tt\string\zedtab] The unit of indentation used by \verb|\t|.
+%        The default is 2em.
+%\item[\tt\string\zedbar] The length of the horizontal bar in the middle
+%        of a schema. The default is 6em.
+%\item[\tt\string\zedskip] The vertical space inserted by \verb|\also|.
+%        By default, this is the same as that inserted by approximately
+%        \verb|0.5\baselineskip|.
+%\end{description}
+%%
+%Finally, two other macros that might be frequently used are those
+%for marking commands as either Z-words ($\zword{text}$, \verb|$\zword{text}$|)
+%or Z-keywords ($\zkeyword{text}$, \verb|$\zkeyword{text}$|). They are useful
+%in rendering user defined \LaTeX{} commands, usually present in Z-\LaTeX{}
+%markup directives, as shown in many examples below. We also offer another
+%\verb|\ztoolkit| command, which renders toolkit names, such as $\dom$ or $\ran$,
+%wither as \verb|\zkeyword| or \verb|\zword| depending on the option passed.
+%
+%\subsection{Background}\label{sec:intro-background}
+%
+%This document depends on the style file containing all the definitions for Standard Z
+%(\emfile{czt.sty}). It is inspired in the work of many others (see Section~\ref{sec:conclusions}.
+%By design, the resulting \emfile{czt.sty} is to be minimal, yet encompassing of the
+%whole normative \LaTeX{} markup from the Z Standard.
+%
+%Although all other style files available worked well with various Z tools,
+%they included a considerable amount of code that seemed unrelated to the Standard itself. For instance,
+%presumably for backward compatibility, there were many characters for \textit{Fuzz},
+%Mike Spivey's Z typechecker at Oxford University~\cite{zrm}. Another example are formatting for
+%special formulas within \verb|\mathinner| mathematical operator class (see~\cite[8.9]{latexcomp}).
+%
+%That meant these style files sometimes created conflicts when used with other (newer) \LaTeX{} packages.
+%For instance, because \textit{Fuzz} uses rather old \LaTeX{} $2.09$ (\textit{e.g.,}~\LaTeX{} symbols
+%font \texttt{lasy}), some conflicts arise when using \emfile{zed.sty} (Jim Davies' style file
+%used in~\cite{usingz}) and AMS fonts. We hope that, with time, any particular backward compatibility
+%issue get solved with a separate (extension) of the base \cztstylefile{} file.
+%
+%These additions may be useful for some specific Z tools or editors, or indeed for
+%beautification of the \LaTeX{} document itself. Nevertheless, they cannot be parsed
+%by the Standard Z lexis, hence would produce errors if processed by CZT tools. As
+%\LaTeX{} documents are meant to be machine-readable, such extensions seem outside
+%the scope of CZT's aim. Again, if required, they can be incorporated by the specific
+%users of the feature whom does not observe this machine-readability restriction.
+%
+%\subsection{Document structure}\label{sec:intro-struct}
+%
+%We organise this document following the specific parts within the Z Standard it is related to.
+%We divided sections according to the Z lexis and mathematical toolkits, with a few extra
+%sections for varied material.
+%
+%We tried to present, as exhaustively as possible, the use of every one
+%of such commands with \LaTeX{} markup typeset in verbatim mode for
+%clarity and reference. We summarise them all in Appendix~\ref{app:ref-card}.
+%More details can be found at the \texttt{czt.dvi} file generated with
+%the \texttt{docstrip} utility on the \texttt{czt.dtx} document from
+%the CZT distribution.
+%
+%\section{Digit}\label{sec:digit}
+%
+%Loaded automatically by \LaTeX{} ($0$--$9$) in whichever font selected, hence
+%no extra work is needed here.
+%
+%\section{Letters}\label{sec:letters}
+%
+%The Z Standard enables users to instruct the parser to recognise new \LaTeX{}
+%commands as part of the Z lexis via the use of markup directives~\cite[A.2.3]{isoz},
+%They are typeset as special \LaTeX{} comments \verb|%%Zxxxchar| or \verb|%%Zxxxword|,
+%where ``\verb|xxx|'' can be either:~\verb|pre| for prefix names;~\verb|pos| for
+%posfix names;~\verb|in| for infix names;~and empty for nofix names. Their syntax
+%(accepted by the parser) expects two arguments:~the first is the \LaTeX{} command
+%it represents, whereas the second determines how this command is to be rendered in Unicode.
+%Thus, in order to add mathematical symbols as markup directives, one needs to know its
+%corresponding Unicode character (number), which can be found in the Unicode chars~\cite{unicode}.
+%
+%From \preludefile, the Standard Z file containing \LaTeX{} markup directives for
+%Z keywords and basic declarations, all markup directives given as \verb|%%Zprechar|
+%or \verb|%%Zposchar| have special spacing as a pre/posfix operator, which in \cztstylefile
+%is typeset with the \verb|\zpreop| and \verb|\zpostop| macros, respectively.
+%Also, all \verb|%%Zinchar| have special spacing as an infix operator, which can be
+%spaced as either a binary relation with the \verb|\zbinop| macro, or as a relational predicate
+%operator with the \verb|\zrelop| macro. Other \verb|%%Zchar| directives (\textit{e.g.,}~$\Delta$, $\Xi$)
+%do not require special spacing---in the Standard hard spacing is treated differently for them
+%(see~\cite[A.6.28.2]{isoz}). The \verb|%%Zxxxword| markup directives are treated similarly.
+%
+%\subsection{Latin}\label{sec:letters-latin}
+%
+%Usual letters (\texttt{A}--\texttt{Z}, \texttt{a}--\texttt{z}) are
+%loaded automatically by \LaTeX{} in whichever font selected.
+%Moreover, in mathematical mode, Latin letters are rendered with either
+%italics or roman shape. This depends on the package option selected
+%(see Section~\ref{sec:intro-cztopt}), where italic shape is the default.
+%
+%\subsection{Greek}\label{sec:letters-greek}
+%
+%The Greek letters used in Z are given in Table~\ref{tbl:letters-greek}.
+%The last two columns show how characters are rendered with the given
+%\LaTeX{} markup on its side. The last row contains a name convention for
+%framing schemas used in Z promotion~\cite[Ch.~13]{usingz} and have no semantic meaning.
+%The spacing for $\lambda$ and $\mu$ changed, as they are prefix keywords in Z
+%for function abstraction and definite description, respectively.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Capital Delta & schema inclusion         & $\Delta$  & \verb|\Delta| \\
+%   \hline
+%   Capital Xi    & schema inclusion         & $\Xi$     & \verb|\Xi| \\
+%   \hline
+%   Small theta   & schema bindings          & $\theta$  & \verb|\theta| \\
+%   \hline
+%   Small lambda  & function abstraction     & $\lambda$ & \verb|\lambda| \\
+%   \hline
+%   Small mu      & definite description     & $\mu$ & \verb|\mu| \\
+%   \hline
+%   Capital Phi   & schema promotion         & $\Phi$    & \verb|\Phi| \\
+%   \hline
+%\end{tabular}
+%\caption{Greek letters used in Z \smallcaption{A.2.4.1}}\label{tbl:letters-greek}
+%\end{table}
+%
+%
+%
+%
+%The \preludefile define a few other letters as markup directives~\cite[A.2.3]{isoz},
+%hence can also be used as variable names that are recognised by the parser,
+%as given in Table~\ref{tbl:letters-greek-small}.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Small alpha   & ordinary name & $\alpha$    & \verb|\alpha| \\
+%   \hline
+%   Small beta    & ordinary name & $\beta$     & \verb|\beta| \\
+%   \hline
+%   Small gamma   & ordinary name  & $\gamma$   & \verb|\gamma| \\
+%   \hline
+%   Small delta   & ordinary name  & $\delta$   & \verb|\delta| \\
+%   \hline
+%   Small epsilon & ordinary name & $\epsilon$  & \verb|\epsilon| \\
+%   \hline
+%   Small zeta    & ordinary name & $\zeta$      & \verb|\zeta| \\
+%   \hline
+%   Small eta     & ordinary name & $\eta$      & \verb|\eta| \\
+%   \hline
+%   Small iota    & ordinary name & $\iota$      & \verb|\iota| \\
+%   \hline
+%   Small kappa   & ordinary name & $\kappa$      & \verb|\kappa| \\
+%   \hline
+%   Small nu      & ordinary name & $\nu$      & \verb|\nu| \\
+%   \hline
+%   Small xi      & ordinary name & $\xi$      & \verb|\xi| \\
+%   \hline
+%   Small pi      & ordinary name & $\pi$      & \verb|\pi| \\
+%   \hline
+%   Small rho     & ordinary name & $\rho$      & \verb|\rho| \\
+%   \hline
+%   Small sigma   & ordinary name & $\sigma$      & \verb|\sigma| \\
+%   \hline
+%   Small tau     & ordinary name & $\tau$      & \verb|\tau| \\
+%   \hline
+%   Small upsilon & ordinary name & $\upsilon$      & \verb|\upsilon| \\
+%   \hline
+%   Small phi     & ordinary name & $\phi$      & \verb|\phi| \\
+%   \hline
+%   Small chi     & ordinary name & $\chi$      & \verb|\chi| \\
+%   \hline
+%   Small psi     & ordinary name & $\psi$      & \verb|\psi| \\
+%   \hline
+%   Small omega   & ordinary name & $\omega$      & \verb|\omega| \\
+%   \hline
+%\end{tabular}
+%\caption{Small Greek letters \smallcaption{B.2, \preludefile}}\label{tbl:letters-greek-small}
+%\end{table}
+%%
+%Similarly, few capital Greek letters are defined and given in Table~\ref{tbl:letters-greek-capital}.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Capital Gamma    & ordinary name & $\Gamma$   & \verb|\Gamma| \\
+%   \hline
+%   Capital Theta    & ordinary name & $\Theta$   & \verb|\Theta| \\
+%   \hline
+%   Capital Lambda   & ordinary name & $\Lambda$  & \verb|\Lambda| \\
+%   \hline
+%   Capital Pi       & ordinary name & $\Pi$      & \verb|\Pi| \\
+%   \hline
+%   Capital Sigma    & ordinary name & $\Sigma$   & \verb|\Sigma| \\
+%   \hline
+%   Capital Upsilon  & ordinary name & $\Upsilon$ & \verb|\Upsilon| \\
+%   \hline
+%   Capital Phi      & ordinary name & $\Phi$     & \verb|\Phi| \\
+%   \hline
+%   Capital Psi      & ordinary name & $\Psi$     & \verb|\Psi| \\
+%   \hline
+%   Capital Omega    & ordinary name & $\Omega$   & \verb|\Omega| \\
+%   \hline
+%\end{tabular}
+%\caption{Capital Greek letters \smallcaption{B.2, \preludefile}}\label{tbl:letters-greek-capital}
+%\end{table}
+%
+%\subsection{Other letter}\label{sec:letters-other}
+%
+%The other letters used in Z are given in Table~\ref{tbl:letters-other}.
+%Note \LaTeX{} subscripting markup has no word glues (see Section~\ref{sec:special-wordglue}).
+%Also, as $\power$ is defined with the \verb|%%Zprechar| markup directive, it is rendered
+%with appropriate spacing as a prefix keyword. The same applies for finite subsets
+%($\finset$) and their non-empty ($1$-subscripted) versions (\textit{e.g.,}~$\power_1$, $\finset_1$).
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Blackboard bold A & base numbers      & $\arithmos$    & \verb|\arithmos| \\
+%   \hline
+%   Blackboard bold N & naturals          & $\nat$         & \verb|\nat| \\
+%   \hline
+%   Blackboard bold P & power set         & $\power\varg$  & \verb|\power| \\
+%   \hline
+%   Blackboard bold F & finite power set  & $\finset\varg$ & \verb|\finset| \\
+%   \hline
+%\end{tabular}
+%\caption{Other letters \smallcaption{A.2.4.2, B.3.6, \preludefile, \settkfile}}\label{tbl:letters-other}
+%\end{table}
+%%
+%In \numtkfile (see Section~\ref{sec:symbol-toolkit-number}) and
+%\settkfile (see Section~\ref{sec:symbol-toolkit-set}) a few other
+%markup directives also require special \LaTeX{} markup
+%as letters, and is given in Table~\ref{tbl:letters-other-extra}.
+%We also add extra ones for rational and real numbers, as well as boolean values.
+%As they are not part of any toolkit, they are not recognised by the parser.
+%Nevertheless, to amend that one just needs to add the following markup directives
+%with their corresponding Unicode character hex-numbers.
+%%
+%\begin{verbatim}
+%%%Zchar \rat  U+2119
+%%%Zchar \real U+211A
+%%%Zchar \bool U-0001D539
+%\end{verbatim}
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Blackboard bold Q & rationals   & $\rat$ & \verb|\rat| \\
+%   \hline
+%   Blackboard bold R & reals        & $\real$ & \verb|\real| \\
+%   \hline
+%   Blackboard bold B & boolean     & $\bool$      & \verb|\bool| \\
+%   \hline
+%\end{tabular}
+%\caption{Extra letters that may be used in Z}\label{tbl:letters-other-extra}
+%\end{table}
+%
+%\section{Special}\label{sec:special}
+%
+%In this section, we present a list of special characters used in Z.
+%As noted in~\cite[A.2.4.3]{isoz}, ``no space characters need to be
+%present around special characters, but it may be rendered if desired.''
+%
+%\subsection{Stroke characters}\label{sec:special-strokes}
+%
+%Strokes are summarised in Table~\ref{tbl:special-strokes}.
+%Note that $\prime$ (\verb|\prime|) is not used in \LaTeX{}
+%and $'$ (\verb|'|) is used in variables representing after state
+%instead, whereas in Unicode $\prime$ is the one to use! That has to
+%do with backward compatibility and issues related to Unicode.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Prime  & after var. & $'$ & \verb|'| \\
+%   \hline
+%   Shriek & outputs    & $!$ & \verb|!| \\
+%   \hline
+%   Query  & inputs     & $?$ & \verb|?| \\
+%   \hline
+%\end{tabular}
+%\caption{Special characters \smallcaption{A.2.4.3}}\label{tbl:special-strokes}
+%\end{table}
+%
+%\subsection{Word glues}\label{sec:special-wordglue}
+%
+%Differently from Unicode, in \LaTeX, sub and superscripting markup
+%has no word glues (see~\cite[A.2.4.3]{isoz}). Instead, the usual
+%\LaTeX{} symbols are used, and no special rendering is needed
+%for super (\verb|^|) and subscripting (\verb|_|).
+%
+%%<char id="NE" hex="2197" description="north east arrow"/>
+%%<char id="SW" hex="2199" description="south west arrow"/>
+%%<char id="SE" hex="2198" description="south east arrow"/>
+%%<char id="NW" hex="2196" description="north west arrow"/>
+%%<char id="LL" hex="005F" description="low line"/>
+%
+%\subsection{Brackets}\label{sec:special-bracket}
+%
+%Table~\ref{tbl:special-bracket} shows all the brackets used in Standard Z.
+%The first two, parenthesis and square brackets, follow the usual \LaTeX{}
+%spacing, whereas the last two (binding and free type brackets) should be
+%treated as \verb|\mathopen/close| \LaTeX{} math operators, hence having a
+%hard space around them. In Z mode, the curly bracket should be treated as
+%a \verb|\mathopen/close| as well, since it is part of set constructors.
+%As curly braces are such low-level \TeX{}, I could not find a way to go
+%around this and just suggest the user to add the hard spaces manually
+%(\textit{e.g.,}~\verb|\{~| and \verb|~\}|) as needed. This has no semantic
+%difference, and is just for (personal) aesthetic reasons. Strangely,
+%underscore is grouped at this table in the Standard. It serves both as part of
+%a Z name or as a variable argument (\verb|\varg|) in a definition. For variable
+%arguments, both forms (\verb|\_| and \verb|\varg|) are acceptable by CZT tools.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|l|l|}
+%   \hline
+%   \textbf{Description}       & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Left parenthesis           & grouping   & $($ & \verb|(| \\
+%   \hline
+%   Right parenthesis          & grouping   & $)$ & \verb|)| \\
+%   \hline
+%   Left square bracket        & various    & $[$ & \verb|[| \\
+%   \hline
+%   Right square bracket       & various    & $]$ & \verb|]| \\
+%   \hline
+%   Left curly bracket         & sets       & $\{$\textvisiblespace & \verb|\{~| \\
+%   \hline
+%   Right curly bracket        & sets       & \textvisiblespace$\}$ & \verb|~\}| \\
+%   \hline
+%   Left binding bracket       & sets       & $\lblot$ & \verb|\lblot| \\
+%   \hline
+%   Right binding bracket      & sets       & $\rblot$ & \verb|\rblot| \\
+%   \hline
+%   Left double angle bracket  & free types & $\ldata$& \verb|\ldata| \\
+%   \hline
+%   Right double angle bracket & free types & $\rdata$ & \verb|\rdata| \\
+%   \hline
+%   Underscore                 & var. names & $\Rightarrow\_\Leftarrow$ & \verb|\_| \\
+%   \hline
+%   Op. template               & var. argument & $\Rightarrow\varg\Leftarrow$ & \verb|\varg| \\
+%   \hline
+%\end{tabular}
+%\caption{Bracket characters \smallcaption{A.2.4.3}}\label{tbl:special-bracket}
+%\end{table}
+%
+%\subsection{Box drawing characters}\label{sec:special-box}
+%
+%Table~\ref{tbl:special-box} lists the box drawing characters used to
+%render various Z paragraphs, such as axiomatic definitions, schemas,
+%and their generic counterparts, as well as section headers. %The rendering
+%%column displays the Unicode character associated with the rendering,
+%%which in \LaTeX{} will materialise as specific-width line drawings.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|l|}
+%   \hline
+%   \textbf{Description}& \textbf{Role} & \textbf{Rend.} & \textbf{\LaTeX} & \textbf{Unicode}\\
+%   \hline
+%   Light horizontal    & para boxes     & --- & N/A & U+$2500$ \\
+%   \hline
+%   Light down          & para boxes     & $|$ & N/A & U+$2577$ \\
+%   \hline
+%   Light down right    & para boxes     & $\zboxulcorner$ & N/A & U+$250C$ \\
+%   \hline
+%   Double horizontal   & genpara boxes  & N/A & N/A & U+$2550$ \\
+%   \hline
+%   Vertical line       & box rendering & $\mid$ & \verb|\mid| & U+$007C$ \\
+%   \hline
+%   Paragraph separator & para marker   & $\zboxllcorner$ & N/A & U+$2514$ \\
+%   \hline
+%   Paragraph separator & para marker   & $|$ & \verb|\where|, \verb'|' & U+$007C$ \\
+%   \hline
+%\end{tabular}
+%\caption{Boxing characters \smallcaption{A.2.6, A.2.7}}\label{tbl:special-box}
+%\end{table}
+%%
+%These box drawings characters are used for rendering the various
+%Z-\LaTeX{} environments, as given in Table~\ref{tbl:latex-env} at
+%Section~\ref{sec:latex-env}.
+%
+%\subsection{Other special characters}\label{sec:special-other}
+%
+%The other special characters from the Z Standard are hard space and new line~\cite[A.2.2]{isoz}.
+%As \LaTeX{} provide rather fine grained spacing control, various \LaTeX{} commands correspond
+%to the \texttt{SPACE} Unicode markup, as summarised in Table~\ref{tbl:special-other-hardspace}.
+%Also, note the difference between \LaTeX{} whitespace (\textit{i.e.,}~those used to separate
+%\LaTeX{} tokens in math mode) and Z-\LaTeX{} white (or hard) spaces (\textit{i.e.,}~those used
+%to separate Z tokens).
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|l|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Inter word space     & hard space & $\Rightarrow ~ \Leftarrow$  & \verb|~| \\
+%   \hline
+%   Inter word space     & hard space & $\Rightarrow\ \Leftarrow$ & \verb|\|\textvisiblespace \\
+%   \hline
+%   Thin space           & hard space & $\Rightarrow \, \Leftarrow$ & \verb|\,| \\
+%   \hline
+%   Medium space         & hard space & $\Rightarrow \: \Leftarrow$ & \verb|\:| \\
+%   \hline
+%   Thick space          & hard space & $\Rightarrow \; \Leftarrow$ & \verb|\;| \\
+%   \hline
+%   Tab stop $1$         & hard space & $\Rightarrow \t1 \Leftarrow$ & \verb|\t1| \\
+%   \hline
+%   Tab stop $2 \ldots$  & hard space & $\Rightarrow \t2 \Leftarrow$ & \verb|\t2| \\
+%   \hline
+%\end{tabular}
+%\caption{Hard space characters \smallcaption{A.2.2}}\label{tbl:special-other-hardspace}
+%\end{table}
+%%
+%Thus, ASCII characters for space, tab, and new line are ``soft'', render as nothing and
+%are not converted to any Z character. On the other hand, Z-\LaTeX{} hard space markup renders as
+%specific quantities of space and is converted according to Table~\ref{tbl:special-other-hardspace}.
+%The tab stops counter goes up to $9$ (\textit{i.e.,}~\verb|\t1|~\ldots\verb|\t9|).
+%
+%From \LaTeX, such mathematical spacing is regulated by the commands and skip values
+%defined in Table~\ref{tbl:special-other-muskip}.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|l|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Skip counter} & \textbf{Space command} & \textbf{\LaTeX} \\
+%   \hline
+%   Thin space skip   & \verb|\thinmuskip|  & \verb|\thinspace|  & \verb|\,| \\
+%   \hline
+%   Medium space skip & \verb|\medmuskip|   & \verb|\medspace|   & \verb|\:| \\
+%   \hline
+%   Thick space skip  & \verb|\thickmuskip| & \verb|\thickspace| & \verb|\;| \\
+%   \hline
+%\end{tabular}
+%\caption{Fine control of skip amount for space characters}\label{tbl:special-other-muskip}
+%\end{table}
+%%
+%To illustrate how to use these skip amount counters, we provide the following
+%\LaTeX{} code, which expands the skip amounts and then restores then back to
+%their default value.
+%%
+%%\begin{multicols}{2} see it from symbols.tex for symbols-a4.pdf
+%\begin{demo}
+%\begin{verbatim}
+%% Save original spacing on new skip counter
+%\newmuskip\savemuskip
+%\savemuskip=\thinmuskip
+%
+%Formula with default spacing \hfill $ x \, y \, z $
+%
+%% Change original spacing
+%\thinmuskip=20mu
+%
+%Formula with $20$mu skip \hfill     $ x \, y \, z $
+%
+%% restore default spacing
+%\thinmuskip=\savemuskip
+%
+%Formula with default spacing \hfill $ x \, y \, z $
+%\end{verbatim}
+%\gives
+%\begin{quote}
+%% Save original spacing on new skip
+%\newmuskip\savemuskip
+%\savemuskip=\thinmuskip
+%
+%Formula with default spacing \hfill $ x \, y \, z $
+%
+%% Change original spacing
+%\thinmuskip=20mu
+%
+%Formula with $20$mu skip \hfill     $ x \, y \, z $
+%
+%% restore default spacing
+%\thinmuskip=\savemuskip
+%
+%Formula with default spacing \hfill $ x \, y \, z $
+%\end{quote}
+%\end{demo}
+%
+%Similarly, we also have various characters for new lines,
+%and formulae and page breaks, as shown in Table~\ref{tbl:special-other-newline}.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|l|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Carriage return      & new line    & (not shown) & \verb|\\| \\
+%   \hline
+%   Small vertical space & new line    & (not shown) & \verb|\also| \\
+%   \hline
+%   Med. vertical space  & new line    & (not shown) & \verb|\Also| \\
+%   \hline
+%   Big vertical space   & new line    & (not shown) & \verb|\ALSO| \\
+%   \hline
+%   Small formula break  & vert. space & (not shown) & \verb|\zbreak| \\
+%   \hline
+%   Med. formula break   & vert. space & (not shown) & \verb|\zBreak| \\
+%   \hline
+%   Big formula break    & vert. space & (not shown) & \verb|\ZBREAK| \\
+%   \hline
+%   New page             & new page    & (not shown) & \verb|\znewpage| \\
+%   \hline
+%\end{tabular}
+%\caption{New line and break characters \smallcaption{A.2.2}}\label{tbl:special-other-newline}
+%\end{table}
+%
+%\section{Symbols}\label{sec:symbol}
+%
+%List of symbol characters are divided in core and toolkit symbols.
+%The former are related to basic characters and keywords, whereas
+%the latter is related to the Z mathematical toolkit~\cite[Appendix~B]{isoz}.
+%
+%\subsection{Core symbols}\label{sec:symbol-core}
+%
+%Many of the core symbols in \LaTeX{} come directly from the currently
+%selected font, whereas others have special commands. We list them all
+%in Table~\ref{tbl:symbol-core}, where expected arguments and their rendering
+%position are given with ``$\varg$'' (\verb|\varg|).
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Bullet                  & set/pred separator     & $@$, $\spot$             & \verb|@|, \verb|\spot| \\
+%   \hline
+%   Ampersand               & recursive free types   & $\varg\&\varg$           & \verb|\&| \\
+%   \hline
+%   Right tack              & conjecture             & $\vdash\varg$            & \verb|\vdash| \\
+%   \hline
+%   Wedge                   & logical and            & $\varg\land\varg$        & \verb|\land| \\
+%   \hline
+%   Vee                     & logical or             & $\varg\lor\varg$         & \verb|\lor| \\
+%   \hline
+%   Right double arrow      & logical implication    & $\varg\implies\varg$     & \verb|\implies| \\
+%   \hline
+%   L/R double arrow        & logical equivalence    & $\varg\iff\varg$         & \verb|\iff| \\
+%   \hline
+%   Not sign                & logical negation       & $\lnot\varg$             & \verb|\lnot| \\
+%   \hline
+%   Inverted A              & universal quant.       & $\forall\varg @ \varg$   & \verb|\forall| \\
+%   \hline
+%   Reversed E              & existential quant.     & $\exists\varg@ \varg$    & \verb|\exists| \\
+%   \hline
+%   $\exists$ subscript $1$ & unique existence       & $\exists_1\varg @ \varg$ & \verb|\exists_1| \\
+%   \hline
+%   Pertinence              & set membership         & $\varg\in\varg$          & \verb|\in| \\
+%   \hline
+%   Math. \verb|\times|     & cartesian product      & $\varg\cross\varg$       & \verb|\cross| \\
+%   \hline
+%   Inverted solidus        & schema hiding          & $\varg\hide\varg$        & \verb|\hide| \\
+%   \hline
+%   Upwards harpoon         & schema projection      & $\varg\project\varg$     & \verb|\project| \\
+%   \hline
+%   Big fat semicolon       & schema composition     & $\varg\semi\varg$        & \verb|\semi| \\
+%   \hline
+%   Double greater than     & schema piping          & $\varg\pipe\varg$        & \verb|\pipe| \\
+%   \hline
+%   Big fat colon           & typechecked term       & $\varg\typecolon\varg$  & \verb|\typecolon| \\
+%   \hline
+%\end{tabular}
+%\caption{Core symbols \smallcaption{A.2.4.4}}\label{tbl:symbol-core}
+%\end{table}
+%%
+%The ampersand (\verb|\&|) is needed in (the not so used) mutually
+%recursive free types. Its syntax is described in~\cite[8.2]{isoz},
+%whereas its semantics is given in~\cite[14.2.3.1]{isoz}.
+%The fat \verb|\spot| also makes \verb|@| active in math mode
+%so that it gets the right \verb|\mathrel| spacing.
+%Wedge and Vee are the AMS terms for the logical operators.
+%
+%Other core symbols, such as ``$/$'', ``$;$'', ``$:$'', ``$,$'',
+%``$.$'', ``$+$'', ``$=$'', \textit{etc.}, are typeset and spaced
+%just as in \LaTeX. The symbol for schema projection ($\project$,
+%\verb|\project|) is reused for sequence filtering in the
+%toolkit defined in \seqtkfile (see Table~\ref{tbl:symbol-toolkit-seq} in Section~\ref{sec:symbol-toolkit-seq}).
+%Also, the symbol for schema composition ($\semi$, \LaTeX{} \verb|\semi|, and Unicode character U+$2A1F$)
+%is very similar (but slightly bigger) than the symbol for relational
+%composition ($\comp$,~\verb|\comp|,~U+$2A3E$). Type checked markup is
+%usually given with a big fat colon beside it ($\typecolon$,~\verb|\typecolon|,~U+$2982$).
+%It is a binary operator with the expression in one side and its type on the other.
+%%
+%%\hline
+%%Solidus           & substitution   & $/$   & \verb|/| \\
+%%\hline
+%%Double horz. bars & equality       & $=$   & \verb|=| \\
+%%\hline
+%%Colon             & type expr. sep. & $:$ & \verb|:| \\
+%%\hline
+%%Semicolon         & var decl. sep.  & $;$ & \verb|;| \\
+%%\hline
+%%Comma             & var list sep.   & $,$ & \verb|,| \\
+%%\hline
+%%Dot               & tuple/bind sel. & $.$ & \verb|.| \\
+%%\hline
+%%Plus              & integer sum     & $+$ & \verb|+| \\
+%%\hline
+%
+%Note that spacing with \LaTeX{} infix binary mathematical operators are rendered
+%differently in the presence of new lines in between them.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%\begin{zed}
+%  A ~~==~~ S \cup T \\        % usual
+%  B ~~==~~ S \cup \\ \t2 T \\ % spacing after \cup symbol
+%  C ~~==~~ S \cup{} \\ \t2 T  % correction
+%\end{zed}
+%\end{verbatim}
+%\gives
+%\begin{zed}
+%   A ~~==~~ S \cup T \\          % usual
+%   B ~~==~~ S \cup \\ \t2 T \\   % bad spacing after \cup symbol
+%   C ~~==~~ S \cup{} \\ \t2 T    % correction
+%\end{zed}
+%\end{demo}
+%%
+%So, when breaking lines
+%near such operators, one need to add the usual \LaTeX{} marker for such situations,
+%as illustrated below (see~\cite[p.525, Table~8.7]{latexcomp} for more details), new
+%lines may change the spacing behaviour of infix binary mathematical operators,
+%as the example above shows.
+%
+%\subsection{Toolkit symbols}\label{sec:symbol-toolkit}
+%
+%This section introduces all the characters used within \stdtkfile, as mentioned
+%in~\cite[Appendix~B]{isoz}. It has been divided in subsections according to the various
+%Z sections defined in the Standard.
+%
+%\subsubsection{\preludefile{} and Z keywords}\label{sec:symbol-toolkit-prelude}
+%
+%The \texttt{prelude} section is an implicit parent of every other section.
+%It assists in defining the meaning of number literal expressions~\cite[12.2.6.9]{isoz}
+%and the list arguments of operator templates~\cite[12.2.12]{isoz} via syntactic transformation
+%rules. In Table~\ref{tbl:symbol-toolkit-prelude}, we present the list of symbols
+%and Z keywords (and their fixture) defined in the prelude with markup directives.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|l|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Z section marker     & prefix keyword      & $\SECTION\varg$                 & \verb|\SECTION| \\
+%   \hline
+%   Z section parent     & infix keyword       & $\parents\varg$                 & \verb|\parents| \\
+%   \hline
+%   Conditional          & prefix keyword      & $\IF\varg$                      & \verb|\IF| \\
+%   \hline
+%   Conditional          & infix keyword       & $\varg\THEN\varg$               & \verb|\THEN| \\
+%   \hline
+%   Conditional          & infix keyword       & $\varg\ELSE\varg$               & \verb|\ELSE| \\
+%   \hline
+%   Let definition       & prefix keyword      & $\LET\varg==\varg @ \varg$      & \verb|\LET| \\
+%   \hline
+%   Application expr.    & prefix op. template & $\function\varg~\varg$          & \verb|\function| \\
+%   \hline
+%   Relational pred.     & prefix op. template & $\relation\varg~\varg$          & \verb|\relation| \\
+%   \hline
+%   Generic expr. inst.  & prefix op. template & $\generic\varg~\varg$           & \verb|\generic| \\
+%   \hline
+%   Left associative     & infix op. template  & $\leftassoc$                    & \verb|\leftassoc| \\
+%   \hline
+%   Right associative    & infix op. template  & $\rightassoc$                   & \verb|\rightassoc| \\
+%   \hline
+%   Schema precondition  & prefix keyword      & $\pre\varg$                     & \verb|\pre| \\
+%   \hline
+%   List of arguments    & infix op. template  & $\Rightarrow\listarg\Leftarrow$ & \verb|\listarg| \\
+%   \hline
+%   Variable argument    & infix op. template  & $\Rightarrow\varg\Leftarrow$    & \verb|\varg| \\
+%   \hline
+%   Boolean truth       & ordinary name   & $\true$                         & \verb|\true| \\
+%   \hline
+%   Boolean falsehood   & ordinary name   & $\false$                        & \verb|\false| \\
+%   \hline
+%\end{tabular}
+%\caption{\preludefile symbols \smallcaption{A.2.4, B.2}}\label{tbl:symbol-toolkit-prelude}
+%\end{table}
+%%
+%Z sections enable the user to define self contained named modules with (non cyclic)
+%parent relationships given as a (possibly empty) list of section names. Conditional
+%($\IF-\THEN-\ELSE$) allows one to test a predicate which yields an expression depending whether
+%the predicate is $true$ or $false$. Let definitions ($\LET$) allow local variable scoping for expressions.
+%
+%Operator templates~\cite[C.4.13]{isoz} have syntactic significance only:~they tell
+%the reader how to interpret the template associativity, and how it is rendered
+%as prefix, infix, posfix or nofix. There are three categories of operator templates the
+%user can define:~\verb|\function|, for application expressions as \textit{e.g.,}
+%\[ S \cup T = (\_~\cup\_)~(S, T) \]
+%\verb|\relation|, for relational predicates as \textit{e.g.,}
+%\[ S \subseteq T = (S,T) (\_~\subseteq\_) \]
+%and \verb|\generic|, for generic instantiation of expressions as \textit{e.g.,}
+%\[ X \rel Y,\t1 \emptyset[\nat] \]
+%Application expressions (\verb|\function|) are used for both fixed (as pre, in, or pos fixed)
+%function operator application (\textit{e.g.,}~infix $S \cup T$), and as its equivalent
+%(\textit{e.g.,}~nofix $(\_~\cup\_)~(S, T)$) version.
+%Relational (or membership) predicates (\verb|\relation|) are used for both set membership
+%(\textit{e.g.,}~\mbox{$x \in S$}), equality (\textit{e.g.,}~\mbox{$S = T$}), and as an
+%operator that is a predicate (\textit{e.g.,}~\mbox{$S \subseteq T$}).
+%Generic instantiation expressions are used for generic operator application
+%as in when building relation (\mbox{$X \rel Y$}) or function (\mbox{$X \fun Y$}) spaces.
+%
+%Furthermore, all infix \verb|\function| and \verb|\generic| operator templates must have two explicit
+%declarations:~one for their binding power, which is as a natural number (the higher the number tighter the
+%precedence);~and one for their (left or right) associativity. They are used to resolve operator
+%precedences. For instance, \mbox{$S \cup T \cap R = (S \cup (T \cap R))$} because $\cap$ binds tighter
+%than $\cup$ (see binding powers in Table~\ref{tbl:symbol-toolkit-set} below). Relational predicates
+%and prefix, posfix and nofix function and generic operators do not have precedence or associativity
+%explicitly given. Examples of this notation can be found in~\cite[Appendix~B]{isoz}, and are highlighted
+%in the \textbf{Role} column in the tables below for each operator template defined in the standard toolkits.
+%When the binding powers are the same, the given associativity is used to resolve the precedence.
+%For instance, set intersection and set difference have the same binding power ($30$), but are
+%both left-associative, hence $S \cap T \setminus R = (S \cap T) \setminus R$ as the left-associativeness
+%of set intersection gives it priority over set difference. Finally, if within the same section (and
+%all its parent sections) there are two operator templates with the same binding power (even if different
+%kinds, say one \verb|\function| and one \verb|\generic|), but different associativity, a parsing error
+%is raised since precedence cannot be decided. For instance, if we have a section with \texttt{set\_toolkit}
+%as its parent, and we define a new \verb|\function| operator template with binding power $30$
+%and as right associative, a parsing error is raised, as it is not possible to decide its
+%precedence (\textit{i.e.,} it conflicts with the operator template definition for $\cup$).
+%
+%Note that generic operator templates, such as finite subsets $(\finset~\_)$ and total functions $(\_~\fun\_)$,
+%are not to be confused with a generic reference expression instantiation, such as empty sets ($\emptyset[\nat]$),
+%which is not given as an operator template, but rather a reference name. Moreover, when generic
+%references are instantiated by the typechecker they are implicit ($\emptyset$), whereas when given by
+%the user they are explicit ($\emptyset[\nat]$---the empty set of natural numbers).
+%
+%When defining operator templates, we could have single arguments (\verb|\varg|) as in the
+%definition of set union ($\varg\cup\varg$, \verb|\varg \cup \varg|) at \settkfile, or variable/list
+%arguments (\verb|\listarg|) as in the definition of sequence display ($\langle \listarg \rangle$,
+%\verb|\langle \listarg \rangle|) at \seqtkfile.
+%
+%
+%Other Z style packages allow room for a keyword \verb|\inrel|, which could be used for changing
+%the fixture of relations that were not defined as operator templates. For instance, suppose
+%$R \in X \rel Y$, $x \in X$, and $y \in Y$. As $R$ is not an operator template, the usual
+%way of relating $x$ and $y$ to $R$ would be either ``\mbox{$(x,y) \in R$}'' or ``\mbox{$(x \mapsto y \in R)$}''.
+%With the \verb|\inrel| keyword, one was allowed to say ``\mbox{$(x~\inrel{R}~y)$}'' (\verb|(x~\inrel{R}~y)|).
+%Nevertheless, such feature is not part of the Z Standard, hence not amenable to parsing, and thus
+%not supported in \cztstylefile.
+%
+%Additionally, we add two special ``keywords'' as $\true$ (\verb|\true|) and $\false$ (\verb|\false|)
+%to represent boolean values at the level of the logic, rather than as predicates $true$ (\verb|$true$|)
+%and $false$ (\verb|$false$|). This is used in the Z logic of the Z Standard. It can also be used in the
+%definition of a boolean free type in a user toolkit. This serves to illustrate how one can make use of
+%Z markup directives once again.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%% AMS black board B
+%% \bool is already defined in czt.sty just like
+%% \newcommand{\bool}{\zordop{\mathbb B}}
+%
+%% Note the markup directives are needed for parsing
+%% since they are not present in any standard toolkit.
+%%%Zchar \bool U-0001D539
+%%%Zword \true True
+%%%Zword \false False
+%\begin{zed}
+%   \bool ::= \false | \true
+%\end{zed}
+%\end{verbatim}
+%\gives
+%% AMS black board B
+%% \bool is already defined in czt.sty just like
+%% \newcommand{\bool}{\zordop{\mathbb B}}
+%
+%% Note the markup directives are needed for parsing
+%% since they are not present in any standard toolkit.
+%%%Zchar \bool U-0001D539
+%%%Zword \true True
+%%%Zword \false False
+%\begin{zed}
+%   \bool ::= \false | \true
+%\end{zed}
+%\end{demo}
+%%
+%Apart from typesetting purposes, logic boolean values can be used, for instance,
+%to use Z as a meta-language to specify the semantics of other languages~\cite{circussem}.
+%
+%\subsubsection{\settkfile}\label{sec:symbol-toolkit-set}
+%
+%The \texttt{set\_toolkit} defines symbols for what a relation is, and operators about sets and finite sets.
+%In Table~\ref{tbl:symbol-toolkit-set}, we present the list its symbols.
+%The \textbf{Role} column contains the details for each operator template, or ``\textit{XXX name}''
+%when the symbol is not an operator but a name, where the \textit{XXX} determines its fixture.
+%Infix function and generic operator templates have their binding power given as numbers, and
+%associativity given as either LA (left-associative) or RA (right-associative). Non-infix operator templates have
+%their type and fixture given. For ease of reference, we also add the \verb|\varg| arguments to the
+%\LaTeX{} rendering column (but not the verbatim \LaTeX{} itself for clarity).
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Relation space      & generic $5$ RA   & $\varg\rel\varg$      & \verb|\rel| \\
+%   \hline
+%   Function space      & generic $5$ RA   & $\varg\fun\varg$      & \verb|\fun| \\
+%   \hline
+%   Not set member      & infix relation   & $\varg\notin\varg$    & \verb|\notin| \\
+%   \hline
+%   Inequality          & infix relation   & $\varg\neq\varg$      & \verb|\neq| \\
+%   \hline
+%   Empty set           & nofix name       & $\emptyset$           & \verb|\emptyset| \\
+%   \hline
+%   Subset              & infix relation   & $\varg\subseteq\varg$ & \verb|\subseteq| \\
+%   \hline
+%   Proper subset       & infix relation   & $\varg\subset\varg$   & \verb|\subset| \\
+%   \hline
+%   Non-empty sets      & prefix name      & $\power_1\varg$       & \verb|\power_1| \\
+%   \hline
+%   Set union           & function $30$ LA & $\varg\cup\varg$      & \verb|\cup| \\
+%   \hline
+%   Set intersection    & function $40$ LA & $\varg\cap\varg$      & \verb|\cap| \\
+%   \hline
+%   Set difference      & function $30$ LA & $\varg\setminus\varg$ & \verb|\setminus| \\
+%   \hline
+%   Set symmetric diff. & function $25$ LA & $\varg\symdiff\varg$  & \verb|\symdiff| \\
+%   \hline
+%   Generalised union   & prefix name      & $\bigcup\varg$        & \verb|\bigcup| \\
+%   \hline
+%   Generalised intersection & prefix name & $\bigcap\varg$        & \verb|\bigcap| \\
+%   \hline
+%   Finite sets         & prefix generic   & $\finset\varg$        & \verb|\finset| \\
+%   \hline
+%   Non empty $\finset$ & prefix generic   & $\finset_1\varg$      & \verb|\finset_1| \\
+%   \hline
+%\end{tabular}
+%\caption{\settkfile symbols \smallcaption{A.2.5.1, B.3, B.4}}\label{tbl:symbol-toolkit-set}
+%\end{table}
+%
+%The empty set symbol within the usual \LaTeX{} distribution (as found in file
+%\emfile{fontmath.ltx} with font encoding \verb|OMS/cmsy/m/n| and hex number \verb|"3B|)
+%is slightly different from the mathematical empty set symbol, which is present in the AMS font.
+%Because of this, when using \cztstylefile, one can access the original empty set symbol with
+%\verb|\mathemptyset|, which is rendered in \LaTeX{} as $\mathemptyset$.
+%
+%\subsubsection{\reltkfile}\label{sec:symbol-toolkit-relation}
+%
+%The \texttt{relation\_toolkit} has \texttt{set\_toolkit} as its parent and
+%defines symbols for:~maplets;~domain and range;~relational and functional
+%composition;~domain and range restriction and substraction;~relational
+%inversion and overriding;~and transitive and reflexive transitive closures over relations.
+%In Table~\ref{tbl:symbol-toolkit-relation}, we present its symbols.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Binary tuple projection & ordinary name     & $first$             & \verb|first~\varg| \\
+%   \hline
+%   Binary tuple projection & ordinary name     & $second$            & \verb|second~\varg| \\
+%   \hline
+%   Relation maplet         & function $10$ LA  & $\varg\mapsto\varg$ & \verb|\mapsto| \\
+%   \hline
+%   Domain of relation     & prefix name        & $\dom\varg$         & \verb|\dom| \\
+%   \hline
+%   Range  of relation     & prefix name        & $\ran\varg$         & \verb|\ran| \\
+%   \hline
+%   Identity relation      & prefix generic     & $\id\varg$          & \verb|\id| \\
+%   \hline
+%   Relational composition & function $40$ LA   & $\varg\comp\varg$   & \verb|\comp| \\
+%   \hline
+%   Functional composition & function $40$ LA   & $\varg\circ\varg$   & \verb|\circ| \\
+%   \hline
+%   Domain restriction     & function $65$ LA   & $\varg\dres\varg$   & \verb|\dres| \\
+%   \hline
+%   Range restriction      & function $60$ LA   & $\varg\rres\varg$   & \verb|\rres| \\
+%   \hline
+%   Domain subtraction     & function $65$ LA   & $\varg\ndres\varg$  & \verb|\ndres| \\
+%   \hline
+%   Range subtraction      & function $60$ LA   & $\varg\nrres\varg$  & \verb|\nrres| \\
+%   \hline
+%   Relational inversion   & prefix function    & $\varg\inv$         & \verb|\inv| \\
+%   \hline
+%   Relational image left  & mixfix function    & $\varg\limg$        & \verb|\limg| \\
+%   \hline
+%   Relational image right & mixfix function    & $\varg\rimg$        & \verb|\rimg| \\
+%   \hline
+%   Overriding             & function $50$ LA   & $\varg\oplus\varg$  & \verb|\oplus| \\
+%   \hline
+%   Transitive closure     & posfix function    & $\varg\plus$        & \verb|\plus| \\
+%   \hline
+%   Reflexive $(\_~\plus)$ & posfix function    & $\varg\star$        & \verb|\star| \\
+%   \hline
+%\end{tabular}
+%\caption{\reltkfile symbols \smallcaption{A.2.5.2, B.5}}\label{tbl:symbol-toolkit-relation}
+%\end{table}
+%
+%This toolkit defines tuple projection functions that do not use markup directives and
+%are not given as operator templates, hence have no special \LaTeX{} markup associated
+%with them. Despite this fact, the usual \LaTeX{} rendering is (historically)
+%given as if they were Z keywords. To achieve this effect, however, the user need define his own
+%``special'' rendering for that markup. For instance, $first$ and $second$, which project the first and second elements
+%of a given binary tuple, are defined with ordinary names (\textit{i.e.,}~no markup directive)
+%in \reltkfile. So, some users prefer to have keyword-like typesetting, which can be done as \verb|\zkeyword{first}|
+%($\zkeyword{first}$). Unfortunately, this is no longer parseable, since \verb|\zkeyword| is not part of the Z lexis,
+%but rather a \LaTeX{} rendering markup. Nevertheless, if the user still wants to keep a nice
+%\LaTeX{} rendering, she could just define the appropriate \LaTeX{} command as an alternative markup for the name in
+%question through markup directives. For our example, to have ``$first$'' typeset like a keyword ($\zkeyword{first}$),
+%one should add the following markup directive and new \LaTeX{} command:
+%%
+%\newcommand{\first}{\zpreop{\zkeyword{first}}}
+%\begin{verbatim}
+%\newcommand{\first}{\zpreop{\zkeyword{first}}}
+%%%Zpreword \first first
+%\end{verbatim}
+%%
+%The markup directive will tell the parser to treat the command \verb|\first| as
+%the string \verb|first|, which is loaded from \reltkfile. Then \LaTeX{} can now
+%render \verb|\first| as desired ($\zkeyword{first}$). Furthermore, if the user
+%wants to keep both choices conditional to the package option \texttt{tkkeyword},
+%one can just use the \verb|\ztoolkit{first}|, instead. With current option, it
+%typesets as $\ztoolkit{first}$. Finally, note that, since $\first$ a prefix word,
+%we also wrap it with a \verb|\zpreop|. This way proper spacing is added, and one
+%does not need to typeset it as \verb|$\first~x$| ($\first~x$) but just
+%\verb|$\first x$| ($\first x$), as opposed to the mandatory hard space in
+%\verb|$first~x$| ($first~x$) to avoid the wrong spacing from \verb|$first x$| ($first x$).
+%
+%The Z Standard also leaves room for mixfix (mixed fixture) operator templates, although those
+%are more rarely used. One such operator is used for the definition of relational imagine as
+%%
+%\begin{verbatim}
+%%%Zinchar   \limg U+2987
+%%%Zpostchar \rimg U+2988
+%\begin{zed}
+%\function (\_ \limg \_ \rimg)
+%\end{zed}
+%\end{verbatim}
+%%
+%So, each bracketing symbol is treated with a different fixture. That is, $\limg$ is treated
+%as an infix operator, whereas $\rimg$ is treated as a posfixed one. This combination makes
+%the relational image mixfix operator template as defined above.
+%
+%The AMS/Lucida bright font(s) already define(s) the \verb|\star| symbol as ``$\mathstar$''
+%(\textit{e.g.,}~\texttt{msam10}, hex-number \verb|"46|), rather than the ``$\star$'' we want.
+%Because of this, when using \cztstylefile, one can access the original AMS/Lucida bright star
+%symbol with  the \verb|\mathstar| command, which is rendered as ``$\mathstar$''.
+%
+%For relational inverse (\verb|R\inv|), the Z Standard does not specify it with superscripting
+%word glues~\cite[A.2.4.3]{isoz}. Thus, its rendering is ``$R\inv$'', and it should not be superscripted
+%as in ``$R^{\inv}$'', despite this being more common. This may perhaps be a Z Standard typo.
+%
+%\subsubsection{\fcntkfile}\label{sec:symbol-toolkit-function}
+%
+%The \texttt{function\_toolkit} has \texttt{relation\_toolkit} as its parent and
+%defines symbols for generic operator templates representing the various subsets
+%of function spaces, and a few relational predicates for sets. In
+%Table~\ref{tbl:symbol-toolkit-function}, we present its list of symbols.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Partial function        & generic $5$ RA   & $\varg\pfun\varg$   & \verb|\pfun| \\
+%   \hline
+%   Partial injection       & generic $5$ RA   & $\varg\pinj\varg$   & \verb|\pinj| \\
+%   \hline
+%   Injection               & generic $5$ RA   & $\varg\inj\varg$    & \verb|\inj| \\
+%   \hline
+%   Partial surjection      & generic $5$ RA   & $\varg\psurj\varg$  & \verb|\psurj| \\
+%   \hline
+%   Surjection              & generic $5$ RA   & $\varg\surj\varg$   & \verb|\surj| \\
+%   \hline
+%   Bijection               & generic $5$ RA   & $\varg\bij\varg$    & \verb|\bij| \\
+%   \hline
+%   Finite partial function & generic $5$ RA   & $\varg\ffun\varg$   & \verb|\ffun| \\
+%   \hline
+%   Finite partial injection & generic $5$ RA  & $\varg\finj\varg$   & \verb|\finj| \\
+%   \hline
+%   Disjoint sets            & prefix relation & $\disjoint\varg$    & \verb|\disjoint| \\
+%   \hline
+%   Set partitioning         & infix relation  & $\varg\partition\varg$ & \verb|\partition| \\
+%   \hline
+%\end{tabular}
+%\caption{\fcntkfile symbols \smallcaption{A.2.5.3, B.6}}\label{tbl:symbol-toolkit-function}
+%\end{table}
+%%
+%Lucida Bright fonts render some of these symbols differently, if (and when) loaded.
+%
+%Disjointness of a relation states that a set of sets has no overlapping elements
+%(\textit{i.e.,}~their pairwise set intersection is empty), whereas partitioning
+%represents a disjoint set of sets that covers the whole elements of the set's type
+%(\textit{i.e.,}~the generalised union of all sets being disjoint represents the whole type).
+%
+%\subsubsection{\numtkfile}\label{sec:symbol-toolkit-number}
+%
+%The \texttt{number\_toolkit} defines symbols for integer arithmetic.
+%In Table~\ref{tbl:symbol-toolkit-number}, we present its list symbols.
+%Note that summation is defined as an operator template in \preludefile,
+%but most of its properties are defined in \numtkfile, hence we left it here.
+%Subtraction is defined in terms of summation and unary negation
+%(\textit{e.g.,}~$\negate\varg$, \verb|\negate|).
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   $\nat$ successor function & prefix function  & $succ\varg$      & \verb|succ \varg| \\
+%   \hline
+%   Integers                  & ordinary name    & $\num$           & \verb|\num| \\
+%   \hline
+%   Arithmetic negation       & prefix function  & $\negate\varg$   & \verb|\negate| \\
+%   \hline
+%   Subtraction               & function $30$ LA & $\varg-\varg$    & \verb|-| \\
+%   \hline
+%   Summation                 & function $30$ LA & $\varg+\varg$    & \verb|+| \\
+%   \hline
+%   Less-than equal-to        & infix relation   & $\varg\leq\varg$ & \verb|\leq| \\
+%   \hline
+%   Less-than                 & infix relation   & $\varg<\varg$    & \verb|<| \\
+%   \hline
+%   Greater-than equal-to     & infix relation   & $\varg\geq\varg$ & \verb|\geq| \\
+%   \hline
+%   Greater-than              & infix relation   & $\varg>\varg$    & \verb|>| \\
+%   \hline
+%   Non empty $\nat$          & prefix name      & $\nat_1$         & \verb'\nat_1' \\
+%   \hline
+%   Non empty $\num$          & prefix name      & $\num_1$         & \verb'\num_1' \\
+%   \hline
+%   Multiplication            & function $40$ LA & $\varg*\varg$    & \verb|*| \\
+%   \hline
+%   Integer division          & function $40$ LA & $\varg\div\varg$ & \verb|\div| \\
+%   \hline
+%   Integer modulus           & function $40$ LA & $\varg\mod\varg$ & \verb|\mod| \\
+%   \hline
+%\end{tabular}
+%\caption{\numtkfile symbols \smallcaption{A.2.5.4, B.7}}\label{tbl:symbol-toolkit-number}
+%\end{table}
+%
+%Like what happened in \reltkfile, where definitions were given without markup
+%directives, in \numtkfile, the successor function for natural numbers ($succ$)
+%is also defined without markup directives, yet one may be familiar with its
+%specialised rendering as $\ztoolkit{succ}$ (\verb|\ztoolkit{succ}|). This is slightly
+%different from $first$ and $second$ from \reltkfile, as $succ$ is defined as an operator
+%template in \numtkfile, hence the \verb|\varg| on its description in Table~\ref{tbl:symbol-toolkit-number}.
+%
+%The division symbol within the usual \LaTeX{} distribution (\emfile{fontmath.ltx}
+%with font encoding \verb|OMS/cmsy/m/n| and hex value \verb|"04|) is different from the Z
+%integer division symbol, which is given as a Z toolkit word (\verb|\ztoolkit{div}|) in \cztstylefile. To access
+%the original definition, one should use \verb|\mathdiv| ($\mathdiv$), instead.
+%
+%\subsubsection{\seqtkfile}\label{sec:symbol-toolkit-seq}
+%
+%The \texttt{sequence\_toolkit} has \texttt{function\_toolkit} and \texttt{number\_toolkit}
+%as its parents and defines range, relational iteration, set cardinality, min/max, and
+%finite sequences and its operators. In Table~\ref{tbl:symbol-toolkit-seq}, we present
+%its list of symbols.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|c|l|}
+%   \hline
+%   \textbf{Description} & \textbf{Role} & \textbf{Rendering} & \textbf{\LaTeX} \\
+%   \hline
+%   Number range          & function $20$ LA & $\varg\upto\varg$          & \verb|\upto| \\
+%   \hline
+%   Iteration             & ordinary name    & $iter\varg\varg$           & \verb|iter| \\
+%   \hline
+%   Iteration             & prefix function  & $(\varg~^{~\varg~})$       & \verb|\varg~^{~\varg~}| \\
+%   \hline
+%   $\finset$ cardinality & prefix function  & $\#\varg$                  & \verb|\#| \\
+%   \hline
+%   Minimum               & prefix function  & $min\varg$                 & \verb|min~\varg| \\
+%   \hline
+%   Maximum               & prefix function  & $max\varg$                 & \verb|max~\varg| \\
+%   \hline
+%   Finite seq.           & prefix generic   & $\seq\varg$                & \verb|\seq| \\
+%   \hline
+%   Non empty $\seq$      & prefix name      & $\seq_1\varg$              & \verb|\seq_1| \\
+%   \hline
+%   Injective seq.        & prefix generic   & $\iseq\varg$               & \verb|\iseq| \\
+%   \hline
+%   Seq. brackets         & mixfix function  & $\langle \listarg \rangle$ & {\footnotesize \verb|\langle \listarg \rangle|} \\
+%   \hline
+%   Concatenation         & function $30$ LA & $\varg\cat\varg$           & \verb|\cat| \\
+%   \hline
+%   Seq. reverse          & ordinary name    & $rev\varg$                 & \verb|rev~\varg| \\
+%   \hline
+%   Seq. head             & ordinary name    & $head\varg$                & \verb|head~\varg| \\
+%   \hline
+%   Seq. last             & ordinary name    & $last\varg$                & \verb|last~\varg| \\
+%   \hline
+%   Seq. tail             & ordinary name    & $tail\varg$                & \verb|tail~\varg| \\
+%   \hline
+%   Seq. front            & ordinary name    & $front\varg$               & \verb|front~\varg| \\
+%   \hline
+%   Seq. re-indexing      & ordinary name    & $squash\varg$              & \verb|squash~\varg| \\
+%   \hline
+%   Seq. extraction       & function $45$ LA & $\varg\extract\varg$       & \verb|\extract| \\
+%   \hline
+%   Seq. filtering        & function $40$ LA & $\varg\filter\varg$        & \verb|\filter| \\
+%   \hline
+%   Seq. prefix           & prefix relation  & $\varg\prefix\varg$        & \verb|\prefix| \\
+%   \hline
+%   Seq. suffix           & prefix relation  & $\varg\suffix\varg$        & \verb|\suffix| \\
+%   \hline
+%   Seq. infix            & prefix relation  & $\varg\infix\varg$         & \verb|\infix| \\
+%   \hline
+%   Dist. concat.         & ordinary name    & $\dcat$                    & \verb|\dcat| \\
+%   \hline
+%\end{tabular}
+%\caption{\seqtkfile symbols \smallcaption{A.2.5.5, B.8}}\label{tbl:symbol-toolkit-seq}
+%\end{table}
+%
+%In \seqtkfile, few ordinary names or operator templates without markup directive
+%also are typeset as keywords. They are:~relation iteration ($\ztoolkit{iter}~R~i$)
+%and its superscript version ($R~^{~i~}$);~minimum ($min$) and maximum ($max$) of a set of
+%numbers;~sequence $rev$erse, $head$, $last$, $tail$, $front$, and $squash$;~and
+%distributed concatenation ($\dcat$). It is questionable if some of them should be
+%made prefix function operator templates in the Z Standard. Note that, as these are
+%ordinary names, no special \LaTeX{} spacing scheme is in place. Thus, although
+%not explicitly required by the CZT tools, to properly render these names,
+%a hard space is required in order to separate them from their arguments (\textit{e.g.,}~``$rev~s$'', \verb|$rev~s$|).
+%Otherwise, \LaTeX{} will typeset them as a single word (\textit{e.g.,}~``$rev s$'', \verb|$rev s$|).
+%Again, if wanted, markup directives with corresponding \LaTeX{} macros as \verb|\ztoolkit| can be added.
+%
+%\subsubsection{\stdtkfile}\label{sec:symbol-toolkit-std}
+%
+%The \texttt{standard\_toolkit} has \texttt{sequence\_toolkit} as its parent
+%and defines nothing. It is the Z section implicitly inherited if no $\SECTION$
+%keyword is present within a given file. Such files have so-called ``implicit''
+%sections, where the implicit section is named as the file (without its extension),
+%where the \texttt{standard} \texttt{\_toolkit} is its parent~\cite[B.9]{isoz}.
+%
+%\section{Z-\LaTeX{} environments}\label{sec:latex-env}
+%
+%In Table~\ref{tbl:latex-env}, we describe all the Z-\LaTeX{} environments used to
+%typeset the various Z paragraphs, such as:~Z section headers containing the section
+%name and its (optional, possibly empty, list of) parents;~horizontal paragraphs like given sets,
+%operator templates, free types, horizontal schemas, and unnamed conjectures;~named
+%conjecture paragraphs;~axiomatic and generic axiomatic definitions;~and schema and generic
+%schema definitions. In many of these paragraphs, the \verb|\where| keyword is used
+%to separate the declaration part from the predicate part. The \texttt{ENDCHAR}
+%is used to mark the end of all Z paragraphs within the Unicode character stream.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|l|}
+%    \hline
+%    \textbf{Description} & \textbf{Markup} & \textbf{\LaTeX} \\
+%    \hline
+%    Section header        & \texttt{ZEDCHAR}              & \verb|\begin{zsection}|      \\
+%    \hline
+%    Horizonal paragraph   & \texttt{ZEDCHAR}              & \verb|\begin{zed}|           \\
+%    \hline
+%    Named conjecture      & \texttt{ZEDCHAR}              & \verb|\begin{theorem}{thm}|  \\
+%    \hline
+%    Axiomatic definition  & \texttt{AXCHAR}               & \verb|\begin{axdef}|         \\
+%    \hline
+%    Generic axdef         & \texttt{AXCHAR GENCHAR}       & \verb|\begin{gendef}|        \\
+%    \hline
+%    Schema definition     & \texttt{SCHCHAR}              & \verb|\begin{schema}{S}|     \\
+%    \hline
+%    Generic schema        & \texttt{SCHCHAR GENCHAR}      & \verb|\begin{schema}{S}[X]|  \\
+%    \hline
+%    Declaration separator & \verb'~|~', or \verb|~\mid~|  & \verb|\where|                \\
+%    \hline
+%    End of all Z paras    & \texttt{ENDCHAR}              & \verb|\end{XXX}|             \\
+%    \hline
+%\end{tabular}
+%\caption{Z-\LaTeX{} environments \smallcaption{A.2.6, A.2.7}}\label{tbl:latex-env}
+%\end{table}
+%
+%Only material within Z paragraphs and \LaTeX{} markup directives are treated by CZT tools
+%as part of a formal Z specification. Insofar as tools are concerned, everything else
+%(\textit{e.g.,}~plain text, \LaTeX{} comments, other \LaTeX{} commands, \textit{etc.})
+%is treated as a Z narrative paragraph, which can contain arbitrary text.
+%
+%To illustrate these boxes, we introduce a few Z paragraphs below. They are inspired in
+%Mike Spivey's guide to Z-\LaTeX{} markup (\textit{i.e.,}~\texttt{zed2e.tex}). Firstly,
+%we add a series of horizonal paragraphs.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%\begin{zed}
+%   % Hard spaces (~) are optional below. They were
+%   % added for (personal) aesthetic reasons.
+%   [Set]
+%   \also    % small vertical space
+%   List ~~::=~~ leaf | const \ldata List \rdata \\
+%   Sch  ~~==~~ [~ x, y: \nat | x > y ~] \\
+%   Sch2 ~~==~~ Sch \land [~ z: \num ~]
+%\end{zed}
+%\end{verbatim}
+%\gives
+%\begin{zed}
+%   [Set]
+%   \also    % small vertical space
+%   List ::= leaf | const \ldata List \rdata \\
+%   Sch  ~~==~~ [~ x, y: \nat | x > y ~] \\
+%   Sch2 ~~==~~ Sch \land [~ z: \num ~]
+%\end{zed}
+%\end{demo}
+%%
+%Next, we typeset an axiomatic definition.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%\begin{axdef}
+%   f, g: \power~\nat \fun (\num \cross \seq~\arithmos)
+%\where
+%\zbreak     % may not break, depends on page placement
+%   \forall S, T: \power~\nat | f~S \subseteq g~S @ \\
+%        \t1 first~(f~S) < \#~(g~S).2
+%\end{axdef}
+%\end{verbatim}
+%\gives
+%\begin{axdef}
+%   f, g: \power~\nat \fun (\num \cross \seq~\arithmos)
+%\where
+%\zbreak     % may not break, depends on placement
+%
+%   \forall S, T: \power~\nat | f~S \subseteq g~S @ \\
+%        \t1 \, \! \: \, first~(f~S) < \#~(g~S).2
+%\end{axdef}
+%\end{demo}
+%After that, we have a simple vertical schema.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%\begin{schema}{Test}
+%   x, y: \nat; S, T: \power_1~\nat
+%\where
+%   x > y \\
+%   S \subset T \\
+%\znewpage           % certainly breaks
+%   x \neq y = 0
+%   \Also            % medium vspace
+%   x \in S \land y \notin T
+%\end{schema}
+%\end{verbatim}
+%\gives
+%\begin{schema}{Test}
+%   x, y: \nat; S, T: \power_1~\nat
+%\where
+%   x > y \\
+%   S \subset T \\
+%\znewpage           % certainly breaks
+%   x \neq y = 0
+%   \Also            % medium vspace
+%   x \in S \land y \notin T
+%\end{schema}
+%\end{demo}
+%%
+%Below we typeset a generic axiomatic definition.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%\begin{gendef}[X, Y]
+%   S, T: \power~(X \cross Y)
+%\where
+%   S \subseteq T
+%   \ALSO           % big vertical space
+%
+%   \exists U: \power~(X \cross Y) \spot \\
+%        \t2 U \subset (S \cup T)
+%\end{gendef}
+%\end{verbatim}
+%\gives
+%\begin{gendef}[X, Y]
+%   S, T: \power~(X \cross Y)
+%\where
+%   S \subseteq T
+%   \ALSO           % big vertical space
+%
+%   \exists U: \power~(X \cross Y) \spot U \subset (S \cup T)
+%\end{gendef}
+%\end{demo}
+%%
+%And finally, a generic schema.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%\begin{schema}{GenTest}[X]
+%   a: X; b: \power~X
+%\where
+%   a \in b
+%\end{schema}
+%\end{verbatim}
+%\gives
+%\begin{schema}{GenTest}[X]
+%   a: X; b: \power~X
+%\where
+%   a \in b
+%\end{schema}
+%\end{demo}
+%%
+%For schemas without names, which are not recognised by the parser, one could
+%use the \verb|\begin{plainschema}| environment.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%\begin{plainschema}
+%    x, y: \nat
+% \where
+%    x = y
+%\end{plainschema}
+%\end{verbatim}
+%\gives
+%\begin{plainschema}
+%    x, y: \nat
+% \where
+%    x = y
+%\end{plainschema}
+%\end{demo}
+%%
+%Finally, stared versions of the usual Z environments can be used to
+%typeset Z-\LaTeX, but having its text ignored by the CZT tools as a narrative paragraph.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%\begin{zed*}
+%   [NotParsed]
+%\end{zed*}
+%\begin{axdef*}
+%   a : \arithmos
+%\end{axdef*}
+%\begin{gendef*}[X]
+%   x: X
+%\end{gendef*}
+%\begin{schema*}{NotParsed}[X]
+%   x, y: X
+%\where
+%   x > y
+%\end{schema*}
+%\end{verbatim}
+%\gives
+%\begin{zed*}
+%   [NotParsed]
+%\end{zed*}
+%\begin{axdef*}
+%   a : \arithmos
+%\end{axdef*}
+%\begin{gendef*}[X]
+%   x: X
+%\end{gendef*}
+%\begin{schema*}{NotParsed}[X]
+%   x, y: X
+%\where
+%   x > y
+%\end{schema*}
+%\end{demo}
+%
+%\newpage
+%
+%After we have done that, let us test trailing spaces after Z paragraph environments are not
+%affecting L/R mode indentation spacing, a known problem in some old Z-\LaTeX{} style files.
+%Say, let us define a new operator template as a prefix function. For that we also add,
+%together with the operator definition, its (Z) \LaTeX{} markup directive and associated
+%\LaTeX{} markup command as a \verb|\ztoolkit|.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%% Unicode markup in markup directive is the "text" to use
+%\newcommand{\test}{\ztoolkit{test}}
+%
+%\begin{zed}
+%   %%Zword \test test
+%   \function (\test \_)
+%\end{zed}
+%Now some text to see if paragraph mode indentation is right.
+%\[ \forall x: \nat_1 @ x > 0 \]
+%What about with math display environments?
+%All seems okay.
+%\end{verbatim}
+%\gives
+%% Unicode markup in markup directive is the "text" to use
+%\newcommand{\test}{\ztoolkit{test}}
+%
+%\begin{zed}
+%   %%Zword \test test
+%   \function (\test \_)
+%\end{zed}
+%Now some text to see if paragraph mode indentation is right.
+%\[ \forall x: \nat_1 @ x > 0 \]
+%What about with math display environments? All seems okay.
+%\end{demo}
+%%
+%Finally, let us test the named conjecture environment.
+%%
+%\begin{demo}
+%\begin{verbatim}
+%\begin{theorem}{Thm1}
+%   \forall x: \nat @ x \geq 0
+%\end{theorem}
+%\end{verbatim}
+%\gives
+%\begin{theorem}{Thm1}
+%   \forall x: \nat @ x \geq 0
+%\end{theorem}
+%\end{demo}
+%%
+%Unfortunately, I could not find a way to make named conjectures
+%colourful, whenever colour is enabled in Z math mode.
+%
+%\section{Extra macros and commands from \cztstylefile}\label{sec:cztsty}
+%
+%There are a few extra macros the user may refer to when extending the
+%\cztstylefile, or adding her own markup directives. They are summarised
+%in Table~\ref{tbl:cztsty-extra}.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|}
+%    \hline
+%    \textbf{Description} & \textbf{\LaTeX} \\
+%    \hline
+%    \cztstylefile version       & \verb|\fileversion|      \\
+%    \hline
+%    \cztstylefile date          & \verb|\filedate|           \\
+%    \hline
+%    \cztstylefile description   & \verb|\filedesc|  \\
+%    \hline
+%    \cztstylefile file name     & \verb|\cztstylefile| \\
+%    \hline
+%    Prefix operators               & \verb|\zpreop{XXX}|         \\
+%    \hline
+%    Posfix operators        & \verb|\zpostop{XXX}|        \\
+%    \hline
+%    Binary operators               & \verb|\zbinop{XXX}|     \\
+%    \hline
+%    Relational operators       & \verb|\zrelop{XXX}|  \\
+%    \hline
+%    Ordinary operators    & \verb|\zordop{XXX}|  \\
+%    \hline
+%    Big symbol            & \verb|\zbig{XXX}| \\
+%    \hline
+%    Bigger symbol         & \verb|\zBig{XXX}| \\
+%    \hline
+%    Even bigger symbol    & \verb|\zBIG{XXX}| \\
+%    \hline
+%    Smaller symbol        & \verb|\zSmall{XXX}| \\
+%    \hline
+%    Even smaller symbol   & \verb|\zsmall{XXX}| \\
+%    \hline
+%    Partial symbol        & \verb|\p{XXX}| \\
+%    \hline
+%    Finite symbol         & \verb|\f{XXX}| \\
+%    \hline
+%    Block alignment env.  & {\small \verb|\begin{zblock}\end{zblock}|} \\
+%    \hline
+%\end{tabular}
+%\caption{Extra \LaTeX{} macros in \smallcaption{\cztstylefile}}\label{tbl:cztsty-extra}
+%\end{table}
+%%
+%File version, date, and description are simple strings with
+%information about \cztstylefile. The various operator wrappers
+%are used to tell \LaTeX{} how spaces for some particular markup
+%should be treated. They follow the usual \LaTeX{} mathematical
+%operators spacing rules (see~\cite[p.~525, Table~8.7]{latexcomp}).
+%Some symbols can be increased or decreased relative to their base symbol.
+%For instance, the symbol for schema composition ($\semi$) is the \verb|\zBig|
+%version of the symbol for relational composition ($\comp$).
+%Similarly, partial function spaces ($\pfun$) are just the \verb|\p|
+%version of total functions ($\fun$). Finally, block alignment can be
+%used so that the treatment of new line within the block adds extra
+%spacing just after the new line.
+%
+%\section{Conclusions and acknowledgements}\label{sec:conclusions}
+%
+%In this document, we presented a guide to typesetting ISO Standard Z~\cite{isoz} in \LaTeX{}
+%when typeset using the \cztstylefile. The document is divided to mirror the
+%Standard as much as possible. This style file is the result of merging, filtering,
+%and removing definitions from various other style files, such as \texttt{oz.sty},
+%\texttt{soz.sty}, \texttt{zed-csp.sty}, \texttt{zed.sty}, \texttt{fuzz.sty},
+%\texttt{z-eves.sty}, and so on.
+%
+%The main design decision behind this document follows CZT guideline that
+%``what you type is what you model''. That is, the document ``as-is'' becomes
+%the source Standard Z (\LaTeX) specification to be processed by tools. Other
+%design decisions included:~i)~keep the style file as minimal, simple, and
+%consistent as possible;~ii)~document and acknowledge macro definition choices
+%and their origin (when different);~iii)~normalise definitions for
+%consistency;~iv)~complete missing cases with either normative rules from
+%the Standard or using common sense;~v)~keep the style file well documented,
+%but not verbose;~and vi)~follow order of definitions from Z Standard document.
+%
+%As the \cztstylefile may be used by both language extensions and \LaTeX{} users,
+%we also provided and explained a series of useful macros for \LaTeX{} rendering
+%that bare no relation with the Standard or the tools. They are useful for \LaTeX{}
+%typesetting only, and are explained in Section~\ref{sec:intro-cztopt}, and
+%Section~\ref{sec:cztsty}.
+%
+%We tried to present, as exhaustively as possible, the use of every one
+%of such commands with \LaTeX{} markup typeset in verbatim mode for
+%clarity and reference. We summarise them all in an Appendix below.
+%More details can be found at the \texttt{czt.dvi} file generated with
+%the \texttt{docstrip} utility on the \texttt{czt.dtx} document from
+%the CZT distribution.
+%
+%Finally, the author would like to thank \textit{QinetiQ Malvern} in the
+%UK for its long term support for the development of formal verification
+%tools here at York. Also, the work to prepare this document and its companion
+%style file benefited immensely by the good work of previous package
+%builders for Z, namely Sebastian Rahtz (Object Z, \emfile{oz.sty}),
+%Mike Spivey (ZRM and Fuzz, \emfile{zed.sty, fuzz.sty}), Jim Davies
+%(ZRM and CSP$_M$, \emfile{zed-csp.sty}), Ian Toyn (Standard Z Editor,
+%\emfile{ltcadiz.sty, soz.sty}), and Mark Utting (original CZT style
+%based on \emfile{oz.sty}, \emfile{czt.sty}). Moreover, I would like
+%to thank all the people in the \texttt{czt-devel} mailing list for
+%their helpful comments on my many questions. Finally, I need to
+%thank my York colleagues Jim Woodcock and Juan Perna for many helpful
+%discussions about tool design and \LaTeX{} typesetting.
+%
+%\section{Features left out}\label{sec:todo}
+%
+%There were several features left out from the various packages we got
+%inspiration from which might be of good use in typesetting \LaTeX{}
+%specifications, as shown below in Table~\ref{tbl:todo}.
+%%
+%\begin{table}[ht]
+%\centering
+%\begin{tabular}{|l|l|l|}
+%    \hline
+%    \textbf{Description}      & \textbf{Source}               & \textbf{\LaTeX} \\
+%    \hline
+%    Multiple column math mode & \texttt{oz.sty}              & \verb|\begin{sidebyside}|      \\
+%    \hline
+%    Comment in math mode      & \texttt{oz.sty}              & \verb|\comment{XXX}|           \\
+%    \hline
+%    indented new lines alignment  & \texttt{oz.sty}              & various \\
+%    \hline
+%    Tabular alignment math mode & \texttt{zed.sty}               & \verb|\begin{syntax}|         \\
+%    \hline
+%    Hand written proofs         & \texttt{zed.sty}       & \verb|\begin{argue}|        \\
+%    \hline
+%    Inference rules         & \texttt{zed.sty}              & \verb|\begin{infrule}|     \\
+%    \hline
+%    Mechanical proof scripts & \texttt{z-eves.sty}      & \verb|\begin{zproof}|  \\
+%    \hline
+%    Labelled predicates      & \texttt{z-eves.sty}      & \verb|\Label{XXX}|  \\
+%    \hline
+%    Various new line alignment & \texttt{z-eves.sty}   & \verb|\+, \-, \\| \\
+%    \hline
+%\end{tabular}
+%\caption{Some \LaTeX{} macros left out from other style files}\label{tbl:todo}
+%\end{table}
+%\newpage % add here to avoid table in same page as reference card
+%%
+%Although some of them could be introduced without problem as \textit{e.g.,}
+%\begin{verbatim}
+%    \begin{sidebyside}...\end{sidebyside}
+%\end{verbatim}
+%for most others the trouble is their presence within the Z-\LaTeX{} lexis.
+%That is, their presence would be detected by the parser as an error, hence they were left out.
+%
+%Finally, note that the Z Standard does not define a toolkit for multi sets also known as bags.
+%That is despite the fact most Z tools do, and the symbols are well known from Spivey's guide~\cite{zrm}.
+%Eventually, we should have in CZT extra toolkits from either known sources and rigorous experiments.
+
+* PARSER DOES NOT YET SUPPORT LOGICAL CONSTANTS
+
+\newpage
+\appendix
+
+\section{Environments}\label{app:ref-env}
+
+\subsection{Informal argument}
+
+To typeset an informal argument, you write in \LaTeX\
+\begin{verbatim}
+\begin{argue}
+    S \dres (T \dres R) \\
+\t1     = \id S \comp \id T \comp R \\
+\t1     = \id (S \cap T) \comp R & law about $\id$ \\
+\t1	= (S \cap T) \dres R.
+\end{argue}
+\end{verbatim}
+%
+which corresponds to
+%
+\begin{argue}
+    S \dres (T \dres R) \\
+\t1     = \id S \comp \id T \comp R \\
+\t1     = \id (S \cap T) \comp R & law about $\id$ \\
+\t1	= (S \cap T) \dres R.
+\end{argue}
+
+\newpage
+\section{Reference card}\label{app:ref-card}
+
+\setcounter{secnumdepth}{2}
+\zedindent=0.2\zedindent
+
+\subsection{Special \Circus{} symbols}
+\vspace*{-0.5ex}
+
+\subsubsection{Refinement}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+n \circassertref S = I                  &\t2 \verb|n \circassertref S = I| \\
+n \circassertref S \circsimulates I     &\t2 \verb|n \circassertref S \circsimulates I| \\
+n \circassertref S \circrefines I       &\t2 \verb|n \circassertref S \circrefines I| \\
+n \circassertref S \circrefines Tr~ I   &\t2 \verb|n \circassertref S \circrefines Tr~ I| \\
+n \circassertref S \circrefines SFl~ I  &\t2 \verb|n \circassertref S \circrefines SFl~ I| \\
+n \circassertref S \circrefines FlDv~ I &\t2 \verb|n \circassertref S \circrefines FlDv~ I| \\
+\end{symbols}
+
+\subsection{\Circus{} channels and name sets}
+\vspace*{-0.5ex}
+
+\begin{symbols}
+\circchannel e                             &\t5 \verb|\circchannel e| \\
+\circchannel c : T                         &\t5 \verb|\circchannel c : T| \\
+\circchannel [X] c : X                     &\t5 \verb|\circchannel [X] c : X| \\
+\circchannelfrom S                         &\t5 \verb|\circchannelfrom S| \\
+\circchannelfrom [X] S[X]                  &\t5 \verb|\circchannelfrom [X] S[X]| \\
+\circchannelset n == \lchanset c \rchanset &\t5 \verb|\circchannelset n == \lchanset c \rchanset| \\
+\circchannelset n == CSRef                 &\t5 \verb|\circchannelset n == CS| \\
+\circchannelset [X] n == CSRef             &\t5 \verb|\circchannelset [X] n == CS| \\
+\circnameset n == \{~ x ~\}                &\t5 \verb|\circnameset n == \{~ x ~\}| \\
+\circnameset n == NSRef                    &\t5 \verb|\circnameset n == NS|
+\end{symbols}
+
+\subsection{\Circus{} actions}
+\vspace*{-0.5ex}
+
+\subsubsection{Action definition}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+n \circdef A                &\t4 \verb|n \circdef A| \\
+n \circdef x: T \circspot A &\t4 \verb|n \circdef x: T \circspot A|
+\end{symbols}
+
+\begin{multicols}{2}
+\subsubsection{Basic actions}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+\Skip   &\t1 \verb|\Skip| \\
+\Stop   &\t1 \verb|\Stop| \\
+\Chaos  &\t1 \verb|\Chaos|
+\end{symbols}
+
+\subsubsection{Prefixing action}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+e \then A                           &\t2 \verb|e \then A| \\
+c.0 \then A                         &\t2 \verb|c.0 \then A| \\
+c!v \then A                         &\t2 \verb|c!v \then A|\\
+c?x \then A                         &\t2 \verb|c?x \then A| \\
+c?x!y?z \then A                     &\t2 \verb|c?x!y?z \then A| \\
+\end{symbols}
+
+\end{multicols}
+
+\subsubsection{Prefixing action (extra)}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+c?x \prefixcolon (P)!(f~x) \then A                              & \\
+    \quad \verb|c?x \prefixcolon (P)!(f~x) \then A|             & \\
+c?x \prefixcolon (x > 1)!(f~x) \then A                          & \\
+    \quad \verb|c?x \prefixcolon (x > 1)!(f~x) \then A|         & \\
+c[\nat \cross \power~\nat]?x!(\dom~R) \then A                   & \\
+    \quad \verb|c[\nat \cross \power~\nat]?x!(\dom~R) \then A|  &
+\end{symbols}
+
+\subsubsection{Unary actions}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+\lschexpract S \rschexpract             &\t4 \verb|\lschexpract S \rschexpract| \\
+\circmu X \circspot A                   &\t4 \verb|\circmu X \circspot A| \\
+A \circhide CS                          &\t4 \verb|A \circhide CS| \\
+\lcircguard P \rcircguard \circguard A  &\t4 \verb|\lcircguard P \rcircguard \circguard A|
+\end{symbols}
+
+\subsubsection{Binary actions}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+A \linter NSa | NSb \rinter B      &\t5 \verb'A \linter NSa | NSb \rinter B' \\
+A \interleave B                    &\t5 \verb|A \interleave B| \\
+A \lpar NSa | CS | NSb \rpar B     &\t5 \verb'A \lpar NSa | CS | NSb \rpar B' \\
+A \lpar CS \rpar B                 &\t5 \verb|A \lpar CS \rpar B| \\
+A [ NSb | CSa | CSb | NSb ] B      &\t5 \verb'A [ NSb | CSa | CSb | NSb ] B' \\
+A [ CSa | CSb ] B                  &\t5 \verb'A [ CSa | CSb ] B' \\
+A \intchoice B                     &\t5 \verb|A \intchoice B| \\
+A \extchoice B                     &\t5 \verb|A \extchoice B| \\
+A \circseq B                       &\t5 \verb|A \circseq B|\\
+AName                              &\t5 \verb|AName| \\
+AName(x, y)                        &\t5 \verb|AName(x, y)| \\
+AName[new/old, x/y]                &\t5 \verb|AName[new/old, x/y]|\\
+\end{symbols}
+
+\subsubsection{Replicated actions}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+\Interleave x: T \circspot A                    & \t4 \verb|\Interleave x: T \circspot A| \\
+\Interleave x: T \linter NS \rinter \circspot A & \t4 \verb|\Interleave x: T \linter NS \rinter \circspot A| \\
+\lpar CS \rpar x: T \circspot \lpar NS \rpar A  & \t4 \verb|\lpar CS \rpar x: T \circspot \lpar NS \rpar A|\\
+\lpar CS \rpar x: T \circspot A                 & \t4 \verb|\lpar CS \rpar x: T \circspot A|\\
+\Intchoice x : T \circspot A                    & \t4 \verb|\Intchoice x : T \circspot A| \\
+\Extchoice x : T \circspot A                    & \t4 \verb|\Extchoice x : T \circspot A| \\
+\Semi x : T \circspot A                         & \t4 \verb|\Semi x : T \circspot A|
+\end{symbols}
+
+
+\subsubsection{Parenthesised actions}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+(A)                                                  &\t4 \verb|(A)| \\
+(x : T \circspot A)                                  &\t4 \verb|(x : T \circspot A)| \\
+(\circval x : T \circspot A)                         &\t4 \verb|(\circval x : T \circspot A)| \\
+(\circres x : T \circspot A)                         &\t4 \verb|(\circres x : T \circspot A)| \\
+(\circvres x : T \circspot A)                        &\t4 \verb|(\circvres x : T \circspot A)| \\
+(x : T \circspot A)(v)                               &\t4 \verb|(x : T \circspot A)(v)| \\
+(\circval x : T \circspot A)(v)                      &\t4 \verb|(\circval x : T \circspot A)(v)| \\
+(\circres x : T \circspot A)(v)                      &\t4 \verb|(\circres x : T \circspot A)(v)| \\
+(\circvres x : T \circspot A)(v)                     &\t4 \verb|(\circvres x : T \circspot A)(v)| \\
+(\circmu X \circspot x : T \circspot A)(v)           &\t4 \verb|(\circmu X \circspot x : T \circspot A)(v)| \\
+(\circmu X \circspot (x : T \circspot A))(v)         &\t4 \verb|(\circmu X \circspot (x : T \circspot A))(v)| \\
+(\circmu X \circspot \circval x : T \circspot A)(v)  &\t4 \verb|(\circmu X \circspot \circval x : T \circspot A)(v)|\\
+(\circmu X \circspot \circres x : T \circspot A)(v)  &\t4 \verb|(\circmu X \circspot \circres x : T \circspot A)(v)|\\
+(\circmu X \circspot \circvres x : T \circspot A)(v) &\t4 \verb|(\circmu X \circspot \circvres x : T \circspot A)(v)|
+\end{symbols}
+
+\subsection{\Circus{} command definitions}
+\vspace*{-0.5ex}
+
+\subsubsection{Guarded commands}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+x, y := v1, v2                            &\t4 \verb|x, y := v1, v2| \\
+x, y \prefixcolon [~ P, Q ~]              &\t4 \verb|x, y \prefixcolon [~ P, Q ~]| \\
+\prefixcolon [~ P, Q ~]                   &\t4 \verb|\prefixcolon [~ P, Q ~]| \\
+\{~ P ~\}                                 &\t4 \verb|\{~ P ~\}| \\
+[~ P ~]                                   &\t4 \verb|[~ P ~]| \\
+\circif P \circthen A \circelse B \circfi &\t4 \verb|\circif P \circthen A \circelse B \circfi| \\
+\circdo P \circthen A \circod             &\t4 \verb|\circdo P \circthen A \circod| \\
+\circcon X \circspot A                    &\t4 \verb|\circcon X \circspot A| \\
+\circvar x : T \circspot A                &\t4 \verb|\circvar x : T \circspot A|
+\end{symbols}
+
+\subsubsection{Parameterised commands}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+\circval x : T \circspot A  &\t4 \verb|\circval x : T \circspot A| \\
+\circres x : T \circspot A  &\t4 \verb|\circres x : T \circspot A| \\
+\circvres x : T \circspot A &\t4 \verb|\circvres x : T \circspot A|
+\end{symbols}
+
+\subsection{\Circus{} processes}
+\vspace*{-0.5ex}
+
+\subsubsection{Process definition}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+\circprocess n \circdef PD        &\t4 \verb|\circprocess n \circdef PD| \\
+\circprocess [X] n \circdef PD    &\t4 \verb|\circprocess [X] n \circdef PD| \\
+\end{symbols}
+
+\subsubsection{Basic process}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+\circprocess n \circdef \circbegin \ldots BP \ldots  \circend  & \\
+    \t1 \verb|\circprocess n \circdef \circbegin \ldots BP \ldots  \circend| & \\
+\circstate n == S                 &\t4 \verb|\circstate n == S| \\
+\circstate S                      &\t4 \verb|\circstate S|
+\end{symbols}
+
+\subsubsection{Unary processes}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+P \circhide CS                                      &\t4 \verb|P \circhide CS| \\
+PName                                               &\t4 \verb|PName| \\
+PName[\nat]                                         &\t4 \verb|PName[\nat]| \\
+PName(x, y)                                         &\t4 \verb|PName(x, y)| \\
+PName[\nat](x, y)                                   &\t4 \verb|PName[\nat](x, y)| \\
+PName \lcircindex x \rcircindex                     &\t4 \verb|PName \lcircindex x \rcircindex| \\
+PName[\nat] \lcircindex x \rcircindex               &\t4 \verb|PName[\nat] \lcircindex x \rcircindex| \\
+PName \lcircrename c, d := e, f \rcircrename        &\t4 \verb|PName \lcircrename c, d := e, f \rcircrename| \\
+PName[\nat] \lcircrename c, d := e, f \rcircrename  &\t4 \verb|PName[\nat] \lcircrename c, d := e, f \rcircrename|
+\end{symbols}
+
+\subsubsection{Binary processes}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+P \interleave Q    &\t4 \verb|P \interleave Q| \\
+P \lpar CS \rpar Q &\t4 \verb|P \lpar CS \rpar Q| \\
+P \intchoice Q     &\t4 \verb|P \intchoice Q| \\
+P \extchoice Q     &\t4 \verb|P \extchoice Q| \\
+P \circseq Q       &\t4 \verb|P \circseq Q|
+\end{symbols}
+
+\subsubsection{Parameterised and indexed processes}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+x : T \circspot P   &\t4 \verb|x : T \circspot P| \\
+x : T \circindex P  &\t4 \verb|x : T \circindex P|
+\end{symbols}
+
+\subsubsection{Parenthesised processes}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+(P)                                                   &\t4 \verb|(P)| \\
+(x : T \circspot P)                                   &\t4 \verb|(x : T \circspot P)| \\
+(x : T \circindex P)                                  &\t4 \verb|(x : T \circindex P)| \\
+(P) \lcircrename c := d \rcircrename                  &\t4 \verb|(P) \lcircrename c := d \rcircrename| \\
+(x : T \circspot P) \lcircrename c := d \rcircrename  &\t4 \verb|(x : T \circspot P) \lcircrename c := d \rcircrename | \\
+(x : T \circindex P) \lcircrename c := d \rcircrename &\t4 \verb|(x : T \circindex P) \lcircrename c := d \rcircrename| \\
+(x : T \circspot P)(v)                                &\t4 \verb|(x : T \circspot P)(v)| \\
+(x : T \circindex P)(v)                               &\t4 \verb|(x : T \circindex P)(v)| \\
+[X](x : X \circspot P)[\nat](1)                       &\t4 \verb|[X](x : X \circspot P)[\nat](1)| \\
+[X](x : X \circindex P)[\nat](1)                      &\t4 \verb|[X](x : X \circindex P)[\nat](1)| \\
+(\circmu X \circspot x : T \circspot P)(v)            &\t4 \verb|(\circmu X \circspot x : T \circspot P)(v)| \\
+(\circmu X \circspot (x : T \circspot P))(v)          &\t4 \verb|(\circmu X \circspot (x : T \circspot P))(v)| \\
+(\circmu X \circspot \circval x : T \circspot P)(v)   &\t4 \verb|(\circmu X \circspot \circval x : T \circspot P)(v)|
+\end{symbols}
+
+\subsubsection{Replicated processes}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+\Interleave x: T \circspot P                    &\t4 \verb|\Interleave x: T \circspot P| \\
+\Parallel x: T \lpar CS \rpar \circspot P       &\t4 \verb|\Parallel x: T \lpar CS \rpar \circspot P| \\
+\Intchoice x : T \circspot P                    &\t4 \verb|\Intchoice x : T \circspot P| \\
+\Extchoice x : T \circspot P                    &\t4 \verb|\Extchoice x : T \circspot P| \\
+\Semi x : T \circspot P                         &\t4 \verb|\Semi x : T \circspot P|
+\end{symbols}
+
+\begin{multicols}{2}
+
+\subsection{Mathematical toolkits}
+\vspace*{-0.5ex}
+
+\subsubsection{\Circus{} prelude}
+\vspace*{-3ex}
+
+\begin{symbols}
+\boolean  &\t1 \verb|\boolean| \\
+\universe &\t1 \verb|\universe| \\
+\true     &\t1 \verb|\true| \\
+\false    &\t1 \verb|\false|
+\end{symbols}
+
+\subsubsection{\Circus{} model checking toolkit}
+\vspace*{-3ex}
+
+\begin{symbols}
+SS \gendj TT    &\t1 \verb|SS \gendj TT|\\
+\regions SS     &\t1 \verb|\regions SS|\\
+SS \dsetminus S &\t1 \verb|SS \dsetminus S|\\
+SS \dcap S      &\t1 \verb|SS \dcap S |
+\end{symbols}
+
+\subsubsection{\Circus{} Spivey's Z bag toolkit}
+\vspace*{-2.5ex}
+
+\begin{symbols}
+\bag~X        &\t1 \verb|\bag~X| \\
+B \bcount n   &\t1 \verb|B \bcount n| \\
+n \otimes B   &\t1 \verb|n \otimes B| \\
+B \uplus  C   &\t1 \verb|B \uplus  C| \\
+B \uminus C   &\t1 \verb|B \uminus C| \\
+x \inbag B    &\t1 \verb|x \inbag B| \\
+B \subbageq C &\t1 \verb|B \subbageq C| \\
+\lbag x, y \rbag &\t1 \verb|\lbag x, y \rbag|
+\end{symbols}
+
+\end{multicols}
+
+%\newpage
+%\bibliographystyle{plain}
+%\bibliography{circus-guide}
+
+\end{document}  

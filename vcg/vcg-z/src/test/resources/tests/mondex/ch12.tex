@@ -1,0 +1,98 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch12 \parents ch11
+\end{zsection}
+}
+\chapter{\Abs\ to \Betw\ finalisation proof}\label{ch12}
+
+\section{Proof obligations}
+
+The requirement is to prove that the between final state correctly
+refines the abstract final state, and the between outputs correctly
+refine the abstract outputs.  That is,
+\begin{gzed}
+%%\forall
+  BetwFinOut
+%%@
+  \shows \exists a!:AOUT @ RabOut \land AbFinOut
+\\
+%%\forall
+  BetwFinState
+%%@
+  \shows \exists AbWorld @ Rab \land AbFinState
+\end{gzed}
+
+\section{Output proofs}\label{ch12.out}
+
+\begin{LThm}[\Betw\ world outputs refines \Abs\ world outputs.]%
+\begin{theorem}{tBetwAbsFinalOutput}
+\forall BetwFinOut @ \exists a!:AOUT @ RabOut \land AbFinOut
+\end{theorem}~\end{LThm}
+
+\section{State proof}\label{ch12.state}
+
+From inference rule $B.5$, we can \textit{[cut]} $tBetwAbsFinalState$
+to introduce an $AbWorld$ witness, where
+%
+\begin{gzed}
+    R  ~~\defs~~  BetwFinState \\
+    P  ~~\defs~~  (\exists AbWorld @ Rab \land AbFinState) \\
+    D  ~~\defs~~  AbWorld \\
+    Q  ~~\defs~~  abAuthPurse = gAuthPurse
+\end{gzed}
+
+In \zeves, this means instantiating $AbWorld.abAuthPurse$ with $gAuthPurse$.
+Nevertheless, as \zeves\ uses sequence calculus, we would not be able to apply
+case analysis this time because we would have two conjoined negations on the
+assumptions rather than two conjoined predicates on the conclusions.
+Therefore, we add the cases separately as in the PRG, but with a different
+``\textit{[cut]}''!
+
+\subsection{Case $AbFinState$}
+
+This lemma is similar to that of mondex, with substitution directly.
+%
+\begin{LLemma}[Case: $cut$ on $AbWorld$ for the $AbFinState$ (12.3.1)]
+\begin{theorem}{lBetwAbsFinalStateAbWorldCutAbFinStateCase}
+    \forall BetwFinState @ AbFinState[gAuthPurse/abAuthPurse]
+\end{theorem}~\end{LLemma}
+
+\subsection{Case $Rab$}
+
+Again the explanation of the proof of the next case was quite helpful and made
+the automation straightforward. We just needed to add additional (obvious) lemmas
+about the finiteness of the $chosenLost$ witness as $maybeLost$, and some time
+information about $ConPurse~balance$.
+%
+\begin{LRRT}[Expanded abstract purse $balance$ type]
+\begin{theorem}{rule rConPurseBalanceTypeOpen}
+    \forall  purse: NAMES \ffun ConPurse; name: NAMES | name \in \dom~purse @ \\
+        \t1 (purse~name).balance \in \nat
+\end{theorem}~\end{LRRT}
+
+\begin{LNewLemma}[$maybeLost$ is a finite set]
+\begin{theorem}{lBetweenWorldMaybeLostIsFinite}
+    \forall BetweenWorld @ maybeLost \in \finset~PayDetails
+\end{theorem}~\end{LNewLemma}
+%
+\begin{LLemma}[Case: $cut$ on $AbWorld$ for the $Rab$ (12.3.2)]
+\begin{theorem}{lBetwAbsFinalStateAbWorldCutRabCase}
+    \forall BetwFinState @ Rab[gAuthPurse/abAuthPurse]
+\end{theorem}~\end{LLemma}
+
+\subsection{Actual state related theorem}
+
+\begin{LThm}[\Betw\ world final. refines \Abs\ world final.]%
+\begin{theorem}{tBetwAbsFinalState}
+    \forall BetwFinState @ \exists AbWorld @ Rab \land AbFinState
+\end{theorem}~\end{LThm}
+
+\newpage
+\section{Summary}\label{ch12.summary}
+
+\ldefsummary %
+\lthmsummary %
+\lthmaddeddefsummary %
+\lthmaddedthmsummary %
+\lzevessummary %
+%\lpscriptsummary

@@ -1,0 +1,39 @@
+─ section dollarNamedThmUtf parents standard_toolkit └
+
+┌ Aha 
+a : ℕ └ 
+
+┌ Test 
+ΔAha 
+today : ℕ 
+byNight : ℕ └ 
+
+Dollar in thm name and in variable name and list of names
+├ bla$dom
+prenex ;
+apply inDom to predicate x = dom f ∪ dom r ;
+apply S$member ;
+instantiate x == 10 + 5 , y == { a : ℕ ; b : ℕ | P ( a , b ) } , z == 0 , wierd$ == 20 ;
+prenex ;
+with enabled ( S$member , inDom ) prove by rewrite ;
+└ 
+
+─ [ Service , Data ] └ 
+
+╷ d0 , d1 : Data 
+s0 , s1 : Service └ 
+
+─ theorem lServDatWitness ( ∃ s : Service ⦁ true ) ∧ ( ∃ d : Data ⦁ true ) └ 
+
+dollar in usage
+├ lServDatWitness
+use d0$declaration ;
+use d1$declaration ;
+└ 
+
+Dashed variable (captured) names + duplicated dollar in domaincheck name
+├ unammed$n5$domainCheck
+prove by reduce ;
+use bla [ weird$′ := 10 ] ;
+instantiate x$′ == 10 ;
+└ 

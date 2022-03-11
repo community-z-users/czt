@@ -1,0 +1,231 @@
+\documentclass{article}
+
+\usepackage{czt}
+
+\begin{document}
+
+This file contains the bag toolkit definitions as in Spivey's book
+
+\section{Bags section}
+
+Bags inherits from \verb'sequence\_toolkit', as it requires
+both function, number, and sequence toolkits. This inclusion
+is meant to be minimal.
+%
+\begin{zsection}
+\SECTION bag\_toolkit\_spivey \parents sequence\_toolkit
+\end{zsection}
+
+\section{Bag definitions}
+
+In what follows, we add each subsection section
+according to Spivey's book, and add two further
+sections for the operator templates and bag displays.
+
+\subsection{Operator templates}
+
+The following operator templates correspond to:
+bag constructor; bag element count; bag scaling;
+bag membership; sub-bag relation; bag union;
+bag difference; and bag display left and right brackets.
+
+%%Zpreword \bag bag
+%%Zinchar \bcount U+266F
+%%Zinchar \otimes U+2297
+%%Zinchar \inbag U+22FF
+
+% unfortunately, for Unicode, 228F is taken (\circrefines)
+%%Zinword \subbageq subbageq    
+
+%%Zinchar \uplus U+228E
+%%Zinchar \uminus U+2A41
+
+% unfortunately, for Unicode, 301A and 27E6 are taken (\linter, \lpar)
+% unfortunately, for Unicode, 301B and 27E7 are taken (\rinter, \rpar)
+%%Zpreword \lbag lbag         
+%%Zpostword \rbag rbag        
+\begin{zed}
+    \generic (\bag \_) \\
+    \function 50 \leftassoc (\_ \bcount \_) \\
+    \function 40 \leftassoc (\_ \otimes \_) \\
+    \relation (\_ \inbag \_) \\
+    \relation (\_ \subbageq \_) \\
+    \function 30 \leftassoc (\_ \uplus \_) \\
+    \function 30 \leftassoc (\_ \uminus \_) \\
+    \function (\lbag \listarg \rbag) \\
+\end{zed}
+
+\subsection{Basic definitions}
+
+\begin{zed}
+  \bag~X == X \pfun \nat_1
+\end{zed}
+
+\begin{gendef}[X]
+  count: \bag X \bij (X \fun \nat) \\
+  \_ \bcount \_: \bag X \cross X \fun \nat \\
+  \_ \otimes \_: \nat \cross \bag X \fun \bag X
+\where
+  \forall B: \bag X @ count~B = (\lambda x: X @ 0) \oplus B
+\also
+  \forall x: X; B: \bag X @ B \bcount x = (count ~ B)~x
+\also
+\forall n: \nat; B: \bag X; x: X @  (n \otimes B) \bcount x = n * (B \bcount x)
+\end{gendef}
+
+Before we can define bag displays, we require the
+definition of $items$, which appears later. For the
+same reason, the laws about displays also appear later.
+
+\begin{theorem}{singletonScalling}[X]
+    \vdash? \forall B: \bag X @ 1 \otimes B = B
+\end{theorem}
+\begin{theorem}{singletonScalling2}[X]
+    \vdash? \forall n, m: \nat ; B: \bag X @ \\
+         \t1 (n * m) \otimes B = n \otimes (m \otimes B)
+\end{theorem}
+
+\subsection{Bag membership and subbags}
+
+\begin{gendef}[X]
+  \_ \inbag \_ : X \rel \bag X \\
+  \_ \subbageq \_: \bag X \rel \bag X \\
+\where
+  \forall x: X; B: \bag X @ (x \inbag B \iff x \in \dom B)
+\also
+  \forall A, B: \bag X @ A \subbageq B \iff
+	(\forall x: X @ A \bcount x \leq B \bcount x)
+\end{gendef}
+
+\begin{theorem}{bagMembership}[X]
+    \vdash? \forall x: X; B: \bag X @ x \inbag B \iff B \bcount x > 0
+\end{theorem}
+\begin{theorem}{subBagSubsetDom}[X]
+    \vdash? \forall B, C: \bag X | B \subbageq C @ \dom~B \subseteq \dom~C
+\end{theorem}
+\begin{theorem}{subBagReflexive}[X]
+    \vdash? \forall B: \bag X @ B \subbageq B
+\end{theorem}
+\begin{theorem}{subBagAntiSymmetric}[X]
+    \vdash? \forall B, C: \bag X | B \subbageq C \land C \subbageq B @ B = C
+\end{theorem}
+\begin{theorem}{subBagTransitive}[X]
+    \vdash? \forall B, C, D: \bag X | B \subbageq C \land C \subbageq D @ B \subbageq D
+\end{theorem}
+
+\subsection{Bag union and difference}
+
+\begin{gendef}[X]
+  \_ \uplus \_, \_ \uminus \_:  \bag X \cross \bag X \fun \bag X
+\where
+  \forall A, B: \bag X; x: X @
+      (A \uplus B) \bcount x = (A \bcount x) + (B \bcount x)
+\also
+  \forall A, B: \bag X; x: X @
+     (A \uminus B) \bcount x =max \{ 0, (A \bcount x) - (B \bcount x) \}
+\end{gendef}
+
+\begin{theorem}{domBagUnion}[X]
+   \vdash? \forall B, C: \bag X @ \dom~(B \uplus C) = \dom~B \cup \dom~C
+\end{theorem}
+\begin{theorem}{bagUnionCommutes}[X]
+   \vdash? \forall B, C: \bag X @ B \uplus C = C \uplus B
+\end{theorem}
+\begin{theorem}{bagUnionAssociates}[X]
+   \vdash? \forall B, C, D: \bag X @ (B \uplus C) \uplus D = B \uplus (C \uplus D)
+\end{theorem}
+\begin{theorem}{bagUnionDiffElim}[X]
+   \vdash? \forall B, C: \bag X @ (B \uplus C) \uminus C = B
+\end{theorem}
+\begin{theorem}{bagUnionScallingProperty}[X]
+   \vdash? \forall n, m: \nat; B: \bag X @ (n + m) \otimes B = n \otimes B \uplus m \otimes B
+\end{theorem}
+\begin{theorem}{bagDiffScallingProperty}[X]
+   \vdash? \forall n, m: \nat; B: \bag X | n \geq m @ (n - m) \otimes B = n \otimes B \uminus m \otimes B
+\end{theorem}
+\begin{theorem}{bagUnionScallingDistributes}[X]
+   \vdash? \forall n: \nat; B, C: \bag X @ n \otimes (B \uplus C) = (n \otimes B) \uplus (n \otimes C)
+\end{theorem}
+\begin{theorem}{bagDiffScallingDistributes}[X]
+   \vdash? \forall n: \nat; B, C: \bag X @ n \otimes (B \uminus C) = (n \otimes B) \uminus (n \otimes C)
+\end{theorem}
+
+\subsubsection*{Bag items}
+
+\begin{gendef}[X]
+  items: \seq X \fun \bag X
+\where
+  \forall s: \seq X; x : X @ (items~s) \bcount x = \# \{ i: \dom~s | s(i) = x \}
+\end{gendef}
+
+\begin{theorem}{domBagItems}[X]
+   \vdash? \forall s: \seq~X @ \dom~(items~s) = \ran~s
+\end{theorem}
+\begin{theorem}{itemsCatBagUplus}[X]
+   \vdash? \forall s, t: \seq~X @ items~(s \cat t) = items~s \uplus items~t
+\end{theorem}
+\begin{theorem}{itemsEquiv}[X]
+   \vdash? \forall s, t: \seq~X @ items~s = items~t \iff (\exists f: \dom~s \bij \dom~t @ s = t~ \circ ~f)
+\end{theorem}
+
+\subsection{Bag displays}
+
+Now that we have defined $items$, we can define bag displays
+in terms of it, as mentioned by Spivey at the beginning of Section 4.6
+of his book.
+%
+\begin{zed}
+    \lbag \listarg \rbag [X] == (\lambda x: \seq X @ items~x)
+\end{zed}
+
+An example of usage of bag displays for empty and singleton bags
+%
+\begin{theorem}{emptyBagIsEmptySet}[X]
+    \vdash? \lbag \rbag = \emptyset[X \cross \nat]
+\end{theorem}
+\begin{theorem}{unitBagDef}[X]
+    \vdash? \forall x : X @ \lbag x \rbag =  \{ (x, 1) \}
+\end{theorem}
+
+And the bag display theorems accumulated from the previous sections
+%
+\begin{theorem}{domBags}[X]
+    \vdash? \forall x, y: X @ \dom~(\lbag x, y \rbag) = \{ x, y \}
+\end{theorem}
+\begin{theorem}{emptyBagScalling}[X]
+    \vdash? \forall n: \nat; B: \bag X @ n \otimes \lbag \rbag = 0 \otimes B = \lbag \rbag
+\end{theorem}
+\begin{theorem}{emptyBagSubBag}[X]
+    \vdash? \forall B: \bag X @ \lbag \rbag \subbageq B
+\end{theorem}
+\begin{theorem}{emptyBagUnitBagUnion}[X]
+    \vdash? \forall B: \bag X @ \lbag \rbag \uplus B = B \uplus \lbag \rbag = B
+\end{theorem}
+\begin{theorem}{emptyBagUnitBagDiff}[X]
+    \vdash? \forall B: \bag X @ B \uminus \lbag \rbag = B
+\end{theorem}
+\begin{theorem}{emptyBagZeroBagDiff}[X]
+    \vdash? \forall B: \bag X @ \lbag \rbag \uminus B =  \lbag \rbag
+\end{theorem}
+\begin{theorem}{items2BagDisplay}[X]
+    \vdash? \forall x, y: X @ items~\langle x, y \rangle = \lbag x, y \rbag
+\end{theorem}
+
+\section{Using this toolkit}
+
+To use this file, just add
+%
+\begin{verbatim}
+\documentclass{article} % or whatever else
+\usepackage{czt}
+
+begin{zsection}
+   \SECTION my\_section \parents bag\_toolkit\_spivey
+end{zsection}
+
+% your specification goes here
+
+\end{document}
+\end{verbatim}
+%
+within a file caled \verb'my\_section.tex'.

@@ -1,0 +1,1116 @@
+\documentclass{article}
+\usepackage{oz}
+\newenvironment{Rationale}{\\ \textbf{Rationale:}\it}{}
+\newcommand{\V}{\mathcal{V}}
+
+% Simulate some standard Z commands
+\newenvironment{zsection}{\begin{zed}}{\end{zed}}
+\newcommand{\SECTION}{\textbf{section}~}
+\newcommand{\parents}{\mathrel{\textbf{parents}}}
+
+% Rule syntax: \begin{zedrule}{Name} Ant1 \\ Ant2 \derive Concl \end{zedrule}
+\newenvironment{zedrule}[1]{\par\textbf{rule }#1\vspace{-2ex}\infrule}{\endinfrule}
+\newcommand{\derives}{\derive{}}
+
+\newenvironment{zedjoker}[1]{\par$\bigstar$ #1\ }{}
+
+\newcommand{\Context}{\Gamma}
+\newcommand{\notfreein}{\mathbin{\backslash}}
+\newcommand{\HasType}{\mathbin{:}} % \small\rlap{$\circ$}{\raisebox{1ex}{$\circ$}}}}
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+%% Define some extra macros for the Z standard.
+%% These will eventually be defined in a czt.sty file.
+\newcommand{\negate}{\mathop{-}}
+\newcommand{\arithmos}{{A\!\!\!\!A}}   %% TODO: get a proper symbol
+\newcommand{\substitute}{\mathrel{\curvearrowleft}}  % U+21B6
+\newcommand{\proviso}{\raisebox{0.5ex}{${}_{\blacktriangleright}\ $}}%%or\star
+%       %%Zprechar \proviso U+22C6    % small star, or
+%       %%Zprechar \proviso U+25B8    % small solid triangle  |> )
+
+
+\title{Proof/Rewrite Rules in CZT}
+\author{Mark Utting}
+\begin{document}
+\maketitle
+
+This document describes a proposal for writing proof rules
+and rewrite rules within CZT, in a way that should allow both
+the $Z_C$ and $\V$ logics to be supported, and also
+allow Z tools to use sets of rewrite rules to transform Z 
+specifications. 
+
+\section{Goals}
+
+The goals of this proposal are:
+\begin{enumerate}
+\item to provide a high-level notation for Z transformations,
+  by allowing rules to be written in Z syntax as much as possible.
+  Each rule has a single conclusion and possibly several premisses,
+  so is a horn clause.  Thus we have a high-level Prolog-like notation
+  (but with Z syntax) for defining Z transformations and automatic proofs.
+  This should be powerful enough to define all the schema
+  unfolding  (so we do not have to implement
+  it by hand in Java!) as well as have many other uses...
+  \begin{Rationale}
+    A high-level notation is more readable, much quicker
+    to write and easier to maintain than writing transformations in
+    a low level notation like Java.  It also allows better reuse of the
+    knowledge implicit in the rules~\cite{armour:business-model00}.
+  \end{Rationale}
+
+\item to be able to support a variety of Z logics, such as
+  $Z_C$~\cite{henson:revising-z-1-99,henson:revising-z-2-99}, 
+  $\mathcal{V}$~\cite{brien:calculus-schemas-z00} (a successor of
+  the $\mathcal{W}$ logic that appeared in early drafts of the Z standard),
+  as well as being useful for defining sets of rewrite rules
+  for custom purposes (such as unfolding schema operators
+  or transforming predicates into DNF form).
+  \begin{Rationale}
+    CZT needs to be able to define sets of rewrite rules.
+    By generalising this slightly, it seems possible to support more
+    general logics like $Z_C$ and $\mathcal{V}$ and thus support simple
+    reasoning about concrete Z specifications (but not schematic
+    reasoning about arbitrary schemas -- this would be useful for proving
+    derived inference rules etc., but is quite a lot more complex
+    to support).  It is desirable to 
+    support both $Z_C$ and $\mathcal{V}$ (and any future proposals for Z
+    logics), since they are rather different and it would be interesting
+    to compare them in a common framework.  For example, substitution
+    is a meta-level operation in $Z_C$, but is defined within the object
+    logic of $\mathcal{V}$.
+  \end{Rationale}
+
+\item to be able to translate the rules into a form that Z theorem 
+  provers will accept, so that we can prove rules correct -- to allow this,
+  the more declarative the rules are the better.
+
+\item to provide a Java \texttt{Deduction} interface for applying a rule or
+  set of rules to a given Z construct, and to provide several
+  implementations of this interface that can be parameterised by a set
+  of restricted rules (for example, equality rewrites).
+  \begin{Rationale} 
+  We want to use some sets of rewrite rules
+  (example, schema unfolding) as important components of CZT, so we
+  must have reasonably efficient implementations of those rule sets,
+  and a uniform way of applying them.  It is useful to allow many
+  different rewrite engines (implementations of the \texttt{Deduction}
+  interface) because each engine may place different restrictions on
+  the rules that it allows, may apply rules using a different
+  semantics (apply once, apply exhaustively, apply to all subterms
+  bottom-up or top-down etc.), and may use a different implementation
+  technology (for example, an interpreter that applies the rules or a
+  compiler that transforms the rules into Java code).
+  \end{Rationale}
+
+\item Build a tactic layer on top of this basic theorem prover,
+  using a tactic language such as
+  ANGEL~\cite{martin:tactics}.  This has been used as the basis
+  of several other Z provers (CadiZ, Jigsaw1, Jigsaw2, Ergo).
+  \begin{Rationale}
+    An explicit proof tree allows proofs to be recorded, replayed,
+    displayed, checked by independent tools etc.
+    The non-determinism of ANGEL could easily be implemented as
+    Java iterators returning alternative solutions.
+    (Assuming that Andrew can find a student who is interested 
+    in implementing ANGEL in Java!)
+  \end{Rationale}
+\end{enumerate}
+
+
+\section{Rule Syntax}
+
+\begin{zsection}
+  \SECTION Intro \parents standard\_toolkit
+\end{zsection}
+
+
+My (Mark's) original proposal was to write rewrite rules within the
+existing standard Z syntax, as conjectures:
+\begin{axdef}
+  E1, E2 : \num
+\end{axdef}
+\begin{zed}
+  \vdash? E1 - E2 = E1 + (\negate E2)
+\end{zed}
+or as axioms:
+\begin{axdef}
+\where
+  (\forall E1,E2:\arithmos @ E1 - E2 = E1 + (\negate E2))
+\end{axdef}
+Special syntax, such as the substitution operator $\odot$ of $\mathcal{V}$
+can be declared as infix operators using the standard Z features.
+
+However, this approach does not extend nicely to sequents and
+inference rules, so I now think we need a special \emph{rule} construct
+which is an extension of standard Z.  Allowing this to appear within
+Z specifications means that the context of each rule is clear
+(for example, which sections it relies on) and we can use the usual
+mechanisms of sections and files to group rules into rulesets.
+An additional (important!) advantage is that we can give names
+to the rules.  These would probably not be used by the automatic rewrite
+engines, but could be used by interactive theorem provers.
+
+For example, the \emph{Funct} rule from $\mathcal{V}$ might be
+written in \LaTeX\ as (we omit the $\Gamma \vdash$ prefixes
+since they are the same in all sequents):
+\begin{verbatim}
+\begin{zedrule}{Funct}
+  \exists_1 x:f @ x.1 = e \\
+  x \notfreein e
+\derives
+  y=f(e) \iff (e,y) \in f
+\end{zedrule}
+\end{verbatim}
+
+which might be displayed as:
+\begin{zedrule}{Funct}
+  \exists_1 x:f @ x.1 = e \\
+  x \notfreein e
+\derives
+  y=f(e) \iff (e,y) \in f
+\end{zedrule}
+
+It is not completely clear to me exactly what we need to
+allow in the left hand side of sequents for the $Z_C$ and $\V$
+logics.  I propose that we initially leave the conclusion context implicit
+in all rules and simply list any predicates and typing facts that
+are \emph{added} in the premiss sequents.  This means that the
+left hand side of a conclusion sequent is always empty, while the
+left hand side of each premiss sequent can be either empty or
+a comma-separated sequence of predicates and typing facts (Var:Type).
+
+
+\subsection{Metavariables}
+
+It is also necessary to declare which names are metavariables
+(jokers) and which syntactic roles they play.
+\begin{Rationale}
+  Otherwise the parser/typechecker cannot easily know whether
+  a name is meant to be a metavariable, or a reference to some
+  global constant or toolkit definition.
+
+  CADiZ has declarations similar to these, but places them
+  within tactic definitions rather than globally.  Globally
+  seems more appropriate when we want to write a file full
+  of rules.
+\end{Rationale}
+
+I propose an additional Z construct for this (cf. the operator
+declarations of standard Z), which declares the role of each metavariable
+explicitly.  Here is an example (the first two lines are sufficient for
+the \emph{Funct} rule):
+
+\begin{verbatim}
+\begin{zedjoker}{Name} x \end{zedjoker}
+\end{verbatim}
+
+\begin{zedjoker}{Name} x \end{zedjoker}
+\begin{zedjoker}{Expr} e,f,y \end{zedjoker}
+\begin{zedjoker}{Expr} e1,e2,E1,E2 \end{zedjoker}
+\begin{zedjoker}{Type} T1, T2 \end{zedjoker}
+\begin{zedjoker}{Pred} P,P1,P2,P3,Q \end{zedjoker}
+\begin{zedjoker}{DeclList} D0,D1,D2,D3 \end{zedjoker}
+
+It is allowable to declare the same name several times, provided
+that all declarations of that name are for the same kind of joker.
+All metavariable names must be declared without decorations.  
+These names are used only within rules, so do not change the
+meaning of standard Z paragraphs.  Within a rule paragraph,
+these jokers are implicitly universally quantified, so their
+scope is the whole rule.
+
+Implementation Note: the parser will record these declarations,
+and use them to transform those names into the appropriate kind
+of metavariable during parsing.  If we want to typecheck rules
+(it is not clear to me yet if this will be possible!) the typechecker will
+also have to assign a type variable to each of these names
+during typechecking.
+
+
+\subsection{Side Conditions}
+
+The tricky question about inference rules is what primitive
+side conditions they use (for checking not-free-in conditions,
+signature disjointness conditions etc.).  
+For CZT, we want to provide sufficient side conditions
+to support both the $Z_C$ and $\V$ logics, plus enough to
+allow us to write inference rules for easily unfolding schema
+expressions etc.  The following kinds of side-conditions seem
+to be necessary:
+
+\begin{enumerate}
+\item Invoking the typechecker to check types and to calculate
+  the base type of a given expression or predicate.
+\item Calculating sets of names and declaration lists (see below).
+\item Checking properties of those sets of names, such as membership,
+  non-membership, subset and equality.
+\item Manipulating declaration lists by filtering, hiding
+  or renaming various fields (see below).
+\item Substitution (replacing variables by expressions)
+  within expressions and predicates.  In CZT, as in CADiZ,
+  each variable has a unique id, so variable capture is not an 
+  issue (except that when printing specifications, sometimes
+  variables must be renamed to avoid ambiguity).  This means that
+  substitution is just a simple syntactic replacement of names
+  by expressions.  The $\V$ logic uses $b \odot e$ for substitution,
+  where $b$ is a binding.  However, this is part of the $\V$ object
+  logic -- for other logics and rules we want a meta-level substitution.
+  I propose that we use $e \substitute b$, where b is a binding.
+\item Checking not-free-in conditions (this is done by explicit
+  inference rules in the $\V$ logic, but at the meta level by $Z_C$.
+  It is probably useful/necessary in some of the CZT transformation
+  rules too.
+\item Searching for various kinds of paragraphs in the context
+  (which includes the complete specification that is in scope).
+\end{enumerate}
+
+The following operations are useful for sets of names:
+\begin{itemize}
+\item A literal set of names, like $\{a,b,c\}$.
+
+\item $\alpha~Spec$, $\alpha~Schema$.  These return the \emph{alphabet}
+  (the set of names) declared by a sequence of paragraphs, or by
+  a sequence of declarations.
+
+\item $\cup, \cap, \setminus$ of sets of names.
+
+\item Functions which extract the subset of a set of names
+  that end with a given decoration.  These all have type $\power Names
+  \fun \power Names$ (or maybe $NameList \fun NameList$?).  
+  There are five basic functions, $inputvars$
+  (for names that end with $?$), $outputvars$ (for $!$),
+  $numberedvars$ (for $\_n$ where $n$ is any digit), $primevars$ (for
+  $'$) and $undecorvars$ (for no decorations at all), which partition
+  all the possible kinds of decorations.  In addition, for
+  convenience, we provide the $initialvars$ function which returns the
+  union of $undecorvars$ and $numberedvars$ -- this is typically used
+  for finding the input state variables of schema compositions.
+
+\item Some way of adding or removing a given decoration (like $'$) to all
+  names in a set of names.  For adding a decoration we can just use
+  the usual decorated expression syntax of Z.  For example, $s~'$ will
+  return a new set of names containing all the names in the set $s$,
+  with an extra prime decoration added to the name.  For removing
+  decorations, I propose a $removedecor$ function, which strips
+  exactly one decoration off each name (this will usually be applied
+  to a set of names with a known, common, decoration).
+
+\item A way of creating fresh variants of a name, $fresh~x$.
+  This returns a new name with a similar textual name, but
+  with a new internal id number.
+
+\item Predicates over sets of names: $\in, \notin, \subseteq, =$.
+\end{itemize}
+
+The following operations are useful on declaration lists (schemas).
+
+\begin{itemize}
+\item $[Decls1 ; Decls2]$ gives the union of two declaration lists.
+  This is undefined (ie. throws an exception, which causes the whole
+  sidecondition to be false) if $Decls1$ and $Decls2$ are not signature
+  compatible (that is, if some common names have different base types).
+\item $[Decls] \filter (Names)$ restricts the declarations in $Decls$
+  to those that declare names in the set/list $Names$.  Note that
+  $Names$ can be a comma separated list of names, name jokers and
+  sets of names expressions -- this is a little more general than the
+  standard Z syntax of $\filter$ (but if we require the sets of names
+  to be calculated in separate provisos, then the syntax can still
+  be just a list of names -- some of which will be jokers).
+\item $[Decls] \hide (Names)$.  Same as the above filter, but
+  \emph{removes} the declarations whose names are in $Names$.
+\item Substitution or renaming, to rename the fields of a schema
+  (including occurences of those field names in the predicates).
+\end{itemize}
+
+I propose the following four kinds of side conditions.
+These will be written in the same way as ordinary sequents
+(this allows some logics to specify the context for each
+side-condition), but their conclusions will be prefixed by
+a special `keyword' \verb!\proviso! (displayed as $\proviso$,
+or U+25B8 in Unicode) to improve readability and avoid syntactic ambiguity.
+\begin{description}
+\item[Typecheck:] $\proviso E:BT$, where $E$ is an expression and $BT$
+  is a base type.  Note that $BT$ may contain jokers or be just one 
+  joker, in which case, the typechecker must calculate the type rather
+  than just checking it.  We also need some way of type checking
+  a predicate -- $\proviso \{|P\}:\power []$ would work, or we
+  could do something prettier like $\proviso P:Bool$?
+\item[Calculate:] $\proviso ExprJoker == Expr$, or $\proviso PredJoker==Pred$.
+  This calculates the right hand side, then assigns it to the left hand
+  side joker (which must be an Expr joker or a NameList joker
+  in the first case, or a Pred joker in the second case).
+  $Expr$ is either an expression containing any of the functions mentioned
+  above for calculating sets of names or declaration lists (schemas),
+  or a substitution of the form $e \substitute b$, where $b$ is an
+  extended kind of binding (it may contain a pair $s==e$, where $s$
+  is a NameList joker and $e$ is an ExprList joker and the two
+  jokers have the same length lists -- this means many substitutions
+  in parallel).
+  $Pred$ is a substitution of the form $p \substitute b$, where
+  $b$ is also an extended binding.
+\item[Check:] $\proviso simplepred$, where $simplepred$ is an
+  equality, membership, non-membership or subset predicate, as
+  described above, or a not-free-in condition $x \notfreein term$.
+  These simple decidable predicates give us a
+  way of checking properties of set of names.
+\item[Lookup:] $\proviso? name==expr$, or $\proviso? pred$, or
+  $\proviso? name:expr$.  These search for a matching ConstDecl,
+  Pred, or VarDecl in the context (which usually includes the ZSect
+  that we are in the scope of).  If there are multiple matches
+  (e.g., of $pred$), then they are returned one at a time by backtracking.
+
+  \textbf{Note: this is the one that I am a little undecided about.
+  This `search for assumptions' style is the same style of sequent
+  calculus that the Ergo prover used, and means that the conclusion
+  sequent is always implicit and simply extended by the premisses.
+  But a more traditional alternative (used partially by $\V$)
+  is to allow the conclusion
+  sequent to match predicates or paragraphs in the context,
+  like $\Context_1, x==E, \Context_2 \vdash P$.
+  This is more similar to how we plan to pattern match declarations
+  (e.g., $[D_1;x==E;D_2]$) and also more flexible,
+  since can be used to \emph{remove} the $x==E$ paragraph.
+  However, it is also rather harder to implement in general,
+  since the context includes the complete specification -- we
+  do not want proof rules to start removing paragraphs from the middle of
+  a Z section!  
+  Also, one must decide if order is significant in conclusions like
+  $\Context_1, x==E, \Context_2, y==F \vdash P$.
+  }
+\end{description}
+
+For example, this rule unfolds a schema name $v$, by looking
+up its definition.  It then uses the typechecker to check that 
+the schema types are compatible.
+
+\begin{zedrule}{UnfoldSchema2}
+   \proviso? v == [D2|P2] \\
+   \proviso [D1; D2; D3] : T
+\derives
+   [D1; v; D3 | P]  =  [D1; D2; D3 | P \land P2]
+\end{zedrule}
+
+Note: If we had used the other (more traditional) style of searching
+for paragraphs in contexts, this would be written as
+\begin{zedrule}{UnfoldSchema2b}
+   \Context_1; v==[D2|P2]; \Context_2 \vdash
+      \proviso [D1; D2; D3] : T
+\derives
+   \Context_1; v==[D2|P2]; \Context_2 \vdash
+      [D1; v; D3 | P]  =  [D1; D2; D3 | P \land P2]
+\end{zedrule}
+
+
+
+\subsection{Notes on the Rule Syntax}
+
+Here are some notes and discussion points about the syntax of rules.
+
+\begin{itemize}
+\item 
+  %The $\Context \vdash$ prefixes of all the sequents can be omitted 
+  %in rules where it is the same in all premisses as in the conclusion.
+  If there are no premisses, the horizontal line (\verb!\derives!)
+  must be omitted.
+\item Contexts can only appear in premisses and are a comma-separated
+  list of Z paragraphs.  They are usually empty, in which case the
+  turnstile must be omitted too.  This means that the context is
+  unchanged (i.e., the same as the context of the conclusion).
+\item Commas are used to separate items within the context ($\Context$).
+  ($\V$ uses $|$ to suggest that the left hand side adds variables
+  and the right hand side is in the scope of those variables.  This
+  is nice, but comma is more traditional).
+\item Premisses are separated by either semicolons or newlines
+  -- using semicolons allows one to put several premisses on
+  one line, whereas using newlines puts them on separate lines.
+  Note that semicolons and newlines are normally allowed \emph{within}
+  predicates in Z, but this will not be allowed within rules 
+  -- explicit conjunction $\land$ must be used instead.  
+  The predicate conclusion of each premiss 
+  will be parsed using the `term' production of our Z grammar, which
+  has a tighter precedence than semicolons or newlines.
+\end{itemize}
+
+Compare this with CADiZ syntax for a single sequent
+(CADiZ does not have syntax for inference rules, since
+it uses a fixed set of built-in inference rules):
+\[ name == [Formals] Hyp \vdash? Concs \]
+\begin{verbatim}
+\begin{theorem}{name}
+[Formals] Hyp \thrm Concs
+\end{theorem}
+\end{verbatim}
+
+
+\subsection{\LaTeX\ markup of Joker and Rule definitions}
+
+Here are the rules and definitions for translating \LaTeX\ markup
+of joker and rule definitions into Unicode.  The easiest way
+of making these markup definitions available to the parser is 
+probably to put them all into a Z section called 'zedrule'
+and require all sections that contain Z rules to include that
+section as a parent.  This would also be a nice way of defining
+the special proviso functions and relations, 
+like $primevars$, $\substitute$, $\notfreein$ etc.
+
+The \verb!\begin{zedjoker}{Kind}! macro is translated into
+the Unicode character JOKER (U+2605, $\bigstar$ BLACK STAR)
+followed by Kind, followed by space.
+The \verb!\end{zedjoker}! macro is translated into the usual
+Z ENDCHAR character (U+2029).
+
+The \verb!\begin{rule}{Name}! is translated into
+the Unicode character RULE (U+25A0, $\blacksquare$ BLACK SQUARE)
+followed by Name, then followed by a space.
+The \verb!\end{rule}! macro is translated into the usual
+Z ENDCHAR character (U+2029).
+
+The \verb!\vdash! within sequents is expanded into U+22A2 ($\vdash$ RIGHT TACK)
+as defined in the Z standard (I've called this VDASH in the grammar,
+as there does not seem to be a separate name for it in the CZT lexer 
+at the moment).
+
+The following \LaTeX\ markup commands define the translation
+of the \verb!\derives! and \verb!\proviso! macros.
+The \verb!\derives! macro, which is displayed as a horizontal line in \LaTeX,
+is translated into U+2501 (BOX DRAWINGS HEAVY HORIZONTAL) -- I call this
+character RULELINE in the following grammar.  
+The \verb!\proviso! macro is translated into U+25B8 (BLACK RIGHT-POINTING
+SMALL TRIANGLE), which I call PROVISO in the grammar.
+
+
+\begin{verbatim}
+%%Zinchar \proviso U+25B8
+%%Zinchar \derives U+2501
+\end{verbatim}
+
+\subsection{Grammar of Joker and Rule definitions}
+
+Here is a LALR grammar for the Unicode form of these two
+new kinds of paragraphs, which both extend \verb!boxedParagraph!
+in the CZT grammar.
+\begin{verbatim}
+/* CZT joker declarations */
+jokerPara ::= JOKER name nameList END ;
+\end{verbatim}
+
+\begin{verbatim}
+/* CZT proof rules */
+rulePara ::=
+        RULE name
+            optPremisses
+            conclusion
+            END
+        ;
+
+optPremisses ::=
+        premisses RULELINE
+        | /*empty*/
+        ;
+
+premisses ::=
+        premisses sep anySequent
+        | anySequent
+        ;
+
+conclusion ::=
+        predicate
+        ;
+
+anySequent ::=
+        provisoSequent
+        | predSequent
+        ;
+
+predSequent ::=
+        sequentLHS VDASH predicate
+        | predicate
+        ;
+
+provisoSequent ::=
+        sequentLHS VDASH PROVISO proviso
+        | PROVISO proviso
+        ;
+
+/* Left hand side of a sequent is a comma-separated list
+   of predicates and typing facts.
+*/
+sequentLHS ::= sequentLHS COMMA premiss
+        | premiss
+        ;
+
+premiss ::= predicate
+        | name COLON baseType
+        ;
+
+
+/* The various proviso side conditions of CZT rules */
+proviso ::= typeProviso
+        | calculateProviso
+        | checkProviso
+        | lookupProviso
+        ;
+
+/* Pred : Type, or Expr : Type */
+typeProviso ::= term COLON baseType ;
+
+/* Base types are an extremely restricted subset of expressions */
+baseType ::= expression ;
+
+
+/* Joker == Expr, or Joker == Pred, where Expr/Pred must contain a
+   restricted set of operators as described above.
+*/
+calculateProviso ::= name DEFEQUALS expr
+        | name DEFEQUALS pred ;
+
+
+/* Simple predicates such as equality, membership, subset of sets of names.*/
+checkProviso ::= predicate ;
+
+
+/* This searches the context (usually the specification)
+   for a given definition or predicate.
+   QUESTION is the '?' character.
+   It would be useful to be able to search for any Z paragraph
+   like this:
+        lookupProviso ::= QUESTION paragraph ;
+   but it is not possible with the current Z standard syntax
+   to write a paragraph within another paragraph, so we will
+   just provide lookups of a few specific kinds of paragraphs
+   instead.
+*/
+
+lookupProviso ::=
+        QUESTION name == expr
+        | QUESTION predicate
+        ;
+\end{verbatim}
+
+
+
+\section{Examples}
+
+\begin{zsection}
+  \SECTION zpattern\_toolkit \parents standard\_toolkit
+\end{zsection}
+
+This toolkit section (which should be moved into the usual
+library area), will define any operators or functions used
+in the provisos of rules.
+
+\begin{gendef}[T]
+  unPrefix : T \cross T \fun T \\
+  fresh : T \fun T
+\end{gendef}
+
+
+
+\subsection{Simple Rewrite Rules}
+
+\begin{zsection}
+  \SECTION SimpleRewrites \parents zpattern\_toolkit
+\end{zsection}
+
+Here is an example of a simple rewrite rule
+for rewriting subtraction into addition of a negated number.
+\begin{zedjoker}{Expr} e1, e2 \end{zedjoker} \\
+\begin{zedrule}{ElimMinus}
+  \proviso e1 - e2 \HasType \arithmos \\
+\derives
+  e1 - e2 = e1 + (\negate e2)
+\end{zedrule}
+
+A typical well-formedness condition on simple rewrite rules like this
+is that all jokers appearing in the right hand side must also
+appear in the left hand side and the conclusion of the rule
+must be an equality.  For rules that contain premisses, more 
+sophisticated well-formedness conditions could be designed. 
+Such conditions could be checked by the
+Java methods that process and apply the rewrite rules (via a mode
+analysis like that of Mercury), but at the moment we leave such
+well-formedness conditions to the designers of the rules.
+Instead, most rewrite/proof engines just check that there are no
+jokers remaining in the term after the rewriting/proving has been
+finished.
+
+
+
+\subsection{Schema Normalisation Rules}
+
+\begin{zsection}
+  \SECTION SchNorm \parents zpattern\_toolkit
+\end{zsection}
+
+Here is a set of rules for normalising and unfolding schemas
+(that is, moving all the fancy type information out of the
+declarations into the predicate part, leaving just base types
+in the decl part).   This is a very common step before doing
+schema expansion in Z.  Most of the goals in these rules
+have the form $SExpr = [D|P]$, but the intention of the rules
+is that the right hand side will be in normalised form
+(just base types in $D$).  We could introduce a special
+equality relation, $SExpr \mathrel{norm} [D|P]$, but it seems
+okay to use equality directly.
+
+\begin{zedjoker}{DeclList} D, D0, D1, D2, D3, D1r,D2r,D1h,D2h\end{zedjoker} \\
+\begin{zedjoker}{Pred} P, P0, P1, P2, P1b, P2b \end{zedjoker} \\
+\begin{zedjoker}{Expr} S, S1, S2, E, E1, E2 \end{zedjoker} \\
+\begin{zedjoker}{Type} T, T1, T2 \end{zedjoker} \\
+\begin{zedjoker}{Name} v, v2, vnew \end{zedjoker} \\
+\begin{zedjoker}{NameList} hide, hidden \end{zedjoker} \\
+
+We process the declarations one by one, from left to right.
+The first step in the process is to move the predicates into
+the normalised result.    NOTE: it might be nice to define
+a different equality relation here, which has the same semantics
+as equality, but with the extra property that the right hand side
+is a schema in normalised form.
+\begin{zedrule}{startNormalise}
+   [D1 | true] = [D2 | P2]
+\derives
+   [D1 | P] = [D2 | P2 \land P]
+\end{zedrule}
+
+Now we handle each possible kind of declaration, from left to right.
+This rule matches when the first declaration is a VarDecl.
+Note that if the first declaration declares multiple variables,
+like $a,b,c:\nat$, then the matcher automatically splits this
+so that the $v:S$ pattern matches $a:\nat$ and the $b,c:\nat$
+becomes the first declaration within $D1$.
+\begin{zedrule}{normaliseVarDecl}
+   \proviso S : \power T \\
+   [D1 | true] = [D2 | P2]
+\derives
+   [v:S; D1 | true] = [v:T; D2 | v \in S \land P2]
+\end{zedrule}
+
+The rule for constant declarations is similar.
+\begin{zedrule}{normaliseConstDecl}
+   \proviso S : T \\
+   [D1 | true] = [D2 | P2]
+\derives
+   [v==S; D1 | true] = [v: T; D2 | v = S \land P2]
+\end{zedrule}
+
+A schema inclusion can be an arbitrary schema expression,
+so we need to have a whole set of rules for expanding
+the various kinds of schema operators (see below for a 
+few examples of these).  TODO: check that D1 and D2 are
+normalised.
+\begin{zedrule}{normaliseIncludeDecl}
+   S = [D1 | P1] \\
+   [D | true] = [D2 | P2] \\
+   \proviso [D1;D2] : \power [D3]
+\derives
+   [S; D | true] = [D3 | P1 \land P2]
+\end{zedrule}
+
+The base case is an empty declaration list, $[|true]$.
+For this we only need the reflexivity axiom $E=E$ which
+is probably available as part of whatever logic we are
+using.  However, for completeness, here it is as a special rule:
+\begin{zedrule}{normaliseEmpty}
+   [~ | true] = [~ | true]
+\end{zedrule}
+
+
+\subsection{Schema Expression Expansion Rules}
+
+This rule expands a schema name $S$ (which may be
+a simple name like $foo$, or may be generic like 
+$foo[\nat,\nat \fun Colour]$).  Note that the
+$\proviso? S==E$ proviso does the lookup of the
+name and also instantiates any generic parameters
+of the definition that it finds.  The typing proviso
+could be dropped if we wanted, it simply prevents
+fruitless attempts to prove $E=[D|P]$ when $E$
+is not the name of a schema.
+\begin{zedrule}{SchemaName}
+  \proviso? S == E \\
+  \proviso E : \power [\_] \\
+  E = [D|P]
+\derives
+  S = [D|P]
+\end{zedrule}
+
+
+To expand a decorated schema name or expression is more complex.
+We need a joker that ranges over decorations 
+(or even better, over decoration sequences)!
+Without this we would have to have at least 13 separate rules,
+one for each possible decoration.  The next rule shows
+how we would use a joker over decoration lists.
+(Note that the parser will parse $E~d$ as an ApplExpr
+expression, but must transform this to a DecorExpr in the
+case when $d$ is a Decor/DecorList joker.
+
+\begin{zedjoker}{DecorList} d \end{zedjoker}
+
+To start with, we will define one rule for each decoration.
+
+\begin{zedrule}{SchemaDecor}
+  E = [D|P] \\
+ \proviso E2 == [D|P]~'
+\derives
+  E~' = E2
+\end{zedrule}
+
+\begin{zedrule}{SchemaDecor}
+  E = [D|P] \\
+  \proviso E2 == [D|P]~\_1
+\derives
+  E~\_1 = E2
+\end{zedrule}
+
+Eventually, it might be nice to have one general
+rule for these, but that will require introducing
+a decoration list joker, plus some way of parsing
+it.
+\begin{zedrule}{SchemaDecor}
+  E = [D|P] \\
+  \proviso E2 == [D|P]~d
+\derives
+  E~d = E2
+\end{zedrule}
+
+To handle the Z conventions of $\Delta N$ and $\Xi N$,
+we use a proviso which strips a given prefix (such as $\Delta$)
+off a given name: $\proviso N == unPrefix(\Delta,S)$.
+This proviso may also be useful for Z extensions/styles that use
+other prefix naming conventions for schemas.
+Note that the following two rules should be applied
+only when the above SchemaName rule has failed.
+
+\begin{zedrule}{DeltaSchema}
+  \proviso N == unPrefix(\Delta,S) \\
+  \proviso? N == E \\
+  [E; E~'] = [D|P]
+\derives
+  S = [D|P]
+\end{zedrule}
+
+\begin{zedrule}{XiSchema}
+  \proviso N == unPrefix(\Xi,S) \\
+  \proviso? N == E \\
+  [E; E~'| \theta E = \theta E~'] = [D|P]
+\derives
+  S = [D|P]
+\end{zedrule}
+
+ 
+Here is a rule for expanding a schema conjunction.
+Note that the proviso that calculates $[D1;D2]$ will fail
+if $D1$ and $D2$ are not signature compatible, as described above.
+This illustrates the difference between calculating $D$ in
+a proviso (which runs a Java algorithm), rather than simply
+putting $D1;D2$ directly into the right hand side of the
+conclusion (which might create a badly typed schema).
+
+\begin{zedrule}{SchemaAnd}
+  S1 = [D1|P1] \\
+  S2 = [D2|P2] \\
+  \proviso D == [D1;D2] \\
+  \proviso [D1;D2] : \power [D]
+\derives
+  S1 \land S2 = [D|P1 \land P2]
+\end{zedrule}
+
+
+Expanding a schema disjunction is a little different,
+since it is necessary for the semantics that the two
+disjuncts are normalised.  We check this by using
+the typechecker to calculate the base types and check
+that they are the same as $D1$ and $D2$.  That is,
+the first two typing provisos are simply ensuring
+that D1 and D2 contain only base types, and no predicate
+(subtyping) information which would be lost when
+we calculate merge the signatures to $[D]$.
+
+\begin{zedrule}{SchemaNameDecor}
+  S1 = [D1|P1] \\
+  S2 = [D2|P2] \\
+  \proviso [D1] : \power [D1] \\
+  \proviso [D2] : \power [D2] \\
+  \proviso [D1;D2] : \power [D]
+\derives
+  S1 \lor S2 = [D|P1 \lor P2]
+\end{zedrule}
+
+The other boolean schema operators are similar.
+
+\begin{zsection}
+  \SECTION OlderRules \parents zpattern\_toolkit
+\end{zsection}
+
+Here are some quite complex rules for unfolding schema compositions
+($S1 \semi S2$) one step at a time.  We assume here that $S1$
+and $S2$ have already been normalised.  Rather than going from
+left to right through every declaration of $S1$, we just match
+the \emph{primed} names and remove them one by one.
+
+TODO: we want a way of saying that $xnew$ must be fresh here
+-- a special proviso, $\proviso xnew == fresh~x$, for choosing a
+fresh name $xnew$ by uniquely decorating $x$ would be a nice solution.
+(Internally, this would just name the new variable $x$, but would 
+choose a fresh id for it so that it gets renamed or decorated on output).
+These rules cope with repeated occurences of $x$ or $x'$
+in the argument schemas.
+
+\begin{zedrule}{Semi1}
+  \proviso xnew == fresh~x \\
+  \proviso S1 == [D0;D1|P1] \substitute \lblot x' == xnew \rblot \\
+  \proviso S2 == [D2;D3|P2] \substitute \lblot x == xnew \rblot
+  xnew:T \vdash S1 \semi S2 = \exists D @ [D4|P]
+\derives
+  [D0; x'~: T; D1 | P1] \semi [D2; x:T; D3 | P2]\\
+      = \exists [xnew:T; D] @ [D4|P]
+\end{zedrule}
+
+The next rule handles names that do \emph{not} match. 
+(Note that we need membership and non-membership provisos for signatures).
+\begin{zedrule}{Semi2}
+  \proviso v' \not\in D1 \\
+  v:T \vdash [D1 | P1] \semi [D2 | P2] = [D3 | P3]
+\derives
+  [D1 | P1] \semi [v:T ; D2 | P2]\\
+    = (\exists [] @ [ v:T; D3 | P3 ])
+\end{zedrule}
+
+And once we have removed \emph{all} names of the second
+schema, we can finally remove the $\semi$.
+\begin{zedrule}{Semi3}
+  [D1 | P1] \semi [~|P2] = (\exists [] @ [ D1 | P1 \land P2])
+\end{zedrule}
+
+A nicer alternative to the above set of recursive rules for
+schema sequential composition is this single rule, which is
+made possible by the more powerful calculational provisos that
+are proposed above:
+
+\begin{zedrule}{SemiInOneStep}
+  \proviso hide == removedecor(primevars(\alpha[D1])) 
+                   \cap undecorvars(\alpha[D2]) \\
+  \proviso hidden == fresh~hide \\
+  \proviso P1b == P1 \substitute \lblot hide' == hidden \rblot \\
+  \proviso P2b == P2 \substitute \lblot hide' == hidden \rblot \\
+  \proviso D1r == D1 \hide (hide') \\
+  \proviso D2r == D2 \hide (hide) \\
+  \proviso D == [D1r;D2r] \\
+  \proviso D1h == (D1 \filter(hide'))\substitute\lblot hide' == hidden \rblot\\
+  \proviso D2h == (D2 \filter(hide))\substitute\lblot hide == hidden \rblot\\
+  \proviso D3 == [D1h;D2h]
+  \derives
+  [D1|P1] \semi [D2|P2] = [ D | (\exists [D3] @ P1 \land P2)] 
+\end{zedrule}
+
+
+
+\section{Implementation Notes}
+
+To implement this proposal, the following steps will be necessary:
+\begin{enumerate}
+\item [DONE] Extend the XML schema of ZPattern (an extension of Z)
+  to support the metavariable declarations, the corresponding joker
+  expressions/predicates etc.~and the rule paragraphs.
+
+  An interesting design issue here
+  will be how to make these rewrite rule facilities available
+  to the Object-Z and TCOZ schemas, which are independent extensions
+  of the standard Z XML schema.
+
+\item [DONE] Generate Java AST classes for this extended XML schema.
+  Thanks to Petra's GnAST tool, this is automatic.
+
+\item [Tim] Modify the parser to handle the extensions.
+  It must parse the two new kinds of paragraphs (MetaVar and ZedRule), and
+  replace metavariable names by joker terms (within ZedRules only).
+  This gives us a way of defining rulesets (in \LaTeX\ or Unicode)
+  and parsing them into XML files and into Java trees.
+
+  Note: This extended parser could be a separate variant of the
+  parser (like we already do for the Object-Z and TCOZ parsers),
+  or a direct addition to the Z parser (note that any Z section 
+  that does not contain MetaVar or ZedRule paragraphs is a standard
+  Z section).
+
+\item [Petra] Implement the $\proviso ExprJoker == Expr$ proviso.
+  This amounts to writing a subclass of CalculateProviso, which
+  implements the check() method by calling a visitor that evaluates the 
+  Expr (the right hand side) by calculating the operators discussed/used
+  above.
+  The evaluation visitor should throw an exception if an unknown operator or
+  expression is found, or if any kind of joker is encountered
+  that is not already instantiated.  If the check() method of this proviso
+  catches an instantiated joker exception, then getStatus() will be set to
+  UNKNOWN.  Other kinds of exceptions are serious errors by the person who
+  wrote the rule, so should be reported to the user (that is, do not
+  catch them here).  So if check() finishes without throwing an exception,
+  then getStatus() should return either UNKNOWN or PASS for this proviso.
+  
+
+\item [Petra] Implement the $\proviso Expr : Type$ proviso by writing
+  a subclass of TypeProviso.
+  Note that the $Type$ term is actually an $Expr$, so this
+  needs to be translated to a type AST before calling the
+  typechecker, then translated back into an Expr AST after the
+  typechecker returns its results.  For example, if we have
+  $\proviso E : \power T$, where the ExprJoker E is instantiated
+  to some expression, but the ExprJoker T is not instantiated,
+  then the expression $\power T$ must be translated to PowerType
+  applied to a type variable.  Then the check() method will call
+  the typechecker with this partially instantiated type AST.
+  If the typechecker succeeds, it will return with a more instantiated
+  type AST, which must be translated back into an Expr
+  AST and unified with the original $\power T$ expression so that
+  the ExprJoker T is instantiated.  After check() returns, getStatus()
+  should return PASS if the typechecker found a valid type and that
+  type unified with the original $Type$ expression (right hand side),
+  FAIL otherwise.
+
+\item [Petra] Implement the $\proviso? LHS == RHS$ proviso by writing
+  a subclass of LookupConstDeclProviso.
+  Syntactically, LHS and RHS are both expressions.  However,
+  this proviso fails if LHS is not a RefExpr (or an ExprJoker
+  bound to a RefExpr, of course).  Note that if check() is called
+  when LHS is an uninstantiated ExprJoker, then getStatus() should
+  return UNKNOWN.  When this proviso is executed,
+  it looks up the name of the RefExpr in the current DefinitionTable
+  and unifies RHS with the expression returned from the DefinitionTable,
+  then sets getStatus() to return PASS.
+  If there is no matching definition in the DefinitionTable, then
+  getStatus() should return FAIL.
+
+  Eventually, this proviso should also handle RefExprs with a list
+  of actual type parameters (list of Expr), by instantiating the
+  formal type parameters of the definition with the actual parameters
+  from the RefExpr.
+
+\item [DONE] Define the \texttt{Deduction} interface and implement a
+  subclass of it that allows a given rule to be applied to
+  a proof tree.
+
+  Here is the proposed \texttt{Deduction} interface.
+  [NOW SUPERSEDED BY THE Deduction interface in the 
+  net.sourceforge.czt.zpatt package].
+\begin{verbatim}
+interface Deduction
+{
+    /** The name of the rule or deduction engine. */
+    String getName();
+
+    /** Defines which sequent this rule will be applied to. */
+    void setConclusion(PredSequent concl);
+
+    /** Searches for the next solution.
+        isValid can be called to see if a solution was found.
+    */
+    void next();
+
+    /** This rule/engine is correctly applied to the conclusion. */
+    boolean isValid();
+
+    /** The number of child sequents (premisses) of this rule.
+        Note that this may change after each call to next().
+      */
+    //@ requires isValid();
+    int nChildren();
+
+    /** The i'th child sequent. */
+    //@ requires isValid() && 0 <= i && i < nChildren();
+    Sequent child(int i);
+
+    /** Undoes this rule application. */
+    //@ ensures ! isValid();
+    void reset();
+}
+\end{verbatim}
+
+  A proof tree consists of alternating layers of Sequent objects
+  and Deduction objects.  Each Deduction object may have zero or more
+  children (this creates the tree shape), while each Sequent object
+  may point to a Deduction object (if a rule has been applied to that Sequent),
+  or not.  Note that (as defined in the ZPattern XML schema) there
+  are two different kinds of Sequents:
+  \begin{itemize}
+  \item PredSequent, that contains a predicate.  This kind of sequent
+    can be 'proved' by applying a Deduction object to it.
+    
+  \item Provisos, which implement the built-in CZT side conditions,
+    such as calling the typechecker, checking membership or non-membership
+    of a signature, or looking up a definition.  These primitive
+    sequents cannot be proved using a Deduction object, so never have
+    children.  Instead, they provide a 'check()' method that checks
+    the correctness of the sidecondition.  Before this check() method
+    is called, we say that the sequent has \emph{UNCHECKED} status.
+    After this check() method
+    has been called, the sequent can be in one of three states:
+    \emph{PASS} (the side-condition was correctly discharged),
+    \emph{FAIL} (the side-condition is false),
+    \emph{UNKNOWN} (the side-condition needs to be checked later,
+    when the sequent is instantiated more fully). 
+  \end{itemize}
+
+  To support traversal of the proof tree, and to distinguish
+  the two kinds of Sequent and allow its status to be queried,
+  the Sequent interface has these methods: [SUPERSEDED BY VERSION
+  IN CVS].
+\begin{verbatim}
+  /** False for PredSequent objects, True for all other Sequent subclasses. */
+  boolean isPrimitive();
+
+  /** Returns null (if unproved) or a deduction object. */
+  //@ requires ! isPrimitive();
+  Deduction getDeduction();
+
+  /** Check the side-condition of a primitive Sequent */
+  //@ requires isPrimitive();
+  //@ ensures getStatus() != Unknown;
+  void check();
+
+  /** The status of a primitive Sequent. */
+  //@ requires isPrimitive();
+  Status getStatus();
+\end{verbatim}
+
+
+\item Implement a class/method 
+  which takes a \emph{set} of rules (for example, all the rules
+  in a given Z section) and applies one of those rules to the given
+  sequent.  Note that `applying a rule' means calling the check()
+  methods of all of its provisos (in the order that they are written)
+  and the rule application succeeds only if all those provisos have
+  getStatus() equals PASS.
+  If several rules match, it should apply each matching rule
+  in turn.  (Petra did a prototype of such a `rule set interpreter'
+  last year, but it will need a few changes to bring it up to date).
+
+
+  Secondly, implement another class/method that takes
+  the above class/object as a parameter, and applies it
+  to a given sequent, then applies it to the
+  children of that sequent, and so on, recursively.  This is effectively
+  a hard-coded recursive tactic, similar to those found in most
+  theorem prover tactic languages.  For example, this will
+  implement the repeated application of the schema unfolding rules.
+
+\item [Later] Possibly implement ANGEL (using Java iterators)
+  so that more flexible and higher-level tactics can be written.
+\end{enumerate}
+
+\section{Acknowledgements}
+
+Thanks to Andrew Martin for suggesting that the original
+CZT rewrite-rule design should be generalised to inference
+rules and support both $Z_C$ and $\V$.
+
+\bibliography{spec,logic,thmprove,misc}
+\bibliographystyle{alpha}
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

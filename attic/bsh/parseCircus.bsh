@@ -1,0 +1,79 @@
+/**
+  Parses a Z specification from a given filename or file.
+  Depending on the file ending, different parsers are used, i.e.
+  an LaTeX parser is used to parse files ending with .tex,
+  a Unicode parser is used to parse files ending with .utf8 etc.
+  If no file is given, a file chooser window will be opened to
+  allow browsing for a specific file.
+  The AST representation of the parsed file is returned.
+*/
+parseCircus()
+{
+  return parseCircus(true);
+}
+
+parseCircus(boolean special)
+{
+  manager = new net.sourceforge.czt.session.SectionManager("circus");
+  return parseCircus(manager, special);
+}
+
+
+parseCircus(net.sourceforge.czt.session.SectionInfo manager)
+{
+  return parseCircus(manager, true);
+}
+
+parseCircus(net.sourceforge.czt.session.SectionInfo manager, boolean special)
+{
+  chooser = new JFileChooser();
+  value = chooser.showOpenDialog(null);
+  if(value == JFileChooser.APPROVE_OPTION) {
+    return parseCircus(chooser.getSelectedFile(), manager, special);
+  }
+}
+
+parseCircus(String filename)
+{
+  return parseCircus(filename, true);
+}
+
+parseCircus(String filename, boolean special)
+{
+  manager = new net.sourceforge.czt.session.SectionManager("circus");
+  return parseCircus(filename, manager, special);
+}
+
+parseCircus(String filename, net.sourceforge.czt.session.SectionInfo manager)
+{
+  file = pathToFile(filename);
+  return parseCircus(file, manager, true);
+}
+
+
+parseCircus(File file, net.sourceforge.czt.session.SectionInfo manager, boolean special)
+{
+  if (file.exists()) {
+    absolutPath = file.getAbsolutePath();
+    System.err.println("Parse file " + absolutPath);
+    try {
+      if (special)
+      return net.sourceforge.czt.parser.circus.SpecialLatexParser.parseLatexFile(absolutPath,
+                                                           manager);
+	else {
+      manager.put(new net.sourceforge.czt.session.Key(absolutPath,
+                                 net.sourceforge.czt.session.Source.class),
+                  new FileSource(absolutPath));
+      return manager.get(new  net.sourceforge.czt.session.Key(absolutPath,
+                                                              Spec.class));
+}
+    }
+    catch (Exception e) {
+      show(e.getMessage());
+    }
+  }
+  else {
+    System.err.println("File " + file + " not found.");
+    return null;
+  }
+}

@@ -1,0 +1,16 @@
+The following are one paragraph (a conjecture), with the predicate in
+the conjecture conjoined using a newline.
+
+\begin{theorem}{newline}
+  \vdash? true \\ true
+\end{theorem}
+
+\begin{theorem}{trueSchema}
+  \vdash? true \\ [X, Y : \nat]
+\end{theorem}
+
+Bug report 1234527 (parsing of empty schema text):
+
+\begin{theorem}{Bug1234527}
+  \vdash? \forall p: \power [ ] @ true
+\end{theorem}

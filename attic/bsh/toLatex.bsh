@@ -1,0 +1,25 @@
+/**
+   Converts a given specification into LaTeX.  If no writer is
+   given, the resulting String is returned.
+ */
+toLatex(net.sourceforge.czt.base.ast.Term spec)
+{
+  manager = new net.sourceforge.czt.session.SectionManager();
+  return toLatex(spec, manager);
+}
+
+toLatex(net.sourceforge.czt.base.ast.Term spec,
+        net.sourceforge.czt.session.SectionManager manager)
+{
+  out = new StringWriter();
+  toLatex(spec, out, manager);
+  out.close();
+  return out.toString();
+}
+
+toLatex(net.sourceforge.czt.base.ast.Term spec,
+        java.io.Writer writer,
+        net.sourceforge.czt.session.SectionManager manager)
+{
+  net.sourceforge.czt.print.z.PrintUtils.printLatex(spec, writer, manager);
+}

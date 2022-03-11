@@ -1,0 +1,309 @@
+\documentclass{article}
+
+\usepackage[cntbysection,colour]{circus}
+
+% count definitions please
+\CountDefstrue
+
+\begin{document}
+
+\section{Introduction}
+
+\begin{verbatim}
+%-----------------------------------------------------------------------------
+%-- A REACTIVE BUFFER    - Case Study                                        -
+%-- Action Refinement: controller and ring partitions                        -
+%-- Example extracted from the paper "A Refinement Strategy for Circus"      -
+%-----------------------------------------------------------------------------
+\end{verbatim}
+
+
+You must always include the circus\_toolkit, and also check inside
+it to see the LaTeX commands the parser recognises (or to create
+your own commands)
+
+\section{Channels}
+
+Section name is to be the same as the name of the file, is possible. It helps IDEs
+%
+\begin{zsection}
+  \SECTION\ buffer\_refinement\_multienv \parents\ circus\_toolkit
+\end{zsection}
+
+Z paragraphs can be defined at top level
+\begin{axdef}
+ maxbuff, maxring : \nat
+\end{axdef}
+
+CSP paragraphs can be defined at top-level 
+\begin{circus}
+ \circchannel\ input, output : \nat
+\end{circus}
+
+\begin{circus}
+ \circchannel\ write, read : (1 \upto maxring) \cross \nat
+\end{circus}
+
+\begin{circus}
+ \circchannel\ read\_1 : (1 \upto maxring)
+\end{circus}
+
+\begin{circus}
+ \circchannel\ read\_2 : \nat
+\end{circus}
+
+With \verb'\CircusDeclSummary' you can create a summary of declarations
+%
+\CircusDeclSummary
+
+\section{Buffer}
+
+Unfortunately boxed processes (those spread across multiple
+begin/end Circus) are not yet available. You need to define your
+processes within one environment only. The only real problem is for
+axiomatic definitions (that I am looking into now). Schemas can be
+given horizontally.
+
+A \textsf{circus} environment starts the process context
+%
+\begin{circus}
+    \circprocess\ BufferMultiEnv \circdef \circbegin
+\end{circus}
+
+Z paragraphs within a process context are local to that process. They can be used
+within the process' actions but are unknown outside the process. That means names
+might be repeated, so long as they are globally unique, as well as locally unique
+(i.e.~ variable $x$ can be declared globally, and within a process $P$ and another $Q$
+with different types. You cannot declare a process named $x$, though, as this would
+duplicate the name $x$ globally).
+%
+\begin{schema}{ControllerState}
+    cache : \nat
+\\%
+   size: 0 \upto maxbuff
+    \\%
+    ringsize : 0 \upto maxring
+    \\%
+    top, bot : 1 \upto maxring
+\where
+        (ringsize \mod maxring) = ((top - bot) \mod maxring)
+        \\%
+        ringsize = size-1
+\end{schema}
+
+Schemas  can be given in multiple horizontal paragraph within a single Z environment.
+\begin{zed}
+    RingState ~~== ~~ [~ ring : \seq \nat | \#~ring = maxring ~] \\
+    CBufferState ~~==~~ (ControllerState \lor RingState)
+\end{zed}
+
+\Circus\ state is marked accordingly within a \textsf{circusaction} environment
+\begin{circusaction}
+    \circstate\  CBufferState
+\end{circusaction}
+
+\begin{schema}{ControllerInit}
+    ControllerState~'; RingState~'
+\where
+    size'=0 \\
+    bot'=1 \\
+    top'=1
+\end{schema}
+
+\begin{schema}{CacheInput}
+   \Delta ControllerState
+       \\%
+       \Xi RingState
+        \\%
+        x?:\nat
+\where
+        (size = 0) \land (size' = 1)
+        \\%
+        (cache' = x?) \land (bot' = bot) \land (top' = top)
+\end{schema}
+
+\begin{schema}{StoreInput}
+    \Delta CBufferState
+        \\%
+        x?: \nat
+\where
+        (0 < size) \land (size < maxbuff)
+        \\%
+        (size' = size+1) \land (cache'=cache)
+        \\%
+        (bot'=bot) \land (top'=(top \mod maxring)+1)
+        \\%
+        ring' = ring \oplus \{ top \mapsto x? \}
+\end{schema}
+
+\begin{schema}{StoreInputController}
+    \Delta ControllerState
+        \\%
+        \Xi RingState
+\where
+        (0 < size) \land (size < maxbuff)
+        \\%
+        (size' = size+1) \land (cache'=cache)
+        \\%
+        (bot'=bot) \land (top'=(top \mod maxring)+1)
+\end{schema}
+
+Actions, and other \Circus\ declarations \textbf{must} use
+\verb'\circdef' instead of \verb'\defs' or \verb'==' from Z. This
+is needed to avoid parsing ambiguities with the Z grammar. 
+One can use tabulation and blocks (see .tex file).
+
+Because guards are Z predicates, and predicates can be
+parenthesised, we need a different token for disambiguation as well.
+So, every guard \textbf{requires} a \verb'\lcircguard pred \rcircguard \circguard A'
+and it typesets as $\lcircguard pred \rcircguard \circguard A$. Other 
+similar marker-tokens are used for disambiguation.
+
+Like for variable names, channel names can accept $?$ or $!$ or $'$.
+So, hard space is needed to indicate this is input prefix: you must type \verb'input~?x'
+instead of simply \verb'input?x', and similarly for other strokes. Restricting channel
+names not to have strokes (i.e. \verb'input~?x?' for the input on channel named $x?$)
+is not straightforward (i.e. such names are in context because of the Z type rules for inputs), 
+and it does not solve the problem anyway.
+
+Moreover, also notice the extra parenthesis within the input prefixing. This is important 
+in this context because of potential precedence confusion to the parser. They keep the
+variable $x$ in scope for the $StoreInput$ schema, say.
+%
+\begin{circusaction}
+    InputController ~~\circdef~~ \\
+        \t1 \lcircguard size < maxbuff \rcircguard \circguard (input~?x \then \\
+           \t2 \circblockbegin
+            ((\lcircguard size = 0 \rcircguard \circguard \lschexpract CacheInput \rschexpract) \\
+            \extchoice \\
+             (\lcircguard size > 0 \rcircguard \circguard write.top~!x \then \lschexpract StoreInputController \rschexpract)
+            ) 
+            \circblockend) \\
+    CInput \circdef \\
+        \t1 \lcircguard size < maxbuff \rcircguard \circguard (input~?x \then \\
+        	\t6 \circblockbegin
+            ((\lcircguard size = 0 \rcircguard \circguard \lschexpract CacheInput \rschexpract) \\
+            \extchoice \\
+            (\lcircguard size > 0 \rcircguard \circguard \lschexpract StoreInput \rschexpract) )
+           \circblockend)
+\end{circusaction}
+
+\begin{schema}{NoNewCache}
+    \Delta ControllerState
+    \\%
+    \Xi RingState
+\where
+           size = 1
+            \\%
+            size' = 0 \land cache' = cache
+            \\%
+            bot' = bot \land top' = top
+\end{schema}
+
+
+Function application within Z schemas (as in Standard Z) do require hard spaces
+or parenthesis (i.e. \verb'f~x' or \verb'f(x)'), otherwise the soft space is eaten during
+lexing (i.e. \verb'f x' becomes \verb'fx', which leads to a type error).
+%
+\begin{schema}{StoreNewCache}
+    \Delta CBufferState
+\where
+            size > 1
+            \\
+            % function application DO REQUIRE hard spaces.
+            % otherwise, ring~bot is treated as ringbot
+            size' = size-1 \land cache' = ring~bot
+            \\
+            bot' = (bot \mod maxring)+1 \land top' = top
+            \\
+            ring' = ring
+\end{schema}
+
+\begin{schema}{StoreNewCacheController}
+    \Delta ControllerState
+            \\%
+            \Xi RingState
+            \\%
+            x? : \nat
+\where
+            size > 1
+            \\%
+            size' = size-1 \land cache' = x?
+            \\%
+            bot' = (bot \mod maxring)+1 \land top' = top
+\end{schema}
+
+New hard lines (\verb'\\' and \verb'\also') are option after \verb'\circdef'.
+%
+\begin{circusaction}
+    OutputController ~~\circdef~~ \\
+            \t1 \lcircguard size > 0 \rcircguard \circguard output~!cache \then \\
+            \t2 \circblockbegin
+            (\lcircguard size > 1 \rcircguard \circguard read.bot~?x \then \lschexpract StoreNewCacheController \rschexpract) \\ 
+            \extchoice \\
+            (\lcircguard size = 1 \rcircguard \circguard \lschexpract NoNewCache \rschexpract)
+            \circblockend
+\end{circusaction}
+
+\begin{circusaction}
+    COutput ~~\circdef~~ \\
+            \t1 \lcircguard size > 0 \rcircguard \circguard output~!cache \then \\
+            \t2 \circblockbegin
+            (\lcircguard size > 1 \rcircguard \circguard \lschexpract StoreNewCache \rschexpract) \\
+            \extchoice \\
+            (\lcircguard size = 1 \rcircguard \circguard \lschexpract NoNewCache \rschexpract)
+            \circblockend
+\end{circusaction}
+
+
+One should be careful with the precedences. See the file \textsf{process.tex} in the type checker tests directory for this, 
+and then properly include the parenthesis. See the Z standard precedence table for Z,  and FDR manual for CSP precedence.
+Sequential composition \textsf{is not} just normal semicolon ($;$). This creates too many conflicts with Z and we used a different
+unicode/\LaTeX\ symbol ($\circseq$). It typesets just like $;$, however.  Missing-parenthesis errors are the harder to find and the 
+worst in error generation!
+
+\begin{circusaction}
+    ControllerAction \circdef \lschexpract ControllerInit \rschexpract \circseq (\circmu\ X \circspot ((InputController \extchoice OutputController) \circseq X)) 
+\end{circusaction}
+
+
+\begin{schema}{StoreRingCmd}
+    \Xi ControllerState
+    \\%
+    \Delta RingState
+    \\%
+    i? : 1 \upto maxring
+    \\%
+    x? : \nat
+\where
+    ring' = ring \oplus \{ i? \mapsto x? \}
+\end{schema}
+
+\begin{circusaction}
+   StoreRing \circdef write~?i~?x \then \lschexpract StoreRingCmd \rschexpract \\
+   NewCacheRing \circdef read~?i~!(ring~i) \then \Skip \\
+   RingAction \circdef \circmu\ X \circspot ((StoreRing \extchoice NewCacheRing) \circseq X)
+\end{circusaction}
+
+\begin{circusaction}
+    \t1 \circspot
+
+   % The production is : circusAction:cal LPAR:lp nameSet:nsl BAR channelSet:cs BAR nameSet:nsr RPAR:rp circusAction:car
+   % Why did you use two (identical) channelSets as if it was an Alphabetised parallel action (which does not exist)?
+   \circblockbegin
+   ( \t1 ControllerAction \\ \lpar 
+        \{ size, ringsize, cache, top, bot \} |
+        \lchanset write, read \rchanset |
+        \{ ring \} \rpar \\
+     \t1 RingAction)
+    \circblockend    \\
+     \t4 \circhide \lchanset write, read \rchanset
+\end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus}
+
+\CircusDeclSummary
+
+\end{document}

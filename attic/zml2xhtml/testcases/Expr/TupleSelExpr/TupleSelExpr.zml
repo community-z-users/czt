@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>A TupleSelExpression</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <TupleSelExpr Select="1">
+            <TupleExpr>
+              <NumExpr Value="1"/>
+              <NumExpr Value="2"/>
+              <NumExpr Value="3"/>
+            </TupleExpr>
+          </TupleSelExpr>
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

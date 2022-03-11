@@ -1,0 +1,23 @@
+\begin{zsection}
+  \SECTION SetExpr
+\end{zsection}
+
+\begin{zed} \vdash? \{\} = \{1\} \end{zed}
+\begin{zed} \vdash? \{\} = \{ \{1\} \} \end{zed}
+\begin{zed} \vdash? \{\} = \{ \{\}, \{\}, \{\}, \{1\} \} \end{zed}
+\begin{zed} \vdash? \{ \{1\}, \{1\}\} = \{ \{\}, \{\}, \{1\} \} \end{zed}
+\begin{zed} \vdash? \{1,2,3,4\} \in \power \nat \end{zed}
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g\\
+  t == g
+\where
+  s = \{\}\\
+  s \in \power \nat\\
+  t = \{ \{ \{\} \} \}\\
+  t \in \power \power \power \nat
+\end{axdef}

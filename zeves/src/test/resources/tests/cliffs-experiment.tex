@@ -1,0 +1,84 @@
+
+\begin{zsection}
+   \SECTION cliffs\_experiment \parents~zeves\_toolkit
+\end{zsection}
+
+syndef{\isDisj}{prerel}{isDisj}
+%%Zpreword \isDisj isDisj
+\begin{zed}
+  \relation ( \isDisj \varg )
+\end{zed}
+
+\begin{gendef}[X]
+  \isDisj\_: \power  (\power  X \cross  \power  X)
+\where
+  \Label{disabled rule dIsDisj}  \forall  s1, s2: \power  X @ (\isDisj~ (s1, s2)) \iff  s1 \cap  s2 = \{\}
+\end{gendef}
+
+syndef{\isPrDisj}{prerel}{isPrDisj}
+%%Zpreword \isPrDisj isPrDisj
+\begin{zed}
+  \relation ( \isPrDisj \varg )
+\end{zed}
+
+\begin{gendef}[X]
+  \isPrDisj~\_: \power  (\power  (\power  X))
+\where
+  \Label{disabled rule dIsPart}  \forall  ss: \power~  (\power~  X) @ (\isPrDisj~ ss) \iff  (\forall  p1, p2: ss @ p1 = p2 \lor  (\isDisj~ (p1, p2)))
+\end{gendef}
+
+\syndef{\PartNo}{pregen}{PartNo}
+%%Zpreword \PartNo PartNo
+\begin{zed}
+  \generic ( \PartNo \varg )
+\end{zed}
+
+\begin{zed}
+ \PartNo~X == \{  p: \power~  (\power~  X) | \bigcup~ p = X \land  (\isPrDisj~ p) \land  \{\} \notin  p \}
+\end{zed}
+
+\begin{zed}
+Part[X] == \{  p: \power~  (\power~  X) | \bigcup~ p = X \land  (\isPrDisj~ p) \land  \{\} \notin  p \}
+\end{zed}
+
+\begin{theorem}{L01}[X]
+\{  x: X @ \{x\} \} \in  Part
+\end{theorem}
+
+\begin{zproof}[L01]
+prove by reduce;
+cases;
+apply extensionality to predicate \bigcup [X] \{  x: X @ \{x\} \} = X;
+prove;
+instantiate B == \{y\};
+prove;
+next;
+apply dIsPart;
+prove;
+apply dIsDisj;
+prove;
+next;
+\end{zproof}
+
+\syndef{\t}{prerel}{t}
+%%Zpreword \t t
+\begin{zed}
+   \relation (\t \varg)
+\end{zed}
+
+\syndef{\Test}{pregen}{Test}
+%%Zpreword \Test Test
+\begin{zed}
+   \generic (\Test \varg)
+\end{zed}
+
+\begin{zed}
+ \Test X == \power~  (\power~  X)
+\end{zed}
+
+\begin{gendef}[X]
+  merge: Part[X] \cross  \Test~X \fun  Part[X]
+\where
+ \Label{disabled rule dMerge}  \forall  p: Part[X]; \t~\_: Test~ X @ \\
+ 	\t1 merge~(p, (\t~\_)) = \{  s: p | \lnot  (\t~ s) \} \cup  \{\bigcup  \{  s: p | \t~ s \}\}
+\end{gendef}

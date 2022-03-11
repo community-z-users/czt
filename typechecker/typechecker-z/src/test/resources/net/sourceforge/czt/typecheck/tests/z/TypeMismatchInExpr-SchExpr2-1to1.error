@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION IncompatibleSignatures\_Qnt1Expr\_1\_1
+\end{zsection}
+
+\begin{zed}
+  error == [z : \nat] \land [z : \power \nat]
+\end{zed}

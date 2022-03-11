@@ -1,0 +1,17 @@
+\begin{zsection}
+   \SECTION boolean\_communication \parents circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c1, c2: \boolean \\
+   \circchannel\ c3: \nat
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+    	\t1 \circstate\ State == [~ x: \nat | true ~] \\
+        \t1 A \circdef c1.\true \then c2.\false \then c3.10 \then \Skip \\
+        \t1 \circspot A \\
+    \circend
+\end{circus}
+

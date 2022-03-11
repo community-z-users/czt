@@ -1,0 +1,196 @@
+\begin{zsection}
+\SECTION rewrite \parents expansion\_rules, simplification\_rules
+\end{zsection}
+
+\begin{theorem}{theorem1}
+  \vdash? true \iff true
+\end{theorem}
+
+
+
+
+\begin{schema}{Simple}
+  x: \nat
+\end{schema}
+
+\begin{theorem}{theorem2a}
+  \vdash? Simple = [ x : \nat | true ]
+\end{theorem}
+
+\begin{theorem}{theorem2b}
+  \vdash? normalize~Simple = [ x : \arithmos | x \in \nat ]
+\end{theorem}
+
+\begin{theorem}{theorem3a}
+  \vdash? \Delta Simple = [ [ x : \nat ] ; [ x' : \nat ] | true ]
+\end{theorem}
+
+\begin{theorem}{theorem3b}
+  \vdash? normalize~\Delta Simple = [ x : \arithmos ; x' : \arithmos | x \in \nat \land x' \in \nat  ]
+\end{theorem}
+
+\begin{theorem}{theorem4a}
+  \vdash? \Xi Simple =
+	    [ [ x : \nat ] ; [ x' : \nat ] | x = x' ]
+\end{theorem}
+
+\begin{theorem}{theorem4b}
+  \vdash? normalize~\Xi Simple =
+	    [ x : \arithmos ; x' : \arithmos | x \in \nat \land x' \in \nat  \land x = x' ]
+\end{theorem}
+
+\begin{theorem}{theoremNegation}
+  \vdash? (\lnot Simple) = [x:\arithmos | \lnot (x \in \nat)]
+\end{theorem}
+
+\begin{theorem}{theoremConjunction}
+  \vdash? (Simple \land Simple~') = [x : \arithmos; x' : \arithmos | x \in \nat \land x' \in \nat]
+\end{theorem}
+
+\begin{theorem}{theoremDisjunction}
+  \vdash? (Simple \lor Simple~') = [x : \arithmos; x' : \arithmos | x \in \nat \lor x' \in \nat]
+\end{theorem}
+
+\begin{theorem}{theoremImplication}
+  \vdash? (Simple \implies Simple~') = [x : \arithmos; x' : \arithmos | x \in \nat \implies x' \in \nat]
+\end{theorem}
+
+\begin{theorem}{theoremEquivalence}
+  \vdash? (Simple \iff Simple~') = [x : \arithmos; x' : \arithmos | x \in \nat \iff x' \in \nat]
+\end{theorem}
+
+\begin{theorem}{Theta}
+  \vdash? (\mu Simple @ \theta Simple) =
+          (\mu [x : \nat] @ \lblot x == x \rblot )
+\end{theorem}
+
+\begin{theorem}{ThetaPrime}
+  \vdash? (\mu Simple~' @ \theta Simple~') =
+          (\mu [x' : \nat] @ \lblot x == x' \rblot )
+\end{theorem}
+
+\begin{theorem}{SimpleProjection1}
+  \vdash? Simple \project Simple = [ x : \nat | \exists | true @ x \in \nat ]
+\end{theorem}
+
+\begin{theorem}{SimpleProjection2}
+  \vdash? Simple \project [| true] = [ | (\exists  x : \arithmos | true @ x \in \nat) ]
+\end{theorem}
+
+\begin{theorem}{SimpleSchemaPre1}
+  \vdash? \pre Simple = [ x:\arithmos | (\exists @ x\in\nat)]
+\end{theorem}
+
+\begin{theorem}{SimpleSchemaPre2}
+  \vdash? \pre (Simple~') = [ | (\exists x':\arithmos @ x'\in\nat)]
+\end{theorem}
+
+\begin{theorem}{SimpleSchemaPre3}
+  \vdash? \pre (Simple \land Simple~') =
+          [x:\arithmos | (\exists x':\arithmos @ x\in\nat \land x'\in\nat)]
+\end{theorem}
+
+\begin{theorem}{SimpleComp}
+  \vdash? \Delta Simple \semi \Delta Simple =
+	  [ x : \arithmos ; x' : \arithmos
+		|
+		  \exists x_{9}~: \arithmos @
+			  ( ( \exists x' : \arithmos @
+				      x \in \nat \land x' \in \nat  \land \lblot x == x' \rblot = \lblot x == x_{9} \rblot )
+					\land
+					( \exists x : \arithmos @
+					    x \in \nat \land x' \in \nat \land \lblot x == x \rblot = \lblot x == x_{9} \rblot )  ) ]
+\end{theorem}
+
+\begin{theorem}{SimplePipe}
+  \vdash? (Simple \land [z!:\nat]) \pipe (Simple \land [z?:\nat]) =
+	  [ x : \arithmos
+		|\exists z_{9}~: \arithmos @
+		   ( ( \exists z! : \arithmos @
+			         x \in \nat \land z! \in \nat \land \lblot z == z! \rblot = \lblot z == z_{9} \rblot )
+				 \land
+				 ( \exists z? : \arithmos @
+				       x \in \nat \land z? \in \nat \land \lblot z == z? \rblot = \lblot z == z_{9} \rblot ) ) ]
+\end{theorem}
+
+\begin{theorem}{SimpleHide}
+  \vdash? Simple \hide (x) = [ | (\exists x:\arithmos @ x\in\nat)]
+\end{theorem}
+
+\begin{theorem}{SimpleHide2}
+  \vdash? (Simple \land [y:\arithmos | y \in\nat])\hide(x,y) =
+                [ | (\exists x:\arithmos; y:\arithmos @ x\in\nat \land y\in\nat)]
+\end{theorem}
+
+\begin{theorem}{SimpleHide3}
+  \vdash? (Simple \land [y:\arithmos | y \in\nat])\hide(y) =
+          [x:\arithmos | (\exists y:\arithmos @ x\in\nat \land y\in\nat)]
+\end{theorem}
+
+\begin{theorem}{SimpleHide4}
+  \vdash? (Simple \land [y:\arithmos | y \in\nat])\hide(x) =
+          [y:\arithmos | (\exists x:\arithmos @ x\in\nat \land y\in\nat)]
+\end{theorem}
+
+\begin{theorem}{SimpeRename}
+  \vdash? normalize~Simple [y/x] = [y:\arithmos | y \in \nat]
+\end{theorem}
+
+\begin{schema}{SimpleConstDecl}
+  y == 3
+\end{schema}
+
+\begin{theorem}{theoremSimpleConstDecl1}
+  \vdash? SimpleConstDecl =
+    [ y == 3 ]
+\end{theorem}
+
+\begin{theorem}{theoremSimpleConstDecl2}
+  \vdash? normalize~SimpleConstDecl =
+    [ y : \arithmos | y = 3 ]
+\end{theorem}
+
+\begin{theorem}{theorem10}
+  \vdash? (\exists Simple @ SimpleConstDecl) =
+    [ y : \arithmos |
+      (\exists x : \nat @ y = 3) ]
+\end{theorem}
+
+
+\begin{schema}{SimpleGen}[T]
+  x: T
+\end{schema}
+
+\begin{theorem}{theorem2Gen}
+  \vdash? normalize~SimpleGen[\nat] =
+    [ x : \arithmos | x \in \nat ]
+\end{theorem}
+
+% TODO: does not yet work due to ID problems
+%\begin{theorem}{Decor1}
+  \vdash? [SimpleGen[\nat] | x > 5]' = [x':\nat | x' > 5]
+\end{theorem}
+
+
+Unfolding birthdaybook:
+
+\begin{zed}[NAME, DATE]\end{zed}
+
+\begin{schema}{BirthdayBook}
+    known: \power NAME \\
+    birthday: NAME \pfun DATE
+\where
+    known=\dom birthday
+\end{schema}
+
+\begin{theorem}{BirthdayBookUnfolded1}
+  \vdash? BirthdayBook =
+	  [ known : \power NAME ; birthday : NAME \pfun DATE | known = \dom birthday ]
+\end{theorem}
+
+\begin{theorem}{BirthdayBookUnfolded}
+  \vdash? normalize~BirthdayBook =
+    [ known : \power NAME ; birthday : \power ( NAME \cross DATE )
+    | birthday \in NAME \pfun DATE \land known = \dom birthday ]
+\end{theorem}
+

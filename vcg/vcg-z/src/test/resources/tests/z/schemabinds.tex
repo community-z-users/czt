@@ -1,0 +1,23 @@
+\begin{zsection}
+\SECTION schemabinds \parents function\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   n0, n1, n2: \nat
+\\
+   ps: \power~\nat
+\end{axdef}
+
+\begin{zed}
+   S == [ x: \nat; y: \nat ] 
+\\
+   T == [ y: \nat; s: \power~\nat ]
+\\
+   SR == S[a/x, b/y]
+\\
+   TR == T[b/y, z/s]
+\\
+   SCT == SR \semi TR 
+\\
+   SCTi == S[a/x] \semi T[z/s]
+\end{zed}

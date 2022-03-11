@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NarrSect>
+        <Anns>
+            <LocAnn Start="471" Loc="lib/circus_prelude.tex" Line="9" Length="1" Col="0"/>
+        </Anns>
+        <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Start="938" Loc="lib/circus_prelude.tex" Line="17" Length="6108" Col="0"/>
+        </Anns>
+        <Name>circus_prelude</Name>
+        <Parent>
+            <Word>prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="44"/>
+                    </Anns>
+                    <Command>\circrefines</Command>
+                    <Unicode>⊑</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="47"/>
+                    </Anns>
+                    <Command>\circsimulates</Command>
+                    <Unicode>≼</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="50"/>
+                    </Anns>
+                    <Command>\circassertref</Command>
+                    <Unicode>assert</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="54"/>
+                    </Anns>
+                    <Command>\prefixcolon</Command>
+                    <Unicode>∶</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="57"/>
+                    </Anns>
+                    <Command>\circdef</Command>
+                    <Unicode>≙</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="60"/>
+                    </Anns>
+                    <Command>\circspot</Command>
+                    <Unicode>∙</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="63"/>
+                    </Anns>
+                    <Command>\circindex</Command>
+                    <Unicode>⊙</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="66"/>
+                    </Anns>
+                    <Command>\circmu</Command>
+                    <Unicode>µ</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="69"/>
+                    </Anns>
+                    <Command>\circthen</Command>
+                    <Unicode>⟼</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="72"/>
+                    </Anns>
+                    <Command>\circelse</Command>
+                    <Unicode>▯</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="75"/>
+                    </Anns>
+                    <Command>\then</Command>
+                    <Unicode>⟶</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="78"/>
+                    </Anns>
+                    <Command>\circguard</Command>
+                    <Unicode>&amp;</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="81"/>
+                    </Anns>
+                    <Command>\circseq</Command>
+                    <Unicode>;</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="84"/>
+                    </Anns>
+                    <Command>\Semi</Command>
+                    <Unicode>⨟</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="87"/>
+                    </Anns>
+                    <Command>\interleave</Command>
+                    <Unicode>⦀</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="90"/>
+                    </Anns>
+                    <Command>\Parallel</Command>
+                    <Unicode>∥</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="93"/>
+                    </Anns>
+                    <Command>\Interleave</Command>
+                    <Unicode>⫼</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="98"/>
+                    </Anns>
+                    <Command>\circhide</Command>
+                    <Unicode>⫵</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="101"/>
+                    </Anns>
+                    <Command>\extchoice</Command>
+                    <Unicode>◻</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="104"/>
+                    </Anns>
+                    <Command>\Extchoice</Command>
+                    <Unicode>□</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="107"/>
+                    </Anns>
+                    <Command>\intchoice</Command>
+                    <Unicode>⊓</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="110"/>
+                    </Anns>
+                    <Command>\Intchoice</Command>
+                    <Unicode>⊔</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="116"/>
+                    </Anns>
+                    <Command>\lchanset</Command>
+                    <Unicode>⦃</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="117"/>
+                    </Anns>
+                    <Command>\rchanset</Command>
+                    <Unicode>⦄</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="120"/>
+                    </Anns>
+                    <Command>\lcircindex</Command>
+                    <Unicode>⌊</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="121"/>
+                    </Anns>
+                    <Command>\rcircindex</Command>
+                    <Unicode>⌋</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="124"/>
+                    </Anns>
+                    <Command>\lcircguard</Command>
+                    <Unicode>〔</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="125"/>
+                    </Anns>
+                    <Command>\rcircguard</Command>
+                    <Unicode>〕</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="128"/>
+                    </Anns>
+                    <Command>\lschexpract</Command>
+                    <Unicode>❨</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="129"/>
+                    </Anns>
+                    <Command>\rschexpract</Command>
+                    <Unicode>❩</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="132"/>
+                    </Anns>
+                    <Command>\lcircrename</Command>
+                    <Unicode>〖</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="133"/>
+                    </Anns>
+                    <Command>\rcircrename</Command>
+                    <Unicode>〗</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="136"/>
+                    </Anns>
+                    <Command>\lpar</Command>
+                    <Unicode>⟦</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="137"/>
+                    </Anns>
+                    <Command>\rpar</Command>
+                    <Unicode>⟧</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="140"/>
+                    </Anns>
+                    <Command>\linter</Command>
+                    <Unicode>〚</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="141"/>
+                    </Anns>
+                    <Command>\rinter</Command>
+                    <Unicode>〛</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="165"/>
+                    </Anns>
+                    <Command>\circif</Command>
+                    <Unicode>if</Unicode>
+                </Directive>
+                <Directive Type="POST">
+                    <Anns>
+                        <LocAnn Line="166"/>
+                    </Anns>
+                    <Command>\circfi</Command>
+                    <Unicode>fi</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="169"/>
+                    </Anns>
+                    <Command>\circdo</Command>
+                    <Unicode>do</Unicode>
+                </Directive>
+                <Directive Type="POST">
+                    <Anns>
+                        <LocAnn Line="170"/>
+                    </Anns>
+                    <Command>\circod</Command>
+                    <Unicode>od</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="173"/>
+                    </Anns>
+                    <Command>\circcon</Command>
+                    <Unicode>con</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="176"/>
+                    </Anns>
+                    <Command>\circvar</Command>
+                    <Unicode>var</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="179"/>
+                    </Anns>
+                    <Command>\circval</Command>
+                    <Unicode>val</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="180"/>
+                    </Anns>
+                    <Command>\circres</Command>
+                    <Unicode>res</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="181"/>
+                    </Anns>
+                    <Command>\circvres</Command>
+                    <Unicode>vres</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="188"/>
+                    </Anns>
+                    <Command>\circchannel</Command>
+                    <Unicode>channel</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="191"/>
+                    </Anns>
+                    <Command>\circchannelfrom</Command>
+                    <Unicode>channelfrom</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="194"/>
+                    </Anns>
+                    <Command>\circchannelset</Command>
+                    <Unicode>channelset</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="197"/>
+                    </Anns>
+                    <Command>\circnameset</Command>
+                    <Unicode>nameset</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="204"/>
+                    </Anns>
+                    <Command>\circprocess</Command>
+                    <Unicode>process</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="207"/>
+                    </Anns>
+                    <Command>\circbegin</Command>
+                    <Unicode>begin</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="210"/>
+                    </Anns>
+                    <Command>\circstate</Command>
+                    <Unicode>circstate</Unicode>
+                </Directive>
+                <Directive Type="POST">
+                    <Anns>
+                        <LocAnn Line="213"/>
+                    </Anns>
+                    <Command>\circend</Command>
+                    <Unicode>end</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="219"/>
+                    </Anns>
+                    <Command>\Skip</Command>
+                    <Unicode>Skip</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="222"/>
+                    </Anns>
+                    <Command>\Stop</Command>
+                    <Unicode>Stop</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="225"/>
+                    </Anns>
+                    <Command>\Chaos</Command>
+                    <Unicode>Chaos</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="237"/>
+                    </Anns>
+                    <Command>\boolean</Command>
+                    <Unicode>𝔹</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="238"/>
+                    </Anns>
+                    <Command>\true</Command>
+                    <Unicode>True</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="239"/>
+                    </Anns>
+                    <Command>\false</Command>
+                    <Unicode>False</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="247"/>
+                    </Anns>
+                    <Command>\universe</Command>
+                    <Unicode>𝕌</Unicode>
+                </Directive>
+            </LatexMarkupPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="997" Loc="lib/circus_prelude.tex" Line="19" Length="5586" Col="14"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</Content>
+            </NarrPara>
+            <FreePara>
+                <Anns>
+                    <LocAnn Start="6738" Loc="lib/circus_prelude.tex" Line="240" Length="52" Col="0"/>
+                </Anns>
+                <ZFreetypeList>
+                    <Freetype>
+                        <Anns>
+                            <LocAnn Start="6753" Loc="lib/circus_prelude.tex" Line="241" Length="27" Col="12"/>
+                        </Anns>
+                        <ZName>
+                            <Anns>
+                                <LocAnn Start="6753" Loc="lib/circus_prelude.tex" Line="241" Length="8" Col="3"/>
+                            </Anns>
+                            <Word>𝔹</Word>
+                            <ZStrokeList/>
+                        </ZName>
+                        <ZBranchList>
+                            <Branch>
+                                <Anns>
+                                    <LocAnn Start="6766" Loc="lib/circus_prelude.tex" Line="241" Length="5" Col="16"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="6766" Loc="lib/circus_prelude.tex" Line="241" Length="5" Col="16"/>
+                                    </Anns>
+                                    <Word>True</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </Branch>
+                            <Branch>
+                                <Anns>
+                                    <LocAnn Start="6774" Loc="lib/circus_prelude.tex" Line="241" Length="6" Col="24"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="6774" Loc="lib/circus_prelude.tex" Line="241" Length="6" Col="24"/>
+                                    </Anns>
+                                    <Word>False</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </Branch>
+                        </ZBranchList>
+                    </Freetype>
+                </ZFreetypeList>
+            </FreePara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="6790" Loc="lib/circus_prelude.tex" Line="242" Length="2" Col="9"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="6989" Loc="lib/circus_prelude.tex" Line="248" Length="56" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="7004" Loc="lib/circus_prelude.tex" Line="248" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Start="7011" Loc="lib/circus_prelude.tex" Line="249" Length="20" Col="14"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Start="7011" Loc="lib/circus_prelude.tex" Line="249" Length="20" Col="14"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Start="7011" Loc="lib/circus_prelude.tex" Line="249" Length="20" Col="14"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="7011" Loc="lib/circus_prelude.tex" Line="249" Length="9" Col="4"/>
+                                    </Anns>
+                                    <Word>𝕌</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <PowerExpr>
+                                <Anns>
+                                    <LocAnn Start="7023" Loc="lib/circus_prelude.tex" Line="249" Length="8" Col="16"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="7030" Loc="lib/circus_prelude.tex" Line="249" Length="1" Col="23"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="7030" Loc="lib/circus_prelude.tex" Line="249" Length="1" Col="23"/>
+                                        </Anns>
+                                        <Word>X</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </PowerExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="7045" Loc="lib/circus_prelude.tex" Line="250" Length="1" Col="13"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"> </Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>
+

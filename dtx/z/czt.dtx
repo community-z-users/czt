@@ -1,0 +1,601 @@
+\def\fileversion{1.00}
+\def\filedate{2008/09/20}
+\def\docdate {2008/09/20}
+% \iffalse meta-comment
+%
+% Copyright (C) 2008 by Leo Freitas <leo@cs.york.ac.uk>
+% -----------------------------------------------------
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.2 of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+%    http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{stdz.dtx}
+%</driver>
+%<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+%<package>\ProvidesPackage{stdz}
+%<*package>
+  \filedate\space\fileversion\space Standard Z dtx file for CZT]
+%</package>
+%
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage{stdz}[2008/09/20]
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \DocInput{stdz.dtx}
+  \usepackage{url}
+  \PrintChanges
+  \PrintIndex
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+%
+% \changes{v1.0}{2008/09/20}{Initial version}
+%
+% \GetFileInfo{stdz.dtx}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% \title{The \textsf{stdz} package for CZT\thanks{This document
+%   corresponds to \textsf{stdz}~\fileversion, dated \filedate.}}
+% \author{Leo Freitas \\ \texttt{leo@cs.york.ac.uk}}
+%
+% \maketitle
+%
+% \section{Introduction}
+%
+% This document describes the \LaTeX{} commands used to typeset
+% ISO Standard Z notation. It was derived from the oz.dtx, but
+% shrunk down in order to eliminate dependencies with Object Z.
+% It is part of the Community Z Tools (CZT).
+% 
+% \url{http://czt.sourceforge.net}
+%
+% Eliminating these dependencies is important so that Z extensions,
+% such as Circus will not suffer from interference in the declarations
+% from oz.sty.
+%
+% For convenience, I have chosen the same name as that used in oz.sty.  
+% The following code is based upon the work of Paul King, Sebastian Rahtz, 
+% Mike Spivey, Alan Jeffrey, Mark Utting, and Jim Davies.
+%
+% Thus, this file is a compilation between zed-csp.sty, oz.sty and the
+% prototype version of czt.sty. Most os its declarations come from oz.sty,
+% yet trying to keep the symbols and changes minimal to Standard Z only.
+% 
+% As we are rather novice in such NFSS font manipulation exercise, we 
+% will explicitly add helpful (if not verbose) comments on certain commands.
+%
+% \section{Usage}
+%
+% This file is to be used for typesetting \LaTeX{} markup for Z specifications.
+%
+% \DescribeMacro{\dummyMacro}
+% This macro does nothing.\index{doing nothing|usage} It is merely an
+% example.  If this were a real macro, you would put a paragraph here
+% describing what the macro is supposed to do, what its mandatory and
+% optional arguments are, and so forth.
+%
+% \DescribeEnv{dummyEnv}
+% This environment does nothing.  It is merely an example.
+% If this were a real environment, you would put a paragraph here
+% describing what the environment is supposed to do, what its
+% mandatory and optional arguments are, and so forth.
+%
+% \StopEventually{}
+%
+% \section{Z fonts}
+%
+% The AMS extra symbol fonts are loaded if we are not using Lucida New Math.
+% Note that msam and msbm sometimes called euxm and euym, respectively. Also,
+% the new AMSFONTS 2.0 call these fonts msam and msbm, repectively.
+% The fonts below need to be renamed if you want to use the new fonts.
+% These symbols came from the oz.sty file, where the math version is stdz
+% rather than oz.
+%
+% If the Lucida Bright fonts package is loaded, no symbols are changed.
+% This is inherited from oz.sty and zed-csp.sty. Otherwise, a new math
+% version ``zed'' is used and set at the end. It changes the usual math
+% encoding of roman, bold face, and sans face. 
+% 
+% Math versions can be used to change a whole group of math alphabet settings.
+% That is, it affects how how \verb|\mathcal|, bf, sf, rm, tt, it will look like.
+% The \verb|\DeclareMathAlphabet| gives the default values under the default math
+% version, whereas \verb|\SetMathAlphabet| gives the specific value for a given 
+% math version. 
+%
+%    \begin{macrocode}
+\@ifpackageloaded{lucbr}{}{%
+\DeclareMathVersion{zed}%
+\SetMathAlphabet{\mathrm}{zed}{\encodingdefault}{\rmdefault}{m}{n}%
+\SetMathAlphabet{\mathbf}{zed}{\encodingdefault}{\rmdefault}{bx}{n}%
+\SetMathAlphabet{\mathsf}{zed}{\encodingdefault}{\sfdefault}{m}{n}%
+\DeclareSymbolFont{italics}{\encodingdefault}{\rmdefault}{m}{it}%
+\DeclareSymbolFontAlphabet{\mathrm}{operators}
+\DeclareSymbolFontAlphabet{\mathit}{letters}
+\DeclareSymbolFontAlphabet{\mathcal}{symbols}
+\DeclareSymbolFontAlphabet{\zedit}{italics}
+\DeclareSymbolFont{lasy}{U}{lasy}{m}{n}
+\DeclareSymbolFont{AMSa}{U}{msa}{m}{n}
+\DeclareSymbolFont{AMSb}{U}{msb}{m}{n}
+\let\mho\undefined
+\let\Join\undefined
+\let\Box\undefined
+\let\Diamond\undefined
+\let\leadsto\undefined
+\let\sqsubset\undefined
+\let\sqsupset\undefined
+\let\lhd\undefined
+\let\unlhd\undefined
+\let\rhd\undefined
+\let\unrhd\undefined
+\DeclareMathSymbol{\mho}{\mathord}{lasy}{"30}
+\DeclareMathSymbol{\Join}{\mathrel}{lasy}{"31}
+\DeclareMathSymbol{\Box}{\mathord}{lasy}{"32}
+\DeclareMathSymbol{\Diamond}{\mathord}{lasy}{"33}
+\DeclareMathSymbol{\leadsto}{\mathrel}{lasy}{"3B}
+\DeclareMathSymbol{\sqsubset}{\mathrel}{lasy}{"3C}
+\DeclareMathSymbol{\sqsupset}{\mathrel}{lasy}{"3D}
+\DeclareMathSymbol{\lhd}{\mathrel}{lasy}{"01}
+\DeclareMathSymbol{\unlhd}{\mathrel}{lasy}{"02}
+\DeclareMathSymbol{\rhd}{\mathrel}{lasy}{"03}
+\DeclareMathSymbol{\unrhd}{\mathrel}{lasy}{"04}
+\DeclareSymbolFontAlphabet{\mathbb}{AMSb}
+\DeclareSymbolFontAlphabet{\bbold}{AMSb}
+\mathversion{zed}
+}
+%    \end{macrocode}
+%
+% \section{Z symbols}
+%
+% The mathcodes for the letters A, ..., Z, a, ..., z are changed to
+% generate text italic rather than math italic by default. This makes
+% multi-letter identifiers look better. The mathcode for character c
+% is set to |"7000| (variable family) + |"400| (text italic) + |c|.
+%
+%    \begin{macrocode}
+\def\@setmcodes#1#2#3{{\count0=#1 \count1=#3
+    \loop \global\mathcode\count0=\count1 \ifnum \count0<#2
+    \advance\count0 by1 \advance\count1 by1 \repeat}}
+%    \end{macrocode}
+% Use |\hexnumber@\symitalics|
+% in case other families are loaded before.
+% (from D. Roegel, July 13, 1994)
+%    \begin{macrocode}
+\@setmcodes{`A}{`Z}{"7\hexnumber@\symitalics41}
+\@setmcodes{`a}{`z}{"7\hexnumber@\symitalics61}
+%    \end{macrocode}
+%
+% Also, the mathcode for semicolon is set to |"8000|, so it behaves as an
+% active character in math mode; it is defined to insert a thick space.
+% |\semicolon| is a semicolon as an ordinary symbol.
+%
+%    \begin{macrocode}
+\let\@mc=\mathchardef
+\mathcode`\;="8000 % Makes ; active in math mode
+{\catcode`\;=\active \gdef;{\semicolon\;}}
+\@mc\semicolon="603B
+%    \end{macrocode}
+%
+%\section{Utility macros for Z symbols}
+%\begin{tabular}{ll}
+% |\z@op |&    makes a large math operator\\
+% |\z@rel|&    makes a math relation\\
+% |\z@bin|&    makes a binary operator\\
+%\end{tabular}
+%
+% Each use a mathstrut to defeat TeX's vertical adjustment.
+% |\z@bigXXX| is a big version of symbol
+%
+%    \begin{macrocode}
+\def\z@op#1{\mathop{\mathstrut{#1}}\nolimits}
+\def\z@bin#1{\mathbin{\mathstrut{#1}}}
+\def\z@rel#1{\mathrel{\mathstrut{#1}}}
+%
+\def\z@bigop#1{\z@op{\zbig{#1}}}
+\def\z@bigbin#1{\z@bin{\zbig{#1}}}
+\def\z@bigrel#1{\z@rel{\zbig{#1}}}
+%
+\def\z@Bigop#1{\z@op{\zBig{#1}}}
+\def\z@Bigbin#1{\z@bin{\zBig{#1}}}
+\def\z@Bigrel#1{\z@rel{\zBig{#1}}}
+%
+\def\z@smallop#1{\z@op{\zsmall{#1}}}
+\def\z@smallbin#1{\z@bin{\zsmall{#1}}}
+\def\z@smallrel#1{\z@rel{\zsmall{#1}}}
+%    \end{macrocode}
+%
+% This underscore doesn't have the little kern --- you get an italic
+% correction anyway in math mode.
+%    \begin{macrocode}
+\def\_{\leavevmode \vbox{\hrule width0.4em}}
+%    \end{macrocode}
+% Save |\q| as |\xq| for quantifiers q.
+%    \begin{macrocode}
+\let\xforall=\forall
+\let\xexists=\exists
+\let\xlambda=\lambda
+\let\xmu=\mu
+%    \end{macrocode}
+% Save other symbols
+%    \begin{macrocode}
+\let\xsucc\succ
+\let\xprec\prec
+\let\dotaccent=\dot
+\let\sectionsymbol=\S
+\let\integral=\int
+\let\product\prod
+%    \end{macrocode}
+% |\p| and |\f| make arrows with 1 and 2 crossings resp.
+%    \begin{macrocode}
+\def\p#1{\mathrel{\ooalign{\hfil$\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+\def\f#1{\mathrel{\ooalign{\hfil
+    $\mapstochar\mkern 3mu\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+\@ifpackageloaded{lucbr}{%
+ \DeclareMathSymbol{\doublebarwedge}{\mathbin}{symbols}{"D4}
+ \DeclareMathSymbol{\lll}{\mathrel}{letters}{"DE}
+ \DeclareMathSymbol{\ggg}{\mathrel}{letters}{"DF}
+ \DeclareMathSymbol{\eth}{\mathrel}{operators}{"F0}
+}{%
+%    \end{macrocode}
+%
+%  \section{Amstex symbol definitions}
+%
+% Do these before Z symbols so that we can use them in our special symbols.
+% AMSa font:
+%    \begin{macrocode}
+\let\rightleftharpoons\undefined
+\let\angle\undefined
+\DeclareMathSymbol\boxdot{\mathbin}{AMSa}{"00}
+\DeclareMathSymbol\boxplus{\mathbin}{AMSa}{"01}
+\DeclareMathSymbol\boxtimes{\mathbin}{AMSa}{"02}
+\DeclareMathSymbol\square{\mathord}{AMSa}{"03}
+\DeclareMathSymbol\blacksquare{\mathord}{AMSa}{"04}
+\DeclareMathSymbol\centerdot{\mathbin}{AMSa}{"05}
+\DeclareMathSymbol\lozenge{\mathord}{AMSa}{"06}
+\DeclareMathSymbol\blacklozenge{\mathord}{AMSa}{"07}
+\DeclareMathSymbol\circlearrowright{\mathrel}{AMSa}{"08}
+\DeclareMathSymbol\circlearrowleft{\mathrel}{AMSa}{"09}
+\DeclareMathSymbol\rightleftharpoons{\mathrel}{AMSa}{"0A}
+\DeclareMathSymbol\leftrightharpoons{\mathrel}{AMSa}{"0B}
+\DeclareMathSymbol\boxminus{\mathbin}{AMSa}{"0C}
+\DeclareMathSymbol\Vdash{\mathrel}{AMSa}{"0D}
+\DeclareMathSymbol\Vvdash{\mathrel}{AMSa}{"0E}
+\DeclareMathSymbol\vDash{\mathrel}{AMSa}{"0F}
+\DeclareMathSymbol\twoheadrightarrow{\mathrel}{AMSa}{"10}
+\DeclareMathSymbol\twoheadleftarrow{\mathrel}{AMSa}{"11}
+\DeclareMathSymbol\leftleftarrows{\mathrel}{AMSa}{"12}
+\DeclareMathSymbol\rightrightarrows{\mathrel}{AMSa}{"13}
+\DeclareMathSymbol\upuparrows{\mathrel}{AMSa}{"14}
+\DeclareMathSymbol\downdownarrows{\mathrel}{AMSa}{"15}
+\DeclareMathSymbol\upharpoonright{\mathrel}{AMSa}{"16}
+\DeclareMathSymbol\downharpoonright{\mathrel}{AMSa}{"17}
+\DeclareMathSymbol\upharpoonleft{\mathrel}{AMSa}{"18}
+\DeclareMathSymbol\downharpoonleft{\mathrel}{AMSa}{"19}
+\DeclareMathSymbol\rightarrowtail{\mathrel}{AMSa}{"1A}
+\DeclareMathSymbol\leftarrowtail{\mathrel}{AMSa}{"1B}
+\DeclareMathSymbol\leftrightarrows{\mathrel}{AMSa}{"1C}
+\DeclareMathSymbol\rightleftarrows{\mathrel}{AMSa}{"1D}
+\DeclareMathSymbol\Lsh{\mathrel}{AMSa}{"1E}
+\DeclareMathSymbol\Rsh{\mathrel}{AMSa}{"1F}
+\DeclareMathSymbol\rightsquigarrow{\mathrel}{AMSa}{"20}
+\DeclareMathSymbol\leftrightsquigarrow{\mathrel}{AMSa}{"21}
+\DeclareMathSymbol\looparrowleft{\mathrel}{AMSa}{"22}
+\DeclareMathSymbol\looparrowright{\mathrel}{AMSa}{"23}
+\DeclareMathSymbol\circeq{\mathrel}{AMSa}{"24}
+\DeclareMathSymbol\succsim{\mathrel}{AMSa}{"25}
+\DeclareMathSymbol\gtrsim{\mathrel}{AMSa}{"26}
+\DeclareMathSymbol\gtrapprox{\mathrel}{AMSa}{"27}
+\DeclareMathSymbol\multimap{\mathrel}{AMSa}{"28}
+\DeclareMathSymbol\therefore{\mathrel}{AMSa}{"29}
+\DeclareMathSymbol\because{\mathrel}{AMSa}{"2A}
+\DeclareMathSymbol\doteqdot{\mathrel}{AMSa}{"2B}
+\DeclareMathSymbol\triangleq{\mathrel}{AMSa}{"2C}
+\DeclareMathSymbol\precsim{\mathrel}{AMSa}{"2D}
+\DeclareMathSymbol\lesssim{\mathrel}{AMSa}{"2E}
+\DeclareMathSymbol\lessapprox{\mathrel}{AMSa}{"2F}
+\DeclareMathSymbol\eqslantless{\mathrel}{AMSa}{"30}
+\DeclareMathSymbol\eqslantgtr{\mathrel}{AMSa}{"31}
+\DeclareMathSymbol\curlyeqprec{\mathrel}{AMSa}{"32}
+\DeclareMathSymbol\curlyeqsucc{\mathrel}{AMSa}{"33}
+\DeclareMathSymbol\preccurlyeq{\mathrel}{AMSa}{"34}
+\DeclareMathSymbol\leqq{\mathrel}{AMSa}{"35}
+\DeclareMathSymbol\leqslant{\mathrel}{AMSa}{"36}
+\DeclareMathSymbol\lessgtr{\mathrel}{AMSa}{"37}
+\DeclareMathSymbol\backprime{\mathord}{AMSa}{"38}
+\DeclareMathSymbol\risingdotseq{\mathrel}{AMSa}{"3A}
+\DeclareMathSymbol\fallingdotseq{\mathrel}{AMSa}{"3B}
+\DeclareMathSymbol\succcurlyeq{\mathrel}{AMSa}{"3C}
+\DeclareMathSymbol\geqq{\mathrel}{AMSa}{"3D}
+\DeclareMathSymbol\geqslant{\mathrel}{AMSa}{"3E}
+\DeclareMathSymbol\gtrless{\mathrel}{AMSa}{"3F}
+\DeclareMathSymbol\sqsubset{\mathrel}{AMSa}{"40}
+\DeclareMathSymbol\sqsupset{\mathrel}{AMSa}{"41}
+\DeclareMathSymbol\vartriangleright{\mathrel}{AMSa}{"42}
+\DeclareMathSymbol\vartriangleleft{\mathrel}{AMSa}{"43}
+\DeclareMathSymbol\trianglerighteq{\mathrel}{AMSa}{"44}
+\DeclareMathSymbol\trianglelefteq{\mathrel}{AMSa}{"45}
+\DeclareMathSymbol\bigstar{\mathord}{AMSa}{"46}
+\DeclareMathSymbol\between{\mathrel}{AMSa}{"47}
+\DeclareMathSymbol\blacktriangledown{\mathord}{AMSa}{"48}
+\DeclareMathSymbol\blacktriangleright{\mathrel}{AMSa}{"49}
+\DeclareMathSymbol\blacktriangleleft{\mathrel}{AMSa}{"4A}
+\DeclareMathSymbol\vartriangle{\mathord}{AMSa}{"4D}
+\DeclareMathSymbol\blacktriangle{\mathord}{AMSa}{"4E}
+\DeclareMathSymbol\triangledown{\mathord}{AMSa}{"4F}
+\DeclareMathSymbol\eqcirc{\mathrel}{AMSa}{"50}
+\DeclareMathSymbol\lesseqgtr{\mathrel}{AMSa}{"51}
+\DeclareMathSymbol\gtreqless{\mathrel}{AMSa}{"52}
+\DeclareMathSymbol\lesseqqgtr{\mathrel}{AMSa}{"53}
+\DeclareMathSymbol\gtreqqless{\mathrel}{AMSa}{"54}
+\DeclareMathSymbol\Rrightarrow{\mathrel}{AMSa}{"56}
+\DeclareMathSymbol\Lleftarrow{\mathrel}{AMSa}{"57}
+\DeclareMathSymbol\veebar{\mathbin}{AMSa}{"59}
+\DeclareMathSymbol\barwedge{\mathbin}{AMSa}{"5A}
+\DeclareMathSymbol\doublebarwedge{\mathbin}{AMSa}{"5B}
+\DeclareMathSymbol\angle{\mathord}{AMSa}{"5C}
+\DeclareMathSymbol\measuredangle{\mathord}{AMSa}{"5D}
+\DeclareMathSymbol\sphericalangle{\mathord}{AMSa}{"5E}
+\DeclareMathSymbol\varpropto{\mathrel}{AMSa}{"5F}
+\DeclareMathSymbol\smallsmile{\mathrel}{AMSa}{"60}
+\DeclareMathSymbol\smallfrown{\mathrel}{AMSa}{"61}
+\DeclareMathSymbol\Subset{\mathrel}{AMSa}{"62}
+\DeclareMathSymbol\Supset{\mathrel}{AMSa}{"63}
+\DeclareMathSymbol\Cup{\mathbin}{AMSa}{"64}
+\DeclareMathSymbol\Cap{\mathbin}{AMSa}{"65}
+\DeclareMathSymbol\curlywedge{\mathbin}{AMSa}{"66}
+\DeclareMathSymbol\curlyvee{\mathbin}{AMSa}{"67}
+\DeclareMathSymbol\leftthreetimes{\mathbin}{AMSa}{"68}
+\DeclareMathSymbol\rightthreetimes{\mathbin}{AMSa}{"69}
+\DeclareMathSymbol\subseteqq{\mathrel}{AMSa}{"6A}
+\DeclareMathSymbol\supseteqq{\mathrel}{AMSa}{"6B}
+\DeclareMathSymbol\bumpeq{\mathrel}{AMSa}{"6C}
+\DeclareMathSymbol\Bumpeq{\mathrel}{AMSa}{"6D}
+\DeclareMathSymbol\lll{\mathrel}{AMSa}{"6E}
+\DeclareMathSymbol\ggg{\mathrel}{AMSa}{"6F}
+\DeclareMathDelimiter\ulcorner{4}{AMSa}{"70}{AMSa}{"70}
+\DeclareMathDelimiter\urcorner{5}{AMSa}{"71}{AMSa}{"71}
+\DeclareMathDelimiter\llcorner{4}{AMSa}{"78}{AMSa}{"78}
+\DeclareMathDelimiter\lrcorner{5}{AMSa}{"79}{AMSa}{"79}
+\xdef\yen  {\noexpand\mathhexbox\hexnumber@\symAMSa 55 }
+\xdef\checkmark{\noexpand\mathhexbox\hexnumber@\symAMSa 58 }
+\xdef\circledR {\noexpand\mathhexbox\hexnumber@\symAMSa 72 }
+\xdef\maltese  {\noexpand\mathhexbox\hexnumber@\symAMSa 7A }
+\DeclareMathSymbol\circledS{\mathord}{AMSa}{"73}
+\DeclareMathSymbol\pitchfork{\mathrel}{AMSa}{"74}
+\DeclareMathSymbol\dotplus{\mathbin}{AMSa}{"75}
+\DeclareMathSymbol\backsim{\mathrel}{AMSa}{"76}
+\DeclareMathSymbol\backsimeq{\mathrel}{AMSa}{"77}
+\DeclareMathSymbol\complement{\mathord}{AMSa}{"7B}
+\DeclareMathSymbol\intercal{\mathbin}{AMSa}{"7C}
+\DeclareMathSymbol\circledcirc{\mathbin}{AMSa}{"7D}
+\DeclareMathSymbol\circledast{\mathbin}{AMSa}{"7E}
+\DeclareMathSymbol\circleddash{\mathbin}{AMSa}{"7F}
+%    \end{macrocode}
+%
+%AMSb font:
+%
+%    \begin{macrocode}
+\DeclareMathSymbol\lvertneqq{\mathrel}{AMSb}{"00}
+\DeclareMathSymbol\gvertneqq{\mathrel}{AMSb}{"01}
+\DeclareMathSymbol\nleq{\mathrel}{AMSb}{"02}
+\DeclareMathSymbol\ngeq{\mathrel}{AMSb}{"03}
+\DeclareMathSymbol\nless{\mathrel}{AMSb}{"04}
+\DeclareMathSymbol\ngtr{\mathrel}{AMSb}{"05}
+\DeclareMathSymbol\nprec{\mathrel}{AMSb}{"06}
+\DeclareMathSymbol\nsucc{\mathrel}{AMSb}{"07}
+\DeclareMathSymbol\lneqq{\mathrel}{AMSb}{"08}
+\DeclareMathSymbol\gneqq{\mathrel}{AMSb}{"09}
+\DeclareMathSymbol\nleqslant{\mathrel}{AMSb}{"0A}
+\DeclareMathSymbol\ngeqslant{\mathrel}{AMSb}{"0B}
+\DeclareMathSymbol\lneq{\mathrel}{AMSb}{"0C}
+\DeclareMathSymbol\gneq{\mathrel}{AMSb}{"0D}
+\DeclareMathSymbol\npreceq{\mathrel}{AMSb}{"0E}
+\DeclareMathSymbol\nsucceq{\mathrel}{AMSb}{"0F}
+\DeclareMathSymbol\precnsim{\mathrel}{AMSb}{"10}
+\DeclareMathSymbol\succnsim{\mathrel}{AMSb}{"11}
+\DeclareMathSymbol\lnsim{\mathrel}{AMSb}{"12}
+\DeclareMathSymbol\gnsim{\mathrel}{AMSb}{"13}
+\DeclareMathSymbol\nleqq{\mathrel}{AMSb}{"14}
+\DeclareMathSymbol\ngeqq{\mathrel}{AMSb}{"15}
+\DeclareMathSymbol\precneqq{\mathrel}{AMSb}{"16}
+\DeclareMathSymbol\succneqq{\mathrel}{AMSb}{"17}
+\DeclareMathSymbol\precnapprox{\mathrel}{AMSb}{"18}
+\DeclareMathSymbol\succnapprox{\mathrel}{AMSb}{"19}
+\DeclareMathSymbol\lnapprox{\mathrel}{AMSb}{"1A}
+\DeclareMathSymbol\gnapprox{\mathrel}{AMSb}{"1B}
+\DeclareMathSymbol\nsim{\mathrel}{AMSb}{"1C}
+\DeclareMathSymbol\ncong{\mathrel}{AMSb}{"1D}
+\DeclareMathSymbol\varsubsetneq{\mathrel}{AMSb}{"20} % oz commented this, zed didn't
+\DeclareMathSymbol\varsupsetneq{\mathrel}{AMSb}{"21} % oz commented this, zed didn't
+\DeclareMathSymbol\nsubseteqq{\mathrel}{AMSb}{"22}
+\DeclareMathSymbol\nsupseteqq{\mathrel}{AMSb}{"23}
+\DeclareMathSymbol\subsetneqq{\mathrel}{AMSb}{"24}
+\DeclareMathSymbol\supsetneqq{\mathrel}{AMSb}{"25}
+\DeclareMathSymbol\varsubsetneqq{\mathrel}{AMSb}{"26} % oz commented this, zed didn't
+\DeclareMathSymbol\varsupsetneqq{\mathrel}{AMSb}{"27} % oz commented this, zed didn't
+\DeclareMathSymbol\subsetneq{\mathrel}{AMSb}{"28}
+\DeclareMathSymbol\supsetneq{\mathrel}{AMSb}{"29}
+\DeclareMathSymbol\nsubseteq{\mathrel}{AMSb}{"2A}
+\DeclareMathSymbol\nsupseteq{\mathrel}{AMSb}{"2B}
+\DeclareMathSymbol\nparallel{\mathrel}{AMSb}{"2C}
+\DeclareMathSymbol\nmid{\mathrel}{AMSb}{"2D}
+\DeclareMathSymbol\nshortmid{\mathrel}{AMSb}{"2E}
+\DeclareMathSymbol\nshortparallel{\mathrel}{AMSb}{"2F}
+\DeclareMathSymbol\nvdash{\mathrel}{AMSb}{"30}
+\DeclareMathSymbol\nVdash{\mathrel}{AMSb}{"31}
+\DeclareMathSymbol\nvDash{\mathrel}{AMSb}{"32}
+\DeclareMathSymbol\nVDash{\mathrel}{AMSb}{"33}
+\DeclareMathSymbol\ntrianglerighteq{\mathrel}{AMSb}{"34}
+\DeclareMathSymbol\ntrianglelefteq{\mathrel}{AMSb}{"35}
+\DeclareMathSymbol\ntriangleleft{\mathrel}{AMSb}{"36}
+\DeclareMathSymbol\ntriangleright{\mathrel}{AMSb}{"37}
+\DeclareMathSymbol\nleftarrow{\mathrel}{AMSb}{"38}
+\DeclareMathSymbol\nrightarrow{\mathrel}{AMSb}{"39}
+\DeclareMathSymbol\nLeftarrow{\mathrel}{AMSb}{"3A}
+\DeclareMathSymbol\nRightarrow{\mathrel}{AMSb}{"3B}
+\DeclareMathSymbol\nLeftrightarrow{\mathrel}{AMSb}{"3C}
+\DeclareMathSymbol\nleftrightarrow{\mathrel}{AMSb}{"3D}
+\DeclareMathSymbol\divideontimes{\mathbin}{AMSb}{"3E}
+\DeclareMathSymbol\varnothing{\mathord}{AMSb}{"3F}
+\DeclareMathSymbol\mho{\mathord}{AMSb}{"66}
+\DeclareMathSymbol\eth{\mathord}{AMSb}{"67}
+\DeclareMathSymbol\eqsim{\mathrel}{AMSb}{"68}
+\DeclareMathSymbol\beth{\mathord}{AMSb}{"69}
+\DeclareMathSymbol\gimel{\mathord}{AMSb}{"6A}
+\DeclareMathSymbol\daleth{\mathord}{AMSb}{"6B}
+\DeclareMathSymbol\lessdot{\mathrel}{AMSb}{"6C}
+\DeclareMathSymbol\gtrdot{\mathrel}{AMSb}{"6D}
+\DeclareMathSymbol\ltimes{\mathbin}{AMSb}{"6E}
+\DeclareMathSymbol\rtimes{\mathbin}{AMSb}{"6F}
+\DeclareMathSymbol\shortmid{\mathrel}{AMSb}{"70}
+\DeclareMathSymbol\shortparallel{\mathrel}{AMSb}{"71}
+\DeclareMathSymbol\smallsetminus{\mathbin}{AMSb}{"72}
+\DeclareMathSymbol\thicksim{\mathrel}{AMSb}{"73}
+\DeclareMathSymbol\thickapprox{\mathrel}{AMSb}{"74}
+\DeclareMathSymbol\approxeq{\mathrel}{AMSb}{"75}
+\DeclareMathSymbol\succapprox{\mathrel}{AMSb}{"76}
+\DeclareMathSymbol\precapprox{\mathrel}{AMSb}{"77}
+\DeclareMathSymbol\curvearrowleft{\mathrel}{AMSb}{"78}
+\DeclareMathSymbol\curvearrowright{\mathrel}{AMSb}{"79}
+\DeclareMathSymbol\digamma{\mathord}{AMSb}{"7A}
+\DeclareMathSymbol\varkappa{\mathord}{AMSb}{"7B}
+\DeclareMathSymbol\hslash{\mathord}{AMSb}{"7D}
+\DeclareMathSymbol\hbar{\mathord}{AMSb}{"7E}
+\DeclareMathSymbol\backepsilon{\mathrel}{AMSb}{"7F}
+}
+%
+% A macro name has been chosen for each of the symbols in the AMS
+% fonts.  There is no need to load any other AMS package in order to
+% access these symbols.
+%
+\def\interleave{{\parallel\!\!\vert}}
+\def\shortinterleave{\z@rel{\mathord\shortmid\mathord\shortparallel}}
+\def\napprox{\not\approx}
+\let\restriction\upharpoonright
+\let\Doteq\doteqdot
+\let\doublecup\Cup
+\let\llless\lll
+\let\gggtr\ggg
+\let\doublecap\Cap
+%    \end{macrocode}
+%
+%   Numbers
+%
+%    \begin{macrocode}
+\def \nat   {{\mathbb N}}
+\def \integer   {{\mathbb Z}}
+\def \natone    {{\mathbb N}_1}
+\def \real  {{\mathbb R}}
+\def \bool  {{\mathbb B}}
+\let \divides   \div
+\def \div   {\z@bin{\mathrm{div}}}
+\def \mod   {\z@bin{\mathrm{mod}}}
+\def \succ  {\word{succ}}
+\def \expon {^}
+%    \end{macrocode}
+%   aliases
+%    \begin{macrocode}
+\let \num   \integer
+\let \nplus \natone
+%    \end{macrocode}
+%
+% Logic
+%
+%    \begin{macrocode}
+\def \lnot  {\neg\;}
+\def \land  {\z@rel{\wedge}}
+\def \lor   {\z@rel{\vee}}
+\let \imp   \Rightarrow
+\let\iff    \Leftrightarrow
+\def \all   {\z@op{\xforall}}
+\def \exi   {\z@op{\xexists}}
+\def \exione    {\exists_1}
+\@ifpackageloaded{lucbr}{%
+\DeclareMathSymbol{\nexi}{0}{arrows}{"20}
+}{%
+\DeclareMathSymbol{\nexi}{\mathord}{AMSb}{"40}
+}
+\def \dot   {\z@rel{\bullet}}
+\def \true  {\keyword{true}}
+\def \false {\keyword{false}}
+\let \cond  \rightarrow
+%    \end{macrocode}
+%   aliases
+%    \begin{macrocode}
+\let \spot  \dot
+\mathcode`\@="8000% make @ active in mathmode
+{\catcode`\@=\active \gdef@{\dot}}
+\let \implies   \imp
+\let \forall    \all
+\let \exists    \exi
+\let \nexists   \nexi
+%    \end{macrocode}
+
+%
+%
+%
+% \section{Implementation}
+%
+% \begin{macro}{\dummyMacro}
+% This is a dummy macro.  If it did anything, we'd describe its
+% implementation here.
+%    \begin{macrocode}
+\newcommand{\dummyMacro}{}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{environment}{dummyEnv}
+% This is a dummy environment.  If it did anything, we'd describe its
+% implementation here.
+%    \begin{macrocode}
+\newenvironment{dummyEnv}{%
+}{%
+%    \end{macrocode}
+% \changes{v1.0a}{2004/11/05}{Added a spurious change log entry to
+%   show what a change \emph{within} an environment definition looks
+%   like.}
+% Don't use |%| to introduce a code comment within a |macrocode|
+% environment.  Instead, you should typeset all of your comments with
+% \LaTeX---doing so gives much prettier results.  For comments within a
+% macro/environment body, just do an |\end{macrocode}|, include some
+% commentary, and do another |\begin{macrocode}|.  It's that simple.
+%    \begin{macrocode}
+}
+%    \end{macrocode}
+% \end{environment}
+%
+% \Finale
+\endinput

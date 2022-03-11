@@ -1,0 +1,13 @@
+─ section bindExprUtf parents standard_toolkit └ 
+
+┌ S 
+x : ℕ 
+y : ℕ → ℕ └ 
+
+┌ T 
+a : S 
+b : ℕ → S └ 
+
+─ theorem grule thmS S ∈ ℙ ⦉ x : ℤ ; y : ℙ ( ℤ × ℤ ) ⦊ └ 
+
+─ theorem grule thmT T ∈ ℙ ⦉ a : ⦉ x : ℤ ; y : ℙ ( ℤ × ℤ ) ⦊ ; b : ℙ ( ℤ × ⦉ x : ℤ ; y : ℙ ( ℤ × ℤ ) ⦊ ) ⦊ └ 

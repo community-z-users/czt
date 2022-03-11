@@ -1,0 +1,32 @@
+\begin{zsection}
+   \SECTION undeclaredGenOpTempName \parents standard\_toolkit
+\end{zsection}
+
+%
+%%Zinword \zevesthmgen zevesthmgen
+%%Zinword \zevesthmrel zevesthmrel
+
+\begin{zed}
+\generic 10 \leftassoc (\_ \zevesthmgen \_)
+\also
+\relation  (\_ \zevesthmrel \_)
+\end{zed}
+
+This is an error: the operator has not been declared.
+%
+\begin{theorem}{lOpGenInThm}[X,Y]
+   \forall f: X \zevesthmgen Y @ f \neq \emptyset
+\end{theorem}
+
+This is okay, a relational operator as part of definition.
+%
+\begin{theorem}{lOpRelInThm}[X,Y]
+   \forall \_ \zevesthmrel \_ : X \rel Y; x: X; y: Y @ x \zevesthmrel y
+\end{theorem}
+
+This is okay: we have undeclared names in the predicate part of ZSchText and Pred of QntPred.
+QntPred(ZSchText(Decl, Pred0), Pred1): Decl check; Pred0 + Pred1 don't check.
+%
+\begin[disabled]{theorem}{rule lRanElemType}[X, Y]
+ \forall  A: \power~X; B: \power~Y @ \forall  R: A \rel  B | (x, y) \in  R @ y \in  B
+\end{theorem}

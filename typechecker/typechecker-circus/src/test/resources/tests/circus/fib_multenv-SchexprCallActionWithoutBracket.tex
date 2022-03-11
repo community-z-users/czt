@@ -1,0 +1,71 @@
+section_BEGIN
+\begin{zsection}
+  \SECTION\ fib\_multenv\_postchecking\_call\_error \parents\ circus\_toolkit
+\end{zsection}
+channel_decl
+\begin{circus}
+    \circchannel\ out: \nat
+\end{circus}
+basic_process_BEGIN
+\begin{circus}
+    \circprocess\ FibStateMultipleEnv ~~\circdef~~ \circbegin
+\end{circus}
+process_state_and_init
+\begin{circusaction}
+    \circstate\ FibState ~~==~~ [~ x, y: \nat ~]  \land [ z: \nat ]\\
+    InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~]
+\end{circusaction}
+first_action
+\begin{circusaction}
+    InitFib ~~\circdef~~ out~!1 \then out~!1 \then InitFibState
+\end{circusaction}
+schema_action
+\begin{schema}{OutFibOp}
+    \Delta FibState; next!: \nat
+\where
+    next! = y' = x + y \land x' = y
+\end{schema}
+recursive_action
+
+Schema expressions transformed into actions, usually happening as action calls,
+are allowed, but the user is warned about their innadequacy. They are innadequate
+because we are ``casting'' a Z expression into a \Circus\ action, and scoping rules 
+for those are different.  
+%
+\begin{circusaction}
+    OutFib ~~\circdef~~ \circmu\ X \circspot \\
+    	\t1 (~ \circvar\ next: \nat \circspot \\
+	   \t2 OutFibOp \circseq out~!next \then X ~)
+\end{circusaction}
+%
+A Z (schema) expression is self contained: its declarations 
+do not need be into scope, whereas a \Circus\ action requires all variables being 
+declared to be within the process state scope. Thus, if the schema expression just
+mentions $\Delta FibState$, then the warning is harmless, the casting is safe, and 
+no error occurs. 
+
+On the othe hand, if input/output or extra variables (beyond the ones within the 
+process state's scope) appear, as is the case in $OutFibOp$ (with $next!$),
+$next!$ must be into scope, which is the case at the point of call, but not the case 
+when $OutFibOp$ is declared. At post-checking time, all calls are re-typechecked a 
+second time to enable mutual recursive calls. And at that point, $OutFibOp$ will be
+added for post checking cast as a CallAction, which has a type error because $next!$
+is not within scope at the declaration time. 
+
+To solve the problem, one just need to add a type-safe cast around $OutFibOp$,
+as $\lschexpract OutFibOp \rschexpract$, so that it does not enter the post-checking 
+for its declaration as an action, but as a schema expression. Furthermore, this extra
+bracket is useful for having a more regular (and unambigous) \Circus\ grammar. 
+At the typechecker, we leave room for the unsafe typecase to minimise backward compatibility 
+problems with the old \Circus\ grammar, which did not mentioned these needed special brackets.
+
+main_action
+\begin{circusaction}
+    \circspot InitFib ~\circseq~ OutFib
+\end{circusaction}
+before_process_END
+\begin{circus}
+    \circend
+\end{circus}
+after_process_END
+section_END 

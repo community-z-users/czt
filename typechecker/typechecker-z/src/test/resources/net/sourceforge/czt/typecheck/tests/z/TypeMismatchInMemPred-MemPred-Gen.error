@@ -1,0 +1,9 @@
+\begin{zsection}
+  \SECTION TypeMismatchInMemPred\_MemPred\_Gen
+\end{zsection}
+
+\begin{gendef}[X]
+  a == \power X
+\where
+  a \in \power X
+\end{gendef}

@@ -1,0 +1,38 @@
+
+\begin{zsection}
+  \SECTION\ duplicated\_mainaction \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circchannel\ c: \nat
+\end{circus}
+\begin{circus}
+    \circprocess\ P \circdef \circbegin
+\end{circus}
+
+\begin{zed}
+    State ~~== ~~ [~ x: \nat ~]
+\end{zed}
+
+\begin{circusaction}
+    \circstate\  State
+\end{circusaction}
+
+\begin{circusaction}
+   A \circdef c?v \then x := v \\
+\end{circusaction}
+
+\begin{circusaction}
+    \t1 \circspot A
+\end{circusaction}
+
+Duplication
+%
+\begin{circusaction}
+    \t1 \circspot A \circseq A
+\end{circusaction}
+
+
+\begin{circus}
+    \circend
+\end{circus}

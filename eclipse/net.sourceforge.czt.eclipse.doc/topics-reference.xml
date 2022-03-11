@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Reference"> 
+  <topic label="Preferences"> 
+    <topic label="Compiler" href="target/generated-docs/reference/preferences/compiler.html" /> 
+    <topic label="Editor" href="target/generated-docs/reference/preferences/editor-basic.html">
+      <topic label="Annotations" href="target/generated-docs/reference/preferences/editor/annotation.html" />
+      <topic label="Folding" href="target/generated-docs/reference/preferences/editor/folding.html" />
+      <topic label="Syntax coloring" href="target/generated-docs/reference/preferences/editor/syntax-coloring.html" />
+    </topic>
+  </topic>
+
+  <topic label="Menus and actions" href="target/generated-docs/reference/actions.html" /> 
+</toc>

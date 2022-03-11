@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/DECORATION/1.3.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.3.0 http://maven.apache.org/xsd/decoration-1.3.0.xsd">
+
+  <custom>
+    <reflowSkin>
+      <pages>
+        <index combine.self="override">
+          <shortTitle>Introduction</shortTitle>
+          <toc>false</toc>
+          <highlightJs>true</highlightJs>
+        </index>
+      </pages>
+    </reflowSkin>
+  </custom>
+
+  <body>
+
+    <breadcrumbs>
+      <item name="Developer" href="../" />
+      <item name="CZT Checkstyle" href="/" />
+    </breadcrumbs>
+
+    <menu name="CZT Checkstyle" ref="module-menu">
+      <item name="Introduction" href="index.html"/>
+      <item name="Checkstyle Config" href="checkstyle.xml"/>
+    </menu>
+
+  </body>
+</project>

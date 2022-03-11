@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+<p>
+  Provides classes for managing and caching Z sections, operator tables and
+  other Z-related artifacts.  This is important for efficiency.
+</p>
+
+<p>
+  This directory contains several different designs of section managers.
+</p>
+
+<ol>
+  <li>SectionManager.java (up to version 1.29) managed four separate
+     tables (for ZSect, OpTable, LatexMarkupTable and DefinitionTable)
+     and provided methods for generating these when they were not in
+     the tables.
+   </li>
+   
+   <li>SectionInfo (interface) and SectionInfoRegistry (an extended
+     interface for adding/removing default commands) gave a more abstract
+     interface that is capable of storing many kinds of objects.
+     
+     <p>
+     In practice, its first implementation (SimpleSectionInfoRegistry.java)
+     only cached ZSect objects, and recomputed the others each time they
+     were requested.
+     </p>
+     
+     <p>ToolkitSectionInfoRegistry.java is another implementation
+     of SectionInfoRegistry that preloads and caches ONLY the standard toolkit sections.
+     It does not allow other ZSects to be added.  
+     </p>
+     
+     <p>WrappedSectionInfoRegistry
+     was an experimental implementation of hierarchical section managers,
+     which allows ZSects to be added and removed from its cache.  While writing
+     this, we found problems with consistency and dependency management, so this
+     version was never used.
+     </p>
+   </li>
+   
+   <li>The Context interface and its first and last implementation, SectMan 
+     (with auxiliary class ContextEntry)
+     were based on the chain of responsibility design pattern and the
+     idea of starting and committing/aborting transactions.  It maintained
+     a generalised cache from Key to Object (where a Key is a String,Class pair).
+     It kept a log of changes and could undo them when exceptions were thrown.
+     Suffered from all the same problems with consistency and dependency management
+     so was never really finished or used.  It also tried to use a String-to-Object
+     map to pass arguments from one command to the next, but this turns out to
+     be much more clumsy than writing Java code to connect commands together.
+   </li>
+   
+   <li>SectionManager (from version 1.30) is an attempt to be as simple as
+   	  possible, to avoid the possibility of one cached entry being out of date
+   	  after another has been updated.  It does not allow cache entries to be
+   	  changed, or to be removed individually.  Instead, there is a reset method, 
+   	  which clears the
+   	  whole cache except for the toolkit sections.  It is the responsibility of
+   	  the user (eg. the user interface) to call this before re-parsing a file.
+   	</li> 
+</ol>
+</body>
+</html>

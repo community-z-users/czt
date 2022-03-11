@@ -1,0 +1,84 @@
+================================================================================
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
+================================================================================ 
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+================================================================================
+
+Milestone plan rewritten August 22 (between Milestone 1 and 2)
+
+Milestones between 2 and 9 may be rearranged depending on whether the animator is ready earlier or 
+later.
+
+Milestone 0 
+-----------
+ o Minimal Interface Builder
+ o No function for saving
+ o No interaction with animator
+
+Milestone 1 
+-----------
+ o Minimal Interface Builder
+ o Able to save interfaces
+ o No interaction with animator
+
+Milestone 2
+-----------
+ o Minimal Interface Builder with saving
+ o No interaction with animator
+ o Tidied PropertiesWindow (both code and user interface)
+   * Editors and Renderers for Font, Color, Border, Icon
+   * Access to Bean's custom editor (if provided)
+
+Milestone 3
+-----------
+ o + Simple interface generator (from ZML)
+
+Milestone 4
+-----------
+ o + Example specification(s) with corresponding interface(s) and fake back-end(s).
+
+Milestone 5
+-----------
+ o + Improved interface generator (from ZML) (?)
+
+Milestone 6
+-----------
+ o + Interacts with animator (including history).
+
+Milestone 7
+-----------
+ o + Scrolling History Animator and changes to Designer needed to accomodate this.
+
+Milestone 8
+-----------
+ o Designer modified to use java.beans.EventHandler
+   * Allowing any bean to be the target of an event link
+ o Designer modified to use BeanContextChildComponentProxy when provided by a bean
+ o Designer modified so that Form's BeanContext provides BeanContextContainerProxy
+ o Tidying of designer's user interface
+
+Milestone 9
+-----------
+ o + Extra plugins
+   * Variants on History?
+   * New beans to add to the interface
+
+Milestone 10
+------------
+ o Any extra documentation needed
+   * Maintainer
+   * Plugin developer
+   * User

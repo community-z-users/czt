@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CIRCUSTIMECHAR>
+  <SPECIAL>    
+    <BRACKET>
+      <char id="LCIRCTIME" hex="27EC" description="left time bracket"/>
+      <char id="RCIRCTIME" hex="27ED" description="right time bracket"/>
+    </BRACKET>    
+  </SPECIAL>
+  <SYMBOL>
+     
+    <CORESYMBOL>
+      <char id="CIRCENDBY" hex="25B6" description="Time end by operator"/>
+      <char id="CIRCSTARTBY" hex="25C0" description="Time start by operator"/>
+      <char id="CIRCTIMEOUT" hex="25B9" description="Timeout operator"/>
+      <char id="CIRCTIMEDINTERRUPT" hex="25B5" description="Timedinterrupt operator"/>
+       <char id="ATTIME" hex="0040" description="AT-Time symbol"/>
+     </CORESYMBOL>
+
+     <CIRCUSTOOLKITSYMBOL>      
+    </CIRCUSTOOLKITSYMBOL>
+     
+  </SYMBOL>
+</CIRCUSTIMECHAR>

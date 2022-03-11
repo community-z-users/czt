@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>Schema Definition, without predicates</Name>
+    <AxPara Box='SchBox'>
+      <SchText>
+        <ConstDecl>
+          <DeclName>
+            <Word>ASchema</Word>
+          </DeclName>
+          <SchExpr>
+            <SchText>
+              <VarDecl>
+                <DeclName>
+                  <Word>p</Word>
+                </DeclName>
+                <RefExpr>
+                  <RefName>
+                    <Word>
+                      TYPE
+                    </Word>
+                  </RefName>
+                </RefExpr>
+              </VarDecl>
+            </SchText>
+          </SchExpr>
+        </ConstDecl>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>

@@ -1,0 +1,88 @@
+\documentclass[draft,a4paper,10pt,wd]{article}
+
+\usepackage{czt}
+
+\begin{document}
+
+This file contains the bag toolkit definitions as in the CadiZ
+theorem prover. 
+
+\begin{zsection}
+\SECTION bag\_toolkit\_cadiz \parents standard\_toolkit
+\end{zsection}
+
+\section{Bags }\label{def-bag}
+
+\subsection*{Definitions}
+
+Basic bag operator templates. Note that for bag constructor
+(as in $\langle ... \rangle$) for sequences, we need to change
+the parser. if we want it as an operator.
+
+%%Zpreword \bag bag
+%%Zinchar \bcount U+266F
+%%Zinchar \otimes U+2297
+%%Zpreword \lbag lbag
+%%Zpostword \rbag rbag
+
+%Zprechar \lbag U+27E6
+%Zpostchar \rbag U+27E7
+
+
+\begin{zed}
+    \generic (\bag \_) \\
+    \function 50 \leftassoc (\_ \bcount \_) \\
+    \function 40 \leftassoc (\_ \otimes \_) \\
+    \function (\lbag \listarg \rbag) \\
+\end{zed}
+
+\begin{zed}
+    \relation (finite~ \_) 
+\end{zed}
+
+\begin{zed}
+    finite~ \_ [X] == \finset X
+\end{zed}
+
+Definitions of main bag constructors from CadiZ bag toolkit
+
+\begin{zed}
+    \bag X == X \pfun \nat_1 \\
+    count [X] == \lambda B: \bag X @ (\lambda x: X @ 0) \oplus B \\
+    \_ \bcount \_ [X] == \lambda B: \bag X; x: X @ count~B~x \\
+    \_ \otimes \_ [X] == \lambda n: \nat; B: \bag X @ (\lambda x: X @ n * (B \bcount x)) \nrres \{ 0 \} \\
+    items [I, X] == \lambda s: I \rel X | \forall x: X @ finite~ (s \rres \{ x \}) @ \\
+                              \t1 \lambda x: \ran s @ \# (s \rres \{ x \})  \\
+    \lbag \listarg \rbag [X] == \lambda x: \seq X @ items~x
+\end{zed}
+
+Definition of main Bag operations 
+
+% usual U+2291 conflicts with \circrefines (=\sqsubseteq); used "string" name instead for now
+
+%%Zinchar \inbag U+22FF
+%%Zinword \subbageq subbageq
+%%Zinchar \uplus U+228E
+%%Zinchar \uminus U+2A41
+\begin{zed}
+\relation (\_ \inbag \_) \\
+\relation (\_ \subbageq \_) \\
+\function 30 \leftassoc (\_ \uplus \_) \\
+\function 30 \leftassoc (\_ \uminus \_)
+\end{zed}
+\begin{zed}
+    \_ \inbag \_ [X] == \{ x: X; B: \bag X | x \in \dom B \} \\
+    \_ \subbageq \_ [X] == \{ B, C: \bag X | \forall x: X @ B \bcount x \leq C \bcount x \} \\
+    \_ \uplus \_ [X] == \lambda B, C: \bag X @ (\lambda x: X @ B \bcount x + C \bcount x) \nrres \{ 0 \} \\
+    \_ \uminus \_ [X] == \lambda B, C: \bag X @ (\lambda x: X @ max \{ B \bcount x - C \bcount x,0 \}) \nrres \{ 0 \}
+\end{zed}
+
+To use this file, just add  
+
+begin{zsection}
+\SECTION my\_section \parents circus\_toolkit, bag\_toolkit\_cadiz
+end{zsection}
+
+within a file caled \verb'my\_section.tex'.
+
+

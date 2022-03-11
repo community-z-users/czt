@@ -1,0 +1,110 @@
+\documentclass{article}
+
+\usepackage{czt}
+\usepackage{vmargin}
+\usepackage{circus}
+
+\setpapersize{A4}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
+%\setmarginsrb{20mm}{10mm}{20mm}{10mm}{12pt}{11mm}{0pt}{11mm}
+%\setmarginsrb{25mm}{20mm}{25mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\begin{document}
+
+\title{\Circus\ Cookie Machine - typechecking}
+\author{Leo Freitas}
+\date{March 2008}
+
+\maketitle
+
+%
+\begin{zsection}
+  \SECTION\ circus\_cookies \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   cookieValue, cookieQuantity, MAX\_QUANTITY: \nat
+\end{axdef}
+
+\begin{zed}
+   COOKIE ::= ok | notok
+\end{zed}
+
+\begin{circus}
+   \circchannel\ in, change: \nat \\
+   \circchannel\ out: COOKIE
+\end{circus}
+
+\begin{circus}
+   \circprocess\ CookieMachine \circdef \circbegin
+\end{circus}
+
+\begin{schema}{State}
+   money, quantity: \nat
+\where
+   quantity \leq MAX\_QUANTITY
+\end{schema}
+
+\begin{circusaction}
+   \circstate\ State
+\end{circusaction}
+
+\begin{schema}{OutputCookieOk}
+   \Delta State \\
+   o!: COOKIE
+\where
+   money \geq cookieValue \\
+   quantity > 0 \\
+   money' = money - cookieValue \\
+   quantity' = quantity - 1 \\
+   o! = ok
+\end{schema}
+
+\begin{schema}{OutputCookieNotOk}
+   \Delta State \\
+   o!: COOKIE
+\where
+   money \geq cookieValue \\
+   quantity = 0 \\
+   money' = money \\
+   o! = notok
+\end{schema}
+
+It is not a total operation because there might not be enough money.
+%
+\begin{zed}
+   OutputCookie ~~==~~ OutputCookieOk \lor OutputCookieNotOk
+\end{zed}
+
+Schema expressions as actions. 
+%
+\begin{circusaction}
+    InitState ~~\circdef~~ \lschexpract [~ State~' | money' = 0 \land quantity' = cookieQuantity ~] \rschexpract 
+\end{circusaction}
+
+Note this will generate type error for $InputMoney$ because $x?$ is not into scope.
+%
+\begin{circusaction}
+    InputMoney ~~\circdef~~ \lschexpract [~ \Delta State; x?: \nat | money \leq cookieValue \land money' = money + x? ~] \rschexpract
+\end{circusaction}
+
+\begin{circusaction}
+   Input ~~\circdef~~ \lcircguard money \leq cookieValue \rcircguard  \circguard\ in~?x \then \lschexpract InputMoney \rschexpract
+\end{circusaction}
+
+\begin{circusaction}
+    Output ~~\circdef~~ \lcircguard money \geq cookieValue \rcircguard \circguard\ \\
+        \t1 (\circvar\ o: COOKIE \circspot \lschexpract OutputCookie \rschexpract \circseq (out~!o \then change~!money \then \Skip))
+\end{circusaction}
+    
+
+\begin{circusaction}
+   \t1 \circspot InitState \circseq (\circmu\ X \circspot (Input \extchoice Output) \circseq X) 
+\end{circusaction}
+   
+\begin{circus}
+   \circend
+\end{circus}
+
+\end{document}

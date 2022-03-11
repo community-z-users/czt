@@ -1,0 +1,185 @@
+%%Zfile /lib/prelude.tex
+%%Zloc 18#1@470
+\begin{zsection}
+\SECTION prelude
+\end{zsection}
+%%Zloc 26#1@639
+%%Zchar	\{ U+007B
+%%Zloc 27#1@657
+%%Zchar	\} U+007D
+%%Zloc 28#1@675
+%%Zinchar \where U+007C
+%%Zloc 29#1@699
+%%Zchar \Delta U+0394
+%%Zloc 30#1@721
+%%Zchar \Xi U+039E
+%%Zloc 31#1@740
+%%Zprechar \theta U+03B8
+%%Zloc 32#1@765
+%%Zprechar \lambda U+03BB
+%%Zloc 33#1@791
+%%Zprechar \mu U+03BC
+%%Zloc 34#1@813
+%%Zchar \ldata U+27EA
+%%Zloc 35#1@835
+%%Zchar \rdata U+27EB
+%%Zloc 36#1@857
+%%Zchar \lblot U+2989
+%%Zloc 37#1@879
+%%Zchar \rblot U+298A
+%%Zloc 38#1@901
+%%Zchar \vdash U+22A2
+%%Zloc 39#1@923
+%%Zinchar \land U+2227
+%%Zloc 40#1@946
+%%Zinchar \lor U+2228
+%%Zloc 41#1@968
+%%Zinchar \implies U+21D2
+%%Zloc 42#1@994
+%%Zinchar \iff U+21D4
+%%Zloc 43#1@1016
+%%Zprechar \lnot U+00AC
+%%Zloc 44#1@1040
+%%Zprechar \forall U+2200
+%%Zloc 45#1@1066
+%%Zprechar \exists U+2203
+%%Zloc 46#1@1092
+%%Zinchar \in U+2208
+%%Zloc 47#1@1113
+%%Zinchar \spot U+2981
+%%Zloc 48#1@1136
+%%Zinchar \hide U+29F9
+%%Zloc 49#1@1159
+%%Zinchar \project U+2A21
+%%Zloc 50#1@1185
+%%Zinchar \semi U+2A1F
+%%Zloc 51#1@1208
+%%Zinchar \pipe U+2A20
+%%Zloc 52#1@1231
+%%Zpreword \IF if
+%%Zloc 53#1@1249
+%%Zinword \THEN then
+%%Zloc 54#1@1270
+%%Zinword \ELSE else
+%%Zloc 55#1@1291
+%%Zpreword \LET let
+%%Zloc 56#1@1311
+%%Zpreword \pre pre
+%%Zloc 57#1@1331
+%%Zinword \function function
+%%Zloc 58#1@1360
+%%Zinword \generic generic
+%%Zloc 59#1@1387
+%%Zinword \relation relation
+%%Zloc 60#1@1416
+%%Zinword \leftassoc leftassoc
+%%Zloc 61#1@1447
+%%Zinword \rightassoc rightassoc
+%%Zloc 62#1@1480
+%%Zinword \listarg {,}{,}
+%%Zloc 63#1@1506
+%%Zinword \varg \_
+%%Zloc 64#1@1525
+%%Zprechar \power U+2119
+%%Zloc 65#1@1550
+%%Zinchar \cross U+00D7
+%%Zloc 66#1@1574
+%%Zchar \arithmos U-0001D538
+%%Zloc 67#1@1603
+%%Zchar \nat U+2115
+%%Zloc 71#1@1699
+%%Zchar \alpha U+03B1
+%%Zloc 72#1@1721
+%%Zchar \beta U+03B2
+%%Zloc 73#1@1742
+%%Zchar \gamma U+03B3
+%%Zloc 74#1@1764
+%%Zchar \delta U+03B4
+%%Zloc 75#1@1786
+%%Zchar \epsilon U+03B5
+%%Zloc 76#1@1810
+%%Zchar \zeta U+03B6
+%%Zloc 77#1@1831
+%%Zchar \eta U+03B7
+%%Zloc 78#1@1851
+%%Zchar \iota U+03B9
+%%Zloc 79#1@1872
+%%Zchar \kappa U+03BA
+%%Zloc 80#1@1894
+%%Zchar \nu U+03BD
+%%Zloc 81#1@1913
+%%Zchar \xi U+03BE
+%%Zloc 82#1@1932
+%%Zchar \pi U+03C0
+%%Zloc 83#1@1951
+%%Zchar \rho U+03C1
+%%Zloc 84#1@1971
+%%Zchar \sigma U+03C3
+%%Zloc 85#1@1993
+%%Zchar \tau U+03C4
+%%Zloc 86#1@2013
+%%Zchar \upsilon U+03C5
+%%Zloc 87#1@2037
+%%Zchar \phi U+03C6
+%%Zloc 88#1@2057
+%%Zchar \chi U+03C7
+%%Zloc 89#1@2077
+%%Zchar \psi U+03C8
+%%Zloc 90#1@2097
+%%Zchar \omega U+03C9
+%%Zloc 91#1@2119
+%%Zchar \Gamma U+0393
+%%Zloc 92#1@2141
+%%Zchar \Theta U+0398
+%%Zloc 93#1@2163
+%%Zchar \Lambda U+039B
+%%Zloc 94#1@2186
+%%Zchar \Pi U+03A0
+%%Zloc 95#1@2205
+%%Zchar \Sigma U+03A3
+%%Zloc 96#1@2227
+%%Zchar \Upsilon U+03A5
+%%Zloc 97#1@2251
+%%Zchar \Phi U+03A6
+%%Zloc 98#1@2271
+%%Zchar \Psi U+03A8
+%%Zloc 99#1@2291
+%%Zchar \Omega U+03A9
+%%Zloc 102#1@2321
+\begin{zed}
+\generic (\power \_)
+\end{zed}
+%%Zloc 119#1@2903
+\begin{zed}
+[\arithmos]
+\end{zed}
+
+%%Zloc 126#1@3058
+\begin{axdef}
+\nat : \power \arithmos
+\end{axdef}
+
+%%Zloc 139#1@3337
+\begin{axdef}
+  number\_literal\_0 : \nat\\
+  number\_literal\_1 : \nat
+\end{axdef}
+
+%%Zloc 147#1@3542
+\begin{zed}
+\function 30 \leftassoc (\_ + \_)
+\end{zed}
+
+%%Zloc 151#1@3599
+\begin{axdef}
+\_ + \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+\where
+\forall m, n: \nat @ \exists_1 p: ( \_ + \_ ) @ p.1 = (m, n)\\
+\forall m, n: \nat @ m + n \in \nat\\
+\forall m, n: \nat | m + 1 = n + 1 @ m = n\\
+\forall n: \nat @ \lnot n + 1 = 0\\
+\forall w: \power \nat | 0 \in w \land (\forall y: w @ y + 1 \in w) @ w = \nat\\
+\forall m: \nat @ m + 0 = m\\
+\forall m, n: \nat @ m + (n + 1) = (m + n) + 1
+\end{axdef}
+

@@ -1,0 +1,97 @@
+\documentclass{article}
+\usepackage{circus}
+\usepackage{circus_plus}
+
+\begin{document}
+\begin{circus}
+  \circprocess\ ProjetoPilotoWOWComputation\_Process \circdef \circbegin
+\end{circus}
+\vspace{-2.8em}
+
+\begin{circusaction}
+  \circstate\ ProjetoPilotoWOWComputation\_state ==\\
+    \t1 [ProjetoPilotoWOWComputation\_\_Sum\_state : \nat]
+\end{circusaction}
+\vspace{-2.8em}
+
+\begin{schema}{Init}
+  ProjetoPilotoWOWComputation\_state~'
+\where
+  (\exists b : ProjetoPilotoWOWComputation\_\_Sum @\\
+    \t1 ProjetoPilotoWOWComputation\_\_Sum\_state' = b.initial\_state)
+\end{schema}
+\vspace{-2.8em}
+
+\begin{schema}{Calculate\_ProjetoPilotoWOWComputation}
+  \Delta ProjetoPilotoWOWComputation\_state\\
+  In1, In2, In3, In4, In5, In6, In7, In8 : \nat\\
+  Out1, Out2 : \nat
+\where
+  \exists b : ProjetoPilotoWOWComputation @\\
+    \t1 In1 = b.In1? \land\\
+    \t1 In2 = b.In2? \land\\
+    \t1 In3 = b.In3? \land\\
+    \t1 In4 = b.In4? \land\\
+    \t1 In5 = b.In5? \land\\
+    \t1 In6 = b.In6? \land\\
+    \t1 In7 = b.In7? \land\\
+    \t1 In8 = b.In8? \land\\
+    \t1 Out1 = b.Out1! \land\\
+    \t1 Out2 = b.Out2! \land\\
+    \t1 b.Sum.state = ProjetoPilotoWOWComputation\_\_Sum\_state
+\end{schema}
+\vspace{-2.8em}
+
+\begin{circusaction}
+  Calculate\_ProjetoPilotoWOWComputation\_\_RelationalOperator\_out ==\\
+    \t1 Calculate\_ProjetoPilotoWOWComputation \hide (\\
+      \t2 ProjetoPilotoWOWComputation\_\_Sum\_state')\\
+    \t1 \land \Xi ProjetoPilotoWOWComputation\_State
+\end{circusaction}
+\vspace{-2.8em}
+
+\begin{circusaction}
+  Calculate\_ProjetoPilotoWOWComputation\_\_RelationalOperator1\_out ==\\
+    \t1 Calculate\_ProjetoPilotoWOWComputation \hide (\\
+      \t2 ProjetoPilotoWOWComputation\_\_Sum\_state')\\
+    \t1 \land \Xi ProjetoPilotoWOWComputation\_State
+\end{circusaction}
+\vspace{-2.8em}
+
+\begin{circusaction}
+  Execute\_ProjetoPilotoWOWComputation\_\_RelationalOperator\_out \circdef\\
+    \t1 \circvar\ In1, In2, In3, In4, In5, In6, In7, In8 : \nat \circspot\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM1\_L~?x \then In1 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM1\_L\_V~?x \then In2 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM2\_L~?x \then In3 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM2\_L\_V~?x \then In4 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM1\_R~?x \then In5 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM1\_R\_V~?x \then In6 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM2\_R~?x \then In7 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM2\_R\_V~?x \then In8 := x
+\end{circusaction}
+\vspace{-2.8em}
+
+\begin{circusaction}
+  Execute\_ProjetoPilotoWOWComputation\_\_RelationalOperator1\_out \circdef\\
+    \t1 \circvar\ In1, In2, In3, In4, In5, In6, In7, In8 : \nat \circspot\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM1\_L~?x \then In1 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM1\_L\_V~?x \then In2 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM2\_L~?x \then In3 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM2\_L\_V~?x \then In4 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM1\_R~?x \then In5 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM1\_R\_V~?x \then In6 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM2\_R~?x \then In7 := x \circseq\\
+      \t2 ProjetoPilotoWOWComputation\_\_WOW\_PSEM2\_R\_V~?x \then In8 := x
+\end{circusaction}
+\vspace{-2.8em}
+
+\begin{circusaction}
+  \t1 \circspot \Skip
+\end{circusaction}
+\vspace{-2.8em}
+
+\begin{circus}
+  \circend
+\end{circus}
+\end{document}

@@ -1,0 +1,27 @@
+\begin{zsection}
+  \SECTION\ channelsetExpr \parents\ circus\_toolkit
+\end{zsection}
+%
+%	%, d?a, e?(a!)!b, c?x?y \prefixcolon (x \in \{ 1,2,3 \} \land (y \neq x))
+%
+%	\\
+\begin{circus}
+	\circchannel\ c, d, e: \nat \cross \nat
+	\\
+	\circprocess\ P \circdef \circbegin \\
+%		\t1 A \circdef c?x?y \then A \\ 
+		\t1	B \circdef c.(x?)!(y!) \then \Skip \\
+		\t1 \circspot B \\
+	\circend	
+ \\
+% This one does't work either, and I don't quite know why. Has to do with the parser empty rules. 
+%  \circchannelset\ [A, B] C0 == \lchanset x2[A \cross B], y2[A \fun B], x1[A], y1[B] \rchanset \\
+	\\
+	\circchannelset\ C1 == \lchanset d?a, c?x?y \rchanset 
+	\\
+	\circchannelset\ C2 == \lchanset c?x?y \prefixcolon (x \in \{ 1,2,3 \} \land (y \neq x)), d?a \rchanset 
+	\\
+	\circchannelset\ C3 == \lchanset d?a, c?x?y \prefixcolon (x \in \{ 1,2,3 \} \land (y \neq x)) \rchanset 
+% This one doesn't work although it should! 
+%	\circchannelset\ C1 == \lchanset e?(a!)!b \rchanset 
+\end{circus}

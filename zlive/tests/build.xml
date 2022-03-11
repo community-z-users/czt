@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<project name="zlive-tests" basedir="." default="usertest_compare"
+  xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+  <artifact:pom id="project" file="../pom.xml"/>
+  <artifact:dependencies pathId="junit.classpath">
+    <dependency groupId="junit" artifactId="junit" version="4.5" scope="test"/>
+  </artifact:dependencies>
+  <property name="name" value="${project.build.finalName}"/>
+  <property name="jar"
+    location="${project.build.directory}/${name}-jar-with-dependencies.jar"/>
+  <property name="test-jar"
+    location="${project.build.directory}/test-classes"/>
+  <available file="${jar}" property="jar.present"/>
+  <available file="${test-jar}" property="test-jar.present"/>
+  <condition property="jars.present">
+    <and>
+      <isset property="jar.present"/>
+      <isset property="test-jar.present"/>
+    </and>
+  </condition>
+
+  <!-- The directory of old 'usertest' results that 'compare' will use. -->
+  <property name="latest.usertests" value="UserTest-Results"/>
+
+  <path id="classpath">
+    <pathelement location="${jar}"/>
+    <pathelement location="${test-jar}"/>
+    <path refid="junit.classpath"/>
+  </path>
+
+  <target name="usertest_compare" depends="usertest,compare"
+      description="Run user tests, then compare results with older results"/>
+
+
+
+  <target name="maven-test-jar" unless="test-jar.present">
+    <echo>WARNING: Cannot find ${test-jar},</echo>
+    <echo>please call 'mvn install' for this project.</echo>
+  </target>
+
+  <target name="maven-jar" unless="jar.present">
+    <echo>WARNING: Cannot find ${jar}</echo>
+    <echo>please call 'mvn assembly:assembly' for this project.</echo>
+  </target>
+
+  <target name="maven" depends="maven-test-jar, maven-jar"/>
+
+  <target name="usertest" depends="maven"
+      description="Run all user tests, producing TEST-*.txt output files">
+    <!-- NOTE: we output TEST-*.txt files, rather than .xml files, because
+        (A) the compare target needs text files as input, and
+        (B) we do not want the usertest output to be included in the
+            top-level junit report, since it is for unit tests, whereas
+            these user-level tests are more like acceptance tests.
+    -->
+    <junit fork="no" forkmode="once" reloading="false" printsummary="on">
+      <formatter type="plain" usefile="true"/>
+      <!-- same order as in UserTest-Statistics.csv, for convenience -->
+      <test name="net.sourceforge.czt.animation.eval.AnimateIntsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateMiscTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateFreetypesTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateScopeTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateSetsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateRelationsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateSequencesTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateSchemasTest"/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+      <assertions>
+        <enable/>
+      </assertions>
+    </junit>
+  </target>
+
+  <target name="compare" depends="maven"
+      description="Compare usertest output with previous UserTest-Results">
+    <java classname="net.sourceforge.czt.animation.eval.CompareUserTests"
+          fork="true"
+          failonerror="true">
+      <arg file="${latest.usertests}"/>
+      <arg file="."/>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+      <assertions> <enable/> </assertions>
+    </java>
+  </target>
+
+
+  <target name="test" description="Unit tests are best run by 'mvn test' in the main zlive directory.">
+    <echo message="Unit tests are best run by 'mvn test' in the main zlive directory."/>
+    <!--
+    <junit fork="yes" forkmode="once" reloading="false" printsummary="on">
+      <formatter type="xml" usefile="true"/>
+      <batchtest>
+        <fileset dir="${src.test.java}">
+          <include name="**/*Test.java"/>
+          <exclude name="**/Animate*Test.java"/>
+          <exclude name="**/EvalTest.java"/>
+       </fileset>
+      </batchtest>
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+      <assertions>
+        <enable/>
+      </assertions>
+    </junit>
+    -->
+  </target>
+
+  <target name="printclasspath" description="Show the CLASSPATH">
+      <pathconvert targetos="unix" property="tmp.clspath"
+            refid="classpath">
+    </pathconvert>
+    <echo message="CLASSPATH = ${tmp.clspath}"/>
+  </target>
+</project>

@@ -1,0 +1,858 @@
+GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+Copyright 2003 Nicholas Daley
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+Changelog:
+02 July 2006 -
+        - Modify SolutionSet as a ZSet to hold infinite results. Avoid gaffe using add operation on SolutionSet
+          BirthdayHistoryBook.gaffe example can pass with gaffe. 
+        - Modify ZLiveHistory to work with section manager
+        - Rename ZFactory in Gaffe to GaffeFactory, updated references.
+
+25 June 2006 -
+        - Add ZLiveHistory to connect ZLive. Further changes needed to call ZLiveHistory instead of BasicHistory
+        - Modify SolutionSet as a ZSet to hold infinite results.        
+                          
+23 May 2006 -
+        - Reformatting sources in src and generator/src to CZT coding style
+                 - Format Spaces and Indents under CZT checkstyle requirements
+        - Migarating sources in src and generator/src to Java 1.5
+                 - Avoid unsafety type convertions
+                 - Remove unused imports.
+                 - Remove unused declarations.
+        - Reimplementing net.sourceforge.czt.animation.gui.temp package as a proxy for ZLive data types
+                 - ZValue to Expr add
+                   - add General interface for transforming ZValue to Expr 
+                 - ZNumber to NumberExpr
+                 - ZGiven to ZRefName(GiveValue as the inner expr)
+                 - ZTuple to TupleExpr
+                 - ZSet to EvalSet(ZLive specified infinite set) 
+                   - Retrieve a ZLive defined Set during initialisation
+                 - ZBinding to BindingExpr 
+                   - Add a method for transforming HashMap to ZDeclList 
+                 - Add a ZFactory class for transforming Expr to ZValue
+                 - Add a UnexpectedTypeException class for catching unexpected types of Expr being transformed
+        - Other notes with related packages:
+                 - BSF is switched to version 2.2, since 2.3 has a HashTable.get(NULL) exception
+                 - Rhino is switched to version 1.5R3, since 1.5R4 is not supported by 2.3 yet, thus not supported by 2.2 neither.
+                 - Since gaffe is calling ZLive, it should change the compiling sequence in CZT ant files.
+                 - Need OutStrokeImpl in corejava to support getting the string representation of "!"
+                  
+
+19 Mar 2004 (2) -
+        - Added a copy of my (Nicholas Daley's) Masters thesis to the doc
+          folder.
+
+19 Mar 2004 -
+        - Combined AnimatorCore and AnimatorCoreBase
+                - They were originally separate, because it was thought this
+                  would be necessary in order to implement a "scrolling history"
+                  interface.  JavaBeans are flexible enough, that a new animator
+                  core shouldn't be necessary.
+        - Added example interface generated from birthdaybook_unfolded.xml
+                - Matches to BirthdayBookFullHistory.
+                - See the zml module.
+
+18 Mar 2004 -
+        - Removed depend from classes target in build.xml.
+                - Should make builds a bit faster.
+        - Fixed build.xml to work with new version of czt.properties
+                - which now uses rhino.jar, bsf.jar, and not rhino.home,
+                  bsf.home.
+                - Should still work with the old version too!
+
+09 Mar 2004 - (not committed)
+        - Made Event Link Highlighting turned on by default.
+        - Made Event Link and Bean Highlighting program wide setting, not per
+          window.
+                - Need to make the change appear in all copies of the menu.
+        - Corrected Bean Highlighting to highlight all beans, not just first
+          layer of beans.
+        - Now, only those forms that start visible in the animator will start
+          visible in the designer.
+        - The designer now starts with the toolbox visible.
+        - The edit menu on the designer now contains `Delete Current Bean', and
+          `Show Properties Window'
+        - Changed select tool to react to click, not mouse press.
+        - Changed cross cursor (used to indicate an operation is not allowed at
+          the current mouse location) to be red.
+                - Attracts user attention to the difference from the other
+                  cursors.
+                - Due to results of usability study.
+        - Added checkstyle rules in ./checkstyle/ to check that the license
+          header is present in all .java files.
+        - Added new version of the BirthdayBookHistory backend
+          "BirthdayBookFullHistory", which also handles the non-robust
+          operations, so it can be tested with the interface generated from
+          birthdaybook_unfolded.xml (See the zml module).
+        - TODO:
+                - Force highlighting menus to reflect changes to settings.
+                        - Possibly use a custom ButtonModel?
+                - Make double-click on current bean open properties window?
+                        - Difficult, because double-click produces two events.
+02 Feb 2004 - (not committed)
+        - Changed animator's filechooser to exit the animator if cancel is hit.
+16 Jan 2004 - (not committed)
+        - Started bringing code style into line with that specified in
+          ../devtools/checkstyle.xml
+        - Changed BorderEditor's SingleBorderEditors to use instance
+          initialisers instead of an init method.
+        - Simplified code in FormDesign, PropertiesWindow, and DesignerCore for
+          setting up ActionMaps
+
+ 8 Jan 2004 -
+	- Copied checkstyle rule from corejava into build.xml
+
+ 7 Jan 2004 -
+	- Modified build.xml to make use of czt.properties.
+		- Modified Readme file to account for this.
+	- Modified build rules for scripts so that only the scripts rule for the platform will be called.
+		- Didn't work before, because dependencies get run regardless of the success or failure of an
+		  'if' property on a 'target' element.
+	- Added ToDo to doc/ directory.
+
+ 5 Dec 2003 (2) -
+	- Removed 'run' script, no longer necessary because of the scripts build target.
+
+ 5 Dec 2003 -
+	- Added 'title' property to Form.  Gets transferred to the window containing it.
+	- Added 'startsVisible' property to Form.  Marks whether the Form should be visible when the animator
+	  first starts.
+	- Modified example interfaces to include title and startsVisible properties as appropriate.
+	- Added check when saving interface in designer to stop an interface being saved if no forms have 
+	  startsVisible set to true.
+	- Modified AnimatorCore to make use of title and startsVisible.
+	- Modified AnimatorCore to quit if all forms are closed.
+	-To do:
+		- Make title appear instead of name on Form's border in the FormDesign window?
+
+ 4 Dec 2003 (2) -
+	- Changed designer and animator to handle XMLEncoder/Decoder owner property specificationURL.
+	- Corrected clearBeans.js to have function clearBeans not fillBeans.
+	- Tightened the test GaffeEncoder makes to decide what statements to ignore.
+	- Added getPositionLabel to all History classes/interfaces.
+
+ 4 Dec 2003 -
+	- Fixed scripts to pass command line options along.
+
+ 3 Dec 2003 (2) -
+	- Added build target for bash scripts for running GAfFE.
+
+ 3 Dec 2003 -
+	- Pulled all persistence related code from design-config.js out into a new js file 
+	  persistence-config.js (because it will also be used by the generator).
+	- Resizing of components now calls validate, so that layouts will be readjusted.
+	- Pulled the custom XMLEncoder from DesignerCore into a seperate class GaffeEncoder (to also be used
+	  by the generator).
+
+28 Nov 2003 -
+	- Added two new scripts to the library of scripts:
+		- fillHistory - goes through the beans, and inserts their contents into the History.
+			- for use by input forms.
+		- clearBeans - clears all of the beans on a form.
+			- for resetting input forms.
+	- Added constructors for Script that take the script and language properties as arguments.
+
+26 Nov 2003 (3) -
+	- Removed the Makefiles.  They haven't been kept upto date with the project in a long time.
+		- Now it is necessary to use ant instead.
+		- Changed the Readme to reflect this.
+	- Added a question to the IAQ (5), regarding a particular type of error encountered during building.
+
+26 Nov 2003 (2) -
+	- Dropped ObjectDelegate, instead DesignerCore's XMLEncoder overrides writeStatement, and pulls out
+	  any that are of the form add*Listener with one parameter whose class is either one of Form's inner
+	  classes, or comes from the n.s.c.a.g.design package.
+		- I don't like this solution to the problem of the exceptions that are output when saving,
+		  but it works and is the least involved.
+
+26 Nov 2003 -
+	- Added ContainerListener to Form so that it will notice whenever a Component is added to itself or 
+	  one of its Container descendants.  It will then add it as a bean as well.
+		- So now to add a component to a Form it can be added via Container's add methods to its 
+	          immediate parent. addBean(Component bean, Container parent) is now redundant.
+		- The ContainerListener operates appropriately when a Component is removed.
+	- Changed FormDelegate removing the code to order the writing of addBean statements, instead only 
+	  writing addBeans of non-Components.  Letting the remainder be added via Container's normal add 
+	  statements (permissible because of the ContainerListener).
+	- Subclassed the XMLEncoder in DesignerCore so that it would use ObjectDelegate instead of 
+	  DefaultPersistenceDelegate.
+		- This will be removed next commit, because it causes more errors than it solves.
+			- If it just replaces all cases, then errors occur with classes like BevelBorder,
+			  because they seem to have a custom DefaultPersistenceDelegate (using the String[]
+			  constructor) registered.
+			- There is no way to get the constructor information out of a 
+			  DefaultPersistenceDelegate, so ObjectDelegate cannot replicate the appropriate 
+			  behaviour.
+			- Most of the relevant methods are protected, so ObjectDelgate cannot wrap 
+			  DefaultPersistenceDelegate.
+		- At present this may not compile correctly.
+
+24 Nov 2003 -
+	- Changed FormDesign so that event listeners don't get set in design mode, only recorded as bean 
+	  links.
+		- Listeners aren't used in design mode anyway.
+		- This way animator and design mode don't need to check if a listener is already registered 
+		  with a bean.
+	- Changed the example interfaces to remove the redundant add*Listener calls.
+	- Introduced ObjectDelegate to act as persistence delegate for all beans.  It removes all listeners
+	  from a bean, and then falls back on DefaultPersistenceDelegate's initialize method.  So that it 
+	  will not try to write any listeners to the .gaffe file.  Previously, this was resulting in error
+	  output appearing when saving, because most listeners on beans were part of the designer, 
+	  and weren't designed for persistence.
+	- Removed Form's listenerSupport variable (surplus to requirements, because JComponent already 
+	  provides listenerList).
+
+20 Nov 2003 -
+	- Fixed the FileFilter used for restricting FileChoosers to just .gaffe files to include directories 
+	  as well.
+	- Added static method to BeanWrapper to find the wrapper for a bean.
+	- Modified BeanLink to refer to the two Beans involved, not their wrappers.
+	- Fixed the example interfaces to work with the new BeanLink
+	- Trimmed unused 'import's from all files.
+
+19 Nov 2003 -
+	- Wrote SetModel table model.
+	- Moved BeanLink class out from FormDesign into its own file.
+	- Added methods to BasicHistory and SolutionSet to give a text description of the current location in
+	  their respective lists.
+		- For use by the panel of buttons, etc. in an interface for navigating history.
+	- To do:
+		- Make getPositionLabel part of History interface.
+
+29 Oct 2003 -
+	- Modified doc/examples/Readme to not say that AnimatorCore needs modifying; because, since the 
+	  examples had the history property on the owner, this is no longer the case.
+	- Modified designer to be able to properly handle beans that are nested within JPanels and other 
+	  containers.
+		- Special treatment is needed in a number of places for JScrollPane, because it doesn't quite
+		  work the same as normal Containers.
+		- Made a variant of Form.addBean that takes a second property specifying the bean's parent.
+		- Select tool will properly step down throgh containers.
+		- Make bean tool will create inside the lowest container that was clicked in.
+		- Delete bean tool will also delete all child beans of a container.
+		- Added JScrollPane and JPanel to the tool window.
+	- Because container nested beans are now possible, removed code that wrapped JTables with 
+	  JScrollPanes when added to Forms.
+		- Modified BirthdayBook example interface to wrap the JTable with a JScrollPane.
+	- Added an appropriate FileFilter to the FileChoosers used for loading and saving .gaffe files.
+	- Created Util class as place for random little bits.
+		- At present just contains the .gaffe FileFilter.
+	- Modified RelationModel to not check through everything in the relation to check they're all JTuples
+	  of size 2.  Because it should be part of ZSet's invariant that it only take members of the same 
+	  type.  Instead it now checks only the first member (if present).
+	- Created TupleModel for displaying the contents of a tuple in a table.
+	- Created TupleSetModel for displaying the contents of a set of tuples in a table.
+	- Modified removeEventLinks... methods to take objects instead of components; i.e. not wrapped by
+	  BeanWrapper.  Because it made things easier when deleting a container bean and all of its children.
+	- Moved the code that chooses a new current bean when the current bean is deleted to a listener on 
+	  the Form.
+	- Moved the lowestComponentAt method that appeared in one of the tools in ToolWindow to FormDesign.
+	- Modified FormDelegate to handle the changes to addBean.
+		- Handles the two argument form of addBean.
+		- Sorts the beans retrieved from the form's BeanContext to be in the correct order for adding
+		  Container's.  (Before buttons in a JPanel would change order).
+	- Started work on the generator.
+		- In the generator/ directory.
+		- Its Changes will be logged in generator/Changelog
+	- To do:
+		- Add property editor for LayoutManagers.
+		- Remove the code for sorting beans, and instead check if the bean is already a child of its
+		  assigned parent component?
+
+ 1 Oct 2003 (2) - (uncommited)
+	- Modified paragraph in question 4 of Readme.
+	  - Interface files made with the designer shouldn't be derivatives.
+	  - Interface files that use init script code from the 'library' may be derivatives.
+
+ 1 Oct 2003 -Milestone 2 [milestone-2]
+	- Tidied the PropertiesWindow and other net.sourceforge.czt.animation.gui.design.properties code.
+		- Made the tables package protected.
+		- Made classes final, because there is no reason to extend them.
+		- Made a number of protected/public members/methods private.
+		- Moved the PropertyCellEditor back to PropertiesWindow.
+
+24 Sep 2003 -
+	- Added equals, hashCode, and toString  methods to the ZLocators.
+	- Modified Form's addBean method so that it will wrap JTables with a JScrollPane.
+	- Modified HistoryProxy so that it would only fire ActionEvents for changes in currentSolution, not
+	  in currentSolutionSet.
+	- Modified FormDesign to put arrows on the displayed bean links.
+	- Corrected BirthdayBookHistory to use ZLocators not just Strings when accessing the inputs Map.
+	- Added equals, and hashCode methods to the ZValues.
+	- Finished the BirthdayBook interface.
+		- Involved some direct file modification... see next point.
+	- To do:
+		- Make sure that the size of the JScrollPane the table gets wrapped in is saved.
+
+22 Sep 2003 -
+	- Directly edited the example interfaces so they would set the animator to use the proper back end.
+	- Changed design-config.js to make BeanContextChildSupport.beanContext transient.
+	- Modified AnimatorCore so that it made use of the BeanLinks, and doesn't rely on these being 
+	  provided by the rest of the interface.
+	- Made AnimatorCoreBase public.
+	- Modified calls to scripts to treat them as anonymous functions.
+		- For javascript, code is added to start and end that wraps it as a function.
+		- For other languages uses BSFManager.apply (in the current version of BSF, all of the 
+		  engines seem to ignore the arguments).
+	- Changed FormDesign, and ToolWindow's code that decides when an event link is under the mouse to
+	  use ptSegDist instead of ptLineDist.  (ptLineDist pretends that the line goes on forever).
+	- To do:
+		- Allow interface designer to set the History class to use.
+
+19 Sep 2003 (2) - 
+	- Made AnimatorCore public.  Necessary, so that the XMLDecoder can write to its initScript and 
+	  initScriptLanguage properties.
+	- Changed BirthdayBooke.gaffe to use fillBeans script.
+	- Changed Fake.gaffe to use fillBeans script.
+
+19 Sep 2003 -
+	- Removed mentions of FormFiller in DesignerCore.java, and design-config.js that would prevent 
+	  compilation.
+
+17 Sep 2003 -
+	- As a temporary measure (until support for EventHandlers and InvocationHandlers can be added to the 
+	  event link tool) added addActionListener and removeActionListener methods to HistoryProxy.
+	- Added mechanism for keeping a library of code that can be pasted into the init script from the init
+	  script dialog.
+	- Removed the FormFiller bean, and created a function fillBeans(form) in the script library that
+	  fulfils this purpose.
+		- This is preferable, because the functionality of fillBeans can be changed by the interface
+		  designer, and it can be ensured that it is done before other script code that is triggered
+		  by the history changing.
+	- Modified BirthdayBook example to use fillBeans(form).
+
+15 Sep 2003 -
+	- Copied example interface that corresponds to FakeHistory class into doc/examples.
+	- Started work on making an example interface for the Birthday Book example from 'The Z Notation: A
+	  Reference Manual' (Spivey).
+		- Several of the following changes are due to necessities discovered making this interface.
+	- Made DesignerCore's initialisation script responsible for registering bean classes for the Tool 
+	  window.
+	- Added property editor for TableModels.  So that tables can be used in interfaces.
+		- Wrote table model for bindings, and a table model for relations.
+	- Added initialisation script to interface files.
+		- Can be edited through the 'Init Script...' entry in the window menu.
+		- This would be the appropriate place to declare functions/variables needed by more than one
+		  script bean.
+		- Uses initScript and initScriptLanguage properties on encoder/decoder owners.
+	- Set the designTime property on java.beans.Beans properly.
+		- This still needs to be done on BeanContexts.
+	- Added lookup function to Form to find beans by name.
+	- To FormFiller added code to fill a table if it uses a known table model (e.g. BindingModel).
+	- Modified Script to wrap the script in javascript code that will set the thisForm and thisScript 
+	  variables.
+	- Fixed HistorySupport so it actually creates the inputs Map.
+	- Details of ZValue classes were filled in so that they would be usable by BirthdayBookHistory.
+		- Note these classes have been made only to fit what was needed as it arised.  They very
+		  likely do not have the ideal implementation or API for these classes.
+	- To do:
+		- Change FormFiller to be a script hooked to from HistoryProxy.  (Common function that can
+		  be pasted into the interface init script).
+			- Have some general mechanism for pasting code from a library into an interface's
+			  init script.
+		- Modify Script to work as anonymous function, so that variables are restricted to the scope
+		  of one script.  (Global variables/functions can be put in the init script).
+		- Write table model that accepts any set of tuples, not just relations.
+		- Fix the exception that sometimes arises when writing the interface (due to Encoder trying
+		  to encode listeners that are part of the designer, and not meant to be encoded).
+		- Fix the delay that sometimes happens with the designer due to the property window looking
+		  up editors.
+		- Allow scripts to fire events?
+		- Allow scripts to daisy-chain?
+		- Make all objects in file be written through as properties of the owner?
+		- Add a JScrollPane to the JTable bean.  Needed for it to display properly.
+		- Rewrite scripts as InvocationHandler or EventHandler, rewrite event link mechanism to allow
+		  any event to connect to these via automatically created Proxy.
+		- Pass event object that triggered a script through to the script.
+		- Write editors and renderers for various classes.  (Insets,LayoutManager,Dimension,
+		  Rectangle,Point).
+
+29 Aug 2003 - (not committed)
+	- Added method to IntrospectionHelper to fetch editors from PropertyEditorManager, and cache the 
+	  results.
+		- This was done because PropertyEditorManager.findEditor was significantly slowing creation 
+		  of and switching between beans, because of code in PropertiesTable and PropertiesWindow 
+		  that used this to decide if a property was editable.
+	- Added methods to IntrospectionHelper that take PropertyDescriptor instead of a property name.
+		- Because the PropertiesTable code has the PropertyDescriptors already, and its unnecessary
+		  work to look it up again by name.
+	- Removed propertyDescriptorsEditable vector from PropertiesTable, because now that 
+	  IntrospectionHelper is caching editors, this doesn't give a noticable speed-up.
+	- Added button to PropertiesWindow for opening a bean's Customiser (if one is provided).
+	- Wrote customiser for Script that provides larger (multiline) text area for typing the script.
+
+28 Aug 2003 -
+	- Ammendment to Milestone Plan to make mention of Scrolling Animator.
+	- Added ResourceIcon, IconEditor, and IconRenderer classes to allow selection and display of Icons in
+	  the properties window.
+	- Added BorderEditor and BorderRenderer for editing and display of borders in the properties window.
+	- Added persistence delegates for URL and ResourceIcon.
+	- Modified the layout of ToolWindow slightly. (still needs work).
+	- Added option to Filter menu of properties window to filter out non-editable properties.
+	- Added code to grey out the rows of non-editable properties - using setEnabled(false).
+		- Keep track of editable-ness of properties in a vector, otherwise this becomes slow.
+		- Adds a new default renderer for the other two columns.
+			- At the moment this is done on a by class basis, can't seem to get the table to pay
+			  attention to the column class's renderer.
+	- Added a clarification note to the Readme regarding the GPL status of files created using GAfFE.
+
+22 Aug 2003 (2) -
+	- Retagged the commit from 13 Aug as milestone-1.
+	- Changed the Milestone Plan
+		- At this stage gaffe fakes interaction as far as is possible.  Until the animator is
+		  done, or at least its API is sorted out not much more can be done towards that.
+		- Will do some code tidying, improvement of interface, etc.  then work on interface
+		  generation, then on interaction with the animator.
+		- Animation history will now be in the first milestone that interacts with the 
+		  animator.  Because the design now shows interaction with the animator happening
+		  via the SolutionSet and History, so it would be easiest to do it with history.
+
+22 Aug 2003 -
+	- Added a PropertyEditor for Color.  (Picked up by PropertiesTable.PropertyCellEditor).
+	- Added TableCellRenderers for Color and Font.
+	- Tidied up how AnimatorCore set the size of its windows.
+	- Removed code from PropertiesTable that wasn't being used (getEditor, and its associated 
+	  vectors).
+	- Moved PropertyCellEditor from PropertiesWindow to PropertiesTable.
+	- Ammended PropertyCellEditor to use PropertiesTable's vector of PropertyDescriptors.
+	- Ammended PropertyCellEditor to pop custom editors from PropertyEditor in a dialog, rather
+	  than jamming it in the too-small cell.
+	- Added PropertyCellRenderer to PropertiesWindow, and mechanism for registering renderers to
+	  use with PropertiesWindow.
+	- Added the old Milestone Plan to doc/
+
+20 Aug 2003 -
+	- Added System.err and System.out to the beans declared with the BSFManager.
+	- Modified ${TopDir}/Makefile to not complain if classes/ already exists when it makes it.
+	- Modified bean classes that overrode setBeanContext to use a PropertyChangeListener on 
+	  themselves instead.
+		- This way attributes set on the beanContext property for those classes inherit from
+		  their parent.
+	- Changed the Script bean to run its script as an anonymous function with the attributes:
+		o thisScript - referring to the Script object itself.
+		o thisForm   - referring to the Form that the Script object is in.
+	  It should be noted that at present the BSFEngines in BSF do not pass these values along to
+	  their underlying libraries, so they generally won't be available to scripts, unless this is
+	  remedied in BSF.
+	- DesignerCore will now run a configuration script from its constructor.
+		- It uses java.util.prefs.Preferences to get system and user preferences indicating
+		  the location of scripts to run.
+		- Preferences are for the net.sourceforge.czt.animation.gui.design package.
+		- User preferences can also tell it to ignore System preferences.
+		- Both may tell it to ignore the default script stored in the gaffe package.
+		- The default script is:
+		  resources/net/sourceforge/czt/animation/gui/design/design-config.js
+	- design-config.js is used to set attributes in BeanInfos, and set up persistence delegates.
+		- This means this code has been removed from the several places it was before.
+	- Removed code that was trying to set Form's listeners as being transient, but wasn't achieving
+	  anything.
+		- Transient seems to only apply to properties, and not to listeners.
+	- Added menus, shortcut keys, actions, etc to the PropertiesWindow.
+	- Rearranged where the option dialog confirming a decision to quit occurs, so that it will
+	  come up regardless of how they quit.
+	- Added rememberBeanInfo methods to IntrospectionHelper to keep a central collection of strong 
+	  links to BeanInfos.
+		- Was being done mostly in FormDesign before.
+		- Needed because java.beans only keeps weak references, so modified BeanInfos can 
+		  disappear if this is not done.
+	- Modified the three table models in the .design.properties package to filter the entries shown
+	  based on the hidden, expert, and preferred properties, and the transient attribute on the
+	  appropriate FeatureDescriptors.
+		- This is controlled by PropertiesWindow from its Filter menu.
+	- Added method to IntrospectionHelper to translate names obtained from Class.getName() into 
+	  a form more familiar to programmers.
+	- Added a little to the Readme about configuration.
+	- To do:
+		- A configuration window to set the preferences in java.util.prefs' persistent store.
+		- Put more work on descriptor attributes set in the config script.
+		- Add configuration script on a by project basis? i.e. stored in the saved UI.
+		- Store references to the Z specification file, and init schema to the UI file.
+
+15 Aug 2003 (2) -
+	- Tidied up lines of code where czt.* changed to net.sourceforge.czt.*.
+	- Renamed ScriptDelegate to Script, moved its icon to the same path as the class.
+
+15 Aug 2003 -
+	- Renamed packages to net.sourceforge.czt.**.
+
+14 Aug 2003 -
+	- Extended SolutionSet and ZValue (sub)classes to contain data.
+	- Created FakeHistory which pretends to get data from the animator, but actually fills in phony
+	  data for testing (until the animator is ready).  
+		- At present it fills each SolutionSet with one Solution containing a ZNumber under
+		  the name "value".
+	- Created BeanContextServiceProviders for Form and History, and added them as services.
+	- Created beans for use in designs that interact with the history object.
+		- HistoryProxy forwards the PropertyChangeEvents for "currentSolution" and 
+		  "currentSolutionSet".
+		- FormFiller catches the PropertyChangeEvent for "currentSolution" and fills in text 
+		  fields and labels in the same form by turning their name property into a ZLocator to
+		  look up a value.  (Hopefully useful for generated interfaces.)
+	- Moved all of the beans intended to be placed in tools into czt.animation.gui.beans.
+	- Added fromString function to ZLocator to generate a ZLocator from a string (used by
+	  FormFiller).
+	- Corrected AnimatorCore's calls to registerBean to use declareBean instead.
+	- Modified AnimatorCoreBase.run to skip the FileChooser if a file name was given on the command
+	  line.
+	- Modified DesignerCore.run to open a file if it was given on the command line.
+	- To do:
+		- Make History forward SolutionSet PropertyChangeEvents on "currentSolution".
+		- Rename packages to net.sourceforge.czt.**.
+		- Rename ScriptDelegate to Script to avoid confusion with persistence delegates.
+	  Low priority:
+		- Modify event link tool to use java.beans.EventHandler if listener type doesn't match.
+			- Change ScriptDelegate to not be ActionListener (should work with any type of
+			  event thrown at it).
+		- Modify event link tool to hook up PropertyChangeListeners on specific properties.
+
+13 Aug 2003 -
+	- Added targets to ant build file for compiling with debug info.
+	- Started work on AnimatorCore and animate mode.
+		- made non-abstract.
+		- takes file in constructor.
+		- loads interface from file, and displays.
+		- registers services with main BeanServicesContext.
+	- Removed animateMode property accessors from AnimatorCoreBase, because now design mode is
+	  handled by DesignerCore.
+	- Wrote run function for AnimatorCoreBase that pops up file chooser, then creates AnimatorCore
+	  with the selected file.
+	- Added functions to FormDesign for setting various properties to transient.
+		- should be moved to persistence delegates?
+	- Modified FormDelegate to fake Form.location being transient.
+	- Modified ScriptDelegate to be BeanContextServicesListener of its parent context.
+		- rename to avoid confusion with persistence delegates?
+	- Now at stage where a button can be pushed to trigger a script.
+		- (tested with script that outputs to standard output).
+
+ 6 Aug 2003 -
+	- Some changes to Readme, discussing ant.
+	- Added menu option to display GPL.
+	- Modified about dialog to display copyright message.
+
+30 Jul 2003 (4) - Tweaked build.xml
+	- Fixed up property names to have a standardish form.
+	- Fixed up some of the conditions in -init so they'll do what they're meant to.
+	- Added a condition to base the location of gaffe.jar on CZTHOME if it is in the environment.
+
+30 Jul 2003 (3) -
+	- Added build.xml file for building with ant
+	- Modified Makefiles to only need Makefiles in the top directory, src/, and src/'s 
+	  subdirectories.
+	- Modified Makefiles to remove classes/ from the clean state. (i.e. remove on clean, create on
+	  make).
+	- Modified some javadoc documentation in FormDesign to reduce warning messages from javadoc.
+
+30 Jul 2003 (2) -
+	- Removed unused selectIcon.png, moveIcon.png
+	- Deleted commented out move bean tool, and removed moveIcon.gif
+
+30 Jul 2003 - Fixed data lost on last commit
+	- Bash scripts used to add license notices to files damaged some.
+	- Reverted damaged files to milestone-1-pre-1, and added notices manually.
+
+28 Jul 2003 (2) - Copyright and License notices.
+	- Added Copyright and License notice to all files (including comment of images).
+	- Added LICENSE file (copy of GPL version 2).
+
+28 Jul 2003 - Milestone 1 Pre 1 [milestone-1-pre-1]
+	- Added persistence delegates for Form BeanLink and BeanWrapper.
+		- They are all registered via BeanInfo by a static code block in their relevant class.
+		- For BeanLink this required some changes to make it a static inner class.
+	- Ammendment to BeanWrapper to make it behave sensibly if it doesn't have a bean yet.
+	- Added confirm dialog when last FormDesign is closed asking if they want to quit the program.
+	- Added confirm dialog when a FormDesign is deleted asking if they are sure.
+	- Added code for saving, loading, and importing files.
+		- Includes actions in DesignerCore, save and load functions in FormDesign, and delegate
+		  classes.
+		- Uses java.beans.XMLEncoder and java.beans.XMLDecoder.
+	- Added function to IntrospectionHelper to get the known list of listeners for a bean.
+	- Modified Readme file to reflect need for J2SDK 1.4.1
+	- Todo:
+		- Check that the same actions are taken when going through GUI, and loading from file.
+		  (Coming from file goes directly to Form's API, via GUI goes through FormDesign).
+		- Consider sending FormDesign to file.
+		- Find a better way around the issue that listener registration may happen in the file
+		  with the source bean, rather than via the BeanLink (results in duplication, and need
+		  to check if listeners are registered before registering them).
+
+
+17 Jul 2003 - Milestone 0 [milestone-0]
+	- Retagged as milestone 0.
+
+15 Jul 2003 - Milestone 0 Pre 1 [milestone-0-pre-1]
+	- Modified XCursor.gif to produce a better looking cursor.
+		- Modified code that reads the gif to check for the system's preferred cursor size.
+	- Made PlaceBeanTool use the cross cursor.
+	- Added a tool for deleting event links.
+	- Added a list of FormDesigns to the Window menu.
+	- Added an item to the File menu to delete a FormDesign.
+	- Added a listener and event used by DesignerCore when a FormDesign is created or deleted.
+		- Used for modifying the entries in the Window menu.
+	- Modified code for checking if the mouse was over a highlighted event link to use 
+	  java.awt.geom.Line2D.
+	- Added flag property to FormDesign that overrides the event link highlighting settings, used
+	  by the delete event link tool, so that the links can be seen.
+	- Added raiseAction to FormDesign used by the entries in the Window menu for each form.
+	- Added actions and key-shortcuts for navigating into containers. - Space, shift Space.
+	- Modified the TAB, shift TAB actions to navigate within the current beans parent.
+
+14 Jul 2003 (2) -
+	- Fixed small bug that caused the green dragging line to remain when using the Event-Link tool
+	  and the mouse was released over an invalid spot.
+	- Added tooltip display of what event-link is under the mouse (when said event-link is 
+	  highlighted).
+		- Odd thing - for getToolTipText(MouseEvent) to be used, setToolTipText(String) has to
+		  have been used.
+
+14 Jul 2003 -
+	- Rename ResizeHandle to BeanHandle, as it now also manages moving of beans.
+	- Added command and entry in the File menu for creating a new form.
+	- Altered code in DesignerCore to create a seperate copy of the Window menu for each new 
+	  FormDesign, as adding a menu to one menu bar will remove it from another.
+	- Made default size for all FormDesigns be set in DesignerCore.createNewForm
+	- Changed addBeanSelectedListener to fire off an event to the new listener to stop there being
+	  beans in two windows that are selected.
+	- Moved the highlighting entries in the View menu to appear in submenus
+
+12 Jul 2003 (2) -
+	- Added static getBean function to BeanWrapper, that if given a BeanWrapper unwraps it, but
+	  otherwise returns the Component bean it was given.
+	- Added equals function to BeanLink in FormDesign.
+	- Added code to FormDesign's to the addEventLink and removeEventLink functions to actually 
+	  register the listener with the source bean.
+		- Also added code to check that the listener was of type listenerType.
+
+12 Jul 2003 -
+	- Added paint(Graphics g, FormDesign f) function to ToolWindow.Tool
+		- Called by FormDesign.glassPane's paintComponent function.
+	- Ammended FormDesign.glassPane's highlight function for event links to use the correct 
+	  coordinate space.
+	- Ammended some bugs in the event link code in FormDesign that was comparing the component 
+	  stored in a BeanLink with the current bean, not the current bean's component.  
+		- Caused problems for BeanWrappered beans.
+	- Ammended bug in FormDesign.setupActions that was setting highlighting to work on incoming 
+	  links when it should have been for outgoing links.
+	- Overrode FormDesign.setCursor to only set cursor for its glass pane.
+		- Done in order to stop alternative cursors from displaying over the menu/status bars.
+		- Not a very nice solution.
+	- Used paint function in MakeEventLinkTool to draw line when linking events.
+	- Fixed bugs in MakeEventTool causing NullPointerException.
+	- MakeEventTool now displays a dialog box asking which listener type the link is for, and 
+	  creates the link.
+	- Ammended MakeEventTool to switch back to the default tool when finished.
+	- Ammended MakeEventTool to set the cursor back to the default cursor when it is unselected.
+	- Added Delete shortcut key to delete beans.
+	- Made ResizeHandle.setLocation repaint the FormDesign, so that highlighted links would display
+	  properly.
+	- To do:
+		- Add handles for event links?
+		- Add ability to delete event links.
+		- Add some way to identify the type of an event link.  Tooltext on a handle?
+
+11 Jul 2003 (2) -
+	- Modified 'import' headers on all .java files to conform to my preferred style.
+	- Changed the glassPane in FormDesign to optionally highlight beans/event links.
+	- Added view menu with options for selecting what gets highlighted.
+		- Some additions to setupActions, some to setupMenus, also some new protected members
+		  for tracking which options are selected.
+		- Some of the actions are still lacking shortcut keys.
+		- Should put them in sub-menus?
+	- Added tracking of event links (not yet used).
+		- Also added functions for adding/removing links/groups of links.
+	- Changed FormDesign's coordinate translation functions to take a Component instead of a 
+	  Container; it will save a cast in a couple of places.
+	- Added loading of a 'CrossCursor' cursor in ToolWindow for use by some of the tools.
+	- Added a MakeEventLinkTool to ToolWindow, doesn't yet do anything, but most of the work is 
+	  edone, cursors look right.
+
+11 Jul 2003 -
+	- Forgot to add 'deleteIcon.gif' on the last commit. (added.)
+
+ 7 Jul 2003 -
+	- Added tool for removing beans.
+		- Added removeBean functions to FormDesign and Form.
+		- Added property to tools 'oneShot' that is true if the tool should be unselected 
+		  immediately after being selected.  i.e. its entire action takes place when the tool
+		  is selected.
+	- Went back to a handle instead of a tool for moving beans.
+		- Integrated with ResizeHandle this time.
+		- Commented out everything in ToolWindow related to the MoveBeanTool.
+	- Tasks that need doing:
+		- possibly renaming the ResizeHandle class to reflect that it also handles moving.
+	- Changed highlighting on the selected tool's button in ToolWindow to use BevelBorder, and a 
+	  change in colour.
+	- Fixed error in ToolWindow.PlaceBeanTool.mouseDragged to use the correct coordinate space (the
+	  glass pane's coordinate space, not the bean's parent's).
+
+26 Jun 2003 - Some changes made after suggestions from Mark U.
+	- Gave the tool window a title.
+	- Changed the PlaceBeanTool to be one shot - ie it switches back to the select tool after 
+	  placing one bean.
+	- Changed ToolWindow.Tool's default select() and unselect() methods to change the button's 
+	  border to a raised EtchedBorder when the tool is selected.
+
+25 Jun 2003 - 
+	- Added ability to put beans inheriting from Component in the Form; and the requirement that
+	  Components go in the Form, non-Components go outside.
+		- Modifications made to ResizeHandle to allow associated components that weren't direct
+		  children of the beanPane.
+		- Modifications to FormDesign, giving utility functions for translating between 
+		  coordinate spaces, check if placement of a bean at a location is permissible.
+		- Modifications to ToolWindow's tools to handle multiple levels of Forms.
+		- Most of these changes should be forward compatible to the possibility of nested 
+		  Forms.
+	- Fixed Move tool's cursor to only show over movable object.
+
+23 Jun 2003 (2) -
+	- Changed Rules.mk's doc rule to 'mkdir -p' instead of just 'mkdir' the api directory.
+	- Blocked the 'doc' directory's makefile from recursing deeper.
+	- Added icons for various windows.
+	- Added new functions to ToolWindow.Tool - selected, unselected.  Called when tool is selected
+	  and in its argument-taking form when a FormDesign learns that the tool is selected.
+	- Removed cursor property from ToolWindow.Tool.  Tools can achieve the same effect by setting
+	  the cursor on FormDesigns themselves.
+	- Added oldTool property to ToolChangeEvent.
+	- Made some protected members of ToolWindow private.
+	- Added some API documentation.
+
+23 Jun 2003 - False start on inserting components into FormDesign's Form.  
+	- See cvs branch pre-milestone-0-false-start-form-insertion
+
+19 Jun 2003 - 
+	- Modified lib/Makefile to remove the .tmp file that I presume is made by jar
+	- Added ScriptDelegate bean.  A bean (for use in interface designs) that listens for
+	  ActionEvents, and uses the BSFServiceProvider service to run a script.
+	- Added display of bean type to FormDesign's status bar
+	- Corrected FormDesign.setCurrentBeanComponent() to set the status bar with the bean, not the
+	  component.  So it will display properly for beans wrapped in a BeanWrapper.
+	- Added cursors to tools.
+		- At present this is very basic.  Something more complex might be useful; so, for
+		  example, the move tool might only have a different cursor when above a bean.
+		- Should this be handled by the tool's other functions?
+		- Should Tool objects have a method that is called when they are selected?
+	- Changed preferred size of tool icons to 32x32 instead of 16x16
+	- Commented out code (in FormDesign.java) that quit when a FormDesign is closed.  Added code 
+	  (in DesignerCore) that quit when the last window is closed.
+
+17 Jun 2003 - Added tab/shift-tab cycling through beans. + more
+	- In FormDesign, made InputMap and AbstractMap 'children' of the DesignerCore's maps.
+	- Added "Next Bean"(Tab) and "Previous Bean"(shift Tab) actions to the maps.
+		- Tried doing this with FocusTraversalPolicy, just got messy.
+	- Blocked any component from taking focus other than the layered pane created in 
+	  setupLayeredPanes
+	- Added PropertyChangeListeners to make everywhere that a bean's name property appears change
+	  when the name property changes.
+	- Enabled proper handling of non-component beans (untested)
+		- Added a member currentComponent that tracks the component of a bean (either the bean
+		  itself or a BeanWrapper).
+		- Renamed the setCurrentBean function in FormDesign to setCurrentBeanComponent.  
+		  It will unwrap BeanWrappers to set the currentBean member as well.
+	- Renamed getCurrentComponent to getCurrentBeanComponent
+	- Changed the creation of the Form in FormDesign to use the addBean function.
+	- Removed the MoveHandle class, and all references to it. (it was made redundant by the
+	  MoveBeanTool a couple of commits ago).
+	- Added a nasty hack to PropertiesWindow to send PropertyChangeEvents for the name property
+	  that Components don't send themselves.
+	- Added functions to IntrospectionHelper for dealing with listeners:
+		- providesEventSet returns true if the class can register a given type of listener.
+		- addBeanListener registers a given listener of a given type with a given bean.
+		- addBeanListener unregisters a given listener of a given type with a given bean.
+
+16 Jun 2003 - Moved PropertiesWindow to the DesignerCore
+	- BeanSelectedEvent and BeanSelectedListener are now public types, so they can be used by
+	  PropertiesWindow.
+	- PropertiesWindow is now a BeanSelectedListener.
+	- Removed PropertyChangeSupport from FormDesign, because beanSelectedListeners is now doing its
+	  job.
+	- Removed setupActions function from FormDesign (wasn't getting called since this was moved to
+	  DesignerCore.java).
+	- Removed setupToolbar function from FormDesign (was commented out since this was moved to
+	  ToolWindow.java).
+
+13 Jun 2003 - Groundwork for having multiple form design windows, + more.
+	- Expanded ToolWindow.Tool and its subclasses to include functions for carrying out 
+	- Created ToolWindow.SelectBeanTool
+	- Created Listener and Event classes for ToolChange, and for BeanSelected
+		- used respectively by ToolWindow when a tool is selected, and by FormDesign when a 
+		  bean is selected.
+	- Modified FormDesign to use 'Tool' provided by ToolWindow (is now a ToolChangeListener) 
+	  instead of the BeanInfo tool from its old toolbar.
+	- Makefile -  'lib' directory is no longer removed by a 'squeaky' clean.
+	- renamed FormDesign.contentPane to FormDesign.beanPane to avoid confusion with RootPane's 
+	  contentPane property.
+	- Made FormDesign.StatusBar class, instead of using a JLabel for the status bar.
+	- Added function FormDesign.addBean, used by ToolWindow.PlaceBeanTool.  Adds a new bean to the
+	  form.
+	- Discontinued use of MoveHandle (though not deleted yet).
+	- Due to moving of responsibilities from FormDesign to DesignerCore, it is (at present) not 
+	  possible to open the properties window.  This will be fixed in the next commit, when keeping
+	  the reference to the properties window, will be managed by the DesignerCore.
+	- Tasks that need to be done soon:
+		- Move the PropertiesWindow to the DesignerCore
+		- Fix all code that assumes a bean is a component. (Mostly in FormDesign.java).
+		- Add the ability to put components inside the Form.
+		- Stop non-component beans from going in the Form, stop component beans from going 
+		  outside the form.
+		- Hack up a fix to make PropertyChangeEvents get sent to the listeners on a component
+		  for changes to the 'name' property.  (Components, and possibly other bean types don't
+		  trigger a PropertyChangeEvent when the name property changes; this is annoying when
+		  we want status bars, etc. to update).
+		- Determine if problems are caused by having only the one copy of  the window menu.  Is
+		  it permissible to have one menu in two menu bars.  (i.e. the one JMenu object serving
+		  two windows).
+	
+ 4 Jun 2003 - (not committed)
+	- Moved DesignerCore.java to the czt.animation.gui.design package.
+	- Created ToolWindow.java in the czt.animation.gui.design package.
+		- Created 'resources' directory for holding non .class files destined for the jar file.
+	- Modified DesignerCore.java to be more than just a shell.
+		- Tried BeanContextServices for tracking ToolWindow, PropertiesWindow, ActionMap,
+		  InputMap, window JMenu.  Changed to constructor parameters instead.  Becomes overly
+		  complicated for this purpose.
+		- Keeps track of 'FormDesign's
+		- Keeps instance of ToolWindow
+	- Eliminated need for temp directory - changed manifest file to be intermediate target.
+	- Removed main function in FormDesign.java - used for testing. 
+
+28 May 2003 - Some progress on the properties table:
+	- Now uses my TableCellEditor class (PropertiesWindow.PropertyCellEditor).
+	- Setting, canceling, etc. work without exceptions.
+	- The PropertyCellEditor and PropertiesTable classes need some reworking, there are bits that 
+	  may be better if they were moved.  e.g. setting the values in the property editor should
+	  probably be done in PropertiesTable.setValueAt instead of PropertyCellEditor.stopCellEditing.
+	- At the moment there is a PropertyChangeListener attached to the FormDesign class's form 
+	  member to catch changes to the 'name' property, and change the title in its border.  However
+	  Components don't seem to call PropertyChangeListeners for the name property!  So, at the 
+	  moment, the form's title won't change.
+		- This problem is probably shared by the status bar.
+	- Needs thorough testing.
+
+27 May 2003 - First commit to CVS:
+	- Placing of beans in Form Design window works.
+	- Display of properties, methods, and events working.
+	- Editing of properties partially working. (Need to sort out stuff between the visual 
+	  component, the table it's in, and the property itself.)
+	- Before Milestone 0, need:
+		- to fix editing of properties completely.
+		- ability to link beans via events.
+		- ability to work on multiple forms.
+		- ability to place component beans visually inside the form being designed.
+	- Thoughts:
+		- May be desirable to move toolbar into its own window, if there's going to be multiple
+		  forms.
+		- May want to add seperate tool for moving beans, rather than just click-dragging on 
+		  them.  Makes things easier when beans are allowed to be placed inside the form.

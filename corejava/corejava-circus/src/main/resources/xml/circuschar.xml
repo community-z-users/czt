@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CIRCUSCHAR>
+  <SPECIAL>    
+    <BRACKET>
+      <char id="LCIRCCHANSET" hex="2983" description="left channel set bracket"/>
+      <char id="RCIRCCHANSET" hex="2984" description="right channel set bracket"/>
+      <char id="CIRCLINST" hex="230A" description="left indexed process instantiation angle bracket"/>
+      <char id="CIRCRINST" hex="230B" description="right indexed process instantiation angle bracket"/>
+      <char id="LCIRCGUARD" hex="3014" description="left guarded action bracket"/>
+      <char id="RCIRCGUARD" hex="3015" description="right guarded action bracket"/>
+      <char id="LSCHEXPRACT" hex="2768" description="left schema expression action bracket"/>
+      <char id="RSCHEXPRACT" hex="2769" description="right schema expression action bracket"/>      
+      <char id="LCIRCRENAME" hex="3016" description="left process renaming bracket"/>
+      <char id="RCIRCRENAME" hex="3017" description="right process renaming bracket"/>      
+      <char id="LPAR" hex="27E6" description="left parallel bracket"/>
+      <char id="RPAR" hex="27E7" description="right parallel bracket"/>
+      <!-- TODO: Find appropriate unicode for those two -->
+      <char id="LINTER" hex="27E6" description="left interleave bracket"/>
+      <char id="RINTER" hex="27E7" description="right interleave bracket"/>
+
+    </BRACKET>    
+    <BOXCHAR>      
+      <char id="CIRCUSCHAR" hex="257A" description="box drawings thick horizontal line to the right."/>            
+      <char id="CIRCUSACTIONCHAR" hex="2576" description="box drawings thin horizontal line to the right."/>            
+    </BOXCHAR>
+  </SPECIAL>
+  <SYMBOL>
+    <CORESYMBOL>
+      <char id="CIRCREFINES" hex="2291" description="refinement"/>
+      <char id="CIRCSIMULATES" hex="227C" description="simulation"/>
+      <char id="PREFIXCOLON" hex="2236" description="prefix input field colon"/>
+      <char id="CIRCDEF" hex="2259" description="Spivey's like definition symbol (or just \defs?)"/>
+      <char id="CIRCINDEX" hex="2299" description="Process indexing spot or 2A00"/>
+      <char id="CIRCSPOT" hex="2219" description="Circus spot (bullet separator) or 25E6"/>      
+      <char id="CIRCMU" hex="00B5" description="recursive (least fixed-point) operator"/>
+      <char id="CIRCTHEN" hex="27FC" description="then for if guarded command"/>
+      <char id="CIRCELSE" hex="25AF" description="else for if guarded command"/>
+      <char id="PREFIXTHEN" hex="27F6" description="prefixing"/>
+      <!-- REUSE ANDALSO, see Parser.xml terminal section for an explanation.
+      <char id="CIRCGUARD" hex="0026" description="prefixing guard"/>
+      -->
+      <char id="CIRCSEQ" hex="037E" description="sequential composition"/>      
+      <!-- REUSE ZCOMP, see Parser.xml terminal section for an explanation.
+      <char id="REPSEQ" hex="2A1F" description="replicated sequential composition"/>      
+      -->
+      <char id="CIRCINTERRUPT" hex="25B3" description="interrupt operator"/>
+      <char id="INTERLEAVE" hex="2980" description="Process interleave"/>
+      <char id="REPINTERLEAVE" hex="2AFC" description="Replicated interleave"/>
+      <char id="REPPARALLEL" hex="2225" description="Replicated Parallelism or 01C1"/>      
+      <char id="CIRCHIDING" hex="2AF5" description="Hiding operator"/>
+      <char id="EXTCHOICE" hex="25FB" description="External choice"/>
+      <char id="REPEXTCHOICE" hex="25A1" description="Replicated external choice"/>
+      <char id="INTCHOICE" hex="2293" description="Internal choice"/>
+      <!-- TODO: Find appropriate unicode for replicated internal choice -->
+      <char id="REPINTCHOICE" hex="2294" description="Replicated internal choice (TODO:Change Unicode char)"/>      
+    </CORESYMBOL>
+    <CIRCUSTOOLKITSYMBOL>      
+      <char id="BOOLEAN" hex="1D539" description="mathematical blackboard capital B"/>
+      <char id="GENDJ" hex="2A46" description="generalised disjointness"/>
+      <char id="REGIONS" hex="2A02" description="regions of a set of sets"/>
+      <char id="DSETMINUS" hex="21F2" description="distributed set difference"/>
+      <char id="DCAP" hex="25C7" description="distributed set intersection"/>      
+      <char id="UNIVERSE" hex="1D54C" description="mathematical blackboard capital U"/>     
+    </CIRCUSTOOLKITSYMBOL>
+  </SYMBOL>
+</CIRCUSCHAR>

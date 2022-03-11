@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1438249235406" analysisTimestamp="1438249228696" release="">
+  <Project projectName="vcg-z">
+    <Jar>/Users/nljsf/Local/reps/git/czt/vcg/vcg-z/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/vcg/vcg-z/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/vcg/vcg-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/vcg/vcg-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/parser/parser-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/parser/parser-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/session/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/session/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-io/commons-io/2.1/commons-io-2.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup-runtime/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup-runtime/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-zeves/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-zeves/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/parser/parser-zeves/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/parser/parser-zeves/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/vcg/vcg-z/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/vcg/vcg-z/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/vcg/vcg-z/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/vcg/vcg-z/src/test/resources</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.BindingUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.BindingUtils" start="31" end="114" sourcefile="BindingUtils.java" sourcepath="net/sourceforge/czt/vcg/util/BindingUtils.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.vcg.util.Definition">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTable">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTable" sourcefile="DefinitionTable.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTable.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE_OF_NULL" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.Definition">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.Definition" name="containsObject" signature="(Ljava/util/List;Ljava/lang/Object;)Z" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" start="215" end="227" startBytecode="0" endBytecode="21" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    </Method>
+    <LocalVariable name="iter" register="3" pc="42" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" start="226" end="226" startBytecode="41" endBytecode="41" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" start="226" end="226" startBytecode="41" endBytecode="41" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEFENSIVE_CONSTANT_OPCODE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="iter"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.STORE_OF_NULL" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE_OF_NULL" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.Definition">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.Definition" name="printLocals" signature="(Z)Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" start="610" end="632" startBytecode="0" endBytecode="70" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    </Method>
+    <LocalVariable name="itE" register="3" pc="144" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" start="627" end="627" startBytecode="143" endBytecode="143" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" start="627" end="627" startBytecode="143" endBytecode="143" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEFENSIVE_CONSTANT_OPCODE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="itE"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.STORE_OF_NULL" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE_OF_NULL" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.Definition">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.Definition" name="printSpecialBindings" signature="(Z)Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" start="576" end="605" startBytecode="0" endBytecode="92" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    </Method>
+    <LocalVariable name="itB" register="3" pc="188" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" start="602" end="602" startBytecode="187" endBytecode="187" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.Definition" start="602" end="602" startBytecode="187" endBytecode="187" sourcefile="Definition.java" sourcepath="net/sourceforge/czt/vcg/util/Definition.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEFENSIVE_CONSTANT_OPCODE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="itB"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.STORE_OF_NULL" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionException">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionException" sourcefile="DefinitionException.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionException.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.vcg.util.DefinitionException" name="locAnn_" signature="Lnet/sourceforge/czt/z/ast/LocAnn;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionException" start="43" end="43" startBytecode="0" endBytecode="0" sourcefile="DefinitionException.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionException.java"/>
+    </Field>
+    <Type descriptor="Lnet/sourceforge/czt/z/ast/LocAnn;" role="TYPE_FOUND">
+      <SourceLine classname="net.sourceforge.czt.z.ast.LocAnn" sourcefile="LocAnn.java" sourcepath="net/sourceforge/czt/z/ast/LocAnn.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE_OF_NULL" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTable">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTable" sourcefile="DefinitionTable.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTable.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.DefinitionTable" name="toString" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTable" start="1112" end="1146" startBytecode="0" endBytecode="130" sourcefile="DefinitionTable.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTable.java"/>
+    </Method>
+    <LocalVariable name="it" register="2" pc="312" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTable" start="1143" end="1143" startBytecode="311" endBytecode="311" sourcefile="DefinitionTable.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTable.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTable" start="1143" end="1143" startBytecode="311" endBytecode="311" sourcefile="DefinitionTable.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTable.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEFENSIVE_CONSTANT_OPCODE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="it"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.STORE_OF_NULL" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE_OF_NULL" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTable">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTable" sourcefile="DefinitionTable.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTable.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.DefinitionTable" name="toString" signature="(ZZ)Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTable" start="1078" end="1101" startBytecode="0" endBytecode="89" sourcefile="DefinitionTable.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTable.java"/>
+    </Method>
+    <LocalVariable name="itE" register="5" pc="199" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTable" start="1099" end="1099" startBytecode="197" endBytecode="197" sourcefile="DefinitionTable.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTable.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTable" start="1099" end="1099" startBytecode="197" endBytecode="197" sourcefile="DefinitionTable.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTable.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEFENSIVE_CONSTANT_OPCODE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="itE"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.STORE_OF_NULL" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DM_CONVERT_CASE" priority="3" rank="20" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableService">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableService" sourcefile="DefinitionTableService.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableService.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.DefinitionTableService" name="main" signature="([Ljava/lang/String;)V" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableService" start="168" end="397" startBytecode="0" endBytecode="3178" sourcefile="DefinitionTableService.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableService.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableService" start="198" end="198" startBytecode="128" endBytecode="128" sourcefile="DefinitionTableService.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableService.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableService" start="198" end="198" startBytecode="128" endBytecode="128" sourcefile="DefinitionTableService.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableService.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableTest">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableTest" start="1" end="86" sourcefile="DefinitionTableTest.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableTest.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableTest$NormalDefTableTest">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableTest$NormalDefTableTest" sourcefile="DefinitionTableTest.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableTest.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableTest$NegativeDefTableTest">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableTest$NegativeDefTableTest" start="1" end="129" sourcefile="DefinitionTableTest.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableTest.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableTest">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableTest" sourcefile="DefinitionTableTest.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableTest.java"/>
+    </Class>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableTest$NegativeDefTableTest" start="89" end="89" startBytecode="0" endBytecode="0" sourcefile="NegativeDefTableTest.java" sourcepath="net/sourceforge/czt/vcg/util/NegativeDefTableTest.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" name="run" signature="(Lnet/sourceforge/czt/base/ast/Term;)Lnet/sourceforge/czt/vcg/util/DefinitionTable;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="180" end="194" startBytecode="0" endBytecode="48" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/vcg/util/DefinitionException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionException" start="1" end="276" sourcefile="DefinitionException.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="186" end="186" startBytecode="35" endBytecode="35" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="186" end="186" startBytecode="35" endBytecode="35" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="1" end="1694" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor$TypeSynthesisVisitor">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor$TypeSynthesisVisitor" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE_OF_NULL" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" name="containsObject" signature="(Ljava/util/List;Ljava/lang/Object;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="540" end="552" startBytecode="0" endBytecode="21" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    </Method>
+    <LocalVariable name="iter" register="4" pc="46" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="551" end="551" startBytecode="44" endBytecode="44" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="551" end="551" startBytecode="44" endBytecode="44" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEFENSIVE_CONSTANT_OPCODE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="iter"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.STORE_OF_NULL" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" name="DEFAULT_DEBUG_DEFTBL_VISITOR" signature="Z" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="122" end="122" startBytecode="17" endBytecode="17" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="2" rank="18" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" name="addLocalReference" signature="(Lnet/sourceforge/czt/vcg/util/Definition;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="731" end="747" startBytecode="0" endBytecode="290" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java"/>
+    </Method>
+    <LocalVariable name="local" register="1" pc="58" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="737" end="737" startBytecode="59" endBytecode="59" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" start="737" end="737" startBytecode="59" endBytecode="59" sourcefile="DefinitionTableVisitor.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" name="handledException" signature="(Ljava/lang/Throwable;Ljava/lang/StringBuilder;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="165" end="213" startBytecode="0" endBytecode="135" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/parser/util/ParseException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.parser.util.ParseException" start="47" end="95" sourcefile="ParseException.java" sourcepath="net/sourceforge/czt/parser/util/ParseException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="186" end="186" startBytecode="123" endBytecode="123" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="186" end="186" startBytecode="123" endBytecode="123" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" name="handledException" signature="(Ljava/lang/Throwable;Ljava/lang/StringBuilder;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="165" end="213" startBytecode="0" endBytecode="135" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/session/CommandException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.session.CommandException" start="38" end="67" sourcefile="CommandException.java" sourcepath="net/sourceforge/czt/session/CommandException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="183" end="183" startBytecode="102" endBytecode="102" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="183" end="183" startBytecode="102" endBytecode="102" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" name="handledException" signature="(Ljava/lang/Throwable;Ljava/lang/StringBuilder;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="165" end="213" startBytecode="0" endBytecode="135" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/typecheck/z/util/TypeErrorException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.util.TypeErrorException" start="40" end="73" sourcefile="TypeErrorException.java" sourcepath="net/sourceforge/czt/typecheck/z/util/TypeErrorException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="191" end="191" startBytecode="151" endBytecode="151" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="191" end="191" startBytecode="151" endBytecode="151" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" name="handledException" signature="(Ljava/lang/Throwable;Ljava/lang/StringBuilder;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="165" end="213" startBytecode="0" endBytecode="135" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/vcg/util/DefinitionException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionException" start="1" end="276" sourcefile="DefinitionException.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="198" end="198" startBytecode="195" endBytecode="195" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="198" end="198" startBytecode="195" endBytecode="195" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" name="handledException" signature="(Ljava/lang/Throwable;Ljava/lang/StringBuilder;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="165" end="213" startBytecode="0" endBytecode="135" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/vcg/z/VCGException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGException" start="42" end="67" sourcefile="VCGException.java" sourcepath="net/sourceforge/czt/vcg/z/VCGException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="205" end="205" startBytecode="253" endBytecode="253" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="205" end="205" startBytecode="253" endBytecode="253" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" name="doTest" signature="(Lnet/sourceforge/czt/z/ast/Spec;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="128" end="154" startBytecode="0" endBytecode="515" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" start="146" end="146" startBytecode="182" endBytecode="182" sourcefile="VCGTest.java" sourcepath="net/sourceforge/czt/vcg/util/VCGTest.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.AbstractVCG">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.AbstractVCG" name="typeCheck" signature="(Ljava/lang/String;Z)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" start="585" end="611" startBytecode="0" endBytecode="86" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/typecheck/z/util/TypeErrorException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.util.TypeErrorException" start="40" end="73" sourcefile="TypeErrorException.java" sourcepath="net/sourceforge/czt/typecheck/z/util/TypeErrorException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" start="604" end="604" startBytecode="128" endBytecode="128" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" start="604" end="604" startBytecode="128" endBytecode="128" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+  </BugInstance>
+  <BugInstance type="ITA_INEFFICIENT_TO_ARRAY" priority="3" rank="20" abbrev="ITA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.AbstractVCG">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.AbstractVCG" name="visitZSect" signature="(Lnet/sourceforge/czt/z/ast/ZSect;)Ljava/util/List;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" start="1011" end="1031" startBytecode="0" endBytecode="205" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" start="1025" end="1025" startBytecode="69" endBytecode="69" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" start="1025" end="1025" startBytecode="69" endBytecode="69" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="3" rank="20" abbrev="ST" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.AbstractVCG">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.AbstractVCG" name="createUniqueName" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" start="558" end="560" startBytecode="0" endBytecode="118" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.vcg.z.AbstractVCG" name="onTheFlyNamesSeed_" signature="I" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" start="559" end="559" startBytecode="26" endBytecode="26" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.AbstractVCG" start="559" end="559" startBytecode="26" endBytecode="26" sourcefile="AbstractVCG.java" sourcepath="net/sourceforge/czt/vcg/z/AbstractVCG.java"/>
+  </BugInstance>
+  <BugInstance type="RI_REDUNDANT_INTERFACES" priority="3" rank="20" abbrev="RI" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.TrivialVCCollector">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.TrivialVCCollector" start="1" end="196" sourcefile="TrivialVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/TrivialVCCollector.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.base.visitor.TermVisitor" role="INTERFACE_TYPE">
+      <SourceLine classname="net.sourceforge.czt.base.visitor.TermVisitor" sourcefile="TermVisitor.java" sourcepath="net/sourceforge/czt/base/visitor/TermVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="handleVCGException" signature="(Lnet/sourceforge/czt/vcg/z/VCGException;Ljava/lang/String;)Ljava/util/List;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1303" end="1363" startBytecode="0" endBytecode="187" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/parser/util/ParseException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.parser.util.ParseException" start="47" end="95" sourcefile="ParseException.java" sourcepath="net/sourceforge/czt/parser/util/ParseException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1331" end="1331" startBytecode="159" endBytecode="159" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1331" end="1331" startBytecode="159" endBytecode="159" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="handleVCGException" signature="(Lnet/sourceforge/czt/vcg/z/VCGException;Ljava/lang/String;)Ljava/util/List;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1303" end="1363" startBytecode="0" endBytecode="187" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/session/CommandException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.session.CommandException" start="38" end="67" sourcefile="CommandException.java" sourcepath="net/sourceforge/czt/session/CommandException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1328" end="1328" startBytecode="138" endBytecode="138" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1328" end="1328" startBytecode="138" endBytecode="138" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="handleVCGException" signature="(Lnet/sourceforge/czt/vcg/z/VCGException;Ljava/lang/String;)Ljava/util/List;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1303" end="1363" startBytecode="0" endBytecode="187" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/typecheck/z/util/TypeErrorException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.util.TypeErrorException" start="40" end="73" sourcefile="TypeErrorException.java" sourcepath="net/sourceforge/czt/typecheck/z/util/TypeErrorException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1337" end="1337" startBytecode="211" endBytecode="211" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1337" end="1337" startBytecode="211" endBytecode="211" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="handleVCGException" signature="(Lnet/sourceforge/czt/vcg/z/VCGException;Ljava/lang/String;)Ljava/util/List;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1303" end="1363" startBytecode="0" endBytecode="187" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/vcg/util/DefinitionException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionException" start="1" end="276" sourcefile="DefinitionException.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1313" end="1313" startBytecode="58" endBytecode="58" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1313" end="1313" startBytecode="58" endBytecode="58" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="1205" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/parser/util/ParseException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.parser.util.ParseException" start="47" end="95" sourcefile="ParseException.java" sourcepath="net/sourceforge/czt/parser/util/ParseException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="924" end="924" startBytecode="1603" endBytecode="1603" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="924" end="924" startBytecode="1603" endBytecode="1603" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="1205" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/session/CommandException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.session.CommandException" start="38" end="67" sourcefile="CommandException.java" sourcepath="net/sourceforge/czt/session/CommandException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1051" end="1051" startBytecode="2167" endBytecode="2167" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1051" end="1051" startBytecode="2167" endBytecode="2167" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="1205" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/typecheck/z/util/TypeErrorException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.util.TypeErrorException" start="40" end="73" sourcefile="TypeErrorException.java" sourcepath="net/sourceforge/czt/typecheck/z/util/TypeErrorException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="969" end="969" startBytecode="1782" endBytecode="1782" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="969" end="969" startBytecode="1782" endBytecode="1782" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="1205" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/vcg/util/DefinitionException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.vcg.util.DefinitionException" start="1" end="276" sourcefile="DefinitionException.java" sourcepath="net/sourceforge/czt/vcg/util/DefinitionException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1037" end="1037" startBytecode="2097" endBytecode="2097" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1037" end="1037" startBytecode="2097" endBytecode="2097" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="BX_UNBOXING_IMMEDIATELY_REBOXED" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="7342" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Method classname="java.lang.Boolean" name="valueOf" signature="(Z)Ljava/lang/Boolean;" isStatic="true" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Boolean" start="150" end="150" startBytecode="0" endBytecode="50" sourcefile="Boolean.java" sourcepath="java/lang/Boolean.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="794" end="794" startBytecode="712" endBytecode="712" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="794" end="794" startBytecode="712" endBytecode="712" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="1205" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <LocalVariable name="lastTime" register="23" pc="2700" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1149" end="1149" startBytecode="2698" endBytecode="2698" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1149" end="1149" startBytecode="2698" endBytecode="2698" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.COPY_VALUE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="lastTime"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.MANY_STORES" value="true"/>
+  </BugInstance>
+  <BugInstance type="DM_CONVERT_CASE" priority="3" rank="20" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="7342" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="709" end="709" startBytecode="301" endBytecode="301" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="709" end="709" startBytecode="301" endBytecode="301" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="DM_EXIT" priority="2" rank="16" abbrev="Dm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="7342" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="718" end="718" startBytecode="348" endBytecode="348" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="718" end="718" startBytecode="348" endBytecode="348" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="extractPath" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1431" end="1441" startBytecode="0" endBytecode="149" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1435" end="1435" startBytecode="21" endBytecode="21" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="extractPath" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1431" end="1441" startBytecode="0" endBytecode="149" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1439" end="1439" startBytecode="34" endBytecode="34" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="getFileNameNoExt" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1452" end="1454" startBytecode="0" endBytecode="103" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1453" end="1453" startBytecode="8" endBytecode="8" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="getVCFileName" signature="(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1385" end="1394" startBytecode="0" endBytecode="177" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1387" end="1387" startBytecode="12" endBytecode="12" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="removePath" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1409" end="1419" startBytecode="0" endBytecode="148" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1413" end="1413" startBytecode="21" endBytecode="21" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="removePath" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1409" end="1419" startBytecode="0" endBytecode="148" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1417" end="1417" startBytecode="34" endBytecode="34" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="OS_OPEN_STREAM_EXCEPTION_PATH" priority="3" rank="19" abbrev="OS" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="writeToFile" signature="(Lnet/sourceforge/czt/print/util/CztPrintString;Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="333" end="341" startBytecode="0" endBytecode="33" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <Type descriptor="Ljava/io/Writer;" role="TYPE_CLOSEIT">
+      <SourceLine classname="java.io.Writer" start="50" end="294" sourcefile="Writer.java" sourcepath="java/io/Writer.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="333" end="333" startBytecode="0" endBytecode="0" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="333" end="333" startBytecode="0" endBytecode="0" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="3" rank="20" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="7342" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <LocalVariable name="archive" register="27" pc="1404" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <Method classname="java.io.File" name="&lt;init&gt;" signature="(Ljava/lang/String;)V" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="java.io.File" start="275" end="281" startBytecode="0" endBytecode="115" sourcefile="File.java" sourcepath="java/io/File.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="885" end="885" startBytecode="1406" endBytecode="1406" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="885" end="885" startBytecode="1406" endBytecode="1406" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="3" rank="20" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="7342" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <LocalVariable name="localcztpath" register="17" pc="1482" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="897" end="897" startBytecode="1484" endBytecode="1484" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="897" end="897" startBytecode="1484" endBytecode="1484" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="3" rank="20" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="7342" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <LocalVariable name="spec" register="45" pc="1875" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <Method classname="net.sourceforge.czt.session.SectionManager" name="get" signature="(Lnet/sourceforge/czt/session/Key;)Ljava/lang/Object;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="1677" end="1769" startBytecode="0" endBytecode="748" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1000" end="1000" startBytecode="1877" endBytecode="1877" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="1000" end="1000" startBytecode="1877" endBytecode="1877" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE" priority="2" rank="11" abbrev="RCN" category="CORRECTNESS" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.VCGUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.VCGUtils" name="run" signature="([Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="633" end="1158" startBytecode="0" endBytecode="7342" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    </Method>
+    <LocalVariable name="raiseWarnings" register="8" pc="954" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <Method classname="java.lang.Boolean" name="valueOf" signature="(Z)Ljava/lang/Boolean;" isStatic="true" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="java.lang.Boolean" start="150" end="150" startBytecode="0" endBytecode="50" sourcefile="Boolean.java" sourcepath="java/lang/Boolean.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="796" end="796" startBytecode="719" endBytecode="719" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="809" end="809" startBytecode="956" endBytecode="956" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.VCGUtils" start="809" end="809" startBytecode="956" endBytecode="956" sourcefile="VCGUtils.java" sourcepath="net/sourceforge/czt/vcg/z/VCGUtils.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" name="PARTIAL_OPS" signature="[Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" start="256" end="256" startBytecode="99" endBytecode="99" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" name="TOTAL_OPS" signature="[Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" start="255" end="255" startBytecode="74" endBytecode="74" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+  </BugInstance>
+  <BugInstance type="RI_REDUNDANT_INTERFACES" priority="3" rank="20" abbrev="RI" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" start="1" end="1382" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys" role="INTERFACE_TYPE">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys" sourcefile="DomainCheckPropertyKeys.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckPropertyKeys.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="USM_USELESS_SUBCLASS_METHOD" priority="3" rank="20" abbrev="USM" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" name="beforeCalculateVC" signature="(Lnet/sourceforge/czt/base/ast/Term;Ljava/util/List;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" start="398" end="400" startBytecode="0" endBytecode="90" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" start="398" end="398" startBytecode="3" endBytecode="3" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+  </BugInstance>
+  <BugInstance type="USM_USELESS_SUBCLASS_METHOD" priority="3" rank="20" abbrev="USM" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" name="getVCGContext" signature="()Lnet/sourceforge/czt/vcg/z/VCGContext;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" start="378" end="378" startBytecode="0" endBytecode="46" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DCVCCollector" start="378" end="378" startBytecode="1" endBytecode="1" sourcefile="DCVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DCVCCollector.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerCommand">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerCommand" start="34" end="61" sourcefile="DomainCheckerCommand.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckerCommand.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.vcg.z.dc.DomainCheckUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckUtils" sourcefile="DomainCheckUtils.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NP_LOAD_OF_KNOWN_NULL_VALUE" priority="3" rank="19" abbrev="NP" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" sourcefile="DomainCheckerVCG.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckerVCG.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" name="loadDCToolkit" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" start="235" end="263" startBytecode="0" endBytecode="79" sourcefile="DomainCheckerVCG.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckerVCG.java"/>
+    </Method>
+    <LocalVariable name="type" register="1" pc="103" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" start="253" end="253" startBytecode="104" endBytecode="104" sourcefile="DomainCheckerVCG.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckerVCG.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" start="253" end="253" startBytecode="104" endBytecode="104" sourcefile="DomainCheckerVCG.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckerVCG.java"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE" priority="3" rank="20" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" sourcefile="DomainCheckerVCG.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckerVCG.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" name="loadDCToolkit" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" start="235" end="263" startBytecode="0" endBytecode="343" sourcefile="DomainCheckerVCG.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckerVCG.java"/>
+    </Method>
+    <LocalVariable name="type" register="1" pc="104" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <Method classname="net.sourceforge.czt.session.SectionManager" name="get" signature="(Lnet/sourceforge/czt/session/Key;)Ljava/lang/Object;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="1677" end="1769" startBytecode="0" endBytecode="748" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" start="253" end="253" startBytecode="105" endBytecode="105" sourcefile="DomainCheckerVCG.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckerVCG.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" start="253" end="253" startBytecode="105" endBytecode="105" sourcefile="DomainCheckerVCG.java" sourcepath="net/sourceforge/czt/vcg/z/dc/DomainCheckerVCG.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE_OF_NULL" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.feasibility.AbstractFeasibilityVCCollector">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.AbstractFeasibilityVCCollector" sourcefile="AbstractFeasibilityVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/AbstractFeasibilityVCCollector.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.feasibility.AbstractFeasibilityVCCollector" name="bindingsRemoveAll" signature="(Ljava/util/SortedSet;Ljava/util/SortedSet;Z)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.AbstractFeasibilityVCCollector" start="324" end="343" startBytecode="0" endBytecode="37" sourcefile="AbstractFeasibilityVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/AbstractFeasibilityVCCollector.java"/>
+    </Method>
+    <LocalVariable name="it" register="6" pc="88" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.AbstractFeasibilityVCCollector" start="342" end="342" startBytecode="86" endBytecode="86" sourcefile="AbstractFeasibilityVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/AbstractFeasibilityVCCollector.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.AbstractFeasibilityVCCollector" start="342" end="342" startBytecode="86" endBytecode="86" sourcefile="AbstractFeasibilityVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/AbstractFeasibilityVCCollector.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEFENSIVE_CONSTANT_OPCODE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="it"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.STORE_OF_NULL" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityUtils" start="50" end="151" sourcefile="FeasibilityUtils.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/FeasibilityUtils.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityCommand">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityCommand" sourcefile="FeasibilityCommand.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/FeasibilityCommand.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG" sourcefile="FeasibilityVCG.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCG.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG" name="typeCheck" signature="(Ljava/lang/String;Z)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG" start="273" end="291" startBytecode="0" endBytecode="41" sourcefile="FeasibilityVCG.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCG.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Throwable;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Throwable" start="114" end="1079" sourcefile="Throwable.java" sourcepath="java/lang/Throwable.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/typecheck/z/util/TypeErrorException;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.util.TypeErrorException" start="40" end="73" sourcefile="TypeErrorException.java" sourcepath="net/sourceforge/czt/typecheck/z/util/TypeErrorException.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG" start="283" end="283" startBytecode="67" endBytecode="67" sourcefile="FeasibilityVCG.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCG.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG" start="283" end="283" startBytecode="67" endBytecode="67" sourcefile="FeasibilityVCG.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCG.java"/>
+  </BugInstance>
+  <BugInstance type="DM_CONVERT_CASE" priority="3" rank="20" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.feasibility.ZFsbVCKind">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.ZFsbVCKind" sourcefile="ZFsbVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/ZFsbVCKind.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.feasibility.ZFsbVCKind" name="getTypeId" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.ZFsbVCKind" start="44" end="44" startBytecode="0" endBytecode="64" sourcefile="ZFsbVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/ZFsbVCKind.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.ZFsbVCKind" start="44" end="44" startBytecode="13" endBytecode="13" sourcefile="ZFsbVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/ZFsbVCKind.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.ZFsbVCKind" start="44" end="44" startBytecode="13" endBytecode="13" sourcefile="ZFsbVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/ZFsbVCKind.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.refinement.RefinementCommand">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementCommand" start="34" end="60" sourcefile="RefinementCommand.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementCommand.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.vcg.z.refinement.RefinementUtils">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementUtils" sourcefile="RefinementUtils.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT" priority="2" rank="17" abbrev="RV" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCCollector">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCCollector" sourcefile="RefinementVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementVCCollector.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCCollector" name="calculateRefInitFinVCS" signature="(Ljava/util/List;Lnet/sourceforge/czt/z/ast/ZName;Lnet/sourceforge/czt/z/ast/ZName;Lnet/sourceforge/czt/z/ast/ZName;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCCollector" start="405" end="551" startBytecode="0" endBytecode="2215" sourcefile="RefinementVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementVCCollector.java"/>
+    </Method>
+    <Method classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCCollector" name="getStateName" signature="(Lnet/sourceforge/czt/vcg/z/feasibility/util/ZStateInfo;)Lnet/sourceforge/czt/z/ast/ZName;" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCCollector" start="137" end="137" startBytecode="0" endBytecode="68" sourcefile="FeasibilityVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCCollector.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCCollector" start="480" end="480" startBytecode="725" endBytecode="725" sourcefile="RefinementVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementVCCollector.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCCollector" start="480" end="480" startBytecode="725" endBytecode="725" sourcefile="RefinementVCCollector.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementVCCollector.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCG">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCG" sourcefile="RefinementVCG.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementVCG.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCG" name="setConcreteStateName" signature="(Ljava/lang/String;)V" isStatic="false" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCG" start="226" end="238" startBytecode="0" endBytecode="189" sourcefile="RefinementVCG.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementVCG.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="indexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1686" end="1686" startBytecode="0" endBytecode="30" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCG" start="228" end="228" startBytecode="28" endBytecode="28" sourcefile="RefinementVCG.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementVCG.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCG">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCG" sourcefile="RefinementVCG.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementVCG.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCG" name="setRetrieveName" signature="(Ljava/lang/String;)V" isStatic="false" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCG" start="242" end="254" startBytecode="0" endBytecode="189" sourcefile="RefinementVCG.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementVCG.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="indexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1686" end="1686" startBytecode="0" endBytecode="30" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.RefinementVCG" start="244" end="244" startBytecode="28" endBytecode="28" sourcefile="RefinementVCG.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/RefinementVCG.java"/>
+  </BugInstance>
+  <BugInstance type="DM_CONVERT_CASE" priority="3" rank="20" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" sourcefile="ZRefVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/ZRefVCKind.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" name="getRefKindStr" signature="(Lnet/sourceforge/czt/vcg/z/refinement/util/ZRefinementKind;)Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" start="61" end="69" startBytecode="0" endBytecode="158" sourcefile="ZRefVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/ZRefVCKind.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" start="65" end="65" startBytecode="50" endBytecode="50" sourcefile="ZRefVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/ZRefVCKind.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" start="65" end="65" startBytecode="50" endBytecode="50" sourcefile="ZRefVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/ZRefVCKind.java"/>
+  </BugInstance>
+  <BugInstance type="DM_CONVERT_CASE" priority="3" rank="20" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" sourcefile="ZRefVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/ZRefVCKind.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" name="getTypeId" signature="(Lnet/sourceforge/czt/vcg/z/refinement/util/ZRefinementKind;)Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" start="57" end="57" startBytecode="0" endBytecode="82" sourcefile="ZRefVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/ZRefVCKind.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" start="57" end="57" startBytecode="21" endBytecode="21" sourcefile="ZRefVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/ZRefVCKind.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" start="57" end="57" startBytecode="21" endBytecode="21" sourcefile="ZRefVCKind.java" sourcepath="net/sourceforge/czt/vcg/z/refinement/ZRefVCKind.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE_OF_NULL" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.transformer.ZPredTransformer">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.ZPredTransformer" sourcefile="ZPredTransformer.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/ZPredTransformer.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.transformer.ZPredTransformer" name="isOnlyConstDecl" signature="(Lnet/sourceforge/czt/z/ast/ZDeclList;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.ZPredTransformer" start="98" end="105" startBytecode="0" endBytecode="18" sourcefile="ZPredTransformer.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/ZPredTransformer.java"/>
+    </Method>
+    <LocalVariable name="it" register="3" pc="37" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.ZPredTransformer" start="104" end="104" startBytecode="36" endBytecode="36" sourcefile="ZPredTransformer.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/ZPredTransformer.java"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.ZPredTransformer" start="104" end="104" startBytecode="36" endBytecode="36" sourcefile="ZPredTransformer.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/ZPredTransformer.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEFENSIVE_CONSTANT_OPCODE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="it"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.STORE_OF_NULL" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="2" rank="18" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" sourcefile="ZPredTransformerFSB.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/feasibility/ZPredTransformerFSB.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" name="existsExpr" signature="(Lnet/sourceforge/czt/z/ast/ZSchText;Lnet/sourceforge/czt/z/ast/Expr;)Lnet/sourceforge/czt/z/ast/Expr;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" start="107" end="129" startBytecode="0" endBytecode="311" sourcefile="ZPredTransformerFSB.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/feasibility/ZPredTransformerFSB.java"/>
+    </Method>
+    <LocalVariable name="expr" register="2" pc="115" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" start="124" end="124" startBytecode="116" endBytecode="116" sourcefile="ZPredTransformerFSB.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/feasibility/ZPredTransformerFSB.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" start="124" end="124" startBytecode="116" endBytecode="116" sourcefile="ZPredTransformerFSB.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/feasibility/ZPredTransformerFSB.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="2" rank="18" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" sourcefile="ZPredTransformerFSB.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/feasibility/ZPredTransformerFSB.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" name="forAllExpr" signature="(Lnet/sourceforge/czt/z/ast/ZSchText;Lnet/sourceforge/czt/z/ast/Expr;)Lnet/sourceforge/czt/z/ast/Expr;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" start="80" end="102" startBytecode="0" endBytecode="311" sourcefile="ZPredTransformerFSB.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/feasibility/ZPredTransformerFSB.java"/>
+    </Method>
+    <LocalVariable name="expr" register="2" pc="115" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" start="97" end="97" startBytecode="116" endBytecode="116" sourcefile="ZPredTransformerFSB.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/feasibility/ZPredTransformerFSB.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" start="97" end="97" startBytecode="116" endBytecode="116" sourcefile="ZPredTransformerFSB.java" sourcepath="net/sourceforge/czt/vcg/z/transformer/feasibility/ZPredTransformerFSB.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Thu, 30 Jul 2015 10:40:03 +0100" total_classes="112" referenced_classes="460" total_bugs="69" total_size="7286" num_packages="11" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="16.48" clock_seconds="31.74" peak_mbytes="1518.81" alloc_mbytes="919.00" gc_seconds="0.34" priority_3="52" priority_2="17">
+    <PackageStats package="net.sourceforge.czt.vcg.util" total_bugs="21" total_types="40" total_size="2553" priority_3="15" priority_2="6">
+      <ClassStats class="net.sourceforge.czt.vcg.util.AbstractBindingFilter" sourceFile="AbstractBindingFilter.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.AbstractVCNameFactory" sourceFile="AbstractVCNameFactory.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.AfterBindings" sourceFile="AfterBindings.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.BeforeBindings" sourceFile="BeforeBindings.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.BindingFilter" sourceFile="BindingFilter.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.BindingUtils" sourceFile="BindingUtils.java" interface="false" size="52" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.CarrierSet" sourceFile="CarrierSet.java" interface="false" size="69" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DashedBindings" sourceFile="DashedBindings.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefaultVCNameFactory" sourceFile="DefaultVCNameFactory.java" interface="false" size="36" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.Definition" sourceFile="Definition.java" interface="false" size="326" bugs="3" priority_3="3"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.Definition$BindingType" sourceFile="Definition.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.Definition$ExistsBinding" sourceFile="Definition.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.Definition$ForallBinding" sourceFile="Definition.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.Definition$HideBinding" sourceFile="Definition.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.Definition$RenameBinding" sourceFile="Definition.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.Definition$SpecialBinding" sourceFile="Definition.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionComparator" sourceFile="DefinitionComparator.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionException" sourceFile="DefinitionException.java" interface="false" size="122" bugs="1" priority_3="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionKind" sourceFile="DefinitionKind.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTable" sourceFile="DefinitionTable.java" interface="false" size="444" bugs="2" priority_3="2"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTable$1" sourceFile="DefinitionTable.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTable$1$1" sourceFile="DefinitionTable.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTable$DefinitionVisitor" sourceFile="DefinitionTable.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTableMondexTest" sourceFile="DefinitionTableMondexTest.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTableService" sourceFile="DefinitionTableService.java" interface="false" size="202" bugs="1" priority_3="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTableTest" sourceFile="DefinitionTableTest.java" interface="false" size="25" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTableTest$NegativeDefTableTest" sourceFile="DefinitionTableTest.java" interface="false" size="21" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTableTest$NormalDefTableTest" sourceFile="DefinitionTableTest.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTableVisitor" sourceFile="DefinitionTableVisitor.java" interface="false" size="664" bugs="5" priority_3="2" priority_2="3"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.DefinitionTableVisitor$TypeSynthesisVisitor" sourceFile="DefinitionTableVisitor.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.FinBindings" sourceFile="FinBindings.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.InitBindings" sourceFile="InitBindings.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.InputBindings" sourceFile="InputBindings.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.OutputBindings" sourceFile="OutputBindings.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.StateBindings" sourceFile="StateBindings.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.UnificationEnv" sourceFile="UnificationEnv.java" interface="false" size="132" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.UnificationEnv$UResult" sourceFile="UnificationEnv.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.VCGTest" sourceFile="VCGTest.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.VCGTest$NormalVCGTest" sourceFile="VCGTest.java" interface="false" size="72" bugs="6" priority_3="6"/>
+      <ClassStats class="net.sourceforge.czt.vcg.util.VCNameFactory" sourceFile="VCNameFactory.java" interface="true" size="3" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.vcg.z" total_bugs="27" total_types="22" total_size="1665" priority_3="24" priority_2="3">
+      <ClassStats class="net.sourceforge.czt.vcg.z.AbstractVC" sourceFile="AbstractVC.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.AbstractVCCollector" sourceFile="AbstractVCCollector.java" interface="false" size="103" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.AbstractVCG" sourceFile="AbstractVCG.java" interface="false" size="516" bugs="3" priority_3="3"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.AbstractVCGContext" sourceFile="AbstractVCGContext.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.PredVC" sourceFile="PredVC.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.TermTransformer" sourceFile="TermTransformer.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.TrivialVCCollector" sourceFile="TrivialVCCollector.java" interface="false" size="49" bugs="1" priority_3="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VC" sourceFile="VC.java" interface="true" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCCollectionException" sourceFile="VCCollectionException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCCollector" sourceFile="VCCollector.java" interface="true" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCConfig" sourceFile="VCConfig.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCConfig$Precedence" sourceFile="VCConfig.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCEnvAnn" sourceFile="VCEnvAnn.java" interface="false" size="60" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCEnvAnnVisitor" sourceFile="VCEnvAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCG" sourceFile="VCG.java" interface="true" size="18" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCGCommand" sourceFile="VCGCommand.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCGContext" sourceFile="VCGContext.java" interface="true" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCGException" sourceFile="VCGException.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCGPropertyKeys" sourceFile="VCGPropertyKeys.java" interface="true" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCGUtils" sourceFile="VCGUtils.java" interface="false" size="657" bugs="23" priority_3="20" priority_2="3"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCSource" sourceFile="VCSource.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.VCType" sourceFile="VCType.java" interface="false" size="14" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.vcg.z.dc" total_bugs="8" total_types="12" total_size="592" priority_3="5" priority_2="3">
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DCVCCollector" sourceFile="DCVCCollector.java" interface="false" size="283" bugs="5" priority_3="3" priority_2="2"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DCVCCollector$ApplType" sourceFile="DCVCCollector.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DCVCEnvAnn" sourceFile="DCVCEnvAnn.java" interface="false" size="39" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DCVCEnvAnnVisitor" sourceFile="DCVCEnvAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DomainCheckException" sourceFile="DomainCheckException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys" sourceFile="DomainCheckPropertyKeys.java" interface="true" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DomainCheckUtils" sourceFile="DomainCheckUtils.java" interface="false" size="44" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DomainCheckerCommand" sourceFile="DomainCheckerCommand.java" interface="false" size="11" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DomainCheckerMondexTest" sourceFile="DomainCheckerMondexTest.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DomainCheckerTest" sourceFile="DomainCheckerTest.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG" sourceFile="DomainCheckerVCG.java" interface="false" size="88" bugs="2" priority_3="2"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.dc.TrivialDCVCCollector" sourceFile="TrivialDCVCCollector.java" interface="false" size="48" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.vcg.z.feasibility" total_bugs="4" total_types="17" total_size="1053" priority_3="3" priority_2="1">
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.AbstractFeasibilityVCCollector" sourceFile="AbstractFeasibilityVCCollector.java" interface="false" size="155" bugs="1" priority_3="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.AbstractFeasibilityVCGContext" sourceFile="AbstractFeasibilityVCGContext.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FSBVCNameFactory" sourceFile="FSBVCNameFactory.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityCommand" sourceFile="FeasibilityCommand.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityException" sourceFile="FeasibilityException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityMondexTest" sourceFile="FeasibilityMondexTest.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityPropertyKeys" sourceFile="FeasibilityPropertyKeys.java" interface="true" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityTest" sourceFile="FeasibilityTest.java" interface="false" size="29" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityUtils" sourceFile="FeasibilityUtils.java" interface="false" size="52" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCCollector" sourceFile="FeasibilityVCCollector.java" interface="false" size="446" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCEnvAnn" sourceFile="FeasibilityVCEnvAnn.java" interface="false" size="39" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCEnvAnnVisitor" sourceFile="FeasibilityVCEnvAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG" sourceFile="FeasibilityVCG.java" interface="false" size="131" bugs="1" priority_3="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCGContext" sourceFile="FeasibilityVCGContext.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCNameFactory" sourceFile="FeasibilityVCNameFactory.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.TrivialFeasibilityVCCollector" sourceFile="TrivialFeasibilityVCCollector.java" interface="false" size="49" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.ZFsbVCKind" sourceFile="ZFsbVCKind.java" interface="false" size="37" bugs="1" priority_3="1"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.vcg.z.feasibility.util" total_bugs="0" total_types="2" total_size="63">
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.util.ZStateAnn" sourceFile="ZStateAnn.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.feasibility.util.ZStateInfo" sourceFile="ZStateInfo.java" interface="false" size="60" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.vcg.z.refinement" total_bugs="6" total_types="11" total_size="745" priority_3="4" priority_2="2">
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.RefinementCommand" sourceFile="RefinementCommand.java" interface="false" size="11" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.RefinementException" sourceFile="RefinementException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.RefinementMondexTest" sourceFile="RefinementMondexTest.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.RefinementPropertyKeys" sourceFile="RefinementPropertyKeys.java" interface="true" size="27" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.RefinementTest" sourceFile="RefinementTest.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.RefinementUtils" sourceFile="RefinementUtils.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.RefinementVCCollector" sourceFile="RefinementVCCollector.java" interface="false" size="425" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.RefinementVCEnvAnn" sourceFile="RefinementVCEnvAnn.java" interface="false" size="37" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.RefinementVCEnvAnnVisitor" sourceFile="RefinementVCEnvAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.RefinementVCG" sourceFile="RefinementVCG.java" interface="false" size="140" bugs="2" priority_3="2"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.ZRefVCKind" sourceFile="ZRefVCKind.java" interface="false" size="37" bugs="2" priority_3="2"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.vcg.z.refinement.util" total_bugs="0" total_types="2" total_size="22">
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.util.ZRefinementKind" sourceFile="ZRefinementKind.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.refinement.util.ZRefinesAnn" sourceFile="ZRefinesAnn.java" interface="true" size="10" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.vcg.z.transformer" total_bugs="1" total_types="3" total_size="251" priority_3="1">
+      <ClassStats class="net.sourceforge.czt.vcg.z.transformer.AbstractPredTransformer" sourceFile="AbstractPredTransformer.java" interface="false" size="199" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.transformer.AbstractTermTransformer" sourceFile="AbstractTermTransformer.java" interface="false" size="27" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.vcg.z.transformer.ZPredTransformer" sourceFile="ZPredTransformer.java" interface="false" size="25" bugs="1" priority_3="1"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.vcg.z.transformer.dc" total_bugs="0" total_types="1" total_size="23">
+      <ClassStats class="net.sourceforge.czt.vcg.z.transformer.dc.ZPredTransformerDC" sourceFile="ZPredTransformerDC.java" interface="false" size="23" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.vcg.z.transformer.feasibility" total_bugs="2" total_types="1" total_size="86" priority_2="2">
+      <ClassStats class="net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB" sourceFile="ZPredTransformerFSB.java" interface="false" size="86" bugs="2" priority_2="2"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.vcg.z.transformer.refinement" total_bugs="0" total_types="1" total_size="233">
+      <ClassStats class="net.sourceforge.czt.vcg.z.transformer.refinement.ZPredTransformerRef" sourceFile="ZPredTransformerRef.java" interface="false" size="233" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="2278" invocations="1214" avgMicrosecondsPerInvocation="1877" maxMicrosecondsPerInvocation="19337" standardDeviationMircosecondsPerInvocation="1398"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="606" invocations="2" avgMicrosecondsPerInvocation="303476" maxMicrosecondsPerInvocation="572725" standardDeviationMircosecondsPerInvocation="269249"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="326" invocations="1212" avgMicrosecondsPerInvocation="268" maxMicrosecondsPerInvocation="37824" standardDeviationMircosecondsPerInvocation="1903"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="278" invocations="1085" avgMicrosecondsPerInvocation="256" maxMicrosecondsPerInvocation="49019" standardDeviationMircosecondsPerInvocation="1875"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="267" invocations="1211" avgMicrosecondsPerInvocation="220" maxMicrosecondsPerInvocation="29236" standardDeviationMircosecondsPerInvocation="1289"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="265" invocations="977" avgMicrosecondsPerInvocation="271" maxMicrosecondsPerInvocation="36905" standardDeviationMircosecondsPerInvocation="1427"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="233" invocations="1088" avgMicrosecondsPerInvocation="215" maxMicrosecondsPerInvocation="26162" standardDeviationMircosecondsPerInvocation="1178"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="186" invocations="1211" avgMicrosecondsPerInvocation="153" maxMicrosecondsPerInvocation="12042" standardDeviationMircosecondsPerInvocation="495"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="124" invocations="909" avgMicrosecondsPerInvocation="136" maxMicrosecondsPerInvocation="17195" standardDeviationMircosecondsPerInvocation="712"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="116" invocations="1088" avgMicrosecondsPerInvocation="107" maxMicrosecondsPerInvocation="39451" standardDeviationMircosecondsPerInvocation="1204"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="111" invocations="1604" avgMicrosecondsPerInvocation="69" maxMicrosecondsPerInvocation="13416" standardDeviationMircosecondsPerInvocation="374"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="91" invocations="460" avgMicrosecondsPerInvocation="199" maxMicrosecondsPerInvocation="4302" standardDeviationMircosecondsPerInvocation="501"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="86" invocations="460" avgMicrosecondsPerInvocation="187" maxMicrosecondsPerInvocation="3104" standardDeviationMircosecondsPerInvocation="437"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.StreamResourceTracker" totalMilliseconds="72" invocations="70" avgMicrosecondsPerInvocation="1037" maxMicrosecondsPerInvocation="7034" standardDeviationMircosecondsPerInvocation="1828"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1438249235405" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

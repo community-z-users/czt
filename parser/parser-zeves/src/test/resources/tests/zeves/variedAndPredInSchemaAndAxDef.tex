@@ -1,0 +1,23 @@
+\begin{zsection}
+\SECTION variedAndPredInSchemaAndAxDef \parents zeves\_prelude
+\end{zsection}
+
+This is a test to see whether labels for schema pred will be cleaned up or not.
+\begin{schema}{S}
+   y, z: \nat
+\where
+   % various kinds of and pred here
+   y > 10 \land y > z
+\\
+   y = z+1 < 10
+\end{schema}
+
+
+\begin{axdef}
+   a, b: \nat
+\where
+   % various kinds of and pred here
+   a > 20 \land  b = a+1
+\\
+   b = a+1 < 30
+\end{axdef}

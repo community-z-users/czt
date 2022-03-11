@@ -1,0 +1,158 @@
+\documentclass{article}
+\usepackage{oz}
+\newcommand{\negate}{-}
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+\title{CZT Tests for Basic Set Operations}
+\author{Mark Utting \\ \texttt{marku@cs.waikato.ac.nz}}
+\begin{document}
+\maketitle
+
+Each conjecture should evaluate to True.
+However, those conjectures whose right-hand-size contains
+the constant undefnum should have an undefined left-hand-side.
+
+\begin{axdef}
+  undefnum : \num
+\end{axdef}
+
+\section{Testing sequence operations...}
+
+\begin{zed}
+   s246 == \langle 2, 4, 6 \rangle
+\end{zed}
+
+\section{Testing <...> in (sequence type)}
+ 1. seq
+     1. STRATEGY: type-based selection - empty sequence 
+\begin{zed} \vdash? \langle\rangle \in \seq \nat \end{zed}
+\begin{zed} \vdash? \langle\rangle \in \seq \emptyset[\nat] \end{zed}
+     2. STRATEGY: type-based selection - single-element sequence
+\begin{zed} \vdash? \langle 1 \rangle \in \seq \nat \end{zed}
+\begin{zed} \vdash? \langle 0 \rangle \notin \seq \nat_1 \end{zed}
+     3. STRATEGY: type-based selection - multi-element sequence
+\begin{zed} \vdash? \langle 1,2,3 \rangle \in \seq \nat \end{zed}
+\begin{zed} \vdash? \langle 1,5,2 \rangle \in \seq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1,6,2 \rangle \notin \seq (1 \upto 5) \end{zed}
+
+ 2. iseq
+     1. STRATEGY: type-based selection - empty sequence
+\begin{zed} \vdash? \langle \rangle \in \iseq \nat \end{zed}
+\begin{zed} \vdash? \langle \rangle \in \iseq \emptyset[\nat] \end{zed}
+     2. STRATEGY: type-based selection - single-element sequence
+\begin{zed} \vdash? \langle 1 \rangle \in \iseq \nat \end{zed}
+\begin{zed} \vdash? \langle 0 \rangle \notin \iseq \nat_1 \end{zed}
+     3. STRATEGY: type-based selection - multi-element sequence
+\begin{zed} \vdash? \langle 1,2,3 \rangle \in \iseq \nat \end{zed}
+\begin{zed} \vdash? \langle 1,5,2 \rangle \in \iseq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1,6,2 \rangle \notin \iseq (1 \upto 5) \end{zed}
+     4. meaning of iseq
+\begin{zed} \vdash? \langle 3,2,3 \rangle \notin \iseq \nat \end{zed}
+
+ 3. seq_1
+     1. STRATEGY: type-based selection - empty sequence
+\begin{zed} \vdash? \langle \rangle \notin \seq_1 \nat \end{zed}
+\begin{zed} \vdash? \langle \rangle \notin \seq_1 \emptyset[\nat] \end{zed}
+     2. STRATEGY: type-based selection - single-element sequence
+\begin{zed} \vdash? \langle 1 \rangle \in \seq_1 \nat \end{zed}
+\begin{zed} \vdash? \langle 0 \rangle \in \seq_1 (1 \upto 5) \end{zed}
+     3. STRATEGY: type-based selection - multi-element sequence
+\begin{zed} \vdash? \langle 1,5,2 \rangle \in \seq_1 (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1,6,2 \rangle \notin \seq_1 (1 \upto 5) \end{zed}
+
+\begin{zed} \vdash? \langle \rangle = \emptyset[\nat \cross \power\arithmos] \end{zed}
+\begin{zed} \vdash? \langle 3 \rangle = \{(1,3)\} \end{zed}
+
+\section{Testing head}
+\begin{zed} \vdash? head~ \langle 2 \rangle = 2 \end{zed}
+\begin{zed} \vdash? head~ \langle 2, 4, 6 \rangle = 2 \end{zed}
+\begin{zed} \vdash? head~ \{(1,2)\} = 2 \end{zed}
+\begin{zed} \vdash? head~ \{(1,2),(2,4)\} = 2 \end{zed}
+\begin{zed} \vdash? head~ \{x : 1 \upto 10 @ (x,x*2)\} = 2 \end{zed}
+\begin{zed} \vdash? head~ \langle \rangle = undefnum \end{zed}
+
+\section{Testing tail}
+\begin{zed} \vdash? tail~ \langle 2 \rangle = \emptyset \end{zed}
+\begin{zed} \vdash? tail~ \langle 2, 4, 6 \rangle = \langle 4, 6 \rangle \end{zed}
+\begin{zed} \vdash? tail~ \{(1,2)\} = \emptyset \end{zed}
+\begin{zed} \vdash? tail~ \{(1,2),(2,4)\} = \{(1,4)\} \end{zed}
+\begin{zed} \vdash? tail~ \{x : 1 \upto 10 @ (x,x*2)\} = \{x : 1 \upto 9 @ (x,(x+1)*2)\} \end{zed}
+\begin{zed} \vdash? head(tail(\emptyset[\nat \cross \num])) = undefnum \end{zed}
+
+\section{Testing last}
+\begin{zed} \vdash? last~ \langle 2 \rangle = 2 \end{zed}
+\begin{zed} \vdash? last~ \langle 2, 4, 6 \rangle = 6 \end{zed}
+\begin{zed} \vdash? last~ \{(1,2)\} = 2 \end{zed}
+\begin{zed} \vdash? last~ \{(1,2),(2,4)\} = 4 \end{zed}
+\begin{zed} \vdash? last~ \{x : 1 \upto 10 @ (x,x*2)\} = 20 \end{zed}
+\begin{zed} \vdash? last~ \emptyset[\nat \cross \num] = undefnum \end{zed}
+
+\section{Testing front}
+\begin{zed} \vdash? front~ \langle 2 \rangle = \emptyset \end{zed}
+\begin{zed} \vdash? front~ \langle 2, 4, 6 \rangle = \langle 2, 4 \rangle \end{zed}
+\begin{zed} \vdash? front~ \{(1,2)\} = \emptyset \end{zed}
+\begin{zed} \vdash? front~ \{(1,2),(2,4)\} = \{(1,2)\} \end{zed}
+\begin{zed} \vdash? front~ \{x : 1 \upto 10 @ (x,x*2)\} = \{x : 1 \upto 9 @ (x,x*2)\} \end{zed}
+\begin{zed} \vdash? head(front(\emptyset[\num \cross \nat])) = undefnum \end{zed}
+
+
+\section{Testing \prefix}
+\begin{zed} \vdash? \langle \rangle  \prefix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle  \prefix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 1,3,5 \rangle  \prefix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \lnot \langle 3 \rangle  \prefix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \lnot \langle 5 \rangle  \prefix   \langle 1,3,5 \rangle \end{zed}
+
+\section{Testing \suffix}
+\begin{zed} \vdash? \langle \rangle  \suffix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 5 \rangle  \suffix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 1,3,5 \rangle  \suffix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \lnot \langle 3 \rangle  \suffix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \lnot \langle 1 \rangle  \suffix   \langle 1,3,5 \rangle \end{zed}
+
+\section{Testing \infix}
+\begin{zed} \vdash? \langle \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 3 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 5 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 1,3 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 3,5 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 1,3,5 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \lnot \langle 1,5 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \lnot \langle 3,3 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+
+\section{Testing \prefix, \suffix, \infix as constraints}
+Jaza: This does not optimize properly yet.  
+\begin{zed} \vdash? \{s:\seq \nat | s \prefix s246 \land \# s \leq 1\} = \power \{(1,2)\} \end{zed}
+
+\section{Testing \dcat}
+\begin{zed} \vdash? \dcat \langle \rangle = \emptyset[\nat \cross \num] \end{zed}
+\begin{zed} \vdash? \dcat \langle s246, s246 \rangle = s246 \cat s246 \end{zed}
+\begin{zed} \vdash? \dcat \langle s246, s246, \emptyset \rangle = s246 \cat s246 \end{zed}
+\begin{zed} \vdash? \dcat \langle s246, \langle 3 \rangle \rangle = \langle 2,4,6,3 \rangle \end{zed}
+
+\section{Testing squash}
+\begin{zed} \vdash? squash \{\} = \emptyset[\nat \cross \num] \end{zed}
+\begin{zed} \vdash? squash \{(3,4)\} = \{(1,4)\} \end{zed}
+\begin{zed} \vdash? squash \{(3,4),(4,3)\} = \langle 4,3 \rangle \end{zed}
+\begin{zed} \vdash? squash \{(3,4),(42,3)\} = \langle 4,3 \rangle \end{zed}
+\begin{zed} \vdash? squash \{(3,4),(2,3)\} = \langle 3,4 \rangle \end{zed}
+\begin{zed} \vdash? squash \{(3,4),(3,3)\} ~ 1 = undefnum \end{zed}
+\begin{zed} \vdash? squash \{(0,4),(2,3)\} ~ 1 = undefnum \end{zed}
+
+\section{Testing \filter}
+\begin{zed} \vdash? \langle 3,5 \rangle \filter \{\} = \{\} \end{zed}
+\begin{zed} \vdash? \langle 3,5 \rangle \filter \{5\} = \{(1,5)\} \end{zed}
+\begin{zed} \vdash? \langle 3,5,7,6,9 \rangle \filter (5 \upto 6) = \{(1,5),(2,6)\} \end{zed}
+\begin{zed} \vdash? \langle \rangle \filter \nat = \{\} \end{zed}
+\begin{zed} \vdash? \langle 3,5 \rangle \filter \nat = \{(1,3),(2,5)\} \end{zed}
+
+\section{Testing \filter}
+\begin{zed} \vdash? \{\} \extract \langle 3,5 \rangle = \{\} \end{zed}
+\begin{zed} \vdash? \{1\} \extract \langle 3,5 \rangle = \{(1,3)\} \end{zed}
+\begin{zed} \vdash? \{2\} \extract \langle 3,5 \rangle = \{(1,5)\} \end{zed}
+\begin{zed} \vdash? \{2,4\} \extract \langle 3,5,7,6,9 \rangle = \{(1,5),(2,6)\} \end{zed}
+
+\end{document}
+

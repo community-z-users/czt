@@ -1,0 +1,21 @@
+# Plugin properties
+
+# Basic plugin information properties
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.activate=defer
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.name=ZLive
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.author=Petra Malik
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.version=${project.version}
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.docs=zlive.html
+
+# Plugin dependency properties
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.depend.0=jdk 1.6
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.depend.1=jedit 04.00.04.00
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.depend.2=plugin net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin ${project.version}
+
+# Plugin menu item properties
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.menu=zlive.eval-current-line
+
+# action labels
+zlive.eval-current-line.label=Evaluate current line
+
+zlive.prompt=ZLive>

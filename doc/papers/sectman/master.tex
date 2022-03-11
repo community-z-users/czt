@@ -1,0 +1,820 @@
+\documentclass{llncs} %from http://www.springer.de/comp/lncs/authors.html
+\pagestyle{headings}   % turn on page numbers for the reviewers
+\parskip 1ex plus 3pt
+\parindent 0pt
+
+%\usepackage{newcent}
+\usepackage[dvips]{graphicx}
+
+% poor man's version of Standard Z macros
+\usepackage{oz}
+\newcommand{\relation}{\mbox{relation }}
+\newcommand{\varg}{~\_~}
+
+\usepackage{alltt}
+\usepackage{url}
+\newcommand{\Zeta}{Zeta}
+\newenvironment{OOWEZ}{\textbf{OOWEZ Note: }}{\textbf{End Note.}}
+\newenvironment{IMPL}{\textbf{Implementation Note: }}{\textbf{End Note.}}
+
+\newcommand{\TODO}[1]{\textbf{TODO: #1}}   % For draft version
+% \newcommand{\TODO}[1]{}    % For final version
+
+\title{A Z Specification of the CZT Section Manager}
+\author{Mark Utting  % \inst{1}
+        \and Petra Malik  % \inst{1}
+}
+\institute{The University of Waikato, Hamilton, NZ\\
+        \email{\{marku,petra\}@cs.waikato.ac.nz}
+\\[2ex] $ID: Sat 16 Oct 2004$ % Just while working on the paper...
+}
+
+\begin{document}
+\maketitle
+
+% abstract should be 70-150 words.  This is 260+.
+\begin{abstract}
+  This paper gives a specification of the Community Z Tools
+  (CZT) \emph{section manager}, which is the main control system of the
+  CZT system.  The section manager manages all the specifications and Z
+  sections that are being processed; records dependencies between them;
+  finds imported sections and toolkits; automatically runs tools such as
+  markup converters, parsers and typecheckers when necessary; reruns them
+  after input files have been updated; and is extensible to support
+  user-defined commands etc.  
+
+  The paper is important for several reasons.  
+  %
+  Firstly, because it describes the design goals of the section manager and
+  the rationale for those goals.  This will be useful for CZT users.
+  %
+  Secondly, because it develops the proposed design in stages, starting
+  from the well-known \emph{Chain of Responsibility} design pattern.  This
+  clear description of the design and its rationale will help developers of
+  CZT tools, who will be using the section manager.
+  %
+  Thirdly, many other formal methods tools and software engineering tools
+  need similar functionality to this section manager, so the designs and
+  alternatives described here will be of interest to the designers of those
+  tools.
+  %
+  Fourthly, the specification is written in standard Z, using the
+  \emph{`Object Orientation without Extending Z'} (OOWEZ) style, so the
+  specification is an interesting case-study of how this style can be used
+  to specify complex systems and design patterns.
+\end{abstract}
+
+\section{Introduction}
+
+TODO: explain CZT.
+
+TODO: explain the role and need for a section manager.
+
+TODO: give outline of the rest of the paper.
+
+
+\section{Goals for the Section Manager}
+
+\begin{description}
+\item[LoadSpec:] Given a filename (URL) of a specification, it should be 
+  able to read and parse the specification, so that the whole
+  specification is available as an annotated syntax tree (AST).
+\item[MultiSect:] If a specification contains multiple (named) sections,
+  the section manager should make all the sections globally available,
+  since they may be used by other specifications.
+\item[MultiData:] Given a section name, it should be able to provide a
+  variety of different kinds of information about that section, including
+  the AST, the \LaTeX\ markup table, the operator table, the type
+  environment etc. 
+\item[FindToolkit:] It should be able to find the standard toolkit sections
+  automatically, but also allow new or variant toolkit sections to be used.
+\item[FindUserSection:] If a section specifies parent sections that are not in
+  the file being loaded and are not standard toolkits, the section manager
+  should be able to search several locations to find and load the desired
+  sections.  The search algorithm should be customisable to a reasonable
+  degree (at least by specifying a list of directories to search). 
+\item[AnonSections:] It should allow several anonymous sections
+  (specifications that contain Z paragraphs, but with no named sections)
+  to be handled at the same time.  Rationale: it should be possible
+  to write tools that compare several specifications (which may contain
+  just anonymous sections).
+\item[Markups:] It should handle all the available markup formats for Z,
+  such as Unicode (UTF8 and UTF16), \LaTeX\ and Email markup.
+\item[Dialects:] It should support all the available dialects of standard Z,
+  such as Object-Z and TCOZ.
+\item[Caching:] It should cache commonly used sections, such as the
+  standard Z toolkit sections, so that they are not repeatedly
+  parsed and analysed.  This is important for efficiency.
+\item[Dependencies:] It should provide dependency tracking, so that when a
+  source file is updated, the objects derived from that source file are
+  also updated.  This implies that each object managed by the section
+  manager must have a timestamp and a set of dependencies. 
+\item[GUI independent:] It should be usable by both command-line and graphical
+  user interfaces. 
+\item[Extensible:] It should offer extensible facilities, so that it can
+  easily support future Z tools that manipulate new kinds of data.
+\end{description}
+
+The \emph{criteria} that we used to evaluate proposed
+designs was, firstly, the simplicity and elegance of the design,
+and secondly, how many of the above goals the design satisfied.
+We rejected several designs that did not satisfy key goals.
+
+\section{Notes}
+
+\begin{enumerate}
+\item Overwriting a section after transforming it is bad, for toolkits.
+\item Reparsing is quite different to transforming.  Reparsing MUST
+  overwrite the old versions somehow.  (eg. when section "foo" is
+  moved from one file to another).
+\item ChainAll is difficult because it relies on naming conventions
+  and is difficult to make output of one command be the input of the
+  next (eg. write then read an XML file).  More flexible to write
+  sequences of commands in Java (or Javascript).
+\item IDEA: associate a section manager with each file and
+  with the output of each transformation command.  When re-parsing
+  a file, start with a fresh section manager!
+\item JEdit interface could maintain mapping from buffer/file names 
+  to the associated sectman.
+\end{enumerate}
+
+\section{Presentation of Design}
+
+Here is the proposed design, developed as a series of extensions of a 
+standard design pattern, and specified in Z (of course!).
+In fact, it is specified using the \emph{`Object Orientation without
+  Extending Z'} style (OOWEZ)~\cite{utting:oo-z03} (pronounced \emph{How
+  Easy}, but with a silent `H').
+In this style, objects are modeled as black boxes (members of a given set),
+subclasses are modeled as subsets, an attribute of type $T$ defined
+in a class $C$ is simply a global total function ($C \fun T$) and
+methods are modeled as functions or relations (for example $meth : C \cross
+\num \rel C$ corresponds to the update method \texttt{void meth(int arg)}
+within class $C$).
+
+\subsection{Chain of Responsibility}
+
+We start with a variation of the \emph{chain of responsibility} design
+pattern from the \emph{`Gang of Four'} book~\cite{gamma:design-patts95},
+which is also one of the Apache Jakarta Commons
+projects\footnote{See \url{http://jakarta.apache.org/commons/chain}.}. 
+The key aspects of this design pattern are that \emph{Commands} are
+first-class objects, which operate on \emph{Context} objects (which are
+Key to Value mappings), and that commands can be composed into
+\emph{Chains} of commands.  Also, a chain of commands is itself
+a command (this is the \emph{composite} design pattern), which allows
+chains to be nested and composed in interesting ways.
+
+In our application, we split the Context object into \emph{volatile}
+and \emph{preserved} entries.  The volatile entries are purely for
+passing arguments to commands and between commands, so are discarded after
+the execution of each top-level command.  The preserved entries persist
+after the command execution, so are managed by the section manager.
+% TODO: rationale?  obvious?
+
+We start the Z specification by introducing most of the basic
+sets of objects we need.  $Command$ is the set of all possible
+commands (including chains), $Key$ is the set of keys, $VValue$ is the set
+of volatile values, $PValue$ is the set of preserved values and $SectMan$
+represents section managers).  These sets are defined as Z given sets, which
+means that nothing is known about the internal structure of these
+objects--they are black boxes.  As the specification develops,
+structure will be introduced incrementally to these objects, by adding
+attributes (access functions) and methods (functions and relations, defined
+axiomatically).
+\begin{zed}
+  [Command, Key, VValue, PValue, SectMan]
+\end{zed}
+
+The context is passed to commands as two separate arguments, one
+is the section manager (which contains the preserved entries) and the other
+is a map (called $Args$) containing the volatile entries.  The $Args$
+is just a simple map, so we define it via equality in Z.  On the other
+hand, the section manager will contain other things in addition to the
+preserved entries, so we leave it as a black box, and simply define an
+attribute of $SectMan$ to give access to the preserved entries map.
+\begin{zed}
+  Args == Key \ffun VValue
+\end{zed}
+
+\begin{axdef}
+  content : SectMan \fun (Key \ffun PValue)
+\end{axdef}
+
+We also specify $put$ and $remove$ operations for adding and removing
+content.  The $\finset Key$ argument to add will be explained in
+Section~\ref{sec:dependency}.
+\begin{axdef}
+  put : SectMan \cross Key \cross PValue \cross \finset Key \fun SectMan\\
+  remove : SectMan \cross Key \fun SectMan
+\where
+  (\forall sm,sm':SectMan; k:Key; val:PValue; deps:\finset Key \\
+  | put~(sm,key,val,deps) = sm' @ \\
+  \t1 content~sm' = content~sm \oplus \{key \mapsto val\} ) 
+\also
+  (\forall sm,sm':SectMan; k:Key; val:PValue; deps:\finset Key \\
+  | remove~(sm,key) = sm' @ \\
+  \t1 content~sm' = \{key\} \ndres content~sm ) \\
+\end{axdef}
+Note that these are total functions, so are deterministic and
+have $true$ preconditions.  The only result they return is the
+modified $SectMan$, so the corresponding Java method will be void
+and cannot throw exceptions.
+
+Each command provides a boolean \emph{execute(SectMan,Args)} method,
+which may modify the section manager and/or the $Args$.
+For example, a parser might get a URL from $Args$,
+open that URL and parse its contents, then add 
+the resulting AST to the section manager.  Each command
+has three possible kinds of results.
+\begin{zed}
+  Result ::= trueResult | falseResult | exceptionResult
+\end{zed}
+\begin{itemize}
+\item a \texttt{true} result means that the command has
+  completed the whole task it was given.
+\item a \texttt{false} result indicates that the command
+  could not perform the desired task, so some other (perhaps following)
+  command should be tried.  Nevertheless, the command may have
+  made some changes to the section manager or $Args$, in order
+  to help following commands in some way.
+\item an exception result means that the command has detected
+  some serious error and the whole execution should be aborted.
+  Note that $exceptionResult$ is an abstraction of the set of all Java
+  exceptions.
+\end{itemize}
+
+Here is the specification of the main \emph{execute} operation
+offered by all commands.  It may be non-deterministic, so we declare
+it as a relation. 
+
+\begin{axdef}
+  execute : Command \cross SectMan \cross Args 
+       \rel (SectMan \cross Args \cross Result)
+\where
+  (\forall cmd:Command; sm:SectMan; args: Args @ \\
+  \t1 (cmd,sm,args) \in \dom execute) \\
+  (\forall cmd:Command; sm,sm':SectMan; args,args' : Args; res : Result\\
+  | (cmd,sm,args) \mapsto (sm', args', res) \in execute @ \\
+  \t1 args \subseteq args')
+\end{axdef}
+
+The first axiom specifies the precondition of $execute$, which is
+always true (because commands throw exceptions if something goes wrong
+or they are given bad arguments).  The second axiom specifies the
+postcondition of $execute$, which says that commands are allowed to
+add entries to $Args$, but are not allowed to delete or modify
+existing entries.  This restriction makes it easier/possible to rerun
+commands (see Section~\ref{sec:dependency}).  For similar reasons,
+note that the declaration of the execute method does not allow the
+$Command$ to change itself (that is, the \emph{frame} of execute is
+just the three output values $(SectMan \cross Args \cross Result)$).
+
+This relates to the comments in the Jakarta Commons documentation for
+Command: \emph{``Command implementations should be designed in a
+  thread-safe manner, suitable for inclusion in multiple Chains that might
+  be processed by different threads simultaneously. In general, this
+  implies that Command classes should not maintain state information in
+  instance variables. Instead, state information should be maintained via
+  suitable modifications to the attributes of the Context that is passed to
+  the execute() command.''}
+
+% TODO: also provide a $precondition$ method which gives a 
+% quick check to see if the command is likely to work???
+
+Next we lift this $execute$ method up to the $SectMan$ level,
+to specify exactly how commands can update the section manager,
+and what happens when a command throws an exception halfway
+through its execution.  In this case, it is important not to
+leave the section manager in an inconsistent state.  For example,
+consider a command that transforms all the sections within a
+Z specification.  If it throws an exception while transforming the
+last section, we do not want to leave the earlier sections transformed
+while the last section is not transformed.  To avoid such problems, we
+require the section manager to keep a log of all changes made to it,
+and to undo partial changes when a command throws an exception.
+This makes command execution atomic -- either the whole command
+succeeds and updates the section manager, or it throws an exception,
+which leaves the section manager unchanged.
+
+\begin{axdef}
+  update : SectMan \cross Command \cross Args 
+       \fun (SectMan \cross Args \cross Result)
+\where
+  (\forall cmd:Command; sm,sm':SectMan; args,args':Args; res':Result\\
+  | (sm, cmd, args) \mapsto (sm', args', res') \in update @ \\
+  \t1 (\exists tmp:SectMan 
+           | (cmd,sm,args) \mapsto (tmp,args',res') \in execute @\\
+  \t2   (res' = exceptionResult \land sm' = sm \lor \\
+  \t2   \: res' \neq exceptionResult \land sm' = tmp)))
+\end{axdef}
+
+
+\subsection{Building More Complex Commands (Chains)}
+
+In this section we introduce Chains (sequences of commands),
+with two subclasses: $ChainAll$ always tries to execute
+all its commands, whereas $ChainFirst$ stops after the first
+command that succeeds (returns $trueResult$).  These are similar to the
+$\forall$ and $\exists$ quantifiers in Z.
+
+Supporting both kinds of Chain allows very flexible commands
+to be constructed, such as:  TODO better example
+\begin{verbatim}
+   ChainAll( findFile, 
+             ChainFirst(parseZ, 
+                        parseOZ,
+                        parseTCOZ), 
+             unfold )
+\end{verbatim}
+
+$Chain$ is a subclass of $Command$, and contains a sequence of $Command$.
+\begin{axdef}
+  Chain : \power Command
+\end{axdef}
+
+\begin{axdef}
+  commands : Chain \fun \seq Command
+\end{axdef}
+
+$ChainAll$ and $ChainFirst$ are disjoint subclasses of $Chain$.
+The axioms define the behaviour of executing each kind of chain.
+\begin{axdef}
+  ChainAll, ChainFirst : \power Command
+\where
+  ChainAll \cap ChainFirst = \{\}
+\end{axdef}
+
+To help us define the behaviour of the $execute$ method of
+these chains, we first define an auxillary function $executeSeq~cmds~res$,
+which executes a sequence of commands, $cmds$, while they return the
+expected result $res$.
+%% TODO make executeSeq and execute infix operators for readability.
+%% or   method * Inputs 'gives' Outputs
+\begin{axdef}
+  executeSeq : \seq Command \cross Result \\
+  \t1  \fun SectMan \cross Args \rel (SectMan \cross Args \cross Result)
+\where
+  (\forall cmds:\seq Command; expect:Result; \\
+  \t1   sm,sm':SectMan; args,args':Args; res':Result \\
+  | (sm,args) \mapsto (sm',args',res') \in execute~(cmds,expect) @ \\
+  \t1  (cmds = \langle~\rangle \implies 
+          sm'=sm \land args'=args \land res'=expect) \\
+  \t1  (cmds \neq \langle~\rangle \implies \\
+  \t2    (\exists sm_2:SectMan; args_2:Args; res_2:Result @ \\
+  \t3      (head~cmds,sm,args) \mapsto (sm_2,args_2,res_2) \in execute \\
+  \t3      ( res_2 = expect \land \\
+  \t3      \ \ (sm_2,args_2) \mapsto (sm',args',res') 
+                 \in executeSeq~(tail~cmds,expect) \\
+  \t3      \lor res_2 \neq expect \land 
+               (sm',args',res') = (sm_2,args_2,res_2)))))
+\end{axdef}
+
+Note that both $exceptionResult$ and a non-expected result
+cause the execution of the chain to terminate early.  
+Using this function, we can easily define the $execute$ method
+for both kinds of chains.
+A $ChainAll$ expects all commands to return $trueResult$, so stops after
+the first command that returns $falseResult$ or throws an exception.
+A $ChainFirst$ is searching for the first command to return $trueResult$,
+so executes all the initial commands that return $falseResult$, then stops
+after the first command that returns $trueResult$ or throws an exception.
+\begin{axdef}
+\where
+  (\forall chAll:ChainAll; sm,sm':SectMan; args,args':Args; res':Result \\
+  | (chAll,sm,args) \mapsto (sm',args',res') \in execute @ \\
+  \t1  (sm,args) \mapsto (sm',args',res') 
+          \in executeSeq~(commands~chAll,trueResult) )
+  \also
+  (\forall chFirst:ChainFirst; sm,sm':SectMan; args,args':Args; res':Result \\
+  | (chFirst,sm,args) \mapsto (sm',args',res') \in execute @ \\
+  \t1  (sm,args) \mapsto (sm',args',res') 
+          \in executeSeq~(commands~chFirst,falseResult) )
+\end{axdef}
+
+\begin{OOWEZ}
+  Notice how the power of our specification language has allowed
+  us to specify the behaviour of $execute$ on chains very precisely.
+  In fact, equivalent to the following Java code in class $ChainAll$:
+\begin{verbatim}
+  public boolean execute(SectMan sm, Map args) throws Exception
+  {
+    boolean result = true;
+    Iterator<Command> i = commands.iterator();
+    while (result && i.hasNext())
+        result = i.next().execute(sm,args);
+    return result;
+  }
+\end{verbatim}
+  That is, we have stated that the commands will be executed left-to-right, 
+  that the side-effects of the commands will accumulate and 
+  that false results and exceptions will be returned immediately.
+\end{OOWEZ}
+
+% The Jakarta Commons documentation says: \emph{``Chain implementations
+%   should be designed in a thread-safe manner, suitable for execution on
+%   multiple threads simultaneously. In general, this implies that the state
+%   information identifying which Command is currently being executed should
+%   be maintained in a local variable inside the execute() method, rather
+%   than in an instance variable. The Commands in a Chain may be configured
+%   (via calls to addCommand()) at any time before the execute() method of
+%   the Chain is first called. After that, the configuration of the Chain is
+%   frozen.''}
+
+
+\subsection{Multiple Types of Data per Section}
+
+Next we extend keys to be $(String,Type)$ pairs, so that
+one key name can have many different types of data associated with it.
+For example, a section name might have an AST, a \LaTeX\ markup
+table, an operator table etc.  We use Java class objects to
+represent the type of information that is stored with a given key, 
+and require the value associated with that key to be an \emph{instance}
+of that type.
+
+\begin{zed}
+  [String, Class, Object]
+\end{zed}
+
+\begin{axdef}
+  instanceOf : Object \rel Class
+\end{axdef}
+
+\begin{axdef}
+  keyName : Key \fun String \\
+  keyType : Key \fun Class
+\where
+  (\forall k,k':Key @ k=k' \\
+  \t1   \iff keyName~k = keyName~k' \land keyType~k = keyType~k') \\
+\end{axdef}
+
+The next axiom ensures that, after looking up a key $(N,C)$,
+the resulting value can always be cast into a class $C$ object.
+\begin{axdef}
+  value : PValue \fun Object  
+\where
+  (\forall sm:SectMan; k:Key | k \in \dom(content~sm) @ \\
+  \t1 (value(content~sm~k), keyType~k) \in instanceOf)
+\end{axdef}
+
+Note that $Key$ is also used by $Args$.
+We impose the same type restrictions on the $VValue$ entries
+of $Args$, but do not show those here.
+TODO: make the Args keys just ordinary strings.
+% Because we cannot take a subset without changing the original defn
+% of Args!
+
+
+\subsection{Support for Anonymous Sections}
+
+Typically, a key string will be some user-defined name for
+a specification.  A typical convention might be to use the 
+base part of the file name, say \texttt{"foo"}.  
+When the parser parses this specification (perhaps from the file
+\texttt{"foo.tex"}), it adds the entire AST of the specification
+to the context under the key \texttt{("foo",Spec.class)}.
+If this specification contains one or more explicitly named sections
+(for example, \texttt{"foo"} and \texttt{"bar"}),
+it also \emph{explodes} the specification by adding these
+individual sections to the context (under the keys
+\texttt{("foo",ZSect.class)} and \texttt{("bar",ZSect.class)}).
+This reflects the fact that section names are in a single global 
+namespace in standard Z, and allows dependent specifications to
+find these sections by name.
+
+An anonymous specification \texttt{"foo2"}, does not contain named
+sections, just a sequence of paragraphs, which is translated into
+a single default section called \texttt{"Specification"}.
+In this case, the \emph{explode} operation does not take place,
+so the only key entry that is added is \texttt{("foo2",Spec.class)}.  
+Thus it is possible for the section manager to contain many
+anonymous specifications at the same time (each under a different
+user-defined name).
+
+Note that most of the Z tools should be capable of operating
+on a whole specification (given a key such as \texttt{("foo",Spec.class)})
+or on a single section (given a key such as \texttt{("foo",ZSect.class)}).
+
+
+\subsection{Default Commands}
+
+It is useful for Section Managers to know how to perform some basic 
+operations (such as finding, parsing and typechecking a toolkit section),
+without having to supply an explicit command.  This allows user-defined
+commands to be simpler, because they can simply request a certain key and
+the section manager will compute the desired result itself.  This also
+makes user-defined commands independent of the basic commands used to
+perform parsing and typechecking etc., which means that those commands
+can more easily be changed.  For example, an Object-Z user might wish
+to replace the default Z parsing and typechecking commands by commands
+that handle Object-Z.  
+
+The Apache Jakarta Commons implementation of chains supports this
+kind of flexibility with a special lookup table called a \emph{Catalog},
+which maps command names to commands.  We provide this same
+functionality, but incorporate this default command catalogue within 
+the section manager.  Each Java class or interface can be associated
+with a default command for creating objects of that type.
+The semantics is that whenever a key $(Name,Class)$
+is requested, but is not already present within the section manager, then
+$Class$ is looked up in the default command catalogue, and if it returns
+a command $C$, then that command is tried with an argument map containing
+just $\{\, \texttt{"name"} \mapsto Name)\, \}$.
+
+\begin{axdef}
+  default : SectMan \fun (Class \ffun Command)
+\end{axdef}
+
+TODO: add operations for adding and removing these default commands. 
+
+TODO: add isAvailable(Class) to SectMan
+
+NOTE: An alternative possibility is some kind of `services manager', like
+  Apache Excalibur or the Apache Jakarta Commons Discovery 
+  pattern.\footnote{See \url{http://jakarta.apache.org/commons/discovery}.}
+
+
+Next we give a partial specification of a $lookup$ operation, which
+extracts an entry from within the section manager or computes it
+using a default command if possible.  We specify the precondition
+of $lookup$ here, but defer the postcondition to the next section, because
+$lookup$ interacts with dependency management. 
+
+\begin{axdef}
+  lookup : SectMan \cross Key \rel SectMan \cross PValue
+\where
+  (\forall sm,sm':SectMan; k:Key; res':PValue @
+  \t1  (sm,k) \in \dom lookup) \\
+\end{axdef}
+
+
+\subsection{Dependency Management} \label{sec:dependency}
+
+To support dependency management, we extend the section
+manager to record for each entry the command and arguments
+that created that entry, a timestamp for when it was created
+and the set of other entries (keys) that it depends upon.
+
+\emph{Note:} This is similar to the Units in Zeta.
+
+\begin{zed}
+  [TimeStamp]
+\end{zed}
+
+\newcommand{\before}{\ll}
+%%Zinchar \before U+226A
+\begin{zed}
+  \relation (\varg \before \varg)
+\end{zed}
+
+\begin{axdef}
+  \_ \before \_ : TimeStamp \rel TimeStamp
+\end{axdef} 
+
+\begin{axdef}
+  createTime : SectMan \fun (Key \ffun TimeStamp) \\
+  createCommand  : SectMan \fun (Key \ffun Command) \\
+  createArgs  : SectMan \fun (Key \ffun Args) \\
+  dependencies : SectMan \fun (Key \ffun (Key \ffun TimeStamp))
+\where
+  (\forall sm:SectMan @ \\
+  \t1  \dom content~sm \\
+  \t1   = \dom createTime~sm \\
+  \t1   = \dom createCommand~sm \\
+  \t1   = \dom createArgs~sm \\
+  \t1   = \dom dependencies~sm \\
+  )
+\end{axdef}
+
+These data structures allow us to check whether or not a given entry
+in the context is up-to-date.
+
+\newcommand{\upToDate}{\mathrel{\mbox{upToDate}}}
+%%Zinword \upToDate upToDate
+\begin{zed}
+  \relation (\varg \upToDate \varg)
+\end{zed}
+\begin{axdef}
+  \_ upToDate \_ : SectMan \rel Key
+\where
+  \forall sm:SectMan; k:Key @ sm \upToDate k \iff \\
+  \t1 k \in \dom content~sm \land \\
+  \t1 \exists ktime == createTime~sm~k @ \\
+  \t2   \forall dep: \dom dependencies~sm~k @ \\
+  \t3     ktime \before dependencies~sm~k~dep \land \\
+  \t3     sm \upToDate dep
+\end{axdef} 
+
+Note that our dependency information points backwards,
+from the newly created entry back to the entries that it
+depends upon.  This is useful when we want to check that a
+given entity is up to date -- we simply recurse through
+the dependencies checking that they are older, as shown
+in the definition of $\upToDate$.  But what if we notice
+that an input file has changed and we want to invalidate
+all the entries that depend upon it?  This is not currently
+possible, unless we add forward-pointing dependency information.
+However, we do not do this, because it is impractical. 
+It is impossible for performance reasons to continually monitor all inputs
+to see if any have changed.  If dependencies point backwards, then when a
+specific section is requested, we can check that all the things it depends
+upon are up-to-date, and recalculate it if necessary.  This `lazy' approach
+is more efficient.  However, it can still be expensive to check the
+entire tree of dependencies every time an entry is requested -- to give
+good performance, a section manager should \emph{cache} the up-to-date
+flags, by recording a \emph{up-to-date} timestamp on an entry each time
+that is verified as being up to date.  Then subsequent $\upToDate$
+checks can immediately return $true$ if the timestamp is within a
+small delta (say, 1 second) of the current system time.  This avoids
+excessive $\upToDate$ checking, but means that changes in input files
+are noticed within one second.
+
+TODO: prove that this delay cannot lead to inconsistencies.
+
+TODO: discuss rerunning of commands.  
+
+
+\section{Unresolved Issues}
+
+TODO: remove this section after issues are all resolved.
+
+\begin{description}
+
+\item[How to name transformed sections?]  Must be the same as the
+  original if other child sections want to use it, but must
+  be new to avoid confusion with the original version and
+  to keep dependencies working.
+
+  \textbf{I think if someone wants to transform a whole set of
+    sections (like one file that contains multiple sections), then
+    they must systematically rename ALL those sections. Commands
+    (perhaps like the typechecker) that only add annotations to
+    existing sections will not be affected by this, however, such
+    commands still have to be able to remove those annotations
+    when some following command fails!}
+
+\item[Concurrency?]  Do we want to allow different threads to
+  make concurrent updates to a common section manager?  If so
+  we would need to provide a transaction manager with rollback
+  facilities, similar to the Apache Jakarta Commons (Sandbox) `Transaction'
+  package.  
+  
+  Supporting concurrency seems unnecessary, since the section manager is
+  being used by just one user, who is presumably performing one task at a
+  time.  Perhaps if we wanted a GUI to calculate extra information (why
+  would it need to do this?) while a long parse is happening, then
+  concurrency might occur.  However, I think that our initial goal should
+  be to make the individual operations fast enough (and with good progress
+  messages) that the user does not mind waiting a few seconds for a parse
+  to finish.  Also, note that the Jakarta Commons Chain package says
+  that users should NOT assume that Contexts are thread safe (whereas
+  Command and Chain should be).  Conclusion: we can ignore concurrency.
+\end{description}
+
+
+\section{Java Interfaces}
+
+This section gives an outline of the Java interface of each of the classes
+discussed above, ignoring dependency management for the moment.
+Note that the $ChainAll$ and $ChainFirst$ classes both implement the
+same $Chain$ interface, but their $execute$ methods behave differently.
+They need lots more documentation and pre/post conditions, but these are
+given informally above. 
+
+\begin{figure}[htbp]
+  \centering
+\begin{small}
+\begin{verbatim}
+interface Command {
+  boolean execute(Context sectMan, Map args);
+}
+
+interface Chain extends Command {
+  /** Adds a command to the end of the chain. */
+  void add(Command cmd);
+}
+\end{verbatim}
+\end{small}
+  \caption{Command and Chain Interfaces}
+  \label{fig:command}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+\begin{small}
+\begin{verbatim}
+interface SectMan {
+  /** Find/compute an entry within the section manager.
+      Returns null if the section manager cannot find
+      the requested object, and cannot compute it. */ 
+  //@ ensures \result != null ==> \result instanceof type;
+  Object lookup(String name, Class type);
+
+  /** Only for use by Commands, during update().
+      This can be used to overwrite existing entries.
+  */
+  //@ requires value instanceof key.type;
+  void put(Key key, Object value, Set<Key> dependencies);
+
+  /** Only for use by Commands, during update().
+   */
+  void remove(Key key);
+
+  /** The main entry point for updating the section manager.
+      This executes cmd, which may update the section manager.
+      If it returns an exception, it must undo any partial changes it made.
+  */
+  boolean update(Command cmd, Map args);
+
+  /** Set the default command for computing objects of class 'kind'.
+   *  @return Returns the old command associated with 'kind' (null if none).
+  */
+  Command setDefault(Class kind, Command defaultCommand);
+}
+\end{verbatim}
+\end{small}
+  \caption{SectMan Java Interface}
+  \label{fig:sectman}
+\end{figure}
+
+
+\section{Example}
+
+[This needs updating, to use separate args Map etc.]
+
+We now go through a small example, showing how the following
+chain of commands would modify the context.
+\begin{verbatim}
+  FindFile; ParseLatex; TypeCheck; ZLive
+\end{verbatim}
+
+Initially, the context might contain just the entry
+\begin{small}
+\begin{verbatim}
+  ("input",String) |--> ("foo", 100, {}, null)
+\end{verbatim}
+\end{small}
+(To make things more concise, we write \texttt{C.class} as just \texttt{C}.
+We show the range of each context entry as a (Value,Time,Dependencies,Command)
+tuple). 
+
+The FindFile command searches the filesystem for files called
+"foo" with known extensions, and finds "foo.zed", so adds the
+following entry to the context.
+\begin{small}
+\begin{verbatim}
+  ("foo",URL)  |--> ("foo.zed", 101, {}, null)
+\end{verbatim}
+\end{small}
+
+The Parser command uses these two \texttt{("input",String.class}
+and \texttt{("foo",URL.class)} keys to determine which file
+to parse, which markup to use (\LaTeX) and perhaps even which Z dialect
+parser to use (standard Z).  Assuming that \texttt{"foo.zed"}
+contains two named sections, \texttt{"foo"} then \texttt{"bar"}
+(where \texttt{"bar"} has \texttt{"foo"} as a parent)
+it adds the following entries to the context:
+\begin{small}
+\begin{verbatim}
+  ("foo",Spec)    |--> (..., 103, {("foo",URL),...}, Parser)
+  ("foo",ZSect)   |--> (..., 104, {("foo",Spec)}, Parser)
+  ("foo",OpTable) |--> (..., 104, {("foo",ZSect)}, Parser)
+  ("bar",ZSect)   |--> (..., 104, {("foo",Spec),("foo",OpTable)}, Parser)
+  ("bar",OpTable) |--> (..., 104, {("bar",ZSect),("foo",OpTable)}, Parser)
+\end{verbatim}
+\end{small}
+Note 1. The details of these dependencies depend upon how the
+parser works internally.
+Note 2, the $\ldots$ here would actually be a list of dependencies
+upon the standard Z toolkit sections.
+
+The Typechecker adds annotations to these three ASTs,
+but also adds type environments for each section:
+\begin{small}
+\begin{verbatim}
+  ("foo",SectTypeEnv) |--> (..., 105, {("foo",ZSect),...}, Parser)
+  ("bar",SectTypeEnv) |--> (..., 105, {("bar",ZSect),("foo",ZSect)}, Parser)
+\end{verbatim}
+\end{small}
+
+Finally, the ZLive animator creates some definition tables, then goes into
+interactive mode reading commands and displaying the answers. 
+\begin{small}
+\begin{verbatim}
+  ("foo",DefnTable) |--> (..., 106, {("foo",ZSect)}, DefnVisitor)
+  ("bar",DefnTable) |--> (..., 106, {("bar",ZSect)}, DefnVisitor)
+\end{verbatim}
+\end{small}
+
+Note that if one of the values associated with these keys is
+required later, it is possible to follow the dependency links
+back to the URL \texttt{"foo.zed"} and check its timestamp to
+ensure that all the derived data structures are up to date.
+
+If the \texttt{("curr",String)} key is changed (because the
+user now wants to work on a different specification), the
+various \texttt{"foo"} keys remain valid.
+
+\bibliographystyle{plain}
+\bibliography{utting,oop,proceedings}
+\end{document}

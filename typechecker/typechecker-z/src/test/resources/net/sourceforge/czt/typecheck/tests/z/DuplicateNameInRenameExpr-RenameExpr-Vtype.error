@@ -1,0 +1,15 @@
+\begin{zsection}
+  \SECTION DuplicateNameInRenameExpr\_RenameExpr\_Vtype
+\end{zsection}
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g\\
+  t == g
+\where
+  t = s [a/x, b/x]\\
+  s = [x : \nat; y : \power \nat]\\
+\end{axdef}

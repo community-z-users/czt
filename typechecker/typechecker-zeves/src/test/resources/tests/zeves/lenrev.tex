@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+\begin{zsection}
+  \SECTION lenrev0 \parents standard\_toolkit
+\end{zsection}
+
+This specification describes ...
+
+
+\begin{axdef}
+	len: \seq~\num \fun \num
+\where
+	\Label{rule dLenBase}
+	len~\langle \rangle = 0
+	\\
+	\Label{disabled rule dLenStepL}
+	\forall s: \seq~\num; x: \num @ len~(\langle x \rangle \cat s) = 1 + len~s
+	%\\
+	%\Label{disabled rule dLenStepR}
+	%\forall s: \seq~\num; x: \num @ len~(s \concat \langle x \rangle) = 1 + len~s
+\end{axdef}
+
+\begin{gendef}[X]
+	glen: \seq~X \fun \num
+\where
+	\Label{rule dGenBase}
+	glen~\langle \rangle = 0
+	\\
+	\Label{disabled rule dGenStepL}
+	\forall s: \seq~X; x: X @ glen~(\langle x \rangle \cat s) = 1 + glen~s
+	%\\
+	%\Label{disabled rule dLenStepR}
+	%\forall s: \seq~\num; x: \num @ len~(s \concat \langle x \rangle) = 1 + len~s
+\end{gendef}
+
+\begin{theorem}{test}
+	\forall s: \seq~\num @ len~(rev~s) = len~s
+\end{theorem}
+
+\begin{theorem}{gentest}[X]
+	\forall s: \seq~X @ rev~(rev~s) = s
+\end{theorem}
+
+\end{document}

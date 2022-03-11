@@ -1,0 +1,26 @@
+\begin{zsection}
+  \SECTION RedeclaredNameInClassPara\_Op\_Compatible \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    s : \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    s? : \nat
+  \end{op}
+\end{class}
+
+This tests that a duplicate operation with the same signature is 
+detected.
+
+\begin{class}{B}
+  A\\
+  \begin{op}{Op2}
+    s? : \power \nat
+  \end{op}\\
+  \begin{op}{Op2}
+    s? : \power \nat
+  \end{op}
+\end{class}
+

@@ -1,0 +1,247 @@
+\documentclass{article}
+
+%\newenvironment{theorem}{...}{...}
+\usepackage{czt}
+\usepackage[color]{circus}
+
+\begin{document}
+
+\section{Preamble}
+
+\begin{itemize}
+   \item section name and its parents
+   \item basic process header
+   \item typed channel
+   \item generic typed channels
+   \item synchronisation channels
+   \item various auxiliary declarations used
+\end{itemize}
+
+\begin{zsection}
+  \SECTION\ dot\_field\_multenv \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c: \nat \cross \nat \cross \nat \cross \nat
+\end{circus}
+
+\begin{circus}
+   \circprocess\ DotTestMulti \circdef \circbegin
+\end{circus}
+
+\begin{axdef}
+   n1, n2: \nat \\
+   x?, y!, z?: \nat
+\end{axdef}
+
+\begin{axdef}
+   f : \nat \fun \nat \cross \nat
+\end{axdef}
+
+\begin{zed}
+   S == [~ y: \nat ~]
+\end{zed}
+
+\newpage
+\section{Example 1 --- various simple patterns}
+
+\begin{itemize}
+   \item multiple actions in one environment
+   \item tabs and various forms of new line
+   \item multiple field patterns: in, out, dot
+   \item field type directly mapped to channel type
+   \item synchronisation channel $d$ on chained prefixing
+\end{itemize}
+
+\begin{circusaction}
+   \t1 Test0 \circdef c?x?y?z \then \Skip
+   \also
+   \t1 Test1 \circdef c?x!n1.n2 \then \Skip \\
+   \t1 Test2 \circdef c!n1?x.n2 \then \Skip
+   \also
+   \t1 Test3 \circdef c.n1!n2?x \then d \Skip
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test4 \circdef d \then e \then \Skip
+\end{circusaction}
+
+\paragraph{Description \\ \\}
+
+\vspace{2pt}
+\begin{tabular}{l|l}
+   \hline
+   Action   & Communication pattern \\
+   \hline
+   $Test0$  & In($x, \nat$), In($y, \nat$), In($z, \nat$) \\
+   \hline
+   $Test1$  & In($x, \nat$), Out($n1$), Dot($n2$) \\
+   \hline
+   $Test2$  & Out($n1$), In($x, \nat$), Dot($n2$) \\
+   \hline
+   $Test3$  & Dot($n1$), Out($n2$), In($x, \nat$), Synch \\
+   \hline
+   $Test4$  & Synch, Synch, Synch \\
+   \hline
+\end{tabular}
+
+\paragraph{\LaTeX\\ \\}
+
+\noindent To avoid parsing the \LaTeX\ markup within the \verb'\begin{verbatim}'
+environment we omit the slash before the begin/end environment.
+
+\begin{verbatim}
+  begin{circusaction}
+   \t1 Test0 \circdef c?x?y?z \then \Skip
+       \also
+   \t1 Test1 \circdef c?x!n1.n2 \then \Skip \\
+   \t1 Test2 \circdef c!n1?x.n2 \then \Skip
+       \also
+   \t1 Test3 \circdef c.n1!n2?x \then d \Skip
+  end{circusaction}
+  begin{circusaction}
+   \t1 Test4 \circdef d \then e \then \Skip
+  end{circusaction}
+\end{verbatim}
+
+\newpage
+\section{Example 2 --- complex output expressions}
+
+\begin{itemize}
+   \item hard spaces - make no semantic difference
+   \item application expressions on output fields
+   \item parenthesised expressions form \textbf{one} field
+   \item last fields get remainder type dimensions
+   \item trickery to allow strokes on field expr --- \textbf{mandatory} parenthesis
+   \item schema binding selection as output $(S.y$) --- \textbf{mandatory} parenthesis
+   \item function application result as output --- \textbf{mandatory} parenthesis
+\end{itemize}
+
+\begin{circusaction}
+   \t1 Test5 \circdef c~?i~!(f~i) \then \Skip
+       \also
+   \t1 Test6 \circdef c.(S.y)?z \then \Skip
+       \also
+   \t1 Test7 \circdef c.(x?)!(y!)!(z?) \then \Skip
+\end{circusaction}
+
+\paragraph{Description \\ \\}
+
+\vspace{2pt}
+\begin{tabular}{l|l}
+   \hline
+   Action   & Communication pattern \\
+   \hline
+   $Test5$  & In($i, \nat$), Out($\nat \cross \nat$) \\
+   \hline
+   $Test6$  & Dot($S.y$), In($z, \nat \cross \nat$) \\
+   \hline
+   $Test4$  & Out($x?$), Out($y!$), Out($z?$) \\
+   \hline
+\end{tabular}
+\\
+
+\textbf{* $S \in \power~(\lblot y == \nat \rblot)$, hence $S.y \in \nat$.}
+\\
+\indent \textbf{* $x?, y!, z?$ are decorated names; usually they appear in schemas.}
+
+\paragraph{\LaTeX\\ \\}
+
+\begin{verbatim}
+  begin{circusaction}
+   \t1 Test5 \circdef c~?i~!(f~i) \then \Skip
+       \also
+   \t1 Test6 \circdef c.(x.y)?z!w \then \Skip
+       \also
+   \t1 Test7 \circdef c.(x?)!(y!)!(z?) \then \Skip
+  end{circusaction}
+\end{verbatim}
+
+\newpage
+\section{Example 3 --- complex input with restrictions}
+
+\begin{itemize}
+   \item input prefix restrictions --- \textbf{mandatory} parenthesis
+   \item prefix restrictions and complex expressions
+   \item fields depending on previous value input
+   \item chained expressions depending on previous input
+   \item tuple selection within field restriction and output
+   \item action broken across multiple lines
+\end{itemize}
+
+\begin{circusaction}
+   \t1 Test8 \circdef c?x \prefixcolon (x > 1)!(f~x) \then \Skip
+    \also
+   \t1 Test9 \circdef c?x \then \\
+                  \t4 c?z \prefixcolon (z > x.1).(f~(x.2+x.3)) \then \Skip
+\end{circusaction}
+
+\paragraph{Description \\ \\}
+
+\vspace{2pt}
+\begin{tabular}{l|l}
+   \hline
+   Action   & Communication pattern \\
+   \hline
+   $Test8$  & In($x, \{~ v: \nat | v > 1 ~\}$), Out($\nat \cross \nat$) \\
+   \hline
+   $Test9$  & In($x, \nat \cross \nat \cross \nat$);~ In($z, \{~ v: \nat | v > x.1 ~\}$), Out($\nat \cross \nat$) \\
+   \hline
+\end{tabular}
+\\
+
+\textbf{* type on inputs are restricted according to given predicate.}
+\\
+\indent \textbf{* $Test9$ input on $z$ is from ``$?z \prefixcolon (z > x.1)$''.}
+
+\paragraph{\LaTeX\\ \\}
+
+\begin{verbatim}
+  begin{circusaction}
+   \t1 Test8 \circdef c?x \prefixcolon (x > 1)!(f~x) \then \Skip
+\also
+   \t1 Test9 \circdef c?x \then \\
+                  \t4 c?z \prefixcolon (z > x.1).(f~(x.2+x.3)) \then \Skip
+  end{circusaction}
+\end{verbatim}
+
+\newpage
+\section{Example 4 --- generic channels}
+
+\begin{itemize}
+   \item explicitly given generic actuals
+   \item implicitly inferred generic actuals (?)
+\end{itemize}
+
+\begin{circusaction}
+   \t1 Test10 \circdef g[\nat \cross \nat \cross \nat]?x!n1.n2 \then \Skip
+        \also
+   \t1 Test10 \circdef g.n1.(f~n1) \then \Skip
+\end{circusaction}
+
+\paragraph{\LaTeX\\ \\}
+
+\begin{verbatim}
+  begin{circusaction}
+   \t1 Test10 \circdef g[\nat \cross \nat \cross \nat]?x!n1.n2 \then \Skip
+       \also
+   \t1 Test10 \circdef g.n1.(f~n1) \then \Skip
+  end{circusaction}
+\end{verbatim}
+
+
+\newpage
+\section{($!$ Prolegomena) --- basic process footer}
+
+It just terminates
+
+\begin{circusaction}
+   \circspot \Skip
+\end{circusaction}
+
+\begin{circus}
+   \circend
+\end{circus}
+
+
+\end{document} 

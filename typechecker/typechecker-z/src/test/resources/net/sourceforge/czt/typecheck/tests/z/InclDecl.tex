@@ -1,0 +1,60 @@
+\begin{zsection}
+  \SECTION InclDecl
+\end{zsection}
+
+\begin{zed}
+  S1 == [x, y : \nat; z : \power \nat]
+\end{zed}
+
+\begin{schema}{S2}
+  S1
+\where
+  x = y \in z
+\end{schema} 
+
+\begin{schema}{S3}
+  S1\\
+  S2~?!
+\where
+  x = y \in z\\
+  x?! = y?! \in z?!
+\end{schema}
+
+\begin{schema}{S4}
+  \Delta S3
+\where
+  x = y \in z\\
+  x?! = y?! \in z?!\\
+  x' = y' \in z'\\
+  x?!' = y?!' \in z?!'
+\end{schema}
+
+Test that local incl decls are expanded by delta references
+
+\begin{zed}
+ \vdash? \forall \Xi S1 @ x = x' \land y = y' \land z = z'
+\end{zed}
+
+Test that localally declared incl decls are expanded by delta 
+references.
+
+\begin{zed}
+\vdash?
+ \exists s == S1 @ \forall \Delta s @ x = x' \land y = y' \land z = z'
+\end{zed}
+
+Test that an explictly added delta reference is not expanded from its 
+base name when referenced.
+
+\begin{schema}{S5}
+ S1
+\end{schema}
+
+\begin{schema}{\Delta S5}
+ a,b,c : \nat
+\end{schema}
+
+\begin{zed}
+ \vdash? (\exists \Delta S5 @ a = b = c) \land
+         (\exists \Xi S1 @ x = y \in z)
+\end{zed}

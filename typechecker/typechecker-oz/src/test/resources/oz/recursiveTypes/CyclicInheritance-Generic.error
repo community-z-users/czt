@@ -1,0 +1,27 @@
+\begin{zsection}
+  \SECTION CyclicInheritance\_Generic
+\end{zsection}
+
+\begin{class}{F[X]}
+  E[X]
+\end{class}
+
+\begin{class}{E[X]}
+  D[X]
+\end{class}
+
+\begin{class}{D[X]}
+  C[X]
+\end{class}
+
+\begin{class}{C[X]}
+  B[X]
+\end{class}
+
+\begin{class}{B[X]}
+  A
+\end{class}
+
+\begin{class}{A}
+  F[\nat]
+\end{class}

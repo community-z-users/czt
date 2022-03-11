@@ -1,0 +1,16 @@
+\begin{zsection}
+   \SECTION underscoreNamedThm \parents zeves\_prelude
+\end{zsection}
+
+\begin[disabled]{theorem}{lName\_Okay}
+   \exists x: \nat @ x = 10
+\end{theorem}
+
+\begin{zproof}[lName\_Okay]
+instantiate x == 11;
+prove by reduce;
+\end{zproof}
+
+\begin{zed}
+  theorem~ Test\_Okay \vdash? (\exists y: \nat @ true)
+\end{zed}

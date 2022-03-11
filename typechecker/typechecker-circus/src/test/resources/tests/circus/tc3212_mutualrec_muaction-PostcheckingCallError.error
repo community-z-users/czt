@@ -1,0 +1,15 @@
+
+\begin{zsection}
+  \SECTION\ t3212\_mutualrec\_muaction \parents\ circus\_toolkit
+\end{zsection}
+
+The scope for $Y$ in $B$ is limited to before the sequential composition, hence the type error
+%
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+        \t1 A \circdef \circmu\ X \circspot \Skip \circseq X \\
+        \t1 B \circdef (\circmu\ Y \circspot \Stop) \circseq Y \\
+    	\t1 \circspot\ \Skip 
+    \circend \\
+\end{circus}
+

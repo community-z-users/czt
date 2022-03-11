@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!--
+  This file contains some false positive bugs detected by Findbugs. Their
+  false positive nature has been analyzed individually and they have been
+  put here to instruct Findbugs it must ignore them.
+http://alvinalexander.com/java/jwarehouse/commons-net-2.2/findbugs-exclude-filter.xml.shtml
+-->
+<FindBugsFilter>
+  <!-- Unchecked cast is deliberate -->
+  <Match>
+    <Class name="net.sourceforge.czt.z.util.ZUtils" />
+    <Bug code="BC_UNCONFIRMED_CAST" />
+  </Match>
+</FindBugsFilter>

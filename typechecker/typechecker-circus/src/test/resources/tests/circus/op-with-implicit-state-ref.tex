@@ -1,0 +1,26 @@
+
+\begin{circus}
+   \circprocess\ P\ \circdef \circbegin \\
+        \t1 \circstate\ S == [x: \nat] \\
+	Op == [~ | x' = x! + x? + x + 1 ~] \\
+	\circspot \lschexpract Op \rschexpract \\
+  \circend
+\end{circus}
+
+\begin{schema}{State}
+   x: \nat
+\end{schema}
+
+\begin{schema}{OpBase}
+    \Delta State \\
+     i?: \nat
+\where
+    i? > x
+\end{schema}
+
+\begin{schema}{Add}
+    OpBase
+\where
+    [ | x' = x + 1 ]
+\end{schema}
+

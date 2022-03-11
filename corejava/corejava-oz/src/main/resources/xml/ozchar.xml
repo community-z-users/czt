@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OZCHAR>
+  <SYMBOL>
+    <CORESYMBOL>
+      <char id="GCH" hex="2AFE" description="choice (Dijkstra's choice)"/>
+      <char id="PARALLEL" hex="2225" description="parallel"/>
+      <char id="DGCH" hex="2AFF" description="distributed choice (n-ary choice)"/>
+      <char id="DCNJ" hex="22C0" description="distributed conjunction (n-ary and)"/>
+      <char id="CLASSUNION" hex="2A42" description="class union"/>
+      <char id="SDEF" hex="2259" description="horizontal operation definition"/>
+    </CORESYMBOL>
+    <OZTOOLKITSYMBOL>
+      <!-- Section Toolkit -->
+      <char id="POLY" hex="2193" description="down arrow (polymorphism)"/>
+      <char id="CONTAINMENT" hex="24B8" description="copyright symbol (object containment)"/>
+      <char id="OID" hex="1D546" description="mathematical
+      double-struck capital O"/>
+      <char id="BOOL" hex="1D539" description="mathematical double-struck capital B"/>
+    </OZTOOLKITSYMBOL>
+  </SYMBOL>
+</OZCHAR>

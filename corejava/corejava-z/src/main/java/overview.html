@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+<p>
+This document is the API specification for the annotated syntax tree
+(AST) for Z.
+</p>
+
+<p>
+Z is a specification language used for describing computer-based
+systems.  This API describes core interfaces and classes for Z tools
+integration.  It is intended to be used by developers of Z tools like
+parsers, type checkers, pretty-printers, etc.
+</p>
+
+<p>
+ZML provides a means of exchanging annotated Z specifications.  This
+API provides easy access methods to data in that format.  Included are
+interfaces for Standard Z, Object Z, and a Z pattern extension.  The
+main features are the possibility to read and write XML documents and
+the extended visitor support that enables an application to traverse
+an annotated syntax tree.
+</p>
+
+<p>
+Most package groups have ast, impl, visitor, and jaxb
+subpackages.  The subpackage ast provides the AST interfaces.  To get
+started, have a look into those packages, especially {@link
+net.sourceforge.czt.base.ast} which contains the base interfaces and a
+conceptual overview.  The subpackage impl contains an implementation
+of the interfaces in ast.  Applications should NOT use those classes
+explicitly in order to stay independent of the particular
+implementation of the AST interfaces.  Subpackage visitor contains
+visitor interfaces.  If you want to write an application that
+traverses the tree, have a look into {@link
+net.sourceforge.czt.base.visitor}.  Subpackage jaxb provides
+classes for reading and writing XML.
+</p>
+
+</body>
+</html>

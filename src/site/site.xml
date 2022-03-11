@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="CZT"
+  xmlns="http://maven.apache.org/DECORATION/1.3.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.3.0 http://maven.apache.org/xsd/decoration-1.3.0.xsd">
+
+  <bannerLeft>
+    <!-- CZT: Community Z Tools, but with "Z" highlighted -->
+    <name><![CDATA[
+      C<span class="color-highlight">Z</span>T<span class="title-colon">:</span> Community <span class="color-highlight">Z</span> Tools
+      ]]>
+    </name>
+    <href>http://czt.sourceforge.net</href>
+  </bannerLeft>
+  
+  <publishDate position="bottom" format="yyyy-MM-dd" />
+  <version position="bottom" />
+
+  <skin>
+    <groupId>lt.velykis.maven.skins</groupId>
+    <artifactId>reflow-maven-skin</artifactId>
+    <version>1.1.1</version>
+  </skin>
+  <custom>
+    <reflowSkin>
+      <!-- Make this to 'false' for local development, i.e. file:// URLs -->
+      <protocolRelativeURLs>false</protocolRelativeURLs>
+      <smoothScroll>true</smoothScroll>
+      <theme>bootswatch-spacelab</theme>
+      <highlightJsTheme>github</highlightJsTheme>
+      <absoluteResourceURL>http://czt.sourceforge.net/</absoluteResourceURL>
+      <brand>
+        <!-- Brand text in top-left part of the site -->
+        <name>
+          <![CDATA[
+          Community <span class="color-highlight">Z</span> Tools<span class="preview"> (2.0 preview!)</span>
+          ]]>
+        </name>
+        <href>http://czt.sourceforge.net</href>
+      </brand>
+      <slogan>Tools for developing and reasoning about Z specifications</slogan>
+      <titleTemplate>%2$s | %1$s</titleTemplate>
+      <!-- Use Table of Contents at the top of the page (max 6 elements) -->
+      <toc>top</toc>
+      <tocTopMax>6</tocTopMax>
+      <!-- Include the documentation and modules in the top navigation (in addition to links) -->
+      <topNav>Documentation|modules|module-menu</topNav>
+      <!-- Split menus in the bottom navigation -->
+      <bottomNav maxSpan="9" >
+        <column>Main|Download</column>
+        <column>Documentation</column>
+        <!-- Placeholder for module-specific menus (need to have ref module-menu) -->
+        <column>module-menu|parent</column>
+        <column>reports|help</column>
+      </bottomNav>
+      <bottomDescription>
+        <!-- <blockquote>
+        The Community Z Tools (CZT) project is building a set of tools for editing, typechecking,
+        animating and reasoning about formal specifications written in the Z specification language,
+        with some support for Z extensions such as Object-Z, Circus, and others.
+        </blockquote> -->
+        <div id="footer-czt-logo"></div>
+      </bottomDescription>
+      <pages>
+        <index project="czt-parent">
+          <!-- Override the title -->
+          <titleTemplate>Community Z Tools</titleTemplate>
+          <!-- no breadcrumbs on the main index page -->
+          <breadcrumbs>false</breadcrumbs>
+          <!-- no ToC on the main index page -->
+          <toc>false</toc>
+          <sections>
+            <carousel />
+            <body />
+            <sidebar />
+          </sections>
+        </index>
+
+        <!-- Disable ToC for some Maven reports -->
+        <project-info>
+          <toc>false</toc>
+        </project-info>
+        <apidocs-index>
+          <toc>false</toc>
+        </apidocs-index>
+        <dependencies>
+          <tocTopMax>4</tocTopMax>
+        </dependencies>
+
+        <!-- Use "Release Notes" as title for all changes reports -->
+        <changes-report>
+          <shortTitle>Release Notes</shortTitle>
+        </changes-report>
+      </pages>
+    </reflowSkin>
+  </custom>
+
+  <body>
+  
+    <links>
+      <item name="Download" href="http://sourceforge.net/projects/czt/files" />
+      <item name="View on SourceForge" href="http://sourceforge.net/projects/czt" />
+    </links>
+
+    <breadcrumbs>
+      <item name="CZT" href="/" />
+    </breadcrumbs>
+  
+    <menu name="Main" inherit="top">
+      <item name="Home" href="index.html" />
+      <item name="View on SourceForge" href="http://sourceforge.net/projects/czt" />
+    </menu>
+    <menu name="Download" inherit="top">
+      <item name="Download" href="http://sourceforge.net/projects/czt/files" />
+      <item name="CZT LaTeX" href="latex/index.html" />
+      <item name="CZT Font" href="fonts/index.html" />
+    </menu>
+    <menu name="Documentation" inherit="top">
+      <item name="User Manual" href="manual.html" />
+      <item name="Developer Info" href="dev/index.html" />
+      <item name="Design Info" href="design.html" />
+      <item name="API Documentation" href="apidocs/index.html" />
+    </menu>
+    <menu ref="modules" inherit="bottom" />
+    <menu name="Maven Documentation" ref="reports" inherit="bottom"/>
+    <menu ref="parent" inherit="bottom" />
+  </body>
+</project>

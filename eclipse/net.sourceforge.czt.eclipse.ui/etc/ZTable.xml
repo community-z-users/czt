@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://czt.sourceforge.net/ztable"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://czt.sourceforge.net/ztable 
+                                ZTable.xsd">
+  <row heading="Paragraphs">
+    <item name="Sect"
+          description="Section Header"
+          unicode="&#x2500; section NAME parents standard_toolkit &#x2514;&#xA;"
+          latex="\begin{zsection}&#xA;  \SECTION NAME \parents standard\_toolkit&#xA;\end{zsection}&#xA;"/>
+    <item name="Op"
+          description="Operator Definition"
+          unicode="&#x2500; function 42 leftassoc ( _ &#x229A; _ )
+&#xA;&#x2514;
+&#xA;Next we use an axdef/gendef/freetype/== definition to define the semantics.
+&#xA;&#x2577; _ &#x229A; _ : &#x2124; &#x00D7; &#x2124; &#x2192; &#x2124;
+&#xA;|
+&#xA;  &#x2200; x,y : &#x2124; &#x2981; x &#x229A; y = x + y
+&#xA;&#x2514;
+&#xA;"
+          latex="% Example of defining an infix function operator, displayed as a double circle.
+&#xA;\newcommand{\MYOP}{\mathbin{\circledcirc}}
+&#xA;% Define the Latex to Unicode mapping (Zchar/Zprechar/Zinchar/Zpostchar)
+&#xA;%%Zinchar \MYOP U+229A;&#xA;% Precedence 42 is a little tighter binding than multiplication, which is 40.
+&#xA;\begin{zed}
+&#xA;  \function 42 \leftassoc ( \varg \MYOP \varg )
+&#xA;\end{zed}
+&#xA;Next we use an axdef/gendef/freetype/== definition to define the semantics.
+&#xA;\begin{axdef}
+&#xA;  \varg \MYOP \varg : \num \cross \num \fun \num
+&#xA;\where
+&#xA;  \forall x,y:\num @ x \MYOP y = x + y
+&#xA;\end{axdef}
+&#xA;"/>
+    <item name="rOp"
+          description="Relation Definition"
+          unicode="&#x2500; relation ( _ myrel _ )
+&#xA;&#x2514;  
+&#xA;Next we use an axdef/gendef/freetype/== definition to define the semantics. 
+&#xA;&#x2577;&#x2550;[ T ] 
+&#xA;  _ myrel _ : T &#x2194; &#x2119; T 
+&#xA;|
+&#xA;  &#x2200; x:T; y:&#x2119; T &#x2981; x myrel y &#x21D4; x &#x2208; y 
+&#xA;&#x2514;  
+&#xA;"
+          latex="% Example of defining an infix relation, displayed as the word 'myrel'.
+&#xA;\newcommand{\MYREL}{\mathrel{myrel}}
+&#xA;% Define the Latex to Unicode mapping (Zword/Zpreword/Zinword/Zpostword)
+&#xA;%%Zinword \MYREL myrel&#xA;\begin{zed}
+&#xA;  \relation ( \varg \MYREL \varg )
+&#xA;\end{zed}
+&#xA;Next we use an axdef/gendef/freetype/== definition to define the semantics.
+&#xA;\begin{gendef}[T]
+&#xA;  \varg \MYREL \varg : T \rel \power T
+&#xA;\where
+&#xA;  \forall x:T; y:\power T @ x \MYREL y \iff x \in y
+&#xA;\end{gendef}
+&#xA;"/>
+    <item name="[G]"
+          description="Given Sets"
+          unicode="&#x2500; [ TYPE ] &#x2514;&#xA;"
+          latex="\begin{zed}&#xA;  [ TYPE ]&#xA;\end{zed}&#xA;"/>
+    <item name="Ax"
+          description="Axiomatic Definition"
+          unicode="&#x2577;&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2514;&#xA;"
+          latex="\begin{axdef}&#xA;  DECLS&#xA;\where&#xA;  PREDS&#xA;\end{axdef}&#xA;"/>
+    <item name="Ax[]"
+          description="Generic Axiomatic Definition"
+          unicode="&#x2577;&#x2550;[ TYPE ]&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2514;&#xA;"
+          latex="\begin{gendef}[ TYPE ]&#xA;  DECLS&#xA;\where&#xA;  PREDS&#xA;\end{gendef}&#xA;"/>
+     <item name="::="
+           description="Freetype Definition"
+           unicode="&#x2500;&#xA;  TYPE ::= NAME | NAME &#x27EA; TYPE &#x27EB;&#xA;&#x2514;&#xA;"
+           latex="\begin{zed}&#xA;  TYPE ::= NAME | NAME \ldata TYPE \rdata&#xA;\end{zed}&#xA;"/>
+     <item name="=="
+           description="Horizontal Definition"
+           unicode="&#x2500;&#xA;  NAME == EXPR&#xA;&#x2514;&#xA;"
+           latex="\begin{zed}&#xA;  NAME == EXPR&#xA;\end{zed}&#xA;"/>
+     <item name="Sch"
+           description="Schema Definition"
+           unicode="&#x250C; NAME&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2514;&#xA;"
+           latex="\begin{schema}{NAME}&#xA;  DECLS&#xA;\where&#xA;  PREDS&#xA;\end{schema}&#xA;"/>
+     <item name="Sch[]"
+	   description="Generic Schema Definition"
+           unicode="&#x250C;&#x2550; NAME [ TYPE ]&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2514;&#xA;"
+           latex="\begin{schema}{NAME}[ TYPE ]&#xA;  DECLS&#xA;\where&#xA;  PREDS&#xA;\end{schema}&#xA;"/>
+     <item name="&#x22A2;?"
+           description="Conjecture"
+           unicode="&#x2500; theorem THMNAME&#xA;  &#x22A2;? PRED&#xA;&#x2514;&#xA;"
+           latex="\begin{theorem}{THMNAME}&#xA;  \vdash? PRED&#xA;\end{theorem}&#xA;"/>
+  </row>
+  <row heading="Predicates">
+    <item name="&#x2200;"
+          description="Universal Quantification"
+          latex="\forall"/>
+    <item name="&#x2203;"
+          description="Existential Quantification"
+          latex="\exists"/>
+    <item name="&#x2227;"
+          description="Conjunction"
+          latex="\land"/>
+    <item name="&#x2228;"
+          description="Disjunction"
+          latex="\lor"/>
+    <item name="&#x00AC;"
+          description="Negation"
+          latex="\lnot"/>
+    <item name="&#x21D2;"
+          description="Implication"
+          latex="\implies"/>
+    <item name="&#x21D4;"
+          description="Equivalence"
+          latex="\iff"/>
+    <item name="&#x2260;"
+          description="Not Equal"
+          latex="\neq"/>
+    <item name="&#x2208;"
+          description="Membership"
+          latex="\in"/>
+    <item name="&#x2209;"
+          description="Not Member"
+          latex="\notin"/>
+    <item name="&#x2286;"
+          description="Subset Of Or Equal To"
+          latex="\subseteq"/>
+    <item name="&#x2282;"
+          description="Subset Of"
+          latex="\subset"/>
+  </row>
+  <row heading="Sets">
+    <item name="&#x2119;"
+          description="Power Set"
+          latex="\power"/>
+    <item name="&#x1D53D;"
+          description="Finite Power Set"
+          latex="\finset"/>
+    <item name="{"
+          description="Begin Set"
+          latex="\{"/>
+    <item name="|"
+          description="Such That"
+          latex="|"/>
+    <item name="&#x2981;"
+          description="Returning"
+          latex="@"/>
+    <item name="}"
+          description="End Set"
+          latex="\}"/>
+    <item name="&#x2205;"
+          description="Empty Set"
+          latex="\emptyset"/>
+    <item name="&#x222A;"
+          description="Union"
+          latex="\cup"/>
+    <item name="&#x22C3;"
+          description="n-ary Union"
+          latex="\bigcup"/>
+    <item name="&#x2229;"
+          description="Intersection"
+          latex="\cap"/>
+    <item name="&#x22C2;"
+          description="n-ary Intersection"
+          latex="\bigcap"/>
+    <item name="&#x2216;"
+          description="Set Subtraction"
+          latex="\setminus"/>
+    <item name="&#x2296;"
+          description="Symmetric Difference"
+          latex="\symdiff"/>
+  </row>
+  <row heading="Relations">
+    <item name="&#x2194;"
+          description="Relation"
+          latex="\rel"/>
+    <item name="&#x21A6;"
+          description="Mapsto"
+          latex="\mapsto"/>
+    <item name="&#x00D7;"
+          description="Cartesian Product"
+          latex="\cross"/>
+    <item name="&#x25C1;"
+          description="Domain Restriction"
+          latex="\dres"/>
+    <item name="&#x2A64;"
+          description="Domain Subtraction"
+          latex="\ndres"/>
+    <item name="&#x25B7;"
+          description="Range Restriction"
+          latex="\rres"/>
+    <item name="&#x2A65;"
+          description="Range Substraction"
+          latex="\nrres"/>
+    <item name="&#x2295;"
+          description="Relational Overriding"
+          latex="\oplus"/>
+    <item name="&#x2A3E;"
+          description="Relational Composition"
+          latex="\comp"/>
+    <item name="&#x223C;"
+          description="Relational Inverse"
+          latex="\inv"/>
+    <item name="&#x2987;  &#x2988;"
+          description="Relational Image"
+          latex="\limg  \rimg"/>
+    <item name="&#x2197;+&#x2199;"
+          description="Transitive closure"
+          latex="^{+}"/>
+  </row>
+  <row heading="Functions">
+    <item name="&#x2192;"
+          description="Total Function"
+          latex="\fun"/>
+    <item name="&#x21F8;"
+          description="Partial Function"
+          latex="\pfun"/>
+    <item name="&#x2914;"
+          description="Partial Injection"
+          latex="\pinj"/>
+    <item name="&#x21A3;"
+          description="Total Injection"
+          latex="\inj"/>
+    <item name="&#x2900;"
+          description="Partial Surjection"
+          latex="\psurj"/>
+    <item name="&#x2916;"
+          description="Total Bijection"
+          latex="\bij"/>
+    <item name="&#x21FB;"
+          description="Finite Function"
+          latex="\ffun"/>
+    <item name="&#x2915;"
+          description="Finite Injection"
+          latex="\finj"/>
+    <item name="&#x2218;"
+          description="Functional Composition"
+          latex="\circ"/>
+    <item name="&#x03BB;"
+          description="Lambda"
+          latex="\lambda"/>
+    <item name="&#x03BC;"
+          description="Mu (Choice)"
+          latex="\mu"/>
+  </row>
+  <row heading="Sequences">
+    <item name="&#x27E8;  &#x27E9;"
+          description="Literal Sequence"
+          latex="\langle  \rangle"/>
+    <item name="&#x2040;"
+          description="Concatenation"
+          latex="\cat"/>
+    <item name="&#x2040;/"
+          description="Distributed Concatenation"
+          latex="\dcat"/>
+    <item name="&#x21BF;"
+          description="Extract"
+          latex="\extract"/>
+    <item name="&#x21BE;"
+          description="Filter"
+          latex="\filter"/>
+    <item name="#"
+          description="Size of a finite set"
+          latex="\#"/>
+  </row>
+  <row heading="Arithmetic">
+    <item name="&#x2124;"
+          description="Integers"
+          latex="\num"/>
+    <item name="&#x2115;"
+          description="Natural Numbers"
+          latex="\nat"/>
+    <item name="&#x1D538;"
+          description="All Numbers"
+          latex="\arithmos"/>
+    <item name="+"
+          description="Binary Plus"
+          latex="+"/>
+    <item name="&#x2212;"
+          description="Binary Minus"
+          latex="-"/>
+    <item name="-"
+          description="Unary Negation"
+          latex="\negate"/>
+    <item name="*"
+          description="Multiplication"
+          latex="*"/>
+    <item name="div"
+          description="Integer Division"
+          latex="\div"/>
+    <item name="mod"
+          description="Integer Modulo"
+          latex="\mod"/>
+    <item name="&#x2264;"
+          description="Less Than"
+          latex="\leq"/>
+    <item name="&#x2265;"
+          description="Greater Than"
+          latex="\geq"/>
+  </row>
+  <row heading="Schemas">
+    <item name="&#x0394;"
+          description="Delta"
+          latex="\Delta"/>
+    <item name="&#x039E;"
+          description="Xi"
+          latex="\Xi"/>
+    <item name="&#x03B8;"
+          description="Theta"
+          latex="\theta"/>
+    <item name="&#x2989;..&#x298A;"
+          description="Literal Binding"
+          unicode="&#x2989; NAME == EXPR &#x298A;"
+          latex="\lblot NAME == EXPR \rblot"/>
+    <item name="&#x29F9;"
+          description="Schema Hiding"
+          latex="\hide"/>
+    <item name="&#x2A21;"
+          description="Schema Projection"
+          latex="\project"/>
+    <item name="&#x2A1F;"
+          description="Sequential Composition"
+          latex="\semi"/>
+    <item name="&#x2A20;"
+          description="Schema Piping"
+          latex="\pipe"/>
+    <item name="&#x2032;"
+          description="Prime decoration"
+          latex="'"/>
+    <item name="&#x2198;1&#x2196;"
+          description="Subscript decoration"
+          latex="_{1}"/>
+  </row>
+</table>

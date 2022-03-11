@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>An 'Exists1' (&#x2203;) predicate</Name>
+    <AxPara>
+      <SchText>
+        <Exists1Pred>
+          <SchText>
+            <VarDecl>
+              <DeclName>
+                <Word>x</Word>
+              </DeclName>
+              <RefExpr>
+                <RefName>
+                  <Word>
+                    Point
+                  </Word>
+                </RefName>
+              </RefExpr>
+            </VarDecl>
+          </SchText>
+          <NumExpr Value="1"/>
+        </Exists1Pred>         
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

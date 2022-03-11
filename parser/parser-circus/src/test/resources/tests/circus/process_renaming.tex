@@ -1,0 +1,59 @@
+\begin{zsection}
+  \SECTION\ process\_renaming \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ [X] g: X \cross \nat \\
+   \circchannel\ c, d: \nat \cross \nat
+\end{circus}
+
+If the process being renamed is a call, no parenthesis are needed
+%
+\begin{circus}
+   \circprocess\ RenamingProcess1 \circdef A \lcircrename c := d \rcircrename
+\end{circus}
+%
+whereas, if the process being renamed is a compound processes,
+surrounding parenthesis are required.
+%
+\begin{circus}
+   \circprocess\ RenamingProcess2 \circdef (A \extchoice B) \lcircrename c := g[\nat] \rcircrename
+\end{circus}
+%
+On the other hand, trying to mix them up can be confusing, as the next example shows.
+%
+\begin{circus}
+     \circprocess\ RenamingProcess3 \circdef A \extchoice (B) \lcircrename c := d \rcircrename
+\end{circus}
+%
+It represents the external choice between A, and process B with channel c renamed to d.
+
+Unfortunately, because of the nature of renaming, with respect to other Circus (and Z)
+constructs (i.e., schema substitution, action substitution, etc), the grammar becomes
+very tricky to normalise without conflicts. Thus, even with precedences being used
+(i.e., renaming being the strongest), the following example fails to parse
+%
+%%%%%\begin{circus}
+\[
+     \circprocess\ RenamingProcess4 \circdef A \extchoice B \lcircrename c := d \rcircrename
+\]
+%%%%%\end{circus}
+
+Renaming also works for processes with generic actuals themselves.
+%
+\begin{circus}
+     \circprocess\ RenamingProcess5 \circdef A[\nat] \lcircrename c := d \rcircrename \\
+     \circprocess\ RenamingProcess6 \circdef B \extchoice (A[\nat]) \lcircrename c := d \rcircrename
+\end{circus}
+
+
+\begin{circus}
+     \circprocess\ RenamingProcess7 \circdef \circbegin \\
+        A1 \circdef c?x \then \Skip \\
+        A2 \circdef d?x \then \Skip \\
+        B1 \circdef A1 \lcircrename c := d \rcircrename \\
+        B2 \circdef A2 \lcircrename d := c \rcircrename \\
+        \circspot (B1 \intchoice B2) \lcircrename d := c \rcircrename \\
+     \circend
+\end{circus}     
+

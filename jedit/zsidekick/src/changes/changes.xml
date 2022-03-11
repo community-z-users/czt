@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+  <properties>
+    <title>CZT Changes Report</title>
+  </properties>
+  <body>
+    <release version="1.1" date="unreleased">
+      <action dev="Petra" type="update">
+        Add another action for unfolding a term recursively.
+      </action>
+    </release>
+    <release version="1.0" date="July 2007"/>
+  </body>
+</document>

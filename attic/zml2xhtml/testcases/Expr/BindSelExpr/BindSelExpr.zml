@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">a
+
+  <ZSect>
+    <Name>A BindSelExpr</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <BindSelExpr>
+            <BindExpr>
+              <NameExprPair>
+                <Name>
+                  <Word>Hello</Word>
+                </Name>
+                <NumExpr Value="1"/>
+              </NameExprPair>
+            </BindExpr>          
+            <Name>
+              <Word>
+                Hello
+              </Word>
+            </Name>
+          </BindSelExpr>
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

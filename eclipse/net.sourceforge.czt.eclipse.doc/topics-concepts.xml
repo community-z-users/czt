@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Concepts"> 
+  <topic label="CZT editor"  href="target/generated-docs/concepts/czt-editor.html" />
+  <topic label="CZT views" href="target/generated-docs/concepts/czt-views.html" />
+  <topic label="CZT perspective" href="target/generated-docs/concepts/czt-perspective.html" />
+  <topic label="Folding" href="target/generated-docs/concepts/folding-para.html" />
+  <topic label="Schema box" href="target/generated-docs/concepts/schema-box.html" />
+</toc>

@@ -1,0 +1,133 @@
+
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+%----------------------------------
+
+\begin{zsection}
+	 \SECTION relation\_toolkit\_fsb \parents~fsb\_toolkit , relation\_toolkit
+\end{zsection}
+
+VC ZSection Created at Mon Jan 17 16:30:26 GMT 2011.
+
+VC3 for line 13 column 1 start 277 length 105 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1019\_ vc\_ fsb3 [ X , Y ] \vdash ? \\
+   \t2 \exists first : X \cross Y \fun X | true @ \forall x : X ; y : Y @ first ( x , y ) = x
+\end{zed}
+
+VC5 for line 24 column 1 start 503 length 106 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1021\_ vc\_ fsb5 [ X , Y ] \vdash ? \\
+   \t2 \exists second : X \cross Y \fun Y | true @ \forall x : X ; y : Y @ second ( x , y ) = y
+\end{zed}
+
+VC9 for line 40 column 1 start 798 length 130 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1025\_ vc\_ fsb9 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \mapsto \_~: X \cross Y \fun X \cross Y | true @ \forall x : X ; y : Y @ x \mapsto y = ( x , y )
+\end{zed}
+
+VC11 for line 52 column 1 start 1073 length 123 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1027\_ vc\_ fsb11 [ X , Y ] \vdash ? \\
+   \t2 \exists \dom : ( X \rel Y ) \fun \power X | true @ \forall r : X \rel Y @ \dom r = \{ p : r @ p . 1 \}
+\end{zed}
+
+VC13 for line 64 column 1 start 1326 length 123 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1029\_ vc\_ fsb13 [ X , Y ] \vdash ? \\
+   \t2 \exists \ran : ( X \rel Y ) \fun \power Y | true @ \forall r : X \rel Y @ \ran r = \{ p : r @ p . 2 \}
+\end{zed}
+
+VC17 for line 80 column 1 start 1630 length 58 in "relation_toolkit"
+\begin{zed}
+theorem~id \_  \_ vc\_ fsb17 [ X ] \vdash ? \exists \id \_~: \power \{ x : X @ x \mapsto x \} | true @ true
+\end{zed}
+
+VC21 for line 94 column 1 start 1905 length 203 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1036\_ vc\_ fsb21 [ X , Y , Z ] \vdash ? \\
+   \t2 \exists \_ \comp \_~: ( X \rel Y ) \cross ( Y \rel Z ) \fun ( X \rel Z ) | true @ \\
+    \t3 \forall r : X \rel Y ; s : Y \rel Z @ \\
+     \t4 r \comp s = \{ p : r ; q : s | p . 2 = q . 1 @ p . 1 \mapsto q . 2 \}
+\end{zed}
+
+VC25 for line 114 column 1 start 2544 length 160 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1040\_ vc\_ fsb25 [ X , Y , Z ] \vdash ? \\
+   \t2 \exists \_ \circ \_~: ( Y \rel Z ) \cross ( X \rel Y ) \fun ( X \rel Z ) | true @ \\
+    \t3 \forall r : X \rel Y ; s : Y \rel Z @ s \circ r = r \comp s
+\end{zed}
+
+VC29 for line 130 column 1 start 2923 length 176 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1044\_ vc\_ fsb29 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \dres \_~: \power X \cross ( X \rel Y ) \fun ( X \rel Y ) | true @ \\
+    \t3 \forall a : \power X ; r : X \rel Y @ a \dres r = \{ p : r | p . 1 \in a \}
+\end{zed}
+
+VC33 for line 146 column 1 start 3354 length 175 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1048\_ vc\_ fsb33 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \rres \_~: ( X \rel Y ) \cross \power Y \fun ( X \rel Y ) | true @ \\
+    \t3 \forall r : X \rel Y ; b : \power Y @ r \rres b = \{ p : r | p . 2 \in b \}
+\end{zed}
+
+VC37 for line 162 column 1 start 3788 length 181 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1052\_ vc\_ fsb37 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \ndres \_~: \power X \cross ( X \rel Y ) \fun ( X \rel Y ) | true @ \\
+    \t3 \forall a : \power X ; r : X \rel Y @ a \ndres r = \{ p : r | p . 1 \notin a \}
+\end{zed}
+
+VC41 for line 179 column 1 start 4230 length 180 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1056\_ vc\_ fsb41 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \nrres \_~: ( X \rel Y ) \cross \power Y \fun ( X \rel Y ) | true @ \\
+    \t3 \forall r : X \rel Y ; b : \power Y @ r \nrres b = \{ p : r | p . 2 \notin b \}
+\end{zed}
+
+VC45 for line 196 column 1 start 4655 length 144 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1060\_ vc\_ fsb45 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \inv~: ( X \rel Y ) \fun ( Y \rel X ) | true @ \\
+    \t3 \forall r : X \rel Y @ r \inv~= \{ p : r @ p . 2 \mapsto p . 1 \}
+\end{zed}
+
+VC49 for line 213 column 1 start 5032 length 190 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1064\_ vc\_ fsb49 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \limg \_ \rimg~: ( X \rel Y ) \cross \power X \fun \power Y | true @ \\
+    \t3 \forall r : X \rel Y ; a : \power X @ r \limg a \rimg~= \{ p : r | p . 1 \in a @ p . 2 \}
+\end{zed}
+
+VC53 for line 229 column 1 start 5492 length 176 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1068\_ vc\_ fsb53 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \oplus \_~: ( X \rel Y ) \cross ( X \rel Y ) \fun ( X \rel Y ) | true @ \\
+    \t3 \forall r , s : X \rel Y @ r \oplus s = ( ( \dom s ) \ndres r ) \cup s
+\end{zed}
+
+VC57 for line 247 column 1 start 5967 length 184 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1072\_ vc\_ fsb57 [ X ] \vdash ? \\
+   \t2 \exists \_ \plus~: ( X \rel X ) \fun ( X \rel X ) | true @ \\
+    \t3 \forall r : X \rel X @ r \plus~=~\bigcap \{ s : X \rel X | r \subseteq s \land r \comp s \subseteq s \}
+\end{zed}
+
+VC61 for line 265 column 1 start 6416 length 130 in "relation_toolkit"
+\begin{zed}
+theorem~axiom1076\_ vc\_ fsb61 [ X ] \vdash ? \\
+   \t2 \exists \_ \star~: ( X \rel X ) \fun ( X \rel X ) | true @ \forall r : X \rel X @ r \star~= r \plus \cup \id X
+\end{zed}
+
+
+
+ VC Z section "relation_toolkit_fsb" has $17$ interesting VCs (Total = 62; Simplified to $true$ = 45).
+
+
+
+%----------------------------------
+\end{document}

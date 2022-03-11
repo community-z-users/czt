@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ZSect>
+        <Anns>
+            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="0" Length="601" Col="0"/>
+        </Anns>
+        <Name>universe</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Start="49" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="1" Length="15" Col="32"/>
+            </Anns>
+            <Word>circus_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="80" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="2" Length="147" Col="14"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+ 
+ </Content>
+            </NarrPara>
+            <AxPara Box="SchBox">
+                <Anns>
+                    <LocAnn Start="227" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="11" Length="130" Col="1"/>
+                </Anns>
+                <ZNameList/>
+                <ZSchText>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="242" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="11" Length="1" Col="16"/>
+                                </Anns>
+                                <Word>P</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <SchExpr>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Start="251" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="12" Length="91" Col="6"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Start="251" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="12" Length="37" Col="6"/>
+                                        </Anns>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="251" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="12" Length="13" Col="6"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="251" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="12" Length="1" Col="5"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="255" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="12" Length="9" Col="9"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="255" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="12" Length="9" Col="9"/>
+                                                    </Anns>
+                                                    <Word>?</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="275" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="13" Length="13" Col="6"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="275" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="13" Length="1" Col="5"/>
+                                                    </Anns>
+                                                    <Word>y</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="279" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="13" Length="9" Col="9"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="279" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="13" Length="9" Col="9"/>
+                                                    </Anns>
+                                                    <Word>?</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </VarDecl>
+                                    </ZDeclList>
+                                    <AndPred And="NL">
+                                        <Anns>
+                                            <LocAnn Start="304" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="15" Length="38" Col="10"/>
+                                        </Anns>
+                                        <MemPred Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Start="304" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="15" Length="4" Col="7"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="304" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="15" Length="1" Col="5"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="304" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="15" Length="1" Col="5"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <SetExpr>
+                                                <ZExprList>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Start="307" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="15" Length="1" Col="8"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="1">
+                                                            <Anns>
+                                                                <LocAnn Start="307" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="15" Length="1" Col="8"/>
+                                                            </Anns>
+                                                        </ZNumeral>
+                                                    </NumExpr>
+                                                </ZExprList>
+                                            </SetExpr>
+                                        </MemPred>
+                                        <MemPred Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Start="318" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="24" Col="7"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="318" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="1" Col="5"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="318" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="1" Col="5"/>
+                                                    </Anns>
+                                                    <Word>y</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <SetExpr>
+                                                <ZExprList>
+                                                    <ApplExpr Mixfix="true">
+                                                        <Anns>
+                                                            <LocAnn Start="322" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="20" Col="9"/>
+                                                        </Anns>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="322" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="20" Col="9"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="322" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="20" Col="9"/>
+                                                                </Anns>
+                                                                <Word>? ,, ?</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                        <SetExpr>
+                                                            <Anns>
+                                                                <LocAnn Start="322" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="20" Col="9"/>
+                                                            </Anns>
+                                                            <ZExprList>
+                                                                <TupleExpr>
+                                                                    <ZExprList>
+                                                                        <NumExpr>
+                                                                            <ZNumeral Value="1"/>
+                                                                        </NumExpr>
+                                                                        <NumExpr>
+                                                                            <Anns>
+                                                                                <LocAnn Start="330" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="1" Col="17"/>
+                                                                            </Anns>
+                                                                            <ZNumeral Value="0">
+                                                                                <Anns>
+                                                                                    <LocAnn Start="330" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="1" Col="17"/>
+                                                                                </Anns>
+                                                                            </ZNumeral>
+                                                                        </NumExpr>
+                                                                    </ZExprList>
+                                                                </TupleExpr>
+                                                                <TupleExpr>
+                                                                    <ZExprList>
+                                                                        <NumExpr>
+                                                                            <ZNumeral Value="2"/>
+                                                                        </NumExpr>
+                                                                        <NumExpr>
+                                                                            <Anns>
+                                                                                <LocAnn Start="333" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="1" Col="20"/>
+                                                                            </Anns>
+                                                                            <ZNumeral Value="1">
+                                                                                <Anns>
+                                                                                    <LocAnn Start="333" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="16" Length="1" Col="20"/>
+                                                                                </Anns>
+                                                                            </ZNumeral>
+                                                                        </NumExpr>
+                                                                    </ZExprList>
+                                                                </TupleExpr>
+                                                            </ZExprList>
+                                                        </SetExpr>
+                                                    </ApplExpr>
+                                                </ZExprList>
+                                            </SetExpr>
+                                        </MemPred>
+                                    </AndPred>
+                                </ZSchText>
+                            </SchExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="357" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="17" Length="7" Col="13"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
+ 
+ </Content>
+            </NarrPara>
+            <AxPara Box="SchBox">
+                <Anns>
+                    <LocAnn Start="364" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="19" Length="73" Col="1"/>
+                </Anns>
+                <ZNameList/>
+                <ZSchText>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="379" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="19" Length="1" Col="16"/>
+                                </Anns>
+                                <Word>S</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <SchExpr>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Start="388" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="20" Length="34" Col="6"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Start="388" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="20" Length="13" Col="6"/>
+                                        </Anns>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="388" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="20" Length="13" Col="6"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="388" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="20" Length="1" Col="5"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="392" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="20" Length="9" Col="9"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="392" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="20" Length="9" Col="9"/>
+                                                    </Anns>
+                                                    <Word>?</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </VarDecl>
+                                    </ZDeclList>
+                                    <MemPred Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Start="418" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="22" Length="4" Col="7"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="418" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="22" Length="1" Col="5"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="418" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="22" Length="1" Col="5"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <ZExprList>
+                                                <NumExpr>
+                                                    <Anns>
+                                                        <LocAnn Start="421" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="22" Length="1" Col="8"/>
+                                                    </Anns>
+                                                    <ZNumeral Value="1">
+                                                        <Anns>
+                                                            <LocAnn Start="421" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="22" Length="1" Col="8"/>
+                                                        </Anns>
+                                                    </ZNumeral>
+                                                </NumExpr>
+                                            </ZExprList>
+                                        </SetExpr>
+                                    </MemPred>
+                                </ZSchText>
+                            </SchExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="437" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="23" Length="6" Col="13"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+ 
+ </Content>
+            </NarrPara>
+            <AxPara Box="SchBox">
+                <Anns>
+                    <LocAnn Start="443" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="25" Length="88" Col="1"/>
+                </Anns>
+                <ZNameList/>
+                <ZSchText>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="458" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="25" Length="1" Col="16"/>
+                                </Anns>
+                                <Word>T</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <SchExpr>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Start="466" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="26" Length="51" Col="5"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Start="466" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="26" Length="13" Col="5"/>
+                                        </Anns>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="466" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="26" Length="13" Col="5"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="466" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="26" Length="1" Col="4"/>
+                                                    </Anns>
+                                                    <Word>y</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="470" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="26" Length="9" Col="8"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="470" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="26" Length="9" Col="8"/>
+                                                    </Anns>
+                                                    <Word>?</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </VarDecl>
+                                    </ZDeclList>
+                                    <MemPred Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Start="493" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="24" Col="6"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="493" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="1" Col="4"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="493" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="1" Col="4"/>
+                                                </Anns>
+                                                <Word>y</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <ZExprList>
+                                                <ApplExpr Mixfix="true">
+                                                    <Anns>
+                                                        <LocAnn Start="497" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="20" Col="8"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="497" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="20" Col="8"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="497" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="20" Col="8"/>
+                                                            </Anns>
+                                                            <Word>? ,, ?</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <SetExpr>
+                                                        <Anns>
+                                                            <LocAnn Start="497" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="20" Col="8"/>
+                                                        </Anns>
+                                                        <ZExprList>
+                                                            <TupleExpr>
+                                                                <ZExprList>
+                                                                    <NumExpr>
+                                                                        <ZNumeral Value="1"/>
+                                                                    </NumExpr>
+                                                                    <NumExpr>
+                                                                        <Anns>
+                                                                            <LocAnn Start="505" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="1" Col="16"/>
+                                                                        </Anns>
+                                                                        <ZNumeral Value="0">
+                                                                            <Anns>
+                                                                                <LocAnn Start="505" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="1" Col="16"/>
+                                                                            </Anns>
+                                                                        </ZNumeral>
+                                                                    </NumExpr>
+                                                                </ZExprList>
+                                                            </TupleExpr>
+                                                            <TupleExpr>
+                                                                <ZExprList>
+                                                                    <NumExpr>
+                                                                        <ZNumeral Value="2"/>
+                                                                    </NumExpr>
+                                                                    <NumExpr>
+                                                                        <Anns>
+                                                                            <LocAnn Start="508" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="1" Col="19"/>
+                                                                        </Anns>
+                                                                        <ZNumeral Value="1">
+                                                                            <Anns>
+                                                                                <LocAnn Start="508" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="28" Length="1" Col="19"/>
+                                                                            </Anns>
+                                                                        </ZNumeral>
+                                                                    </NumExpr>
+                                                                </ZExprList>
+                                                            </TupleExpr>
+                                                        </ZExprList>
+                                                    </SetExpr>
+                                                </ApplExpr>
+                                            </ZExprList>
+                                        </SetExpr>
+                                    </MemPred>
+                                </ZSchText>
+                            </SchExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="531" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="29" Length="4" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="SchBox">
+                <Anns>
+                    <LocAnn Start="535" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="31" Length="64" Col="0"/>
+                </Anns>
+                <ZNameList/>
+                <ZSchText>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="550" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="31" Length="1" Col="15"/>
+                                </Anns>
+                                <Word>Q</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <SchExpr>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex"/>
+                                        </Anns>
+                                        <InclDecl>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="560" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="32" Length="1" Col="6"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="560" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="32" Length="1" Col="6"/>
+                                                    </Anns>
+                                                    <Word>S</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </InclDecl>
+                                        <InclDecl>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="563" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="32" Length="1" Col="9"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="563" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="32" Length="1" Col="9"/>
+                                                    </Anns>
+                                                    <Word>T</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </InclDecl>
+                                    </ZDeclList>
+                                    <TruePred>
+                                        <Anns>
+                                            <LocAnn Start="580" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="34" Length="4" Col="5"/>
+                                        </Anns>
+                                    </TruePred>
+                                </ZSchText>
+                            </SchExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="599" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\universe.tex" Line="35" Length="2" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+</Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>

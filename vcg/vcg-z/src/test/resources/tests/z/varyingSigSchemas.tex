@@ -1,0 +1,30 @@
+\begin{zsection}
+\SECTION varyingSigSchemas \parents function\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+   x: \nat \\
+   y: \power~\nat
+\where
+   x \in y
+\end{schema}
+
+\begin{schema}{Op1}
+  \Delta S \\
+  i?: \nat; o!: \nat
+\where
+   i? \in y
+\end{schema}
+
+\begin{schema}{Op2}
+  \Xi S \\
+  o!: \nat; i?: \nat
+\where
+   o! \in y'
+\end{schema}
+
+\begin{zed}
+   OpA == Op1 \semi Op2
+\\
+   OpB == (Op1[a/x', b/y'] \land Op2[a/x, b/y]) \hide (a, b)
+\end{zed}

@@ -1,0 +1,19 @@
+\begin{zsection}
+  \SECTION\ wrongly\_placed\_parameterised\_muaction \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circprocess\ Factorial \circdef \circbegin \\
+        \circstate S == [ y: \nat ] \\
+        Fact \circdef y := 1 \circseq \circmu\ X \circspot \\
+            \t1 \circblockbegin
+                (n: \nat \circspot \\
+                    \t1 \circblockbegin
+                            \circif (n = 0) \circthen y := 1 \\
+                            \circelse (n > 0) \circthen X(n -1) \circseq y := y * n \\
+                            \circfi
+                        \circblockend)
+                \circblockend \\
+        \circspot \Skip
+   \circend
+\end{circus}

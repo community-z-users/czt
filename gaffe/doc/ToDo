@@ -1,0 +1,89 @@
+
+Designer
+--------
+
+Event Links
+...........
+?o - Handles for Event Links.
+ o - Make EventLink tools work with java.bean.EventHandler
+ o   - Change Script to be an EventHandler (or an InvocationHandler), so it can link off any type of event.
+ o - Make EventLink tools work with PropertyChange events on specific properties.
+?o - Allow scripts to fire events, or to daisy chain.
+ o - Pass event objects into triggered scripts.
+ o - Tree view of interface.
+
+Misc Tools
+..........
+ o - Selection of areas with the select tool.
+ o - Pull all the tools into a seperate package.
+ o - Appropriate cursors for all tools.
+ o - Add tools for setting LayoutManager, LayoutConstraints.
+ o - Allow a bean to be created from its class name, so that new types of beans
+     can be entered without having to edit the designer's config script.
+
+Property Editing
+................
+ o - Editors/Renderers
+ o   - Insets
+ o   - LayoutManager
+ o   - Dimension
+ o   - Rectangle
+ o   - Point
+ o - Fix delay in property window from loading up editors.
+ o - Place to set Layout Constraints (tricky, depends on LayoutManager).
+
+
+Interface Settings
+..................
+ o - Place to select History object to use.
+ o - Place to select state and init schemas.
+
+FormDesign
+..........
+ o - Make Form's title appear on its border in the designer. (Instead of/as well as name?)
+ o - Change FormDesign to use just one HandleSet for all beans.
+ o - Make FormDesign generate BeanWrappers missing from the file.
+
+Form
+....
+ o - Image background for Form.
+ o - Allow forms to be modal.
+?o - Handle BeanContextChildComponentProxy so that its associated component is used, and the bean is placed 
+     visually in the Form with its Component, not as a wrapped object.
+
+Misc
+....
+ o - Tidy DesignerCore load constructor, so that it doesn't generate then delete an empty FormDesign first.
+ o - A window for setting java.util.prefs Preferences.
+ o - Treat BeanContext.designTime property correctly.
+ o - Hourglass cursor when saving/loading.
+
+Generator
+---------
+ o - Set designTime properties correctly
+ o - Correct BasicBeanInterfaceGenerator's positioning of tables.
+ o - Make generated BeanWrappers get arranged so as to not overlap.
+ o - New/better generator plugins.
+ o - Fix BeanChooser to handle input via tables.
+ o - Fix BeanChooser to handle wider range of type expressions (e.g. turn function/relation into set of 
+     tuples).
+
+Misc
+----
+ o - Catch when image resources are missing.
+ o - HCI testing
+ o - Change fake history back-end for birthdaybook_unfolded.xml to account for
+     limits placed on name and date types.
+ o - Allow an animation history to be saved.
+ o - Rename from Gaffe Animator to Gaffe Visualiser, to avoid confusion with the
+     actual animator which the visualiser is the front-end for.
+
+
+House Keeping
+-------------
+ o - Tidy code.
+ o - Add javadoc
+ o - Tidy up keyboard shortcuts.
+ o - User and developer documentation.
+ o - Update milestones.
+

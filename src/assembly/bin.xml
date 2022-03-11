@@ -1,0 +1,51 @@
+<assembly>
+  <!-- The binary release can be build by first doing a "mvn install"
+       and then calling
+         mvn -N assembly:assembly -Ddescriptor=src/assembly/bin.xml
+       or if only a directory is needed
+         mvn -N assembly:directory -Ddescriptor=src/assembly/bin.xml
+       This creates  files and irectory target/czt-...-bin. -->
+  <id>bin</id>
+  <formats>
+    <format>dir</format>
+    <format>tar.gz</format>
+    <format>tar.bz2</format>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>true</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <includes>
+        <include>README.txt</include>
+        <include>COPYING.txt</include>
+        <include>NOTICE.txt</include>
+        <include>LICENSE*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>fonts</directory>
+    </fileSet>
+    <fileSet>
+      <directory>lib</directory>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>/</outputDirectory>
+      <directory>zml/src/main/resources/net/sourceforge/czt/zml</directory>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>/</outputDirectory>
+      <directory>doc/refcard/z</directory>
+      <includes>
+        <include>*.pdf</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>jedit</directory>
+      <includes>
+        <include>*.txt</include>
+        <include>catalog</include>
+        <include>zed.xml</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+</assembly>

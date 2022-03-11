@@ -1,0 +1,7 @@
+instructions.configure=\
+  addRepository(type:0,location:http${#58}//czt.sourceforge.net/eclipse/updates/releases/,name:CZT for Eclipse Updates);\
+  addRepository(type:1,location:http${#58}//czt.sourceforge.net/eclipse/updates/releases/,name:CZT for Eclipse Updates);\
+  addRepository(type:0,location:http${#58}//download.eclipse.org/releases/mars,name:Mars);\
+  addRepository(type:1,location:http${#58}//download.eclipse.org/releases/mars,name:Mars);\
+  addRepository(type:0,location:http${#58}//download.eclipse.org/eclipse/updates/4.5,name:The Eclipse Project Updates);\
+  addRepository(type:1,location:http${#58}//download.eclipse.org/eclipse/updates/4.5,name:The Eclipse Project Updates);

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+<p>
+This package provides utilities for typechecking classes. There are
+several classes, all described here.
+</p>
+
+<p>
+The Checker class is the super class of several other classes (all
+other classes ending in Checker). Each of these classes is responsible
+for typechecking a different type of Term (e.g. ExprChecker typechecks
+Expr objects), adding a type annotation (TypeAnn) to a Term as specified in
+the Z standard. If a problem occurs attempting to find a type
+(e.g. unification fails), an ErrorAnn object is added instead. The
+TypeChecker class is the top-level class (i.e. the one to which the
+Spec or ZSect term is passed), and this returns a list of ErrorAnns
+for use by other tools.
+</p>
+
+<p>
+PostChecker is the strangest class. This does "post-checking"
+(i.e. typechecking after the entire AST has been visited), for a few
+things that cannot be done during AST traversal.
+</p>
+
+<p>
+TypeCheckUtils provides an interface for calling the typechecker from
+within Java programs, as well as a "main" method, which allows
+typechecking a file from the command line.
+</p>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>A 'For All' (&#x2200;) expression</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <ForallExpr>
+            <SchText>
+              <VarDecl>
+                <DeclName>
+                  <Word>x</Word>
+                </DeclName>
+                <RefExpr>
+                  <RefName>
+                    <Word>
+                      Point
+                    </Word>
+                  </RefName>
+                </RefExpr>
+              </VarDecl>
+            </SchText>
+            <NumExpr Value="1"/>
+          </ForallExpr>         
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

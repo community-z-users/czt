@@ -1,0 +1,30 @@
+\begin{zsection}
+  \SECTION LambdaExpr
+\end{zsection}
+
+\begin{zed}
+  withoutTuple == \lambda x : \nat @ x\\
+  withTuple == \lambda x : \nat; y : \power \nat @ x
+\end{zed}
+
+\begin{zed} \vdash? withoutTuple = \nat \cross \nat \end{zed}
+\begin{zed}
+ \vdash? withTuple = (\nat \cross \power \nat) \cross \nat 
+\end{zed}
+
+
+\begin{zed}
+  withSchemaWithoutTuple == \lambda [x : \nat] @ x\\
+  withSchemaWithTuple == \lambda [x : \nat; y : \power \nat] @ x
+\end{zed}
+
+\begin{zed}
+ \vdash? withSchemaWithoutTuple = [x : \nat] \cross \nat \end{zed}
+\begin{zed}
+ \vdash? withSchemaWithTuple = [x : \nat; y : \power \nat] \cross \nat 
+\end{zed}
+
+\begin{zed}
+ \vdash? (\lambda [x : \nat; y : \power\nat] @ \nat) =
+         (\lambda [y : \power\nat; x : \nat] @ \nat)
+\end{zed}

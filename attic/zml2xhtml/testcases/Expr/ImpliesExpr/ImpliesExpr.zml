@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+<ZSect>
+    <Name>A Schema Implication Expression</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+
+          <ImpliesExpr>
+            <RefExpr>
+              <RefName>
+                <Word>A</Word>
+              </RefName>
+            </RefExpr>
+            <RefExpr>
+              <RefName>
+                <Word>B</Word>
+              </RefName>
+            </RefExpr>
+          </ImpliesExpr>
+
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+<Anns>
+  <zml2html:comment-list>
+    <zml2html:comment>
+      <zml2html:id>12</zml2html:id>
+      <zml2html:author>gerret</zml2html:author>
+      <zml2html:type>approval</zml2html:type>
+      <zml2html:text>ok</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>11</zml2html:id>
+      <zml2html:author>gerret</zml2html:author>
+      <zml2html:type>disapproval</zml2html:type>
+      <zml2html:text>this is disapproved.</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>10</zml2html:id>
+      <zml2html:author>gerret</zml2html:author>
+      <zml2html:type>approval</zml2html:type>
+      <zml2html:text>yry</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>9</zml2html:id>
+      <zml2html:author>gerret</zml2html:author>
+      <zml2html:type>approval</zml2html:type>
+      <zml2html:text>test</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>8</zml2html:id>
+      <zml2html:author>gerret</zml2html:author>
+      <zml2html:type>disapproval</zml2html:type>
+      <zml2html:text>This is bad</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>7</zml2html:id>
+      <zml2html:author>gerret</zml2html:author>
+      <zml2html:type>approval</zml2html:type>
+      <zml2html:text>This is good</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>6</zml2html:id>
+      <zml2html:author>gerret</zml2html:author>
+      <zml2html:type>approval</zml2html:type>
+      <zml2html:text>This is good</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>5</zml2html:id>
+      <zml2html:author>gerret</zml2html:author>
+      <zml2html:type>approval</zml2html:type>
+      <zml2html:text>This is good</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>4</zml2html:id>
+      <zml2html:author>mark</zml2html:author>
+      <zml2html:type>approval</zml2html:type>
+      <zml2html:text>sdfsfd</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>3</zml2html:id>
+      <zml2html:author>mark</zml2html:author>
+      <zml2html:type>approval</zml2html:type>
+      <zml2html:text>I am approving this shit</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>2</zml2html:id>
+      <zml2html:author>mark</zml2html:author>
+      <zml2html:type>comment</zml2html:type>
+      <zml2html:text>test2</zml2html:text>
+    </zml2html:comment>
+    <zml2html:comment>
+      <zml2html:id>1</zml2html:id>
+      <zml2html:author>mark</zml2html:author>
+      <zml2html:type>comment</zml2html:type>
+      <zml2html:text>test1</zml2html:text>
+    </zml2html:comment>
+  </zml2html:comment-list>
+</Anns>
+  
+
+
+  
+</Spec>

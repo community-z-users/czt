@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1437991407170" analysisTimestamp="1437991405482" release="">
+  <Project projectName="util">
+    <Jar>/Users/nljsf/Local/reps/git/czt/util/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/util/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/util/src/test/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 11:03:09 +0100" total_classes="50" referenced_classes="168" total_bugs="0" total_size="1380" num_packages="7" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="16.05" clock_seconds="75.19" peak_mbytes="1312.75" alloc_mbytes="910.50" gc_seconds="0.62">
+    <PackageStats package="net.sourceforge.czt.base.ast" total_bugs="0" total_types="3" total_size="67">
+      <ClassStats class="net.sourceforge.czt.base.ast.Digit" sourceFile="Digit.java" interface="false" size="55" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.ast.ListTerm" sourceFile="ListTerm.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.ast.Term" sourceFile="Term.java" interface="true" size="11" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.base.impl" total_bugs="0" total_types="3" total_size="207">
+      <ClassStats class="net.sourceforge.czt.base.impl.BaseFactory" sourceFile="BaseFactory.java" interface="false" size="39" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.impl.ListTermImpl" sourceFile="ListTermImpl.java" interface="false" size="91" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.impl.TermImpl" sourceFile="TermImpl.java" interface="false" size="77" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.base.util" total_bugs="0" total_types="14" total_size="296">
+      <ClassStats class="net.sourceforge.czt.base.util.AbstractXmlWriter" sourceFile="AbstractXmlWriter.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.BaseUtils" sourceFile="BaseUtils.java" interface="false" size="44" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.CztDatatypeConverter" sourceFile="CztDatatypeConverter.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.MarshalException" sourceFile="MarshalException.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.PerformanceSettings" sourceFile="PerformanceSettings.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.TermInstanceCountManager" sourceFile="TermInstanceCountManager.java" interface="false" size="91" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.TermToString" sourceFile="TermToString.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.TermTreeNode" sourceFile="TermTreeNode.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.UnmarshalException" sourceFile="UnmarshalException.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.UnsupportedAstClassException" sourceFile="UnsupportedAstClassException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.Visit" sourceFile="Visit.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.XmlReader" sourceFile="XmlReader.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.XmlWriter" sourceFile="XmlWriter.java" interface="true" size="5" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.base.visitor" total_bugs="0" total_types="3" total_size="67">
+      <ClassStats class="net.sourceforge.czt.base.visitor.ListTermVisitor" sourceFile="ListTermVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.visitor.TermVisitor" sourceFile="TermVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.visitor.VisitorUtils" sourceFile="VisitorUtils.java" interface="false" size="63" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.text" total_bugs="0" total_types="1" total_size="48">
+      <ClassStats class="net.sourceforge.czt.text.Position" sourceFile="Position.java" interface="false" size="48" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.util" total_bugs="0" total_types="20" total_size="586">
+      <ClassStats class="net.sourceforge.czt.util.CztException" sourceFile="CztException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.CztLogger" sourceFile="CztLogger.java" interface="false" size="75" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DebugProxy" sourceFile="DebugProxy.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.Delegator" sourceFile="Delegator.java" interface="false" size="33" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DelegatorTest" sourceFile="DelegatorTest.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DelegatorTest$Bar" sourceFile="DelegatorTest.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DelegatorTest$BarImpl" sourceFile="DelegatorTest.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DelegatorTest$Foo" sourceFile="DelegatorTest.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DelegatorTest$FooImpl" sourceFile="DelegatorTest.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.ObjectFactory" sourceFile="ObjectFactory.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.Pair" sourceFile="Pair.java" interface="false" size="29" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.ReflectionUtils" sourceFile="ReflectionUtils.java" interface="false" size="59" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.ReflectiveVisitor" sourceFile="ReflectiveVisitor.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.Section" sourceFile="Section.java" interface="false" size="107" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.Section$LazySectByDialectLoader" sourceFile="Section.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.Section$LazySectLoader" sourceFile="Section.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.SimpleFormatter" sourceFile="SimpleFormatter.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.TermAnnTest" sourceFile="TermAnnTest.java" interface="false" size="33" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.TermAnnTest$TermAnnImpl" sourceFile="TermAnnTest.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.Visitor" sourceFile="Visitor.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.util.cli" total_bugs="0" total_types="6" total_size="109">
+      <ClassStats class="net.sourceforge.czt.util.cli.CztCommandLineBuilder" sourceFile="CztCommandLineBuilder.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.cli.CztTool" sourceFile="CztTool.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.cli.CztToolBuilder" sourceFile="CztToolBuilder.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.cli.CztToolBuilderDefaultValue" sourceFile="CztToolBuilderDefaultValue.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.cli.TypeCheckUtils" sourceFile="CztToolBuilder.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.cli.TypeCheckUtilsBuilder" sourceFile="CztToolBuilder.java" interface="false" size="75" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="301" invocations="2" avgMicrosecondsPerInvocation="150663" maxMicrosecondsPerInvocation="275799" standardDeviationMircosecondsPerInvocation="125136"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="151" invocations="789" avgMicrosecondsPerInvocation="192" maxMicrosecondsPerInvocation="3566" standardDeviationMircosecondsPerInvocation="357"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="98" invocations="168" avgMicrosecondsPerInvocation="583" maxMicrosecondsPerInvocation="21103" standardDeviationMircosecondsPerInvocation="1826"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="77" invocations="168" avgMicrosecondsPerInvocation="461" maxMicrosecondsPerInvocation="5893" standardDeviationMircosecondsPerInvocation="886"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="67" invocations="628" avgMicrosecondsPerInvocation="107" maxMicrosecondsPerInvocation="1960" standardDeviationMircosecondsPerInvocation="167"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="64" invocations="236" avgMicrosecondsPerInvocation="272" maxMicrosecondsPerInvocation="6971" standardDeviationMircosecondsPerInvocation="613"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="57" invocations="237" avgMicrosecondsPerInvocation="244" maxMicrosecondsPerInvocation="3804" standardDeviationMircosecondsPerInvocation="479"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="57" invocations="247" avgMicrosecondsPerInvocation="232" maxMicrosecondsPerInvocation="2781" standardDeviationMircosecondsPerInvocation="442"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="57" invocations="237" avgMicrosecondsPerInvocation="241" maxMicrosecondsPerInvocation="3392" standardDeviationMircosecondsPerInvocation="453"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="50" invocations="792" avgMicrosecondsPerInvocation="63" maxMicrosecondsPerInvocation="13302" standardDeviationMircosecondsPerInvocation="471"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="44" invocations="249" avgMicrosecondsPerInvocation="178" maxMicrosecondsPerInvocation="2364" standardDeviationMircosecondsPerInvocation="336"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="38" invocations="186" avgMicrosecondsPerInvocation="205" maxMicrosecondsPerInvocation="2341" standardDeviationMircosecondsPerInvocation="388"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="27" invocations="237" avgMicrosecondsPerInvocation="116" maxMicrosecondsPerInvocation="1639" standardDeviationMircosecondsPerInvocation="186"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="22" invocations="168" avgMicrosecondsPerInvocation="131" maxMicrosecondsPerInvocation="2042" standardDeviationMircosecondsPerInvocation="235"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory" totalMilliseconds="18" invocations="6" avgMicrosecondsPerInvocation="3090" maxMicrosecondsPerInvocation="18361" standardDeviationMircosecondsPerInvocation="6829"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="17" invocations="168" avgMicrosecondsPerInvocation="103" maxMicrosecondsPerInvocation="3556" standardDeviationMircosecondsPerInvocation="310"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="16" invocations="745" avgMicrosecondsPerInvocation="22" maxMicrosecondsPerInvocation="321" standardDeviationMircosecondsPerInvocation="29"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="16" invocations="168" avgMicrosecondsPerInvocation="96" maxMicrosecondsPerInvocation="5802" standardDeviationMircosecondsPerInvocation="548"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="14" invocations="205" avgMicrosecondsPerInvocation="72" maxMicrosecondsPerInvocation="593" standardDeviationMircosecondsPerInvocation="94"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="13" invocations="237" avgMicrosecondsPerInvocation="58" maxMicrosecondsPerInvocation="583" standardDeviationMircosecondsPerInvocation="99"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="12" invocations="50" avgMicrosecondsPerInvocation="258" maxMicrosecondsPerInvocation="1356" standardDeviationMircosecondsPerInvocation="322"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="12" invocations="168" avgMicrosecondsPerInvocation="76" maxMicrosecondsPerInvocation="766" standardDeviationMircosecondsPerInvocation="123"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="12" invocations="50" avgMicrosecondsPerInvocation="256" maxMicrosecondsPerInvocation="1432" standardDeviationMircosecondsPerInvocation="303"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1437991407170" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

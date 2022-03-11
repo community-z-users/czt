@@ -1,0 +1,11 @@
+/**
+   Validates a given Z term, i.e., checks whether it is valid ZML.
+
+   @param term the net.sourceforge.czt.base.ast.Term to be validated.
+   @return <code>true</code> iff validation was successful.
+ */
+validate(net.sourceforge.czt.base.ast.Term term)
+{
+  validator = new net.sourceforge.czt.z.jaxb.JaxbValidator();
+  return validator.validate(term);
+}

@@ -1,0 +1,65 @@
+\begin{zsection}
+   \SECTION csnsexpr\_various \parents circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c, d: \nat \\
+   \circchannel\ e : \nat \cross \nat \\
+   \circchannelset\ CS == \lchanset c, d \rchanset
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+    	 S ~~==~~ [~ x: \nat; y: \power~\nat ~] \\
+	 \circstate\  S \\
+        A \circdef d?v \then c.(x+v) \then \Skip \\
+        B \circdef c?v \prefixcolon (v \in y) \then d.v \then \Skip \\
+
+        % we can have channel set expressions with heterogeneous channel types
+        % as well as name set expressions with heterogenous types too
+        \circspot A \lpar \{ x \} | CS \cup \lchanset e \rchanset | \{ y \} \rpar B \\
+   \circend
+\end{circus}
+
+\begin{circus}
+   \circprocess\ Q \circdef \circbegin
+\end{circus}
+
+\begin{circusaction}
+    \circstate St == [ a: \nat; b: \nat \cross \nat ]
+\end{circusaction}
+
+\begin{circusaction}
+   \circnameset NS == \{ a, b \}
+\end{circusaction}
+
+\begin{circusaction}
+    A \circdef c.a \then \Skip
+    \\
+    B \circdef e.b \then \Skip
+    \\
+    % heterogeneous elements in name set display
+    C \circdef A \lpar \{a,b\} | CS | \{\} \rpar B
+    \\
+    % inconsistent name sets is not a type error!!! To be checked by other tool.
+    D \circdef A \lpar \{a,b\} | CS \setminus \lchanset d \rchanset | \{a\} \rpar B
+    \\
+    % NS + CS reference
+    E \circdef A \lpar NS | CS | NS \rpar B
+    \\
+    % we can have channel set and name set expressions with heterogeneous channel types
+    F \circdef A \lpar NS \setminus \{ a \} | CS \setminus \lchanset d \rchanset | NS \setminus \{ b \} \rpar B
+\end{circusaction}
+
+\begin{circusaction}
+    \circspot A \circseq B \circseq C \circseq D \circseq E \circseq F
+\end{circusaction}
+
+\begin{circus}
+   \circend
+\end{circus}
+
+\begin{circus}
+% we can have channel set expressions with heterogeneous channel types
+   \circprocess\ R \circdef\ P \lpar CS \cup \lchanset e \rchanset \rpar Q
+\end{circus}

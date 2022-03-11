@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION RedeclaredGlobalName\_FreePara_3
+\end{zsection}
+
+\begin{zed}
+  x == 1\\
+  y ::= x \ldata \nat \rdata
+\end{zed}

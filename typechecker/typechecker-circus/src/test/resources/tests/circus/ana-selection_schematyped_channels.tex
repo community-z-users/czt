@@ -1,0 +1,162 @@
+%\documentclass[runningheads]{llncs}
+%In order to omit page numbers and running heads
+%please use the following line instead of the first command line:
+\documentclass{llncs}
+%\documentclass{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{latexsym,amssymb,amsmath,stmaryrd,float} %times,float}
+\usepackage{graphicx,epsf,curves}
+\usepackage{circus}%,my-widepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Ana's macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\tref}{\sqsubseteq_T}
+\newcommand{\fref}{\sqsubseteq_F}
+\newcommand{\pref}{\sqsubseteq_P}
+\newcommand{\sym}[1]{\hbox{\rm\textbf{\textit{#1}}}}
+\newcommand{\healthy}[2]{\sym{#1}(#2)}
+
+% To avoid formulas in $ $ to be broken across lines
+\relpenalty=10000 \binoppenalty=10000
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Selection Techniques}
+
+\author{Ana Cavalcanti\inst{1} \and Marie-Claude Gaudel\inst{2}}
+\institute{
+  University of York, Department of Computer Science
+  \\ %
+  York YO10 5DD, UK
+  \and
+  LRI, Universit\'e de Paris-Sud and CNRS
+  \\ %
+  Orsay 91405, France
+  } %
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+\label{section:introduction}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{\Circus}
+\label{section:circus}
+
+A \Circus\ program is a sequence of paragraphs just like in Z, but we can
+declare channels and processes.  A system is specified in \Circus\ as a
+process:~it encapsulates a state, and exhibits some behaviour.
+Figure~\ref{figure:identifier-generator} gives a small example.
+
+\begin{figure}[t]
+  \setlength{\abovedisplayskip}{0pt}
+  \begin{zed}
+    [String]
+  \end{zed}
+  \begin{axdef}
+    eS: String
+  \end{axdef}
+  \begin{schema}{Message}
+    priority: \num
+    \\ %
+    text: String
+  \end{schema}
+  \begin{circus}
+    \circchannel\ inGate, outGate: Message
+    \also%
+    \circchannel\ ready
+    \also%
+    \circprocess\ Buffer \circdef \circbegin
+   \end{circus}%
+   {\setlength{\zedindent}{2\zedindent}%
+     \begin{circusaction}
+        \circstate\ BS == [~ q: \seq Message ~]
+        \also %
+        Init == [~ BS~' | q' = \langle \rangle ~]
+      \end{circusaction}
+      \begin{schema}{Add}
+        \Delta BS
+        \\ %
+        m?: Message
+      \where
+        q' = q \cat \langle m? \rangle
+      \end{schema}
+      \begin{schema}{Out}
+        \Delta BS
+        \\%
+        om!: Message
+      \where
+        q = \langle \rangle \implies om!.priority = 0 \land om!.text = eS
+        \\ %
+        q \neq \langle \rangle \implies ((\exists i: 1 \upto \# q @ q\ i = om! \land q' = ((1 \upto i-1) \cup (i+1 \upto \# q)) \extract q \land (\forall j: 1 \upto i-1 @ (q~j).priority < om!.priority))) \land (\forall m: \ran q @ m.priority \leq om!.priority)
+      \end{schema}%
+	\begin{circusaction}
+	  \circspot\ \circmu\ X \circspot inGate?m \then \lschexpract Add \rschexpract \circseq X \extchoice ready \then
+            (\circmu Y \circspot \circvar\ om: Message \circspot \lschexpract Out \rschexpract \circseq outGate!om \then X \extchoice inGate?m \then
+                \lschexpract Add \rschexpract \circseq Y)
+	\end{circusaction}
+    }%
+    \begin{circus} %
+      \circend
+    \end{circus}
+  \caption{\label{figure:identifier-generator}Simple \Circus\ specification: fresh identifier generator}
+\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conclusions}
+\label{section:conclusions}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Acknowledgments}
+
+We are grateful to the Royal Society of London, who support our collaboration
+through an International Joint Project.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bibliographystyle{plain}
+
+\bibliography{publications,espfor}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

@@ -1,0 +1,54 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch27\_ps \parents ch27
+\end{zsection}
+CHANGES:
+}
+\chapter{Chapter~\ref{ch27} proofs}
+
+\section{Initialisation proof}
+\plink{ch27.bc-init}
+
+\begin{LPScript}\begin{zproof}[tBetwConcInit]
+    invoke ConInitState;
+    prenex;
+    instantiate allLogs\_\_0' == allLogs',
+        archive\_\_0' == archive', authenticFrom\_\_0' == authenticFrom',
+        authenticTo\_\_0' == authenticTo', conAuthPurse\_\_0' == conAuthPurse',
+        definitelyLost\_\_0' == definitelyLost', ether\_\_0' == ether',
+        fromInEpa\_\_0' == fromInEpa', fromInEpr\_\_0' == fromInEpr',
+        fromLogged\_\_0' == fromLogged', maybeLost\_\_0' == maybeLost',
+        toInEapayee\_\_0' == toInEapayee', toInEpv\_\_0' == toInEpv',
+        toLogged\_\_0' == toLogged';
+    invoke Rbc;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\section{Finalisation proof}\plink{ch27.bc-fin}
+
+\begin{LPScript}\begin{zproof}[lCAuxWorldFinalEquiv]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorldCh7;
+    invoke AuxWorld;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwConcFinal]
+    invoke BetwFinState;
+    invoke ConFinState;
+    invoke Rbc;
+    prenex;
+    equality substitute conAuthPurse;
+    instantiate name\_\_0 == name;
+    simplify;
+    rearrange;
+    simplify;
+    use lCAuxWorldFinalEquiv;
+    rearrange;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\newpage
+\section{Summary}\label{ch27.ps.summary}
+\lpscriptsummary

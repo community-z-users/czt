@@ -1,0 +1,34 @@
+\begin{zsection}
+  \SECTION SetCompExpr\_WithoutExpr
+\end{zsection}
+
+\begin{zed}
+  \vdash? \{ x : \nat \} \in \power\nat
+\end{zed}
+
+\begin{zed}
+  \vdash? \{ x : \nat; y : \power \nat \} 
+               \in \power (\nat \cross \power\nat)
+\end{zed}
+
+\begin{zed}
+  \vdash? \{ x == \nat \} \in \power\power\nat
+\end{zed}
+
+\begin{zed}
+  \vdash? \{ | true\} \in \power [|true]
+\end{zed}
+
+\begin{zed}
+  \vdash? \{ [x : \nat] | true\} \in \power [x : \nat] 
+\end{zed}
+
+\begin{zed}
+  \vdash? \{ [x : \nat; y : \power\nat] | true\} 
+               \in \power [x : \nat; y : \power\nat] 
+\end{zed}
+
+\begin{zed}
+  \vdash? \{ [x : \nat; y : \power\nat] | true\} =
+          \{ [y : \power\nat; x : \nat] | true\}
+\end{zed}

@@ -1,0 +1,361 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>corejava-parent</artifactId>
+  <packaging>pom</packaging>
+
+  <name>CZT Corejava</name>
+  <description>
+    Provides AST classes for Z and Z extensions.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <build.xml.dir>${project.basedir}/target/generated-sources/xml/xslt</build.xml.dir>
+    <xml.dir>${project.basedir}/src/main/resources/xml</xml.dir>
+    <xsl.dir>${project.basedir}/src/main/resources/xsl</xsl.dir>
+    <jaxb.xsd.dir>${project.basedir}/target/generated-resources/xml/xslt</jaxb.xsd.dir>
+    <jaxb.dir>${project.basedir}/target/generated-sources/jaxb</jaxb.dir>
+  </properties>
+
+  <modules>
+    <module>corejava-src</module>
+    <module>corejava-z</module>
+    <module>corejava-zpatt</module>
+    <module>corejava-zeves</module>
+    <module>corejava-oz</module>
+    <module>corejava-circus</module>
+    <module>corejava-circuspatt</module>
+    <module>corejava-circustime</module>
+    <module>corejava-circusconf</module>
+  </modules>
+
+  <build>
+    <pluginManagement>
+    <plugins>
+      <!-- Put GnAST plugin first since xml generation ought to generate to ./gnast as well -->
+      <plugin>
+        <groupId>${czt.dev.groupId}</groupId>
+        <artifactId>gnast-maven-plugin</artifactId>
+        <version>1.6-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <configuration>
+              <!-- Additional project-specific GnAST templates in every project. -->
+              <templates>
+                <templateDirectory>${project.basedir}/src/main/resources/vm/gnast</templateDirectory>
+                <!-- the common /vm/gnast directory is a classpath resource (in corejava-src module).
+                     Added second to allow overriding of base templates if needed -->
+                <templateDirectory>/vm/gnast</templateDirectory>
+              </templates>
+              <!-- gnast-mapping.properties as classpath resource (in corejava-src module) -->
+              <mappingFileLocation>/gnast-mapping.properties</mappingFileLocation>
+              <sourceSchemas>
+              	<!-- Couldn't these be inferred from the context? -->
+                <schemaLocation>net/sourceforge/czt/zml/xsd/CircusConf.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/CircusTime.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/Circus.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/CircusPattern.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/Object-Z.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/Z.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/ZEves.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/ZPattern.xsd</schemaLocation>
+              </sourceSchemas>
+              <addAstFinaliser>false</addAstFinaliser>
+              <verbose>true</verbose>
+            </configuration>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <!-- Depend on ZML to locate the ZML schema files -->
+            <groupId>${project.groupId}</groupId>
+            <artifactId>zml</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+          <dependency>
+            <!-- Depend on corejava-src to locate template files and mapping.properties -->
+            <groupId>${project.groupId}</groupId>
+            <artifactId>corejava-src</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>generate-chars</id>
+            <phase>generate-sources</phase>
+	        <goals>
+	          <goal>transform</goal>
+	        </goals>
+            <configuration>
+            	<!-- This is neat: it avoids the reference to all the specific .xml files, and instead uses a file mapper?  -->
+              <transformationSets>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <!-- 
+                  <includes>
+                    <include>zchar.xml</include>
+                  </includes>
+                  -->
+                  <outputDir>${build.xml.dir}/</outputDir>
+                  <fileMappers>
+                    <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                      <!-- 
+                      <targetName>net/sourceforge/czt/z/util/ZChar.java</targetName>
+                      -->
+                    </fileMapper>
+                  </fileMappers>
+                  <!-- 
+                  <stylesheet>${xsl.dir}/zchar2class.xsl</stylesheet>
+                  -->
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <!-- 
+                  <includes>
+                    <include>zchar.xml</include>
+                  </includes>
+                  -->
+                  <outputDir>${build.xml.dir}/</outputDir>
+                  <fileMappers>
+                    <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                      <!-- 
+                      <targetName>net/sourceforge/czt/z/util/ZString.java</targetName>
+                      -->
+                    </fileMapper>
+                  </fileMappers>
+                  <!-- 
+                  <stylesheet>${xsl.dir}/zchar2stringclass.xsl</stylesheet>
+                   -->
+                </transformationSet>
+              </transformationSets>
+            </configuration>
+          </execution>
+
+          <execution>
+            <!-- Annotates ZML schema with missing JAXB annotations, e.g. adds specific complex types
+                 for elements sharing some type. -->
+            <id>annotate-jaxb</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <transformationSets>
+                <transformationSet>
+                  <dir>${project.basedir}/../../zml/src/main/resources/net/sourceforge/czt/zml/xsd</dir>
+                  <includes>
+                    <include>*.xsd</include>
+                  </includes>
+                  <outputDir>${jaxb.xsd.dir}</outputDir>
+                  <!-- Stylesheet is in classpath, `corejava-src` project -->
+                  <stylesheet>/xsl/annotateJaxbBindings.xsl</stylesheet>
+                  <addedToClasspath>false</addedToClasspath>
+                </transformationSet>
+              </transformationSets>
+            </configuration>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <!-- Depend on corejava-src to locate stylesheet -->
+            <groupId>${project.groupId}</groupId>
+            <artifactId>corejava-src</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${build.xml.dir}</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jvnet.jaxb2.maven2</groupId>
+        <artifactId>maven-jaxb2-plugin</artifactId>
+        <version>0.8.2</version>
+        <executions>
+          <execution>
+            <id>generate-jaxb</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <schemaDirectory>${jaxb.xsd.dir}</schemaDirectory>
+              <!-- Each Corejava project must indicate their XSD schema using <includes> so that
+		only the required schema JAXB is generated (without including child schemas), e.g.:
+              <schemaIncludes>
+                <include>Z.xsd</include>
+              </schemaIncludes>
+              
+              	LF: couldn't follow this comment above; there are no "schemaIncludes" anywhere here.
+              		I think it means that child projects need to add the schema includes themselves
+              		without adding their dependencies (i.e. Circus adds only Circus.xml).
+              -->
+              <generateDirectory>${jaxb.dir}</generateDirectory>
+              <!-- Could not get Episode to work - see comments on `maven-clean-plugin:clean-extra-jaxb`.
+              <episode>true</episode> 
+              <extension>true</extension>
+              -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.5</version>
+        <executions>
+          <execution>
+            <!-- A workaround to split JAXB generation between projects.
+            
+                 The "proper" way to do separate compilation with JAXB is to use .episode files, which
+                 indicate the bindings for each separate compilation. Unfortunately, I could not get it
+                 working properly because of several things:
+                 
+                   - XJC (JAXB generator) does not allow using <jaxb:schemaBindings> in XSD files when
+                     used together with .episode files. It complains about multiple schemaBindings definitions.
+                     As a workaround, all jaxb:* elements should be cleaned from all schemas that have
+                     .episode files defined for them. (Currently all ZML XSDs have jaxb:* elements).
+                     This can be done using additional XSL tranformation to remove all jaxb:* elements. 
+                   - Even with the above fixed, XJC generated additional ObjectFactory for parent schemas,
+                     which I did not find how to suppress. This would result in too many ObjectFactories
+                     around, and compilation errors arising from them.
+                     
+                 Because of these issues, I opted for another way to split the JAXB generation. In every
+                 project, JAXB for a specific XSD is generated (which generates JAXB for all its parents
+                 as well - so for ZPatt, there are both `z` and `zpatt` packages). Then `clean` plugin is
+                 used to delete these extra parent packages manually. This way only the required package
+                 is left (`zpatt` in this case - `z` is deleted and referenced from dependency instead).
+                 
+                 This workaround has been suggested in a number of queries on JAXB, when XJC is too strict
+                 for a certain problem. 
+             
+             	 LF: I think I follow. One question: how to remove the long delay in rebuilding corejava
+             	 	 everytime one starts the IDE? In the past we had some flag (or even file) somewhere
+             	 	 to say that files were old hence no need for re-generation.     
+             -->
+            <id>clean-extra-jaxb</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <configuration>
+              <excludeDefaultDirectories>true</excludeDefaultDirectories>
+              <filesets>
+                <fileset>
+                  <directory>${jaxb.dir}</directory>
+                  <!-- By default, delete the whole output dir of JAXB generation. Each Corejava project
+                       must indicate which package to exclude from deletion, e.g.:
+                  <excludes>
+                    <exclude>net/sourceforge/czt/z/jaxb/gen/*</exclude>
+                  </excludes>
+                  -->
+                  <followSymlinks>false</followSymlinks>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <!-- Exclude the internal package from being added to `Import-Package`, otherwise
+                 it breaks the build since the internal package cannot be resolved from
+                 system.bundle in Tycho. -->
+            <Import-Package>!com.sun.org.apache.xerces.internal.dom,*</Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+
+      <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+      <plugin>
+        <groupId>org.eclipse.m2e</groupId>
+        <artifactId>lifecycle-mapping</artifactId>
+        <version>1.0.0</version>
+        <configuration>
+          <lifecycleMappingMetadata>
+            <pluginExecutions>
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-clean-plugin</artifactId>
+                  <versionRange>[2.0,)</versionRange>
+                  <goals>
+                    <goal>clean</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <execute>
+                    <!-- Run clean on incremental - if the extra generated files are added during incremental
+                         build, remove them every time. -->
+                    <runOnIncremental>true</runOnIncremental>
+                  </execute>
+                </action>
+              </pluginExecution>
+            </pluginExecutions>
+          </lifecycleMappingMetadata>
+        </configuration>
+      </plugin>
+    </plugins>
+    </pluginManagement>
+  </build>
+
+
+  <!-- Put site under /corejava -->
+  <url>${site.url}/corejava</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/corejava</url>
+    </site>
+  </distributionManagement>
+
+</project>

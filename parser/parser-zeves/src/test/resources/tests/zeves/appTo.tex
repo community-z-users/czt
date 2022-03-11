@@ -1,0 +1,21 @@
+
+\begin{zsection}
+ \SECTION appTo \parents zeves\_toolkit, set\_toolkit
+\end{zsection}
+
+\begin{theorem}{foo1}
+   \forall R, S: \power(\nat \cross \nat); x: \nat @ (R \cup S) ~applies\$to~ x
+\end{theorem}
+
+\begin{theorem}{foo2}
+   \forall R: \power(\nat \cross \nat); x: \nat @ R ~applies\$to~ x
+\end{theorem}
+
+\begin{zproof}[foo2]
+   prove;
+   with predicate (R~ applies\$to~ x) rewrite;
+\end{zproof}
+
+\begin{theorem}{foo3}
+    \forall i: \num @ \exists j : \num @ j = the\$integer~(i)
+\end{theorem}

@@ -1,0 +1,1799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1437993019747" analysisTimestamp="1437993009637" release="">
+  <Project projectName="corejava-z">
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/generated-sources/gnast</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/generated-sources/xml/xslt</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/generated-sources/jaxb</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.impl.ZFactoryImpl">
+      <SourceLine classname="net.sourceforge.czt.z.impl.ZFactoryImpl" start="51" end="1491" sourcefile="ZFactoryImpl.java" sourcepath="net/sourceforge/czt/z/impl/ZFactoryImpl.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/z/util/PrintVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ZUtils">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.impl.ZNameImpl">
+      <SourceLine classname="net.sourceforge.czt.z.impl.ZNameImpl" sourcefile="ZNameImpl.java" sourcepath="net/sourceforge/czt/z/impl/ZNameImpl.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.impl.ZNameImpl" name="debugZName_" signature="Z" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.impl.ZNameImpl" sourcefile="ZNameImpl.java" sourcepath="net/sourceforge/czt/z/impl/ZNameImpl.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.impl.ZNameImpl" start="312" end="312" startBytecode="41" endBytecode="41" sourcefile="ZNameImpl.java" sourcepath="net/sourceforge/czt/z/impl/ZNameImpl.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.z.jaxb.JaxbXmlReader">
+      <SourceLine classname="net.sourceforge.czt.z.jaxb.JaxbXmlReader" start="36" end="46" sourcefile="JaxbXmlReader.java" sourcepath="net/sourceforge/czt/z/jaxb/JaxbXmlReader.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.base.jaxb.JaxbXmlReader">
+      <SourceLine classname="net.sourceforge.czt.base.jaxb.JaxbXmlReader" sourcefile="JaxbXmlReader.java" sourcepath="net/sourceforge/czt/base/jaxb/JaxbXmlReader.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.z.jaxb.JaxbXmlWriter">
+      <SourceLine classname="net.sourceforge.czt.z.jaxb.JaxbXmlWriter" start="39" end="54" sourcefile="JaxbXmlWriter.java" sourcepath="net/sourceforge/czt/z/jaxb/JaxbXmlWriter.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.base.jaxb.JaxbXmlWriter">
+      <SourceLine classname="net.sourceforge.czt.base.jaxb.JaxbXmlWriter" sourcefile="JaxbXmlWriter.java" sourcepath="net/sourceforge/czt/base/jaxb/JaxbXmlWriter.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP2" priority="2" rank="18" abbrev="EI2" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.CreateVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.CreateVisitor" sourcefile="CreateVisitor.java" sourcepath="net/sourceforge/czt/z/util/CreateVisitor.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.z.util.CreateVisitor" name="setChildren" signature="([Ljava/lang/Object;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.z.util.CreateVisitor" start="65" end="66" startBytecode="0" endBytecode="61" sourcefile="CreateVisitor.java" sourcepath="net/sourceforge/czt/z/util/CreateVisitor.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.z.util.CreateVisitor" name="children_" signature="[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.z.util.CreateVisitor" sourcefile="CreateVisitor.java" sourcepath="net/sourceforge/czt/z/util/CreateVisitor.java"/>
+    </Field>
+    <LocalVariable name="children" register="1" pc="2" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.z.util.CreateVisitor" start="65" end="65" startBytecode="2" endBytecode="2" sourcefile="CreateVisitor.java" sourcepath="net/sourceforge/czt/z/util/CreateVisitor.java"/>
+    <SourceLine classname="net.sourceforge.czt.z.util.CreateVisitor" start="65" end="65" startBytecode="2" endBytecode="2" sourcefile="CreateVisitor.java" sourcepath="net/sourceforge/czt/z/util/CreateVisitor.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.z.util.Factory" start="40" end="2431" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/z/util/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.impl.ZFactoryImpl">
+      <SourceLine classname="net.sourceforge.czt.z.impl.ZFactoryImpl" sourcefile="ZFactoryImpl.java" sourcepath="net/sourceforge/czt/z/impl/ZFactoryImpl.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.impl.ZNameImpl">
+      <SourceLine classname="net.sourceforge.czt.z.impl.ZNameImpl" sourcefile="ZNameImpl.java" sourcepath="net/sourceforge/czt/z/impl/ZNameImpl.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ZUtils">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.LongDescriptionResourceBundle">
+      <SourceLine classname="net.sourceforge.czt.z.util.LongDescriptionResourceBundle" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/z/util/LongDescriptionResourceBundle.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.z.util.LongDescriptionResourceBundle" name="getContents" signature="()[[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.z.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="0" endBytecode="45" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/z/util/LongDescriptionResourceBundle.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.z.util.LongDescriptionResourceBundle" name="CONTENTS" signature="[[Ljava/lang/Object;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.LongDescriptionResourceBundle" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/z/util/LongDescriptionResourceBundle.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="3" endBytecode="3" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/z/util/LongDescriptionResourceBundle.java"/>
+    <SourceLine classname="net.sourceforge.czt.z.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="3" endBytecode="3" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/z/util/LongDescriptionResourceBundle.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.PrintVisitor" start="1" end="752" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/z/util/PrintVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.base.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.base.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/base/util/PrintVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ShortDescriptionResourceBundle">
+      <SourceLine classname="net.sourceforge.czt.z.util.ShortDescriptionResourceBundle" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/z/util/ShortDescriptionResourceBundle.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.z.util.ShortDescriptionResourceBundle" name="getContents" signature="()[[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.z.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="0" endBytecode="45" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/z/util/ShortDescriptionResourceBundle.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.z.util.ShortDescriptionResourceBundle" name="CONTENTS" signature="[[Ljava/lang/Object;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ShortDescriptionResourceBundle" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/z/util/ShortDescriptionResourceBundle.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="3" endBytecode="3" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/z/util/ShortDescriptionResourceBundle.java"/>
+    <SourceLine classname="net.sourceforge.czt.z.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="3" endBytecode="3" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/z/util/ShortDescriptionResourceBundle.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.StandardZ">
+      <SourceLine classname="net.sourceforge.czt.z.util.StandardZ" start="24" end="29" sourcefile="StandardZ.java" sourcepath="net/sourceforge/czt/z/util/StandardZ.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ZUtils">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.TermSelector">
+      <SourceLine classname="net.sourceforge.czt.z.util.TermSelector" start="40" end="128" sourcefile="TermSelector.java" sourcepath="net/sourceforge/czt/z/util/TermSelector.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.TermSelector$FindTermVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.TermSelector$FindTermVisitor" sourcefile="TermSelector.java" sourcepath="net/sourceforge/czt/z/util/TermSelector.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="HE_EQUALS_USE_HASHCODE" priority="1" rank="14" abbrev="HE" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.z.util.ZChar" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" start="77" end="83" startBytecode="0" endBytecode="134" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Method>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="ALL" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="240" end="240" startBytecode="369" endBytecode="369" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="AMP" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="205" end="205" startBytecode="306" endBytecode="306" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="AND" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="215" end="215" startBytecode="324" endBytecode="324" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="ARITHMOS" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="60" end="60" startBytecode="45" endBytecode="45" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="AXCHAR" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="170" end="170" startBytecode="243" endBytecode="243" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="BIGCAP" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="385" end="385" startBytecode="630" endBytecode="630" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="BIGCUP" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="380" end="380" startBytecode="621" endBytecode="621" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="BIJ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="475" end="475" startBytecode="792" endBytecode="792" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="CAP" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="365" end="365" startBytecode="594" endBytecode="594" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="CAT" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="545" end="545" startBytecode="918" endBytecode="918" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="CIRC" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="405" end="405" startBytecode="666" endBytecode="666" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="COLON" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="270" end="270" startBytecode="423" endBytecode="423" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="COMMA" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="280" end="280" startBytecode="441" endBytecode="441" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="COMP" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="400" end="400" startBytecode="657" endBytecode="657" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="CROSS" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="250" end="250" startBytecode="387" endBytecode="387" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="CUP" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="360" end="360" startBytecode="585" endBytecode="585" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="DELTA" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="35" end="35" startBytecode="0" endBytecode="0" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="DOT" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="285" end="285" startBytecode="450" endBytecode="450" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="DRES" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="410" end="410" startBytecode="675" endBytecode="675" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="EMPTYSET" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="345" end="345" startBytecode="558" endBytecode="558" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="ENDCHAR" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="185" end="185" startBytecode="270" endBytecode="270" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="EQUALS" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="260" end="260" startBytecode="405" endBytecode="405" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="EXI" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="245" end="245" startBytecode="378" endBytecode="378" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="EXTRACT" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="550" end="550" startBytecode="927" endBytecode="927" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="FFUN" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="480" end="480" startBytecode="801" endBytecode="801" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="FILTER" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="555" end="555" startBytecode="936" endBytecode="936" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="FINJ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="485" end="485" startBytecode="810" endBytecode="810" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="FINSET" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="390" end="390" startBytecode="639" endBytecode="639" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="FUN" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="330" end="330" startBytecode="531" endBytecode="531" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="GENCHAR" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="180" end="180" startBytecode="261" endBytecode="261" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="GEQ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="515" end="515" startBytecode="864" endBytecode="864" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="GREATER" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="520" end="520" startBytecode="873" endBytecode="873" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="IFF" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="230" end="230" startBytecode="351" endBytecode="351" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="IMP" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="225" end="225" startBytecode="342" endBytecode="342" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="INJ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="460" end="460" startBytecode="765" endBytecode="765" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="INSTROKE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="85" end="85" startBytecode="90" endBytecode="90" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LAMBDA" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="50" end="50" startBytecode="27" endBytecode="27" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LANGLE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="535" end="535" startBytecode="900" endBytecode="900" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LBIND" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="145" end="145" startBytecode="198" endBytecode="198" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LBRACE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="135" end="135" startBytecode="180" endBytecode="180" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LDATA" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="155" end="155" startBytecode="216" endBytecode="216" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LEQ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="505" end="505" startBytecode="846" endBytecode="846" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LESS" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="510" end="510" startBytecode="855" endBytecode="855" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LIMG" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="435" end="435" startBytecode="720" endBytecode="720" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LL" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="110" end="110" startBytecode="135" endBytecode="135" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LPAREN" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="115" end="115" startBytecode="144" endBytecode="144" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="LSQUARE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="125" end="125" startBytecode="162" endBytecode="162" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="MAPSTO" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="395" end="395" startBytecode="648" endBytecode="648" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="MEM" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="265" end="265" startBytecode="414" endBytecode="414" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="MINUS" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="500" end="500" startBytecode="837" endBytecode="837" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="MU" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="55" end="55" startBytecode="36" endBytecode="36" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="MULT" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="525" end="525" startBytecode="882" endBytecode="882" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NAT" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="65" end="65" startBytecode="54" endBytecode="54" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NDRES" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="420" end="420" startBytecode="693" endBytecode="693" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="90" end="90" startBytecode="99" endBytecode="99" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NEG" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="495" end="495" startBytecode="828" endBytecode="828" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NEQ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="335" end="335" startBytecode="540" endBytecode="540" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NLCHAR" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="190" end="190" startBytecode="279" endBytecode="279" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NOT" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="235" end="235" startBytecode="360" endBytecode="360" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NOTMEM" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="340" end="340" startBytecode="549" endBytecode="549" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NRRES" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="425" end="425" startBytecode="702" endBytecode="702" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NUM" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="490" end="490" startBytecode="819" endBytecode="819" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NUMBER" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="530" end="530" startBytecode="891" endBytecode="891" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="NW" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="105" end="105" startBytecode="126" endBytecode="126" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="OPLUS" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="445" end="445" startBytecode="738" endBytecode="738" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="OR" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="220" end="220" startBytecode="333" endBytecode="333" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="OUTSTROKE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="80" end="80" startBytecode="81" endBytecode="81" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="PFUN" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="450" end="450" startBytecode="747" endBytecode="747" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="PINJ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="455" end="455" startBytecode="756" endBytecode="756" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="PLUS" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="315" end="315" startBytecode="504" endBytecode="504" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="POWER" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="70" end="70" startBytecode="63" endBytecode="63" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="PRIME" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="75" end="75" startBytecode="72" endBytecode="72" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="PSURJ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="465" end="465" startBytecode="774" endBytecode="774" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="RANGLE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="540" end="540" startBytecode="909" endBytecode="909" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="RBIND" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="150" end="150" startBytecode="207" endBytecode="207" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="RBRACE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="140" end="140" startBytecode="189" endBytecode="189" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="RDATA" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="160" end="160" startBytecode="225" endBytecode="225" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="REL" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="325" end="325" startBytecode="522" endBytecode="522" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="RIMG" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="440" end="440" startBytecode="729" endBytecode="729" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="RPAREN" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="120" end="120" startBytecode="153" endBytecode="153" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="RRES" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="415" end="415" startBytecode="684" endBytecode="684" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="RSQUARE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="130" end="130" startBytecode="171" endBytecode="171" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SCHCHAR" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="175" end="175" startBytecode="252" endBytecode="252" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="100" end="100" startBytecode="117" endBytecode="117" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SEMICOLON" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="275" end="275" startBytecode="432" endBytecode="432" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SETMINUS" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="370" end="370" startBytecode="603" endBytecode="603" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SOLIDUS" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="255" end="255" startBytecode="396" endBytecode="396" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SPACE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="195" end="195" startBytecode="288" endBytecode="288" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SPOT" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="290" end="290" startBytecode="459" endBytecode="459" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SUBSET" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="355" end="355" startBytecode="576" endBytecode="576" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SUBSETEQ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="350" end="350" startBytecode="567" endBytecode="567" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SURJ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="470" end="470" startBytecode="783" endBytecode="783" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SW" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="95" end="95" startBytecode="108" endBytecode="108" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="SYMDIFF" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="375" end="375" startBytecode="612" endBytecode="612" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="THETA" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="45" end="45" startBytecode="18" endBytecode="18" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="TILDE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="430" end="430" startBytecode="711" endBytecode="711" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="TYPECOLON" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="320" end="320" startBytecode="513" endBytecode="513" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="VDASH" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="210" end="210" startBytecode="315" endBytecode="315" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="VL" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="200" end="200" startBytecode="297" endBytecode="297" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="XI" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="40" end="40" startBytecode="9" endBytecode="9" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="ZCOMP" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="305" end="305" startBytecode="486" endBytecode="486" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="ZEDCHAR" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="165" end="165" startBytecode="234" endBytecode="234" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="ZHIDE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="295" end="295" startBytecode="468" endBytecode="468" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="ZPIPE" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="310" end="310" startBytecode="495" endBytecode="495" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="ZPROJ" signature="Lnet/sourceforge/czt/z/util/ZChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZString" start="300" end="300" startBytecode="477" endBytecode="477" sourcefile="ZString.java" sourcepath="net/sourceforge/czt/z/util/ZString.java"/>
+  </BugInstance>
+  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" rank="18" abbrev="SS" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZChar">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.ZChar" name="ASCII" signature="I" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZChar" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZChar" start="30" end="30" startBytecode="8" endBytecode="8" sourcefile="ZChar.java" sourcepath="net/sourceforge/czt/z/util/ZChar.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZUtils">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils" start="36" end="1791" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ZUtils$ZNameComparator">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils$ZNameComparator" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZUtils">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils" start="36" end="1791" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ZUtils$ZNameIgnoreStrokesComparator">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils$ZNameIgnoreStrokesComparator" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" priority="2" rank="19" abbrev="Se" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZUtils$ZNameComparator">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils$ZNameComparator" start="1" end="1690" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZUtils$ZNameComparator" start="1669" end="1669" startBytecode="0" endBytecode="0" sourcefile="ZNameComparator.java" sourcepath="net/sourceforge/czt/z/util/ZNameComparator.java"/>
+  </BugInstance>
+  <BugInstance type="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" priority="2" rank="19" abbrev="Se" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZUtils$ZNameIgnoreStrokesComparator">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils$ZNameIgnoreStrokesComparator" start="1" end="1715" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+    <SourceLine classname="net.sourceforge.czt.z.util.ZUtils$ZNameIgnoreStrokesComparator" start="1694" end="1694" startBytecode="0" endBytecode="0" sourcefile="ZNameIgnoreStrokesComparator.java" sourcepath="net/sourceforge/czt/z/util/ZNameIgnoreStrokesComparator.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.collector.ExprCollector">
+      <SourceLine classname="net.sourceforge.czt.z.util.collector.ExprCollector" start="1" end="74" sourcefile="ExprCollector.java" sourcepath="net/sourceforge/czt/z/util/collector/ExprCollector.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.collector.ZSchTextCollector">
+      <SourceLine classname="net.sourceforge.czt.z.util.collector.ZSchTextCollector" sourcefile="ZSchTextCollector.java" sourcepath="net/sourceforge/czt/z/util/collector/ZSchTextCollector.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" priority="2" rank="18" abbrev="UrF" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.collector.ZSchTextCollector">
+      <SourceLine classname="net.sourceforge.czt.z.util.collector.ZSchTextCollector" sourcefile="ZSchTextCollector.java" sourcepath="net/sourceforge/czt/z/util/collector/ZSchTextCollector.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.z.util.collector.ZSchTextCollector" name="fPredCollector" signature="Lnet/sourceforge/czt/z/util/collector/PredCollector;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.z.util.collector.ZSchTextCollector" sourcefile="ZSchTextCollector.java" sourcepath="net/sourceforge/czt/z/util/collector/ZSchTextCollector.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.z.util.collector.ZSchTextCollector" start="64" end="64" startBytecode="25" endBytecode="25" sourcefile="ZSchTextCollector.java" sourcepath="net/sourceforge/czt/z/util/collector/ZSchTextCollector.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Fri, 24 Jul 2015 14:43:59 +0100" total_classes="584" referenced_classes="781" total_bugs="124" total_size="21632" num_packages="10" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="70.77" clock_seconds="457.29" peak_mbytes="1348.72" alloc_mbytes="910.50" gc_seconds="3.56" priority_2="15" priority_1="109">
+    <PackageStats package="net.sourceforge.czt.base.ast" total_bugs="0" total_types="2" total_size="37">
+      <ClassStats class="net.sourceforge.czt.base.ast.TermTest" sourceFile="TermTest.java" interface="false" size="31" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.ast.TermTest$ExampleTermVisitor" sourceFile="TermTest.java" interface="false" size="6" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.base.jaxb" total_bugs="0" total_types="2" total_size="73">
+      <ClassStats class="net.sourceforge.czt.base.jaxb.JaxbXmlReader" sourceFile="JaxbXmlReader.java" interface="false" size="38" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.jaxb.JaxbXmlWriter" sourceFile="JaxbXmlWriter.java" interface="false" size="35" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.base.util" total_bugs="0" total_types="1" total_size="31">
+      <ClassStats class="net.sourceforge.czt.base.util.XmlWriterReaderTest" sourceFile="XmlWriterReaderTest.java" interface="false" size="31" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.ast" total_bugs="0" total_types="132" total_size="621">
+      <ClassStats class="net.sourceforge.czt.z.ast.And" sourceFile="And.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.AndExpr" sourceFile="AndExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.AndPred" sourceFile="AndPred.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Ann" sourceFile="Ann.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ApplExpr" sourceFile="ApplExpr.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Assoc" sourceFile="Assoc.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.AxPara" sourceFile="AxPara.java" interface="true" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.BindExpr" sourceFile="BindExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.BindSelExpr" sourceFile="BindSelExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Box" sourceFile="Box.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Branch" sourceFile="Branch.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.BranchList" sourceFile="BranchList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Cat" sourceFile="Cat.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.CompExpr" sourceFile="CompExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.CondExpr" sourceFile="CondExpr.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ConjPara" sourceFile="ConjPara.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ConstDecl" sourceFile="ConstDecl.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Decl" sourceFile="Decl.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.DeclList" sourceFile="DeclList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.DecorExpr" sourceFile="DecorExpr.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Directive" sourceFile="Directive.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.DirectiveType" sourceFile="DirectiveType.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Exists1Expr" sourceFile="Exists1Expr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Exists1Pred" sourceFile="Exists1Pred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ExistsExpr" sourceFile="ExistsExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ExistsPred" sourceFile="ExistsPred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Expr" sourceFile="Expr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Expr0N" sourceFile="Expr0N.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Expr1" sourceFile="Expr1.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Expr2" sourceFile="Expr2.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Expr2N" sourceFile="Expr2N.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ExprList" sourceFile="ExprList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ExprPred" sourceFile="ExprPred.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Fact" sourceFile="Fact.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.FalsePred" sourceFile="FalsePred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ForallExpr" sourceFile="ForallExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ForallPred" sourceFile="ForallPred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.FreePara" sourceFile="FreePara.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Freetype" sourceFile="Freetype.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.FreetypeList" sourceFile="FreetypeList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.GenParamType" sourceFile="GenParamType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.GenericType" sourceFile="GenericType.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.GivenPara" sourceFile="GivenPara.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.GivenType" sourceFile="GivenType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.HideExpr" sourceFile="HideExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.IffExpr" sourceFile="IffExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.IffPred" sourceFile="IffPred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ImpliesExpr" sourceFile="ImpliesExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ImpliesPred" sourceFile="ImpliesPred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.InStroke" sourceFile="InStroke.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.InclDecl" sourceFile="InclDecl.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.LambdaExpr" sourceFile="LambdaExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.LatexMarkupPara" sourceFile="LatexMarkupPara.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.LetExpr" sourceFile="LetExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.LocAnn" sourceFile="LocAnn.java" interface="true" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.MemPred" sourceFile="MemPred.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.MuExpr" sourceFile="MuExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Name" sourceFile="Name.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NameList" sourceFile="NameList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NameSectTypeTriple" sourceFile="NameSectTypeTriple.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NameTypePair" sourceFile="NameTypePair.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NarrPara" sourceFile="NarrPara.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NarrSect" sourceFile="NarrSect.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NegExpr" sourceFile="NegExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NegPred" sourceFile="NegPred.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NewOldPair" sourceFile="NewOldPair.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NextStroke" sourceFile="NextStroke.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NumExpr" sourceFile="NumExpr.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NumStroke" sourceFile="NumStroke.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Numeral" sourceFile="Numeral.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Oper" sourceFile="Oper.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Operand" sourceFile="Operand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Operator" sourceFile="Operator.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.OptempPara" sourceFile="OptempPara.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.OrExpr" sourceFile="OrExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.OrPred" sourceFile="OrPred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.OutStroke" sourceFile="OutStroke.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Para" sourceFile="Para.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ParaList" sourceFile="ParaList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ParenAnn" sourceFile="ParenAnn.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Parent" sourceFile="Parent.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.PipeExpr" sourceFile="PipeExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.PowerExpr" sourceFile="PowerExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.PowerType" sourceFile="PowerType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.PreExpr" sourceFile="PreExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Pred" sourceFile="Pred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Pred2" sourceFile="Pred2.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ProdExpr" sourceFile="ProdExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ProdType" sourceFile="ProdType.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ProjExpr" sourceFile="ProjExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Qnt1Expr" sourceFile="Qnt1Expr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.QntExpr" sourceFile="QntExpr.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.QntPred" sourceFile="QntPred.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.RefExpr" sourceFile="RefExpr.java" interface="true" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.RenameExpr" sourceFile="RenameExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.RenameList" sourceFile="RenameList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SchExpr" sourceFile="SchExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SchExpr2" sourceFile="SchExpr2.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SchText" sourceFile="SchText.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SchemaType" sourceFile="SchemaType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Sect" sourceFile="Sect.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SectTypeEnvAnn" sourceFile="SectTypeEnvAnn.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SetCompExpr" sourceFile="SetCompExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SetExpr" sourceFile="SetExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Signature" sourceFile="Signature.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SignatureAnn" sourceFile="SignatureAnn.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Spec" sourceFile="Spec.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Stroke" sourceFile="Stroke.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.StrokeList" sourceFile="StrokeList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ThetaExpr" sourceFile="ThetaExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.TruePred" sourceFile="TruePred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.TupleExpr" sourceFile="TupleExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.TupleSelExpr" sourceFile="TupleSelExpr.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Type" sourceFile="Type.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Type2" sourceFile="Type2.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.TypeAnn" sourceFile="TypeAnn.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.UnparsedPara" sourceFile="UnparsedPara.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.UnparsedZSect" sourceFile="UnparsedZSect.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.VarDecl" sourceFile="VarDecl.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZBranchList" sourceFile="ZBranchList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZDeclList" sourceFile="ZDeclList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZExprList" sourceFile="ZExprList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZFactory" sourceFile="ZFactory.java" interface="true" size="185" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZFreetypeList" sourceFile="ZFreetypeList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZName" sourceFile="ZName.java" interface="true" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZNameList" sourceFile="ZNameList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZNumeral" sourceFile="ZNumeral.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZParaList" sourceFile="ZParaList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZRenameList" sourceFile="ZRenameList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZSchText" sourceFile="ZSchText.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZSect" sourceFile="ZSect.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZStrokeList" sourceFile="ZStrokeList.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.impl" total_bugs="2" total_types="131" total_size="8591" priority_2="2">
+      <ClassStats class="net.sourceforge.czt.z.impl.AndExprImpl" sourceFile="AndExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AndPredImpl" sourceFile="AndPredImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AnnImpl" sourceFile="AnnImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ApplExprImpl" sourceFile="ApplExprImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AstTest" sourceFile="AstTest.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AstTest$AndExprTest" sourceFile="AstTest.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AstTest$OptempParaTest" sourceFile="AstTest.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AstTest$OrExprTest" sourceFile="AstTest.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AxParaImpl" sourceFile="AxParaImpl.java" interface="false" size="117" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.BindExprImpl" sourceFile="BindExprImpl.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.BindSelExprImpl" sourceFile="BindSelExprImpl.java" interface="false" size="74" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.BranchImpl" sourceFile="BranchImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.BranchListImpl" sourceFile="BranchListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.CompExprImpl" sourceFile="CompExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.CondExprImpl" sourceFile="CondExprImpl.java" interface="false" size="89" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ConjParaImpl" sourceFile="ConjParaImpl.java" interface="false" size="102" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ConstDeclImpl" sourceFile="ConstDeclImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.DeclImpl" sourceFile="DeclImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.DeclListImpl" sourceFile="DeclListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.DecorExprImpl" sourceFile="DecorExprImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.DirectiveImpl" sourceFile="DirectiveImpl.java" interface="false" size="96" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Exists1ExprImpl" sourceFile="Exists1ExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Exists1PredImpl" sourceFile="Exists1PredImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ExistsExprImpl" sourceFile="ExistsExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ExistsPredImpl" sourceFile="ExistsPredImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Expr0NImpl" sourceFile="Expr0NImpl.java" interface="false" size="42" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Expr1Impl" sourceFile="Expr1Impl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Expr2Impl" sourceFile="Expr2Impl.java" interface="false" size="58" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Expr2NImpl" sourceFile="Expr2NImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ExprImpl" sourceFile="ExprImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ExprListImpl" sourceFile="ExprListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ExprPredImpl" sourceFile="ExprPredImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.FactImpl" sourceFile="FactImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.FalsePredImpl" sourceFile="FalsePredImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ForallExprImpl" sourceFile="ForallExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ForallPredImpl" sourceFile="ForallPredImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.FreeParaImpl" sourceFile="FreeParaImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.FreetypeImpl" sourceFile="FreetypeImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.FreetypeListImpl" sourceFile="FreetypeListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.GenParamTypeImpl" sourceFile="GenParamTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.GenericTypeImpl" sourceFile="GenericTypeImpl.java" interface="false" size="86" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.GivenParaImpl" sourceFile="GivenParaImpl.java" interface="false" size="78" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.GivenTypeImpl" sourceFile="GivenTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.HideExprImpl" sourceFile="HideExprImpl.java" interface="false" size="74" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.IffExprImpl" sourceFile="IffExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.IffPredImpl" sourceFile="IffPredImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ImpliesExprImpl" sourceFile="ImpliesExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ImpliesPredImpl" sourceFile="ImpliesPredImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.InStrokeImpl" sourceFile="InStrokeImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.InclDeclImpl" sourceFile="InclDeclImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.LambdaExprImpl" sourceFile="LambdaExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.LatexMarkupParaImpl" sourceFile="LatexMarkupParaImpl.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.LetExprImpl" sourceFile="LetExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.LocAnnImpl" sourceFile="LocAnnImpl.java" interface="false" size="132" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.MemPredImpl" sourceFile="MemPredImpl.java" interface="false" size="103" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.MuExprImpl" sourceFile="MuExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NameImpl" sourceFile="NameImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NameListImpl" sourceFile="NameListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NameSectTypeTripleImpl" sourceFile="NameSectTypeTripleImpl.java" interface="false" size="103" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NameTypePairImpl" sourceFile="NameTypePairImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NarrParaImpl" sourceFile="NarrParaImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NarrSectImpl" sourceFile="NarrSectImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NegExprImpl" sourceFile="NegExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NegPredImpl" sourceFile="NegPredImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NewOldPairImpl" sourceFile="NewOldPairImpl.java" interface="false" size="99" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NextStrokeImpl" sourceFile="NextStrokeImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NumExprImpl" sourceFile="NumExprImpl.java" interface="false" size="78" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NumStrokeImpl" sourceFile="NumStrokeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NumeralImpl" sourceFile="NumeralImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OperImpl" sourceFile="OperImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OperandImpl" sourceFile="OperandImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OperatorImpl" sourceFile="OperatorImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OptempParaImpl" sourceFile="OptempParaImpl.java" interface="false" size="111" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OrExprImpl" sourceFile="OrExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OrPredImpl" sourceFile="OrPredImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OutStrokeImpl" sourceFile="OutStrokeImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ParaImpl" sourceFile="ParaImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ParaListImpl" sourceFile="ParaListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ParenAnnImpl" sourceFile="ParenAnnImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ParentImpl" sourceFile="ParentImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.PipeExprImpl" sourceFile="PipeExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.PowerExprImpl" sourceFile="PowerExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.PowerTypeImpl" sourceFile="PowerTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.PreExprImpl" sourceFile="PreExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Pred2Impl" sourceFile="Pred2Impl.java" interface="false" size="58" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.PredImpl" sourceFile="PredImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ProdExprImpl" sourceFile="ProdExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ProdTypeImpl" sourceFile="ProdTypeImpl.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ProjExprImpl" sourceFile="ProjExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Qnt1ExprImpl" sourceFile="Qnt1ExprImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.QntExprImpl" sourceFile="QntExprImpl.java" interface="false" size="55" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.QntPredImpl" sourceFile="QntPredImpl.java" interface="false" size="55" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.RefExprImpl" sourceFile="RefExprImpl.java" interface="false" size="126" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.RenameExprImpl" sourceFile="RenameExprImpl.java" interface="false" size="74" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.RenameListImpl" sourceFile="RenameListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SchExpr2Impl" sourceFile="SchExpr2Impl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SchExprImpl" sourceFile="SchExprImpl.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SchTextImpl" sourceFile="SchTextImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SchemaTypeImpl" sourceFile="SchemaTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SectImpl" sourceFile="SectImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SectTypeEnvAnnImpl" sourceFile="SectTypeEnvAnnImpl.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SetCompExprImpl" sourceFile="SetCompExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SetExprImpl" sourceFile="SetExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SignatureAnnImpl" sourceFile="SignatureAnnImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SignatureImpl" sourceFile="SignatureImpl.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SpecImpl" sourceFile="SpecImpl.java" interface="false" size="79" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.StrokeImpl" sourceFile="StrokeImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.StrokeListImpl" sourceFile="StrokeListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ThetaExprImpl" sourceFile="ThetaExprImpl.java" interface="false" size="74" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.TruePredImpl" sourceFile="TruePredImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.TupleExprImpl" sourceFile="TupleExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.TupleSelExprImpl" sourceFile="TupleSelExprImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Type2Impl" sourceFile="Type2Impl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.TypeAnnImpl" sourceFile="TypeAnnImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.TypeImpl" sourceFile="TypeImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.UnparsedParaImpl" sourceFile="UnparsedParaImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.UnparsedZSectImpl" sourceFile="UnparsedZSectImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.VarDeclImpl" sourceFile="VarDeclImpl.java" interface="false" size="94" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZBranchListImpl" sourceFile="ZBranchListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZDeclListImpl" sourceFile="ZDeclListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZExprListImpl" sourceFile="ZExprListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZFactoryImpl" sourceFile="ZFactoryImpl.java" interface="false" size="823" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZFreetypeListImpl" sourceFile="ZFreetypeListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZNameImpl" sourceFile="ZNameImpl.java" interface="false" size="144" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZNameListImpl" sourceFile="ZNameListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZNumeralImpl" sourceFile="ZNumeralImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZParaListImpl" sourceFile="ZParaListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZRenameListImpl" sourceFile="ZRenameListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZSchTextImpl" sourceFile="ZSchTextImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZSectImpl" sourceFile="ZSectImpl.java" interface="false" size="102" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZStrokeListImpl" sourceFile="ZStrokeListImpl.java" interface="false" size="110" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.jaxb" total_bugs="2" total_types="5" total_size="3695" priority_1="2">
+      <ClassStats class="net.sourceforge.czt.z.jaxb.AstToJaxb" sourceFile="AstToJaxb.java" interface="false" size="2131" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.JaxbToAst" sourceFile="JaxbToAst.java" interface="false" size="1520" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.JaxbXmlReader" sourceFile="JaxbXmlReader.java" interface="false" size="9" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.JaxbXmlWriter" sourceFile="JaxbXmlWriter.java" interface="false" size="14" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.JaxbXmlWriterReaderTest" sourceFile="JaxbXmlWriterReaderTest.java" interface="false" size="21" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.jaxb.gen" total_bugs="0" total_types="136" total_size="1911">
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Adapter1" sourceFile="Adapter1.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.And" sourceFile="And.java" interface="false" size="30" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.AndExpr" sourceFile="AndExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.AndPred" sourceFile="AndPred.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Ann" sourceFile="Ann.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ApplExpr" sourceFile="ApplExpr.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Assoc" sourceFile="Assoc.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.AxPara" sourceFile="AxPara.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.BindExpr" sourceFile="BindExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.BindSelExpr" sourceFile="BindSelExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Box" sourceFile="Box.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Branch" sourceFile="Branch.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.BranchList" sourceFile="BranchList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Cat" sourceFile="Cat.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.CompExpr" sourceFile="CompExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.CondExpr" sourceFile="CondExpr.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ConjPara" sourceFile="ConjPara.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ConstDecl" sourceFile="ConstDecl.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Decl" sourceFile="Decl.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.DeclList" sourceFile="DeclList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.DecorExpr" sourceFile="DecorExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Directive" sourceFile="Directive.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.DirectiveType" sourceFile="DirectiveType.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Exists1Expr" sourceFile="Exists1Expr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Exists1Pred" sourceFile="Exists1Pred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ExistsExpr" sourceFile="ExistsExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ExistsPred" sourceFile="ExistsPred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Expr" sourceFile="Expr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Expr0N" sourceFile="Expr0N.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Expr1" sourceFile="Expr1.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Expr2" sourceFile="Expr2.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Expr2N" sourceFile="Expr2N.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ExprList" sourceFile="ExprList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ExprPred" sourceFile="ExprPred.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Fact" sourceFile="Fact.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.FalsePred" sourceFile="FalsePred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ForallExpr" sourceFile="ForallExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ForallPred" sourceFile="ForallPred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.FreePara" sourceFile="FreePara.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Freetype" sourceFile="Freetype.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.FreetypeList" sourceFile="FreetypeList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.GenParamType" sourceFile="GenParamType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.GenericType" sourceFile="GenericType.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.GivenPara" sourceFile="GivenPara.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.GivenType" sourceFile="GivenType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.HideExpr" sourceFile="HideExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.IffExpr" sourceFile="IffExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.IffPred" sourceFile="IffPred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ImpliesExpr" sourceFile="ImpliesExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ImpliesPred" sourceFile="ImpliesPred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.InStroke" sourceFile="InStroke.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.InclDecl" sourceFile="InclDecl.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.LambdaExpr" sourceFile="LambdaExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.LatexMarkupPara" sourceFile="LatexMarkupPara.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.LetExpr" sourceFile="LetExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.LocAnn" sourceFile="LocAnn.java" interface="false" size="33" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.MemPred" sourceFile="MemPred.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.MuExpr" sourceFile="MuExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Name" sourceFile="Name.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NameList" sourceFile="NameList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NameSectTypeTriple" sourceFile="NameSectTypeTriple.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NameTypePair" sourceFile="NameTypePair.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NarrPara" sourceFile="NarrPara.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NarrSect" sourceFile="NarrSect.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NegExpr" sourceFile="NegExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NegPred" sourceFile="NegPred.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NewOldPair" sourceFile="NewOldPair.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NextStroke" sourceFile="NextStroke.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NumExpr" sourceFile="NumExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NumStroke" sourceFile="NumStroke.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Numeral" sourceFile="Numeral.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ObjectFactory" sourceFile="ObjectFactory.java" interface="false" size="765" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Oper" sourceFile="Oper.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Operand" sourceFile="Operand.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Operator" sourceFile="Operator.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.OptempPara" sourceFile="OptempPara.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.OrExpr" sourceFile="OrExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.OrPred" sourceFile="OrPred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.OutStroke" sourceFile="OutStroke.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Para" sourceFile="Para.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ParaList" sourceFile="ParaList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ParenAnn" sourceFile="ParenAnn.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Parent" sourceFile="Parent.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.PipeExpr" sourceFile="PipeExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.PowerExpr" sourceFile="PowerExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.PowerType" sourceFile="PowerType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.PreExpr" sourceFile="PreExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Pred" sourceFile="Pred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Pred2" sourceFile="Pred2.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ProdExpr" sourceFile="ProdExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ProdType" sourceFile="ProdType.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ProjExpr" sourceFile="ProjExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Qnt1Expr" sourceFile="Qnt1Expr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.QntExpr" sourceFile="QntExpr.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.QntPred" sourceFile="QntPred.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.RefExpr" sourceFile="RefExpr.java" interface="false" size="31" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.RenameExpr" sourceFile="RenameExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.RenameList" sourceFile="RenameList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SchExpr" sourceFile="SchExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SchExpr2" sourceFile="SchExpr2.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SchText" sourceFile="SchText.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SchemaType" sourceFile="SchemaType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Sect" sourceFile="Sect.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SectTypeEnvAnn" sourceFile="SectTypeEnvAnn.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SetCompExpr" sourceFile="SetCompExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SetExpr" sourceFile="SetExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Signature" sourceFile="Signature.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SignatureAnn" sourceFile="SignatureAnn.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Spec" sourceFile="Spec.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Stroke" sourceFile="Stroke.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.StrokeList" sourceFile="StrokeList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Term" sourceFile="Term.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Term$Anns" sourceFile="Term.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ThetaExpr" sourceFile="ThetaExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.TruePred" sourceFile="TruePred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.TupleExpr" sourceFile="TupleExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.TupleSelExpr" sourceFile="TupleSelExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Type" sourceFile="Type.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Type2" sourceFile="Type2.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.TypeAnn" sourceFile="TypeAnn.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.UnparsedPara" sourceFile="UnparsedPara.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.UnparsedZSect" sourceFile="UnparsedZSect.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.VarDecl" sourceFile="VarDecl.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZBranchList" sourceFile="ZBranchList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZDeclList" sourceFile="ZDeclList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZExprList" sourceFile="ZExprList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZFreetypeList" sourceFile="ZFreetypeList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZName" sourceFile="ZName.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZNameList" sourceFile="ZNameList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZNumeral" sourceFile="ZNumeral.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZParaList" sourceFile="ZParaList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZRenameList" sourceFile="ZRenameList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZSchText" sourceFile="ZSchText.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZSect" sourceFile="ZSect.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZStrokeList" sourceFile="ZStrokeList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.package-info" sourceFile="package-info.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.util" total_bugs="118" total_types="35" total_size="6106" priority_2="11" priority_1="107">
+      <ClassStats class="net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor" sourceFile="ConcreteSyntaxDescriptionVisitor.java" interface="false" size="32" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ConcreteSyntaxSymbol" sourceFile="ConcreteSyntaxSymbol.java" interface="false" size="222" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ConcreteSyntaxSymbolVisitor" sourceFile="ConcreteSyntaxSymbolVisitor.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ConcreteSyntaxSymbolVisitor$Utils" sourceFile="ConcreteSyntaxSymbolVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ConcreteSyntaxSymbolVisitor$UtilsImpl" sourceFile="ConcreteSyntaxSymbolVisitor.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.CreateVisitor" sourceFile="CreateVisitor.java" interface="false" size="859" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.DeleteMarkupParaVisitor" sourceFile="DeleteMarkupParaVisitor.java" interface="false" size="34" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.DeleteNarrVisitor" sourceFile="DeleteNarrVisitor.java" interface="false" size="38" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.Factory" sourceFile="Factory.java" interface="false" size="576" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.Fixity" sourceFile="Fixity.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.FlyweightFactory" sourceFile="FlyweightFactory.java" interface="false" size="1905" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.GetNameVisitor" sourceFile="GetNameVisitor.java" interface="false" size="55" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.IsEmptyNameList" sourceFile="IsEmptyNameList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.LongDescriptionResourceBundle" sourceFile="LongDescriptionResourceBundle.java" interface="false" size="16" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.OperatorName" sourceFile="OperatorName.java" interface="false" size="92" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.OperatorName$OperatorNameException" sourceFile="OperatorName.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.OperatorNameTest" sourceFile="OperatorNameTest.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="433" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ShortDescriptionResourceBundle" sourceFile="ShortDescriptionResourceBundle.java" interface="false" size="16" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.StandardZ" sourceFile="StandardZ.java" interface="false" size="5" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.SyntaxSymbolVisitor" sourceFile="SyntaxSymbolVisitor.java" interface="false" size="292" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.SyntaxSymbolVisitor$Utils" sourceFile="SyntaxSymbolVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.SyntaxSymbolVisitor$UtilsImpl" sourceFile="SyntaxSymbolVisitor.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.TermSelector" sourceFile="TermSelector.java" interface="false" size="36" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.TermSelector$FindTermVisitor" sourceFile="TermSelector.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.Version" sourceFile="Version.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.WarningManager" sourceFile="WarningManager.java" interface="false" size="61" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.WarningManager$WarningOutput" sourceFile="WarningManager.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZChar" sourceFile="ZChar.java" interface="false" size="279" bugs="2" priority_2="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZString" sourceFile="ZString.java" interface="true" size="266" bugs="105" priority_1="105"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZUtils" sourceFile="ZUtils.java" interface="false" size="681" bugs="2" priority_2="2"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZUtils$ZExprKind" sourceFile="ZUtils.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZUtils$ZNameComparator" sourceFile="ZUtils.java" interface="false" size="13" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZUtils$ZNameIgnoreStrokesComparator" sourceFile="ZUtils.java" interface="false" size="13" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZUtilsTest" sourceFile="ZUtilsTest.java" interface="false" size="17" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.util.collector" total_bugs="2" total_types="13" total_size="314" priority_2="2">
+      <ClassStats class="net.sourceforge.czt.z.util.collector.AxDefElements" sourceFile="AxDefElements.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.BaseCollector" sourceFile="BaseCollector.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.BaseElements" sourceFile="BaseElements.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ExprCollector" sourceFile="ExprCollector.java" interface="false" size="26" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ExprElements" sourceFile="ExprElements.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.GenericElements" sourceFile="GenericElements.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ParaCollector" sourceFile="ParaCollector.java" interface="false" size="76" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.PredCollector" sourceFile="PredCollector.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.PredElements" sourceFile="PredElements.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.SchemaElements" sourceFile="SchemaElements.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ZSchTextCollector" sourceFile="ZSchTextCollector.java" interface="false" size="31" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ZSectElements" sourceFile="ZSectElements.java" interface="false" size="66" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ZSectElements$GetSect" sourceFile="ZSectElements.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.visitor" total_bugs="0" total_types="127" total_size="253">
+      <ClassStats class="net.sourceforge.czt.z.visitor.AndExprVisitor" sourceFile="AndExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.AndPredVisitor" sourceFile="AndPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.AnnVisitor" sourceFile="AnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ApplExprVisitor" sourceFile="ApplExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.AxParaVisitor" sourceFile="AxParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.BindExprVisitor" sourceFile="BindExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.BindSelExprVisitor" sourceFile="BindSelExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.BranchListVisitor" sourceFile="BranchListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.BranchVisitor" sourceFile="BranchVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.CompExprVisitor" sourceFile="CompExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.CondExprVisitor" sourceFile="CondExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ConjParaVisitor" sourceFile="ConjParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ConstDeclVisitor" sourceFile="ConstDeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.DeclListVisitor" sourceFile="DeclListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.DeclVisitor" sourceFile="DeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.DecorExprVisitor" sourceFile="DecorExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.DirectiveVisitor" sourceFile="DirectiveVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Exists1ExprVisitor" sourceFile="Exists1ExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Exists1PredVisitor" sourceFile="Exists1PredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ExistsExprVisitor" sourceFile="ExistsExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ExistsPredVisitor" sourceFile="ExistsPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Expr0NVisitor" sourceFile="Expr0NVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Expr1Visitor" sourceFile="Expr1Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Expr2NVisitor" sourceFile="Expr2NVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Expr2Visitor" sourceFile="Expr2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ExprListVisitor" sourceFile="ExprListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ExprPredVisitor" sourceFile="ExprPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ExprVisitor" sourceFile="ExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.FactVisitor" sourceFile="FactVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.FalsePredVisitor" sourceFile="FalsePredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ForallExprVisitor" sourceFile="ForallExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ForallPredVisitor" sourceFile="ForallPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.FreeParaVisitor" sourceFile="FreeParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.FreetypeListVisitor" sourceFile="FreetypeListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.FreetypeVisitor" sourceFile="FreetypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.GenParamTypeVisitor" sourceFile="GenParamTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.GenericTypeVisitor" sourceFile="GenericTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.GivenParaVisitor" sourceFile="GivenParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.GivenTypeVisitor" sourceFile="GivenTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.HideExprVisitor" sourceFile="HideExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.IffExprVisitor" sourceFile="IffExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.IffPredVisitor" sourceFile="IffPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ImpliesExprVisitor" sourceFile="ImpliesExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ImpliesPredVisitor" sourceFile="ImpliesPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.InStrokeVisitor" sourceFile="InStrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.InclDeclVisitor" sourceFile="InclDeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.LambdaExprVisitor" sourceFile="LambdaExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor" sourceFile="LatexMarkupParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.LetExprVisitor" sourceFile="LetExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.LocAnnVisitor" sourceFile="LocAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.MemPredVisitor" sourceFile="MemPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.MuExprVisitor" sourceFile="MuExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NameListVisitor" sourceFile="NameListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NameSectTypeTripleVisitor" sourceFile="NameSectTypeTripleVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NameTypePairVisitor" sourceFile="NameTypePairVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NameVisitor" sourceFile="NameVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NarrParaVisitor" sourceFile="NarrParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NarrSectVisitor" sourceFile="NarrSectVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NegExprVisitor" sourceFile="NegExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NegPredVisitor" sourceFile="NegPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NewOldPairVisitor" sourceFile="NewOldPairVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NextStrokeVisitor" sourceFile="NextStrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NumExprVisitor" sourceFile="NumExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NumStrokeVisitor" sourceFile="NumStrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NumeralVisitor" sourceFile="NumeralVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OperVisitor" sourceFile="OperVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OperandVisitor" sourceFile="OperandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OperatorVisitor" sourceFile="OperatorVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OptempParaVisitor" sourceFile="OptempParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OrExprVisitor" sourceFile="OrExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OrPredVisitor" sourceFile="OrPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OutStrokeVisitor" sourceFile="OutStrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ParaListVisitor" sourceFile="ParaListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ParaVisitor" sourceFile="ParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ParenAnnVisitor" sourceFile="ParenAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ParentVisitor" sourceFile="ParentVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.PipeExprVisitor" sourceFile="PipeExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.PowerExprVisitor" sourceFile="PowerExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.PowerTypeVisitor" sourceFile="PowerTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.PreExprVisitor" sourceFile="PreExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Pred2Visitor" sourceFile="Pred2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.PredVisitor" sourceFile="PredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ProdExprVisitor" sourceFile="ProdExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ProdTypeVisitor" sourceFile="ProdTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ProjExprVisitor" sourceFile="ProjExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Qnt1ExprVisitor" sourceFile="Qnt1ExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.QntExprVisitor" sourceFile="QntExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.QntPredVisitor" sourceFile="QntPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.RefExprVisitor" sourceFile="RefExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.RenameExprVisitor" sourceFile="RenameExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.RenameListVisitor" sourceFile="RenameListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SchExpr2Visitor" sourceFile="SchExpr2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SchExprVisitor" sourceFile="SchExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SchTextVisitor" sourceFile="SchTextVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SchemaTypeVisitor" sourceFile="SchemaTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SectTypeEnvAnnVisitor" sourceFile="SectTypeEnvAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SectVisitor" sourceFile="SectVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SetCompExprVisitor" sourceFile="SetCompExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SetExprVisitor" sourceFile="SetExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SignatureAnnVisitor" sourceFile="SignatureAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SignatureVisitor" sourceFile="SignatureVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SpecVisitor" sourceFile="SpecVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.StrokeListVisitor" sourceFile="StrokeListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.StrokeVisitor" sourceFile="StrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ThetaExprVisitor" sourceFile="ThetaExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.TruePredVisitor" sourceFile="TruePredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.TupleExprVisitor" sourceFile="TupleExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.TupleSelExprVisitor" sourceFile="TupleSelExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Type2Visitor" sourceFile="Type2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.TypeAnnVisitor" sourceFile="TypeAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.TypeVisitor" sourceFile="TypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.UnparsedParaVisitor" sourceFile="UnparsedParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.UnparsedZSectVisitor" sourceFile="UnparsedZSectVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.VarDeclVisitor" sourceFile="VarDeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZBranchListVisitor" sourceFile="ZBranchListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZDeclListVisitor" sourceFile="ZDeclListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZExprListVisitor" sourceFile="ZExprListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZFreetypeListVisitor" sourceFile="ZFreetypeListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZNameListVisitor" sourceFile="ZNameListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZNameVisitor" sourceFile="ZNameVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZNumeralVisitor" sourceFile="ZNumeralVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZParaListVisitor" sourceFile="ZParaListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZRenameListVisitor" sourceFile="ZRenameListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZSchTextVisitor" sourceFile="ZSchTextVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZSectVisitor" sourceFile="ZSectVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZStrokeListVisitor" sourceFile="ZStrokeListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZVisitor" sourceFile="ZVisitor.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="875" invocations="2" avgMicrosecondsPerInvocation="437679" maxMicrosecondsPerInvocation="749741" standardDeviationMircosecondsPerInvocation="312061"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="735" invocations="3568" avgMicrosecondsPerInvocation="206" maxMicrosecondsPerInvocation="59674" standardDeviationMircosecondsPerInvocation="1571"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="596" invocations="4056" avgMicrosecondsPerInvocation="147" maxMicrosecondsPerInvocation="25215" standardDeviationMircosecondsPerInvocation="491"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="563" invocations="4290" avgMicrosecondsPerInvocation="131" maxMicrosecondsPerInvocation="2250" standardDeviationMircosecondsPerInvocation="228"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="476" invocations="4040" avgMicrosecondsPerInvocation="117" maxMicrosecondsPerInvocation="34871" standardDeviationMircosecondsPerInvocation="730"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="387" invocations="4294" avgMicrosecondsPerInvocation="90" maxMicrosecondsPerInvocation="6980" standardDeviationMircosecondsPerInvocation="204"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="379" invocations="3273" avgMicrosecondsPerInvocation="115" maxMicrosecondsPerInvocation="3502" standardDeviationMircosecondsPerInvocation="211"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="332" invocations="4056" avgMicrosecondsPerInvocation="82" maxMicrosecondsPerInvocation="38476" standardDeviationMircosecondsPerInvocation="608"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="191" invocations="4744" avgMicrosecondsPerInvocation="40" maxMicrosecondsPerInvocation="12768" standardDeviationMircosecondsPerInvocation="193"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="177" invocations="1576" avgMicrosecondsPerInvocation="112" maxMicrosecondsPerInvocation="3451" standardDeviationMircosecondsPerInvocation="255"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="172" invocations="1580" avgMicrosecondsPerInvocation="109" maxMicrosecondsPerInvocation="18337" standardDeviationMircosecondsPerInvocation="884"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="166" invocations="584" avgMicrosecondsPerInvocation="284" maxMicrosecondsPerInvocation="47521" standardDeviationMircosecondsPerInvocation="2385"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="154" invocations="87219" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="1529" standardDeviationMircosecondsPerInvocation="9"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="149" invocations="781" avgMicrosecondsPerInvocation="191" maxMicrosecondsPerInvocation="9891" standardDeviationMircosecondsPerInvocation="633"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="125" invocations="584" avgMicrosecondsPerInvocation="214" maxMicrosecondsPerInvocation="8097" standardDeviationMircosecondsPerInvocation="662"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="122" invocations="584" avgMicrosecondsPerInvocation="210" maxMicrosecondsPerInvocation="21083" standardDeviationMircosecondsPerInvocation="1457"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="122" invocations="781" avgMicrosecondsPerInvocation="157" maxMicrosecondsPerInvocation="7247" standardDeviationMircosecondsPerInvocation="528"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="115" invocations="4056" avgMicrosecondsPerInvocation="28" maxMicrosecondsPerInvocation="1747" standardDeviationMircosecondsPerInvocation="61"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="110" invocations="584" avgMicrosecondsPerInvocation="188" maxMicrosecondsPerInvocation="10215" standardDeviationMircosecondsPerInvocation="789"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="107" invocations="584" avgMicrosecondsPerInvocation="183" maxMicrosecondsPerInvocation="18653" standardDeviationMircosecondsPerInvocation="936"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="105" invocations="584" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="36892" standardDeviationMircosecondsPerInvocation="1589"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="102" invocations="3566" avgMicrosecondsPerInvocation="28" maxMicrosecondsPerInvocation="45214" standardDeviationMircosecondsPerInvocation="760"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="94" invocations="3568" avgMicrosecondsPerInvocation="26" maxMicrosecondsPerInvocation="2033" standardDeviationMircosecondsPerInvocation="51"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="90" invocations="584" avgMicrosecondsPerInvocation="154" maxMicrosecondsPerInvocation="7437" standardDeviationMircosecondsPerInvocation="598"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="82" invocations="584" avgMicrosecondsPerInvocation="141" maxMicrosecondsPerInvocation="14194" standardDeviationMircosecondsPerInvocation="750"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="77" invocations="4613" avgMicrosecondsPerInvocation="16" maxMicrosecondsPerInvocation="1295" standardDeviationMircosecondsPerInvocation="27"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="73" invocations="584" avgMicrosecondsPerInvocation="125" maxMicrosecondsPerInvocation="14502" standardDeviationMircosecondsPerInvocation="751"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SerializableIdiom" totalMilliseconds="72" invocations="584" avgMicrosecondsPerInvocation="124" maxMicrosecondsPerInvocation="39688" standardDeviationMircosecondsPerInvocation="1640"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="72" invocations="584" avgMicrosecondsPerInvocation="124" maxMicrosecondsPerInvocation="7933" standardDeviationMircosecondsPerInvocation="587"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref" totalMilliseconds="72" invocations="584" avgMicrosecondsPerInvocation="123" maxMicrosecondsPerInvocation="5146" standardDeviationMircosecondsPerInvocation="435"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison" totalMilliseconds="71" invocations="584" avgMicrosecondsPerInvocation="123" maxMicrosecondsPerInvocation="9549" standardDeviationMircosecondsPerInvocation="631"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="71" invocations="584" avgMicrosecondsPerInvocation="122" maxMicrosecondsPerInvocation="8268" standardDeviationMircosecondsPerInvocation="616"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="70" invocations="584" avgMicrosecondsPerInvocation="120" maxMicrosecondsPerInvocation="8750" standardDeviationMircosecondsPerInvocation="552"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="70" invocations="584" avgMicrosecondsPerInvocation="120" maxMicrosecondsPerInvocation="8130" standardDeviationMircosecondsPerInvocation="550"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteLoop" totalMilliseconds="61" invocations="584" avgMicrosecondsPerInvocation="105" maxMicrosecondsPerInvocation="7151" standardDeviationMircosecondsPerInvocation="499"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteRecursiveLoop" totalMilliseconds="61" invocations="584" avgMicrosecondsPerInvocation="105" maxMicrosecondsPerInvocation="6596" standardDeviationMircosecondsPerInvocation="499"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CrossSiteScripting" totalMilliseconds="60" invocations="584" avgMicrosecondsPerInvocation="103" maxMicrosecondsPerInvocation="7185" standardDeviationMircosecondsPerInvocation="529"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SynchronizingOnContentsOfFieldToProtectField" totalMilliseconds="60" invocations="584" avgMicrosecondsPerInvocation="103" maxMicrosecondsPerInvocation="8809" standardDeviationMircosecondsPerInvocation="579"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteNonnullReturnValues" totalMilliseconds="59" invocations="584" avgMicrosecondsPerInvocation="102" maxMicrosecondsPerInvocation="6279" standardDeviationMircosecondsPerInvocation="527"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SynchronizationOnSharedBuiltinConstant" totalMilliseconds="59" invocations="584" avgMicrosecondsPerInvocation="101" maxMicrosecondsPerInvocation="6968" standardDeviationMircosecondsPerInvocation="509"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CovariantArrayAssignment" totalMilliseconds="59" invocations="584" avgMicrosecondsPerInvocation="101" maxMicrosecondsPerInvocation="5673" standardDeviationMircosecondsPerInvocation="467"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1437993019744" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

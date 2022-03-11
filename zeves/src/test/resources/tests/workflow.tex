@@ -1,0 +1,94 @@
+\begin{document}
+\begin{zsection}
+  \SECTION workflow \parents standard\_toolkit
+\end{zsection}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Operators and auxiliary types}
+
+\newcommand{\readby}{\zrelop{readBy}}
+\newcommand{\writes}{\zrelop{writes}}
+\newcommand{\readableTo}{\zrelop{readableTo}}
+\newcommand{\canWrite}{\zrelop{canWrite}}
+\syndef{\readby}{inrel}{"readBy"}
+\syndef{\writes}{inrel}{"writes"}
+\syndef{\readableTo}{inrel}{"readableTo"}
+\syndef{\canWrite}{inrel}{"canWrite"}
+
+%%Zinword \readBy readBy
+%%Zinword \writes writes
+%%Zinword \readableTo readableTo
+%%Zinword \canWrite canWrite
+
+\begin{zed}
+\relation (\varg \readBy \varg)
+\\
+\relation (\varg \writes \varg)
+\\
+\relation (\varg \readableTo \varg)
+\\
+\relation (\varg \canWrite \varg)
+\end{zed}
+
+\begin{zed}
+   [Service, Data]
+%\also
+%   unclassified ~~==~~ 0
+%\also
+%   restricted ~~==~~ 1
+%\also
+%   classified ~~==~~ 2
+%\also
+%   confidential ~~==~~ 3
+%\also
+%   secret ~~==~~ 4
+%\also
+%   topsecret ~~==~~ 5
+%\also
+%   Level ~~==~~ \{~ unclassified, restricted, classified, confidential, secret, topsecret ~\}
+\end{zed}
+
+begin{axdef}
+   d0, d1, d2, d3: Data
+\\
+   s0, s1, s2, s3: Service
+end{axdef}
+
+begin{theorem}{lServDatWitness}
+   (\exists s: Service @ true) \land (\exists d: Data @ true)
+end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Workflow}
+
+\begin{schema}{Workflow}
+   \_ \readBy \_ : Data \rel Service
+\\
+   \_ \writes \_ : Service \rel Data
+\\
+   \_ \readableTo \_ : Data \rel Service
+\\
+   \_ \canWrite \_ : Service \rel Data
+\\
+   wf, graph: Data \rel Data
+\where
+   % A workflow is the transitive closure of the composition between
+   % data read by services that write data subsequentially to it.
+   wf = ((\_ \readBy \_) \comp (\_ \writes \_))\plus
+\\
+   graph = ((\_ \readableTo \_) \comp (\_ \canWrite \_))\plus
+\end{schema}
+
+\begin{schema}{WFAuthorised}
+   Workflow
+\where
+   % What's actually read is within what's possible to read - AKA Authorisation
+   % What's actually written is within wha't possible to write
+   (\_ \readBy \_) \subseteq (\_ \readableTo \_)
+ \\
+   ((\_ \writes \_), (\_ \canWrite \_)) \in (\_ \subseteq \_)
+\end{schema}
+
+\begin{theorem}{frule fWFAuthorisedReadByWithinReableToDom}
+    \forall Workflow @ \dom~(\_ \readBy \_) \in \power~(\dom~(\_\readableTo \_))
+\end{theorem}

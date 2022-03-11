@@ -1,0 +1,138 @@
+\documentclass{article}
+\usepackage{oz}
+\begin{document}
+
+\begin{zsection}
+\SECTION emptiness\_tests \parents standard\_toolkit
+\end{zsection}
+
+Test schemas with empty declaration parts.
+
+\begin{zed}
+  TRUE == [|true]
+\end{zed}
+
+\begin{schema}{FALSE}
+\where
+  false
+\end{schema}
+
+
+Test axdef with no declarations.
+
+\begin{axdef}
+\where
+   (\exists x:\nat | x < 10 @ x*x = x)
+\end{axdef}
+
+
+Test empty axdef.
+
+\begin{axdef}
+\end{axdef}
+
+
+
+\begin{zsection}
+\SECTION predicate\_tests \parents standard\_toolkit
+\end{zsection}
+
+Test chains together with member predicate.
+
+\begin{schema}{MemberChain}
+\where
+  1 \in \{ 1 \} \in \power \{1\}
+\end{schema}
+
+
+
+\begin{zsection}
+\SECTION nested\_predicate\_tests \parents standard\_toolkit
+\end{zsection}
+
+This tests the parsing of nested predicates that contain newlines
+instead of conjunctions.
+
+\begin{axdef}
+  a, b:\nat
+\end{axdef}
+
+This predicate part of this schema should parse into
+two separate predicates, first the forall, then the $y<a$,
+because the newline conjunction has lower priority than the forall.
+\begin{schema}{PredTest1}
+   x:\nat \\
+   y:\nat
+\where
+   \forall a:\nat \\
+   \t1     b:\nat | \\
+   \t1     a < 3 \\
+   \t1     b < 4 @ \\
+   \t1   x < a \\
+   y < a
+\end{schema}
+
+This one should parse the same as the above!
+\begin{schema}{PredTest2}
+   x:\nat \\
+   y:\nat
+\where
+   (\forall a:\nat \\
+   \t1      b:\nat | \\
+   \t1     a < 3 \\
+   \t1     b < 4 @ \\
+   \t1   x < a \\
+   \t1   y < b)
+\end{schema}
+
+This is how one has to write it to have a conjunction using newlines
+INSIDE the forall.
+\begin{schema}{PredTest3}
+   x:\nat \\
+   y:\nat
+\where
+   \forall a:\nat \\
+   \t1      b:\nat | \\
+   \t1     a < 3 \\
+   \t1     b < 4 @ \\
+   \t1   (x < a \\
+   \t1   y < b)
+\end{schema}
+
+This should parse the same as the first one (but uses ;).
+\begin{schema}{SemicolonTest1}
+   x:\nat \\
+   y:\nat
+\where
+   (\forall a:\nat; \\
+   \t1      b:\nat | \\
+   \t1     a < 3 ; \\
+   \t1     b < 4 @ \\
+   \t1   x < a ; \\
+   \t1   y < b)
+\end{schema}
+
+This should parse the same as the first one (but with newlines before
+the operators rather than after).
+\begin{schema}{SemicolonTest2} \\
+   x \\ : \\ \nat \\
+   y \\ : \\ \nat \\
+\where
+   (\forall a:\nat \\
+   \t1      ;b:\nat \\
+   \t1   | a < 3 \\
+   \t1     b < 4 \\
+   \t1   @ x < a
+   \t1   ; y < b)
+\end{schema}
+
+
+\begin{zsection}
+\SECTION bugs \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+  Foo == [x:\nat]~_1
+\end{zed}
+
+\end{document}

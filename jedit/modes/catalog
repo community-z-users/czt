@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE MODES SYSTEM "catalog.dtd">
+
+<MODES>
+  <MODE NAME="z" FILE="zed.xml" FILE_NAME_GLOB="*.{zed,utf}{8,16}"/>
+  <MODE NAME="zlatex" FILE="latex.xml" FILE_NAME_GLOB="*.{tex,zed}"/>
+
+  <MODE NAME="oz" FILE="zed.xml" FILE_NAME_GLOB="*.oz{8,16}"/>
+  <MODE NAME="ozlatex" FILE="latex.xml" FILE_NAME_GLOB="*.{oz}"/>
+
+  <MODE NAME="zpatt" FILE="zed.xml" FILE_NAME_GLOB="*.zedpatt{8,16}"/>
+  <MODE NAME="zpattlatex" FILE="latex.xml" FILE_NAME_GLOB="*.{zedpatt}"/>
+
+  <MODE NAME="circus" FILE="zed.xml" FILE_NAME_GLOB="*.circus{8,16}"/>
+  <MODE NAME="circuslatex" FILE="latex.xml" FILE_NAME_GLOB="*.{circus}"/>
+
+  <MODE NAME="zeves" FILE="zed.xml" FILE_NAME_GLOB="*.zev{8,16}"/>
+  <MODE NAME="zeveslatex" FILE="latex.xml" FILE_NAME_GLOB="*.{zev}"/>
+</MODES>

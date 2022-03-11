@@ -1,0 +1,26 @@
+\begin{schema}{Calc}
+  curr, prev : \num
+\where
+  true
+\end{schema}
+
+\begin{schema}{Init}
+  Calc~'
+\where
+  curr' = prev' = 0
+\end{schema}
+
+\begin{schema}{Add}
+  Calc; Calc~' \\
+  value? : \num
+\where
+  curr' = curr + value? \\
+  prev' = curr
+\end{schema}
+
+\begin{schema}{Negate}
+  \Delta Calc
+\where
+  curr' = \negate curr \\
+  prev' = curr
+\end{schema}

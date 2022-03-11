@@ -1,0 +1,27 @@
+─ section proofGoalPPUtf parents standard_toolkit └
+
+─ theorem Test ∀ WFBellLapadula
+    ⦁
+    readBy ∈ Data ↔ Service ∧
+      writes ∈ Service ↔ Data ∧
+      readableTo ∈ Data ↔ Service ∧
+      canWrite ∈ Service ↔ Data ∧
+      wf = ( readBy ⨾ writes ) ↗+↙ ∧
+      graph = ( readableTo ⨾ canWrite ) ↗+↙ ∧
+      knownServices = dom writes ∪ ran readBy ∧
+      knownData = dom readBy ∪ ran writes ∧
+      clearance ∈ Service ⇸ Level ∧
+      locationS ∈ Service ⇸ Level ∧
+      locationD ∈ Data ⇸ Level ∧
+      u ∈ Service ∧
+      i ∈ Data ∧
+      dom locationS ∈ ℙ ( dom clearance ) ∧
+      dom writes ∈ ℙ ( dom locationS ) ∧
+      ran readBy ∈ ℙ ( dom locationS ) ∧
+      dom readBy ∈ ℙ ( dom locationD ) ∧
+      ran writes ∈ ℙ ( dom locationD ) ∧
+      ( ∀ s : dom locationS ⦁ locationS s ≤ clearance s ) ∧
+      ( i , u ) ∈ readBy
+     ⇒
+     i ∈ dom locationD ∧
+      u ∈ dom clearance └

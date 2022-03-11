@@ -1,0 +1,261 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+%----------------------------------
+
+\begin{zsection}	 \SECTION freertos\_ref \parents~function\_toolkit , freertos
+\end{zsection}
+
+VC ZSection Created at Wed Nov 23 17:40:54 GMT 2011.
+
+
+Added schema for feasibility VC signature of paragraph named FreeRTOSFSBSig at unknown.
+\begin{schema}{FreeRTOSFSBSig}
+clock : \nat \\
+ delayed\_ task : \power TASK \\
+ log\_ context : TASK \fun CONTEXT \\
+ mut : QUEUE \\
+ mutex : \power QUEUE \\
+ mutex\_ bool : BOOL \\
+ mutex\_ bool\_ 2 : BOOL \\
+ mutex\_ holder : QUEUE \pfun TASK \\
+ old\_ priority : TASK \pfun \nat \\
+ phy\_ context : CONTEXT \\
+ prev\_ state : TASK \fun STATE \\
+ pri : \nat \\
+ priority : TASK \fun \nat \\
+ queue : \power QUEUE \\
+ queue\_ max\_ size : QUEUE \pfun \num \\
+ queue\_ size : QUEUE \pfun \num \\
+ roundto : \nat \\
+ running\_ task : TASK \\
+ semaphore : \power QUEUE \\
+ state : TASK \fun STATE \\
+ tas : TASK \\
+ tasks : \power TASK \\
+ time : TASK \pfun \nat \\
+ time\_ To\_ slice : \nat \\
+ wait\_ To\_ rcv : TASK \pfun QUEUE \\
+ wait\_ To\_ snd : TASK \pfun QUEUE 
+\where
+ FreeRTOS
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named FreeRTOSARGInitFSBSig at unknown.
+\begin{schema}{FreeRTOS\_ InitFSBSig}
+clock' : \nat \\
+ delayed\_ task' : \power TASK \\
+ log\_ context' : TASK \fun CONTEXT \\
+ mut' : QUEUE \\
+ mutex' : \power QUEUE \\
+ mutex\_ bool' : BOOL \\
+ mutex\_ bool\_ 2' : BOOL \\
+ mutex\_ holder' : QUEUE \pfun TASK \\
+ old\_ priority' : TASK \pfun \nat \\
+ phy\_ context' : CONTEXT \\
+ prev\_ state' : TASK \fun STATE \\
+ pri' : \nat \\
+ priority' : TASK \fun \nat \\
+ queue' : \power QUEUE \\
+ queue\_ max\_ size' : QUEUE \pfun \num \\
+ queue\_ size' : QUEUE \pfun \num \\
+ roundto' : \nat \\
+ running\_ task' : TASK \\
+ semaphore' : \power QUEUE \\
+ state' : TASK \fun STATE \\
+ tas' : TASK \\
+ tasks' : \power TASK \\
+ time' : TASK \pfun \nat \\
+ time\_ To\_ slice' : \nat \\
+ wait\_ To\_ rcv' : TASK \pfun QUEUE \\
+ wait\_ To\_ snd' : TASK \pfun QUEUE \\
+ q? : QUEUE \\
+ t? : TASK 
+\where
+ FreeRTOS~'
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named MutexFSBSig at unknown.
+\begin{schema}{MutexFSBSig}
+mut : QUEUE \\
+ mutex : \power QUEUE \\
+ mutex\_ bool : BOOL \\
+ mutex\_ bool\_ 2 : BOOL \\
+ mutex\_ holder : QUEUE \pfun TASK \\
+ old\_ priority : TASK \pfun \nat \\
+ pri : \nat \\
+ semaphore : \power QUEUE \\
+ tas : TASK 
+\where
+ Mutex
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named MutexARGInitFSBSig at unknown.
+\begin{schema}{Mutex\_ InitFSBSig}
+mut' : QUEUE \\
+ mutex' : \power QUEUE \\
+ mutex\_ bool' : BOOL \\
+ mutex\_ bool\_ 2' : BOOL \\
+ mutex\_ holder' : QUEUE \pfun TASK \\
+ old\_ priority' : TASK \pfun \nat \\
+ pri' : \nat \\
+ semaphore' : \power QUEUE \\
+ tas' : TASK \\
+ q? : QUEUE \\
+ t? : TASK 
+\where
+ true
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named QueueFSBSig at unknown.
+\begin{schema}{QueueFSBSig}
+clock : \nat \\
+ delayed\_ task : \power TASK \\
+ queue : \power QUEUE \\
+ queue\_ max\_ size : QUEUE \pfun \num \\
+ queue\_ size : QUEUE \pfun \num \\
+ roundto : \nat \\
+ time : TASK \pfun \nat \\
+ time\_ To\_ slice : \nat \\
+ wait\_ To\_ rcv : TASK \pfun QUEUE \\
+ wait\_ To\_ snd : TASK \pfun QUEUE 
+\where
+ Queue
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named QueueARGInitFSBSig at unknown.
+\begin{schema}{Queue\_ InitFSBSig}
+clock' : \nat \\
+ delayed\_ task' : \power TASK \\
+ queue' : \power QUEUE \\
+ queue\_ max\_ size' : QUEUE \pfun \num \\
+ queue\_ size' : QUEUE \pfun \num \\
+ roundto' : \nat \\
+ time' : TASK \pfun \nat \\
+ time\_ To\_ slice' : \nat \\
+ wait\_ To\_ rcv' : TASK \pfun QUEUE \\
+ wait\_ To\_ snd' : TASK \pfun QUEUE 
+\where
+ Queue\_ Init
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named TaskFSBSig at unknown.
+\begin{schema}{TaskFSBSig}
+log\_ context : TASK \fun CONTEXT \\
+ phy\_ context : CONTEXT \\
+ prev\_ state : TASK \fun STATE \\
+ priority : TASK \fun \nat \\
+ running\_ task : TASK \\
+ state : TASK \fun STATE \\
+ tasks : \power TASK 
+\where
+ Task
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named TaskARGInitFSBSig at unknown.
+\begin{schema}{Task\_ InitFSBSig}
+log\_ context' : TASK \fun CONTEXT \\
+ phy\_ context' : CONTEXT \\
+ prev\_ state' : TASK \fun STATE \\
+ priority' : TASK \fun \nat \\
+ running\_ task' : TASK \\
+ state' : TASK \fun STATE \\
+ tasks' : \power TASK 
+\where
+ Task\_ Init
+\end{schema}
+
+VC3 for line 18 column 1 start 301 length 41 in "freertos"
+\begin{theorem}{ vc2\_ vc\_ ref}\\
+ \lnot CONTEXT = \{ \} \land \lnot TASK = \{ \} \\
+
+\end{theorem}
+
+VC5 for line 22 column 1 start 344 length 69 in "freertos"
+\begin{theorem}{ axiom4\_ vc\_ ref}\\
+ \exists bare\_ context : CONTEXT ; idle : TASK | true @ true \\
+
+\end{theorem}
+
+VC9 for line 33 column 1 start 533 length 836 in "freertos"
+\begin{theorem}{ axiom7\_ vc\_ ref}\\
+ \exists transition : STATE \rel STATE | true @ transition = \{ nonexistent \mapsto ready , running \mapsto ready , blocked \mapsto ready , suspended \mapsto ready , ready \mapsto running , blocked \mapsto running , suspended \mapsto running , nonexistent \mapsto running , running \mapsto suspended , ready \mapsto suspended , blocked \mapsto suspended , running \mapsto blocked , running \mapsto nonexistent , ready \mapsto nonexistent , blocked \mapsto nonexistent , suspended \mapsto nonexistent \} \\
+
+\end{theorem}
+
+VC11 [AXIOM] for line 55 column 1 start 1372 length 33 in "freertos"
+\begin{theorem}{ vc9\_ vc\_ ref}\\
+ \lnot QUEUE = \{ \} \\
+
+\end{theorem}
+
+VC13 for line 59 column 1 start 1407 length 115 in "freertos"
+\begin{theorem}{ axiom11\_ vc\_ ref}\\
+ \exists slice\_ delay : \nat | true @ slice\_ delay = 1 \\
+
+\end{theorem}
+
+VC17 for line 69 column 1 start 1573 length 657 in "freertos"
+\begin{theorem}{ Task\_ vc\_ ref}\\
+ \exists TaskFSBSig | true @ true \\
+
+\end{theorem}
+
+VC19 for line 89 column 1 start 2233 length 351 in "freertos"
+\begin{theorem}{ Task\_ Init\_ vc\_ ref}\\
+ \exists Task\_ InitFSBSig | true @ true \\
+
+\end{theorem}
+
+VC21 for line 101 column 1 start 2586 length 1245 in "freertos"
+\begin{theorem}{ Queue\_ vc\_ ref}\\
+ \exists QueueFSBSig | true @ true \\
+
+\end{theorem}
+
+VC23 for line 130 column 1 start 3833 length 389 in "freertos"
+\begin{theorem}{ Queue\_ Init\_ vc\_ ref}\\
+ \exists Queue\_ InitFSBSig | true @ true \\
+
+\end{theorem}
+
+VC25 for line 146 column 1 start 4224 length 309 in "freertos"
+\begin{theorem}{ Mutex\_ vc\_ ref}\\
+ \exists MutexFSBSig | true @ true \\
+
+\end{theorem}
+
+VC27 for line 160 column 1 start 4535 length 371 in "freertos"
+\begin{theorem}{ Mutex\_ Init\_ vc\_ ref}\\
+ \exists Mutex\_ InitFSBSig | true @ true \\
+
+\end{theorem}
+
+VC29 for line 179 column 1 start 4908 length 1715 in "freertos"
+\begin{theorem}{ FreeRTOS\_ vc\_ ref}\\
+ \exists FreeRTOSFSBSig | true @ true \\
+
+\end{theorem}
+
+VC33 for line 179 column 1 start 4908 length 1715 in "freertos"
+\begin{theorem}{ tFreeRTOSInitialisation\_ vc\_ ref}\\
+ \exists FreeRTOS~' | true @ FreeRTOS\_ Init \\
+
+\end{theorem}
+
+
+
+ VC Z section "freertosARGref" has $13$ interesting VCs (Total = 33; Simplified to $true$ = 20).
+
+
+
+%----------------------------------
+\end{document}

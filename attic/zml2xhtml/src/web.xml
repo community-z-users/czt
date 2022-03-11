@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+ 
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+  <context-param>
+    <param-name>testcases-directory</param-name>
+    <param-value>@testcases.dir@</param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>control</servlet-name>
+    <servlet-class>
+      net.sourceforge.czt.zml2html.testing.clients.webclient.ControlServlet
+    </servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>frameset</servlet-name>
+    <servlet-class>
+      net.sourceforge.czt.zml2html.testing.clients.webclient.FramesetServlet
+    </servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <url-pattern>/c</url-pattern>
+    <servlet-name>control</servlet-name>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <url-pattern>/frameset</url-pattern>
+    <servlet-name>frameset</servlet-name>
+  </servlet-mapping>
+
+</web-app>

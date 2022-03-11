@@ -1,0 +1,174 @@
+\begin{zsection}
+\SECTION simpleMondexCh4 \parents standard\_toolkit
+\end{zsection}
+
+\begin{LGSet}[Unique purse name]
+\begin{zed}
+  [NAME]
+\end{zed}~\end{LGSet}
+
+\begin{LNewADef}[Properties of unique purse names]
+\begin{axdef}
+  NAMES: \finset_1~NAME
+\where
+   \exists n1, n2: NAMES @ \lnot  n1 = n2 \\
+  \forall n1: NAMES @ \exists  n2: NAMES @ \lnot  n1 = n2
+\end{axdef}~\end{LNewADef}
+
+%
+\begin{LNewADef}[Bounded $\nat$]
+\begin{zed}
+    NAT == 0 \upto 10
+\end{zed}~\end{LNewADef}
+
+\begin{LSDef}[Purse transference details]
+\begin{schema}{TransferDetails}
+	% ZEves eclipse doesn't allow proof keywords in user names. Sorry
+   from, toN: NAMES\\
+   value: NAT
+\end{schema}~\end{LSDef}
+
+\begin{LFType}[Between world status type]
+\begin{zed}
+   STATUS ::= eaFrom | eaTo | epr | epv | epa
+\end{zed}~\end{LFType}
+
+\section{Message details}\label{ch4.msgdetails}
+
+\subsection{Start message counter party details}
+
+As $CounterPartyDetails$ appears in ($\mu$-) equivalences
+and expressions related to $PayDetails$, we also change
+to be a finite schema.
+%
+\begin{LSDef}[Counter party details]
+\begin{schema}{CounterPartyDetails}
+   name: NAMES \\
+   value: NAT \\
+   nextSeqNo: NAT
+\end{schema}~\end{LSDef}
+
+\subsection{Payment log message details}
+
+During the various definitions and theorems where $PayDetails$
+appear, it often happens that some sets of its bindings restricted
+in particular ways are finite. Unfortunately, that is not true
+because the space of names and possible values are not bounded.
+To amend that and make the claimed finiteness assumptions appearing
+in the PRG $true$, we need change the values to be bounded as $NAT$.
+%
+\begin{LSDef}[Payment details]
+\begin{schema}{PayDetails}
+    TransferDetails \\
+    fromSeqNo, toSeqNo: NAT
+\where
+    from \neq toN
+\end{schema}~\end{LSDef}
+
+\begin{LGSet}[Exception log clearance code for $PayDetails$]
+\begin{zed}
+   [CLEAR]
+\end{zed}~\end{LGSet}
+
+\begin{LADef}[$PayDetails$ exception log clearance code]
+\begin{axdef}
+   image: \power_1 PayDetails \inj CLEAR
+%\where
+%   true
+\end{axdef}~\end{LADef}
+
+\begin{LFType}[Between world message type]
+\begin{zed}
+   MESSAGE ~~::= ~~ startFrom \ldata CounterPartyDetails \rdata \\
+           \t1 | startTo \ldata CounterPartyDetails \rdata \\
+           \t1 | readExceptionLog \\
+           \t1 | req \ldata PayDetails \rdata \\
+           \t1 | val \ldata PayDetails \rdata \\
+           \t1 | ack \ldata PayDetails \rdata \\
+           \t1 | exceptionLogResult \ldata NAMES \cross PayDetails \rdata \\
+           \t1 | exceptionLogClear \ldata NAMES \cross CLEAR \rdata \\
+           \t1 | mondexError
+\end{zed}~\end{LFType}
+
+\begin{LSDef}[Concrete purse definition]
+\begin{schema}{ConPurse}
+   balance: \nat \\
+   exLog: \power~PayDetails \\
+   name: NAMES \\
+   nextSeqNo: NAT \\
+   pdAuth: PayDetails \\
+   % ZEves eclipse doesn't accept proof keywords as user declared names
+   statuS: STATUS
+\where
+   \forall pd: exLog @ name \in \{~ pd.from, pd.toN ~\}
+   \also
+   statuS = epr \implies name = pdAuth.from \\
+                \t4 \land pdAuth.value \leq balance \\
+                \t4 \land pdAuth.fromSeqNo < nextSeqNo
+   \also
+   statuS = epv \implies pdAuth.toSeqNo < nextSeqNo
+   \also
+   statuS = epa \implies pdAuth.fromSeqNo < nextSeqNo
+\end{schema}~\end{LSDef}
+
+\begin{LSDef}[Exception log security property for concrete purses]
+\begin{schema}{LogIfNecessary}
+   \Delta ConPurse
+\where
+   % ZEves accepts IF-THEN-ELSE predicate, CZT only Expression
+   %exLog' = exLog \cup (\IF statuS \in \{~epv, epa~\} \THEN \{~pdAuth~\} \ELSE \emptyset)
+   %
+   % Equiv. Encoding 1: use implies
+   %statuS \in \{~epv, epa~\} \implies exLog' = exLog \cup \{~ pdAuth ~\}
+   %\\
+   %statuS \notin \{~epv, epa~\} \implies exLog' = exLog \cup \emptyset
+   %\\
+   % Equiv. Encoding 2: push the equality into the IF-THEN-ELSE
+   \IF (statuS \in \{~epv, epa~\}) \THEN
+   		[|exLog' = exLog \cup \{~pdAuth~\}]
+   \ELSE
+   		[|exLog' = exLog \cup \emptyset]
+\end{schema}~\end{LSDef}
+
+\begin{LSDef}[Concrete purse signature for aborted operations]
+\begin{zed}
+   ConPurseAbort ~~==~~ ConPurse \hide (nextSeqNo, exLog, pdAuth, statuS)
+\end{zed}~\end{LSDef}
+
+\begin{LSDef}[Concrete purse successful abort operation]
+\begin{schema}{AbortPurseOkay}
+   \Delta ConPurse \\
+   m?, m!: MESSAGE
+\where
+  \Xi ConPurseAbort \\
+  LogIfNecessary
+  \also
+  statuS' = eaFrom \\
+  nextSeqNo' \geq nextSeqNo \\
+\end{schema}~\end{LSDef}
+
+\begin{LSDef}[Concrete purse signature for clearing the exception log]
+\begin{zed}
+   ConPurseClear ~~==~~ ConPurse \hide (exLog)
+\end{zed}~\end{LSDef}
+
+\begin{LSDef}[Successful clear exception log over concrete purses]
+\begin{schema}{ClearExceptionLogPurseEafromOkay}
+   \Delta ConPurse \\
+   m?, m!: MESSAGE
+\where
+   exLog \neq \emptyset \\
+   m? = exceptionLogClear~(name, image~exLog) \\
+   statuS = eaFrom
+   \also
+   \Xi ConPurseClear
+   \also
+   exLog' = \emptyset
+   \also
+   m! = mondexError
+\end{schema}~\end{LSDef}
+
+\begin{LSDef}[Successful clear exception log with recovery from abortion]
+\begin{zed}
+   ClearExceptionLogPurseOkay ~~==~~ AbortPurseOkay \semi ClearExceptionLogPurseEafromOkay
+\end{zed}~\end{LSDef}

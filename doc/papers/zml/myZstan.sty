@@ -1,0 +1,2604 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{myZstan}[2001/12/22 Z Standards public mark-up]
+\RequirePackage{mysoz}
+
+%% NOTE: Modified Nov 2002 by marku@cs.waikato.ac.nz
+%% This is the ZStan.sty from Ian Toyn's website, but with
+%% the page size commands commented out, to avoid overriding
+%% settings of the article or llncs class etc.
+%% Also, I shortened "Mathematical" to "Math" in DTanonspec.
+
+% Macro names use the following prefixes:
+% \A for non-terminal defined in annotated syntax
+% \C for non-terminal defined in concrete syntax
+% \DC for definition of phrase of concrete syntax
+% \DE for definition of semantic relation
+% \DI for definition of type inference rule
+% \DT for definition of transformation rule
+% \DZ for definition of notation in Z
+% \I for type meta-symbol
+% \J for joker (metavariable standing for phrase of particular syntactic class)
+% \L for local variable
+% \PD for public domain clause
+% \T for non-terminal defined in lexis (T for token)
+% \U for UCS encoding
+% \X for explanation of absence of rule
+% \XE for explanation and definition of semantic relation
+% \XI for explanation and definition of type inference rule
+% \XT for explanation and definition of transformation rule
+% \XZ for explanation and definition of notation in Z
+% \Z for non-terminal defined in Z characters
+% \ZF for semantic meta-symbol
+% Be careful to use the appropriate macro.  For example,
+% if you want a comma symbol, is it the Z token \Tcomma
+% or the BNF separator \sep or the type inference rule metalanguage \Icomma
+% or the semantic relation metalanguage \ZFcomma?
+% The appearances of these commas may differ subtly.
+% Using the appropriate one both eases adjustments to these appearances
+% and eases the generation of the index annex.
+% Note also that there are separate macros for
+% concrete Expression and annotated Expression, etc.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set-up for latex or pdflatex.
+
+%\ifx\pdfoutput\undefined% Ordinary LaTeX with dvips driver
+%  \newcommand{\outputdriver}{dvips}%
+%  \usepackage[dvips]{epsfig}%
+%  \usepackage[dvips]{graphics}%
+%  \newcommand{\imgsrc}[2]{\epsfig{file=#1.eps,#2}}%
+%\else%                    PDFLaTeX with pdftex driver
+%  \newcommand{\outputdriver}{pdftex}%
+%  \usepackage[pdftex]{graphics}%
+%  %\newcommand{\imgsrc}[2]{\includegraphics{#1.pdf}}%
+%  \relax
+%\fi%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Margins etc. (from John Nicholls' zstan.sty)
+%% NOTE: Commented out by MarkU, Nov2002, to avoid overriding llncs style.
+%% \parindent 0cm
+%% \parskip 1.5ex
+%% % outsidemargin = 43pt,    guttermargin = 57pt
+%% \oddsidemargin   -15pt   % 57pt - 72pt
+%% \textwidth       491pt   %  591pt -0pt -0pt - 43pt -57pt
+%% \evensidemargin  -15pt   % 43pt + 0pt + 0pt - 72pt
+%% \marginparsep     0pt
+%% \marginparwidth  0pt
+%% \topmargin        0pt   % 36pt - 72pt
+%% \headheight       14pt
+%% \headsep          24pt
+%% \textheight      638pt
+%% \footskip         38pt  % 14pt + 24pt
+%% %   \footheight       14pt
+%% \marginparpush    0pt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Copyright banners
+
+\def\docterm{International Standard}
+\newcommand{\copyrightbox}[1]{%
+\begin{center}
+\fbox{\parbox{0.9\linewidth}{
+\begin{center}
+\textbf{Copyright notice}
+\end{center}
+\hfill #1}}
+\end{center}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fonts -- capital F because \Cfont and \Tfont already defined by something else
+
+\newcommand{\AFont}[1]{{\tt #1}}
+\newcommand{\CFont}[1]{{\tt #1}}
+\newcommand{\JFont}[1]{{\it #1}}
+\newcommand{\TFont}[1]{{\tt #1}}
+\newcommand{\ZFont}[1]{{\tt #1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BNF metalanguage, common to lexis, concrete and annotated syntaxes
+
+\newlength{\fillcol}
+\newenvironment{bnf}%
+  {\setlength{\fillcol}{\linewidth}%
+   \addtolength{\fillcol}{-1.17in}%
+   \addtolength{\fillcol}{-26pt}%
+   \begin{tabular}{@{}lcl@{}}}%
+%   \begin{tabular}{@{}m{1.17in}cm{\the\fillcol}@{}}}%
+  {\end{tabular}}
+
+% Individual characters of the metalanguage
+\def\termquote{{\tt '}}
+\def\isd{{\tt =}}
+\def\alt{{\tt | }}
+\def\sep{{\tt\ , }}
+\def\startrep{{\tt \symbol{'173}\ }}
+\def\finishrep{{\tt\ \symbol{'175}}}
+\def\startopt{{\tt [ }}
+\def\finishopt{{\tt\ ]}}
+\def\startgrp{{\tt ( }}
+\def\finishgrp{{\tt\ )}}
+\def\except{{\rm ~---~}}
+\def\term{ {\tt ;}}
+\def\startinf{{\tt ?\ }}
+\def\finishinf{{\tt\ ?}}
+
+% Constructors of individual terminals and non-terminals of a grammar
+\newcommand{\terminal}[1]{\termquote#1\termquote}
+\newcommand{\mathtok}[1]{#1{\rm -tok}}
+% The following pair identify and distinguish declarations and uses of non-
+% terminals; they could be defined to assist an interactive BNF browser.
+\newcommand{\seldef}[1]{#1}
+\newcommand{\seluse}[1]{#1}
+\newcommand{\bnfcomment}[1]{\hfill\hspace*{0.1in}{\it (* #1 *)}}
+%\newcommand{\bnfcomment}[1]{\hfill{\it (* #1 *)}}
+
+% Constructors of larger phrases of a grammar
+\newcommand{\zeroorone}[1]{\startopt#1\finishopt}
+\newcommand{\zeroormore}[1]{\startrep#1\finishrep}
+\newcommand{\zeroormoresep}[2]{\startopt#1\sep \startrep#2\sep #1\finishrep\finishopt}
+\newcommand{\zeroormoresepbreak}[2]{\startopt#1\sep\\
+ & & \quad\startrep#2\sep #1\finishrep\finishopt}
+\newcommand{\oneormore}[1]{#1\sep \startrep#1\finishrep}
+\newcommand{\oneormoresep}[2]{#1\sep \startrep#2\sep #1\finishrep}
+\newcommand{\oneormorebreak}[1]{#1\sep\\
+ & & \quad\startrep#1\finishrep}
+\newcommand{\oneormoresepbreak}[2]{#1\sep\\
+ & & \quad\startrep#2\sep #1\finishrep}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Z characters metalanguage
+
+\def\ZZCHAR{\ZFont{ZCHAR}}
+\def\ZDIGIT{\ZFont{DIGIT}}
+\def\ZDECIMAL{\ZFont{DECIMAL}}
+\def\ZLETTER{\ZFont{LETTER}}
+\def\ZSPECIAL{\ZFont{SPECIAL}}
+\def\ZSYMBOL{\ZFont{SYMBOL}}
+\def\ZLATIN{\ZFont{LATIN}}
+\def\ZGREEK{\ZFont{GREEK}}
+\def\ZOTHERLETTER{\ZFont{OTHERLETTER}}
+\def\ZSTROKECHAR{\ZFont{STROKECHAR}}
+\def\ZWORDGLUE{\ZFont{WORDGLUE}}
+\def\ZBRACKET{\ZFont{BRACKET}}
+\def\ZBOXCHAR{\ZFont{BOXCHAR}}
+\def\ZSPACE{\ZFont{SPACE}}
+\def\ZopUP{\ensuremath{\nearrow}}
+\def\ZclUP{\ensuremath{\swarrow}}
+\def\ZopDOWN{\ensuremath{\searrow}}
+\def\ZclDOWN{\ensuremath{\nwarrow}}
+\def\ZZEDCHAR{\ZFont{ZEDCHAR}}
+\def\ZAXCHAR{\ZFont{AXCHAR}}
+\def\ZSCHCHAR{\ZFont{SCHCHAR}}
+\def\ZGENCHAR{\ZFont{GENCHAR}}
+\def\ZENDCHAR{\ZFont{ENDCHAR}}
+\def\ZNLCHAR{\ZFont{NLCHAR}}
+\def\Zthrm{\ensuremath{\z@rel{\vdash}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lexis metalanguage
+
+\def\TTOKENSTREAM{\TFont{TOKENSTREAM}}
+\def\TTOKEN{\TFont{TOKEN}}
+\def\TDECORWORD{\TFont{DECORWORD}}
+\def\TNAME{\TFont{NAME}}
+\def\TNUMERAL{\TFont{NUMERAL}}
+\def\TSTROKE{\TFont{STROKE}}
+\def\Toppar{\ensuremath{(}}
+\def\Tclpar{\ensuremath{)}}
+\def\Topsqr{\ensuremath{[}}
+\def\Tclsqr{\ensuremath{]}}
+\def\Topbrace{\ensuremath{\{}}
+\def\Tclbrace{\ensuremath{\}}}
+\def\TNL{\ensuremath{\z@rel{\TFont{NL}}}}
+\def\Tsection{\ensuremath{\SECTION}}
+\def\Tparents{\ensuremath{\parents}}
+\def\Ttrue{\ensuremath{\true}}
+\def\Tfalse{\ensuremath{\false}}
+\def\Tlet{\ensuremath{\LET}}
+\def\Tif{\ensuremath{\IF}}
+\def\Tthen{\ensuremath{\THEN}}
+\def\Telse{\ensuremath{\ELSE}}
+\def\Tpre{\ensuremath{\pre}}
+\def\Trelation{\ensuremath{\relation}}
+\def\Tfunction{\ensuremath{\function}}
+\def\Tgeneric{\ensuremath{\generic}}
+\def\Tleftassoc{\ensuremath{\leftassoc}}
+\def\Trightassoc{\ensuremath{\rightassoc}}
+\def\Tcolon{\ensuremath{\z@rel{:}}}
+\def\Teqeq{\ensuremath{\z@rel{==}}}
+\def\Tcomma{\ensuremath{,}}
+\def\Tcolcoleq{\ensuremath{\z@rel{::=}}}
+\def\Tbar{\ensuremath{\z@rel{\mid}}}
+\def\Tamper{\ensuremath{\&}}
+\def\Thide{\ensuremath{\z@rel{\mbox{\Large$\hide$}}}}
+\def\Trenm{\ensuremath{\z@rel{/}}}
+\def\Tsel{\ensuremath{\z@rel{.}}}
+\def\Tsemi{\ensuremath{;}}
+\def\Tunder{\ensuremath{\z@rel{\_}}}
+\def\Tcommacomma{\ensuremath{\z@rel{,,}}}
+\def\Teq{\ensuremath{=}}
+\def\Topdata{\ensuremath{\ldata}}
+\def\Tcldata{\ensuremath{\rdata}}
+\def\Tthrm{\ensuremath{\z@rel{\vdash?}}}
+\def\Tforall{\ensuremath{\forall\:}}
+\def\Tspot{\ensuremath{\spot}}
+\def\Texists{\ensuremath{\exists\:}}
+\def\Tunique{\ensuremath{\exists_1\:}}
+\def\Tiff{\ensuremath{\iff}}
+\def\Timp{\ensuremath{\implies}}
+\def\Tor{\ensuremath{\lor}}
+\def\Tand{\ensuremath{\land}}
+\def\Tnot{\ensuremath{\lnot}}
+\def\Tin{\ensuremath{\in}}
+\def\Tproject{\ensuremath{\z@rel{\mbox{\Large$\project$}}}}
+\def\Tcross{\ensuremath{\cross}}
+\def\Topbind{\ensuremath{\lblot}}
+\def\Tclbind{\ensuremath{\rblot}}
+\def\Tlambda{\ensuremath{\lambda\:}}
+\def\Tmu{\ensuremath{\mu\:}}
+\def\Ttheta{\ensuremath{\theta\:}}
+\def\Tzcmp{\ensuremath{\z@rel{\mbox{\Large$\semi$}}}}
+\def\Tpipe{\ensuremath{\pipe}}
+\def\Tpower{\ensuremath{\power}}
+\def\TPREP{\TFont{PREP}}
+\def\TPRE{\TFont{PRE}}
+\def\TPOSTP{\TFont{POSTP}}
+\def\TPOST{\TFont{POST}}
+\def\TIP{\TFont{IP}}
+\def\TI{\TFont{I}}
+\def\TLP{\TFont{LP}}
+\def\TL{\TFont{L}}
+\def\TELP{\TFont{ELP}}
+\def\TEL{\TFont{EL}}
+\def\TERP{\TFont{ERP}}
+\def\TER{\TFont{ER}}
+\def\TSRP{\TFont{SRP}}
+\def\TSR{\TFont{SR}}
+\def\TEREP{\TFont{EREP}}
+\def\TERE{\TFont{ERE}}
+\def\TSREP{\TFont{SREP}}
+\def\TSRE{\TFont{SRE}}
+\def\TES{\TFont{ES}}
+\def\TSS{\TFont{SS}}
+\def\TZED{\TFont{ZED}}
+\def\TAX{\TFont{AX}}
+\def\TGENAX{\TFont{GENAX}}
+\def\TSCH{\TFont{SCH}}
+\def\TGENSCH{\TFont{GENSCH}}
+\def\TEND{\TFont{END}}
+\def\TWORD{\TFont{WORD}}
+\def\TWORDPART{\TFont{WORDPART}}
+\def\TALPHASTR{\TFont{ALPHASTR}}
+\def\TSYMBOLSTR{\TFont{SYMBOLSTR}}
+\def\Temptysig{\ensuremath{\epsilon}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Concrete syntax metalanguage
+
+\def\CSpecification{\CFont{Specification}}
+\def\CSection{\CFont{Section}}
+\def\CParagraph{\CFont{Paragraph}}
+\def\CFreetype{\CFont{Freetype}}
+\def\CBranch{\CFont{Branch}}
+\def\CFormals{\CFont{Formals}}
+\def\CDeclName{\CFont{DeclName}}
+\def\CRefName{\CFont{RefName}}
+\def\CPredicate{\CFont{Predicate}}
+\def\CExpression{\CFont{Expression}}
+\def\CSchemaText{\CFont{SchemaText}}
+\def\CDeclPart{\CFont{DeclPart}}
+\def\CDeclaration{\CFont{Declaration}}
+\def\COperatorTemplate{\CFont{OperatorTemplate}}
+\def\CCategoryTemplate{\CFont{CategoryTemplate}}
+\def\CPrec{\CFont{Prec}}
+\def\CAssoc{\CFont{Assoc}}
+\def\CTemplate{\CFont{Template}}
+\def\CInfixTemplate{\CFont{InfixTemplate}}
+\def\CPrefixTemplate{\CFont{PrefixTemplate}}
+\def\CPostfixTemplate{\CFont{PostfixTemplate}}
+\def\CNofixTemplate{\CFont{NofixTemplate}}
+\def\COpName{\CFont{OpName}}
+\def\CPrefixName{\CFont{PrefixName}}
+\def\CPostfixName{\CFont{PostfixName}}
+\def\CInfixName{\CFont{InfixName}}
+\def\CNofixName{\CFont{NofixName}}
+\def\CGenName{\CFont{GenName}}
+\def\CPrefixGenName{\CFont{PrefixGenName}}
+\def\CPostfixGenName{\CFont{PostfixGenName}}
+\def\CInfixGenName{\CFont{InfixGenName}}
+\def\CNofixGenName{\CFont{NofixGenName}}
+\def\CRelation{\CFont{Relation}}
+\def\CPrefixRel{\CFont{PrefixRel}}
+\def\CPostfixRel{\CFont{PostfixRel}}
+\def\CInfixRel{\CFont{InfixRel}}
+\def\CNofixRel{\CFont{NofixRel}}
+\def\CApplication{\CFont{Application}}
+\def\CPrefixApp{\CFont{PrefixApp}}
+\def\CPostfixApp{\CFont{PostfixApp}}
+\def\CInfixApp{\CFont{InfixApp}}
+\def\CNofixApp{\CFont{NofixApp}}
+\def\CExpSep{\CFont{ExpSep}}
+\def\CExpressionList{\CFont{ExpressionList}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Annotated syntax metalanguage
+
+\def\ASpecification{\AFont{Specification}}
+\def\ASection{\AFont{Section}}
+\def\AParagraph{\AFont{Paragraph}}
+\def\AName{\AFont{Name}}
+\def\APredicate{\AFont{Predicate}}
+\def\AExpression{\AFont{Expression}}
+\def\ASectTypeEnv{\AFont{SectTypeEnv}}
+\def\AType{\AFont{Type}}
+\def\ATypeB{\AFont{Type2}}
+\def\ASignature{\AFont{Signature}}
+
+\def\Tistype{\ensuremath{\:\mathrel{\raise 0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle \rm o$\hfil\cr\hfil$\scriptscriptstyle \rm o$\hfil}}}\:}}
+\def\Tgiven{\TFont{GIVEN}}
+\def\Tgentype{\TFont{GENTYPE}}
+\def\ZJoin{\ensuremath{\!\!\Join\!\!}}
+\def\Zpat{\ensuremath{\!\!\bowtie\!\!}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Transformation rule metalanguage
+
+\newenvironment{transf}%
+  {\begin{eqnarray*}}%
+  {\end{eqnarray*}}
+
+\def\trarrow{\ensuremath{\ \Longrightarrow\ }}
+\def\mktuple{\ensuremath{mktuple}}
+\def\charac{\ensuremath{charac}}
+\def\chartuple{\ensuremath{chartuple}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Type inference rule metalanguage
+
+\newcommand{\infer}[2]{\mbox{$\frac{\mbox{$#2$}\rule[-0.15cm]{0cm}{0.15cm}}{\mbox{$#1$}\rule{0cm}{0.37cm}}$}}
+\newcommand{\infercond}[3]{\mbox{$\frac{\mbox{$#3$}\rule[-0.15cm]{0cm}{0.15cm}}{\mbox{$#2$}\rule{0cm}{0.37cm}}$}\mbox{$\left(#1\right)$}}
+
+\def\showsZ{\mathrel{\mbox{$\vdash\!\!\!\raise2pt\hbox{${}^{\cal \scriptscriptstyle Z}$}$}}\:}
+\def\showsS{\:\mathrel{\mbox{$\vdash\!\!\!\raise2pt\hbox{${}^{\cal \scriptscriptstyle S}$}$}}\:}
+\def\showsD{\:\mathrel{\mbox{$\vdash\!\!\!\raise2pt\hbox{${}^{\cal \scriptscriptstyle D}$}$}}\:}
+\def\showsP{\:\mathrel{\mbox{$\vdash\!\!\!\raise2pt\hbox{${}^{\cal \scriptscriptstyle P}$}$}}\:}
+\def\showsE{\:\mathrel{\mbox{$\vdash\!\!\!\raise2pt\hbox{${}^{\cal \scriptscriptstyle E}$}$}}\:}
+
+\def\ITypeEnv{{\tt TypeEnv}}
+\def\ISectEnv{{\tt SectEnv}}
+\def\ISectTypeEnv{{\tt SectTypeEnv}}
+\def\Icup{\ensuremath{\cup}}
+\def\Icap{\ensuremath{\cap}}
+\def\Imapsto{\ensuremath{\mapsto}}
+\def\Ipfun{\ensuremath{\pfun}}
+\def\Iffun{\ensuremath{\ffun}}
+\def\Ifovr{\ensuremath{\fovr}}
+\def\Iopbrace{\ensuremath{\{}}
+\def\Iclbrace{\ensuremath{\}}}
+\def\Icomma{\ensuremath{,\:}}
+\def\Isemi{\ensuremath{;}}
+\def\Icolon{\ensuremath{\z@rel{:}}}
+\def\Iin{\ensuremath{\in}}
+\def\Inotin{\ensuremath{\notin}}
+\def\Isubseteq{\ensuremath{\subseteq}}
+\def\Idom{\ensuremath{\dom\:}}
+\def\Iand{\ensuremath{\land}}
+\def\Ior{\ensuremath{\lor}}
+\def\Inot{\ensuremath{\lnot}}
+\def\Ieq{\ensuremath{\z@rel{=}}}
+\def\Ioppar{\ensuremath{(}}
+\def\Iclpar{\ensuremath{)}}
+\def\Iupto{\ensuremath{\upto}}
+\def\Idres{\ensuremath{\dres}}
+\def\Idsub{\ensuremath{\dsub}}
+\def\Iforall{\ensuremath{\forall\:}}
+\def\Iunique{\ensuremath{\exists_1\:}}
+\def\Ibigwedge{\ensuremath{\bigwedge}}
+\def\Ibar{\ensuremath{\z@bigrel{\mid}}}
+\def\Ilambda{\ensuremath{\lambda\:}}
+\def\Ispot{\ensuremath{\spot}}
+\def\Icard{\ensuremath{\#}\:}
+\def\Iconsistent{\mathrel{\mbox{$\approx$}}}
+\def\Iif{\ensuremath{\IF}}
+\def\Ithen{\ensuremath{\z@rel{\THEN}}}
+\def\Ielse{\ensuremath{\z@rel{\ELSE}}}
+\def\Iempty{\ensuremath{\emptyset}}
+\def\Ifrc{\ensuremath{\comp}}
+\def\Iwhere{\ensuremath{where}}
+\def\Iwand{\ensuremath{and}}
+\def\Isetminus{\ensuremath{\setminus}}
+\def\Ifirst{\ensuremath{first}}
+\def\Isecond{\ensuremath{second}}
+\def\Iid{\ensuremath{\id\:}}
+\def\Iinv{\ensuremath{\inv}}
+\def\Idecor{\mathrel{\mbox{$decor$}}}
+\def\Icarrier{\ensuremath{carrier}\:}
+\def\Idisjoint{\ensuremath{disjoint}\:}
+\def\Iopseq{\ensuremath{\langle}}
+\def\Iclseq{\ensuremath{\rangle}}
+\def\Igenerictype{\ensuremath{generic\_type}\:}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Semantic relation metalanguage
+
+\newenvironment{semeqn}%
+  {\begin{eqnarray*}}%
+  {\end{eqnarray*}}
+\setlength{\jot}{1mm}% Vertical space between rows in eqnarray*
+
+\newcommand{\lsqmb}{\mbox{$[ \! \! \mskip 3.5mu [$}}
+\newcommand{\rsqmb}{\mbox{$] \! \! \mskip 3.5mu ]$}}
+\newcommand{\bspec}[1]{\mbox{$\lsqmb\ #1\ \rsqmb^{\cal \scriptscriptstyle Z}$}}
+\newcommand{\bsect}[1]{\mbox{$\lsqmb\ #1\ \rsqmb^{\cal \scriptscriptstyle S}$}}
+\newcommand{\bpara}[1]{\mbox{$\lsqmb\ #1\ \rsqmb^{\cal \scriptscriptstyle D}$}}
+\newcommand{\bpred}[1]{\mbox{$\lsqmb\ #1\ \rsqmb^{\cal \scriptscriptstyle P}$}}
+\newcommand{\bexpr}[1]{\mbox{$\lsqmb\ #1\ \rsqmb^{\cal \scriptscriptstyle E}$}}
+\newcommand{\btype}[1]{\mbox{$\lsqmb\ #1\ \rsqmb^{\cal \scriptscriptstyle T}$}}
+
+\def\ZFW{\ensuremath{\mathbb W}}
+\def\ZFuniv{\ensuremath{\mathbb U}}
+\def\ZFModel{\ensuremath{Model}}
+\def\ZFSectionModels{\ensuremath{SectionModels}}
+\def\ZFcomma{\ensuremath{,\:}}
+\def\ZFopbrace{\ensuremath{\{}}
+\def\ZFclbrace{\ensuremath{\}}}
+\def\ZFoppar{\ensuremath{(}}
+\def\ZFclpar{\ensuremath{)}}
+\def\ZFpower{\ensuremath{\power\:}}
+\def\ZFfinset{\ensuremath{\finset\:}}
+\def\ZFcross{\ensuremath{\cross}}
+\def\ZFopimg{\ensuremath{(\!|}}
+\def\ZFclimg{\ensuremath{|\!)}}
+\def\ZFcup{\ensuremath{\cup}}
+\def\ZFcap{\ensuremath{\cap}}
+\def\ZFlambda{\ensuremath{\lambda\:}}
+\def\ZFcolon{\ensuremath{\z@rel{:}}}
+\def\ZFspot{\ensuremath{\spot}}
+\def\ZFmapsto{\ensuremath{\mapsto}}
+\def\ZFsemi{\ensuremath{;}}
+\def\ZFforall{\ensuremath{\forall\:}}
+\def\ZFexists{\ensuremath{\exists\:}}
+\def\ZFbar{\ensuremath{\z@bigrel{\mid}}}
+\def\ZFeq{\ensuremath{\z@rel{=}}}
+\def\ZFin{\ensuremath{\in}}
+\def\ZFsetminus{\ensuremath{\setminus}}
+\def\ZFand{\ensuremath{\land}}
+\def\ZFfovr{\ensuremath{\fovr}}
+\def\ZFnot{\ensuremath{\lnot}}
+\def\ZFdom{\ensuremath{\dom}\:}
+\def\ZFfrc{\ensuremath{\comp}}
+\def\ZFempty{\ensuremath{\emptyset}}
+\def\ZFsubseteq{\ensuremath{\subseteq}}
+\def\ZFid{\ensuremath{\id\:}}
+\def\ZFfun{\ensuremath{\fun}}
+\def\ZFpfun{\ensuremath{\pfun}}
+\def\ZFffun{\ensuremath{\ffun}}
+\def\ZFinv{\ensuremath{\inv}}
+\def\ZFdsub{\ensuremath{\dsub}}
+\def\ZFiter{\ensuremath{\uparrow}}
+
+\def\Zgivenstroke{\ensuremath{\heartsuit}}
+\def\Zgenericstroke{\ensuremath{\spadesuit}}
+% The shape of the reserved strokes is mnemonic:
+% given hence giHEARTen;
+% generic hence geSPADEeric.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Jokers -- metavariables standing for phrases of particular syntactic classes,
+% as used in transformation rules, type rules and semantic relations
+
+% These macros are intended to be listed
+% in lexicographic order of their expansions,
+% i.e.                                         VVV   that bit down there-ish.
+\newcommand{\Jexps}  [1][]{\ensuremath{{\JFont{a}}_{\JFont{#1}}}}%  argument list
+\newcommand{\Jnumber}[1][]{\ensuremath{{\JFont{b}}_{\JFont{#1}}}}%  number
+\newcommand{\Jdigit} [1][]{\ensuremath{{\JFont{c}}_{\JFont{#1}}}}%  digit
+\newcommand{\Jpara}  [1][]{\ensuremath{{\JFont{D}}_{\JFont{#1}}}}%  paragraph
+\newcommand{\Jdexp}  [1][]{\ensuremath{{\JFont{d}}_{\JFont{#1}}}}%  declaration
+\newcommand{\Jexpr}  [1][]{\ensuremath{{\JFont{e}}_{\JFont{#1}}}}%  expression
+\newcommand{\Jfree}  [1][]{\ensuremath{{\JFont{f}}_{\JFont{#1}}}}%  free type
+\newcommand{\Jinj}   [1][]{\ensuremath{{\JFont{g}}_{\JFont{#1}}}}%  injection
+\newcommand{\Jelem}  [1][]{\ensuremath{{\JFont{h}}_{\JFont{#1}}}}%  element
+\newcommand{\Jname}  [1][]{\ensuremath{{\JFont{i}}_{\JFont{#1}}}}%  name
+\newcommand{\JI}     [1][]{\ensuremath{{\JFont{in}}_{\JFont{#1}}}}% infix function
+\newcommand{\JIP}    [1][]{\ensuremath{{\JFont{ip}}_{\JFont{#1}}}}% infix relation
+\newcommand{\Jnameb} [1][]{\ensuremath{{\JFont{j}}_{\JFont{#1}}}}%  secondary name
+\newcommand{\Jpred}  [1][]{\ensuremath{{\JFont{p}}_{\JFont{#1}}}}%  predicate
+\newcommand{\Jsect}  [1][]{\ensuremath{{\JFont{s}}_{\JFont{#1}}}}%  section
+\newcommand{\Jtext}  [1][]{\ensuremath{{\JFont{t}}_{\JFont{#1}}}}%  schema text
+\newcommand{\Jfixed} [1][]{\ensuremath{{\JFont{w}}_{\JFont{#1}}}}%  fixed free type
+\newcommand{\Jspec}  [1][]{\ensuremath{{\JFont{z}}_{\JFont{#1}}}}%  specification
+\newcommand{\Jtype}  [1][]{\ensuremath{\tau_{\JFont{#1}}}}%         type
+\newcommand{\Jsig}   [1][]{\ensuremath{\sigma_{\JFont{#1}}}}%       signature
+\newcommand{\Jtenv}  [1][]{\ensuremath{\Sigma_{\JFont{#1}}}}%       type environment
+\newcommand{\Jsenv}  [1][]{\ensuremath{\Lambda_{\JFont{#1}}}}%      section environment
+\newcommand{\Jstenv}  [1][]{\ensuremath{\Gamma_{\JFont{#1}}}}%      section-type environment
+
+\def\Jdecor{\ensuremath{{}^{\JFont{+}}}}%    decoration
+\def\Joptdecor{\ensuremath{{}^{\JFont{*}}}}% optional decoration
+\def\Jelide{\JFont{...}}%                    elided repetitions
+\def\Jvelide{\JFont{\vdots}}%                vertically elided repetitions
+
+\newcommand{\JEL}    [1][]{\ensuremath{{\JFont{el}}_{\JFont{#1}}}}%   expression leftmost function
+\newcommand{\JELP}   [1][]{\ensuremath{{\JFont{elp}}_{\JFont{#1}}}}%  expression leftmost relation
+\newcommand{\JER}    [1][]{\ensuremath{{\JFont{er}}_{\JFont{#1}}}}%   expression rightmost function
+\newcommand{\JERE}   [1][]{\ensuremath{{\JFont{ere}}_{\JFont{#1}}}}%  expression rightmost expression function
+\newcommand{\JEREP}  [1][]{\ensuremath{{\JFont{erep}}_{\JFont{#1}}}}% expression rightmost expression relation
+\newcommand{\JERP}   [1][]{\ensuremath{{\JFont{erp}}_{\JFont{#1}}}}%  expression rightmost relation
+\newcommand{\JES}    [1][]{\ensuremath{{\JFont{es}}_{\JFont{#1}}}}%   expression separator
+\newcommand{\JESS}  [1][]{\ensuremath{{\JFont{ess}}_{\JFont{#1}}}}% expression or string separator
+\newcommand{\JSS}    [1][]{\ensuremath{{\JFont{ss}}_{\JFont{#1}}}}%   sequence separator
+\newcommand{\JL}     [1][]{\ensuremath{{\JFont{ln}}_{\JFont{#1}}}}%   leftmost function
+\newcommand{\JLP}    [1][]{\ensuremath{{\JFont{lp}}_{\JFont{#1}}}}%   leftmost relation
+\newcommand{\JPOST}  [1][]{\ensuremath{{\JFont{post}}_{\JFont{#1}}}}% postfix function
+\newcommand{\JPOSTP} [1][]{\ensuremath{{\JFont{postp}}_{\JFont{#1}}}}%postfix relation
+\newcommand{\JPRE}   [1][]{\ensuremath{{\JFont{pre}}_{\JFont{#1}}}}%  prefix function
+\newcommand{\JPREP}  [1][]{\ensuremath{{\JFont{prep}}_{\JFont{#1}}}}% prefix relation
+\newcommand{\JSR}    [1][]{\ensuremath{{\JFont{sr}}_{\JFont{#1}}}}%   sequence rightmost function
+\newcommand{\JSRE}   [1][]{\ensuremath{{\JFont{sre}}_{\JFont{#1}}}}%  sequence rightmost expression function
+\newcommand{\JSREP}  [1][]{\ensuremath{{\JFont{srep}}_{\JFont{#1}}}}% sequence rightmost expression relation
+\newcommand{\JSRP}   [1][]{\ensuremath{{\JFont{srp}}_{\JFont{#1}}}}%  sequence rightmost relation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Local variables -- names used in the right-hand sides of definitions that are
+% often chosen arbitrarily, but these macros help provide some consistency
+
+\newcommand{\Ltype}[1][]{\ensuremath{{\alpha}_{\JFont{#1}}}}
+\newcommand{\Lsig}[1][]{\ensuremath{{\beta}_{\JFont{#1}}}}
+\newcommand{\Lsecttypeenv}[1][]{\ensuremath{{\gamma}_{\JFont{#1}}}}
+\newcommand{\Lsectenv}[1][]{\ensuremath{{\delta}_{\JFont{#1}}}}
+\newcommand{\Lmodel}[1][]{\ensuremath{{M}_{\JFont{#1}}}}
+\newcommand{\Lbinding}[1][]{\ensuremath{{t}_{\JFont{#1}}}}
+\def\Ltheory{\ensuremath{T}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% UCS encodings (except plane)
+
+% DECIMAL
+\def\Uzero{\texttt{0030}}
+\def\Unine{\texttt{0039}}
+
+% LATIN
+\def\UcapitalA{\texttt{0041}}
+\def\UcapitalZ{\texttt{005A}}
+\def\Usmalla{\texttt{0061}}
+\def\Usmallz{\texttt{007A}}
+
+% GREEK
+\def\UDelta{\texttt{0394}}
+\def\UXi{\texttt{039E}}
+\def\Utheta{\texttt{03B8}}
+\def\Ulambda{\texttt{03BB}}
+\def\Umu{\texttt{03BC}}
+
+% OTHERLETTER
+\def\Uarithmos{\texttt{D538}}
+\def\Unat{\texttt{2115}}
+\def\Upower{\texttt{2119}}
+
+% STROKECHAR
+\def\Uprime{\texttt{02B9}}
+\def\Ushriek{\texttt{0021}}
+\def\Uquery{\texttt{003F}}
+
+% WORDGLUE
+\def\Unearrow{\texttt{2197}}
+\def\Uswarrow{\texttt{2199}}
+\def\Usearrow{\texttt{2198}}
+\def\Unwarrow{\texttt{2196}}
+\def\Uunder{\texttt{005F}}
+
+% BRACKET
+\def\Uoppar{\texttt{0028}}
+\def\Uclpar{\texttt{0029}}
+\def\Uopsqr{\texttt{005B}}
+\def\Uclsqr{\texttt{005D}}
+\def\Uopbrace{\texttt{007B}}
+\def\Uclbrace{\texttt{007D}}
+\def\Uopbind{\texttt{2989}}
+\def\Uclbind{\texttt{298A}}
+\def\Uopdata{\texttt{300A}}
+\def\Ucldata{\texttt{300B}}
+
+% BOXCHAR
+\def\UZEDCHAR{\texttt{2028}}
+\def\UAXCHAR{\texttt{2577}}
+\def\USCHCHAR{\texttt{250C}}
+\def\UGENCHAR{\texttt{2550}}
+\def\UENDCHAR{\texttt{2029}}
+
+% SPACE
+\def\UNLCHAR{\texttt{000A}}
+\def\USPACE{\texttt{0020}}
+
+% SYMBOL
+\def\Ubar{\texttt{007C}}
+\def\Uamper{\texttt{0026}}
+\def\Uthrm{\texttt{22A2}}
+\def\Uand{\texttt{2227}}
+\def\Uor{\texttt{2228}}
+\def\Uimp{\texttt{21D2}}
+\def\Uiff{\texttt{21D4}}
+\def\Unot{\texttt{00AC}}
+\def\Uforall{\texttt{2200}}
+\def\Uexists{\texttt{2203}}
+\def\Ucross{\texttt{00D7}}
+\def\Urenm{\texttt{002F}}
+\def\Ueq{\texttt{003D}}
+\def\Uin{\texttt{2208}}
+\def\Ucolon{\texttt{003A}}
+\def\Usemi{\texttt{003B}}
+\def\Ucomma{\texttt{002C}}
+\def\Usel{\texttt{002E}}
+\def\Uspot{\texttt{2981}}
+\def\Uhide{\texttt{29F9}}
+\def\Uproject{\texttt{2A21}}
+\def\Ucmp{\texttt{2A1F}}
+\def\Upipe{\texttt{2A20}}
+\def\Uplus{\texttt{002B}}
+\def\Uistype{\texttt{2982}}
+
+% set_toolkit
+\def\Urel{\texttt{2194}}
+\def\Ufun{\texttt{2192}}
+\def\Uneq{\texttt{2260}}
+\def\Unotin{\texttt{2209}}
+\def\Uemptyset{\texttt{2205}}
+\def\Usubseteq{\texttt{2286}}
+\def\Usubset{\texttt{2282}}
+\def\Ucup{\texttt{222A}}
+\def\Ucap{\texttt{2229}}
+\def\Usetminus{\texttt{005C}}
+\def\Usymdiff{\texttt{2296}}
+\def\Ubigcup{\texttt{22C3}}
+\def\Ubigcap{\texttt{22C2}}
+\def\Ufinset{\texttt{D53D}}
+
+% relation_toolkit
+\def\Umapsto{\texttt{21A6}}
+\def\Ucomp{\texttt{2A3E}}
+\def\Ucirc{\texttt{2218}}
+\def\Udres{\texttt{25C1}}
+\def\Urres{\texttt{25B7}}
+\def\Undres{\texttt{2A64}}
+\def\Unrres{\texttt{2A65}}
+\def\Uinv{\texttt{223C}}
+\def\Uopimg{\texttt{2987}}
+\def\Uclimg{\texttt{2988}}
+\def\Uoplus{\texttt{2295}}
+
+% function_toolkit
+\def\Upfun{\texttt{21F8}}
+\def\Upinj{\texttt{2914}}
+\def\Uinj{\texttt{21A3}}
+\def\Upsurj{\texttt{2900}}
+\def\Usurj{\texttt{21A0}}
+\def\Ubij{\texttt{2916}}
+\def\Uffun{\texttt{21FB}}
+\def\Ufinj{\texttt{2915}}
+
+% number_toolkit
+\def\Unum{\texttt{2124}}
+\def\Unegate{\texttt{002D}}
+\def\Uminus{\texttt{2212}}
+\def\Uleq{\texttt{2264}}
+\def\Ult{\texttt{003C}}
+\def\Ugeq{\texttt{2265}}
+\def\Ugt{\texttt{003E}}
+\def\Utimes{\texttt{002A}}
+
+% sequence_toolkit
+\def\Ucard{\texttt{0023}}
+\def\Uopseq{\texttt{3008}}
+\def\Uclseq{\texttt{3009}}
+\def\Ucat{\texttt{2040}}
+\def\Uextract{\texttt{21BF}}
+\def\Ufilter{\texttt{21BE}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Z characters
+
+\def\PDchars{%
+\copyrightbox{%
+This material is in the public domain.
+It is reproduced here in the form presented in the ISO Z standard.}
+
+\begin{bnf}
+\seldef{\ZZCHAR} & \isd & \index{ZCHAR@\ZZCHAR!character}%
+\seluse{\ZDIGIT} \alt \seluse{\ZLETTER} \alt \seluse{\ZSPECIAL} \alt \seluse{\ZSYMBOL}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZDIGIT} & \isd & \index{DIGIT@\ZDIGIT!character}%
+\seluse{\ZDECIMAL}\\
+ & \alt & \startinf \textit{other UCS chars with {\rm Number} property but {\rm Number, Decimal Digit} (as supported)}\finishinf\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZDECIMAL} & \isd & \index{DECIMAL@\ZDECIMAL!character}%
+\terminal{$0$} \alt \terminal{$1$} \alt \terminal{$2$} \alt \terminal{$3$} \alt \terminal{$4$} \alt \terminal{$5$} \alt \terminal{$6$} \alt \terminal{$7$} \alt \terminal{$8$} \alt \terminal{$9$}\\
+ & \alt & \startinf \textit{any other UCS characters with {\rm Number, Decimal Digit} property (as supported)}\finishinf\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZLETTER} & \isd & \index{LETTER@\ZLETTER!character}%
+\seluse{\ZLATIN}
+\alt \seluse{\ZGREEK}
+\alt \seluse{\ZOTHERLETTER}
+\\      & \alt &       \startinf \textit{any characters of the mathematical toolkit with {\rm letter} property (as supported)}\finishinf
+\\      & \alt &       \startinf \textit{any other UCS characters with {\rm letter} property (as supported)}\finishinf
+\\      & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZLATIN} & \isd & \index{LATIN@\ZLATIN!character}%
+\terminal{$A$}
+                \alt \terminal{$B$}
+                \alt \terminal{$C$}
+                \alt \terminal{$D$}
+                \alt \terminal{$E$}
+                \alt \terminal{$F$}
+                \alt \terminal{$G$}
+                \alt \terminal{$H$}
+                \alt \terminal{$I$}
+\\      & \alt &       \terminal{$J$}
+                \alt \terminal{$K$}
+                \alt \terminal{$L$}
+                \alt \terminal{$M$}
+                \alt \terminal{$N$}
+                \alt \terminal{$O$}
+                \alt \terminal{$P$}
+                \alt \terminal{$Q$}
+                \alt \terminal{$R$}
+\\      & \alt &       \terminal{$S$}
+                \alt \terminal{$T$}
+                \alt \terminal{$U$}
+                \alt \terminal{$V$}
+                \alt \terminal{$W$}
+                \alt \terminal{$X$}
+                \alt \terminal{$Y$}
+                \alt \terminal{$Z$}
+\\      & \alt & \terminal{$a$}
+                \alt \terminal{$b$}
+                \alt \terminal{$c$}
+                \alt \terminal{$d$}
+                \alt \terminal{$e$}
+                \alt \terminal{$f$}
+                \alt \terminal{$g$}
+                \alt \terminal{$h$}
+                \alt \terminal{$i$}
+\\      & \alt &       \terminal{$j$}
+                \alt \terminal{$k$}
+                \alt \terminal{$l$}
+                \alt \terminal{$m$}
+                \alt \terminal{$n$}
+                \alt \terminal{$o$}
+                \alt \terminal{$p$}
+                \alt \terminal{$q$}
+                \alt \terminal{$r$}
+\\      & \alt &       \terminal{$s$}
+                \alt \terminal{$t$}
+                \alt \terminal{$u$}
+                \alt \terminal{$v$}
+                \alt \terminal{$w$}
+                \alt \terminal{$x$}
+                \alt \terminal{$y$}
+                \alt \terminal{$z$}
+\\ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZGREEK} & \isd & \index{GREEK@\ZGREEK!character}%
+\terminal{$\Delta$}
+                \alt \terminal{$\Xi$}
+                \alt \terminal{$\theta$}
+                \alt \terminal{$\lambda$}
+                \alt \terminal{$\mu$}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZOTHERLETTER} & \isd & \index{OTHERLETTER@\ZOTHERLETTER!character}%
+\terminal{$\arithmos$}
+             \alt \terminal{$\nat$}
+             \alt \terminal{$\power$}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZSPECIAL} & \isd & \index{SPECIAL@\ZSPECIAL!character}%
+\seluse{\ZSTROKECHAR}\ \alt \seluse{\ZWORDGLUE}\ \alt \seluse{\ZBRACKET}\ \alt \seluse{\ZBOXCHAR} \alt \seluse{\ZNLCHAR} \alt \seluse{\ZSPACE}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZSTROKECHAR} & \isd & \index{STROKECHAR@\ZSTROKECHAR!character}%
+\terminal{$'$} \alt \terminal{$!$} \alt \terminal{$?$}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZWORDGLUE} & \isd & \index{WORDGLUE@\ZWORDGLUE!character}%
+\terminal{\ZopUP} \alt \terminal{\ZclUP} \alt \terminal{\ZopDOWN} \alt \terminal{\ZclDOWN} \alt \terminal{\Tunder}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZBRACKET} & \isd & \index{BRACKET@\ZBRACKET!character}%
+\terminal{\Toppar} \alt \terminal{\Tclpar} \alt \terminal{\Topsqr} \alt \terminal{\Tclsqr} \alt \terminal{\Topbrace} \alt \terminal{\Tclbrace} \alt \terminal{\Topbind} \alt \terminal{\Tclbind} \alt \terminal{\Topdata} \alt \terminal{\Tcldata}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\ZBOXCHAR} & \isd & \index{BOXCHAR@\ZBOXCHAR!character}%
+\seluse{\ZZEDCHAR} \alt \seluse{\ZAXCHAR} \alt \seluse{\ZSCHCHAR} \alt \seluse{\ZGENCHAR} \alt \seluse{\ZENDCHAR}\term\\
+\end{bnf}
+
+\begin{bnf}
+\ZSYMBOL & \isd & \index{SYMBOL@\ZSYMBOL!character}%
+\terminal{\Tbar}
+                \alt \terminal{\Tamper}
+                \alt \terminal{\Zthrm}
+                \alt \terminal{\Tand}
+                \alt \terminal{\Tor}
+                \alt \terminal{\Timp}
+                \alt \terminal{\Tiff}
+                \alt \terminal{$\Tnot\!$}
+                \alt \terminal{$\Tforall\!$}
+                \alt \terminal{$\Texists\!$}
+\\            & \alt & \terminal{\Tcross}
+                \alt \terminal{\Trenm}
+                \alt \terminal{\Teq}
+                \alt \terminal{\Tin}
+                \alt \terminal{\Tcolon}
+                \alt \terminal{\Tsemi}
+                \alt \terminal{\Tcomma}
+                \alt \terminal{\Tsel}
+                \alt \terminal{\Tspot}
+\\            & \alt & \terminal{\Thide}
+                \alt \terminal{\Tproject}
+                \alt \terminal{\Tzcmp}
+                \alt \terminal{\Tpipe}
+                \alt \terminal{$+$}
+\\      & \alt &       {\tt ?\ }\it any characters of the mathematical toolkit with neither {\rm letter} or
+\\           & & {\tt\ \ }\it {\rm number} property (as supported){\tt\ ?}
+\\      & \alt & {\tt ?\ }\it any other UCS characters with neither {\rm letter} or
+\\          & & {\tt\ \ }\it {\rm number} property and that are not in \ZSPECIAL (as supported){\tt\ ?}
+\\      & \term &\\
+\end{bnf}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lexis
+
+\def\PDlexis{%
+\copyrightbox{%
+This material is in the public domain.
+It is reproduced here in the form presented in the ISO Z standard.}
+
+\begin{bnf}
+\seldef{\TTOKENSTREAM} & \isd & \index{TOKENSTREAM@\TTOKENSTREAM!lexis}%
+\zeroormore{\seluse{\ZSPACE}}\sep \zeroormore{\TTOKEN\sep \zeroormore{\seluse{\ZSPACE}}}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\TTOKEN} & \isd & \index{TOKEN@\TTOKEN!lexis}%
+\seluse{\TDECORWORD} \alt \seluse{\TNUMERAL} \alt \seluse{\TSTROKE}\\
+ & \alt & \mathtok{\Toppar} \alt \mathtok{\Tclpar} \alt \mathtok{\Topsqr} \alt \mathtok{\Tclsqr} \alt \mathtok{\Topbrace} \alt \mathtok{\Tclbrace} \alt \seluse{\Topbind} \alt \seluse{\Tclbind} \alt \seluse{\Topdata} \alt \seluse{\Tcldata}\\
+ & \alt & \seluse{\TZED} \alt \seluse{\TAX} \alt \seluse{\TGENAX} \alt \seluse{\TSCH} \alt \seluse{\TGENSCH} \alt \seluse{\TEND} \alt \seluse{\TNL}\\
+ & \term & \\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\TDECORWORD} & \isd & \index{DECORWORD@\TDECORWORD!lexis}%
+\seluse{\TWORD}\sep \zeroormore{\seluse{\TSTROKE}}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\TWORD} & \isd & \index{WORD@\TWORD!lexis}%
+\oneormore{\seluse{\TWORDPART}}
+\\ & \alt & \startgrp\seluse{\ZLETTER} \alt \startgrp\seluse{\ZDIGIT} \except \seluse{\ZDECIMAL}\finishgrp\finishgrp\sep \seluse{\TALPHASTR}\sep \zeroormore{\seluse{\TWORDPART}}
+\\ & \alt & \seluse{\ZSYMBOL}\sep \seluse{\TSYMBOLSTR}\sep \zeroormore{\seluse{\TWORDPART}}
+\\ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\TWORDPART} & \isd & \index{WORDPART@\TWORDPART!lexis}%
+\seluse{\ZWORDGLUE}\sep
+                           \startgrp\seluse{\TALPHASTR} \alt \seluse{\TSYMBOLSTR}\finishgrp\term
+\also
+\seldef{\TALPHASTR} & \isd & \index{ALPHASTR@\TALPHASTR!lexis}%
+\zeroormore{\seluse{\ZLETTER} \alt \seluse{\ZDIGIT}}\term
+\also
+\seldef{\TSYMBOLSTR} & \isd & \index{SYMBOLSTR@\TSYMBOLSTR!lexis}%
+\zeroormore{\seluse{\ZSYMBOL}}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\TNUMERAL} & \isd & \index{NUMERAL@\TNUMERAL!lexis}%
+\seluse{\TNUMERAL}\sep \seluse{\ZDECIMAL}\\
+ & \alt & \seluse{\ZDECIMAL}\\
+ & \term & \\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\TSTROKE} & \isd & \index{STROKE@\TSTROKE!lexis}%
+\seluse{\ZSTROKECHAR}
+\\      & \alt & \terminal{\ZopDOWN}\sep \ZDECIMAL\sep \terminal{\ZclDOWN}
+\\      & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\mathtok{\Toppar} & \isd & \terminal{(}\term\\
+\mathtok{)} & \isd & \terminal{)}\term\\
+\mathtok{[} & \isd & \terminal{[}\term\\
+\mathtok{]} & \isd & \terminal{]}\term\\
+\mathtok{\{} & \isd & \terminal{\{}\term\\
+\mathtok{\}} & \isd & \terminal{\}}\term\\
+\seldef{\Topbind} & \isd & \terminal{\Topbind}\term\\
+\seldef{\Tclbind} & \isd & \terminal{\Tclbind}\term\\
+\seldef{\Topdata} & \isd & \terminal{\Topdata}\term\\
+\seldef{\Tcldata} & \isd & \terminal{\Tcldata}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\TZED} & \isd & \index{ZED@\TZED!lexis}%
+\seluse{\ZZEDCHAR}\term
+\\ \seldef{\TAX} & \isd & \index{AX@\TAX!lexis}%
+\seluse{\ZAXCHAR}\term
+\\ \seldef{\TSCH} & \isd & \index{SCH@\TSCH!lexis}%
+\seluse{\ZSCHCHAR}\term
+\\ \seldef{\TGENAX} & \isd & \index{GENAX@\TGENAX!lexis}%
+\seluse{\ZAXCHAR}\sep \seluse{\ZGENCHAR}\term
+\\ \seldef{\TGENSCH} & \isd & \index{GENSCH@\TGENSCH!lexis}%
+\seluse{\ZSCHCHAR}\sep \seluse{\ZGENCHAR}\term
+\\ \seldef{\TEND} & \isd & \index{END@\TEND!lexis}%
+\seluse{\ZENDCHAR}\term
+\\ \seldef{\TNL} & \isd & \index{NL@\TNL!lexis}%
+\seluse{\ZNLCHAR}\term\\
+\end{bnf}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Concrete syntax productions.
+
+% Specification
+
+\def\DCsecspec{\index{sectioned specification!concrete syntax}%
+\zeroormore{\seluse{\CSection}}}
+\def\DCanonspec{\index{anonymous specification!concrete syntax}%
+\zeroormore{\seluse{\CParagraph}}}
+
+% Section
+
+\def\DCinsectA{\index{inheriting section!concrete syntax}%
+\seluse{\TZED}\sep \seluse{\Tsection}\sep \seluse{\TNAME}\sep \seluse{\Tparents}\sep \zeroormoresep{\seluse{\TNAME}}{\mathtok{\Tcomma}}\sep \seluse{\TEND}\sep}
+\def\DCinsectB{\qquad\zeroormore{\seluse{\CParagraph}}}
+\def\DCbasect{\index{base section!concrete syntax}%
+\seluse{\TZED}\sep \seluse{\Tsection}\sep \seluse{\TNAME}\sep \seluse{\TEND}\sep \zeroormore{\seluse{\CParagraph}}}
+
+% Paragraph
+
+\def\DCgivendef{\index{given types paragraph!concrete syntax}%
+\seluse{\TZED}\sep \mathtok{\Topsqr}\sep \oneormoresep{\seluse{\TNAME}}{\mathtok{\Tcomma}}\sep \mathtok{\Tclsqr}\sep \seluse{\TEND}}
+\def\DCaxdef{\index{axiomatic description paragraph!concrete syntax}%
+\seluse{\TAX}\sep \seluse{\CSchemaText}\sep \seluse{\TEND}}
+\def\DCschdef{\index{schema definition paragraph!concrete syntax}%
+\seluse{\TSCH}\sep \seluse{\TNAME}\sep \seluse{\CSchemaText}\sep \seluse{\TEND}}
+\def\DCgenaxdef{\index{generic axiomatic description paragraph!concrete syntax}%
+\seluse{$\TGENAX$}\sep \mathtok{\Topsqr}\sep \seluse{\CFormals}\sep \mathtok{\Tclsqr}\sep \seluse{\CSchemaText}\sep \seluse{\TEND}}
+\def\DCgenschdef{\index{generic schema definition paragraph!concrete syntax}%
+\seluse{\TGENSCH}\sep \seluse{\TNAME}\sep \mathtok{\Topsqr}\sep \seluse{\CFormals}\sep \mathtok{\Tclsqr}\sep \seluse{\CSchemaText}\sep \seluse{\TEND}}
+\def\DChorizdef{\index{horizontal definition paragraph!concrete syntax}%
+\seluse{\TZED}\sep \seluse{\CDeclName}\sep \seluse{\Teqeq}\sep \seluse{\CExpression}\sep \seluse{\TEND}}
+\def\DCgenhorizdef{\index{generic horizontal definition paragraph!concrete syntax}%
+\seluse{\TZED}\sep \seluse{\TNAME}\sep \mathtok{\Topsqr}\sep \seluse{\CFormals}\sep \mathtok{\Tclsqr}\sep \seluse{\Teqeq}\sep \seluse{\CExpression}\sep \seluse{\TEND}}
+\def\DCgenopdef{\index{generic operator definition paragraph!concrete syntax}%
+\seluse{\TZED}\sep \seluse{\CGenName}\sep \seluse{\Teqeq}\sep \seluse{\CExpression}\sep \seluse{\TEND}}
+\def\DCfreetypedef{\index{free types paragraph!concrete syntax}%
+\seluse{\TZED}\sep \oneormoresep{\seluse{\CFreetype}}{\seluse{\Tamper}}\sep \seluse{\TEND}}
+\def\DCconj{\index{conjecture paragraph!concrete syntax}%
+\seluse{\TZED}\sep \seluse{\Tthrm}\sep \seluse{\CPredicate}\sep \seluse{\TEND}}
+\def\DCgenconj{\index{generic conjecture paragraph!concrete syntax}%
+\seluse{\TZED}\sep \mathtok{\Topsqr}\sep \seluse{\CFormals}\sep \mathtok{\Tclsqr}\sep \seluse{\Tthrm}\sep \seluse{\CPredicate}\sep \seluse{\TEND}}
+\def\DCoptemp{\index{operator template paragraph!concrete syntax}%
+\seluse{\TZED}\sep \seluse{\COperatorTemplate}\sep \seluse{\TEND}}
+
+% Freetype
+
+\def\DCfreetype{\seluse{\TNAME}\sep \seluse{\Tcolcoleq}\sep \oneormoresep{\seluse{\CBranch}}{\mathtok{\Tbar}}}
+
+% Branch
+
+\def\DCbranch{\seluse{\CDeclName}\sep \zeroorone{\seluse{\Topdata}\sep \seluse{\CExpression}\sep \seluse{\Tcldata}}}
+
+% Formals
+
+\def\DCformals{\oneormoresep{\seluse{\TNAME}}{\mathtok{\Tcomma}}}
+
+% Predicate
+
+\def\DCnewlinepred{\index{newline conjunction predicate!concrete syntax}%
+\seluse{\CPredicate}\sep \seluse{\TNL}\sep \seluse{\CPredicate}}
+\def\DCsemipred{\index{semicolon conjunction predicate!concrete syntax}%
+\seluse{\CPredicate}\sep \mathtok{\Tsemi}\sep \seluse{\CPredicate}}
+\def\DCforallpred{\index{universal quantification predicate!concrete syntax}%
+\seluse{$\Tforall\!$}\sep \seluse{\CSchemaText}\sep \seluse{\Tspot}\sep \seluse{\CPredicate}}
+\def\DCexistspred{\index{existential quantification predicate!concrete syntax}%
+\seluse{$\Texists\!$}\sep \seluse{\CSchemaText}\sep \seluse{\Tspot}\sep \seluse{\CPredicate}}
+\def\DCuniquepred{\index{unique existential quantification predicate!concrete syntax}%
+\seluse{$\Tunique\!$}\sep \seluse{\CSchemaText}\sep \seluse{\Tspot}\sep \seluse{\CPredicate}}
+\def\DCiffpred{\index{equivalence predicate!concrete syntax}%
+\seluse{\CPredicate}\sep \seluse{\Tiff}\sep \seluse{\CPredicate}}
+\def\DCimppred{\index{implication predicate!concrete syntax}%
+\seluse{\CPredicate}\sep \seluse{\Timp}\sep \seluse{\CPredicate}}
+\def\DCorpred{\index{disjunction predicate!concrete syntax}%
+\seluse{\CPredicate}\sep \seluse{\Tor}\sep \seluse{\CPredicate}}
+\def\DCandpred{\index{conjunction predicate!concrete syntax}%
+\seluse{\CPredicate}\sep \seluse{\Tand}\sep \seluse{\CPredicate}}
+\def\DCnotpred{\index{negation predicate!concrete syntax}%
+\seluse{$\Tnot\!$}\sep \seluse{\CPredicate}}
+\def\DCrelopappl{\index{relation operator application predicate!concrete syntax}%
+\seluse{\CRelation}}
+\def\DCschpred{\index{schema predicate!concrete syntax}%
+\seluse{\CExpression}}
+\def\DCtruthpred{\index{truth predicate!concrete syntax}%
+\seluse{\Ttrue}}
+\def\DCfalsitypred{\index{falsity predicate!concrete syntax}%
+\seluse{\Tfalse}}
+\def\DCparenpred{\index{parenthesized predicate!concrete syntax}%
+\mathtok{\Toppar}\sep \seluse{\CPredicate}\sep \mathtok{\Tclpar}}
+
+% Expression
+
+\def\DCschforall{\index{schema universal quantification expression!concrete syntax}%
+\seluse{$\Tforall\!$}\sep \seluse{\CSchemaText}\sep \seluse{\Tspot}\sep \seluse{\CExpression}}
+\def\DCschexists{\index{schema existential quantification expression!concrete syntax}%
+\seluse{$\Texists\!$}\sep \seluse{\CSchemaText}\sep \seluse{\Tspot}\sep \seluse{\CExpression}}
+\def\DCschunique{\index{schema unique existential quantification expression!concrete syntax}%
+\seluse{$\Tunique\!$}\sep \seluse{\CSchemaText}\sep \seluse{\Tspot}\sep \seluse{\CExpression}}
+\def\DClambda{\index{function construction expression!concrete syntax}%
+\seluse{$\Tlambda\!$}\sep \seluse{\CSchemaText}\sep \seluse{\Tspot}\sep \seluse{\CExpression}}
+\def\DCmu{\index{definite description expression!concrete syntax}%
+\seluse{$\Tmu\!$}\sep \seluse{\CSchemaText}\sep \seluse{\Tspot}\sep \seluse{\CExpression}}
+\def\DCletA{\index{substitution expression!concrete syntax}%
+\seluse{$\Tlet\!$}\sep \seluse{\CDeclName}\sep \seluse{\Teqeq}\sep \seluse{\CExpression}\sep}
+\def\DCletB{\qquad\zeroormore{\mathtok{\Tsemi}\sep \seluse{\CDeclName}\sep \seluse{\Teqeq}\sep \seluse{\CExpression}}\sep}
+\def\DCletC{\qquad\qquad\seluse{\Tspot}\sep \seluse{\CExpression}}
+\def\DCschiff{\index{schema equivalence expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Tiff}\sep \seluse{\CExpression}}
+\def\DCschimp{\index{schema implication expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Timp}\sep \seluse{\CExpression}}
+\def\DCschor{\index{schema disjunction expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Tor}\sep \seluse{\CExpression}}
+\def\DCschand{\index{schema conjunction expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Tand}\sep \seluse{\CExpression}}
+\def\DCschnot{\index{schema negation expression!concrete syntax}%
+\seluse{$\Tnot\!$}\sep \seluse{\CExpression}}
+\def\DCcond{\index{conditional expression!concrete syntax}%
+\seluse{\Tif}\sep \seluse{\CPredicate}\sep \seluse{\Tthen}\sep \seluse{\CExpression}\sep \seluse{\Telse}\sep \seluse{\CExpression}}
+\def\DCschcomp{\index{schema composition expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Tzcmp}\sep \seluse{\CExpression}}
+\def\DCschpipe{\index{schema piping expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Tpipe}\sep \seluse{\CExpression}}
+\def\DCschhide{\index{schema hiding expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Thide}\sep \mathtok{\Toppar}\sep \oneormoresep{\seluse{\CDeclName}}{\mathtok{\Tcomma}}\sep \mathtok{\Tclpar}}
+\def\DCschproj{\index{schema projection expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Tproject}\sep \seluse{\CExpression}}
+\def\DCschpre{\index{schema precondition expression!concrete syntax}%
+\seluse{$\Tpre\!$}\sep \seluse{\CExpression}}
+\def\DCcp{\index{Cartesian product expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Tcross}\sep \oneormoresep{\seluse{\CExpression}}{\seluse{\Tcross}}}
+\def\DCpower{\index{powerset expression!concrete syntax}%
+\seluse{\Tpower}\sep \seluse{\CExpression}}
+\def\DCfungenopappl{\index{function and generic operator application expression!concrete syntax}%
+\seluse{\CApplication}}
+\def\DCappl{\index{application expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\CExpression}}
+\def\DCschdecor{\index{schema decoration expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\TSTROKE}}
+\def\DCschrenmA{\index{schema renaming expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\mathtok{\Topsqr}}\sep \seluse{\CDeclName}\sep \seluse{\Trenm}\sep \seluse{\CDeclName}\sep}
+\def\DCschrenmB{\qquad\zeroormore{\mathtok{\Tcomma}\sep \seluse{\CDeclName}\sep \seluse{\Trenm}\sep \seluse{\CDeclName}}\sep \mathtok{\Tclsqr}}
+\def\DCbindsel{\index{binding selection expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Tsel}\sep \seluse{\CRefName}}
+\def\DCtuplesel{\index{tuple selection expression!concrete syntax}%
+\seluse{\CExpression}\sep \seluse{\Tsel}\sep \seluse{\TNUMERAL}}
+\def\DCtheta{\index{binding construction expression!concrete syntax}%
+\seluse{$\Ttheta\!$}\sep \seluse{\CExpression}\sep \zeroormore{\seluse{\TSTROKE}}}
+\def\DCreference{\index{reference expression!concrete syntax}%
+\seluse{\CRefName}}
+\def\DCgeninst{\index{generic instantiation expression!concrete syntax}%
+\seluse{\CRefName}\sep \mathtok{\Topsqr}\sep \oneormoresep{\seluse{\CExpression}}{\mathtok{\Tcomma}}\sep \mathtok{\Tclsqr}}
+\def\DCnumber{\index{number literal expression!concrete syntax}%
+\seluse{\TNUMERAL}}
+\def\DCsetextn{\index{set extension expression!concrete syntax}%
+\mathtok{\Topbrace}\sep \zeroormoresep{\seluse{\CExpression}}{\mathtok{\Tcomma}}\sep \mathtok{\Tclbrace}}
+\def\DCsetcomp{\index{set comprehension expression!concrete syntax}%
+\mathtok{\Topbrace}\sep \seluse{\CSchemaText}\sep \seluse{\Tspot}\sep \seluse{\CExpression}\sep \mathtok{\Tclbrace}}
+\def\DCchsetcompA{\index{characteristic set comprehension expression!concrete syntax}%
+\startgrp\startgrp\mathtok{\Topbrace}\sep \seluse{\CSchemaText}\sep \mathtok{\Tclbrace}\finishgrp \quad\except \startgrp\mathtok{\Topbrace}\sep \mathtok{\Tclbrace}\finishgrp\finishgrp}
+\def\DCchsetcompB{\qquad\qquad\qquad\qquad\except \startgrp\mathtok{\Topbrace}\sep \seluse{\CExpression}\sep \mathtok{\Tclbrace}\finishgrp}
+\def\DCschconst{\index{schema construction expression!concrete syntax}%
+\startgrp\mathtok{\Topsqr}\sep \seluse{\CSchemaText}\sep \mathtok{\Tclsqr}\finishgrp \quad\except \startgrp\mathtok{\Topsqr}\sep \seluse{\CExpression}\sep \mathtok{\Tclsqr}\finishgrp}
+\def\DCbindextnA{\index{binding extension expression!concrete syntax}%
+\seluse{\Topbind}\sep \startopt\seluse{\CDeclName}\sep \seluse{\Teqeq}\sep \seluse{\CExpression}\sep}
+\def\DCbindextnB{\qquad\zeroormore{\mathtok{\Tcomma}\sep \seluse{\CDeclName}\sep \seluse{\Teqeq}\sep \seluse{\CExpression}}\finishopt\sep \seluse{\Tclbind}}
+\def\DCtupleextn{\index{tuple extension expression!concrete syntax}%
+\mathtok{\Toppar}\sep \seluse{\CExpression}\sep \mathtok{\Tcomma}\sep \oneormoresep{\seluse{\CExpression}}{\mathtok{\Tcomma}}\sep \mathtok{\Tclpar}}
+\def\DCchmu{\index{characteristic definite description expression!concrete syntax}%
+\mathtok{\Toppar}\sep \seluse{$\Tmu\!$}\sep \seluse{\CSchemaText}\sep \mathtok{\Tclpar}}
+\def\DCparenexpr{\index{parenthesized expression!concrete syntax}%
+\mathtok{\Toppar}\sep \seluse{\CExpression}\sep \mathtok{\Tclpar}}
+
+% Schema text
+
+\def\DCschematext{\zeroorone{\seluse{\CDeclPart}}\sep \zeroorone{\mathtok{\Tbar}\sep \seluse{\CPredicate}}}
+
+\def\DCdeclpart{\oneormoresep{\seluse{\CDeclaration}}{\startgrp\mathtok{\Tsemi} \alt \seluse{\TNL}\finishgrp}}
+
+\def\DCcolondeclaration{\oneormoresep{\seluse{\CDeclName}}{\mathtok{\Tcomma}}\sep \seluse{\Tcolon}\sep \seluse{\CExpression}}
+\def\DCequaldeclaration{\seluse{\CDeclName}\sep \seluse{\Teqeq}\sep \seluse{\CExpression}}
+\def\DCschemadeclaration{\seluse{\CExpression}}
+
+% Operator template
+
+\def\DCreltemp{\seluse{\Trelation}\sep \seluse{\CTemplate}}
+\def\DCfuntemp{\seluse{\Tfunction}\sep \seluse{\CCategoryTemplate}}
+\def\DCgentemp{\seluse{\Tgeneric}\sep \seluse{\CCategoryTemplate}}
+
+\def\DCpretemp{\seluse{\CPrefixTemplate}}
+\def\DCposttemp{\seluse{\CPostfixTemplate}}
+\def\DCintemp{\seluse{\CPrec}\sep \seluse{\CAssoc}\sep \seluse{\CInfixTemplate}}
+\def\DCnotemp{\seluse{\CNofixTemplate}}
+
+\def\DCprec{\seluse{\TNUMERAL}}
+
+\def\DCleftassoc{\seluse{\Tleftassoc}}
+\def\DCrightassoc{\seluse{\Trightassoc}}
+
+\def\DCpretemplate{\seluse{\CPrefixTemplate}}
+\def\DCposttemplate{\seluse{\CPostfixTemplate}}
+\def\DCintemplate{\seluse{\CInfixTemplate}}
+\def\DCnotemplate{\seluse{\CNofixTemplate}}
+
+%\def\DCprefixtemplate{\mathtok{\Toppar}\sep \oneormoresep{\seluse{\TNAME}}{\startgrp\seluse{\Tunder} \alt \seluse{\Tcommacomma}\finishgrp}\sep \seluse{\Tunder}\sep \mathtok{\Tclpar}}
+\def\DCprefixtemplate{\mathtok{\Toppar}\sep \seluse{\CPrefixName}\sep \mathtok{\Tclpar}}
+\def\DCpowertemplate{\mathtok{\Toppar}\sep \seluse{\Tpower}\sep \seluse{\Tunder}\sep \mathtok{\Tclpar}}
+
+%\def\DCpostfixtemplate{\mathtok{\Toppar}\sep \seluse{\Tunder}\sep \oneormoresep{\seluse{\TNAME}}{\startgrp\seluse{\Tunder} \alt \seluse{\Tcommacomma}\finishgrp}\sep \mathtok{\Tclpar}}
+\def\DCpostfixtemplate{\mathtok{\Toppar}\sep \seluse{\CPostfixName}\sep \mathtok{\Tclpar}}
+
+%\def\DCinfixtemplate{\mathtok{\Toppar}\sep \seluse{\Tunder}\sep \oneormoresep{\seluse{\TNAME}}{\startgrp\seluse{\Tunder} \alt \seluse{\Tcommacomma}\finishgrp}\sep \seluse{\Tunder}\sep \mathtok{\Tclpar}}
+\def\DCinfixtemplate{\mathtok{\Toppar}\sep \seluse{\CInfixName}\sep \mathtok{\Tclpar}}
+
+%\def\DCnofixtemplate{\mathtok{\Toppar}\sep \oneormoresep{\seluse{\TNAME}}{\startgrp\seluse{\Tunder} \alt \seluse{\Tcommacomma}\finishgrp}\sep \mathtok{\Tclpar}}
+\def\DCnofixtemplate{\mathtok{\Toppar}\sep \seluse{\CNofixName}\sep \mathtok{\Tclpar}}
+
+% Application
+
+\def\DCprefixapp{%
+\index{prefix function operator application!concrete syntax}%
+\index{prefix generic operator application!concrete syntax}%
+\seluse{\CPrefixApp}}
+\def\DCpostfixapp{%
+\index{postfix function operator application!concrete syntax}%
+\index{postfix generic operator application!concrete syntax}%
+\seluse{\CPostfixApp}}
+\def\DCinfixapp{%
+\index{infix function operator application!concrete syntax}%
+\index{infix generic operator application!concrete syntax}%
+\seluse{\CInfixApp}}
+\def\DCnofixapp{%
+\index{nofix function operator application!concrete syntax}%
+\index{nofix generic operator application!concrete syntax}%
+\seluse{\CNofixApp}}
+
+\def\DCpreprefixapp{\seluse{\TPRE}\sep \seluse{\CExpression}}
+\def\DClprefixapp{\seluse{\TL}\sep \seluse{\CExpSep}\sep \startgrp\seluse{\CExpression}\sep \seluse{\TERE} \alt \seluse{\CExpressionList}\sep \seluse{\TSRE}\finishgrp\sep \seluse{\CExpression}}
+
+\def\DCpostpostfixapp{\seluse{\CExpression}\sep \seluse{\TPOST}}
+\def\DCerpostfixapp{\seluse{\CExpression}\sep \seluse{\TEL}\sep \seluse{\CExpSep}\sep \startgrp\seluse{\CExpression}\sep \seluse{\TER} \alt \seluse{\CExpressionList}\sep \seluse{\TSR}\finishgrp}
+
+\def\DCiinfixapp{\seluse{\CExpression}\sep \seluse{\TI}\sep \seluse{\CExpression}}
+\def\DCelinfixappA{\seluse{\CExpression}\sep \seluse{\TEL}\sep \seluse{\CExpSep}\sep}
+\def\DCelinfixappB{\quad\startgrp\seluse{\CExpression}\sep \seluse{\TERE} \alt \seluse{\CExpressionList}\sep \seluse{\TSRE}\finishgrp\sep \seluse{\CExpression}}
+
+\def\DClnofixapp{\seluse{\TL}\sep \seluse{\CExpSep}\sep \startgrp\seluse{\CExpression}\sep \seluse{\TER} \alt \seluse{\CExpressionList}\sep \seluse{\TSR}\finishgrp}
+
+% Relation
+
+\def\DCprefixrel{\seluse{\CPrefixRel}}
+\def\DCpostfixrel{\seluse{\CPostfixRel}}
+\def\DCinfixrel{\seluse{\CInfixRel}}
+\def\DCnofixrel{\seluse{\CNofixRel}}
+
+\def\DCprepprefixrel{\seluse{\TPREP}\sep \seluse{\CExpression}}
+\def\DClpprefixrel{\seluse{\TLP}\sep \seluse{\CExpSep}\sep \startgrp\seluse{\CExpression}\sep \seluse{\TEREP} \alt \seluse{\CExpressionList}\sep \seluse{\TSREP}\finishgrp\sep \seluse{\CExpression}}
+
+\def\DCpostppostfixrel{\seluse{\CExpression}\sep \seluse{\TPOSTP}}
+\def\DCerppostfixrel{\seluse{\CExpression}\sep \seluse{\TELP}\sep \seluse{\CExpSep}\sep \startgrp\seluse{\CExpression}\sep \seluse{\TERP} \alt \seluse{\CExpressionList}\sep \seluse{\TSRP}\finishgrp}
+
+\def\DCipinfixrelA{\seluse{\CExpression}\sep \startgrp\seluse{\Tin} \alt \mathtok{\Teq} \alt \seluse{\TIP}\finishgrp\sep \CExpression\sep}
+\def\DCipinfixrelB{\qquad\zeroormore{\startgrp\seluse{\Tin} \alt \mathtok{\Teq} \alt \seluse{\TIP}\finishgrp\sep \seluse{\CExpression}}}
+\def\DCelpinfixrelA{\seluse{\CExpression}\sep \seluse{\TELP}\sep \seluse{\CExpSep}\sep}
+\def\DCelpinfixrelB{\quad\startgrp\seluse{\CExpression}\sep \seluse{\TEREP} \alt \seluse{\CExpressionList}\sep \seluse{\TSREP}\finishgrp\sep \seluse{\CExpression}}
+
+\def\DClpnofixrel{\seluse{\TLP}\sep \seluse{\CExpSep}\sep \startgrp\seluse{\CExpression}\sep \seluse{\TERP} \alt \seluse{\CExpressionList}\sep \seluse{\TSRP}\finishgrp}
+
+% GenName
+
+\def\XCgenname{%
+\begin{bnf}
+\seldef{\CGenName} & \isd & \index{generic name!concrete syntax}%
+\seluse{\CPrefixGenName}\\
+ & \alt & \seluse{\CPostfixGenName}\\
+ & \alt & \seluse{\CInfixGenName}\\
+ & \alt & \seluse{\CNofixGenName}\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPrefixGenName} & \isd & \index{prefix generic name!concrete syntax}%
+\seluse{\TPRE}\sep \seluse{\TNAME}\\
+ & \alt & \seluse{\TL}\sep \zeroormore{\seluse{\TNAME}\sep \startgrp \seluse{\TES} \alt \seluse{\TSS}\finishgrp}\sep \seluse{\TNAME}\sep \startgrp \seluse{\TERE} \alt \seluse{\TSRE}\finishgrp\sep \seluse{\TNAME}\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPostfixGenName} & \isd & \index{postfix generic name!concrete syntax}%
+\seluse{\TNAME}\sep \seluse{\TPOST}\\
+ & \alt & \seluse{\TNAME}\sep \seluse{\TEL}\sep \zeroormore{\seluse{\TNAME}\sep \startgrp \seluse{\TES} \alt \seluse{\TSS}\finishgrp}\sep \seluse{\TNAME}\sep \startgrp \seluse{\TER} \alt \seluse{\TSR}\finishgrp\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CInfixGenName} & \isd & \index{infix generic name!concrete syntax}%
+\seluse{\TNAME}\sep \seluse{\TI}\sep \seluse{\TNAME}\\
+ & \alt & \seluse{\TNAME}\sep \seluse{\TEL}\sep \zeroormore{\seluse{\TNAME}\sep \startgrp \seluse{\TES} \alt \seluse{\TSS}\finishgrp}\sep \seluse{\TNAME}\sep \startgrp \seluse{\TERE} \alt \seluse{\TSRE}\finishgrp\sep \seluse{\TNAME}\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CNofixGenName} & \isd & \index{nofix generic name!concrete syntax}%
+\seluse{\TL}\sep \zeroormore{\seluse{\TNAME}\sep \startgrp \seluse{\TES} \alt \seluse{\TSS}\finishgrp}\sep \seluse{\TNAME}\sep \startgrp \seluse{\TER} \alt \seluse{\TSR}\finishgrp\term\\
+\end{bnf}}
+
+% Freetype
+
+\def\XCfreetype{%
+\begin{bnf}
+\seldef{\CFreetype} & \isd & \index{Freetype@\CFreetype!concrete syntax}%
+\DCfreetype\term\bnfcomment{free type}\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CBranch} & \isd & \index{Branch@\CBranch!concrete syntax}%
+\DCbranch\term\bnfcomment{element or injection}\\
+\end{bnf}}
+
+% OperatorTemplate
+
+\def\XCoperatortemplate{%
+\begin{bnf}
+\seldef{\COperatorTemplate} & \isd & \index{OperatorTemplate@\COperatorTemplate!concrete syntax}%
+\DCreltemp\\
+ & \alt & \DCfuntemp\\
+ & \alt & \DCgentemp\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CCategoryTemplate} & \isd & \index{CategoryTemplate@\CCategoryTemplate!concrete syntax}%
+\DCpretemp\\
+ & \alt & \DCposttemp\\
+ & \alt & \DCintemp\\
+ & \alt & \DCnotemp\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPrec} & \isd & \index{Prec@\CPrec!concrete syntax}%
+\DCprec\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CAssoc} & \isd & \index{Assoc@\CAssoc!concrete syntax}%
+\DCleftassoc\\
+ & \alt & \DCrightassoc\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CTemplate} & \isd & \index{Template@\CTemplate!concrete syntax}%
+\DCpretemplate\\
+ & \alt & \DCposttemplate\\
+ & \alt & \DCintemplate\\
+ & \alt & \DCnotemplate\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPrefixTemplate} & \isd & \index{PrefixTemplate@\CPrefixTemplate!concrete syntax}%
+\DCprefixtemplate\\
+ & \alt & \DCpowertemplate\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPostfixTemplate} & \isd & \index{PostfixTemplate@\CPostfixTemplate!concrete syntax}%
+\DCpostfixtemplate\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CInfixTemplate} & \isd & \index{InfixTemplate@\CInfixTemplate!concrete syntax}%
+\DCinfixtemplate\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CNofixTemplate} & \isd & \index{NofixTemplate@\CNofixTemplate!concrete syntax}%
+\DCnofixtemplate\term\\
+\end{bnf}}
+
+% Relation
+
+\def\XCrelation{%
+\begin{bnf}
+\seldef{\CRelation} & \isd & \index{Relation@\CRelation!concrete syntax}%
+\DCprefixrel\\
+ & \alt & \DCpostfixrel\\
+ & \alt & \DCinfixrel\\
+ & \alt & \DCnofixrel\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPrefixRel} & \isd & \index{prefix relation operator application!concrete syntax}%
+\DCprepprefixrel\\
+ & \alt & \DClpprefixrel\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPostfixRel} & \isd & \index{postfix relation operator application!concrete syntax}%
+\DCpostppostfixrel\\
+ & \alt & \DCerppostfixrel\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CInfixRel} & \isd & \index{infix relation operator application!concrete syntax}%
+\DCipinfixrelA\\
+ & & \DCipinfixrelB\\
+ & \alt & \DCelpinfixrelA\\
+ & & \DCelpinfixrelB\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CNofixRel} & \isd & \index{nofix relation operator application!concrete syntax}%
+\DClpnofixrel\term\\
+\end{bnf}}
+
+% Application
+
+\def\XCapplication{%
+\begin{bnf}
+\seldef{\CApplication} & \isd & \index{Application@\CApplication!concrete syntax}%
+\DCprefixapp\\
+ & \alt & \DCpostfixapp\\
+ & \alt & \DCinfixapp\\
+ & \alt & \DCnofixapp\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPrefixApp} & \isd & \index{PrefixApp@\CPrefixApp!concrete syntax}%
+\DCpreprefixapp\\
+ & \alt & \DClprefixapp\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPostfixApp} & \isd & \index{PostfixApp@\CPostfixApp!concrete syntax}%
+\DCpostpostfixapp\\
+ & \alt & \DCerpostfixapp\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CInfixApp} & \isd & \index{InfixApp@\CInfixApp!concrete syntax}%
+\DCiinfixapp\\
+ & \alt & \DCelinfixappA\\
+ & & \DCelinfixappB\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CNofixApp} & \isd & \index{NofixApp@\CNofixApp!concrete syntax}%
+\DClnofixapp\term\\
+\end{bnf}}
+
+% SchemaText
+
+\def\XCschematext{%
+\begin{bnf}
+\seldef{\CSchemaText} & \isd & \index{schema text!concrete syntax}%
+\DCschematext\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CDeclPart} & \isd & \index{DeclPart@\CDeclPart!concrete syntax}%
+\DCdeclpart\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CDeclaration} & \isd & \index{Declaration@\CDeclaration!concrete syntax}%
+\DCcolondeclaration\\
+ & \alt & \DCequaldeclaration\\
+ & \alt & \DCschemadeclaration\\
+ & \term &\\
+\end{bnf}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Concrete syntax - entire BNF.
+
+\def\PDconcrete{%
+\copyrightbox{%
+This material is in the public domain.
+It is reproduced here in the form presented in the ISO Z standard.}
+
+\begin{bnf}
+\seldef{\CSpecification}\index{specification!concrete syntax}%
+ & \isd & \DCsecspec\bnfcomment{sectioned specification}\\
+ & \alt & \DCanonspec\bnfcomment{anonymous specification}\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CSection}\index{section!concrete syntax}%
+ & \isd & \DCinsectA\\
+ & & \DCinsectB\bnfcomment{inheriting section}\\
+ & \alt & \DCbasect\bnfcomment{base section}\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CParagraph}\index{paragraph!concrete syntax}%
+ & \isd & \DCgivendef\bnfcomment{given types}\\
+ & \alt & \DCaxdef\bnfcomment{axiomatic description}\\
+ & \alt & \DCschdef\bnfcomment{schema definition}\\
+ & \alt & \DCgenaxdef\\
+ & & \bnfcomment{generic axiomatic description}\\
+ & \alt & \DCgenschdef\\
+ & & \bnfcomment{generic schema definition}\\
+ & \alt & \DChorizdef\bnfcomment{horizontal definition}\\
+ & \alt & \DCgenhorizdef\\
+ & & \bnfcomment{generic horizontal definition}\\
+ & \alt & \DCgenopdef\bnfcomment{generic operator definition}\\
+ & \alt & \DCfreetypedef\bnfcomment{free types}\\
+ & \alt & \DCconj\bnfcomment{conjecture}\\
+ & \alt & \DCgenconj\bnfcomment{generic conjecture}\\
+ & \alt & \DCoptemp\bnfcomment{operator template}\\
+ & \term &\\
+\end{bnf}
+
+\XCfreetype
+
+\begin{bnf}
+\seldef{\CFormals} & \isd & \DCformals\term\bnfcomment{generic parameters}\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPredicate}\index{predicate!concrete syntax}%
+ & \isd & \DCnewlinepred\bnfcomment{newline conjunction}\\
+ & \alt & \DCsemipred\bnfcomment{semicolon conjunction}\\
+ & \alt & \DCforallpred\bnfcomment{universal quantification}\\
+ & \alt & \DCexistspred\bnfcomment{existential quantification}\\
+ & \alt & \DCuniquepred\bnfcomment{unique existential quantification}\\
+ & \alt & \DCiffpred\bnfcomment{equivalence}\\
+ & \alt & \DCimppred\bnfcomment{implication}\\
+ & \alt & \DCorpred\bnfcomment{disjunction}\\
+ & \alt & \DCandpred\bnfcomment{conjunction}\\
+ & \alt & \DCnotpred\bnfcomment{negation}\\
+\end{bnf}
+
+\begin{bnf}
+ & \alt & \DCrelopappl\bnfcomment{relation operator application}\\
+ & \alt & \DCschpred\bnfcomment{schema predicate}\\
+ & \alt & \DCtruthpred\bnfcomment{truth}\\
+ & \alt & \DCfalsitypred\bnfcomment{falsity}\\
+ & \alt & \DCparenpred\bnfcomment{parenthesized predicate}\\
+ & \term & \\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CExpression}\index{expression!concrete syntax}%
+ & \isd & \DCschforall\bnfcomment{schema universal quantification}\\
+ & \alt & \DCschexists\bnfcomment{schema existential quantification}\\
+ & \alt & \DCschunique\bnfcomment{schema unique existential quantification}\\
+ & \alt & \DClambda\bnfcomment{function construction}\\
+ & \alt & \DCmu\bnfcomment{definite description}\\
+ & \alt & \DCletA\\
+ & & \DCletB\\
+ & & \DCletC\bnfcomment{substitution expression}\\
+ & \alt & \DCschiff\bnfcomment{schema equivalence}\\
+ & \alt & \DCschimp\bnfcomment{schema implication}\\
+ & \alt & \DCschor\bnfcomment{schema disjunction}\\
+ & \alt & \DCschand\bnfcomment{schema conjunction}\\
+ & \alt & \DCschnot\bnfcomment{schema negation}\\
+ & \alt & \DCcond\bnfcomment{conditional}\\
+ & \alt & \DCschcomp\bnfcomment{schema composition}\\
+ & \alt & \DCschpipe\bnfcomment{schema piping}\\
+ & \alt & \DCschhide\\
+ & & \bnfcomment{schema hiding}\\
+ & \alt & \DCschproj\bnfcomment{schema projection}\\
+ & \alt & \DCschpre\bnfcomment{schema precondition}\\
+ & \alt & \DCcp\bnfcomment{Cartesian product}\\
+ & \alt & \DCpower\bnfcomment{powerset}\\
+ & \alt & \DCfungenopappl\bnfcomment{function and generic operator application}\\
+ & \alt & \DCappl\bnfcomment{application}\\
+ & \alt & \DCschdecor\bnfcomment{schema decoration}\\
+ & \alt & \DCschrenmA\\
+ & & \DCschrenmB\bnfcomment{schema renaming}\\
+ & \alt & \DCbindsel\bnfcomment{binding selection}\\
+ & \alt & \DCtuplesel\bnfcomment{tuple selection}\\
+ & \alt & \DCtheta\bnfcomment{binding construction}\\
+ & \alt & \DCreference\bnfcomment{reference}\\
+ & \alt & \DCgeninst\\
+ & & \bnfcomment{generic instantiation}\\
+ & \alt & \DCnumber\bnfcomment{number literal}\\
+ & \alt & \DCsetextn\bnfcomment{set extension}\\
+ & \alt & \DCsetcomp\bnfcomment{set comprehension}\\
+ & \alt & \DCchsetcompA\\
+ & & \DCchsetcompB\\
+ & & \bnfcomment{characteristic set comprehension}\\
+ & \alt & \DCschconst\\
+ & & \bnfcomment{schema construction}\\
+ & \alt & \DCbindextnA\\
+ & & \DCbindextnB\bnfcomment{binding extension}\\
+ & \alt & \DCtupleextn\\
+ & & \bnfcomment{tuple extension}\\
+ & \alt & \DCchmu\bnfcomment{characteristic definite description}\\
+\end{bnf}
+
+\begin{bnf}
+ & \alt & \DCparenexpr\bnfcomment{parenthesized expression}\\
+ & \term & \\
+\end{bnf}
+
+\XCschematext
+
+\XCoperatortemplate
+
+\begin{bnf}
+\seldef{\CDeclName} & \isd & \seluse{\TNAME}\\
+ & \alt & \seluse{\COpName}\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CRefName} & \isd & \seluse{\TNAME}\\
+ & \alt & \mathtok{\Toppar}\sep \seluse{\COpName}\sep \mathtok{\Tclpar}\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\COpName} & \isd & \index{operator name!concrete syntax}%
+\seluse{\CPrefixName}\\
+ & \alt & \seluse{\CPostfixName}\\
+ & \alt & \seluse{\CInfixName}\\
+ & \alt & \seluse{\CNofixName}\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPrefixName} & \isd & \index{prefix operator name!concrete syntax}%
+\seluse{\TPRE}\sep \seluse{\Tunder}\\
+ & \alt & \seluse{\TPREP}\sep \seluse{\Tunder}\\
+ & \alt & \seluse{\TL}\sep \zeroormore{\seluse{\Tunder}\sep \seluse{\TES} \alt \seluse{\Tcommacomma}\sep \seluse{\TSS}}\sep \startgrp \seluse{\Tunder}\sep \seluse{\TERE} \alt \seluse{\Tcommacomma}\sep \seluse{\TSRE}\finishgrp\sep \seluse{\Tunder}\\
+ & \alt & \seluse{\TLP}\sep \zeroormore{\seluse{\Tunder}\sep \seluse{\TES} \alt \seluse{\Tcommacomma}\sep \seluse{\TSS}}\sep \startgrp \seluse{\Tunder}\sep \seluse{\TEREP} \alt \seluse{\Tcommacomma}\sep \seluse{\TSREP}\finishgrp\sep \seluse{\Tunder}\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CPostfixName} & \isd & \index{postfix operator name!concrete syntax}%
+\seluse{\Tunder}\sep \seluse{\TPOST}\\
+ & \alt & \seluse{\Tunder}\sep \seluse{\TPOSTP}\\
+ & \alt & \seluse{\Tunder}\sep \seluse{\TEL}\sep \zeroormore{\seluse{\Tunder}\sep \seluse{\TES} \alt \seluse{\Tcommacomma}\sep \seluse{\TSS}}\sep \startgrp \seluse{\Tunder}\sep \seluse{\TER} \alt \seluse{\Tcommacomma}\sep \seluse{\TSR}\finishgrp\\
+ & \alt & \seluse{\Tunder}\sep \seluse{\TELP}\sep \zeroormore{\seluse{\Tunder}\sep \seluse{\TES} \alt \seluse{\Tcommacomma}\sep \seluse{\TSS}}\sep \startgrp \seluse{\Tunder}\sep \seluse{\TERP} \alt \seluse{\Tcommacomma}\sep \seluse{\TSRP}\finishgrp\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CInfixName} & \isd & \index{infix operator name!concrete syntax}%
+\seluse{\Tunder}\sep \seluse{\TI}\sep \seluse{\Tunder}\\
+ & \alt & \seluse{\Tunder}\sep \seluse{\TIP}\sep \seluse{\Tunder}\\
+ & \alt & \seluse{\Tunder}\sep \seluse{\TEL}\sep \zeroormore{\seluse{\Tunder}\sep \seluse{\TES} \alt \seluse{\Tcommacomma}\sep \seluse{\TSS}}\sep \startgrp \seluse{\Tunder}\sep \seluse{\TERE} \alt \seluse{\Tcommacomma}\sep \seluse{\TSRE}\finishgrp\sep \seluse{\Tunder}\\
+ & \alt & \seluse{\Tunder}\sep \seluse{\TELP}\sep \zeroormore{\seluse{\Tunder}\sep \seluse{\TES} \alt \seluse{\Tcommacomma}\sep \seluse{\TSS}}\sep \startgrp \seluse{\Tunder}\sep \seluse{\TEREP} \alt \seluse{\Tcommacomma}\sep \seluse{\TSREP}\finishgrp\sep \seluse{\Tunder}\\
+ & \term &\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CNofixName} & \isd & \index{nofix operator name!concrete syntax}%
+\seluse{\TL}\sep \zeroormore{\seluse{\Tunder}\sep \seluse{\TES} \alt \seluse{\Tcommacomma}\sep \seluse{\TSS}}\sep \startgrp \seluse{\Tunder}\sep \seluse{\TER} \alt \seluse{\Tcommacomma}\sep \seluse{\TSR}\finishgrp\\
+ & \alt & \seluse{\TLP}\sep \zeroormore{\seluse{\Tunder}\sep \seluse{\TES} \alt \seluse{\Tcommacomma}\sep \seluse{\TSS}}\sep \startgrp \seluse{\Tunder}\sep \seluse{\TERP} \alt \seluse{\Tcommacomma}\sep \seluse{\TSRP}\finishgrp\\
+ & \term &\\
+\end{bnf}
+
+\XCgenname
+
+\XCrelation
+
+\XCapplication
+
+\begin{bnf}
+\seldef{\CExpSep} & \isd & \zeroormore{\seluse{\CExpression}\sep \seluse{\TES} \alt \seluse{\CExpressionList}\sep \seluse{\TSS}}\term\\
+\end{bnf}
+
+\begin{bnf}
+\seldef{\CExpressionList} & \isd & \index{expression list!concrete syntax}%
+\zeroormoresep{\seluse{\CExpression}}{\mathtok{\Tcomma}}\term\\
+\end{bnf}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Characterisations.
+
+\def\DTlambda{\index{function construction expression!characterisation}%
+\begin{transf}
+\Tlambda \Jtext \Tspot \Jexpr & \trarrow & \Topbrace\Jtext \Tspot \Toppar\chartuple\ \Jtext\Tcomma \Jexpr\Tclpar\Tclbrace
+\end{transf}}
+
+\def\DTchsetcomp{\index{characteristic set comprehension expression!characterisation}%
+\begin{transf}
+\Topbrace\Jtext\Tclbrace & \trarrow & \Topbrace\Jtext \Tspot \chartuple\ \Jtext\Tclbrace
+\end{transf}}
+
+\def\DTchmu{\index{characteristic definite description expression!characterisation}%
+\begin{transf}
+\Toppar\Tmu \Jtext\Tclpar & \trarrow & \Tmu \Jtext \Tspot \chartuple\ \Jtext
+\end{transf}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Syntactic transformations.
+
+\def\DTanonspec{\index{anonymous specification!syntactic transformation}%
+\begin{transf}
+\Jpara[1]\ \Jelide\ \Jpara[n] & \trarrow & Math\ toolkit\ \TZED\ \Tsection\ Specification\ \Tparents\ standard\_toolkit\ \TEND\ \Jpara[1]\ \Jelide\ \Jpara[n]
+\end{transf}}
+
+\def\DTbasesection{\index{base section!syntactic transformation}%
+\begin{transf}
+\TZED\ \Tsection\ \Jname\ \TEND\ \Jpara[1]\ \Jelide\ \Jpara[n] & \trarrow & \TZED\ \Tsection\ \Jname\ \Tparents\ \TEND\ \Jpara[1]\ \Jelide\ \Jpara[n]
+\end{transf}}
+
+\def\DTschemadef{\index{schema definition paragraph!syntactic transformation}%
+\begin{transf}
+\TSCH\ \Jname\ \Jtext\ \TEND & \trarrow & \TAX\ \Topsqr\Jname \Teqeq \Jtext\Tclsqr\ \TEND
+\end{transf}}
+
+\def\DTgenschemadef{\index{generic schema definition paragraph!syntactic transformation}%
+\begin{transf}
+\TGENSCH\ \Jname\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr\ \Jtext\ \TEND & \trarrow & \TGENAX\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr\ \Topsqr\Jname \Teqeq \Jtext\Tclsqr\ \TEND
+\end{transf}}
+
+\def\DThorizdef{\index{horizontal definition paragraph!syntactic transformation}%
+\begin{transf}
+\TZED\ \Jname \Teqeq \Jexpr\ \TEND & \trarrow & \TAX\ \Topsqr\Jname \Teqeq \Jexpr\Tclsqr\ \TEND
+\end{transf}}
+
+\def\DTgenhorizdef{\index{generic horizontal definition paragraph!syntactic transformation}%
+\begin{transf}
+\TZED\ \Jname\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr \Teqeq \Jexpr\ \TEND & \trarrow & \TGENAX\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr\ \Topsqr\Jname \Teqeq \Jexpr\Tclsqr\ \TEND
+\end{transf}}
+
+\def\DTfreetypedef{\index{free types paragraph!syntactic transformation}%
+\begin{transf}
+\Jelide \Tbar \Jinj \Topdata \Jexpr \Tcldata \Tbar \Jelem \Tbar \Jelide & \trarrow & \Jelide \Tbar \Jelem \Tbar \Jinj \Topdata \Jexpr \Tcldata \Tbar \Jelide
+\end{transf}}
+
+\def\DTnewlinepred{\index{newline conjunction predicate!syntactic transformation}%
+\begin{transf}
+\Jpred[1] \TNL \Jpred[2] & \trarrow & \Jpred[1] \Tand \Jpred[2]
+\end{transf}}
+
+\def\DTsemipred{\index{semicolon conjunction predicate!syntactic transformation}%
+\begin{transf}
+\Jpred[1] \Tsemi \Jpred[2] & \trarrow & \Jpred[1] \Tand \Jpred[2]
+\end{transf}}
+
+\def\DTexistspred{\index{existential quantification predicate!syntactic transformation}%
+\begin{transf}
+\Texists \Jtext \Tspot \Jpred & \trarrow & \Tnot \Tforall \Jtext \Tspot \Tnot \Jpred
+\end{transf}}
+
+\def\DTiffpred{\index{equivalence predicate!syntactic transformation}%
+\begin{transf}
+\Jpred[1] \Tiff \Jpred[2] & \trarrow & \Toppar\Jpred[1] \Timp \Jpred[2]\Tclpar \Tand \Toppar\Jpred[2] \Timp \Jpred[1]\Tclpar
+\end{transf}}
+
+\def\DTimppred{\index{implication predicate!syntactic transformation}%
+\begin{transf}
+\Jpred[1] \Timp \Jpred[2] & \trarrow & \Tnot \Jpred[1] \Tor \Jpred[2]
+\end{transf}}
+
+\def\DTorpred{\index{disjunction predicate!syntactic transformation}%
+\begin{transf}
+\Jpred[1] \Tor \Jpred[2] & \trarrow & \Tnot \Toppar\Tnot \Jpred[1] \Tand \Tnot \Jpred[2]\Tclpar
+\end{transf}}
+
+\def\DTprefixrel{\index{prefix relation operator application!syntactic transformation}%
+\begin{transf}
+\JPREP\ \Jexpr & \trarrow & \Jexpr \Tin \JPREP\ZJoin\\
+\JLP\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexpr[n-1]\ \JEREP\ \Jexpr[n] & \trarrow & \Toppar\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclpar \Tin \JLP\ZJoin\JES[1]\Jelide\ZJoin\JES[n-2]\ZJoin\JEREP\ZJoin\\
+\JLP\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexps[n-1]\ \JSREP\ \Jexpr[n] & \trarrow & \Toppar\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexps[n-1]\Tcomma \Jexpr[n]\Tclpar \Tin \JLP\ZJoin\JES[1]\Jelide\ZJoin\JES[n-2]\ZJoin\JSREP\ZJoin\\
+\end{transf}}
+
+\def\DTpostfixrel{\index{postfix relation operator application!syntactic transformation}%
+\begin{transf}
+\Jexpr\ \JPOSTP & \trarrow & \Jexpr \Tin \ \ \ZJoin\JPOSTP\\
+\Jexpr[1]\ \JELP\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexpr[n]\ \JERP & \trarrow & \Toppar\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclpar \Tin \ \ \ZJoin\JELP\ZJoin\JES[2]\Jelide\ZJoin\JES[n-1]\ZJoin\JERP\\
+\Jexpr[1]\ \JELP\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexps[n]\ \JSRP & \trarrow & \Toppar\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexps[n]\Tclpar \Tin \ \ \ZJoin\JELP\ZJoin\JES[2]\Jelide\ZJoin\JES[n-1]\ZJoin\JSRP\\
+\end{transf}}
+
+\def\DTinfixrel{\index{infix relation operator application!syntactic transformation}%
+\begin{transf}
+\Jexpr[1]\ \JIP[1]\ \Jexpr[2]\ \JIP[2]\ \Jexpr[3]\ \Jelide & \trarrow & \Jexpr[1]\ \JIP[1]\ \Toppar\Jexpr[2] \Tistype \Ltype[1]\Tclpar \Tand \Toppar\Jexpr[2] \Tistype \Ltype[1]\Tclpar\ \JIP[2]\ \Toppar\Jexpr[3] \Tistype \Ltype[2]\Tclpar\ \Jelide\\
+\end{transf}%
+The chained relation $\Jexpr[1]\ \JIP[1]\ \Jexpr[2]\ \JIP[2]\ \Jexpr[3]\ \Jelide$
+is semantically equivalent to a conjunction of relational predicates,
+with the constraint that duplicated expressions be of the same type.
+\begin{transf}
+\Jexpr[1] \Teq \Jexpr[2] & \trarrow & \Jexpr[1] \Tin \Topbrace\Jexpr[2]\Tclbrace\\
+\Jexpr[1]\ \JIP\ \Jexpr[2] & \trarrow & \Toppar\Jexpr[1]\Tcomma \Jexpr[2]\Tclpar \Tin \ \ \ZJoin\JIP\ZJoin\\
+\end{transf}%
+$\JIP$ in the above transformation is excluded from being $\Tin$ or $\Teq$,
+whereas $\JIP[1], \JIP[2], \Jelide$ in the chained relation can be $\Tin$ or $\Teq$.
+\begin{transf}
+\Jexpr[1]\ \JELP\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexpr[n-1]\ \JEREP\ \Jexpr[n] & \trarrow & \Toppar\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclpar \Tin \ \ \ZJoin\JELP\ZJoin\JES[2]\Jelide\ZJoin\JES[n-2]\ZJoin\JEREP\ZJoin\\
+\Jexpr[1]\ \JELP\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexps[n-1]\ \JSREP\ \Jexpr[n] & \trarrow & \Toppar\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexps[n-1]\Tcomma \Jexpr[n]\Tclpar \Tin \ \ \ZJoin\JELP\ZJoin\JES[2]\Jelide\ZJoin\JES[n-2]\ZJoin\JSREP\ZJoin\\
+\end{transf}}
+
+\def\DTnofixrel{\index{nofix relation operator application!syntactic transformation}%
+\begin{transf}
+\JLP\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexpr[n]\ \JERP & \trarrow & \Toppar\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclpar \Tin \JLP\ZJoin\JES[1]\Jelide\ZJoin\JES[n-1]\ZJoin\JERP\\
+\JLP\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexps[n]\ \JSRP & \trarrow & \Toppar\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexps[n]\Tclpar \Tin \JLP\ZJoin\JES[1]\Jelide\ZJoin\JES[n-1]\ZJoin\JSRP\\
+\end{transf}}
+
+\def\DTschemapred{\index{schema predicate!syntactic transformation}%
+\begin{transf}
+\Jexpr & \trarrow & \Ttheta \Jexpr \Tin \Jexpr
+\end{transf}}
+
+\def\DTfalsepred{\index{falsity predicate!syntactic transformation}%
+\begin{transf}
+\Tfalse & \trarrow & \Tnot \Ttrue
+\end{transf}}
+
+\def\DTparenpred{\index{parenthesized predicate!syntactic transformation}%
+\begin{transf}
+\Toppar\Jpred\Tclpar & \trarrow & \Jpred
+\end{transf}}
+
+\def\DTschexists{\index{schema existential quantification expression!syntactic transformation}%
+\begin{transf}
+\Texists \Jtext \Tspot \Jexpr & \trarrow & \Tnot \Tforall \Jtext \Tspot \Tnot \Jexpr
+\end{transf}}
+
+\def\DTlet{\index{substitution expression!syntactic transformation}%
+\begin{transf}
+\Tlet \Jname[1] \Teqeq \Jexpr[1]\Tsemi \Jelide\Tsemi \Jname[n] \Teqeq \Jexpr[n] \Tspot \Jexpr & \trarrow & \Tmu \Jname[1] \Teqeq \Jexpr[1]\Tsemi \Jelide\Tsemi \Jname[n] \Teqeq \Jname[n] \Tspot \Jexpr
+\end{transf}}
+
+\def\DTschiff{\index{schema equivalence expression!syntactic transformation}%
+\begin{transf}
+\Jexpr[1] \Tiff \Jexpr[2] & \trarrow & \Toppar\Jexpr[1] \Timp \Jexpr[2]\Tclpar \Tand \Toppar\Jexpr[2] \Timp \Jexpr[1]\Tclpar
+\end{transf}}
+
+\def\DTschimp{\index{schema implication expression!syntactic transformation}%
+\begin{transf}
+\Jexpr[1] \Timp \Jexpr[2] & \trarrow & \Tnot \Jexpr[1] \Tor \Jexpr[2]
+\end{transf}}
+
+\def\DTschor{\index{schema disjunction expression!syntactic transformation}%
+\begin{transf}
+\Jexpr[1] \Tor \Jexpr[2] & \trarrow & \Tnot \Toppar\Tnot \Jexpr[1] \Tand \Tnot \Jexpr[2]\Tclpar
+\end{transf}}
+
+\def\DTcond{\index{conditional expression!syntactic transformation}%
+\begin{transf}
+\Tif\ \Jpred \Tthen \Jexpr[1] \Telse \Jexpr[2] & \trarrow & \Tmu \Jname \Tcolon \Topbrace\Jexpr[1]\Tcomma \Jexpr[2]\Tclbrace \Tbar \Jpred \Tand \Jname \Teq \Jexpr[1] \Tor \Tnot \Jpred \Tand \Jname \Teq \Jexpr[2] \Tspot \Jname
+\end{transf}}
+
+\def\DTschproj{\index{schema projection expression!syntactic transformation}%
+\begin{transf}
+\Jexpr[1] \Tproject \Jexpr[2] & \trarrow & \Topbrace\Jexpr[1]\Tsemi \Jexpr[2] \Tspot \Ttheta \Jexpr[2]\Tclbrace
+\end{transf}}
+
+\def\DTcp{\index{Cartesian product expression!syntactic transformation}%
+\begin{transf}
+\Jexpr[1] \Tcross \Jelide \Tcross \Jexpr[n] & \trarrow & \Topbrace\Jname[1] \Tcolon \Jexpr[1]\Tsemi \Jelide\Tsemi \Jname[n] \Tcolon \Jexpr[n] \Tspot \Toppar\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclpar\Tclbrace
+\end{transf}}
+
+\def\DTnumber{\index{number literal expression!syntactic transformation}%
+\begin{transf}
+\Jnumber\Jdigit & \trarrow & \Jnumber + \Jnumber + \Jnumber + \Jnumber + \Jnumber +\\
+ & & \Jnumber + \Jnumber + \Jnumber + \Jnumber + \Jnumber + \Jdigit
+\end{transf}}
+
+\def\DTdigit{\begin{transf}
+0 & \trarrow & number\_literal\_0\\
+1 & \trarrow & number\_literal\_1\\
+2 & \trarrow & 1+1\\
+3 & \trarrow & 2+1\\
+4 & \trarrow & 3+1\\
+5 & \trarrow & 4+1\\
+6 & \trarrow & 5+1\\
+7 & \trarrow & 6+1\\
+8 & \trarrow & 7+1\\
+9 & \trarrow & 8+1
+\end{transf}}
+
+\def\DTschconst{\index{schema construction expression!syntactic transformation}%
+\begin{transf}
+\Topsqr\Jtext\Tclsqr & \trarrow & \Jtext
+\end{transf}}
+
+\def\DTparenexpr{\index{parenthesized expression!syntactic transformation}%
+\begin{transf}
+\Toppar\Jexpr\Tclpar & \trarrow & \Jexpr
+\end{transf}}
+
+\def\DTprefixgenname{\index{prefix generic name!syntactic transformation}%
+\begin{transf}
+\JPRE\ \Jname & \trarrow & \JPRE\ZJoin\ \Topsqr\Jname\Tclsqr\\
+\JL\ \Jname[1]\ \JESS[1]\ \Jelide\ \Jname[n-2]\ \JESS[n-2]\ \Jname[n-1]\ \JERE\ \Jname[n] & \trarrow & \JL\ZJoin\JESS[1]\Jelide\ZJoin\JESS[n-2]\ZJoin\JERE\ZJoin\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n-2]\Tcomma \Jname[n-1]\Tcomma \Jname[n]\Tclsqr\\
+\JL\ \Jname[1]\ \JESS[1]\ \Jelide\ \Jname[n-2]\ \JESS[n-2]\ \Jname[n-1]\ \JSRE\ \Jname[n] & \trarrow & \JL\ZJoin\JESS[1]\Jelide\ZJoin\JESS[n-2]\ZJoin\JSRE\ZJoin\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n-2]\Tcomma \Jname[n-1]\Tcomma \Jname[n]\Tclsqr\\
+\end{transf}}
+
+\def\DTpostfixgenname{\index{postfix generic name!syntactic transformation}%
+\begin{transf}
+\Jname\ \JPOST\ & \trarrow & \ZJoin\JPOST\ \Topsqr\Jname\Tclsqr\\
+\Jname[1] \JEL\ \Jname[2]\ \JESS[2]\ \Jelide\ \Jname[n-1]\ \JESS[n-1]\ \Jname[n]\ \JER & \trarrow & \ZJoin\JEL\ZJoin\JESS[2]\Jelide\ZJoin\JESS[n-1]\ZJoin\JER\ \Topsqr\Jname[1]\Tcomma \Jname[2]\Tcomma \Jelide\Tcomma \Jname[n-1]\Tcomma \Jname[n]\Tclsqr\\
+\Jname[1] \JEL\ \Jname[2]\ \JESS[2]\ \Jelide\ \Jname[n-1]\ \JESS[n-1]\ \Jname[n]\ \JSR & \trarrow & \ZJoin\JEL\ZJoin\JESS[2]\Jelide\ZJoin\JESS[n-1]\ZJoin\JSR\ \Topsqr\Jname[1]\Tcomma \Jname[2]\Tcomma \Jelide\Tcomma \Jname[n-1]\Tcomma \Jname[n]\Tclsqr\\
+\end{transf}}
+
+\def\DTinfixgenname{\index{infix generic name!syntactic transformation}%
+\begin{transf}
+\Jname[1] \JI\ \Jname[2] & \trarrow & \ZJoin\JI\ZJoin\ \Topsqr\Jname[1]\Tcomma \Jname[2]\Tclsqr\\
+\Jname[1] \JEL\ \Jname[2]\ \JESS[2]\ \Jelide\ \Jname[n-2]\ \JESS[n-2]\ \Jname[n-1]\ \JERE\ \Jname[n] & \trarrow & \ZJoin\JEL\ZJoin\JESS[2]\Jelide\ZJoin\JESS[n-2]\ZJoin\JERE\ZJoin\ \Topsqr\Jname[1]\Tcomma \Jname[2]\Tcomma \Jelide\Tcomma \Jname[n-2]\Tcomma \Jname[n-1]\Tcomma \Jname[n]\Tclsqr\\
+\Jname[1] \JEL\ \Jname[2]\ \JESS[2]\ \Jelide\ \Jname[n-2]\ \JESS[n-2]\ \Jname[n-1]\ \JSRE\ \Jname[n] & \trarrow & \ZJoin\JEL\ZJoin\JESS[2]\Jelide\ZJoin\JESS[n-2]\ZJoin\JSRE\ZJoin\ \Topsqr\Jname[1]\Tcomma \Jname[2]\Tcomma \Jelide\Tcomma \Jname[n-2]\Tcomma \Jname[n-1]\Tcomma \Jname[n]\Tclsqr\\
+\end{transf}}
+
+\def\DTnofixgenname{\index{nofix generic name!syntactic transformation}%
+\begin{transf}
+\JL\ \Jname[1]\ \JESS[1]\ \Jelide\ \Jname[n-1]\ \JESS[n-1]\ \Jname[n]\ \JER\ & \trarrow & \JL\ZJoin\JESS[1]\Jelide\ZJoin\JESS[n-1]\ZJoin\JER\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n-1]\Tcomma \Jname[n]\Tclsqr\\
+\JL\ \Jname[1]\ \JESS[1]\ \Jelide\ \Jname[n-1]\ \JESS[n-1]\ \Jname[n]\ \JSR\ & \trarrow & \JL\ZJoin\JESS[1]\Jelide\ZJoin\JESS[n-1]\ZJoin\JSR\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n-1]\Tcomma \Jname[n]\Tclsqr\\
+\end{transf}}
+
+\def\DTfunprefixapp{\index{prefix function operator application!syntactic transformation}%
+\begin{transf}
+\JPRE\ \Jexpr & \trarrow & \JPRE\ZJoin\ \Jexpr\\
+\JL\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexpr[n-1]\ \JERE\ \Jexpr[n] & \trarrow & \JL\ZJoin\JES[1]\Jelide\ZJoin\JES[n-2]\ZJoin\JERE\ZJoin\ \Toppar\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclpar\\
+\JL\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexps[n-1]\ \JSRE\ \Jexpr[n] & \trarrow & \JL\ZJoin\JES[1]\Jelide\ZJoin\JES[n-2]\ZJoin\JSRE\ZJoin\ \Toppar\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexps[n-1]\Tcomma \Jexpr[n]\Tclpar\\
+\end{transf}}
+
+\def\DTgenprefixapp{\index{prefix generic operator application!syntactic transformation}%
+\begin{transf}
+\JPRE\ \Jexpr & \trarrow & \JPRE\ZJoin\ \Topsqr\Jexpr\Tclsqr\\
+\JL\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexpr[n-1]\ \JERE\ \Jexpr[n] & \trarrow & \JL\ZJoin\JES[1]\Jelide\ZJoin\JES[n-2]\ZJoin\JERE\ZJoin\ \Topsqr\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclsqr\\
+\JL\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexps[n-1]\ \JSRE\ \Jexpr[n] & \trarrow & \JL\ZJoin\JES[1]\Jelide\ZJoin\JES[n-2]\ZJoin\JSRE\ZJoin\ \Topsqr\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexps[n-1]\Tcomma \Jexpr[n]\Tclsqr\\
+\end{transf}}
+
+\def\DTfunpostfixapp{\index{postfix function operator application!syntactic transformation}%
+\begin{transf}
+\Jexpr\ \JPOST & \trarrow & \ZJoin\JPOST\ \Jexpr\\
+\Jexpr[1]\ \JEL\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexpr[n]\ \JER & \trarrow & \ZJoin\JEL\ZJoin\JES[2]\Jelide\ZJoin\JES[n-1]\ZJoin\JER\ \Toppar\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclpar\\
+\Jexpr[1]\ \JEL\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexps[n]\ \JSR & \trarrow & \ZJoin\JEL\ZJoin\JES[2]\Jelide\ZJoin\JES[n-1]\ZJoin\JSR\ \Toppar\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexps[n]\Tclpar\\
+\end{transf}}
+
+\def\DTgenpostfixapp{\index{postfix generic operator application!syntactic transformation}%
+\begin{transf}
+\Jexpr\ \JPOST & \trarrow & \ZJoin\JPOST\ \Topsqr\Jexpr\Tclsqr\\
+\Jexpr[1]\ \JEL\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexpr[n]\ \JER & \trarrow & \ZJoin\JEL\ZJoin\JES[2]\Jelide\ZJoin\JES[n-1]\ZJoin\JER\ \Topsqr\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclsqr\\
+\Jexpr[1]\ \JEL\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexps[n]\ \JSR & \trarrow & \ZJoin\JEL\ZJoin\JES[2]\Jelide\ZJoin\JES[n-1]\ZJoin\JSR\ \Topsqr\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexps[n]\Tclsqr\\
+\end{transf}}
+
+\def\DTfuninfixapp{\index{infix function operator application!syntactic transformation}%
+\begin{transf}
+\Jexpr[1]\ \JI\ \Jexpr[2] & \trarrow & \ZJoin\JI\ZJoin\ \Toppar\Jexpr[1]\Tcomma \Jexpr[2]\Tclpar\\
+\Jexpr[1]\ \JEL\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexpr[n-1]\ \JERE\ \Jexpr[n] & \trarrow & \ZJoin\JEL\ZJoin\JES[2]\Jelide\ZJoin\JES[n-2]\ZJoin\JERE\ZJoin\ \Toppar\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclpar\\
+\Jexpr[1]\ \JEL\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexps[n-1]\ \JSRE\ \Jexpr[n] & \trarrow & \ZJoin\JEL\ZJoin\JES[2]\Jelide\ZJoin\JES[n-2]\ZJoin\JSRE\ZJoin\ \Toppar\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexps[n-1]\Tcomma \Jexpr[n]\Tclpar\\
+\end{transf}}
+
+\def\DTgeninfixapp{\index{infix generic operator application!syntactic transformation}%
+\begin{transf}
+\Jexpr[1]\ \JI\ \Jexpr[2] & \trarrow & \ZJoin\JI\ZJoin\ \Topsqr\Jexpr[1]\Tcomma \Jexpr[2]\Tclsqr\\
+\Jexpr[1]\ \JEL\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexpr[n-1]\ \JERE\ \Jexpr[n] & \trarrow & \ZJoin\JEL\ZJoin\JES[2]\Jelide\ZJoin\JES[n-2]\ZJoin\JERE\ZJoin\ \Topsqr\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclsqr\\
+\Jexpr[1]\ \JEL\ \Jexpr[2]\ \JES[2]\ \Jelide\ \Jexpr[n-2]\ \JES[n-2]\ \Jexps[n-1]\ \JSRE\ \Jexpr[n] & \trarrow & \ZJoin\JEL\ZJoin\JES[2]\Jelide\ZJoin\JES[n-2]\ZJoin\JSRE\ZJoin\ \Topsqr\Jexpr[1]\Tcomma \Jexpr[2]\Tcomma \Jelide\Tcomma \Jexpr[n-2]\Tcomma \Jexps[n-1]\Tcomma \Jexpr[n]\Tclsqr\\
+\end{transf}}
+
+\def\DTfunnofixapp{\index{nofix function operator application!syntactic transformation}%
+\begin{transf}
+\JL\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexpr[n]\ \JER & \trarrow & \JL\ZJoin\JES[1]\Jelide\ZJoin\JES[n-1]\ZJoin\JER\ \Toppar\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclpar\\
+\JL\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexps[n]\ \JSR & \trarrow & \JL\ZJoin\JES[1]\Jelide\ZJoin\JES[n-1]\ZJoin\JSR\ \Toppar\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexps[n]\Tclpar\\
+\end{transf}}
+
+\def\DTgennofixapp{\index{nofix generic operator application!syntactic transformation}%
+\begin{transf}
+\JL\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexpr[n]\ \JER & \trarrow & \JL\ZJoin\JES[1]\Jelide\ZJoin\JES[n-1]\ZJoin\JER\ \Topsqr\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexpr[n]\Tclsqr\\
+\JL\ \Jexpr[1]\ \JES[1]\ \Jelide\ \Jexpr[n-1]\ \JES[n-1]\ \Jexps[n]\ \JSR & \trarrow & \JL\ZJoin\JES[1]\Jelide\ZJoin\JES[n-1]\ZJoin\JSR\ \Topsqr\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n-1]\Tcomma \Jexps[n]\Tclsqr\\
+\end{transf}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Type inference rules.
+
+% Specification
+
+\def\DIsecspec{\index{sectioned specification!type inference rule}%
+\infercond{\begin{array}{l}\Lsectenv[1] \Ieq \Iopbrace prelude \Imapsto \Jstenv[0]\Iclbrace\\
+\quad\Jvelide\\
+\Lsectenv[n] \Ieq \Lsectenv[n-1] \Icup \Iopbrace\Jname[n-1] \Imapsto \Jstenv[n-1]\Iclbrace\end{array}}
+{\showsZ \Jsect[1] \Tistype \Jstenv[1]\ \Jelide\ \Jsect[n] \Tistype \Jstenv[n]}
+{\Iopbrace\Iclbrace \showsS \Jsect[prelude] \Tistype \Jstenv[0]\qquad \Lsectenv[1] \showsS \Jsect[1] \Tistype \Jstenv[1]\qquad\Jelide\qquad\Lsectenv[n] \showsS \Jsect[n] \Tistype \Jstenv[n]}}
+
+% Section
+
+\def\DIinsect{\index{inheriting section!type inference rule}%
+\infercond{\begin{array}{l}\Jname \Inotin \Idom \Jsenv\\
+\Iopbrace\Jname[1]\Icomma \Jelide\Icomma \Jname[m]\Iclbrace \Isubseteq \Idom \Jsenv\\
+\Lsecttypeenv[-1] \Ieq \Iif\ \Jname \Ieq prelude \Ithen \Iopbrace\Iclbrace \Ielse \Jsenv\ prelude\\
+\Lsecttypeenv[0] \Ieq \Lsecttypeenv[-1] \Icup \Jsenv\ \Jname[1] \Icup \Jelide \Icup \Jsenv\ \Jname[m]\\
+\Lsig[0] \Ieq \Lsecttypeenv[0] \Ifrc \Isecond\\
+\Idisjoint \Iopseq \Idom \Jsig[1]\Icomma \Jelide\Icomma \Idom \Jsig[n]\Iclseq\\
+\Jstenv \Tin \Toppar\Tunder\ \Ipfun\ \Tunder\Tclpar\\
+\Jstenv \Ieq \Lsecttypeenv[0] \Icup \Iopbrace\Jnameb \Icolon \TNAME\Isemi \Jtype \Icolon \AType \Ibar \Jnameb \Imapsto \Jtype \Iin \Jsig[1] \Icup \Jelide \Icup \Jsig[n] \Ispot \Jnameb \Imapsto \Ioppar\Jname\Icomma \Jtype\Iclpar\Iclbrace\\
+\Lsig[1] \Ieq \Lsig[0] \Icup \Jsig[1]\\\quad\Jvelide\\\Lsig[n-1] \Ieq \Lsig[n-2] \Icup \Jsig[n-1]\end{array}}
+{\begin{array}{l}\Jsenv \showsS \TZED\ \Tsection\ \Jname\\
+\qquad\qquad~\:\Tparents\ \Jname[1]\Tcomma \Jelide\Tcomma \Jname[m]\ \TEND\\
+\qquad\quad\Jpara[1] \Tistype \Jsig[1]\ \Jelide\ \Jpara[n] \Tistype \Jsig[n]\ \Tistype \Jstenv\end{array}}
+{\Lsig[0] \showsD \Jpara[1] \Tistype \Jsig[1] \quad \Jelide\ \quad \Lsig[n-1] \showsD \Jpara[n] \Tistype \Jsig[n]}}
+
+% Instantiation rule
+
+\def\DTimplicit{\begin{transf}
+\Jname \Tistype \Topsqr\Jname[1]\Icomma \Jelide\Icomma \Jname[n]\Tclsqr\Jtype\Tcomma \Jtype' & \stackrel{\Jtype' = \Ioppar\Topsqr\Jname[1]\Icomma \Jelide\Icomma \Jname[n]\Tclsqr \Jtype\Iclpar\ \Topsqr\Ltype[1]\Icomma \Jelide\Icomma \Ltype[n]\Tclsqr}{\trarrow} & \Jname\ \Topsqr\Icarrier \Ltype[1]\Tcomma \Jelide\Tcomma \Icarrier \Ltype[n]\Tclsqr \Tistype \Jtype'
+\end{transf}}
+
+% Paragraph
+
+\def\DIgivendef{\index{given types paragraph!type inference rule}%
+\infercond{\begin{array}{l}\Icard \Iopbrace\Jname[1]\Icomma \Jelide\Icomma \Jname[n]\Iclbrace \Ieq n\\
+\Jsig = \Jname[1] \Tcolon \Tpower \Toppar\Tgiven\ \Jname[1]\Tclpar\Tsemi \Jelide\Tsemi \Jname[n] \Tcolon \Tpower \Toppar\Tgiven\ \Jname[n]\Tclpar\end{array}}
+{\Jtenv \showsD \TZED\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr\ \TEND \Tistype \Jsig}
+{}}
+
+\def\DIaxdef{\index{axiomatic description paragraph!type inference rule}%
+\infercond{\Jtype \Ieq \Tpower \Topsqr\Jsig\Tclsqr}
+{\Jtenv \showsD \TAX\ \Jexpr \Tistype \Jtype\ \TEND \Tistype \Jsig}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype}}
+
+\def\DIgenaxdef{\index{generic axiomatic description paragraph!type inference rule}%
+\infercond{\begin{array}{l}\Icard \Iopbrace\Jname[1]\Icomma \Jelide\Icomma \Jname[n]\Iclbrace \Ieq n\\
+\Jtype \Ieq \Tpower \Topsqr\Lsig\Tclsqr\\
+\Jsig \Ieq \Ilambda \Jnameb \Icolon \Idom \Lsig \Ispot \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr\ \Toppar\Lsig\ \Jnameb\Tclpar\end{array}}
+{\Jtenv \showsD \TGENAX\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr\ \Jexpr \Tistype \Jtype\ \TEND \Tistype \Jsig}
+{\Jtenv \Ifovr \Iopbrace\Jname[1] \Imapsto \Tpower \Toppar\Tgentype\ \Jname[1]\Tclpar\Icomma \Jelide\Icomma \Jname[n] \Imapsto \Tpower \Toppar\Tgentype\ \Jname[n]\Tclpar\Iclbrace \showsE \Jexpr \Tistype \Jtype}}
+
+\def\DIfreetype{\index{free types paragraph!type inference rule}%
+\infercond{\begin{array}{l}\Icard \Iopbrace\Jfree[1]\Icomma \Jelem[1\,1]\Icomma \Jelide\Icomma \Jelem[1\,m_1]\Icomma \Jinj[1\,1]\Icomma \Jelide\Icomma \Jinj[1\,n_1]\Icomma\\
+\Jvelide\Icomma\\
+\qquad\Jfree[r]\Icomma \Jelem[r\,1]\Icomma \Jelide\Icomma \Jelem[r\,m_r]\Icomma \Jinj[r\,1]\Icomma \Jelide\Icomma \Jinj[r\,n_r]\Iclbrace\\
+\mbox{} \Ieq r+m_1+\Jelide +m_r+n_1+\Jelide +n_r\\
+\Lsig \Ieq \Jtenv \Ifovr \Iopbrace\Jfree[1] \Imapsto \Tpower \Toppar\Tgiven\ \Jfree[1]\Tclpar\Icomma \Jelide\Icomma \Jfree[r] \Imapsto \Tpower \Toppar\Tgiven\ \Jfree[r]\Tclpar\Iclbrace\\
+\Jtype[1\,1] \Ieq \Tpower \Ltype[1\,1]\quad\Jelide\quad\Jtype[1\,n_1] \Ieq \Tpower \Ltype[1\,n_1]\\
+\qquad\Jvelide\\
+\Jtype[r\,1] \Ieq \Tpower \Ltype[r\,1]\quad\Jelide\quad\Jtype[r\,n_r] \Ieq \Tpower \Ltype[r\,n_r]\\
+\Jsig\ \Ieq \begin{array}[t]{l}\Jfree[1] \Tcolon \Tpower \Toppar\Tgiven\ \Jfree[1]\Tclpar\Tsemi\\
+\qquad\Jelem[1\,1] \Tcolon \Tgiven\ \Jfree[1]\Tsemi \Jelide\Tsemi \Jelem[1\,m_1] \Tcolon \Tgiven\ \Jfree[1]\Tsemi\\
+\qquad\Jinj[1\,1] \Tcolon \Tpower \Toppar\Jtype[1\,1] \Tcross \Tgiven\ \Jfree[1]\Tclpar\Tsemi\\
+\qquad\quad\Jvelide\Tsemi\\
+\qquad\Jinj[1\,n_1] \Tcolon \Tpower \Toppar\Jtype[1\,n_1] \Tcross \Tgiven\ \Jfree[1]\Tclpar\Tsemi\\
+\quad\Jvelide\Tsemi\\
+\Jfree[r] \Tcolon \Tpower \Toppar\Tgiven\ \Jfree[r]\Tclpar\Tsemi\\
+\qquad\Jelem[r\,1] \Tcolon \Tgiven\ \Jfree[r]\Tsemi \Jelide\Tsemi \Jelem[r\,m_r] \Tcolon \Tgiven\ \Jfree[r]\Tsemi\\
+\qquad\Jinj[r\,1] \Tcolon \Tpower \Toppar\Jtype[r\,1] \Tcross \Tgiven\ \Jfree[r]\Tclpar\Tsemi\\
+\qquad\quad\Jvelide\Tsemi\\
+\qquad\Jinj[r\,n_r] \Tcolon \Tpower \Toppar\Jtype[r\,n_r] \Tcross \Tgiven\ \Jfree[r]\Tclpar\end{array}\end{array}}
+{\Jtenv \showsD \TZED\ \begin{array}{l}\Jfree[1] \Tcolcoleq \Jelem[1\,1] \Tbar \Jelide \Tbar \Jelem[1\,m_1] \Tbar\\
+\qquad\Jinj[1\,1] \Topdata\Jexpr[1\,1] \Tistype \Jtype[1\,1]\Tcldata \Tbar\\
+\qquad\quad\Jvelide \Tbar\\
+\qquad\Jinj[1\,n_1] \Topdata\Jexpr[1\,n_1] \Tistype \Jtype[1\,n_1]\Tcldata\ \Tamper\\
+\quad\Jvelide\ \Tamper\\
+\Jfree[r] \Tcolcoleq \Jelem[r\,1] \Tbar \Jelide \Tbar \Jelem[r\,m_r] \Tbar\\
+\qquad\Jinj[r\,1] \Topdata\Jexpr[r\,1] \Tistype \Jtype[r\,1]\Tcldata \Tbar\\
+\qquad\quad\Jvelide \Tbar\\
+\qquad\Jinj[r\,n_r] \Topdata\Jexpr[r\,n_r] \Tistype \Jtype[r\,n_r]\Tcldata\end{array} \TEND \Tistype \Jsig}
+{\begin{array}{l}\Lsig \showsE \Jexpr[1\,1] \Tistype \Jtype[1\,1] \qquad \Jelide \qquad \Lsig \showsE \Jexpr[1\,n_1] \Tistype \Jtype[1\,n_1]\\
+\quad\Jvelide\\
+\Lsig \showsE \Jexpr[r\,1] \Tistype \Jtype[r\,1] \qquad \Jelide \qquad \Lsig \showsE \Jexpr[r\,n_r] \Tistype \Jtype[r\,n_r]\end{array}}}
+
+\def\DIconj{\index{conjecture paragraph!type inference rule}%
+\infercond{\Jsig \Ieq\ \Temptysig}
+{\Jtenv \showsD \TZED \Tthrm \Jpred\ \TEND \Tistype \Jsig}
+{\Jtenv \showsP \Jpred}}
+
+\def\DIgenconj{\index{generic conjecture paragraph!type inference rule}%
+\infercond{\begin{array}{l}\Icard \Iopbrace\Jname[1]\Icomma \Jelide\Icomma \Jname[n]\Iclbrace \Ieq n\\
+\Jsig \Ieq\ \Temptysig\end{array}}
+{\Jtenv \showsD \TZED\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr \Tthrm \Jpred\ \TEND \Tistype \Jsig}
+{\Jtenv \Ifovr \Iopbrace\Jname[1] \Imapsto \Tpower \Toppar\Tgentype\ \Jname[1]\Tclpar\Icomma \Jelide\Icomma \Jname[n] \Imapsto \Tpower \Toppar\Tgentype\ \Jname[n]\Tclpar\Iclbrace \showsP \Jpred}}
+
+% Predicate
+
+\def\DIforallpred{\index{universal quantification predicate!type inference rule}%
+\infercond{\Jtype \Ieq \Tpower \Topsqr\Lsig\Tclsqr}
+{\Jtenv \showsP \Tforall \Toppar\Jexpr \Tistype \Jtype\Tclpar \Tspot \Jpred}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype\qquad\Jtenv \Ifovr \Lsig \showsP \Jpred}}
+
+\def\DIuniquepred{\index{unique existential quantification predicate!type inference rule}%
+\infercond{\Jtype \Ieq \Tpower \Topsqr\Lsig\Tclsqr}
+{\Jtenv \showsP \Tunique \Toppar\Jexpr \Tistype \Jtype\Tclpar \Tspot \Jpred}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype\qquad\Jtenv \Ifovr \Lsig \showsP \Jpred}}
+
+\def\DIandpred{\index{conjunction predicate!type inference rule}%
+\infer{\Jtenv \showsP \Jpred[1] \Tand \Jpred[2]}
+{\Jtenv \showsP \Jpred[1]\qquad\Jtenv \showsP \Jpred[2]}}
+
+\def\DInotpred{\index{negation predicate!type inference rule}%
+\infer{\Jtenv \showsP \Tnot \Jpred}
+{\Jtenv \showsP \Jpred}}
+
+\def\DImembership{\index{membership predicate!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[2] \Ieq \Tpower \Jtype[1]\end{array}}
+{\Jtenv \showsP \Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar \Tin \Toppar\Jexpr[2] \Tistype \Jtype[2]\Tclpar}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jtenv \showsE \Jexpr[2] \Tistype \Jtype[2]}}
+
+\def\DItruthpred{\index{truth predicate!type inference rule}%
+\infer{\Jtenv \showsP \Ttrue}
+{}}
+
+% Expression
+
+\def\DTdelta{\begin{transf}
+\Delta\Jname & \stackrel{\Delta\Jname \Inotin \Idom \Jtenv}{\trarrow} & \Topsqr\Jname\Tsemi \Jname\ '\Tclsqr
+\end{transf}}
+
+\def\DTxi{\begin{transf}
+\Xi\Jname & \stackrel{\Xi\Jname \Inotin \Idom \Jtenv}{\trarrow} & \Topsqr\Jname\Tsemi \Jname\ ' \Tbar \Ttheta \Jname \Teq \Ttheta \Jname\ '\Tclsqr
+\end{transf}}
+
+\def\DIreference{\index{reference expression!type inference rule}%
+\infercond{\begin{array}{l}\Jname \Iin \Idom \Jtenv\\
+\Jtype \Ieq \Iif \Igenerictype \Toppar\Jtenv\ \Jname\Tclpar \Ithen \Jtenv\ \Jname\Tcomma \Toppar\Jtenv\ \Jname\Tclpar\ \Topsqr\Ltype[1]\Tcomma \Jelide\Tcomma \Ltype[n]\Tclsqr \Ielse \Jtenv\ \Jname\end{array}}
+{\Jtenv \showsE \Jname \Tistype \Jtype}
+{}}
+
+\def\DIgeninst{\index{generic instantiation expression!type inference rule}%
+\infercond{\begin{array}{l}\Jname \Iin \Idom \Jtenv\\
+\Igenerictype \Toppar\Jtenv\ \Jname\Tclpar\\
+\Jtype[1] \Ieq \Tpower \Ltype[1]\\
+\qquad\Jvelide\\
+\Jtype[n] = \Tpower \Ltype[n]\\
+\Jtype \Ieq \Ioppar\Jtenv\ \Jname\Iclpar\ \Topsqr\Ltype[1]\Tcomma \Jelide\Tcomma \Ltype[n]\Tclsqr\end{array}}
+{\Jtenv \showsE \Jname \Topsqr\Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar\Tcomma \Jelide\Tcomma \Toppar\Jexpr[n] \Tistype \Jtype[n]\Tclpar\Tclsqr \Tistype \Jtype}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jelide\qquad\Jtenv \showsE \Jexpr[n] \Tistype \Jtype[n]}}
+
+\def\DIsetextn{\index{set extension expression!type inference rule}%
+\infercond{\begin{array}{l}\Iif n > 0 \Ithen\\
+\qquad\Toppar\Jtype[1] \Ieq \Jtype[n]\\
+\qquad\qquad\Jvelide\\
+\qquad\Jtype[n-1] \Ieq \Jtype[n]\\
+\qquad\Jtype \Ieq \Tpower \Jtype[1]\Tclpar\\
+\Ielse \Jtype \Ieq \Tpower \Ltype\end{array}}
+{\Jtenv \showsE \Topbrace\Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar\Tcomma \Jelide\Tcomma \Toppar\Jexpr[n] \Tistype \Jtype[n]\Tclpar\Tclbrace \Tistype \Jtype}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jelide\qquad\Jtenv \showsE \Jexpr[n] \Tistype \Jtype[n]}}
+
+\def\DIsetcomp{\index{set comprehension expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig\Tclsqr\\
+\Jtype[3] \Ieq \Tpower \Jtype[2]\end{array}}
+{\Jtenv \showsE \Topbrace\Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar \Tspot \Toppar\Jexpr[2] \Tistype \Jtype[2]\Tclpar\Tclbrace \Tistype \Jtype[3]}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\ \qquad \Jtenv \Ifovr \Lsig \showsE \Jexpr[2] \Tistype \Jtype[2]}}
+
+\def\DIpower{\index{powerset expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Ltype\\
+\Jtype[2] \Ieq \Tpower \Jtype[1]\end{array}}
+{\Jtenv \showsE \Tpower \Toppar\Jexpr \Tistype \Jtype[1]\Tclpar \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]}}
+
+\def\DItupleextn{\index{tuple extension expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype \Ieq \Jtype[1] \Tcross \Jelide \Tcross \Jtype[n]\end{array}}
+{\Jtenv \showsE \Toppar\Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar\Tcomma \Jelide\Tcomma \Toppar\Jexpr[n] \Tistype \Jtype[n]\Tclpar\Tclpar \Tistype \Jtype}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jelide\qquad\Jtenv \showsE \Jexpr[n] \Tistype \Jtype[n]}}
+
+\def\DItuplesel{\index{tuple selection expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Ltype[1] \cross \Jelide \cross \Ltype[k]\\b \Iin 1 \Iupto k\\\Jtype[2] \Ieq \Ltype[b]\end{array}}
+{\Jtenv \showsE \Toppar\Jexpr \Tistype \Jtype[1]\Tclpar \Tsel b \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]}}
+
+\def\DIbindextn{\index{binding extension expression!type inference rule}%
+\infercond{\begin{array}{l}\Icard \Iopbrace\Jname[1]\Icomma \Jelide\Icomma \Jname[n]\Iclbrace \Ieq n\\
+\Jtype \Ieq \Topsqr\Jname[1] \Tcolon \Jtype[1]\Tsemi \Jelide\Tsemi \Jname[n] \Tcolon \Jtype[n]\Tclsqr\end{array}}
+{\Jtenv \showsE \Topbind\Jname[1] \Teqeq \Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar\Tcomma \Jelide\Tcomma \Jname[n] \Teqeq \Toppar\Jexpr[n] \Tistype \Jtype[n]\Tclpar\Tclbind \Tistype \Jtype}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jelide\qquad\Jtenv \showsE \Jexpr[n] \Tistype \Jtype[n]}}
+
+\def\DItheta{\index{binding construction expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig\Tclsqr\\
+\Iforall \Jname \Icolon \Idom \Lsig \Tspot \Toppar\Jname \Idecor \Joptdecor\Tcomma \Lsig\ \Jname\Tclpar \Iin \Jtenv \Iand \Inot \Igenerictype \Toppar\Lsig\ \Jname\Tclpar\\
+\Jtype[2] \Ieq \Topsqr\Lsig\Tclsqr\end{array}}
+{\Jtenv \showsE \Ttheta \Toppar\Jexpr \Tistype \Jtype[1]\Tclpar\ \Joptdecor \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]}}
+
+\def\DIbindsel{\index{binding selection expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Topsqr\Lsig\Tclsqr\\
+\Ioppar \Jname\Icomma \Jtype[2]\Iclpar \Iin \Lsig\end{array}}
+{\Jtenv \showsE \Toppar\Jexpr \Tistype \Jtype[1]\Tclpar \Tsel \Jname \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]}}
+
+\def\DIappl{\index{application expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Toppar\Jtype[2] \Tcross \Jtype[3]\Tclpar\end{array}}
+{\Jtenv \showsE \Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar\ \Toppar\Jexpr[2] \Tistype \Jtype[2]\Tclpar \Tistype \Jtype[3]}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jtenv \showsE \Jexpr[2] \Tistype \Jtype[2]}}
+
+\def\DImu{\index{definite description expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower\Topsqr\Lsig\Tclsqr\\
+\Jtype[3] \Ieq \Jtype[2]\end{array}}
+{\Jtenv \showsE \Tmu \Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar \Tspot \Toppar\Jexpr[2] \Tistype \Jtype[2]\Tclpar \Tistype \Jtype[3]}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jtenv \Ifovr \Lsig \showsE \Jexpr[2] \Tistype \Jtype[2]}}
+
+\def\DIvarconst{\index{variable construction expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Ltype\\
+\Jtype[2] \Ieq \Tpower \Topsqr\Jname \Tcolon \Ltype\Tclsqr\end{array}}
+{\Jtenv \showsE \Topsqr\Jname \Tcolon \Toppar\Jexpr \Tistype \Jtype[1]\Tclpar\Tclsqr \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]}}
+
+\def\DIschconst{\index{schema construction expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig\Tclsqr\\
+\Jtype[2] \Ieq \Jtype[1]\end{array}}
+{\Jtenv \showsE \Topsqr\Toppar\Jexpr \Tistype \Jtype[1]\Tclpar \Tbar \Jpred\Tclsqr \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]\qquad\Jtenv \Ifovr \Lsig \showsP \Jpred}}
+
+\def\DIschnot{\index{schema negation expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig\Tclsqr\\
+\Jtype[2] \Ieq \Jtype[1]\end{array}}
+{\Jtenv \showsE \Tnot \Toppar\Jexpr \Tistype \Jtype[1]\Tclpar \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]}}
+
+\def\DIschand{\index{schema conjunction expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig[1]\Tclsqr\\
+\Jtype[2] \Ieq \Tpower \Topsqr\Lsig[2]\Tclsqr\\
+\Lsig[1] \Iconsistent \Lsig[2]\\
+\Jtype[3] \Ieq \Tpower \Topsqr\Lsig[1] \Icup \Lsig[2]\Tclsqr\end{array}}
+{\Jtenv \showsE \Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar \Tand \Toppar\Jexpr[2] \Tistype \Jtype[2]\Tclpar \Tistype \Jtype[3]}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jtenv \showsE \Jexpr[2] \Tistype \Jtype[2]}}
+
+\def\DIschhide{\index{schema hiding expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig\Tclsqr\\
+\Iopbrace\Jname[1]\Icomma \Jelide\Icomma \Jname[n]\Iclbrace \Isubseteq \Idom \Lsig\\
+\Jtype[2] \Ieq \Tpower \Topsqr\Iopbrace\Jname[1]\Icomma \Jelide\Icomma \Jname[n]\Iclbrace \Idsub \Lsig\Tclsqr\end{array}}
+{\Jtenv \showsE \Toppar\Jexpr \Tistype \Jtype[1]\Tclpar \Thide \Toppar\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclpar \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]}}
+
+\def\DIschforall{\index{schema universal quantification expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig[1]\Tclsqr\\
+\Jtype[2] \Ieq \Tpower\Topsqr\Lsig[2]\Tclsqr\\
+\Lsig[1] \Iconsistent \Lsig[2]\\
+\Jtype[3] \Ieq \Tpower \Topsqr\Idom \Lsig[1] \Idsub \Lsig[2]\Tclsqr\end{array}}
+{\Jtenv \showsE \Tforall \Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar \Tspot \Toppar\Jexpr[2] \Tistype \Jtype[2]\Tclpar \Tistype \Jtype[3]}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jtenv \Ifovr \Lsig[1] \showsE \Jexpr[2] \Tistype \Jtype[2]}}
+
+\def\DIschunique{\index{schema unique existential quantification expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig[1]\Tclsqr\\
+\Jtype[2] \Ieq \Tpower\Topsqr\Lsig[2]\Tclsqr\\
+\Lsig[1] \Iconsistent \Lsig[2]\\
+\Jtype[3] \Ieq \Tpower \Topsqr\Idom \Lsig[1] \Idsub \Lsig[2]\Tclsqr\end{array}}
+{\Jtenv \showsE \Tunique \Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar \Tspot \Toppar\Jexpr[2] \Tistype \Jtype[2]\Tclpar \Tistype \Jtype[3]}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jtenv \Ifovr \Lsig[1] \showsE \Jexpr[2] \Tistype \Jtype[2]}}
+
+\def\DIschrenm{\index{schema renaming expression!type inference rule}%
+\infercond{\begin{array}{l}\Icard \Iopbrace\Jname[1]\Icomma \Jelide\Icomma \Jname[n]\Iclbrace \Ieq n\\
+\Jtype[1] \Ieq \Tpower \Topsqr\Lsig[1]\Tclsqr\\
+\Lsig[2] \Ieq \Iopbrace\Jnameb[1] \Imapsto \Jname[1]\Icomma \Jelide\Icomma \Jnameb[n] \Imapsto \Jname[n]\Iclbrace \Ifrc \Lsig[1] \Icup \Iopbrace\Jname[1]\Icomma \Jelide\Icomma \Jname[n]\Iclbrace \Idsub \Lsig[1]\\
+\Jtype[2] \Ieq \Tpower \Topsqr\Lsig[2]\Tclsqr\\
+\Lsig[2] \Iin \Toppar\Tunder\ \pfun\ \Tunder \Tclpar\end{array}}
+{\Jtenv \showsE \Toppar\Jexpr \Tistype \Jtype[1]\Tclpar \Topsqr\Jnameb[1]\Trenm\Jname[1]\Tcomma \Jelide\Tcomma \Jnameb[n]\Trenm\Jname[n]\Tclsqr \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]}}
+
+\def\DIschpre{\index{schema precondition expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig\Tclsqr\\
+\Jtype[2] \Ieq \Tpower \Topsqr\Iopbrace\Jname\Icomma \Jnameb \Icolon \TNAME \Ibar \Jnameb \Iin \Idom \Lsig \Iand \Ioppar\Jnameb \Ieq \Jname \Idecor\ ' \Ior \Jnameb \Ieq \Jname \Idecor\ !\Iclpar \Ispot \Jnameb\Iclbrace \Idsub \Lsig\Tclsqr\end{array}}
+{\Jtenv \showsE \Tpre\ \Toppar\Jexpr \Tistype \Jtype[1]\Tclpar \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]}}
+
+\def\DIschcomp{\index{schema composition expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig[1]\Tclsqr\\
+\Jtype[2] \Ieq \Tpower \Topsqr\Lsig[2]\Tclsqr\\
+match \Ieq \Iopbrace\Jname \Icolon \Idom \Lsig[2] \Ibar \Jname \Idecor\ ' \Iin \Idom \Lsig[1] \Ispot \Jname\Iclbrace\\
+\Lsig[3] \Ieq \Iopbrace\Jname \Icolon match \Ispot \Jname \Idecor\ '\Iclbrace \dsub \Lsig[1]\\
+\Lsig[4] \Ieq match \Idsub \Lsig[2]\\
+\Lsig[3] \Iconsistent \Lsig[4]\\
+\Iopbrace\Jname \Icolon match \Ispot \Jname \Imapsto \Lsig[1] \Ioppar\Jname \Idecor\ '\Iclpar\Iclbrace \Iconsistent \Iopbrace\Jname \Icolon match \Ispot \Jname \Imapsto \Lsig[2]\ \Jname\Iclbrace\\
+\Jtype[3] \Ieq \Tpower \Topsqr\Lsig[3] \Icup \Lsig[4]\Tclsqr\end{array}}
+{\Jtenv \showsE \Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar \Tzcmp \Toppar\Jexpr[2] \Tistype \Jtype[2]\Tclpar \Tistype \Jtype[3]}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jtenv \showsE \Jexpr[2] \Tistype \Jtype[2]}}
+
+\def\DIschpipe{\index{schema piping expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig[1]\Tclsqr\\
+\Jtype[2] \Ieq \Tpower \Topsqr\Lsig[2]\Tclsqr\\
+match \Ieq \Iopbrace\Jname \Icolon \TNAME \Ibar \Jname \Idecor\ ! \Iin \Idom \Lsig[1] \Iand \Jname \Idecor\ ? \Iin \Idom \Lsig[2] \Ispot \Jname\Iclbrace\\
+\Lsig[3] \Ieq \Iopbrace\Jname \Icolon match \Ispot \Jname \Idecor\ !\Iclbrace \dsub \Lsig[1]\\
+\Lsig[4] \Ieq \Iopbrace\Jname \Icolon match \Ispot \Jname \Idecor\ ?\Iclbrace \Idsub \Lsig[2]\\
+\Lsig[3] \Iconsistent \Lsig[4]\\
+\Iopbrace\Jname \Icolon match \Ispot \Jname \Imapsto \Lsig[1] \Ioppar\Jname \Idecor\ !\Iclpar\Iclbrace \Iconsistent \Iopbrace\Jname \Icolon match \Ispot \Jname \Imapsto \Lsig[2]\ \Ioppar\Jname \Idecor\ ?\Iclpar\Iclbrace\\
+\Jtype[3] \Ieq \Tpower \Topsqr\Lsig[3] \Icup \Lsig[4]\Tclsqr\end{array}}
+{\Jtenv \showsE \Toppar\Jexpr[1] \Tistype \Jtype[1]\Tclpar \Tpipe \Toppar\Jexpr[2] \Tistype \Jtype[2]\Tclpar \Tistype \Jtype[3]}
+{\Jtenv \showsE \Jexpr[1] \Tistype \Jtype[1]\qquad\Jtenv \showsE \Jexpr[2] \Tistype \Jtype[2]}}
+
+\def\DIschdecor{\index{schema decoration expression!type inference rule}%
+\infercond{\begin{array}{l}\Jtype[1] \Ieq \Tpower \Topsqr\Lsig\Tclsqr\\
+\Jtype[2] \Ieq \Tpower \Topsqr\Iopbrace\Jname \Icolon \Idom \Lsig \Ispot \Jname \Idecor \Jdecor \Imapsto \Lsig\ \Jname\Iclbrace\Tclsqr\end{array}}
+{\Jtenv \showsE \Toppar\Jexpr \Tistype \Jtype[1]\Tclpar\ \Jdecor \Tistype \Jtype[2]}
+{\Jtenv \showsE \Jexpr \Tistype \Jtype[1]}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Semantic transformations.
+
+\def\DTfreetypeB{\index{free types paragraph!semantic transformation}%
+\begin{zed}
+\TZED\\
+\Jfree[1] \Tcolcoleq \Jelem[1\,1] \Tbar \Jelide \Tbar \Jelem[1\,m_1] \Tbar \Jinj[1\,1] \Topdata\Jexpr[1\,1]\Tcldata \Tbar \Jelide \Tbar \Jinj[1\,n_1] \Topdata\Jexpr[1\,n_1]\Tcldata\\
+\&~...~\&\\
+\Jfree[r] \Tcolcoleq \Jelem[r\,1] \Tbar \Jelide \Tbar \Jelem[r\,m_r] \Tbar \Jinj[r\,1] \Topdata\Jexpr[r\,1]\Tcldata \Tbar \Jelide \Tbar \Jinj[r\,n_r]\Topdata \Jexpr[r\,n_r]\Tcldata\\
+\TEND
+\end{zed}
+\qquad\qquad$\trarrow$
+\begin{zed}
+\TZED\\
+\Topsqr\Jfree[1], ..., \Jfree[r]\Tclsqr\\
+\TEND
+\end{zed}
+\begin{zed}
+\TAX\\
+\Jelem[1\,1]\Icomma \Jelide\Icomma \Jelem[1\,m_1] \Tcolon \Jfree[1]\\
+\Jvelide\\
+\Jelem[r\,1]\Icomma \Jelide\Icomma \Jelem[r\,m_r] \Tcolon \Jfree[r]\\
+\Jinj[1\,1] \Tcolon \Tpower \Toppar\Jexpr[1\,1] \Tcross \Jfree[1]\Tclpar\Tsemi \Jelide\Tsemi \Jinj[1\,n_1] \Tcolon \Tpower \Toppar\Jexpr[1\,n_1] \Tcross \Jfree[1]\Tclpar\\
+\Jvelide\\
+\Jinj[r\,1] \Tcolon \Tpower \Toppar\Jexpr[r\,1] \Tcross \Jfree[r]\Tclpar\Tsemi \Jelide\Tsemi \Jinj[r\,n_r] \Tcolon \Tpower \Toppar\Jexpr[r\,n_r] \Tcross \Jfree[r]\Tclpar\\
+|\\
+%\comment{total functionality}\\
+\Toppar\Tforall u \Tcolon \Jexpr[1\,1] \Tspot \Tunique x \Tcolon \Jinj[1\,1] \Tspot x \Tsel 1 \Teq u\Tclpar \Tand \Jelide \Tand \Toppar\Tforall u \Tcolon \Jexpr[1\,n_1] \Tspot \Tunique x \Tcolon \Jinj[1\,n_1] \Tspot x \Tsel 1 \Teq u\Tclpar\\
+\Jvelide \Tand \mbox{}\\
+\Toppar\Tforall u \Tcolon \Jexpr[r\,1] \Tspot \Tunique x \Tcolon \Jinj[r\,1] \Tspot x \Tsel 1 \Teq u\Tclpar \Tand \Jelide \Tand \Toppar\Tforall u \Tcolon \Jexpr[r\,n_r] \Tspot \Tunique x \Tcolon \Jinj[r\,n_r] \Tspot x \Tsel 1 \Teq u\Tclpar\\
+~\\
+%\comment{injectivity}\\
+\Toppar\Tforall u\Tcomma v \Tcolon \Jexpr[1\,1] \Tbar \Jinj[1\,1] u \Teq \Jinj[1\,1] v \Tspot u \Teq v\Tclpar \Tand \Jelide \Tand \Toppar\Tforall u\Tcomma v \Tcolon \Jexpr[1\,n_1] \Tbar \Jinj[1\,n_1] u \Teq \Jinj[1\,n_1] v \Tspot u \Teq v\Tclpar\\
+\Jvelide \Tand \mbox{}\\
+\Toppar\Tforall u\Tcomma v \Tcolon \Jexpr[r\,1] \Tbar \Jinj[r\,1] u \Teq \Jinj[r\,1] v \Tspot u \Teq v\Tclpar \Tand \Jelide \Tand \Toppar\Tforall u\Tcomma v \Tcolon \Jexpr[r\,n_r] \Tbar \Jinj[r\,n_r] u \Teq \Jinj[r\,n_r] v \Tspot u \Teq v\Tclpar\\
+~\\
+%\comment{disjointness}\\
+\Tforall \Jnumber[1]\Tcomma \Jnumber[2] \Tcolon \nat \Tspot \mbox{}\\
+\t1\Toppar\Tforall w \Tcolon \Jfree[1] \Tbar \mbox{}\\
+\t2\Toppar\Jnumber[1] \Teq 1 \Tand w \Teq \Jelem[1\,1] \Tor \Jelide \Tor \Jnumber[1] \Teq m_1 \Tand w \Teq \Jelem[1\,m_1] \Tor \mbox{}\\
+\t3 \Jnumber[1] \Teq m_1+1 \Tand w \Tin \Topbrace x \Tcolon \Jinj[1\,1] \Tspot x \Tsel 2\Tclbrace \Tor \Jelide \Tor \Jnumber[1] \Teq m_1+n_1 \Tand w \Tin \Topbrace x \Tcolon \Jinj[1\,n_1] \Tspot x \Tsel 2\Tclbrace\Tclpar\\
+\t2\mbox{} \Tand \Toppar\Jnumber[2] \Teq 1 \Tand w \Teq \Jelem[1\,1] \Tor \Jelide \Tor \Jnumber[2] \Teq m_1 \Tand w \Teq \Jelem[1\,m_1] \Tor \mbox{}\\
+\t3 \Jnumber[2] \Teq m_1+1 \Tand w \Tin \Topbrace x \Tcolon \Jinj[1\,1] \Tspot x \Tsel 2\Tclbrace \Tor \Jelide \Tor \Jnumber[2] \Teq m_1+n_1 \Tand w \Tin \Topbrace x \Tcolon \Jinj[1\,n_1] \Tspot x \Tsel 2\Tclbrace\Tclpar \Tspot \mbox{}\\
+\t4\Jnumber[1] \Teq \Jnumber[2]\Tclpar \Tand \mbox{}\\
+\t1\Jvelide \Tand \mbox{}\\
+\t1\Toppar\Tforall w \Tcolon \Jfree[r] \Tbar \mbox{}\\
+\t2\Toppar\Jnumber[1] \Teq 1 \Tand w \Teq \Jelem[r\,1] \Tor \Jelide \Tor \Jnumber[1] \Teq m_r \Tand w \Teq \Jelem[r\,m_r] \Tor \mbox{}\\
+\t3 \Jnumber[1] \Teq m_r+1 \Tand w \Tin \Topbrace x \Tcolon \Jinj[r\,1] \Tspot x \Tsel 2\Tclbrace \Tor \Jelide \Tor \Jnumber[1] \Teq m_r+n_r \Tand w \Tin \Topbrace x \Tcolon \Jinj[r\,n_r] \Tspot x \Tsel 2\Tclbrace\Tclpar\\
+\t2\mbox{} \Tand \Toppar\Jnumber[2] \Teq 1 \Tand w \Teq \Jelem[r\,1] \Tor \Jelide \Tor \Jnumber[2] \Teq m_r \Tand w \Teq \Jelem[r\,m_r] \Tor \mbox{}\\
+\t3 \Jnumber[2] \Teq m_r+1 \Tand w \Tin \Topbrace x \Tcolon \Jinj[r\,1] \Tspot x \Tsel 2\Tclbrace \Tor \Jelide \Tor \Jnumber[2] \Teq m_r+n_r \Tand w \Tin \Topbrace x \Tcolon \Jinj[r\,n_r] \Tspot x \Tsel 2\Tclbrace\Tclpar \Tspot \mbox{}\\
+\t4\Jnumber[1] \Teq \Jnumber[2]\Tclpar\\
+~\\
+%\comment{induction}\\
+\Tforall \Jfixed[1] \Tcolon \Tpower \Jfree[1]\Tsemi \Jelide\Tsemi \Jfixed[r] \Tcolon \Tpower \Jfree[r] \Tbar \mbox{}\\
+\t2\Jelem[1\,1] \Tin \Jfixed[1] \Tand \Jelide \Tand \Jelem[1\,m_1] \Tin \Jfixed[1] \Tand \mbox{}\\
+\t2\Jvelide \Tand \mbox{}\\
+\t2\Jelem[r\,1] \Tin \Jfixed[r] \Tand \Jelide \Tand \Jelem[r\,m_r] \Tin \Jfixed[r] \Tand \mbox{}\\
+\t2\Toppar\Tforall y \Tcolon \Toppar\Tmu \Jfree[1] \Teqeq \Jfixed[1]\Tsemi \Jelide\Tsemi \Jfree[r] \Teqeq \Jfixed[r] \Tspot \Jexpr[1\,1]\Tclpar \Tspot \Jinj[1\,1] y \Tin \Jfixed[1]\Tclpar \Tand \mbox{}\\
+\t2\Jelide \Tand \Toppar\Tforall y \Tcolon \Toppar\Tmu \Jfree[1] \Teqeq \Jfixed[1]\Tsemi \Jelide\Tsemi \Jfree[r] \Teqeq \Jfixed[r] \Tspot \Jexpr[1\,n_1]\Tclpar \Tspot \Jinj[1\,n_1] y \Tin \Jfixed[1]\Tclpar \Tand \mbox{}\\
+\t2\Jvelide \Tand \mbox{}\\
+\t2\Toppar\Tforall y \Tcolon \Toppar\Tmu \Jfree[1] \Teqeq \Jfixed[1]\Tsemi \Jelide\Tsemi \Jfree[r] \Teqeq \Jfixed[r] \Tspot \Jexpr[r\,1]\Tclpar \Tspot \Jinj[r\,1] y \Tin \Jfixed[r]\Tclpar \Tand \mbox{}\\
+\t2\Jelide \Tand \Toppar\Tforall y \Tcolon \Toppar\Tmu \Jfree[1] \Teqeq \Jfixed[1]\Tsemi \Jelide\Tsemi \Jfree[r] \Teqeq \Jfixed[r] \Tspot \Jexpr[r\,n_r]\Tclpar \Tspot \Jinj[r\,n_r] y \Tin \Jfixed[r]\Tclpar \Tspot \mbox{}\\
+\t1\Jfixed[1] \Teq \Jfree[1] \Tand \Jelide \Tand \Jfixed[r] \Teq \Jfree[r]\\
+\TEND
+\end{zed}}
+
+\def\DTuniquepred{%
+\begin{transf}
+\Tunique \Jexpr \Tspot \Jpred & \trarrow & \Texists \Jexpr \Tspot \Jpred \Tand \Toppar\Tforall \Topsqr\Jexpr \Tbar \Jpred\Tclsqr\ {}^{\Zpat}\ \Tspot \Ttheta \Jexpr \Teq \Ttheta \Jexpr\ \:{}^{\Zpat}\ \Tclpar
+\end{transf}}
+
+\def\DTAuniquepred{\index{unique existential quantification predicate!semantic transformation}%
+\begin{transf}
+\Tunique \Jexpr \Tspot \Jpred & \trarrow & \Tnot \Toppar\Tforall \Jexpr \Tspot \Tnot \Toppar\Jpred \Tand \Toppar\Tforall \Topsqr\Jexpr \Tbar \Jpred\Tclsqr\ {}^{\Zpat}\ \Tspot \Ttheta \Jexpr \Teq \Ttheta \Jexpr\ \:{}^{\Zpat}\ \Tclpar\Tclpar\Tclpar
+\end{transf}}
+
+\def\DTtuplesel{%
+\begin{transf}
+\Toppar\Jexpr \Tistype \Jtype[1] \Tcross \Jelide \Tcross \Jtype[n]\Tclpar \Tsel \Jnumber & \trarrow & \Toppar\Tlambda \Jname \Tcolon \Icarrier \Ioppar\Jtype[1] \Tcross \Jelide \Tcross \Jtype[n]\Iclpar \Tspot \mbox{}\\
+ & & \qquad\Tmu \Jname[1] \Tcolon \Icarrier \Jtype[1]\Tsemi \Jelide\Tsemi \Jname[n] \Tcolon \Icarrier \Jtype[n] \Tbar \Jname \Teq \Toppar\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclpar \Tspot \Jname[b]\Tclpar\ \Jexpr
+\end{transf}}
+
+\def\DTAtuplesel{\index{tuple selection expression!semantic transformation}%
+\begin{transf}
+\Toppar\Jexpr \Tistype \Jtype[1] \Tcross \Jelide \Tcross \Jtype[n]\Tclpar \Tsel \Jnumber & \trarrow & \Topbrace\Jname \Tcolon \Icarrier \Ioppar\Jtype[1] \Tcross \Jelide \Tcross \Jtype[n]\Iclpar \Tspot \mbox{}\\
+ & & \qquad\Toppar\Jname\Tcomma \Tmu \Jname[1] \Tcolon \Icarrier \Jtype[1]\Tsemi \Jelide\Tsemi \Jname[n] \Tcolon \Icarrier \Jtype[n] \Tbar \Jname \Teq \Toppar\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclpar \Tspot \Jname[b]\Tclpar\Tclbrace\ \Jexpr
+\end{transf}}
+
+\def\DTtheta{\index{binding construction expression!semantic transformation}%
+\begin{transf}
+\Ttheta \Jexpr\ \Joptdecor \Tistype \Topsqr\Jname[1] \Tcolon \Jtype[1]\Tsemi \Jelide\Tsemi \Jname[n] \Tcolon \Jtype[n]\Tclsqr & \trarrow & \Topbind\Jname[1] \Teqeq \Jname[1] \Idecor \Joptdecor\Tcomma \Jelide\Tcomma \Jname[n] \Teqeq \Jname[n] \Idecor \Joptdecor\Tclbind
+\end{transf}}
+
+\def\DTbindsel{%
+\begin{transf}
+\Toppar\Jexpr \Tistype \Topsqr\Jsig\Tclsqr\Tclpar \Tsel \Jname & \trarrow & \Toppar\Tlambda \Icarrier \Topsqr\Jsig\Tclsqr \Tspot \Jname\Tclpar\ \Jexpr
+\end{transf}}
+
+\def\DTAbindsel{\index{binding selection expression!semantic transformation}%
+\begin{transf}
+\Toppar\Jexpr \Tistype \Topsqr\Jsig\Tclsqr\Tclpar \Tsel \Jname & \trarrow & \Topbrace\Icarrier \Topsqr\Jsig\Tclsqr \Tspot \Toppar\chartuple\ \Toppar\Icarrier\ \Topsqr\Jsig\Tclsqr\Tclpar\Tcomma \Jname\Tclpar\Tclbrace\ \Jexpr
+\end{transf}}
+
+\def\DTappl{\index{application expression!semantic transformation}%
+\begin{transf}
+\Jexpr[1]\ \Jexpr[2] \Tistype \Jtype & \trarrow & \Toppar\Tmu \Jname \Tcolon \Icarrier \Jtype \Tbar \Toppar\Jexpr[2]\Tcomma \Jname\Tclpar \Tin \Jexpr[1] \Tspot \Jname\Tclpar
+\end{transf}}
+
+\def\DTschhide{%
+\begin{transf}
+\Toppar\Jexpr \Tistype \Tpower \Topsqr\Jsig\Tclsqr\Tclpar \Thide \Toppar\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclpar & \trarrow & \Texists \Jname[1] \Tcolon \Icarrier \Ioppar\Jsig\ \Jname[1]\Iclpar\Tsemi \Jelide\Tsemi \Jname[n] \Tcolon \Icarrier \Ioppar\Jsig\ \Jname[n]\Iclpar \Tspot \Jexpr
+\end{transf}}
+
+\def\DTAschhide{\index{schema hiding expression!semantic transformation}%
+\begin{transf}
+\Toppar\Jexpr \Tistype \Tpower \Topsqr\Jsig\Tclsqr\Tclpar \Thide \Toppar\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclpar & \trarrow & \Tnot \Toppar\Tforall \Jname[1] \Tcolon \Icarrier \Ioppar\Jsig\ \Jname[1]\Iclpar\Tsemi \Jelide\Tsemi \Jname[n] \Tcolon \Icarrier \Ioppar\Jsig\ \Jname[n]\Iclpar \Tspot \Tnot \Jexpr\Tclpar
+\end{transf}}
+
+\def\DTschunique{%
+\begin{transf}
+\Tunique \Jexpr[1] \Tspot \Jexpr[2] & \trarrow & \Texists \Jexpr[1] \Tspot \Jexpr[2] \Tand \Toppar\Tforall \Topsqr\Jexpr[1] \Tbar \Jexpr[2]\Tclsqr\ {}^{\Zpat}\ \Tspot \Ttheta \Jexpr[1] \Teq \Ttheta \Jexpr[1]\ \:{}^{\Zpat}\ \Tclpar
+\end{transf}}
+
+\def\DTAschunique{\index{schema unique existential quantification expression!semantic transformation}%
+\begin{transf}
+\Tunique \Jexpr[1] \Tspot \Jexpr[2] & \trarrow & \Tnot \Toppar\Tforall \Jexpr[1] \Tspot \Tnot \Toppar\Jexpr[2] \Tand \Toppar\Tforall \Topsqr\Jexpr[1] \Tbar \Jexpr[2]\Tclsqr\ {}^{\Zpat}\ \Tspot \Ttheta \Jexpr[1] \Teq \Ttheta \Jexpr[1]\ \:{}^{\Zpat}\ \Tclpar\Tclpar\Tclpar
+\end{transf}}
+
+\def\DTschpre{%
+\begin{transf}
+\Tpre \Toppar\Jexpr \Tistype \Tpower \Topsqr\Jsig[1]\Tclsqr\Tclpar \Tistype \Tpower \Topsqr\Jsig[2]\Tclsqr & \trarrow & \Texists \Icarrier \Topsqr\Jsig[1] \Isetminus \Jsig[2]\Tclsqr \Tspot \Jexpr
+\end{transf}}
+
+\def\DTAschpre{\index{schema precondition expression!semantic transformation}%
+\begin{transf}
+\Tpre \Toppar\Jexpr \Tistype \Tpower \Topsqr\Jsig[1]\Tclsqr\Tclpar \Tistype \Tpower \Topsqr\Jsig[2]\Tclsqr & \trarrow & \Tnot \Toppar\Tforall \Icarrier \Topsqr\Jsig[1] \Isetminus \Jsig[2]\Tclsqr \Tspot \Tnot \Jexpr\Tclpar
+\end{transf}}
+
+\def\DTschcomp{%
+\begin{center}
+$\Toppar\Jexpr[1] \Tistype \Tpower \Topsqr\Jsig[1]\Tclsqr\Tclpar \Tzcmp \Toppar\Jexpr[2] \Tistype \Tpower \Topsqr\Jsig[2]\Tclsqr\Tclpar \Tistype \Tpower \Topsqr\Jsig\Tclsqr$\\
+$\Longrightarrow$\\
+\begin{tabular}{l}$\Texists \Jexpr\:{}^{\Zpat}\: \Tspot \Toppar\Texists \Jexpr[3] \Tspot \Topsqr\Jexpr[1]\Tsemi \Jexpr\:{}^{\Zpat}\: \Tbar \Ttheta \Jexpr[3] \Teq \Ttheta \Jexpr\:{}^{\Zpat}\:\Tclsqr\Tclpar$\\
+$\qquad\mbox{} \Tand \Toppar\Texists \Jexpr[4] \Tspot \Topsqr\Jexpr[2]\Tsemi \Jexpr\:{}^{\Zpat}\: \Tbar \Ttheta \Jexpr[4] \Teq \Ttheta \Jexpr\:{}^{\Zpat}\:\Tclsqr\Tclpar$\\
+$\Iwhere\ \Jexpr[3] \Teqeq \Icarrier\ \Topsqr\Iopbrace \Jname \Icolon \TNAME\Isemi \Jtype \Icolon \AType \Ibar \Jname \Idecor\ ' \Imapsto \Jtype \Iin \Jsig[1] \Ispot \Jname \Idecor\ ' \Imapsto \Jtype \Iclbrace\Tclsqr$\\
+$\quad \Iwand\ \Jexpr[4] \Teqeq \Icarrier\ \Topsqr\Iopbrace \Jname \Icolon \TNAME\Isemi \Jtype \Icolon \AType \Ibar \Jname \Imapsto \Jtype \Iin \Jsig[2] \Ispot \Jname \Imapsto \Jtype \Tclbrace\Tclsqr$\\
+$\quad \Iwand\ \Jexpr\:{}^{\Zpat}\: \Teqeq \Ioppar\Jexpr[4]\Iclpar\:{}^{\Zpat}\:$
+\end{tabular}\\
+\end{center}}
+
+\def\DTAschcomp{\index{schema composition expression!semantic transformation}%
+\begin{center}
+$\Toppar\Jexpr[1] \Tistype \Tpower \Topsqr\Jsig[1]\Tclsqr\Tclpar \Tzcmp \Toppar\Jexpr[2] \Tistype \Tpower \Topsqr\Jsig[2]\Tclsqr\Tclpar \Tistype \Tpower \Topsqr\Jsig\Tclsqr$\\
+$\Longrightarrow$\\
+\begin{tabular}{l}$\Tnot \Toppar\Tforall \Jexpr\:{}^{\Zpat}\: \Tspot \Tnot \Toppar\Tnot \Toppar\Tforall \Jexpr[3] \Tspot \Tnot \Topsqr\Jexpr[1]\Tsemi \Jexpr\:{}^{\Zpat}\: \Tbar \Ttheta \Jexpr[3] \Teq \Ttheta \Jexpr\:{}^{\Zpat}\:\Tclsqr\Tclpar$\\
+$\qquad\qquad\:\:\,\mbox{} \Tand \Tnot \Toppar\Tforall \Jexpr[4] \Tspot \Tnot \Topsqr\Jexpr[2]\Tsemi \Jexpr\:{}^{\Zpat}\: \Tbar \Ttheta \Jexpr[4] \Teq \Ttheta \Jexpr\:{}^{\Zpat}\:\Tclsqr\Tclpar\Tclpar\Tclpar$\\
+$\Iwhere\ \Jexpr[3] \Teqeq \Icarrier\ \Topsqr\Iopbrace \Jname \Icolon \TNAME\Isemi \Jtype \Icolon \AType \Ibar \Jname \Idecor\ ' \Imapsto \Jtype \Iin \Jsig[1] \Ispot \Jname \Idecor\ ' \Imapsto \Jtype \Iclbrace\Tclsqr$\\
+$\quad \Iwand\ \Jexpr[4] \Teqeq \Icarrier\ \Topsqr\Iopbrace \Jname \Icolon \TNAME\Isemi \Jtype \Icolon \AType \Ibar \Jname \Imapsto \Jtype \Iin \Jsig[2] \Ispot \Jname \Imapsto \Jtype \Tclbrace\Tclsqr$\\
+$\quad \Iwand\ \Jexpr\:{}^{\Zpat}\: \Teqeq \Ioppar\Jexpr[4]\Iclpar\:{}^{\Zpat}\:$
+\end{tabular}\\
+\end{center}}
+
+\def\DTschpipe{%
+\begin{center}
+$\Toppar\Jexpr[1] \Tistype \Tpower \Topsqr\Jsig[1]\Tclsqr\Tclpar \Tpipe \Toppar\Jexpr[2] \Tistype \Tpower \Topsqr\Jsig[2]\Tclsqr\Tclpar \Tistype \Tpower \Topsqr\Jsig\Tclsqr$\\
+$\Longrightarrow$\\
+\begin{tabular}{l}$\Texists \Jexpr\:{}^{\Zpat}\: \Tspot \Toppar\Texists \Jexpr[3] \Tspot \Topsqr\Jexpr[1]\Tsemi \Jexpr\:{}^{\Zpat}\: \Tbar \Ttheta \Jexpr[3] \Teq \Ttheta \Jexpr\:{}^{\Zpat}\:\Tclsqr\Tclpar$\\
+$\qquad\mbox{} \Tand \Toppar\Texists \Jexpr[4] \Tspot \Topsqr\Jexpr[2]\Tsemi \Jexpr\:{}^{\Zpat}\: \Tbar \Ttheta \Jexpr[4] \Teq \Ttheta \Jexpr\:{}^{\Zpat}\:\Tclsqr\Tclpar$\\
+$\Iwhere\ \Jexpr[3] \Teqeq \Icarrier\ \Topsqr\Iopbrace \Jname \Icolon \TNAME\Isemi \Jtype \Icolon \AType \Ibar \Jname \Idecor\ ! \Imapsto \Jtype \Iin \Jsig[1] \Ispot \Jname \Idecor\ ! \Imapsto \Jtype \Iclbrace\Tclsqr$\\
+$\quad \Iwand\ \Jexpr[4] \Teqeq \Icarrier\ \Topsqr\Iopbrace \Jname \Icolon \TNAME\Isemi \Jtype \Icolon \AType \Ibar \Jname \Idecor\ ? \Imapsto \Jtype \Iin \Jsig[2] \Ispot \Jname \Idecor\ ? \Imapsto \Jtype \Tclbrace\Tclsqr$\\
+$\quad \Iwand\ \Jexpr\:{}^{\Zpat}\: \Teqeq \Ioppar\Jexpr[4]\Iclpar\:{}^{\Zpat}\:$
+\end{tabular}\\
+\end{center}}
+
+\def\DTAschpipe{\index{schema piping expression!semantic transformation}%
+\begin{center}
+$\Toppar\Jexpr[1] \Tistype \Tpower \Topsqr\Jsig[1]\Tclsqr\Tclpar \Tpipe \Toppar\Jexpr[2] \Tistype \Tpower \Topsqr\Jsig[2]\Tclsqr\Tclpar \Tistype \Tpower \Topsqr\Jsig\Tclsqr$\\
+$\Longrightarrow$\\
+\begin{tabular}{l}$\Tnot \Toppar\Tforall \Jexpr\:{}^{\Zpat}\: \Tspot \Tnot \Toppar\Tnot \Toppar\Tforall \Jexpr[3] \Tspot \Tnot \Topsqr\Jexpr[1]\Tsemi \Jexpr\:{}^{\Zpat}\: \Tbar \Ttheta \Jexpr[3] \Teq \Ttheta \Jexpr\:{}^{\Zpat}\:\Tclsqr\Tclpar$\\
+$\qquad\qquad\:\:\,\mbox{} \Tand \Tnot \Toppar\Tforall \Jexpr[4] \Tspot \Tnot \Topsqr\Jexpr[2]\Tsemi \Jexpr\:{}^{\Zpat}\: \Tbar \Ttheta \Jexpr[4] \Teq \Ttheta \Jexpr\:{}^{\Zpat}\:\Tclsqr\Tclpar\Tclpar\Tclpar$\\
+$\Iwhere\ \Jexpr[3] \Teqeq \Icarrier\ \Topsqr\Iopbrace \Jname \Icolon \TNAME\Isemi \Jtype \Icolon \AType \Ibar \Jname \Idecor\ ! \Imapsto \Jtype \Iin \Jsig[1] \Ispot \Jname \Idecor\ ! \Imapsto \Jtype \Iclbrace\Tclsqr$\\
+$\quad \Iwand\ \Jexpr[4] \Teqeq \Icarrier\ \Topsqr\Iopbrace \Jname \Icolon \TNAME\Isemi \Jtype \Icolon \AType \Ibar \Jname \Idecor\ ? \Imapsto \Jtype \Iin \Jsig[2] \Ispot \Jname \Idecor\ ? \Imapsto \Jtype \Tclbrace\Tclsqr$\\
+$\quad \Iwand\ \Jexpr\:{}^{\Zpat}\: \Teqeq \Ioppar\Jexpr[4]\Iclpar\:{}^{\Zpat}\:$
+\end{tabular}\\
+\end{center}}
+
+\def\DTschdecor{\index{schema decoration expression!semantic transformation}%
+\begin{transf}
+\Toppar\Jexpr \Tistype \Tpower \Topsqr\Jname[1] \Tcolon \Jtype[1]\Tsemi \Jelide\Tsemi \Jname[n] \Tcolon \Jtype[n]\Tclsqr\Tclpar \Jdecor & \trarrow & \Jexpr\ \Topsqr\Jname[1] \Idecor \Jdecor \Trenm \Jname[1]\Tcomma \Jelide\Tcomma \Jname[n] \Idecor \Jdecor \Trenm \Jname[n]\Tclsqr
+\end{transf}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Semantic equations.
+
+\def\DEsecspec{\index{sectioned specification!semantic relation}%
+\begin{semeqn}
+\bspec{\Jsect[1]\ \Jelide\ \Jsect[n]} & = &
+\ZFoppar\bsect{\TZED\ \Tsection\ prelude \Tparents\ \TEND\ ...} \ZFfrc \bsect{\Jsect[1]} \ZFfrc \Jelide \ZFfrc \bsect{\Jsect[n]}\ZFclpar\ \ZFempty\\
+\end{semeqn}}
+
+\def\DEinsectprelude{\index{inheriting section!semantic relation!prelude}%
+\begin{center}
+$\bsect{\TZED\ \Tsection\ prelude\ \Tparents\ \TEND\ \Jpara[1]\ \Jelide\ \Jpara[n]}$\\
+=\\
+$\ZFlambda \Ltheory \ZFcolon \ZFSectionModels \ZFspot \ZFopbrace prelude \ZFmapsto \ZFoppar\bpara{\Jpara[1]} \ZFfrc \Jelide \ZFfrc \bpara{\Jpara[n]}\ZFclpar\ \ZFopimg \ZFopbrace \ZFempty \ZFclbrace \ZFclimg\ZFclbrace$\\
+\end{center}}
+
+\def\DEinsect{\index{inheriting section!semantic relation!non-prelude}%
+\begin{center}
+$\bsect{\TZED\ \Tsection\ \Jname\ \Tparents\ \Jname[1]\Tcomma \Jelide\Tcomma \Jname[m]\ \TEND\ \Jpara[1]\ \Jelide\ \Jpara[n]}$\\
+=\\
+$\ZFlambda \Ltheory \ZFcolon \ZFSectionModels \ZFspot \Ltheory \ZFcup \ZFopbrace\Jname \ZFmapsto \mbox{}$\\
+$\ZFoppar\bpara{\Jpara[1]} \ZFfrc \Jelide \ZFfrc \bpara{\Jpara[n]}\ZFclpar\ \ZFopimg \ZFopbrace \Lmodel[0] \ZFcolon \Ltheory\ prelude\ZFsemi \Lmodel[1] \ZFcolon \Ltheory\ \Jname[1]\ZFsemi \Jelide\ZFsemi \Lmodel[m] \ZFcolon \Ltheory\ \Jname[m]\ZFsemi \Lmodel \ZFcolon \ZFModel \ZFbar \Lmodel \ZFeq \Lmodel[0] \ZFcup \Lmodel[1] \ZFcup \Jelide \ZFcup \Lmodel[m] \ZFspot \Lmodel\ZFclbrace \ZFclimg\ZFclbrace$\\
+\end{center}}
+
+\def\DEgivendef{\index{given types paragraph!semantic relation}%
+\begin{semeqn}
+\bpara{\TZED\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr\ \TEND} & = &
+\ZFopbrace \Lmodel \ZFcolon \ZFModel\ZFsemi w_1\ZFcomma \Jelide\ZFcomma w_n \ZFcolon \ZFW\\
+ & & \qquad\mbox{} \ZFspot \Lmodel \ZFmapsto \Lmodel \ZFcup \ZFopbrace \Jname[1] \ZFmapsto w_1\ZFcomma \Jelide\ZFcomma \Jname[n] \ZFmapsto w_n\ZFclbrace\\
+ & & \qquad\qquad\qquad~\,\mbox{} \ZFcup \ZFopbrace\Jname[1] \Idecor \Zgivenstroke \ZFmapsto w_1\ZFcomma \Jelide\ZFcomma \Jname[n] \Idecor \Zgivenstroke \ZFmapsto w_n\ZFclbrace\ZFclbrace
+\end{semeqn}}
+
+\def\DEaxdef{\index{axiomatic description paragraph!semantic relation}%
+\begin{semeqn}
+\bpara{\TAX\ \Jexpr\ \TEND} & = &
+\ZFopbrace \Lmodel \ZFcolon \ZFModel\ZFsemi \Lbinding \ZFcolon \ZFW \ZFbar \Lbinding \ZFin \bexpr{\Jexpr} \Lmodel \ZFspot \Lmodel \ZFmapsto \Lmodel \ZFcup \Lbinding\ZFclbrace
+\end{semeqn}}
+
+\def\DEgenaxdef{\index{generic axiomatic description paragraph!semantic relation}%
+\begin{semeqn}
+\lefteqn{\bpara{\TGENAX\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr\ \Toppar\Jexpr \Tistype \Tpower \Topsqr\Jnameb[1] \Tcolon \Jtype[1]\Tsemi \Jelide\Tsemi \Jnameb[m] \Tcolon \Jtype[m]\Tclsqr\Tclpar\ \TEND} =}\hspace*{0.25in}\\
+ & & \ZFopbrace \Lmodel \ZFcolon \ZFModel\ZFsemi u \ZFcolon \ZFW \ZFiter n \ZFfun \ZFW\\
+ & & \qquad\mbox{} \ZFbar \ZFforall w_1\ZFcomma \Jelide\ZFcomma w_n \ZFcolon \ZFW \ZFspot \ZFexists w \ZFcolon \ZFW \ZFspot \mbox{}\\
+ & & \qquad\qquad u\ \ZFoppar w_1\ZFcomma \Jelide\ZFcomma w_n\ZFclpar \ZFin w\\
+ & & \qquad\qquad\mbox{} \ZFand \ZFoppar\Lmodel \ZFfovr \ZFopbrace\Jname[1] \ZFmapsto w_1\ZFcomma \Jelide\ZFcomma \Jname[n] \ZFmapsto w_n\ZFclbrace \ZFcup \ZFopbrace\Jname[1] \Idecor \Zgenericstroke \ZFmapsto w_1\ZFcomma \Jelide\ZFcomma \Jname[n] \Idecor \Zgenericstroke \ZFmapsto w_n\ZFclbrace\ZFclpar \ZFmapsto w \ZFin \bexpr{\Jexpr}\\
+ & & \qquad\mbox{} \ZFspot \Lmodel \ZFmapsto \Lmodel \ZFcup \ZFlambda y \ZFcolon \ZFopbrace \Jnameb[1]\ZFcomma \Jelide\ZFcomma \Jnameb[m]\ZFclbrace \ZFspot \ZFlambda x \ZFcolon \ZFW \ZFiter n \ZFspot u\ x\ y\ZFclbrace
+\end{semeqn}}
+
+\def\DEconj{\index{conjecture paragraph!semantic relation}%
+\begin{semeqn}
+\bpara{\TZED \Tthrm \Jpred\ \TEND} & = & \ZFid \ZFModel
+\end{semeqn}}
+
+\def\DEgenconj{\index{generic conjecture paragraph!semantic relation}%
+\begin{semeqn}
+\bpara{\TZED\ \Topsqr\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\Tclsqr \Tthrm \Jpred\ \TEND} & = & \ZFid \ZFModel
+\end{semeqn}}
+
+\def\DEmembership{\index{membership predicate!semantic relation}%
+\begin{semeqn}
+\bpred{\Jexpr[1] \Tin \Jexpr[2]} & = & \ZFopbrace \Lmodel \ZFcolon \ZFModel \ZFbar \bexpr{\Jexpr[1]} \Lmodel \ZFin \bexpr{\Jexpr[2]} \Lmodel \ZFspot \Lmodel\ZFclbrace
+\end{semeqn}}
+
+\def\DEtruthpred{\index{truth predicate!semantic relation}%
+\begin{semeqn}
+\bpred{\Ttrue} & = & \ZFModel
+\end{semeqn}}
+
+\def\DEnotpred{\index{negation predicate!semantic relation}%
+\begin{semeqn}
+\bpred{\Tnot \Jpred} & = & \ZFModel \ZFsetminus \bpred{\Jpred}
+\end{semeqn}}
+
+\def\DEandpred{\index{conjunction predicate!semantic relation}%
+\begin{semeqn}
+\bpred{\Jpred[1] \Tand \Jpred[2]} & = & \bpred{\Jpred[1]} \ZFcap \bpred{\Jpred[2]}
+\end{semeqn}}
+
+\def\DEforallpred{\index{universal quantification predicate!semantic relation}%
+\begin{semeqn}
+\bpred{\Tforall \Jexpr \Tspot \Jpred} & = & \ZFopbrace \Lmodel \ZFcolon \ZFModel \ZFbar \ZFforall \Lbinding \ZFcolon \bexpr{\Jexpr} \Lmodel \ZFspot \Lmodel \ZFfovr \Lbinding \ZFin \bpred{\Jpred} \ZFspot \Lmodel\ZFclbrace
+\end{semeqn}}
+
+\def\DEreference{\index{reference expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Jname} & = & \ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \Lmodel\ \Jname
+\end{semeqn}}
+
+\def\DEgeninst{\index{generic instantiation expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Jname\ \Topsqr\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n]\Tclsqr} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \Lmodel\ \Jname\ \ZFoppar\bexpr{\Jexpr[1]} \Lmodel\ZFcomma \Jelide\ZFcomma \bexpr{\Jexpr[n]} \Lmodel\ZFclpar
+\end{semeqn}}
+
+\def\DEsetextn{\index{set extension expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Topbrace\ \Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n] \Tclbrace} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \ZFopbrace \bexpr{\Jexpr[1]} \Lmodel\ZFcomma \Jelide\ZFcomma \bexpr{\Jexpr[n]} \Lmodel\ZFclbrace
+\end{semeqn}}
+
+\def\DEsetcomp{\index{set comprehension expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Topbrace\ \Jexpr[1] \Tspot \Jexpr[2] \Tclbrace} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \ZFopbrace \Lbinding[1] \ZFcolon \bexpr{\Jexpr[1]} \Lmodel \ZFspot \bexpr{\Jexpr[2]}\ \ZFoppar\Lmodel \ZFfovr \Lbinding[1]\ZFclpar\ZFclbrace
+\end{semeqn}}
+
+\def\DEpower{\index{powerset expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Tpower \Jexpr} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \ZFpower \ZFoppar\bexpr{\Jexpr} \Lmodel\ZFclpar
+\end{semeqn}}
+
+\def\DEtupleextn{\index{tuple extension expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Toppar\Jexpr[1]\Tcomma \Jelide\Tcomma \Jexpr[n]\Tclpar} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \ZFoppar\bexpr{\Jexpr[1]} \Lmodel\ZFcomma \Jelide\ZFcomma \bexpr{\Jexpr[n]} \Lmodel\ZFclpar
+\end{semeqn}}
+
+\def\DEbindextn{\index{binding extension expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Topbind\Jname[1] \Teqeq \Jexpr[1]\Tcomma \Jelide\Tcomma \Jname[n] \Teqeq \Jexpr[n]\Tclbind} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \ZFopbrace \Jname[1] \ZFmapsto \bexpr{\Jexpr[1]} \Lmodel\ZFcomma \Jelide\ZFcomma \Jname[n] \ZFmapsto \bexpr{\Jexpr[n]} \Lmodel\ZFclbrace
+\end{semeqn}}
+
+\def\DEmu{\index{definite description expression!semantic relation}%
+\begin{semeqn}
+\begin{array}[b]{l}
+\ZFopbrace \Lmodel \ZFcolon \ZFModel\ZFsemi \Lbinding[1] \ZFcolon \ZFW\\
+\qquad\mbox{} \ZFbar \Lbinding[1] \ZFin \bexpr{\Jexpr[1]} \Lmodel\\
+\qquad\mbox{} \ZFand \ZFoppar\ZFforall \Lbinding[3] \ZFcolon \bexpr{\Jexpr[1]} \Lmodel \ZFspot \bexpr{\Jexpr[2]}\ \ZFoppar\Lmodel \ZFfovr \Lbinding[3]\ZFclpar \ZFeq \bexpr{\Jexpr[2]}\ \ZFoppar\Lmodel \ZFfovr \Lbinding[1]\ZFclpar\ZFclpar\\
+\quad\mbox{} \ZFspot \Lmodel \ZFmapsto \bexpr{\Jexpr[2]}\ \ZFoppar\Lmodel \ZFfovr \Lbinding[1]\ZFclpar\ZFclbrace\\
+\end{array} & \subseteq & \bexpr{\Tmu \Jexpr[1] \Tspot \Jexpr[2]}
+\end{semeqn}}
+
+\def\DEvarconst{\index{variable construction expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Topsqr\Jname \Tcolon \Jexpr\Tclsqr} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel  \ZFspot \ZFopbrace w \ZFcolon \bexpr{\Jexpr} \Lmodel \ZFspot \ZFopbrace \Jname \ZFmapsto w\ZFclbrace\ZFclbrace
+\end{semeqn}}
+
+\def\DEschconst{\index{schema construction expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Topsqr\Jexpr \Tbar \Jpred\Tclsqr} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \ZFopbrace \Lbinding \ZFcolon \bexpr{\Jexpr} \Lmodel \ZFbar \Lmodel \ZFfovr \Lbinding \ZFin \bpred{\Jpred} \ZFspot \Lbinding\ZFclbrace
+\end{semeqn}}
+
+\def\DEschnot{\index{schema negation expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Tnot \Jexpr \Tistype \Tpower \Jtype} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \ZFopbrace \Lbinding \ZFcolon \btype{\Jtype} \Lmodel \ZFbar \ZFnot \Lbinding \ZFin \bexpr{\Jexpr} \Lmodel \ZFspot \Lbinding\ZFclbrace
+\end{semeqn}}
+
+\def\DEschand{\index{schema conjunction expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Jexpr[1] \Tand \Jexpr[2] \Tistype \Tpower \Jtype} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \ZFopbrace \Lbinding \ZFcolon \btype{\Jtype} \Lmodel\ZFsemi \Lbinding[1] \ZFcolon \bexpr{\Jexpr[1]} \Lmodel\ZFsemi \Lbinding[2] \ZFcolon \bexpr{\Jexpr[2]} \Lmodel \ZFbar \Lbinding[1] \ZFcup \Lbinding[2] \ZFeq \Lbinding \ZFspot \Lbinding\ZFclbrace
+\end{semeqn}}
+
+\def\DEschforall{\index{schema universal quantification expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Tforall \Jexpr[1] \Tspot \Jexpr[2] \Tistype \Tpower \Jtype} & = &
+\ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \ZFopbrace \Lbinding[2] \ZFcolon \btype{\Jtype} \Lmodel \ZFbar \ZFforall \Lbinding[1] \ZFcolon \bexpr{\Jexpr[1]} \Lmodel \ZFspot \Lbinding[1] \ZFcup \Lbinding[2] \ZFin \bexpr{\Jexpr[2]}\ \ZFoppar\Lmodel \ZFfovr \Lbinding[1]\ZFclpar \ZFspot \Lbinding[2]\ZFclbrace
+\end{semeqn}}
+
+\def\DEschrenm{\index{schema renaming expression!semantic relation}%
+\begin{semeqn}
+\bexpr{\Jexpr\ \Topsqr\Jnameb[1] \Trenm \Jname[1]\Tcomma \Jelide\Tcomma \Jnameb[n] \Trenm \Jname[n]\Tclsqr} & = & \ZFlambda \Lmodel \ZFcolon \ZFModel \ZFspot \mbox{}\\
+ & & \qquad\ZFopbrace \Lbinding[1] \ZFcolon \bexpr{\Jexpr} \Lmodel\ZFsemi \Lbinding[2] \ZFcolon \ZFW \ZFbar \mbox{}\\
+ & & \qquad\qquad\Lbinding[2] = \ZFopbrace \Jnameb[1] \ZFmapsto \Jname[1]\Tcomma \Jelide\Tcomma \Jnameb[n] \ZFmapsto \Jname[n]\ZFclbrace \ZFfrc \Lbinding[1] \ZFcup \ZFopbrace\Jname[1]\Tcomma \Jelide\Tcomma \Jname[n]\ZFclbrace \ZFdsub \Lbinding[1]\\
+ & & \qquad\qquad\mbox{} \ZFand \Lbinding[2] \ZFin \ZFoppar\Tunder\ \ZFpfun\ \Tunder\ZFclpar\\
+ & & \qquad\ZFspot \Lbinding[2]\ZFclbrace
+\end{semeqn}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endinput

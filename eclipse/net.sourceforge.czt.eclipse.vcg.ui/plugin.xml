@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            category="net.sourceforge.czt.eclipse.ui.category.views"
+            class="net.sourceforge.czt.eclipse.vcg.ui.views.VCView"
+            icon="icons/vc_view.png"
+            id="net.sourceforge.czt.eclipse.vcg.ui.views.VC"
+            name="Verification"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="net.sourceforge.czt.eclipse.ui.ZPerspective">
+         <viewShortcut
+               id="net.sourceforge.czt.eclipse.vcg.ui.views.VC">
+         </viewShortcut>
+         <view
+               id="net.sourceforge.czt.eclipse.vcg.ui.views.VC"
+               minimized="false"
+               relationship="bottom"
+               relative="org.eclipse.ui.navigator.ProjectExplorer"
+               visible="true">
+         </view>
+         <viewShortcut
+               id="net.sourceforge.czt.eclipse.ui.views.ZInfo">
+         </viewShortcut>
+         <view
+               id="net.sourceforge.czt.eclipse.ui.views.ZInfo"
+               minimized="false"
+               relationship="stack"
+               relative="net.sourceforge.czt.eclipse.ui.views.ZCharMap"
+               visible="true">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         id="errorMarker"
+         name="CZT VCG Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="net.sourceforge.czt.eclipse.ui.problemmarker">
+      </super>
+   </extension>
+
+</plugin>

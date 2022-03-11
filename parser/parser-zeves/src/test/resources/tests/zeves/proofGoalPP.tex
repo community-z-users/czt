@@ -1,0 +1,33 @@
+\begin{zsection}	 \SECTION proofGoalPP \parents~standard\_toolkit
+\end{zsection}
+
+ 
+
+\begin{theorem}{ Test}\forall WFBellLapadula \\
+    \t1 @ \\
+    \t1 readBy \in Data \rel Service \land \\
+      \t1 writes \in Service \rel Data \land \\
+      \t1 readableTo \in Data \rel Service \land \\
+      \t1 canWrite \in Service \rel Data \land \\
+      \t1 wf = ( readBy \comp writes ) \plus \land \\
+      \t1 graph = ( readableTo \comp canWrite ) \plus \land \\
+      \t1 knownServices = \dom writes \cup \ran readBy \land \\
+      \t1 knownData = \dom readBy \cup \ran writes \land \\
+      \t1 clearance \in Service \pfun Level \land \\
+      \t1 locationS \in Service \pfun Level \land \\
+      \t1 locationD \in Data \pfun Level \land \\
+      \t1 u \in Service \land \\
+      \t1 i \in Data \land \\
+      \t1 \dom locationS \in \power ( \dom clearance ) \land \\
+      \t1 \dom writes \in \power ( \dom locationS ) \land \\
+      \t1 \ran readBy \in \power ( \dom locationS ) \land \\
+      \t1 \dom readBy \in \power ( \dom locationD ) \land \\
+      \t1 \ran writes \in \power ( \dom locationD ) \land \\
+      \t1 ( \forall s : \dom locationS @ locationS~s \leq clearance~s ) \land \\
+      \t1 ( i , u ) \in readBy \\
+     \t1 \implies \\
+     \t1 i \in \dom locationD \land \\
+      \t1 u \in \dom clearance
+\end{theorem}
+
+ 

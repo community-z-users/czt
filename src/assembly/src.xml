@@ -1,0 +1,29 @@
+<assembly>
+  <!-- The source release can be build by calling
+         mvn -N assembly:assembly -Ddescriptor=src/assembly/src.xml
+       or if only a directory is needed
+         mvn -N assembly:directory -Ddescriptor=src/assembly/src.xml
+       This creates files and directory czt-...-src in directory target. -->
+  <id>src</id>
+  <formats>
+    <format>dir</format>
+    <format>tar.gz</format>
+    <format>tar.bz2</format>
+    <format>zip</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <directory>.</directory>
+      <outputDirectory></outputDirectory>
+      <useDefaultExcludes>true</useDefaultExcludes>
+      <excludes>
+        <exclude>attic/**</exclude>
+        <exclude>doc/**</exclude>
+        <exclude>**/target/**</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>doc/refcard</directory>
+    </fileSet>
+  </fileSets>
+</assembly>

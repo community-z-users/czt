@@ -1,0 +1,57 @@
+/**
+  Parses a Z specification from a given filename or file.
+  Depending on the file ending, different parsers are used, i.e.
+  an LaTeX parser is used to parse files ending with .tex,
+  a Unicode parser is used to parse files ending with .utf8 etc.
+  If no file is given, a file chooser window will be opened to
+  allow browsing for a specific file.
+  The AST representation of the parsed file is returned.
+*/
+parse()
+{
+  manager = new net.sourceforge.czt.session.SectionManager();
+  return parse(manager);
+}
+
+parse(net.sourceforge.czt.session.SectionInfo manager)
+{
+  chooser = new JFileChooser();
+  value = chooser.showOpenDialog(null);
+  if(value == JFileChooser.APPROVE_OPTION) {
+    return parse(chooser.getSelectedFile(), manager);
+  }
+}
+
+parse(String filename)
+{
+  manager = new net.sourceforge.czt.session.SectionManager();
+  return parse(filename, manager);
+}
+
+parse(String filename, net.sourceforge.czt.session.SectionInfo manager)
+{
+  file = pathToFile(filename);
+  return parse(file, manager);
+}
+
+parse(File file, net.sourceforge.czt.session.SectionInfo manager)
+{
+  if (file.exists()) {
+    absolutPath = file.getAbsolutePath();
+    System.err.println("Parse file " + absolutPath);
+    try {
+      manager.put(new  net.sourceforge.czt.session.Key(absolutPath,
+                                 net.sourceforge.czt.session.Source.class),
+                  new FileSource(absolutPath));
+      return manager.get(new  net.sourceforge.czt.session.Key(absolutPath,
+                                                              Spec.class));
+    }
+    catch (Exception e) {
+      show(e.getMessage());
+    }
+  }
+  else {
+    System.err.println("File " + file + " not found.");
+    return null;
+  }
+}

@@ -1,0 +1,19 @@
+/**
+   Unmarshals (i.e. parses or reads) a given ZML file and returns
+   the corresponding AST.
+
+   @param filename the name of the file to be marshalled.
+   @return a net.sourceforge.czt.base.ast.Term that represents
+           the contents of the given file.
+*/
+unmarshal(String filename)
+{
+  file = pathToFile(filename);
+  if (file.exists()) {
+    reader = new net.sourceforge.czt.z.jaxb.JaxbXmlReader();
+    return reader.read(file);
+  }
+  else {
+    System.err.println("File " + filename + " not found.");
+  }
+}

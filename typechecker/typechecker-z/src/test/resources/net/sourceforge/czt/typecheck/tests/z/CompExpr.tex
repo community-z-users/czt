@@ -1,0 +1,53 @@
+\begin{zsection}
+  \SECTION CompExpr
+\end{zsection}
+
+A case where no variable hiding takes place.
+\begin{zed}
+  \vdash? \exists S1 == [a : \nat; b? : \nat]\\
+                  S2 == [a : \nat; c? : \nat] @
+                  (S1 \semi S2) = (S1 \land S2)
+\end{zed}
+
+Composition of a schema with itself.
+\begin{zed}
+  \vdash? \exists S1 == [a : \nat; b? : \nat; b?' : \nat; a' : \nat] @
+                 (S1 \semi S1) = S1
+\end{zed}
+
+All are hidden.
+\begin{zed}
+  \vdash? \exists S1 == [a' : \nat; b'' : \nat; c''' : \nat]\\
+                  S2 == [a : \nat; b' : \nat; c'' : \nat] @
+      (S1 \semi S2) = [|true]
+\end{zed}
+
+One primed variable hidden.
+\begin{zed}
+  \vdash? \exists S1 == [a' : \nat; b? : \nat; c' : \nat; d! : \nat]\\
+                  S2 == [a : \nat; d? : \nat] @
+      (S1 \semi S2) = [b? : \nat; c' : \nat; d! : \nat; d? : \nat]
+\end{zed}
+
+Multiple primed variables hidden.
+Duplicate variable declaration.
+\begin{zed}
+  \vdash?
+    \exists S1 == [a' : \nat; b? : \nat; c'' : \nat; d! : \nat]\\
+            S2 == [a : \nat; d! : \nat; c' : \nat] @
+      (S1 \semi S2) = [b? : \nat; d! : \nat]
+\end{zed}
+
+This tests that if on the initial visit to a comp expr, if the
+signature of the expr is still variable, everything is still handled
+correctly.
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{zed}
+  \vdash? \exists S1 == g @
+             (S1 \semi S1) = [a, b : \nat; a'~, b' : \nat] \land
+             S1 = [a, b : \nat; a'~, b' : \nat]\\
+\end{zed}

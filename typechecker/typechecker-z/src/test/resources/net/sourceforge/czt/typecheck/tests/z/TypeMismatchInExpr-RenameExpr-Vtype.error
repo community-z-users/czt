@@ -1,0 +1,15 @@
+\begin{zsection}
+  \SECTION TypeMismatchInSignature\_RenameExpr\_Vtype
+\end{zsection}
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g\\
+  t == g
+\where
+  t = s [a/y, a/x]\\
+  s = [x : \nat; y : \power \nat]\\
+\end{axdef}

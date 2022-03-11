@@ -1,0 +1,18 @@
+\begin{schema}{A}
+	i : \num \\
+\where
+	i > 5
+\end{schema}
+
+\begin{schema}{B}
+	i : \num \\
+\where
+	i > 6
+\end{schema}{B}
+
+\begin{schema}{C}
+	A \\
+	B \\
+\where
+	\theta A = \theta B
+\end{schema}

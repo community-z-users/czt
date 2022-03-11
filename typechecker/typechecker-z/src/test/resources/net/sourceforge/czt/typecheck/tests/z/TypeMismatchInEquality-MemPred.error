@@ -1,0 +1,9 @@
+\begin{zsection}
+  \SECTION TypeMismatchInEquality\_MemPred
+\end{zsection}
+
+\begin{axdef}
+  a == \{1\}
+\where
+  a = \power \arithmos
+\end{axdef}

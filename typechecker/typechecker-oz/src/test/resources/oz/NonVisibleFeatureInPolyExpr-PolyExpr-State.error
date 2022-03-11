@@ -1,0 +1,21 @@
+
+\begin{zsection}
+  \SECTION NonVisibleFeatureInPolyExpr\_PolyExpr\_State \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  a == 1\\
+  \begin{state}
+   s : \nat
+  \end{state}\\
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{B}
+ \project (a, Op1)\\
+ A\\
+\end{class}
+
+\begin{axdef}
+  a : \poly A
+\end{axdef}

@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CZT Z/EVES Core
+Bundle-SymbolicName: net.sourceforge.czt.eclipse.zeves.core;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin
+Bundle-Vendor: Community Z Tools Project
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0",
+ net.sourceforge.czt.eclipse.core;bundle-version="1.6.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Import-Package: net.sourceforge.czt.base.ast;version="1.6.0",
+ net.sourceforge.czt.base.visitor;version="1.6.0",
+ net.sourceforge.czt.parser.util;version="1.6.0",
+ net.sourceforge.czt.parser.zeves;version="1.6.0",
+ net.sourceforge.czt.session;version="1.6.0",
+ net.sourceforge.czt.text;version="1.6.0",
+ net.sourceforge.czt.util;version="1.6.0",
+ net.sourceforge.czt.z.ast;version="1.6.0",
+ net.sourceforge.czt.z.visitor;version="1.6.0",
+ net.sourceforge.czt.zeves;version="1.6.0",
+ net.sourceforge.czt.zeves.ast;version="1.6.0",
+ net.sourceforge.czt.zeves.proof;version="1.6.0",
+ net.sourceforge.czt.zeves.response;version="1.6.0",
+ net.sourceforge.czt.zeves.response.form;version="1.6.0",
+ net.sourceforge.czt.zeves.snapshot;version="1.6.0",
+ net.sourceforge.czt.zeves.visitor;version="1.6.0",
+ net.sourceforge.czt.zeves.z;version="1.6.0",
+ org.apache.commons.lang
+Export-Package: net.sourceforge.czt.eclipse.zeves.core

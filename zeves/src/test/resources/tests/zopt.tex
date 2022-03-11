@@ -1,0 +1,26 @@
+\begin{zsection}
+   \SECTION zopt \parents standard\_toolkit
+\end{zsection}
+
+Some weird uses of Z operators
+
+\begin{axdef}
+   x: \nat
+\where
+   x = (\_ + \_)(1, 2)
+\end{axdef}
+
+\begin{theorem}{lZOpsinProof}
+   \forall f: \nat \fun \nat @ f\inv = f
+\end{theorem}
+
+\begin{zproof}[lZOpsinProof]
+  use finiteFunction[\nat, \nat][f := (\_ \inv) [\nat, \nat] f];
+  prove by reduce;
+\end{zproof}
+
+Gives:
+***
+Cannot parse Z/EVES result:
+line 1 column 16: Syntax error at symbol LSQUARE
+***

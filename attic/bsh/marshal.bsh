@@ -1,0 +1,15 @@
+/**
+   Marshals (i.e. writes) a given Z term into XML and returns a String
+   containing the resulting ZML.
+
+   @param term the net.sourceforge.czt.base.ast.Term to be unmarshalled.
+   @return a string containing the XML.
+ */
+marshal(term)
+{
+  writer = new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
+  out = new StringWriter();
+  writer.write(term, out);
+  out.close();
+  return out.toString();
+}

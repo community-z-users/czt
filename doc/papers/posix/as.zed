@@ -1,0 +1,31 @@
+\begin{zsection}
+  \SECTION as \parents cs, expansion\_rules, simplification\_rules
+\end{zsection}
+
+Storage and channel systems together form the access system where
+every channel must refer to an existing file.
+
+\begin{schema}{AS}
+  SS \\
+  CS
+\where
+%  \{ fid : FID | (\exists posn : \nat @ \theta CHAN \in \ran cstore) \}
+  \{ chan : \ran cstore @ chan.fid \} \subseteq \dom fstore
+\end{schema}
+
+\begin{schema}{\Phi AS}
+  \Delta AS \\
+  \Delta CHAN \\
+  cid? : CID
+\where
+  cid? \in \dom cstore \\
+  \theta CHAN = cstore(cid?) \\
+  cstore' = cstore \oplus \{ cid? \mapsto \theta CHAN~' \}
+\end{schema}
+
+\begin{zed}
+  InitAS == InitSS \land InitCS \\
+  readAS == (\Phi AS \land readCHAN) \hide (offset?, fid, fid', posn, posn') \\
+  writeAS == (\Phi AS \land writeCHAN) \hide (offset?, fid, fid', posn, posn') \\
+  seekAS == (\Phi AS \land seekCHAN) \hide (fid, fid', posn, posn')
+\end{zed}

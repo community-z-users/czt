@@ -1,0 +1,24 @@
+\begin{zsection}
+  \SECTION TypeMismatchInEquality\_ContainmentExpr\_Vtype \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  l == 1\\
+  \begin{state}
+    m : \nat
+  \end{state}
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{zed}
+ g[X] == X
+\end{zed}
+
+\begin{class}{B}
+  \begin{state}
+   a : g\copyright
+  \where
+    a = \nat\\
+    a \in A
+  \end{state}\\
+\end{class}

@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION ParametersNotDetermined\_SetExpr
+\end{zsection}
+
+\begin{zed}
+  a[X] == 1\\
+  b == a
+\end{zed}

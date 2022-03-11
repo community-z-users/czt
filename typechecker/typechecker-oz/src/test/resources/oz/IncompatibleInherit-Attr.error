@@ -1,0 +1,21 @@
+\begin{zsection}
+  \SECTION IncompatibleInherit\_Attr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  a == 1
+\end{class}
+
+\begin{class}{B}
+  a == 2
+\end{class}
+
+\begin{class}{C}
+  a == \{1\}
+\end{class}
+
+\begin{class}{ABC}
+  A\\
+  B\\
+  C
+\end{class}

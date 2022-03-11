@@ -1,0 +1,7 @@
+#set($baseVisitor = "net.sourceforge.czt.util.Visitor")
+#set($term = "net.sourceforge.czt.base.ast.Term")
+#set($termVisitor = "net.sourceforge.czt.core.visitor.TermVisitor")
+#set($visitor = ${project.getObject("AstVisitor")})      
+#set($znameImpl = "ZNameImpl")
+#set($znameImplSetWord = "setWord")
+#set($znameImplSetId = "setId")

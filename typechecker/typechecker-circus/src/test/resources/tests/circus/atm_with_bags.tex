@@ -1,0 +1,331 @@
+\documentclass{article}
+\usepackage{circus}
+
+% To avoid formulas in $ $ to be broken across lines
+\relpenalty=10000 \binoppenalty=10000
+
+\title{A complete \Circus\ example of ATMs using bags}
+\author{Ana Cavalcanti
+        and
+        Marie-Claude Gaudel}
+
+\date{23 April 2009}
+
+\begin{document}
+
+\maketitle
+
+A \Circus\ model is a sequence of paragraphs, just like in Z, but they can also declare channels
+and processes. We initialise the specification by giving it a name and what other specifications
+does it depend on.
+\begin{zsection}
+  \SECTION atm\_with\_bags \parents bag\_toolkit\_spivey, circus\_toolkit
+\end{zsection}
+
+In our example, we first have a paragraph that declares the sets
+$CARD$ and $PIN$ of valid cards and pin numbers.  We use the Z
+notation for introducing given sets.
+\begin{zed}
+  [CARD, PIN]
+\end{zed}
+We next declare some channels.  Requests for money are accepted by
+the cash machine through the channel $incard$, which also takes a pin
+number and an amount to be withdrawn:~the inputs are triples.
+\begin{circus}
+  \circchannel\ incard: CARD \cross PIN \cross \nat_1
+\end{circus}
+The amount is a positive natural number.  Cards are returned through
+a channel $outcard$, unless there is a problem with the card and it
+is retained.
+\begin{circus}
+  \circchannel\ outcard: CARD
+\end{circus}
+The notes kept in and dispensed by the cash machine are those whose
+denominations are in the set $Note$ defined below (in the standard Z
+notation).
+\begin{zed}
+  Note == \{10,20,50\}
+\end{zed}
+For simplicity, we consider just a few notes, and do not address the
+fact that the amount requested must be decomposable in terms of the
+notes available.  If it is not, the machine fails to dispense the
+cash. In our model, cash is represented as a bag~\cite{Spi92} of
+notes:~elements of the the set $Note$.
+\begin{zed}
+  Cash == \bag Note
+\end{zed}
+If there is enough money in the machine and a way of providing the
+requested amount, the cash is output through a channel $cash$.
+\begin{circus}
+  \circchannel\ cash: Cash
+\end{circus}
+The cash machine has two main components:~a card verifier, which
+accepts requests and decides whether the card should be returned and
+the cash dispensed, and a cash controller, which dispenses the cash
+if possible, and refills the note bank. These components interact
+through the channels below.
+\begin{circus}
+  \circchannel\ disp: \nat; ok
+\end{circus}
+The channel $disp$ is used by the card verifier to tell the cash
+controller to dispense a given amount, and $ok$ is used by the cash
+controller to tell the card verifier that it has concluded its
+operation. The channel $ok$ does not have a type; it is not used to
+communicate values, but just for synchronisation.  This is also the
+case of the channel $refill$ defined below.
+\begin{circus}
+  \circchannel\ refill
+\end{circus}
+This channel is used to accept requests to refill the machine
+
+A \Circus\ process models a system or a component.  Just like in CSP,
+it interacts with its environment and other processes via channels.
+In \Circus, however, a process encapsulates a state defined just like
+in Z.  Our model defines the process $CashMachine$; its only state
+component is a function $noteBank$ that records, for each
+denomination, the amount of notes available.
+\begin{circus}
+  \circprocess\ CashMachine \circdef \circbegin
+\end{circus}
+The state is defined by a schema, namely $CMState$, which declares
+$noteBank$ as a total function.  In this example, we do not have an
+elaborate state invariant (which is restricted to the functional
+property of $noteBank$).
+\begin{circusaction}
+  \circstate\ CMState == [~noteBank: Note \fun \nat~]
+\end{circusaction}
+
+Inductive definition of summation for bags of integers,
+could just change $\num$ to $Cash$ if want to make it specific.
+\begin{axdef}
+   \Sigma: \bag~\num \fun \num
+\where
+   \Sigma~\lbag \rbag = 0
+   \\
+   \forall x: \num @ \Sigma~(\lbag x \rbag) = (\lbag x \rbag \bcount x)
+   \\
+   \forall b, c: \bag~\num @ \Sigma~(b \uplus c) = \Sigma~b + \Sigma~c
+\end{axdef}
+%
+\begin{axdef}
+   LSigma: \bag~\num \fun \num
+\where
+   LSigma~\lbag \rbag = 0
+   \\
+   \forall x: \num; b: \bag~\num @ \Sigma~(\lbag x \rbag \uplus b) = (\lbag x \rbag \bcount x) + LSigma~b
+\end{axdef}
+
+
+The $DispenseNotes$ operation that dispenses notes takes an amount
+$a?$ as input and produces the bag of notes $notes!$ as output; it
+updates the $noteBank$ accordingly.  It is defined using the Z
+notation:~a schema that defines a relation on $CMState$. The
+declaration $\Delta CMState$ introduces the variables $noteBank$ to
+represent the value of the state component before the operation, and
+$noteBank'$ to represent its value after the operation.
+\begin{schema}{DispenseNotes}
+  \Delta CMState
+  \\ %
+  a?: \nat
+  \\ %
+  notes!: Cash
+\where
+  \Sigma~notes! = a?
+  \\ %
+  \forall n: Note @ (notes!~\bcount~n) \leq noteBank~n
+  \\ %
+  \t1 \land %<-- missing conjunction for \forall's scope for n
+  noteBank'~n = (noteBank~n) - (notes!~\bcount~n)
+\end{schema}
+The value of $notes!$ is nondeterministically chosen:~it is any bag
+$notes!$ whose sum $\Sigma~notes!$ of its elements is equal to $a?$,
+and such that, for each note denomination $n$, the number
+$notes!~\bcount~n$ of occurrences of $n$ is less than or equal to the
+number of notes of denomination $n$ in the bank.
+
+If there is no such bag, we have an error:~the output is the empty
+bag, and the state is not changed.  This scenario is defined by the
+schema $DispenseError$ below; it includes $\Xi CMState$ to declare
+implicitly the variables $noteBank$ and $noteBank'$ and define~(also
+implicitly) that their values are equal.
+\begin{schema}{DispenseError}
+  \Xi CMState
+  \\ %
+  a?: \nat
+  \\ %
+  notes!: Cash
+\where
+  \lnot \exists ns: Cash @
+  % \\ %<-- new line will break the scope without \land
+  %%\quad %<-- \also or \Also for vertical space; \t1, ..., \t9 for horizontal
+  \Sigma~ns = a? \land
+  %<-- this doesn't typecheck. \bcount expects a  "bag \bcount bag-type"
+  %    it was given bag1 \bcount bag2. Is n to be of type "cash" or "Note"?
+  \forall n: Note @ (ns~\bcount~n) \leq noteBank~n
+  \\ % <-- \exists scope ends at last "n" above
+  notes! = \lbag ~\rbag
+\end{schema}
+The total operation to $Dispense$ cash is the schema disjunction of
+the operations $DispenseNotes$ and $DispenseError$.
+\begin{zed}
+  Dispense == DispenseNotes \lor DispenseError
+\end{zed}
+For conciseness, we omit the definition of the operation $\Sigma$ for
+bags.
+
+The function $pin$ defines the pin number of each valid card.  It is
+declared using a Z axiomatic description, but its scope is restricted
+to the process.
+\begin{axdef}
+  pin: CARD \fun PIN
+\end{axdef}
+For simplicity, we assume that the pin numbers are constant.
+
+The first component of the cash machine is the card verifier, which
+is defined below using CSP notation.  It first accepts a request
+$incard?c.(pin~c)?a$; this is an input of any card $c$, the
+particular pin number $pin~c$, and any amount $a$. It then decides
+whether to retain the card, output the card using the channel
+$outcard$ and no money, or ask the cash controller to dispense the
+requested amount. The decision is entirely nondeterministic:~it is
+defined by factors outside of this model:~status of the card, balance
+on the corresponding account, and so on.  If the card verifier
+decides to ask for the cash to be dispensed, then it waits for an
+$ok$ from the controller to indicate that it is finished (and the
+verifier can proceed recursively to accept a new request).
+\begin{circusaction}
+  CardV \circdef
+  \circblockbegin
+  incard?c.(pin~c)?a \then
+            \\ %
+      \t1 \circblockbegin
+          (CardV
+          \\
+          \intchoice
+          \\ %
+          outcard.c \then CardV
+          \\ %
+          \intchoice
+          \\ %
+          disp!a \then ok \then outcard.c \then CardV)
+      \circblockend
+  \circblockend
+\end{circusaction}
+Nondeterminism here is in the pattern of interaction, and it is
+explicitly indicated using the CSP construct $\intchoice$ for
+internal choice.
+
+The cash controller $CashC$ offers the choice to $refill$ the bank or
+$disp$ense some money.  For simplicity, we assume that when the
+machine is refilled, it then has $cap$ notes of each denomination.
+\begin{axdef}
+  cap: \nat
+\end{axdef}
+This is a constant that reflects the capacity of the cash machine.
+
+In the definition of $CashC$, we use an assignment to $noteBank$,
+instead of a data operation defined by a Z schema, to define the
+value of the state after a synchronisation on $refill$.  This
+illustrates the possibility of use of programming constructs as well
+as abstract specifications in \Circus.  In particular, it is possible
+to define an executable \Circus\ model.
+
+If the cash controller receives a request $disp?a$ to dispense an
+amount $a$ of cash, it uses the operation $Dispense$ defined
+previously to determine how cash is to be dispensed.  To use that
+operation, $CashC$ declares a local variable $notes$. The input
+variable $a$ and the local variable $notes$ now in scope are
+associated with the input and output of $Dispense$, which then
+assigns an appropriate value to $notes$. If that value is not the
+empty bag, then the cash is dispensed using the channel $cash$, and
+then the message $ok$ is sent (to $CardV$). If, on the other hand,
+the bag is empty, then it is not possible to output the amount of
+cash requested and the $ok$ message is sent directly.
+\begin{circusaction}
+  CashC \circdef
+  \\ \t1
+  \circblockbegin
+      refill \then (noteBank := \{~10 \mapsto cap, 20 \mapsto cap, 50 \mapsto cap~\} \circseq CashC)
+      \\ %
+      \extchoice
+      \\ %
+      disp?a \then
+        \circblockbegin   % <-- haven't added the new line, so block will be aligned with the last \then
+            \circvar\ notes: Cash \circspot
+                \\ \t1 %
+                \circblockbegin
+                     \lschexpract Dispense \rschexpract \circseq~{}
+                     \also
+                     \circblockbegin
+                        \lcircguard
+                         notes \neq \lbag\rbag
+                         \rcircguard
+                            \circguard\ cash!notes \then ok \then CashC
+                         \\ %
+                         \extchoice
+                         \\ %
+                         \lcircguard notes = \lbag\rbag \rcircguard
+                             \circguard\ ok \then CashC
+                     \circblockend \\
+                \circblockend \\
+        \circblockend \\
+   \circblockend
+\end{circusaction}
+This illustrates the free combination of specification and
+programming constructs, and the free combination of data operations
+and communications. There is no direct association between
+interactions and state changes.
+
+So far, we defined just components of (the model of) $CashMachine$.
+In particular, the schemas $DispenseNotes$, $DispenseError$, and
+$Dispense$, which are data operations, and $CardV$ and $CashC$ are
+actions of $CashMachine$.  As we have seen, they have access to the
+state of the process, and are defined using a combination of Z, CSP,
+and guarded command constructs.  They are used in the specification
+below of a main~(nameless) action that defines the behaviour of
+$CashMachine$. This is a parallel composition of the $CardV$ and
+$CashC$ components, synchronising on the channels $disp$ and $ok$.
+
+In \Circus, to avoid conflicts in the access to variables, a parallel
+composition of actions defines the disjoint sets of variables to
+which each of the parallel actions have write access. All the actions
+can read the value of all the variables before the parallelism
+starts, but can modify only the variables in their associated sets.
+In our example, $CardV$ does not update the state, and so is
+associated with the empty set $\{~\}$ of variables.  On the other
+hand,  $CashC$ updates $noteBank$, and so it is associated with
+\{noteBank\}.
+
+The parallel composition also defines the channels on which
+communication requires interaction from both parallel actions.  In
+our example, they are $disp$ and $ok$.  This means, for example, that
+$CardV$ can engage on communications using $incard$ and $outcard$
+independently from $CashC$, and that $CashC$ can communicate on
+$refill$ and $cash$ independently from $CardV$.  This freedom is an
+extra source of nondeterminism.
+
+The channels $disp$ and $ok$ are used only for communication between
+the internal components $CardV$ and $CashC$ of $CashMachine$. Such
+communications are of no interest to the user of a cash machine, and
+so they are hidden.  Just like in CSP, communications on hidden
+channels are not visible.
+%
+To conclude, the main action of $CashMachine$ is as follows.
+\begin{circusaction}
+  \circspot (CardV \lpar \{ \} | \lchanset disp,ok \rchanset | \{noteBank\} \rpar CashC) \circhide \lchanset disp,ok \rchanset
+\end{circusaction}
+\begin{circus}
+    \circend
+\end{circus}
+The cash machine can be refilled while a request for cash is being
+processed, but not when cash is being actually dispensed.
+
+Interaction with $CashMachine$ is only possible via the channels
+$incard$, $outcard$, $refill$, and $cash$, in the way defined by its
+main action above.  There is no possibility of direct access to its
+state, which is encapsulated.  In \Circus, we can combine basic
+processes, which are defined as above using Z and CSP constructs; the
+combinators are the usual CSP operators for internal and external
+choice, parallelism, interleaving and so on.
+
+\end{document}

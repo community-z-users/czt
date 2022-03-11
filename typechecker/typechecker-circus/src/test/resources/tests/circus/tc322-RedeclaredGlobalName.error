@@ -1,0 +1,27 @@
+
+\begin{zsection}
+  \SECTION\ tc322 \parents\ circus\_toolkit
+\end{zsection}
+
+Channel names have global (\textit{i.e.,} section scope),
+hence cannot be multiply declared. 
+%
+\begin{circus}
+    \circchannel c : \nat 
+\end{circus}
+
+\begin{axdef} 
+    c: \nat
+ \where
+     c > 0
+\end{axdef}
+
+Note that when inheriting a section, names from parent
+sections also have global scope. So, for instance, $circus\_toolkit$
+defines the generic type $\universe$ axiomatically. Thus, it cannot 
+reappear as a global name, in this case a channel name.
+%
+\begin{circus}
+     \circchannel\ \universe: \nat
+\end{circus}
+

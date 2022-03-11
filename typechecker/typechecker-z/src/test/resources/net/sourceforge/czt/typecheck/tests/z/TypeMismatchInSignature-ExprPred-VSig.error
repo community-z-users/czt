@@ -1,0 +1,22 @@
+\begin{zsection}
+  \SECTION TypeMismatchInSignature\_ExprPred\_VSig
+\end{zsection}
+
+This tests that if on the initial visit to a expr pred, if the
+signature of the expr is still variable, everything is still handled
+correctly.
+
+\begin{zed}
+  schExpr == [x : \nat]
+\end{zed}
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g
+\where
+  \{ s | schExpr @ s \} = \{\}\\
+  s = [x : \power \nat]
+\end{axdef}

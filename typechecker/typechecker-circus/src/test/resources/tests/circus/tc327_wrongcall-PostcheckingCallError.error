@@ -1,0 +1,15 @@
+
+\begin{zsection}
+  \SECTION\ tc327\_wrongcall \parents\ circus\_toolkit
+\end{zsection}
+
+Parameterised processes must be called with their right number of arguments
+Parameterised processes calls can appear among various compound processes.
+%
+\begin{circus}
+    \circprocess\ Q \circdef\  x: \nat \circspot \circbegin \circspot \Skip \circend \\
+    \circprocess\ R \circdef\ Q(1)  \\
+    \circprocess\ T \circdef\ Q(1, 1)  \\
+    \circprocess\ R \circdef\ Q(1) \extchoice Q(0) 
+\end{circus}
+

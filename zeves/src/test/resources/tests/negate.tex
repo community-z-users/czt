@@ -1,0 +1,17 @@
+
+\begin{theorem}{test}
+	\forall x, y: \num | (\exists z: \num @ y = z - x) @ y = x
+\end{theorem}
+\begin{zproof}[test]
+  equality substitute \dom (t \rres \dom ((iter~i) t \rres \{0 \}));
+  apply BLA to expression \dom (t \rres \dom ((iter~i) t \rres \{0 \}));
+  equality substitute f~(x,y);
+	prenex;
+	simplify;
+	equality substitute \negate 1 * x + z;
+\end{zproof}
+
+\begin{zproof}[Test2]
+  equality substitute \negate f~(x) + i;
+  equality substitute \negate 1 + i;
+\end{zproof}

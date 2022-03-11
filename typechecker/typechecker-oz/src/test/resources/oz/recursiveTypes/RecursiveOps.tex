@@ -1,0 +1,46 @@
+\begin{zsection}
+  \SECTION RecursiveOps \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  Op1 \sdef Op2 \land [x? : \power\nat]\\
+  Op2 \sdef Op3 \land [y? : \power\nat]\\
+  Op3 \sdef Op4 \land [z? : \nat]\\
+  Op4 \sdef [x? : \power\nat]
+\end{class}
+
+\begin{class}{TestA}
+  \begin{state}
+   a : A
+  \end{state}
+  Test1a \sdef a.Op1 \hide (x?, y?, z?)\\
+  Test1b \sdef a.Op1 \land [x?,y? : \power\nat; z? : \nat]\\
+  Test2a \sdef a.Op2 \hide (x?, y?, z?)\\
+  Test2b \sdef a.Op2 \land [x?,y? : \power\nat; z? : \nat]\\
+  Test3a \sdef a.Op3 \hide (x?,z?)\\
+  Test3b \sdef a.Op3 \land [x? : \power\nat; z? : \nat]\\
+\end{class}
+
+\begin{class}{B}
+  Op1 \sdef Op2 \land [x? : \power\nat]\\
+  Op2 \sdef Op3 \land [y? : \power\nat]\\
+  Op3 \sdef Op4 \land [z? : \power\nat]\\
+  Op4 \sdef [a? : \nat] \land Op2\\
+  Op5 \sdef [b? : \nat] \land Op1
+\end{class}
+
+\begin{class}{TestB}
+  \begin{state}
+   b : B
+  \end{state}
+  Test1a \sdef b.Op1 \hide (x?,  y?, z?, a?)\\
+  Test1b \sdef b.Op1 \land [x?,y?,z? : \power\nat; a? : \nat]\\
+  Test2a \sdef b.Op2 \hide (y?, z?, a?)\\
+  Test2b \sdef b.Op2 \land [x? : \nat; y?,z? : \power\nat; a? : \nat]\\
+  Test3a \sdef b.Op3 \hide (y?, z?, a?)\\
+  Test3b \sdef b.Op3 \land [x? : \nat; y?,z? : \power\nat; a? : \nat]\\
+  Test4a \sdef b.Op4 \hide (y?, z?, a?)\\
+  Test4b \sdef b.Op4 \land [x? : \nat; y?,z? : \power\nat; a? : \nat]\\
+  Test5a \sdef b.Op5 \hide (x?,  y?, z?, a?, b?)\\
+  Test5b \sdef b.Op5 \land [x?,y?,z? : \power\nat; a?,b? : \nat]\\
+\end{class}

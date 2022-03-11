@@ -1,0 +1,13 @@
+
+\begin{zsection}
+  \SECTION\ tc327\_genprocess\_PARAMETER\_MISMATCH \parents\ circus\_toolkit
+\end{zsection}
+
+Generic process $P$ in definition of $R$ expects two generic actual parameters
+%
+\begin{circus}
+    \circprocess\ [X, Y] P \circdef\  \circbegin \circspot \Skip \circend \\
+    \circprocess\ Q \circdef\ P[\nat, \nat] \\
+    \circprocess\ R \circdef\ P[\nat]
+\end{circus}
+

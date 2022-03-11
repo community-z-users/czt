@@ -1,0 +1,1956 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2003, 2004, 2005, 2006, 2007 Petra Malik
+     This file is part of the CZT project.
+
+     The CZT project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with CZT; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<parser xmlns:add="http://czt.sourceforge.net/templates/additional">
+package <package/>;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import java_cup.runtime.Symbol;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.PerformanceSettings;
+import net.sourceforge.czt.parser.util.CztError;
+import net.sourceforge.czt.parser.util.CztScanner;
+import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.parser.util.LatexCommand;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.LocInt;
+import net.sourceforge.czt.parser.util.LocString;
+import net.sourceforge.czt.parser.util.MarkupDirective;
+import net.sourceforge.czt.parser.util.MarkupException;
+import net.sourceforge.czt.print.z.ZPrintError;
+import net.sourceforge.czt.print.z.ZPrintMessage;
+import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.Directive;
+import net.sourceforge.czt.z.ast.DirectiveType;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.Parent;
+import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.ZChar;
+import net.sourceforge.czt.z.util.ZString;
+
+<add:oldz>
+import net.sourceforge.czt.print.z.DefsWord;
+</add:oldz>
+import net.sourceforge.czt.print.z.WhereWord;
+
+<add:oz>
+import net.sourceforge.czt.oz.util.OzString;
+</add:oz>
+
+<add:circus>
+import net.sourceforge.czt.circus.util.CircusString;
+</add:circus>
+
+<add:circustime>
+import net.sourceforge.czt.circustime.util.CircusTimeString;
+</add:circustime>
+
+<add:circusconf>
+import net.sourceforge.czt.circusconf.util.CircusConfString;
+</add:circusconf>
+
+<add:zeves>
+import net.sourceforge.czt.zeves.util.ZEvesString;
+</add:zeves>
+
+<add:oldz>
+/**
+ * Translator into old (Z-EVES) latex markup.
+ *
+ * &lt;ul&gt;
+ *   &lt;li&gt;Arithmos is translated into \num (this is not always the
+ *       right thing to do but the best approximation I could think of)&lt;/li&gt;
+ *   &lt;li&gt;The Z-EVES style of defining Z sections is used&lt;/li&gt;
+ *   &lt;li&gt;For global schema definitions, the latex command \defs
+ *       is used instead of "=="&lt;/li&gt;
+ * &lt;/ul&gt;
+ */
+</add:oldz>
+action code
+{:
+  private Map&lt;String,ZSect&gt; sections_ =
+    new HashMap&lt;String,ZSect&gt;();
+  private Map&lt;String,Object&gt; unicode2latexMap_ = null;
+  
+  SectionInfo sectInfo_;
+  Dialect dialect_;
+  Source source_;
+    				  
+  /**
+   * An iterator over markup directives to be printed.
+   */
+  protected Iterator&lt;Directive&gt; markup_ = null;
+
+  private Map&lt;String,Object&gt; addStandardMapping(Map&lt;String,Object&gt; map)
+  {
+    map.put(ZString.SPOT, resultTT("@", ZString.SPOT));
+    map.put("+", resultTT("+", "+"));
+    map.put(ZString.MINUS, resultTT("-", ZString.MINUS));
+    map.put("*", resultTT("*", "*"));
+    map.put("|", resultTT("|", "|"));
+    map.put(";", resultFT(";", ";"));
+    map.put(",", resultFT(",", ","));
+    map.put(ZString.SE, resultFF("_{", ZString.SE));
+    map.put(ZString.NW, resultFF("}", ZString.NW));
+    map.put(ZString.NE, resultFF("^{", ZString.NE));
+    map.put(ZString.SW, resultFF("}", ZString.SW));
+    map.put(ZString.LL, resultFF("\\_", ZString.LL));
+    map.put("parents", resultFT("\\parents", "parents"));
+<add:oldz>
+    map.put(ZString.NEG, resultFF("-", ZString.NEG));
+</add:oldz>
+<add:circus>
+    /*  Add here only additional elements that have not been declared
+     *  in toolkits or in other keyword/token related files.
+     */
+</add:circus>
+    return map;
+  }
+
+  private String begin(String string)
+  {
+    return begin(string, "");
+  }
+
+  private String begin(String string, String extra)
+  {
+    return "\\begin{" + string + "}" + extra ; // + "\n";
+  }
+
+  <add:zeves>
+  private String begin(String string, LatexCommand ability)
+  {
+    return begin(string, "", ability);
+  }
+
+  private String begin(String string, String extra, LatexCommand ability)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append("\\begin");
+    if (ability != null &amp;&amp; !ability.getName().isEmpty())
+      result.append(ability.getName());
+    result.append("{");
+    result.append(string);
+    result.append("}");
+    result.append(extra);
+    //result.append("\n");
+    return result.toString();
+  }
+  </add:zeves>
+
+  private String end(String string)
+  {
+    return "\n\\end{" + string + "}\n\n";
+  }
+
+  private LatexCommand concate(LatexCommand c1, LatexCommand c2)
+  {
+    if (c1 == null || c1.getUnicode().length() &lt;= 0) return c2;
+    if (c2 == null || c2.getUnicode().length() &lt;= 0) return c1;
+    String latex = c1.getName();
+    if (! c1.addRightSpace() &amp;&amp; ! c2.addLeftSpace()) {
+      final ZChar[] unicode1 = ZChar.toZChars(c1.getUnicode());
+      final ZChar[] unicode2 = ZChar.toZChars(c2.getUnicode());
+      final ZChar lastChar = unicode1[unicode1.length - 1];
+      final ZChar firstChar = unicode2[0];
+      final boolean lastIsAlphaOrStroke =
+        ZChar.isAlpha(lastChar) || ZChar.isStroke(lastChar);
+      final boolean firstIsAlphaOrStrokeOrWordglue =
+        ZChar.isAlpha(firstChar) || ZChar.isStroke(firstChar) ||
+        ZChar.isWordGlue(firstChar);
+      final boolean case1 =
+        lastIsAlphaOrStroke &amp;&amp; ! firstIsAlphaOrStrokeOrWordglue;
+      final boolean lastIsAlphaOrStrokeOrWordglue =
+        ZChar.isAlpha(lastChar) || ZChar.isStroke(lastChar) ||
+        ZChar.isWordGlue(lastChar);
+      final boolean firstIsAlphaOrStroke =
+        ZChar.isAlpha(firstChar) || ZChar.isStroke(firstChar);
+      final boolean case2 =
+        ! lastIsAlphaOrStrokeOrWordglue &amp;&amp; firstIsAlphaOrStroke;
+      if (case1 || case2) {
+        latex += " ";
+      }
+      else {
+        latex += "~";
+      }
+    } else {
+      latex += " ";
+    }
+    latex += c2.getName();
+    String unicode = c1.getUnicode() + " " + c2.getUnicode();
+    return
+      new LatexCommand(latex, unicode, c1.addLeftSpace(), c2.addRightSpace());
+  }
+
+  private LatexCommand toLatex(String s, int line, int column)
+    throws PrintException
+  {
+    assert unicode2latexMap_ != null;
+    return uniwordToLatex(s, unicode2latexMap_, line, column);
+  }
+
+  /**
+   * @czt.todo Write this method properly!
+   */
+  private String toLatexInSectHead(String s)
+  {
+    return s.replaceAll("_", "\\\\_");
+  }
+
+  private LatexCommand uniwordToLatex(String word, Map&lt;String, Object&gt; latexCommands,
+                                      int line, int column)
+    throws PrintException
+  {
+    LatexCommand command = null;
+    if (markup_ == null) {
+      Object o = latexCommands.get(word);
+      if (o instanceof MarkupDirective) {
+        MarkupDirective directive = (MarkupDirective) o;
+        <add:zeves>
+        // although applies$to is an infix operator, because
+        // "to" is a reserved word, and "$" not part an usual
+        // name, we must insist on hard spaces around it.
+        // that is, for applies$to in Unicode we *MUST* have ~applies\$to~ in LaTeX
+        //
+        // there is only one other place in the ZEves mathematical toolkit this happens, "the$integer"
+        //
+        boolean requiresHardSpace = word.equals("applies$to") || word.equals("the$integer");
+        </add:zeves>
+        command = new LatexCommand(directive.getCommand(),
+                                   directive.getUnicode(),
+                                   directive.addLeftSpace() <add:zeves>&amp;&amp; !requiresHardSpace</add:zeves>,
+                                   directive.addRightSpace()<add:zeves>&amp;&amp; !requiresHardSpace</add:zeves>);
+      }
+      else {
+        command = (LatexCommand) o;
+      }
+      if (command != null) {
+        return command;
+      }
+    }
+    StringBuffer latex = new StringBuffer();
+    boolean addLSpace = false;
+    boolean addRSpace = false;
+    <add:zeves>boolean foundDollarChar = false;</add:zeves>
+    ZChar[] zchars = ZChar.toZChars(word);
+    int charcount = 0;
+    for (int i = 0; i &lt; zchars.length; i++) {
+      ZChar zchar = zchars[i];
+      Object o = latexCommands.get(zchar.toString());
+      if (o instanceof MarkupDirective) {
+        MarkupDirective directive = (MarkupDirective) o;
+        command = new LatexCommand(directive.getCommand(),
+                                   directive.getUnicode(),
+                                   directive.addLeftSpace(),
+                                   directive.addRightSpace());
+      }
+      else {
+        command = (LatexCommand) o;
+      }
+      if (command != null) {
+        if ( (command.addLeftSpace() &amp;&amp; i &gt; 0) ||
+             (command.addRightSpace() &amp;&amp; i + 1 &lt; zchars.length) ) {
+          latex.append("{" + command.getName() + "}");
+        }
+        else {
+          if (command.getName().startsWith("\\")) {
+            latex.append(command.getName() + " ");
+          }
+          else {
+            latex.append(command.getName());
+          }
+        }
+        addRSpace = command.addRightSpace();
+      }
+      <add:zeves>
+      else if (net.sourceforge.czt.zeves.util.ZEvesChar.isZProofDollar(zchar))
+      {
+        latex.append("\\");
+        latex.append(zchar.toString().trim());
+        foundDollarChar = true;
+        // TODO: why does this add a space after the dollar sometimes?
+        //       it occurs mainly during testing. Running directly doesn't...
+      }
+      </add:zeves>
+      else if (zchar.isAsciiChar()) { // ASCII?
+        latex.append(zchar.toString());
+      }
+      else if (ZChar.PRIME.equals(zchar)) {
+        latex.append("'");
+      }
+      else {
+        final int hexBase = 16;
+        String hex = Integer.toString(zchar.codePoint(), hexBase);
+        String message = "Error while transforming " + word +
+          ": Unexpected character " + zchar.toString() +
+          " (\\u" + hex + ") in line " + line + " column " +
+          charcount + column;
+        throw new PrintException(dialect_, message);
+      }
+      charcount = charcount + zchar.charCount();
+    }
+    String latexStr = latex.toString();
+    //System.out.println("uniwordToLatex(" + word + ") = " + latexStr + " instead of " 
+    //		+ latexStr.replaceAll(" ", "") 
+    //		<add:zeves>+ " foundDollar? = " + foundDollarChar</add:zeves>
+    //		+ " for " + dialect_.toString() + " in <class/>.");
+    //<add:zeves>if (foundDollarChar) latexStr = latexStr.replaceAll(" ", ""); </add:zeves>
+    return createLatexCommand(latexStr, word, addLSpace, addRSpace);
+  }
+
+  // Whilst concate(w1, w2), spaces at edges are considered. For the cases
+  // where "keywords" are typeset the same in LaTeX and Unicode, it can be
+  // sometimes annoying/desarible to have hard or soft spaces added. That's
+  // what "concate(w1,w2)" does. Here, we can influence its behaviour by
+  // appending an extra soft space in the case where no such issue arrise?
+  private LatexCommand createLatexCommand(String latex, String word, boolean addLeft, boolean addRight)
+  {
+    boolean isKeyword = false 
+                  <add:zeves>||  net.sourceforge.czt.parser.zeves.ZEvesSymMap.ALL_ZEVES_KEYWORDS.contains(word.toUpperCase())</add:zeves>
+                  ;
+    addLeft = addLeft || isKeyword;
+    addRight = addRight || isKeyword;
+    return new LatexCommand(latex, word, addLeft, addRight);
+  }
+
+
+  private void addParentMarkups(ZSect zsect, LatexMarkupFunction table)
+  {
+    for (Parent parent : zsect.getParent()) {
+      String parentName = parent.getWord();
+      LatexMarkupFunction parentMarkup = null;
+      try {
+        parentMarkup = 
+          parser.sectInfo_.get(new Key&lt;LatexMarkupFunction&gt;(parentName, LatexMarkupFunction.class));
+      }
+      catch (CommandException exception) {
+        String message = "Cannot get latex markup for parent section " +
+          parentName + " caused by " + exception;
+        CztLogger.getLogger(<class/>.class).warning(message);
+      }
+      if (parentMarkup == null) {
+        ZSect parentHeader = sections_.get(parentName);
+        if (parentHeader != null) addParentMarkups(parentHeader, table);
+      }
+      else {
+        try {
+          table.add(parentMarkup);
+        }
+        catch (MarkupException e) {
+          CztLogger.getLogger(<class/>.class).warning(e.getMessage());
+        }
+      }
+    }
+  }
+
+  protected void setupMarkupTable(ZSect zsect)
+  {
+    final String sectName = zsect.getName();
+    LatexMarkupFunction table = getMarkupTable(sectName);
+    if (table == null) {
+      table = new LatexMarkupFunction(zsect.getName());
+      addParentMarkups(zsect, table);
+    }
+    assert table != null;
+    setupMarkupTable(table);
+  }
+
+  /**
+   * Returns the LatexMarkupFunction for the given section.
+   * Also sets up &lt;code&gt;markup_&lt;/code&gt; if a LatexMarkupFunction
+   * has been found.
+   */
+  protected LatexMarkupFunction getMarkupTable(String sectName)
+  {
+    LatexMarkupFunction table = null;
+    try {
+      table = 
+        parser.sectInfo_.get(new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class));
+      if (table != null) {
+        LatexMarkupPara para =
+          table.toAst(new net.sourceforge.czt.z.util.Factory());
+        markup_ = para.getDirective().iterator();
+      }
+      return table;
+    }
+    catch (CommandException exception) {
+      String message = "Cannot get latex markup for section " + sectName +
+        " caused by " + exception;
+      CztLogger.getLogger(<class/>.class).warning(message);
+    }
+    return table;
+  }
+
+  protected void setupMarkupTable(LatexMarkupFunction table)
+  {
+    unicode2latexMap_ = new HashMap&lt;String,Object&gt;();
+    if (table != null) {
+      for (Iterator&lt;MarkupDirective&gt; iter = table.iterator(); iter.hasNext();) {
+        MarkupDirective directive = (MarkupDirective) iter.next();
+        final String unicode = directive.getUnicode();
+        <add:z>
+        // For Std Z printing, we should not consider FUZZ_TOOLKIT symbols!
+        if (!directive.getSection().equals(net.sourceforge.czt.util.Section.FUZZ_TOOLKIT.getName()))
+        </add:z>
+           unicode2latexMap_.put(unicode, directive);
+      }
+    }
+    addStandardMapping(unicode2latexMap_);
+<add:oldz>
+    LatexCommand arithmos = resultFF("\\num", ZString.ARITHMOS);
+    unicode2latexMap_.put(ZString.ARITHMOS, arithmos);
+</add:oldz>
+  }
+
+  protected LatexCommand resultTT(String latex, String unicode)
+  {
+    return new LatexCommand(latex, unicode, true, true);
+  }
+
+  protected LatexCommand resultTF(String latex, String unicode)
+  {
+    return new LatexCommand(latex, unicode, true, false);
+  }
+
+  protected LatexCommand resultFT(String latex, String unicode)
+  {
+    return new LatexCommand(latex, unicode, false, true);
+  }
+
+  protected LatexCommand resultFF(String latex, String unicode)
+  {
+    return new LatexCommand(latex, unicode, false, false);
+  }
+:}
+
+parser code {:
+  public static final Map&lt;Object, String&gt; symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+  public static final Map&lt;String, Object&gt; symbolMap2_= DebugUtils.getFieldMap2(Sym.class);
+
+  /** The source currently being parsed. */
+  protected Source source_ = null;
+  
+ 
+  private Writer writer_ = new OutputStreamWriter(System.out, java.nio.charset.StandardCharsets.UTF_8);
+  protected SectionInfo sectInfo_ = new SectionManager(
+  	<add:zcore>Dialect.Z</add:zcore>
+  	<add:oldz>Dialect.Z</add:oldz>
+  	<add:ozcore>Dialect.OZ</add:ozcore>
+  	<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+  	<add:circuscore>Dialect.CIRCUS</add:circuscore>
+  	<add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+	  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
+  	<add:zevescore>Dialect.ZEVES</add:zevescore>
+  	);
+  protected String sectionName_;
+  protected int tabSize_ = PrintPropertiesKeys.PROP_TXT_TAB_SIZE_DEFAULT;
+
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  private final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+					  	<add:oldz>Dialect.Z</add:oldz>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+      				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+
+    /**
+     * The list of parse errors.
+     */
+    protected List&lt;CztError&gt; errorList_;
+
+    protected PrintException printException_;
+    
+    // there are more constructors created by java cup, don't put it final!
+    private Set&lt;Key&lt;?&gt;&gt; explicitDeps_ = Collections.emptySet();
+
+    Set&lt;Key&lt;?&gt;&gt; getExplicitDeps()
+    {
+      return Collections.unmodifiableSet(explicitDeps_);
+    }
+       
+    public <class/>(CztScanner scanner,
+                    SectionInfo sectInfo,
+                    Properties properties,
+                    Collection&lt;? extends Key&lt;?&gt;&gt; explicitDeps)
+    {
+      super(scanner);
+      sectInfo_ = sectInfo;
+      
+      // TODO: should we have a TermSource? 
+      source_ = null;
+      
+      assert scanner != null &amp;&amp; sectInfo_ != null &amp;&amp; dialect_ != null;
+	    
+	  checkDialectConsistency(sectInfo_.getDialect(), scanner.getDialect());
+	  
+      errorList_ = new ArrayList&lt;CztError&gt;(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+      explicitDeps_ = new HashSet&lt;Key&lt;?&gt;&gt;(explicitDeps);
+      printException_ = null;
+      CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + 
+      		" parser created for " + getDialect().toString() + ".");
+    }
+   
+  /**
+   * Used to scan the unicode provided within markup directives.
+   * Whenever a latex markup directives is to printed, a new
+   * markup scanner is created that scans the unicode of that
+   * markup.  If it is not &lt;code&gt;null&lt;/code&gt; we are just
+   * printing the definition part of a latex markup directive.
+   */
+  protected ContextFreeScanner markupScanner_ = null;
+
+  private void checkDialectConsistency(Dialect... vars)
+  {
+  	for(Dialect d : vars)
+  	{
+ 	  // For pretty printing, some extensions don't have their own, so dialect 
+	  // check could/should be less restrictive? TODO?
+	  if (!d.isExtensionOf(dialect_))
+	  	throw new IllegalArgumentException("Incompatible dialects in " + 
+	  		<class/>.class.getName() + " scanner. " + dialect_.toString() +
+	  		" expected, but section manager dialect " + d + " found."); 
+  	}
+  }
+ 
+  public Dialect getDialect()
+  {
+  	assert sectInfo_.getDialect().isExtensionOf(dialect_) &amp;&amp; 
+  		   getCztScanner().getDialect().isExtensionOf(dialect_) :
+  		   "dialect_ = " + dialect_ + "; sectInfo.dialect = " + 
+  		   sectInfo_.getDialect() + "; scanner.dialect = " +
+  		   getCztScanner().getDialect() + ". For Unicode2Latex we allow dialect extensions"; 
+	return sectInfo_.getDialect();
+  }
+
+  public CztScanner getCztScanner()
+  {
+  	return (CztScanner)getScanner();
+  }
+
+	protected boolean hasErrors()
+   {
+     for(CztError e : errorList_)
+     {
+       if (e.getErrorType() == ErrorType.ERROR)
+         return true;
+
+     }
+     return false;
+   }
+
+   protected void raiseErrors() throws PrintException
+   {
+     assert hasErrors() : "no errors to be raised";
+     if (printException_ == null)
+     {
+       assert source_ == null;
+       printException_ = new PrintException(getDialect(), errorList_);
+     }
+     assert printException_.getErrors().equals(errorList_) : "inconsistent error list";
+     Iterator&lt;CztError&gt; it = errorList_.iterator();
+     while (it.hasNext())
+     {
+       CztError e = it.next();
+       if (e.getErrorType().equals(ErrorType.WARNING))
+       {
+         it.remove();
+         // TODO: Parser should have a warning manager (!) 
+         //       For now, keep warnings as just "show" at the parser level?
+         CztLogger.getLogger(<class/>.class).warning(e.toString());
+       }
+     }
+     it = null;
+     // in case there are no more warnings...
+     if (hasErrors())
+     {
+       throw printException_;
+     }
+   }
+
+  public SectionInfo getSectionInfo()
+  {
+    return sectInfo_;
+  }
+
+  public void setSectionInfo(SectionInfo sectInfo)
+  {
+    sectInfo_ = sectInfo;
+  }
+
+  public void setSectionInfo(SectionInfo sectInfo, String sectionName)
+  {
+    sectInfo_ = sectInfo;
+    sectionName_ = sectionName;
+    if (sectInfo_ instanceof SectionManager)
+    {
+      try {
+        tabSize_ = ((SectionManager)sectInfo_).getIntegerProperty(PrintPropertiesKeys.PROP_TXT_TAB_SIZE);
+      }
+      catch (NumberFormatException e)
+      {
+        tabSize_ = PrintPropertiesKeys.PROP_TXT_TAB_SIZE_DEFAULT;
+      }
+    }
+  }
+
+  public Writer getWriter()
+  {
+    return writer_;
+  }
+
+  public void setWriter(Writer writer)
+  {
+    writer_ = writer;
+  }
+
+  protected void write(String s)
+  {
+    try {
+      writer_.write(s);
+    }
+    catch(IOException e) {
+    	CztLogger.getLogger(<class/>.class).severe("Could not write because of IO exception for " 
+    	  + dialect_.toString() + " in <class/> as: " + e.getMessage());
+    }
+  }
+
+  private String printType(DirectiveType type)
+  {
+    if (DirectiveType.NONE.equals(type)) return "";
+    return type.toString().toLowerCase();
+  }
+
+  /**
+   * Returns the next token.
+   */
+  protected Symbol local_next_token()
+    throws Exception
+  {
+    Symbol result = local_next_token_help();
+    if (result.sym == Sym.DECORWORD &amp;&amp;
+             "section".equals(result.value.toString())) {
+      return new Symbol(Sym.SECTION);
+    }
+    else if (result.sym == Sym.TOKENSEQ ||
+             result.sym == Sym.PARA_START) {
+      LatexMarkupFunction table = 
+        sectInfo_.get(new Key&lt;LatexMarkupFunction&gt;(sectionName_, LatexMarkupFunction.class));
+      action_obj.setupMarkupTable(table);
+    }
+    String logMessage =
+      "Next token is (" + symbolMap_.get(result.sym) + ", " + 
+      (result.sym != Sym.TEXT ? String.valueOf(result.value) + ", " + 
+       (result.value != null ? result.value.getClass().getName() : "null") :
+       "...shhh...") + ").";    
+    CztLogger.getLogger(<class/>.class).fine(logMessage);
+    return result;
+  }
+
+  private Symbol local_next_token_help()
+    throws Exception
+  {
+    if (markupScanner_ != null) {
+      // if markupScanner_ is not null, we are just printing the definition
+      // part of a latex markup directive.  Therefore, markup_ must be non
+      // null (since we can only get the directive from there).
+      assert action_obj.markup_ != null;
+      Symbol result = markupScanner_.next_token();
+      if (result == null || result.sym == Sym.EOF) {
+        markupScanner_ = null;
+        return new Symbol(Sym.END_MARKUP);
+      }
+      return result;
+    }
+    if (action_obj.markup_ != null &amp;&amp; action_obj.markup_.hasNext()) {
+      Directive directive = (Directive) action_obj.markup_.next();
+      final String unicode = directive.getUnicode();
+      final char[] charArray = unicode.toCharArray();
+      if (unicode.length() == 1) {
+        StringBuffer result = new StringBuffer();
+        result.append("\n");
+        char c = unicode.charAt(0);
+        result.append("%%Z" + printType(directive.getDirectiveType())+ "char ");
+        result.append(directive.getCommand() + " ");
+        result.append("U+");
+        String hex = Integer.toHexString(c).toUpperCase();
+        for (int i = 0; i &lt; 4 - hex.length(); i++) {
+          result.append("0");
+        }
+        result.append(hex);
+        result.append("\n");
+        return new Symbol(Sym.CHAR_MARKUP, result.toString());
+      }
+      else if (charArray.length == 2 &amp;&amp;
+               Character.isSurrogatePair(charArray[0], charArray[1])) {
+        StringBuffer result = new StringBuffer();
+        result.append("\n");
+        int codePoint = Character.codePointAt(charArray, 0);
+        result.append("%%Z" + printType(directive.getDirectiveType())+ "char ");
+        result.append(directive.getCommand() + " ");
+        result.append("U-");
+        String hex = Integer.toHexString(codePoint).toUpperCase();
+        for (int i = 0; i &lt; 8 - hex.length(); i++) {
+          result.append("0");
+        }
+        result.append(hex);
+        result.append("\n");
+        return new Symbol(Sym.CHAR_MARKUP, result.toString());
+      }
+      else {
+        markupScanner_ = new ContextFreeScanner(new StringReader(unicode));
+        markupScanner_.yybegin(ContextFreeScanner.Z);
+        DirectiveType type = directive.getDirectiveType();
+        if (DirectiveType.NONE.equals(type)) {
+          return new Symbol(Sym.WORD_MARKUP, directive.getCommand());
+        }
+        else if (DirectiveType.IN.equals(type)) {
+          return new Symbol(Sym.INWORD_MARKUP, directive.getCommand());
+        }
+        else if (DirectiveType.POST.equals(type)) {
+          return new Symbol(Sym.POSTWORD_MARKUP, directive.getCommand());
+        }
+        else if (DirectiveType.PRE.equals(type)) {
+          return new Symbol(Sym.PREWORD_MARKUP, directive.getCommand());
+        }
+        else {
+          throw new CztException("Unexpected directive type " + type + " for " + dialect_.toString() + " in Unicode2Latex parser.");
+        }
+      }
+    }
+    else {
+      action_obj.markup_ = null;
+      Symbol result = getScanner().next_token();
+      return result;
+    }
+  }
+
+  public void report_error(String message, Object info) {
+    StringBuffer m = new StringBuffer("Error");
+    if (info instanceof java_cup.runtime.Symbol) {
+      java_cup.runtime.Symbol s =
+        ((java_cup.runtime.Symbol) info);
+      if (s.left &gt;= 0) {                
+        m.append(" in line "+(s.left+1));   
+        if (s.right &gt;= 0) m.append(", column "+(s.right + 1));
+      }
+      String value = String.valueOf(s.value);
+      if (s.value instanceof Term &amp;&amp;
+          ((Term)s.value).getAnn(LocAnn.class) != null) {  
+        value += " at " +
+          ((LocAnn)(((Term)s.value).getAnn(LocAnn.class))).toString();
+      }
+      m.append(", Token(" + symbolMap_.get(s.sym) + "," + value + ")");
+    }
+    m.append(": " + message);
+    System.err.println(m);
+  }
+  
+  protected CztError createPrintError(Symbol token)
+  {
+    return new ZPrintError(getSectionInfo(), ZPrintMessage.MSG_PRINTSYNTAX_ERROR,
+                           new Object[] { toObject(token) },
+                           getLocation(token));
+  }
+  
+  protected Object toObject(Symbol symbol)
+  {
+    if (symbol.value != null &amp;&amp;
+        !(symbol.value instanceof LocInfo)) {
+      return symbol.value;
+    }
+    return symbolMap_.get(symbol.sym);
+  }
+
+  protected LocInfo getLocation(Symbol symbol)
+  {
+    if (symbol.value instanceof LocInfo) {
+      return (LocInfo) symbol.value;
+    }
+    if (symbol.value instanceof LocString) {
+      LocString s = (LocString) symbol.value;
+      return s.getLocation();
+    }
+    if (symbol.value instanceof LocInt) {
+      LocInt i = (LocInt) symbol.value;
+      return i.getLocation();
+    }
+    return new LocInfoImpl(getDialect(), "unknown", symbol.left, symbol.right);
+  }
+
+  @Override
+  public void report_fatal_error(String message, Object info) throws Exception
+  {
+    report_error(message, info);
+    done_parsing();
+    throw new PrintException(dialect_, "Parse error: " +
+      String.valueOf(message) + " => " + (info instanceof Symbol ? symbolMap_.get(((Symbol)info).sym) : String.valueOf(info)));
+  }
+
+  @Override
+  public void unrecovered_syntax_error(Symbol token) throws Exception
+  {
+    report_fatal_error("Syntax error at token " + symbolMap_.get(token.sym),
+                       token);
+  }
+:};
+
+init with
+{:
+    //share the operator table between the action code and the parser code
+    action_obj.source_ = source_;
+    action_obj.sectInfo_ = sectInfo_;
+    action_obj.dialect_ = dialect_;
+:}
+
+scan with {: return local_next_token(); :};
+
+/* ------------Declaration of Terminals and Non Terminals Section----------- */
+   
+/* Terminals */
+terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
+                   LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
+                   END, NL, THEOREM,
+                   SECTION, PARENTS, // used by the SectHeadScanner within ContextFreeScanner
+                   WHERE, // the latex \where command
+                   INSTROKE, OUTSTROKE, NEXTSTROKE,
+                   
+                   //ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, ZCSTATE, ZCSTINIT,
+                   //ZRETRIEVE, ZRETRIEVEIN, ZRETRIEVEOUT, ZFSREFINES, ZBSREFINES,
+                   //ZASTFIN, ZCSTFIN, ZAINITIN, ZAFINOUT, ZCINITIN, ZCFINOUT,
+ <add:oz>
+                   CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
+ </add:oz>
+<add:circus>
+                   CIRCUS, CIRCUSACTION, LCIRCCHANSET, RCIRCCHANSET,
+                   CIRCLINST, CIRCRINST,
+                   LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
+                   LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME, 
+                   
+                   //CIRCREFINES, CIRCDEF, CIRCCHAN, CIRCCHANFROM,
+                   //CIRCCHANSET, CIRCPROC, CIRCDO, CIRCVAR, CIRCVAL,
+                   //CIRCRES, CIRCVRES, CIRCNAMESET, CIRCASSERTREF,
+                   //CIRCBEGIN, CIRCSTATE, CIRCREPINTERLEAVE, CIRCEND,
+
+                 
+</add:circus>
+<add:circustime>
+    /* Support for Circus Time */
+                   LCIRCTIME, RCIRCTIME,
+ </add:circustime> 
+<add:circusconf>
+    /* Support for Circus Confidentiality */
+                   LCIRCCONF, RCIRCCONF,
+ </add:circusconf> 
+
+<add:zeves>
+                   // Proof environment chars and specific proof words
+        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, LLABEL, RLABEL, 
+        DISABLEDTHMTAG, DISABLEDDEFTAG, ENABLED, DISABLED, 
+        THMNAME, // Needed for ContextFreeScanner
+        
+        THMRULE, THMGRULE, THMFRULE, THMAXIOM,
+        
+        //LZNOTE, RZNOTE, 
+        PROOFWORD, // Needed for ContextFreeScanner
+
+        /*
+        THMREPLACEMENT,  
+        QNTINSTANTIATION,
+        
+        APPLY, BACK, CASES, CONJUNCTIVE, DISJUNCTIVE, EQUALITY,
+        INSTANTIATE, INVOKE, NEXT, PRENEX, PROVE, REARRANGE, TRIVIAL, TRY,
+        SPLIT, USE, WITH, BY, EXPRESSION, LEMMA,
+        NORMALIZATION, PREDICATE, SUBSTITUTE, TO, SORRY, OOPS,
+
+        CHECK, DECLARE, HELP, PARENT, PRINT, QUIT, READ, RESET, RETRY,
+        SYNTAX, THEOREMS, UNDO, ZSECTION, ZTAGS,
+
+        ABOUT, DECLARATION, FORMULA, HISTORY, PROOF, SCRIPT, STATUS,
+        SUMMARY, THROUGH,
+        */
+        
+</add:zeves>
+<add:zpatt>
+                   JOKER, RULE, RULELINE, PROVISO,
+</add:zpatt>
+<add:circuspatt>
+                   CIRCUSJOKER, CIRCUSACTIONLAW, CIRCUSPROCESSLAW,
+</add:circuspatt>
+                   END_MARKUP,
+                   TOKENSEQ, PARA_START, PARA_END;
+terminal LocInt    NUMERAL, NUMSTROKE;
+terminal LocString TEXT;
+terminal String    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
+                   POSTWORD_MARKUP, INDENT;
+terminal Decorword DECORWORD;
+
+/* Non terminals */
+non terminal              input, // narrWordList, // never used!
+                          paragraphList;
+// non terminal ZSect        sectionHeader;
+non terminal String       markup, para, zpara, zedPara, 
+                wordmarkup;
+<add:oz>
+non terminal LatexCommand innerPara;
+</add:oz>
+non terminal Decorword parentsHead;
+non terminal LatexCommand token, tokenSeq,
+                          specialSeq, sectHeadSeq,
+     <add:zeves>optDefAbility, optThmAbility, labelAbility,
+                thmUsage, optThmUsage, proofTokenSeq,
+                proofToken, proofSpecial,
+     </add:zeves>
+                //zStInfo, optZStInfo, 
+                schGenerics, decorwordList,
+                paren, special, indent, decorword;
+
+// These are ordered from loosest first to tightest last.
+precedence nonassoc INDENT;
+
+   input ::= paragraphList
+             {: parser.getWriter().flush(); :}
+             |
+             TOKENSEQ tokenSeq:s TOKENSEQ
+             {: 
+                if (s != null) parser.write(s.getName());
+                parser.getWriter().flush();
+             :}
+             |
+             PARA_START zpara PARA_END
+             {:
+                parser.getWriter().flush();
+             :}             
+             ;
+
+   /* NEVER USED: remove? 
+   narrWordList ::=
+             TEXT:t narrWordList
+             {: parser.write(t.getString()); :}
+             |
+             // empty
+             ;
+   */
+
+   paragraphList ::= 
+             paragraphList para
+             |
+             // empty
+             ;
+
+   para ::=  markup
+             |
+             TEXT:t
+             {: parser.write(t.getString()); :}
+             |
+             zpara:z
+             {: RESULT = z; :}
+             ;
+
+   zedPara ::=
+             SECTION specialSeq DECORWORD:dw sectHeadSeq:s
+             {:
+                String result = begin("zsection");
+                result += "\t \\SECTION " + toLatexInSectHead(dw.getName()) + " ";
+                if (s != null) { result += s.getName(); }
+                result += end("zsection");
+                parser.write(result);
+                parser.sectionName_ = dw.getName();
+                LatexMarkupFunction table =
+                  getMarkupTable(parser.sectionName_);
+                setupMarkupTable(table);
+             :}
+             |
+             <add:zeves>
+                optDefAbility:ability
+              </add:zeves>
+              token:t tokenSeq:s
+             {:
+                String result = begin("zed" <add:zeves>, ability</add:zeves>);
+                if (s != null) { result += concate(t,s).getName(); }
+                result += end("zed");
+                parser.write(result);
+             :}
+             ;
+
+   parentsHead ::= 
+   			 PARENTS
+   			 {:
+   			 	RESULT = new Decorword("parents");
+   			 :}
+   			 |
+   			 DECORWORD:dw
+   			 {:
+   			 	RESULT = dw;
+   			 :}
+   			 ;
+
+   sectHeadSeq ::= sectHeadSeq:s parentsHead:dw
+             {:
+                if ("parents".equals(dw.getName())) {
+                  RESULT = concate(s, resultFF("\\parents", dw.getName()));
+                }
+                else {
+                  String latex = toLatexInSectHead(dw.getName());
+                  RESULT = concate(s, resultFF(latex, dw.getName()));
+                }
+             :}
+             |
+             sectHeadSeq:s special:w2
+             {: RESULT = concate(s, w2); :}
+             |
+             {: RESULT = null; :}
+             ;             
+
+   zpara ::= ZED
+              <add:zeves>
+                optThmAbility:ability
+              </add:zeves>
+             THEOREM
+             <add:zeves>
+                optThmUsage:usage
+             </add:zeves>
+                decorword:w tokenSeq:s END
+             {:
+                //System.out.println("DEBUG: Unicode2Latex sees THEOREM " + w.getName());
+                String result = begin("theorem", "{" + <add:zeves>usage.getName() + " " + </add:zeves> w.getName() + "}"
+                                          <add:zeves>, ability</add:zeves>);
+                if (s != null) result += s.getName();
+                result += end("theorem");
+                parser.write(result);
+             :}
+             |
+             ZED
+              <add:zeves>
+                optThmAbility:ability
+              </add:zeves>
+             specialSeq zedPara END
+             |
+             AX tokenSeq:s END
+             {:
+                String result = begin("axdef");
+                if (s != null) result += s.getName();
+                result += end("axdef");
+                parser.write(result);
+             :}
+             |
+             SCH
+              <add:zeves>
+                optDefAbility:ability
+              </add:zeves>
+             specialSeq decorword:w
+             //optZStInfo:zsti
+             tokenSeq:s END
+             {:
+                String result = begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
+                //if (zsti != null) 
+                //  result += "\n" + zsti.getName();
+                //else
+                  result += "\n";
+                if (s != null) result += s.getName();
+                result += end("schema");
+                parser.write(result);
+             :}
+             |
+             GENAX tokenSeq:s END
+             {:
+                String result = begin("gendef");
+                if (s != null) result += s.getName();
+                result += end("gendef");
+                parser.write(result);
+             :}
+             |
+             GENSCH
+              <add:zeves>
+                optDefAbility:ability
+              </add:zeves>
+             specialSeq decorword:w
+             schGenerics:gen
+             //optZStInfo:zsti
+             tokenSeq:s END
+             {:
+                String result = begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
+                if (gen == null)
+                  throw new PrintException(dialect_, "Generic parameters expected for schema " + w.getName());
+                else
+                  result += gen.getName() + "\n";
+                //if (zsti != null) result += zsti.getName();
+                if (s != null) result += s.getName();
+                result += end("schema");
+                parser.write(result);
+             :}
+<add:oz>
+             |
+             CLASS decorword:w tokenSeq:s END
+             {:
+                String result = begin("class", "{" + w.getName() + "}");
+                if (s != null) result += s.getName();
+                result += end("class");
+                parser.write(result);
+             :}
+             |
+             GENCLASS decorword:w tokenSeq:s END
+             {:
+                String result = begin("class", "{" + w.getName() + "}");
+                if (s != null) result += s.getName();
+                result += end("class");
+                parser.write(result);
+             :}
+</add:oz>
+<add:zpatt>
+             |
+             JOKER decorword:w tokenSeq:s END
+             {:                
+                String result = begin("zedjoker", "{" + w.getName() + "}");
+                if (s != null) result += s.getName();
+                result += end("zedjoker");
+                parser.write(result);
+             :}
+             |
+             RULE decorword:w tokenSeq:s END
+             {:
+                String result = begin("rule", "{" + w.getName() + "}");
+                if (s != null) result += s.getName();
+                result += end("rule");
+                parser.write(result);
+             :}
+</add:zpatt>
+<add:circuspatt>
+            |
+            CIRCUSJOKER decorword:w tokenSeq:s END
+            {:                
+               String result = begin("circusjoker") + "{" +
+                 w.getName() + "}";
+               if (s != null) result += s.getName();
+               result += end("circusjoker");
+               parser.write(result);
+            :}
+            |
+            CIRCUSACTIONLAW decorword:w tokenSeq:s END
+            {:
+               String result = begin("circusactionlaw", "{" +  w.getName() + "}");
+               if (s != null) result += s.getName();
+               result += end("rule");
+               parser.write(result);
+            :}
+            |
+            CIRCUSPROCESSLAW decorword:w tokenSeq:s END
+            {:
+               String result = begin("circusprocesslaw", "{" + w.getName() + "}");
+               if (s != null) result += s.getName();
+               result += end("rule");
+               parser.write(result);
+            :}
+</add:circuspatt>
+<add:circus>
+            |
+            CIRCUS tokenSeq:s END
+            {:
+                String result = begin("circus");
+                if (s != null) { result += s.getName(); }
+                result += end("circus");
+                parser.write(result);
+            :}
+            |
+            CIRCUSACTION tokenSeq:s END
+            {:
+                String result = begin("circusaction");
+                if (s != null) result += s.getName();
+                result += end("circusaction");
+                parser.write(result);
+            :}
+</add:circus>
+<add:zeves>
+            |
+            ZPROOF specialSeq:sq decorword:w proofTokenSeq:s END
+            {:
+                String result = begin("zproof", "[" + w.getName() + "]");
+                if (s != null) { result += "\n" + s.getName(); }
+                result += end("zproof");
+                parser.write(result);
+            :}
+            |
+            ZPROOFSECTION tokenSeq:s END
+            {:
+                String result = begin("zproofsection");
+                if (s != null) { result += s.getName(); }
+                result += end("zproofsection");
+                parser.write(result);
+            :}
+</add:zeves>
+             ;
+
+  markup ::=
+             CHAR_MARKUP:zchar
+             {: parser.write(zchar); :}
+             |
+             wordmarkup:wm tokenSeq:s END_MARKUP
+             {:
+                StringBuffer result = new StringBuffer();
+                result.append("\n");
+                result.append(wm);
+                result.append(" ");
+                if (s != null) { result.append(s.getName()); }
+                result.append("\n");
+                parser.write(result.toString());
+             :}
+             ;
+
+   wordmarkup ::=
+             WORD_MARKUP:word
+             {:
+                RESULT = "%%Zword " + word;
+             :}
+             |
+             INWORD_MARKUP:inword
+             {:
+                RESULT = "%%Zinword " + inword;
+             :}
+             |
+             PREWORD_MARKUP:preword
+             {:
+                RESULT = "%%Zpreword " + preword;
+             :}
+             |
+             POSTWORD_MARKUP:postword
+             {:
+                RESULT = "%%Zpostword " + postword;
+             :}
+             ;
+
+   tokenSeq ::= tokenSeq:w1 token:w2
+             {: RESULT = concate(w1, w2); :}
+             |
+             tokenSeq:w1 special:w2
+             {: RESULT = concate(w1, w2); :}
+             |
+             {: RESULT = null; :}
+<add:oz>
+             |
+             tokenSeq:w1 innerPara:ip
+             {: RESULT = concate(w1, ip); :}
+</add:oz>
+             ;
+
+   token ::= decorword:s
+             {: RESULT = s; :}
+             |
+             INSTROKE
+             {: RESULT = resultFF("?", ZString.INSTROKE); :}
+             |
+             OUTSTROKE
+             {: RESULT = resultFF("!", ZString.OUTSTROKE); :}
+             |
+             NEXTSTROKE
+             {: RESULT = resultFF("'", ZString.PRIME); :}
+             |
+             NUMSTROKE:i
+             {:
+                final String numString = i.getValue().toString();
+                String latex = "_" + numString;
+                String unicode = ZString.SE + numString + ZString.NW;
+                RESULT = resultFF(latex, unicode);
+             :}
+             |
+             NUMERAL:i
+             {:
+                final String numString = i.getValue().toString();
+                RESULT = resultFF(numString, numString);
+             :}
+             |
+             paren:s
+             {: RESULT = s; :}
+             |
+             WHERE:t
+             {:
+                RESULT = resultTT("\n\\where\n", ZString.NL + ZString.VL); :}
+<add:oz>
+             |
+             SDEF
+             {: RESULT = resultTT("\\sdef", OzString.SDEF); :}             
+</add:oz>
+<add:zpatt>
+             |
+             RULELINE
+             {: RESULT = resultTT("\n\\derives\n", "\u2500"); :}
+             |
+             PROVISO
+             {: RESULT = resultTT("\\proviso", "\u25B8"); :}
+</add:zpatt>
+<add:zeves>
+             //|
+             //ZPROOFCOMMANDSEP
+             //{:
+             //   RESULT = resultFT(";\n", ZEvesString.ZPROOFCOMMANDSEP);
+             //:}
+             //|
+             //ZPROOFDOLLAR
+             //{:
+             //   RESULT = resultFF("\\$", ZEvesString.ZPROOFDOLLAR);
+             //:}
+             //|
+             //// only accept prime for now. See if others are needed as we process more examples
+             //ZPROOFDOLLARSTROKE:s
+             //{:
+             //   RESULT = resultFF("\\$" + s.getName().substring(1), ZEvesString.ZPROOFDOLLAR + s.getName().substring(1));
+             //:}
+             |
+             thmUsage:t
+             {:
+                RESULT = t;
+             :}
+             |
+             labelAbility:l
+             {:
+                RESULT = l;
+             :}
+             |
+             // NOTE: These two productions are spurious and should never be reached.
+             //       They are handled by the smart scanner and is needed by the 
+             //		  ContextFreeScanner. PROOFWORD/THMNAME are declared as bare terminal
+             //		  instead of Decorword/Proofword. So try and capture locinfo if possible.
+             PROOFWORD:p
+             {:
+             	parser.report_fatal_error(net.sourceforge.czt.parser.zeves.ZEvesParseMessage.MSG_UNHANDLED_PROOFWORD.getMessage(), p);
+             	//RESULT = p; // PROOWORD is not LatexCommand, but just Object. Retun NULL instead. But say it's a fatal error.
+             :}
+             |
+             THMNAME:t
+             {:
+             	parser.report_fatal_error(net.sourceforge.czt.parser.zeves.ZEvesParseMessage.MSG_UNHANDLED_PROOFWORD.getMessage(), t);
+             	//RESULT = t;
+             :}
+ </add:zeves>
+             ;
+
+
+<add:zeves>
+proofTokenSeq ::= proofTokenSeq:w1 proofToken:w2
+             {: RESULT = concate(w1, w2); :}
+             |
+             proofTokenSeq:w1 proofSpecial:w2
+             {: RESULT = concate(w1, w2); :}
+             |
+             {: RESULT = null; :}
+             ;
+
+ proofToken ::= decorword:s
+             {: RESULT = s; :}
+             |
+             INSTROKE
+             {: RESULT = resultFF("?", ZString.INSTROKE); :}
+             |
+             OUTSTROKE
+             {: RESULT = resultFF("!", ZString.OUTSTROKE); :}
+             |
+             NEXTSTROKE
+             {: RESULT = resultFF("'", ZString.PRIME); :}
+             |
+             NUMSTROKE:i
+             {:
+                final String numString = i.getValue().toString();
+                String latex = "_" + numString;
+                String unicode = ZString.SE + numString + ZString.NW;
+                RESULT = resultFF(latex, unicode);
+             :}
+             |
+             NUMERAL:i
+             {:
+                final String numString = i.getValue().toString();
+                RESULT = resultFF(numString, numString);
+             :}
+             |
+             paren:s
+             {: RESULT = s; :}
+             |
+             ZPROOFCOMMANDSEP
+             {:
+                RESULT = resultFT(";\n", ZEvesString.ZPROOFCOMMANDSEP);
+             :}
+             ;
+
+proofSpecial ::= NL
+             {:
+                // within a ZPROOF environment, don't add hard, but soft newlines
+                RESULT = resultTT("\n", ZString.NL);
+             :}
+             |
+             INDENT:indent
+             {:
+                RESULT = resultTT(indent, indent);
+             :}
+             ;
+ </add:zeves>
+
+
+
+decorwordList ::=
+              decorwordList:dw1 special:dw2
+              {:
+                RESULT = concate(dw1, dw2);
+              :}
+              |
+              decorwordList:dw decorword:s
+              {:
+                 RESULT = concate(dw, s);
+              :}
+              |
+              decorword:s
+              {:
+                 RESULT = s;
+              :}
+              //|
+              //special:s
+              //{:
+              //   RESULT = s;
+              //:}
+              ;
+
+schGenerics  ::=
+             LSQUARE decorwordList:dwl RSQUARE
+             {:
+               RESULT = concate(resultTT("[", ZString.LSQUARE),
+                          concate(dwl, resultTT("]", ZString.RSQUARE)));
+             :}
+             ;
+
+//// Z state info always appear after a NL; or there will be a NL with no info
+//optZStInfo   ::=
+//             NL indent:id zStInfo:zsi
+//             {:
+//                RESULT = concate(id, zsi);
+//             :}
+//             |
+//             NL zStInfo:zsi
+//             {:
+//                RESULT = zsi; 
+// :}
+//  |
+//  NL indent:id
+//  {:
+//     RESULT = id;
+//  :}
+//  |
+//  NL
+//  {:
+//     RESULT = null; //resultTT("\\\\\n", ZString.NL);
+//  :}
+//  ;
+//
+//zStInfo   ::=
+//  ZSTATE
+//  {:
+//     RESULT = resultFT("\\zstate", ZString.ZSTATE);
+//  :}
+//  |
+//  ZSTINIT 
+//  {:
+//     RESULT = resultFT("\\zstinit", ZString.ZSTINIT);
+//  :}
+//  |
+//  ZASTATE 
+//  {:
+//     RESULT = resultFT("\\zastate", ZString.ZASTATE);
+//  :}
+//  |
+//  ZASTINIT 
+//  {:
+//     RESULT = resultFT("\\zastinit", ZString.ZASTINIT);
+//  :}
+//  |
+//  ZCSTATE 
+//  {:
+//     RESULT = resultFT("\\zcstate", ZString.ZCSTATE);
+//  :}
+//  |
+//  ZCSTINIT 
+//  {:
+//     RESULT = resultFT("\\zcstinit", ZString.ZCSTINIT);
+//  :}
+//  |
+//  ZASTFIN
+//  {:
+//     RESULT = resultFT("\\zastfin", ZString.ZASTFIN);
+//  :}
+//  |
+//  ZCSTFIN
+//  {:
+//     RESULT = resultFT("\\zcstfin", ZString.ZCSTFIN);
+//  :}
+//  |
+//  ZRETRIEVE 
+//  {:
+//     RESULT = resultFT("\\zretrieve", ZString.ZRETRIEVE);
+//  :}
+//  |
+//  ZRETRIEVEIN 
+//  {:
+//     RESULT = resultFT("\\zretrievein", ZString.ZRETRIEVEIN);
+//  :}
+//  |
+//  ZRETRIEVEOUT 
+//  {:
+//     RESULT = resultFT("\\zretrieveout", ZString.ZRETRIEVEOUT);
+//  :}
+//  |
+//  ZAINITIN
+//  {:
+//     RESULT = resultFT("\\zainitin", ZString.ZAINITIN);
+//  :}
+//  |
+//  ZAFINOUT
+//  {:
+//     RESULT = resultFT("\\zafinout", ZString.ZAFINOUT);
+//  :}
+//  |
+//  ZCINITIN
+//  {:
+//     RESULT = resultFT("\\zcinitin", ZString.ZCINITIN);
+//  :}
+//  |
+//  ZCFINOUT
+//  {:
+//     RESULT = resultFT("\\zcfinout", ZString.ZCFINOUT);
+//  :}
+//  |
+//  ZFSREFINES decorword:s 
+//  {:
+//     String name = s.getName();
+//     RESULT = resultFT("\\zfsrefines " + name,
+//       ZString.ZFSREFINES + ZString.SPACE + name);
+//  :}
+//  |
+//  ZBSREFINES decorword:s  
+//  {:
+//     String name = s.getName();
+//     RESULT = resultFT("\\zbsrefines " + name,
+//       ZString.ZBSREFINES + ZString.SPACE + name);
+//  :}
+//  //|
+//  //NL
+//  //{:
+//  //   RESULT = resultTT("\\\\\n", ZString.NL);
+//  //:}
+//  //|
+//  //// empty
+//  //{:
+//  //   RESULT = null;
+//  //:}
+//  ;
+
+<add:zeves>
+ // ability as different tokens - this is necessary for Unicode differentiation
+ optDefAbility ::=
+             DISABLEDDEFTAG
+             {:
+                RESULT = resultFF("[disabled]", ZEvesString.DISABLEDDEFTAG);
+             :}
+             |
+             // empty
+             ;
+
+ optThmAbility ::=
+             DISABLEDTHMTAG
+             {:
+                RESULT = resultFF("[disabled]", ZEvesString.DISABLEDTHMTAG);
+             :}
+             |
+             // empty
+             ;
+
+ thmUsage ::=
+             /* MUST BE DECORWORD: within tokenSeq we have LLABEL ... ?*/
+             THMRULE // or just use DECORWORD?
+             {:
+                // TT here to avoid "glueing" up with other names
+                RESULT = resultTT("rule", ZEvesString.THMRULE);
+             :}
+             |
+             THMFRULE
+             {:
+                RESULT = resultTT("frule", ZEvesString.THMFRULE);
+             :}
+             |
+             THMGRULE
+             {:
+                RESULT = resultTT("grule", ZEvesString.THMGRULE);
+             :}
+             |
+             THMAXIOM
+             {:
+                RESULT = resultTT("axiom", ZEvesString.THMAXIOM);
+             :}
+             ;
+
+// as keywords
+ labelAbility ::=
+             DISABLED
+             {:
+                RESULT = resultTT("disabled", ZEvesString.DISABLED);
+             :}
+             |
+             ENABLED
+             {:
+                RESULT = resultTT("enabled", ZEvesString.ENABLED);
+             :}
+             ;
+
+
+ optThmUsage ::=
+             thmUsage:t
+             {:
+                RESULT = t;
+             :}
+             |
+             // empty
+             {:
+                RESULT = resultFF("", "");
+             :}
+             ;
+
+</add:zeves>
+
+   decorword ::= DECORWORD:s
+             {:
+                assert s != null;
+                if (s instanceof WhereWord) {
+                  RESULT = resultTT("\n\\where\n", ZString.NL + ZString.VL);
+                }
+<add:oldz>
+                else if (s instanceof DefsWord) {
+                  RESULT = resultTT("\\defs", ZString.DEFEQUAL);
+                }
+</add:oldz>
+                else {
+                  RESULT = toLatex(s.getName(), sleft, sright);
+                }
+             :}
+             ;
+
+   paren ::= LPAREN
+             {: RESULT = resultTT("(", ZString.LPAREN); :}
+             |
+             RPAREN
+             {: RESULT = resultTT(")", ZString.RPAREN); :}
+             |
+             LSQUARE
+             {: RESULT = resultTT("[", ZString.LSQUARE); :}
+             |
+             RSQUARE
+             {: RESULT = resultTT("]", ZString.RSQUARE); :}
+             |
+             LBRACE
+             {: RESULT = resultTT("\\{",  ZString.LBRACE); :}
+             |
+             RBRACE
+             {: RESULT = resultTT("\\}", ZString.RBRACE); :}
+             |
+             LBIND
+             {: RESULT = resultTT("\\lblot", ZString.LBIND); :}
+             |
+             RBIND
+             {: RESULT = resultTT("\\rblot", ZString.RBIND); :}
+             |
+             LDATA
+             {: RESULT = resultTT("\\ldata", ZString.LDATA); :}
+             |
+             RDATA
+             {: RESULT = resultTT("\\rdata", ZString.RDATA); :}
+<add:circus>
+             |
+             LCIRCCHANSET
+             {:
+                RESULT = resultTT("\\lchanset~", CircusString.LCIRCCHANSET);
+             :}
+             |
+             RCIRCCHANSET
+             {:
+                RESULT = resultTT("~\\rchanset", CircusString.RCIRCCHANSET);
+             :}
+             |
+             CIRCLINST
+             {:
+                RESULT = resultTT("\\circlinst~", CircusString.CIRCLINST);
+             :}
+             |
+             CIRCRINST
+             {:
+                RESULT = resultTT("~\\circrinst", CircusString.CIRCRINST);
+             :}
+             |
+             LCIRCGUARD
+             {:
+                RESULT = resultTT("\\lcircguard~", CircusString.LCIRCGUARD);
+             :}
+             |
+             RCIRCGUARD
+             {:
+                RESULT = resultTT("~\\rcircguard", CircusString.RCIRCGUARD);
+             :}
+             |
+             LSCHEXPRACT
+             {:
+                RESULT = resultTT("\\lschexpract~", CircusString.LSCHEXPRACT);
+             :}
+             |
+             RSCHEXPRACT
+             {:
+                RESULT = resultTT("~\\rschexpract", CircusString.RSCHEXPRACT);
+             :}
+             |
+             LCIRCRENAME
+             {:
+                RESULT = resultTT("\\lcircrename~", CircusString.LCIRCRENAME);
+             :}
+             |
+             RCIRCRENAME
+             {:
+                RESULT = resultTT("~\\rcircrename", CircusString.RCIRCRENAME);
+             :}
+             |
+             LPAR
+             {:
+                RESULT = resultTT("~\\lpar~", CircusString.LPAR);
+             :}
+             |
+             RPAR
+             {:
+                RESULT = resultTT("~\\rpar~", CircusString.RPAR);
+             :}
+             |
+             LINTER
+             {:
+                RESULT = resultTT("~\\linter~", CircusString.LINTER);
+             :}
+             |
+             RINTER
+             {:
+                RESULT = resultTT("~\\rinter~", CircusString.RINTER);
+             :}
+</add:circus>
+
+ <add:circustime>
+ 
+	     |
+             /* Support for Circus Time */
+             LCIRCTIME
+	     {:
+	        RESULT = resultTT("~\\lcirctime~", CircusTimeString.LCIRCTIME);
+	     :}
+	     |
+	     RCIRCTIME
+	     {:
+	        RESULT = resultTT("~\\rcirctime~", CircusTimeString.RCIRCTIME);
+	     :}	
+  </add:circustime>
+
+ <add:circusconf>
+ 
+	     |
+             /* Support for Circus confidentiality */
+         LCIRCCONF
+	     {:
+	        RESULT = resultTT("~\\lcircconf~", CircusConfString.LCIRCCONF);
+	     :}
+	     |
+	     RCIRCCONF
+	     {:
+	        RESULT = resultTT("~\\rcircconf~", CircusConfString.RCIRCCONF);
+	     :}	
+  </add:circusconf>
+ 
+
+
+<add:zeves>
+             |
+             LLABEL
+             {:
+                RESULT = resultFF("\\Label{", ZEvesString.LLABEL);
+             :}
+             |
+             RLABEL
+             {:
+                RESULT = resultFT("}\n", ZEvesString.RLABEL);
+             :}
+ </add:zeves>
+             ;
+
+  specialSeq ::=
+             specialSeq:sq special:s
+             {:
+                if (sq != null)
+                  RESULT = concate(sq, s);
+                else
+                  RESULT = s;
+             :}
+             |
+             // empty
+             {:
+                RESULT = null;
+             :}
+             ;
+             
+  special ::= NL
+             {:
+                RESULT = resultTT("\\\\\n", ZString.NL);
+             :}
+             |
+             indent:i
+             {:
+                RESULT = i;
+             :}
+              ;
+
+  indent   ::= INDENT:indent
+             {:
+                // the amount of space given will generate various t1..n
+                int i = indent.length();
+                int ts = (i / parser.tabSize_);
+                int trail = (i % parser.tabSize_);
+                if (trail &gt;= (parser.tabSize_ / 2)) ts++;
+                if (ts &gt; 9) ts = 9; else if (ts &lt; 1) ts = 1;
+                String latex = indent + "\\t" + ts + "\t";
+                RESULT = resultTT(latex, indent);
+             :} 
+             ;
+
+<add:oz>
+  innerPara ::=
+             AX tokenSeq:s END
+             {:
+                String latex = begin("axdef") + "\n";
+                if (s != null) latex += s.getName();
+                latex += end("axdef");
+                String unicode = ZString.AX;
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = resultFF(latex, unicode);
+             :}
+             |
+             SCH decorword:w tokenSeq:s END
+             {:
+                String latex = begin("schema") + "{" + w.getName() + "}\n";
+                if (s != null) latex += s.getName();
+                latex += end("schema");
+                String unicode = ZString.SCH + ZString.SPACE + w.getName();
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = resultFF(latex, unicode);
+             :}
+             |
+             GENAX tokenSeq:s END
+             {:
+                String latex = begin("gendef");
+                if (s != null) latex += s.getName();
+                latex += end("gendef");
+                String unicode = ZString.GENAX;
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = new LatexCommand(latex, unicode, false, false);
+             :}
+             |
+             GENSCH decorword:w tokenSeq:s END
+             {:
+                String latex = begin("schema") + "{" + w.getName() + "}";
+                if (s != null) latex += s.getName();
+                latex += end("schema");
+                String unicode =
+                  ZString.SCHCHAR + ZString.GENCHAR + w.getName();
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = resultFF(latex, unicode);
+             :}
+             |
+             STATE tokenSeq:s END
+             {:
+                String latex = begin("state");
+                if (s != null) latex += s.getName();
+                latex += end("state");
+                String unicode = ZString.SCH + ZString.ZEDCHAR;
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = resultFF(latex, unicode);
+             :}
+             |
+             INIT tokenSeq:s END
+             {:
+                String latex = begin("init");
+                if (s != null) latex += s.getName();
+                latex += end("init");
+                String unicode = ZString.SCH + ZString.SPACE +
+                                 OzString.INITWORD + ZString.SPACE;
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = resultFF(latex, unicode);
+             :}
+             |
+             OPSCH decorword:w tokenSeq:s END
+             {:
+                String latex = begin("op") + "{" + w.getName() + "}";
+                if (s != null) latex += s.getName();
+                latex += end("op");
+                String unicode =
+                  ZString.SCH + "op" + ZString.SPACE + w.getName();
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = resultFF(latex, unicode);
+             :}
+             ;
+</add:oz>
+ 
+</parser>

@@ -1,0 +1,25 @@
+\begin{zsection}
+  \SECTION sstest \parents dstest, ss
+\end{zsection}
+
+To promote the ds tests, we define a special case of the
+$\Phi SS$ framing schema.
+\begin{zed}
+  \Phi SSTest == [\Phi SS | fid? = 101; 
+	fstore = \{ 100 \mapsto \langle 3,5 \rangle, 101 \mapsto file \}]
+\end{zed}
+
+Then we can promote the $dsPos$ tests and check if they satisfy $readSS$.
+\begin{theorem}{SSTestPos}
+\vdash? ~(dsPos 
+	  \land \Phi SSTest)
+          \hide (file, file')
+               \subseteq readSS
+\end{theorem}
+
+% [file==eg1; file'==eg1; offset?==0; length?==0; data! == \emptyset]
+
+Unfortunately, due to an inefficiency in its sorting/optimization
+algorithms, ZLive currently says the left side of the $\subseteq$ is too
+large to evaluate.  However, it should be capable of evaluating it, and we
+expect that it will be able to in the next few months.

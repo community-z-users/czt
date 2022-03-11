@@ -1,0 +1,18 @@
+\begin{algorithmic}[1]
+\STATE $UnifySignature(p : Signature,~ q : Signature)$\\
+\STATE \nexti\TBEGIN\\
+\STATE \nexti\nexti\TIF $p = SignatureVar~\beta$ \TTHEN\\
+\STATE \nexti\nexti\nexti\TIF $\beta$ occurs in $q$ \TTHEN $FAIL$\\
+\STATE \nexti\nexti\nexti\TELSE\TIF $\beta \neq q$ \TTHEN $\beta := q$\\
+\STATE \nexti\nexti\TELSE\TIF $q = SignatureVar~\beta$ \TTHEN $UnifySignature(\beta, p)$\\
+\STATE \nexti\nexti\TELSE\TIF $p = (u_1 : s_1, \ldots, u_m : s_m) \land q =
+(v_1 : t_1, \ldots, v_n : t_n)$ \TTHEN\\
+\STATE \nexti\nexti\nexti\TIF $m = n$ \TTHEN\\
+\STATE \nexti\nexti\nexti\nexti\TFOR $i \in 1 \upto n$ \TDO\\
+\STATE \nexti\nexti\nexti\nexti\nexti\TIF $u_i = v_i$  \TTHEN\\
+\STATE \nexti\nexti\nexti\nexti\nexti\nexti $Unify(s_i, t_i)$\\
+\STATE \nexti\nexti\nexti\nexti\nexti\TELSE $FAIL$\\
+\STATE \nexti\nexti\nexti\nexti\TEND\\
+\STATE \nexti\nexti\nexti\TELSE $FAIL$\\
+\STATE \nexti\TEND
+\end{algorithmic}

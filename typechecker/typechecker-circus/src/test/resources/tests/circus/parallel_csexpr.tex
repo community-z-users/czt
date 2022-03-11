@@ -1,0 +1,16 @@
+\begin{zsection}
+   \SECTION parallel\_csexpr \parents circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c, d, e \\
+   \circchannelset\ CS == \lchanset c, d \rchanset
+\end{circus}
+
+\begin{circus}
+   \circprocess\ P \circdef \circbegin \circspot c \then \Skip \circend
+   \\
+   \circprocess\ Q \circdef \circbegin \circspot d \then \Skip \circend
+   \\
+   \circprocess\ R \circdef\ P \lpar CS \cup \lchanset e \rchanset \rpar Q
+\end{circus}

@@ -1,0 +1,15 @@
+\begin{zsection}
+  \SECTION DuplicateNameInDistOpExpr\_DistSeqOpExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  Op1 \sdef [a : \nat]
+\end{class}
+
+
+\begin{class}{B}
+  \begin{state}
+   pa : \power A
+  \end{state}\\
+  Op2 \sdef \dsqc a : pa @ a.Op1 
+\end{class}

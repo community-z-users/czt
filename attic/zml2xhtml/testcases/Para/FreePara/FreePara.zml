@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>A Free Paragraph</Name>
+    <FreePara>
+      <Freetype>
+        <DeclName><Word>List</Word></DeclName>
+        <Branch>
+          <DeclName><Word>nil</Word></DeclName>
+        </Branch>
+        <Branch>
+          <DeclName><Word>cons</Word></DeclName>
+          <ProdExpr>
+            <NumExpr Value="1"/>
+            <NumExpr Value="2"/>
+          </ProdExpr>          
+        </Branch>
+      </Freetype>
+    </FreePara>
+
+  </ZSect>
+</Spec>

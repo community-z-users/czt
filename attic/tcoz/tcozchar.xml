@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TCOZCHAR>
+     <SYMBOL>
+         <CORESYMBOL>
+                <char id="ATTIME" hex="0040" description="at a time point"/>
+                <char id="NEXTPRO" hex="21FE" description="the next process"/>
+                <char id="INTCHOICE" hex="2293" description="the internal choice"/>
+                <char id="DIC" hex="2A05" description="distributed internal choice"/>
+                <char id="INTERLEAVE" hex="2AF4" description="interleave operator"/>
+                <char id="DIL" hex="2AFC" description="distributed interleave operator"/>
+                <char id="INTERRUPT" hex="2207" description="interrupt operator"/>
+                <char id="TIMEOUT" hex="22B3" description="time out operation"/>
+                <char id="TIMEEND" hex="21D9" description="time end operation"/>
+                <char id="DPARA" hex="0000" description="distributed parallel operation"/>
+                <char id="NETTOPLEFT" hex="21DA" description="network topology operator A"/>
+                <char id="NETTOPRIGHT" hex="21DB" description="network topology operator A"/>
+          </CORESYMBOL>
+     </SYMBOL>
+</TCOZCHAR>

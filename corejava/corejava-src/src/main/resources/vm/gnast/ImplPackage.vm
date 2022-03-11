@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body>
+
+<p>Implementation classes of the AST for ${project.Name}.</p>
+
+<p>
+This package provides implementations of the interfaces
+in {@link ${project.AstPackage}}.  As an application programmer, you
+should ONLY use the object factory provided in this package explicitly.
+Use the interfaces in {@link ${project.AstPackage}} and the {@link
+${project.getObject("factoryImpl").getFullName()}} when using the
+AST for ${project.Name}.
+</p>
+
+</body>
+</html>

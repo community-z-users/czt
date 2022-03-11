@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE DOCKABLES SYSTEM "dockables.dtd">
+
+<DOCKABLES>
+  <DOCKABLE NAME="zcharmap">
+    new net.sourceforge.czt.jedit.zcharmap.ZCharMap(view);
+  </DOCKABLE>
+</DOCKABLES>

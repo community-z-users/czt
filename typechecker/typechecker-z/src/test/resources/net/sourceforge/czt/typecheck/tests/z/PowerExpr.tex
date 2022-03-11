@@ -1,0 +1,20 @@
+\begin{zsection}
+  \SECTION PowerExpr
+\end{zsection}
+
+\begin{zed} \vdash? \power \{\} \in \power \{\{1\}\} \end{zed}
+\begin{zed} \vdash? \power \{1,2\} = \{ \{\}, \{1\}, \{2\}, \{1,2\} \} \end{zed}
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g\\
+  t == g
+\where
+  t = \power s\\
+  s = \{1\}
+\end{axdef}
+
+\begin{zed} \vdash? t = \{ \{\}, \{1\} \} \end{zed}

@@ -1,0 +1,31 @@
+
+// x1 = parse("C:\\java\\czt\\czt0.4.2\\translators\\zeves\\examples\\AxPara.tex");
+// typecheck(x1);
+// manager = new SectionManager(Dialect.ZEVES);
+// printer = new net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter(manager);
+// list1 = printer.printSpec(x1, manager);  
+// list1 = net.sourceforge.czt.zeves.CZT2ZEves.specToZEvesXML(x1, manager);
+// print(list1);
+
+
+termToZEvesXML(net.sourceforge.czt.base.ast.Term term)
+{
+  manager = new net.sourceforge.czt.session.SectionManager();
+  return termToZEvesXML(term, manager);
+}
+
+termToZEvesXML(net.sourceforge.czt.base.ast.Term term, net.sourceforge.czt.session.SectionInfo.SectionInfo manager)
+{
+  return net.sourceforge.czt.zeves.CZT2ZEves.termToZEvesXML(term, manager);
+}
+
+specToZEvesXML(net.sourceforge.czt.z.ast.Spec term)
+{ 
+  manager = new net.sourceforge.czt.session.SectionManager();
+  return specToZEvesXML(term, manager);
+}
+
+specToZEvesXML(net.sourceforge.czt.z.ast.Spec term, net.sourceforge.czt.session.SectionInfo.SectionInfo manager)
+{ 
+  return net.sourceforge.czt.zeves.CZT2ZEves.specToZEvesXML(term, manager);
+}

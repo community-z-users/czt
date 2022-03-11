@@ -1,0 +1,50 @@
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.util.typingenv.*;
+import net.sourceforge.czt.typecheck.z.*;
+
+/** Typechecks a given Z specification.
+ */
+typecheck()
+{
+  manager = new SectionManager(Dialect.Z);
+  return typecheck(manager);
+}
+
+typecheck(SectionInfo manager)
+{
+  term = parse(manager);
+  if (term == null)
+     return null;
+  return typecheck(term, manager);
+}
+
+typecheck(String filename)
+{
+  manager = new SectionManager(Dialect.Z);
+  term = typecheck(filename, manager);
+}
+
+typecheck(String filename, SectionInfo manager)
+{
+  term = parse(filename, manager);
+  if (term == null)
+     return null;
+  return typecheck(term, manager);
+}
+
+typecheck(Term term)
+{
+  manager = new SectionManager(Dialect.Z);
+  typecheck(term, manager);
+}
+
+typecheck(Term term, SectionInfo manager)
+{
+  errors = TypeCheckUtils.typecheck(term, manager);
+  for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
+    Object next = iter.next();
+    System.err.println(next);
+  }
+  return term;
+}

@@ -1,0 +1,67 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\newcommand{\enquote}[1]{``#1''}
+
+\bibitem{ISOZ}
+13568, I., \enquote{Information Technology---{Z} Formal Specification
+  Notation---Syntax, Type System and Semantics,} 2002, first Edition
+  2002-07-01.
+
+\bibitem{armour:business-model00}
+Armour, P.~G., \emph{The case for a new business model}, CACM \textbf{43}
+  (2000), pp.~19--22.
+
+\bibitem{brien:calculus-schemas-z00}
+Brien, S.~M. and A.~P. Martin, \emph{A calculus for schemas in {Z}}, Journal of
+  Symbolic Computation \textbf{30} (2000), pp.~63--91.
+
+\bibitem{zeves:98}
+Canada, O., \emph{{Z/EVES} version 1.5: An overview}, in: \emph{Proceedings of
+  the International Workshop on Current Trends in Applied Formal Method:
+  Applied Formal Methods FM-Trends 98}, number 1641 in LNCS (1998), pp.
+  367--376.
+
+\bibitem{girard:proofs-types90}
+Girard, J.-Y., P.~Taylor and Y.~Lafont, \enquote{Proofs and Types,} Number~7 in
+  Cambridge Tracts in Theoretical Computer Science, Cambridge University Press,
+  1990, available from
+  \url{http://www.cs.man.ac.uk/~pt/stable/Proofs+Types.html}.
+
+\bibitem{henson:revising-z-1-99}
+Henson, M.~C. and S.~Reeves, \emph{Revising {Z}: {I} - logic and semantics},
+  Formal Aspects of Computing Journal \textbf{11} (1999), pp.~359--380.
+
+\bibitem{henson:revising-z-2-99}
+Henson, M.~C. and S.~Reeves, \emph{Revising {Z}: {II} - logical development},
+  Formal Aspects of Computing Journal \textbf{11} (1999), pp.~381--401.
+
+\bibitem{malik:czt05}
+Malik, P. and M.~Utting, \emph{{CZT:} {A} framework for {Z} tools}, in:
+  H.~Treharne, S.~King, M.~Henson and S.~Schneider, editors, \emph{{ZB2005:}
+  Formal Specification and Development in {Z} and {B}, 4th International
+  Conference of {B} and {Z} Users, Guildford, {UK}, April 13-15, 2005},  LNCS
+  \textbf{3455} (2005), pp. 65--84.
+
+\bibitem{martin:tac-lang-for-ergo}
+Martin, A., R.~Nickson and M.~Utting, \emph{A tactic language for {Ergo}}, in:
+  L.~Groves and S.~Reeves, editors, \emph{Formal Methods Pacific '97}, Springer
+  Series in Discrete Mathematics and Theoretical Computer Science (1997), pp.
+  186--207.
+
+\bibitem{martin:tactics}
+Martin, A.~P., P.~H.~B. Gardiner and J.~C.~P. Woodcock, \emph{A tactic
+  calculus}, Formal Aspects of Computing \textbf{8} (1996), pp.~479--489, an
+  abridged version appears in the journal; the full version is available at the
+  Formal Aspects of Computing FTP site, ftp://ftp.cs.man.ac.uk/pub/fac.
+
+\bibitem{Toyn98a}
+Toyn, I., \emph{A tactic language for reasoning about {Z} specifications}, in:
+  \emph{3rd Northern Formal Methods Workshop} (1998).
+
+\bibitem{cadiz:refman02}
+Toyn, I., \emph{Cadiz reference manual}, Available from
+  \url{http://www-users.cs.york.ac.uk/~ian/cadiz} (2002), accessed April 2007.
+
+\end{thebibliography}

@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSchExprInDecorExpr\_DecorExpr
+\end{zsection}
+
+\begin{zed}
+  error == 1 '
+\end{zed}

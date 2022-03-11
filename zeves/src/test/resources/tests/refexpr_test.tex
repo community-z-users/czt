@@ -1,0 +1,13 @@
+\begin{zsection}
+   \SECTION  refexpr\_test \parents sequence\_toolkit
+\end{zsection}
+
+\begin{schema}{Test}
+   % RefExpr-prefix operator application
+   s: \seq~(\power~\nat) \\
+   % RefExpr-infix operator application
+   f: \nat \pfun \nat
+\where
+   % RefExpr-postfix operator application
+   f = f\plus
+\end{schema}

@@ -1,0 +1,193 @@
+
+\begin{zsection}
+   \SECTION zstateref \parents zeves\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   foo: \nat
+\where
+   foo = 1
+\end{axdef}
+
+\begin{axdef}
+   bar: \nat
+\where
+   bar > foo
+\end{axdef}
+
+
+\begin{schema}{S}
+  x: \nat
+\where
+   bar > x
+\end{schema}
+
+\begin{schema}{SInit}
+   S~'
+\where
+   x' = 0
+\end{schema}
+
+\begin{schema}{AState}
+   x: \power \nat
+\where
+  x \neq \emptyset
+\end{schema}
+
+\begin{schema}{ASInit}
+   AState~'
+\where
+   x' = \{ 0 \}
+\end{schema}
+
+\begin{schema}{ASFin}
+   AState
+\where
+   true
+\end{schema}
+
+\begin{schema}{CState}
+  y: \seq \nat
+\where
+   y \neq \langle \rangle
+\end{schema}
+
+\begin{schema}{CSInit}
+   CState~'
+\where
+  y' = \langle 0 \rangle
+\end{schema}
+
+\begin{schema}{CSFin}
+   CState
+\where
+   true
+\end{schema}
+
+\begin{schema}{Retr}
+   AState \\
+   CState
+\where
+   \ran~y = x
+\end{schema}
+
+One schema with no z state info
+\begin{schema}{Nothing}
+   \Delta AState
+\where
+   true
+\end{schema}
+
+\begin{schema}{NothingAgain}
+   \Delta CState
+\where
+   true
+\end{schema}
+
+\begin{schema}{AOp1}
+   \Delta AState \\
+   i?: \nat
+\where
+   x' = x \cup \{i?\}
+\end{schema}
+
+\begin{schema}{COp1}
+   \Delta CState \\
+   i?: \nat
+\where
+   y' = y \cat \langle i? \rangle
+\end{schema}
+
+\begin{schema}{AOp2}
+   \Xi AState \\
+   o!: \nat
+\where
+    o! \in  x' 
+\end{schema}
+
+\begin{schema}{COp2}
+   \Xi CState \\
+   o!: \nat
+\where
+   o! \in \ran~y'
+\end{schema}
+
+PS: horizontally defined schemas *cannot* have state tags. That's because
+unboxed paragraphs accept multiple items and would mean more complicated lexing.
+
+\begin{schema}{AOp1Sig}
+ i? : \nat \\
+ x : \power \nat 
+\where
+ AState
+\end{schema}
+
+\begin{schema}{COp1Sig}
+ i? : \nat \\
+ y : \seq \nat 
+\where
+ CState
+\end{schema}
+
+\begin{schema}{AOp2Sig}
+ x : \power \nat 
+\where
+ AState
+\end{schema}
+
+\begin{schema}{COp2Sig}
+ y : \seq \nat 
+\where
+ CState
+\end{schema}
+
+\begin{schema}{COp2DashSig}
+   COp2Sig~' \\
+   o! : \nat
+\end{schema}
+
+\begin{theorem}{ForwardSInitialisation} 
+   \forall CSInit @ \exists Retr~' @ ASInit
+\end{theorem}
+
+\begin{theorem}{ForwardSFeasibilityAOp1} 
+   \forall AOp1Sig; COp1Sig | \pre~AOp1 \land Retr @ \pre~COp1
+\end{theorem}
+
+\begin{theorem}{ForwardSCorrctnessAOp1} 
+   \forall AOp1Sig; COp1Sig; CState~' | \pre~AOp1 \land Retr \land COp1 @ 
+   	\exists AState~' | Retr~' @ AOp1
+\end{theorem}
+
+\begin{theorem}{BackwardSFeasibilityAOp1} 
+   \forall COp1Sig | (\forall AOp1Sig | Retr @ \pre AOp1) @ \pre COp1
+\end{theorem}
+
+\begin{theorem}{BackwardSCorrectnessAOp1} 
+  \forall COp1Sig | (\forall AOp1Sig | Retr @ \pre AOp1) @ 
+   	(\forall AState~'; COp1 | Retr~' @ (\exists AState | Retr @ AOp1))
+\end{theorem}
+
+
+\begin{theorem}{ForwardSFeasibilityAOp2} 
+   \forall AOp2Sig; COp2Sig | \pre~AOp2 \land Retr @ \pre~COp2
+\end{theorem}
+
+To avoid undeclared identifiers quantify over COp2 as well
+\begin{theorem}{ForwardSCorrctnessAOp2} 
+  \forall AOp2Sig; COp2Sig; COp2 | \pre~AOp2 \land Retr \land COp2 @ 
+   	\exists AState~' | Retr~' @ AOp2
+\end{theorem}
+
+\begin{theorem}{BarwardSInitialisation} 
+   \forall CSInit; Retr~' @ ASInit 
+\end{theorem}
+
+\begin{theorem}{BackwardSFeasibilityAOp2} 
+   \forall COp2Sig | (\forall AOp2Sig | Retr @ \pre AOp2) @ \pre COp2
+\end{theorem}
+
+\begin{theorem}{BackwardSCorrectnessAOp2} 
+  \forall COp2Sig | (\forall AOp2Sig | Retr @ \pre AOp2) @ 
+   	(\forall AState~'; COp2 | Retr~' @ (\exists AState | Retr @ AOp2))
+\end{theorem}

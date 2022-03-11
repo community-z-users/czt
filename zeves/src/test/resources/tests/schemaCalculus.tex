@@ -1,0 +1,57 @@
+\begin{zsection}
+   \SECTION schemaCalculus \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+   x: \nat
+\where
+   x > 10
+\end{schema}
+
+\begin{schema}{T}
+   y: \nat
+\where
+   y > 100
+\end{schema}
+
+
+\begin{zed}
+   OpSi == [ \Delta S; \Delta T; in?: \nat ]
+   \\
+   OpSo == [ \Delta S; out!: \nat ]
+   \\
+   OpS == OpSi \semi OpSo
+   \\
+   OpP == OpSi \pipe OpSo
+\end{zed}
+
+\begin{schema}{Op}
+   \Delta S \\
+   \Delta T
+\where
+   (\lnot S \land T) \lor (\lnot T \land S)
+\end{schema}
+
+\begin{schema}{Op2}
+   \Xi S \\
+\where
+   \exists \Delta T @ \lnot T \land \lnot S[y'/x] \\
+   \exists f: \nat \fun \nat @ f = (\lambda i: \nat @ i)
+\end{schema}
+
+bla bla bla
+
+......
+......
+
+<schema-box>
+  Op
+  <decl-part/>    &Delta;S &Delta;T
+  <ax-part/>   (&not;S &wedge;T) &vee; (&not;T &wedge;S)
+</schema-box>
+
+<schema-box>
+  Op2
+  <decl-part/> &Xi;S
+  <ax-part/>   &exists;&Delta;T &bullet; &not;T &wedge; &not;S[y'/x]
+</schema-box>

@@ -1,0 +1,40 @@
+Ian wrote:
+> I think issue 2 is a misunderstanding: CADiZ does not make
+> narrative and non-Z be subordinate to the Z.  Rather, CADiZ has several
+> kinds of def, each of which is equal to the Z kinds of def, of which
+> InformalDef is just one.  Could you just delete number 2?
+
+I've stopped using CADiZ as an example here, but think the issue
+is still interesting.  I hope I've explained it better now ---
+it's basically how tightly we want to validate the document
+(a) EVERY paragraph, or
+(b) just the paragraphs we know about.
+
+
+Votes on the DTD/XML schema approach to defining math symbols:
+Ian:  neither   (raw unicode is the most likely to be used)
+Nick: DTD or neither (because the XML approach is not transparent to parsers)
+Sun:  XML (or neither, because tools will use raw unicode)
+Dong: Too busy waiting for the baby to arrive :-)
+Andrew: XML (avoids going back to DTDs, makes everything ASCII and readable)
+Mark: neither  (or XML if we MUST have ASCII compatibility --- but it is
+                a pain that all the Z XML parsers will have to know about
+		all these definitions to unfold them, and writers will
+		have to put the definitions IN if we are serious about
+		ASCII compatibility).
+
+So I've deleted Section 5, and just added a fourth 'issue' discussing
+whether it is useful to try and obtain ASCII compatibility.
+
+
+Minor changes:
+  I dropped the 'XML is ASCII of the new century' quote on page 1,
+  because it seems more relevant to Unicode than XML and the previous
+  point (quickly become a new standard for interchange between tools)
+  is the point we want.
+
+  Point 2 in Sect 2 (Previous work) has been dropped.  (it described
+  a minor strangeness with Ian's DTD, which was just a bug).
+
+
+TODO: check that AndPred has an attribute to record kind of conjunction...

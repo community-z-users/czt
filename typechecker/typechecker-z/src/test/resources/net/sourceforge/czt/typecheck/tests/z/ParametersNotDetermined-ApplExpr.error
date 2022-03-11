@@ -1,0 +1,12 @@
+\begin{zsection}
+  \SECTION ParametersNotDetermined\_ApplExpr
+\end{zsection}
+
+\begin{gendef}[X,Y]
+  func : \power (X \cross Y)
+\end{gendef}
+
+\begin{axdef}
+\where
+  func(1) = \{\}
+\end{axdef}

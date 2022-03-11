@@ -1,0 +1,53 @@
+\begin{zsection}
+   \SECTION nsexpr\_wrongelem \parents circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c, d: \nat \\
+   \circchannel\ e : \nat \cross \nat \\
+   \circchannelset\ CS == \lchanset c, d \rchanset
+\end{circus}
+
+\begin{circus}
+   \circprocess\ Q \circdef \circbegin
+\end{circus}
+
+Name sets are rather tricky. They allow any variable to be there,
+including global and local variables, as well as process, action,
+or command parameters. Nevertheless, they cannot allow names of
+any Circus type (e.g., channel, nameset, channelset, process,
+and action), as this would not make sense.
+\begin{circusaction}
+    \circstate St == [ a: \nat; b: \nat \cross \nat ]
+\end{circusaction}
+
+\begin{circusaction}
+% some unknown name raises an error
+%   \circnameset NS0 == \{ a, b, UNKN \}
+%   \\
+% but some known name that is not right might require postchecking
+% if names are declared later on
+   \circnameset NS == \{ a, b, c \}
+\end{circusaction}
+
+\begin{circusaction}
+    A \circdef c.a \then \Skip
+    \\
+    B \circdef e.b \then \Skip
+    \\
+    % heterogeneous elements in name set display
+%    C \circdef A \lpar \{a \} | CS | \{ c\} \rpar B
+    \\
+    % NS + CS reference
+    D \circdef A \lpar NS | CS | NS \rpar B
+    \\
+%    E \circdef A \lpar NS \setminus \{ c \} | CS \setminus \lchanset d \rchanset | NS \setminus \{ b \} \rpar B
+\end{circusaction}
+
+\begin{circusaction}
+    \circspot \Skip
+\end{circusaction}
+
+\begin{circus}
+   \circend
+\end{circus}

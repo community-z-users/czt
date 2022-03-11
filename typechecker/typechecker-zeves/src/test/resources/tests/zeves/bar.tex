@@ -1,0 +1,29 @@
+
+File "bar.zed":
+\begin{zsection}
+ \SECTION bar \parents foo
+\end{zsection}
+
+\begin{zed}
+   XXX == 10
+\end{zed}
+
+\begin{gendef}[X,Y]
+    q : X \fun Y; f : Y \fun X
+\end{gendef}
+
+\begin{theorem}{postfixGen}[X,Y]
+   \vdash? \forall f: X \pfun Y @ q = f\inv
+\end{theorem}
+
+%\begin{theorem}{postfixGen2}[X,Y]
+%    \vdash? \forall g: X \fun Y; h: Y \fun X @ g = h (\_~\inv)[X,Y]
+%\end{theorem}
+
+\begin{theorem}{postfixGen3}[X,Y]
+    \vdash? \forall g: X \fun Y @ g = f (\_~\inv)[X,Y]
+\end{theorem}
+
+\begin{theorem}{thmwithwarn}
+    unknown \in \power~\num
+\end{theorem}

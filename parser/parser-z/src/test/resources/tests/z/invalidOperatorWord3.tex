@@ -1,0 +1,14 @@
+%%Zpreword \foo foo
+%%Zinword \bar bar
+
+From Z standard section 12.2.8: 
+  all the component names of an operator shall have the same strokes.
+
+\begin{zed}
+\generic (\foo \_ \bar \_)
+\end{zed}
+
+\begin{zed}
+  \foo_{1} X \bar_{2} Y == X \fun Y
+\end{zed}
+

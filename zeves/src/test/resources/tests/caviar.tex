@@ -1,0 +1,15 @@
+\begin{zsection}
+  \SECTION caviar \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+  [T0, R, U]
+\end{zed}
+
+\begin{axdef}
+  T: \power _1{} T0
+\end{axdef}
+
+\begin{theorem}{rule lExtractRuResultFromInnerLambdaRuBookUpdate}
+\forall  times: \power  T; rufcn: T \fun  R \rel  U; res: R; user: U @ \forall  t: times @ (\lambda  t0: times @ (rufcn~t0 \cup  \{(res, user)\})) t = rufcn~t \cup  \{(res, user)\}
+\end{theorem}

@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION DuplicateNameInRenameOpExpr\_RenameOpExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  error \sdef [x : \nat] [a/x, b/x]
+\end{class}

@@ -1,0 +1,4456 @@
+
+\begin{zsection}
+\SECTION chain \parents standard\_toolkit, zeves\_toolkit
+\end{zsection}
+
+
+\section{Transitive closure}
+
+\begin{LToolkit}[Unit set in $\_\plus$]
+\begin[disabled]{theorem}{rule lUnitTransitiveClosure}[X]
+\forall  x, y: X @ (x, y) \in  \{~(x, y)~\} \plus
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\_\plus$ element in $\_\plus$-$\cup$]
+\begin[disabled]{theorem}{rule lUnionTransitiveClosure}[X]
+\forall  x, y, z, w: X; R: X \rel  X | (x, y) \in  R \plus  @ (x, y) \in  (R \cup \{~(z,w)~\}) \plus
+\end{theorem}\end{LToolkit}
+
+\begin{LTrivial}[$\_\plus$ element in $\_\plus$-$\cup$]
+\begin[disabled]{theorem}{rule lUnionTransitiveClosure2}[X]
+\forall  x, y, z, w: X; R: X \rel  X | (x, y) \in  R \plus  @ (x, y) \in  (\{~(z, w)~\} \cup R) \plus
+\end{theorem}\end{LTrivial}
+
+\begin{LToolkit}[$R$ element is in $R\plus$]
+\begin[disabled]{theorem}{rule lInTransitiveClosure}[X]
+\forall  x, y: X; R: X \rel  X | (x, y) \in  R @ (x, y) \in  R \plus
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$R\plus$-$\cup$ links]
+\begin[disabled]{theorem}{rule lUnionSingletonTransitiveClosure}[X]
+\forall  x, y, z: X; R: X \rel  X | \lnot  (x, y) \in  R \plus  \land  (x, z) \in  R \plus  @
+        (x, y) \in  (R \cup \{~(z, y)~\}) \plus
+\end{theorem}\end{LToolkit}
+
+\begin{LTrivial}[$R\plus$-$\cup$ links]
+\begin[disabled]{theorem}{rule lUnionSingletonTransitiveClosure2}[X]
+\forall  x, y, z: X; R: X \rel  X | \lnot  (x, y) \in  R \plus  \land  (x, z) \in  R \plus  @
+        (x, y) \in  (\{~(z, y)~\} \cup R) \plus
+\end{theorem}\end{LTrivial}
+
+\begin{LToolkit}[$R\plus$ weakening - $\exists$]
+\begin[disabled]{theorem}{rule lTransitiveClosureElem}[X]
+\forall  x, y: X; R: X \rel  X | \exists  v: X @ (x, v) \in  R \land  (v, y) \in  R @ (x, y) \in  R \plus
+\end{theorem}\end{LToolkit}
+
+\begin{LRRT}[$R\plus$ element maximal type]
+\begin[disabled]{theorem}{rule lTransitiveClosureElemType}[X]
+\forall  R: X \rel  X | x \in  R \plus  @ x \in  X \cross  X
+\end{theorem}\end{LRRT}
+
+The next $5$ lemmas came from Isabelle/HOL's
+\texttt{Transitive\_Closure} theory (\texttt{trancl.ML}, 1992).
+%
+\begin{LToolkit}[Elements in sequence are transitively closed]
+\begin[disabled]{theorem}{rule lIsaHolIntoTransitiveClosure}[X]
+\forall  a, b, c: X; R: X \rel  X | (a, b) \in  R \land  (b, c) \in  R @ (a, c) \in  R \plus
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[Transitive closure entails element]
+\begin[disabled]{theorem}{rule lIsaHolTransitiveClosureEntails}[X]
+\forall  a, b, c: X; R: X \rel  X | (a, b) \in  R \plus  \land  (b, c) \in  R @ (a, c) \in  R \plus
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[Transitive closure (implicitly) entails element]
+\begin[disabled]{theorem}{rule lIsaHolTransitiveClosureEntails2}[X]
+\forall  a, c: X; R: X \rel  X | \exists  b: X @ (a, b) \in  R \plus  \land  (b, c) \in  R @ (a, c) \in  R \plus
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[Transitive closure leads to element]
+\begin[disabled]{theorem}{rule lIsaHolTransitiveClosureLeadsTo}[X]
+\forall  a, b, c: X; R: X \rel  X | (a, b) \in  R \land  (b, c) \in  R \plus  @ (a, c) \in  R \plus
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[Transitive closure is transitive]
+\begin[disabled]{theorem}{rule lIsaHolTransitiveClosureTransitive}[X]
+\forall  a, b, c: X; R: X \rel  X | (a, b) \in  R \plus  \land  (b, c) \in  R \plus  @ (a, c) \in  R \plus
+\end{theorem}\end{LToolkit}
+\sectionproof{Transitive closure}{theories-transitive-closure}
+
+\begin{LPScript}\begin{forget}[lUnitTransitiveClosure]
+apply plusDef to expression \{~(x, y)~\} \plus [X];
+prove by rewrite;
+\end{forget}
+\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lUnionTransitiveClosure]
+apply plusDef;
+prove by rewrite;
+instantiate B\_\_0 == B;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lUnionTransitiveClosure2]
+use lUnionTransitiveClosure[X];
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lInTransitiveClosure]
+apply plusDef;
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lUnionSingletonTransitiveClosure]
+apply lInTransitiveClosure;
+rewrite;
+split (x, z) \in  R;
+prove by rewrite;
+cases;
+apply plusDef to expression (R \cup [(X \cross  X)] \{~(z, y)~\}) \plus [X];
+prove by rewrite;
+apply inPower to predicate R \in  \power~  B;
+apply inPower to predicate B \comp [X, X, X] B \in  \power~  B;
+instantiate e == (x, z);
+instantiate e\_\_0 == (x, y);
+prove by rewrite;
+instantiate y\_\_0 == z;
+prove by rewrite;
+next;
+rearrange;
+apply plusDef to expression R \plus [X];
+rewrite;
+prenex;
+with disabled (subsetDef) rewrite;
+instantiate B\_\_0 == B;
+with disabled (subsetDef) rewrite;
+apply plusDef to expression (R \cup [(X \cross  X)] \{~(z, y)~\}) \plus [X];
+with disabled (subsetDef) rewrite;
+prenex;
+with disabled (subsetDef) rewrite;
+rewrite;
+apply inPower to predicate B\_\_0 \comp [X, X, X] B\_\_0 \in  \power~  B\_\_0;
+instantiate e == (x, y);
+rewrite;
+instantiate y\_\_0 == z;
+rewrite;
+rearrange;
+instantiate B\_\_1 == B\_\_0;
+rewrite;
+apply inPower to predicate B\_\_0 \comp [X, X, X] B\_\_0 \in  \power~  B\_\_0;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lUnionSingletonTransitiveClosure2]
+use lUnionSingletonTransitiveClosure[X];
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lTransitiveClosureElem]
+apply plusDef;
+prove by rewrite;
+apply inPower to predicate B \comp [X, X, X] B \in  \power~  B;
+instantiate e == (x, y);
+prove by rewrite;
+apply inPower to predicate R \in  \power~  B;
+instantiate e == (x, v);
+instantiate e == (v, y);
+instantiate y\_\_0 == v;
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lTransitiveClosureElemType]
+apply plusDef to expression R \plus [X];
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIsaHolIntoTransitiveClosure]
+apply lTransitiveClosureElem to predicate (a, c) \in  R \plus [X];
+instantiate v == b;
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIsaHolTransitiveClosureEntails]
+apply plusDef to expression R \plus [X];
+prove by rewrite;
+instantiate B\_\_0 == B;
+rearrange;
+rewrite;
+apply inPower to predicate R \in  \power~  B;
+instantiate e == (b, c);
+rearrange;
+rewrite;
+apply inPower to predicate B \comp [X, X, X] B \in  \power~  B;
+instantiate e\_\_0 == (a, c);
+rearrange;
+rewrite;
+instantiate y == b;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIsaHolTransitiveClosureEntails2]
+prenex;
+use lIsaHolTransitiveClosureEntails[X];
+rearrange;
+simplify;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIsaHolTransitiveClosureLeadsTo]
+apply plusDef to expression R \plus [X];
+prove by rewrite;
+instantiate B\_\_0 == B;
+rearrange;
+rewrite;
+apply inPower to predicate R \in  \power~  B;
+instantiate e == (a, b);
+rearrange;
+rewrite;
+apply inPower to predicate B \comp [X, X, X] B \in  \power~  B;
+instantiate e\_\_0 == (a, c);
+rearrange;
+rewrite;
+instantiate y == b;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIsaHolTransitiveClosureTransitive]
+apply plusDef to expression R \plus [X];
+prove by rewrite;
+instantiate B\_\_0 == B;
+instantiate B\_\_1 == B;
+rewrite;
+apply inPower to predicate B \comp [X, X, X] B \in  \power~  B;
+instantiate e == (a, c);
+rearrange;
+rewrite;
+instantiate y == b;
+rewrite;
+\end{forget}\end{LPScript}
+
+
+\section{Relational iteration}
+
+\begin{LToolkit}[Transitive closure is transitive]
+\begin[disabled]{theorem}{rule lIteratedTransitiveClosureType}[X]
+\forall  R: X \rel  X @ \{~  i: \nat _1{} @ iter[X]~i~R ~\} \in  \power~  (\power~  (X \cross  X))
+\end{theorem}\end{LToolkit}
+
+\begin{LTrivial}[Iterative closure:~ base case as a rule]
+\begin[disabled]{theorem}{rule lIterBase}[X]
+\forall  R: X \rel  X @ iter~0~R = \id  X
+\end{theorem}\end{LTrivial}
+
+\begin{LTrivial}[Iterative closure:~inductive case as a rule]
+\begin[disabled]{theorem}{rule lIterInduc}[X]
+\forall  R: X \rel  X; n: \nat  @ iter~(n + 1)~R = \\
+    \t1 \IF  n = 0 \THEN  R \ELSE  R \comp  iter~n~R
+\end{theorem}\end{LTrivial}
+
+\begin{LTrivial}[$R\bsup n \esup$ ($n \geq 0$):~ all cases as a rule]
+\begin[disabled]{theorem}{rule lIterPositive}[X]
+\forall  R: X \rel  X; n: \nat  @ iter~n~R = \\
+    \t2 \IF  n = 0 \THEN  \id  X \\
+    \t1 \ELSE  \IF  n = 1 \THEN  R \\
+    \t1 \ELSE  R \comp  iter~(n - 1)~R
+\end{theorem}\end{LTrivial}
+
+\begin{LToolkit}[$\id\_$ element in $R\bsup 0 \esup$ (base case)]
+\begin[disabled]{theorem}{rule lInIterZero}[X]
+\forall  R: X \rel  X | e \in  \id  X @ e \in  iter~0~R
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$R$ element in $R\bsup 1 \esup$ (singleton case)]
+\begin[disabled]{theorem}{rule lInIterOne}[X]
+\forall  R: X \rel  X | e \in  R @ e \in  iter~1~R
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$R$ element in $R\bsup n \esup$ (general case, $n > 1$)]
+\begin[disabled]{theorem}{rule lInIterN}[X]
+\forall  R: X \rel  X; n: \nat _1{} | \lnot  n = 1 \land  e \in  R \comp  iter~(n - 1)~R @ e \in  iter~n~R
+\end{theorem}\end{LToolkit}
+
+\begin{LTrivial}[$R\bsup n \esup$ element ($n \geq 0$):~all cases as a rule]
+\begin[disabled]{theorem}{rule lInIterAny}[X]
+\forall  R: X \rel  X; n: \nat  | e \in  \\
+    \t2      \IF  n = 0 \THEN  \id  X \\
+    \t1 \ELSE  \IF  n = 1 \THEN  R \\
+    \t1 \ELSE  R \comp  iter~(n - 1)~R @ e \in  iter~n~R
+\end{theorem}\end{LTrivial}
+
+\begin{LRRT}[$R\bsup n \esup$ is total on $n \geq 0$]
+\begin{theorem}{rule lIterIsTotalOnN}[X] % [disabled]
+\forall  n: \nat  @ n \in  \dom~  iter[X]
+\end{theorem}\end{LRRT}
+
+\begin{LRRT}[$R\bsup n \esup$ ($n \geq 0$) is total on any $R$]
+\begin{theorem}{rule lIterIsTotalOnIterN}[X] % [disabled]
+\forall  R: X \rel  X; n: \nat  @ R \in  \dom~  (iter~n)
+\end{theorem}\end{LRRT}
+
+The next two rules are extremely helpful!
+\begin{LToolkit}[$R\bsup i \esup$-$\comp$ ($i > 1$) to the right]
+\begin[disabled]{theorem}{rule lTrivialIterateCompositionPosRight}[X] %old lTrivialIterateCompositionPos
+\forall  i: \nat _1{}; R: X \rel  X | \lnot  i = 1 @ iter~i~R = R \comp  iter~(i - 1)~R
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$R\bsup i \esup$-$\comp$ ($i > 1$) to the left]
+\begin[disabled]{theorem}{rule lTrivialIterateCompositionPosLeft}[X] %old lTrivialIterateCompositionPos2
+\forall  i: \nat _1{}; R: X \rel  X | \lnot  i = 1 @ iter~i~R = iter~(i - 1)~R \comp R
+\end{theorem}\end{LToolkit}
+
+\begin{LAbbr}[Example for a $R\bsup i \esup$ ($i \geq 0$) witness]
+\begin{zed}
+IterWitness[X] ~~==~~ (\lambda  i: \nat  @ (\lambda  Q: X \rel  X @ iter~i~Q))
+\end{zed}\end{LAbbr}
+
+\begin{LRRT}[$R\bsup i \esup$ ($n \in \num$) result maximal type]
+\begin{theorem}{rule lIterRangeMaxType}[X] % [disabled]
+\forall  R: X \rel  X; n: \num  @ iter~n~R \in  \power~  (X \cross  X)
+\end{theorem}\end{LRRT}
+
+\begin{LRRT}[$R\bsup i \esup$ ($n \in \num$) result maximal relational type]
+\begin{theorem}{rule lIterRangeRelType}[X] % [disabled]
+\forall  R: X \rel  X; n: \num  @ iter~n~R \in  X \rel  X
+\end{theorem}\end{LRRT}
+
+\begin{LLemma}[Transitive $R\bsup i \esup$ ($i > 0$) element weakening]
+\begin[disabled]{theorem}{lIteratedTransitiveClosureMember}[X]
+\forall  a, b: X; R: X \rel  X | (a, b) \in  \bigcup  \{~  i: \nat _1{} @
+    (iter~i~R) ~\} @ \exists  j: \nat _1{} @ (a, b) \in  iter~j~R
+\end{theorem}\end{LLemma}
+
+The next $3$ lemmas are similar to those given in the \texttt{transitive\_closure}
+theory (see~\thref{theories-transitive-closure}).
+\begin{LToolkit}[Transitive $R\bsup i \esup$ ($i > 0$) element entails]
+\begin[disabled]{theorem}{rule lIteratedTransitiveClosureElemIsTransitive}[X]
+\forall  a, b, c: X; R: X \rel  X | (a, b) \in  \bigcup  \{~  i: \nat _1{} @ (iter~i~R) ~\} \land  \\
+    \t6 (b, c) \in  \bigcup  \{~  j: \nat _1{} @ (iter~j~R) ~\} @  \\
+         \t7 (a, c) \in  \bigcup  \{~  k: \nat _1{} @ (iter~k~R) ~\}
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[Transitive $R\bsup i \esup$ ($i > 0$) element (implicitly) entails]
+\begin[disabled]{theorem}{rule lIteratedTransitiveClosureElemIsTransitive2}[X]
+\forall  a, c: X; R: X \rel  X | \exists  b: X @ (a, b) \in  \bigcup  \{~  i: \nat _1{} @ (iter~i~R) ~\} \land \\
+    \t6 (b, c) \in  \bigcup \{~  j: \nat _1{} @ (iter~j~R) ~\} @ \\
+        \t7 (a, c) \in  \bigcup  \{~  k: \nat _1{} @ (iter~k~R) ~\}
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[Transitive $R\bsup i \esup$ ($i > 0$) element (implicitly) entails]
+\begin[disabled]{theorem}{rule lIterativeClosureIsTransitive}[X]
+\forall  R: X \rel  X @ \\
+    \t1 \bigcup  \{~  i: \nat _1{} @
+    (iter~i~R) ~\} \comp  \bigcup  \{~  j: \nat _1{} @ (iter~j~R) ~\} \in
+        \power~  (\bigcup  \{~  k: \nat _1{} @ (iter~k~R) ~\})
+\end{theorem}\end{LToolkit}
+
+The next lemma is a $R\bsup n \esup$ ($n > 0$) (\textit{i.e.,} iterated transitive closure)
+version of \zeves\ lemma \texttt{plusContainsSelf} (See Section~10.11), but given as an
+automatic rewriting rule.
+%
+\begin{LToolkit}[$R\bsup n \esup$ ($n > 0$) contains $R$]
+\begin[disabled]{theorem}{rule lIterativeClosureIsSelfContained}[X]
+\forall  R: X \rel  X @ R \in  \power~  (\bigcup  \{~  i: \nat _1{} @ (iter~i~R) ~\})
+\end{theorem}\end{LToolkit}
+
+The next lemma is the most important in this Z section. It enables one
+to exchange lemmas between relational transitive closure, and iterated
+transitive closure. The latter is more helpful in transitive closure
+proofs, since it already provides an inductive argument. Thus, in an
+indirect way, this equivalence transformation (implicitly) provides an
+induction scheme for transitive closure, yet without the hassle of
+inductive sets setup needed for set-theoretical inductive proofs.
+Although it does not avoid such inductive setup altogether (\textit{e.g.,}
+see the two but the last theorems below), it does simplify transitive
+closure proofs considerably. For some evidence of this, see other works
+on proving Woodcock and Davies' $Chain$ data type.
+%
+\begin{LToolkit}[$R\plus$ equals $R\bsup n \esup$ ($n > 0$)]
+\begin[disabled]{theorem}{rule lTransitiveClosureEquivalence}[X]
+\forall  R: X \rel  X @ R \plus  = \bigcup  \{~  i: \nat _1{} @ (iter~i~R) ~\}
+\end{theorem}\end{LToolkit}
+
+MAYBE GO TO ITERATIVE CLOSURE?
+\begin{LToolkit}[$R\plus$ element belongs to $\dom~R$]
+\begin[disabled]{theorem}{rule lTransitiveClosureConnectsDom}[X]
+\forall  x, y: X; R: X \rel  X | (x, y) \in  R \plus  @ x \in  \dom~  R
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$R\plus$ element belongs to $\ran~R$]
+\begin[disabled]{theorem}{rule lTransitiveClosureConnectsRan}[X]
+\forall  x, y: X; R: X \rel  X | (x, y) \in  R \plus  @ y \in  \ran~  R
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$R\plus$ element belongs to $\ran~R\plus$]
+\begin[disabled]{theorem}{rule lTransitiveClosureConnectsRan2}[X]
+\forall  x, y: X; R: X \rel  X | (x, y) \in  R~\plus  @ y \in  \ran~(R~\plus)
+\end{theorem}\end{LToolkit}
+
+
+The next $2$ lemmas are a weakened version of the previous one for set membership,
+rather than equivalence.
+\begin{LToolkit}[$R\plus$ element is  $R\bsup n \esup$ ($n > 0$) element]
+\begin[disabled]{theorem}{rule lTransitiveClosureMemberIsIteratedClosureMember}[X]
+\forall  a, c: X; R: X \rel  X | (a, c) \in  R \plus  @ (a, c) \in  \bigcup  \{~  i: \nat _1{} @ (iter~i~R) ~\}
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$R\bsup n \esup$ ($n > 0$) element is $R\plus$ element]
+\begin[disabled]{theorem}{rule lIteratedTransitiveClosureMemberIsTransitiveClosureMember}[X]
+\forall a, c: X; R: X \rel  X | (a, c) \in  \bigcup  \{~  i: \nat _1{} @ (iter~i~R) ~\} @ (a, c) \in  R \plus
+\end{theorem}\end{LToolkit}
+
+The next $2$ lemmas provide the set-theoretical natural induction scheme/argument needed
+for the proofs of the next following $2$ lemmas. The argument is as follows:~ show
+that the $R\bsup i \esup$ distributes through $\ndres$/$\nrres$ over a general $i > 0$, and
+that this set contains the whole set of strictly positive numbers ($\nat_1$). With that,
+and the equivalence between $R\plus$ and $R\bsup i \esup$ ($i>0$) (see lemma
+\texttt{lTransitiveClosureEquivalence} above), we can prove that the same property holds
+for $R\plus$. In this sense, we have used $R\bsup i \esup$ ($i>0$) to prove properties
+about $R\plus$, which we found much easier/simpler than using $R\plus$ definition directly.
+%
+\begin{LLemma}
+\begin[disabled]{theorem}{lHeadExtractNDresDistTransitiveClosureZEvesInduc}[X]
+\forall  s: X; R: X \rel  X | \lnot  s \in  \ran~  R @
+    \nat _1{} \subseteq  \{~  i: \nat _1{} | iter~i~(\{~s~\} \ndres  R) = \{~s~\} \ndres  iter~i~R ~\}
+\end{theorem}\end{LLemma}
+
+\begin{LLemma}
+\begin[disabled]{theorem}{lLastExtractNRresDistTransitiveClosureZEvesInduc}[X]
+\forall  e: X; R: X \rel  X | \lnot  e \in  \dom~ R @
+    \nat _1{} \subseteq  \{~  i: \nat _1{} | iter~i~(R \nrres  \{~e~\}) = iter~i~R \nrres  \{~e~\} ~\}
+\end{theorem}\end{LLemma}
+
+The next lemma says that extracting some transitively closed head/start element of
+$R$ (\textit{i.e.,} $s \notin \ran~ R$) is irrespective of the closure operation.
+In other words, it distributes through the transitive closure.
+%
+\begin{LToolkit}[$R\plus$-$\ndres$ head extraction distributes through $R\plus$]
+\begin[disabled]{theorem}{rule lHeadExtractNDresDistTransitiveClosure}[X]
+\forall  s: X; R: X \rel  X | \lnot  s \in  \ran~  R @ (\{~s~\} \ndres  R) \plus  = \{~s~\} \ndres  R \plus
+\end{theorem}\end{LToolkit}
+
+Similarly, extracting some transitively closed last/end element of
+$R$ (\textit{i.e.,} $e \notin \dom~ R$) is irrespective of the closure
+operation. In other words, it distributes through the transitive closure.
+%
+\begin{LToolkit}[$R\plus$-$\nrres$ last extraction distributes through $R\plus$]
+\begin[disabled]{theorem}{rule lLastExtractNRresDistTransitiveClosure}[X]
+\forall  e: X; R: X \rel  X | \lnot  e \in  \dom~  R @ (R \nrres  \{~e~\}) \plus  = R \plus  \nrres \{~e~\}
+\end{theorem}\end{LToolkit}
+
+\begin{LRRT}[$R\bsup n \esup$ ($n > 0$) element maximal type]
+\begin[disabled]{theorem}{rule lIteratedClosureElemType}[X]
+\forall i: \num ; R: X \rel  X | x \in  iter~i~R @ x \in  X \cross  X
+\end{theorem}\end{LRRT}\sectionproof{Iterated closure}{theories-iterated-closure}
+
+\begin{LPScript}\begin{forget}[lIteratedTransitiveClosureType]
+apply inPower to predicate \{~  i: \nat _1{} @ iter[X]~i~R ~\} \in  \power~  (\power~  (X \cross  X));
+prenex;
+rewrite;
+prenex;
+apply inPower to predicate e \in  \power~  (X \cross  X);
+prenex;
+apply inCross2 to predicate e\_\_0 \in  X \cross  X;
+use iterInPlus[X][n := i];
+rearrange;
+rewrite;
+apply inPower to predicate iter[X]~i~R \in  \power~  R \plus [X];
+instantiate e\_\_1 == e\_\_0;
+rearrange;
+rewrite;
+use lTransitiveClosureElemType[X][x := e\_\_0];
+rearrange;
+apply inCross2 to predicate e\_\_0 \in  X \cross  X;
+simplify;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIterBase]
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIterInduc]
+use iterPositive[X][R\_\_1 := R, n\_\_0 := n];
+rearrange;
+simplify;
+apply oneIteration to expression iter[X]~1~R;
+simplify;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIterPositive]
+use lIterInduc[X][n := n - 1];
+rearrange;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lInIterZero]
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lInIterOne]
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lInIterN]
+apply lIterPositive to expression iter[X]~n~R;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lInIterAny]
+split n = 0;
+rewrite;
+split n = 1;
+rewrite;
+apply lInIterN to predicate e \in  iter[X]~n~R;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIterIsTotalOnN]
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIterIsTotalOnIterN]
+with predicate (n \in  \nat ) rewrite;
+use applyInRanFun[\num , (X \rel  X) \fun  X \rel  X][f := iter[X], a := n];
+rearrange;
+simplify;
+apply inDom to predicate R \in  \dom~ [(\power~  (X \cross  X)), (\power~  (X \cross  X))] (iter[X]~n);
+with predicate (iter[X]~n \in  \power~  (X \cross  X) \rel  \power~  (X \cross  X)) rewrite;
+invoke (\_\fun \_);
+rewrite;
+instantiate x == R;
+invoke (\_\rel \_);
+simplify;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lTrivialIterateCompositionPosRight]
+apply lIterPositive to expression iter[X]~i~R;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lTrivialIterateCompositionPosLeft]
+use composePositiveIterates[X][n := i - 1, k := 1, Y := X];
+rearrange;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LDCheck}\begin{forget}[IterWitness\$domainCheck]
+rewrite;
+\end{forget}\end{LDCheck}
+
+\begin{LPScript}\begin{forget}[lIterRangeMaxType]
+use applyInRanFun[\num , (X \rel  X) \fun  X \rel  X][f := iter[X], a := n];
+rearrange;
+simplify;
+use applyInRanFun[X \rel  X, X \rel  X][f := iter[X]~n, a := R];
+rearrange;
+invoke (\_\rel \_);
+simplify;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIterRangeRelType]
+invoke (\_\rel \_);
+apply lIterRangeMaxType to predicate iter[X]~n~R \in  \power~  (X \cross  X);
+invoke (\_\rel \_);
+simplify;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIteratedTransitiveClosureMember]
+rewrite;
+prenex;
+rewrite;
+prenex;
+instantiate j == i;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIteratedTransitiveClosureElemIsTransitive]
+rewrite;
+prenex;
+rewrite;
+prenex;
+use composePositiveIterates[X][Y := X, n := i, k := i\_\_0, R := R];
+rearrange;
+rewrite;
+instantiate B\_\_1 == B \comp [X, X, X] B\_\_0;
+equality substitute;
+rewrite;
+instantiate i\_\_1 == i + i\_\_0;
+rewrite;
+instantiate y == b;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIteratedTransitiveClosureElemIsTransitive2]
+prenex;
+use lIteratedTransitiveClosureElemIsTransitive[X];
+rearrange;
+simplify;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIterativeClosureIsTransitive]
+apply inPower;
+prenex;
+rewrite;
+apply compDef;
+rewrite;
+prenex;
+rewrite;
+prenex;
+rewrite;
+use composePositiveIterates[X][Y := X, n := i, k := i\_\_0, R := R];
+rearrange;
+rewrite;
+instantiate B\_\_1 == B \comp [X, X, X] B\_\_0;
+equality substitute;
+rewrite;
+instantiate i\_\_1 == i + i\_\_0;
+rewrite;
+instantiate y\_\_0 == y;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIterativeClosureIsSelfContained]
+apply inPower;
+prenex;
+rewrite;
+instantiate B == R;
+rewrite;
+instantiate i == 1;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lTransitiveClosureEquivalence]
+apply extensionality2 to predicate
+    R \plus [X] =
+    \bigcup [(X \cross  X)] \{~  i: \nat _1{} @ (iter[X]~i~R) ~\};
+cases;
+next;
+rewrite;
+apply inPower to predicate \{~  i: \nat _1{} @ iter[X]~i~R ~\} \in  \power~  (\power~  R \plus [X]);
+prenex;
+rewrite;
+prenex;
+use iterInPlus[X][n := i];
+rearrange;
+rewrite;
+next;
+apply plusSubset1 to predicate R \plus [X] \in
+    \power~  (\bigcup [(X \cross  X)] \{~  i: \nat _1{} @ (iter[X]~i~R) ~\});
+rewrite;
+apply lIterativeClosureIsTransitive;
+apply lIterativeClosureIsSelfContained;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lTransitiveClosureConnectsDom]
+apply lTransitiveClosureEquivalence to expression R \plus [X];
+rewrite;
+prenex;
+rewrite;
+prenex;
+apply lIterPositive to expression iter[X]~i~R;
+rewrite;
+apply inDom to predicate x \in  \dom~ [X, X] R;
+rearrange;
+rewrite;
+split i = 1;
+rewrite;
+cases;
+instantiate y\_\_0 == y;
+rewrite;
+next;
+rearrange;
+equality substitute;
+rewrite;
+prenex;
+instantiate y\_\_1 == y\_\_0;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lTransitiveClosureConnectsRan]
+apply lTransitiveClosureEquivalence;
+apply inRan;
+prove by rewrite;
+apply lTrivialIterateCompositionPosLeft to expression iter[X]~i~R;
+prove by rewrite;
+split i = 1;
+rewrite;
+cases;
+instantiate x\_\_0 == x;
+rewrite;
+next;
+instantiate x\_\_1 == y\_\_0;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lTransitiveClosureConnectsRan2]
+apply lTransitiveClosureEquivalence to expression R \plus [X];
+rewrite;
+apply inRan to predicate y \in
+    \ran~ [X, X] (\bigcup [(X \cross  X)] \{~  i\_\_0: \nat _1{} @ (iter[X]~i\_\_0~R) ~\});
+prenex;
+rewrite;
+prenex;
+instantiate x\_\_0 == x;
+rewrite;
+instantiate B\_\_0 == B;
+rewrite;
+instantiate i\_\_0 == i;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lTransitiveClosureMemberIsIteratedClosureMember]
+use lTransitiveClosureEquivalence[X];
+rearrange;
+simplify;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIteratedTransitiveClosureMemberIsTransitiveClosureMember]
+use lTransitiveClosureEquivalence[X];
+rearrange;
+simplify;
+\end{forget}\end{LPScript}
+
+
+\begin{LPScript}\begin{forget}[lHeadExtractNDresDistTransitiveClosureZEvesInduc]
+apply nat1Induction;
+prove by rewrite;
+split x = 1;
+cases;
+apply lIterPositive;
+prove by rewrite;
+apply extensionality to predicate
+    \{~s~\} \ndres [X, X] R \comp [X, X, X] \{~s~\} \ndres [X, X] R =
+    \{~s~\} \ndres [X, X] (R \comp [X, X, X] R);
+apply compDef;
+prove by rewrite;
+apply inNdres;
+invoke (\_\rel \_);
+prove by rewrite;
+instantiate y\_\_2 == y\_\_0;
+prove by rewrite;
+rearrange;
+instantiate y == y\_\_0;
+rearrange;
+rewrite;
+apply inRan;
+instantiate x\_\_1 == x\_\_0;
+prove by rewrite;
+next;
+apply extensionality to predicate
+    iter[X]~(1 + x)~(\{~s~\} \ndres [X, X] R) = \{~s~\} \ndres [X, X] iter[X]~(1 + x)~R;
+apply extensionality to predicate
+    iter[X]~x~(\{~s~\} \ndres [X, X] R) = \{~s~\} \ndres [X, X] iter[X]~x~R;
+prenex;
+rewrite;
+apply lTrivialIterateCompositionPosRight to
+    expression iter[X]~(1 + x)~(\{~s~\} \ndres [X, X] R);
+apply lTrivialIterateCompositionPosRight to
+    expression iter[X]~(1 + x)~R;
+rewrite;
+apply compDef;
+rewrite;
+prenex;
+rearrange;
+rewrite;
+instantiate x\_\_4 == x\_\_1, y\_\_3 == y\_\_0, z\_\_1 == z;
+instantiate x\_\_3 == (y, z);
+rewrite;
+instantiate y\_\_2 == (y\_\_0, z\_\_0);
+rearrange;
+rewrite;
+equality substitute;
+rewrite;
+instantiate y\_\_3 == y\_\_0;
+rewrite;
+rearrange;
+apply inRan to predicate s \in  \ran~ [X, X] R;
+instantiate x\_\_1 == x\_\_0;
+rearrange;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lHeadExtractNDresDistTransitiveClosure]
+apply extensionality;
+prenex;
+use lHeadExtractNDresDistTransitiveClosureZEvesInduc[X];
+rearrange;
+rewrite;
+apply inPower;
+rewrite;
+cases;
+use lTransitiveClosureElemType[X][R := \{~s~\} \ndres [X, X] R];
+apply inCross2;
+prenex;
+rearrange;
+rewrite;
+rearrange;
+equality substitute;
+apply lTransitiveClosureEquivalence;
+rewrite;
+prenex;
+rewrite;
+prenex;
+instantiate e == i;
+rearrange;
+simplify;
+split iter[X]~i~(\{~s~\} \ndres [X, X] R) = \{~s~\} \ndres [X, X] iter[X]~i~R;
+simplify;
+equality substitute iter[X]~i~(\{~s~\} \ndres [X, X] R);
+equality substitute B;
+rewrite;
+instantiate B\_\_0 == iter[X]~i~R;
+rewrite;
+instantiate i\_\_0 == i;
+rewrite;
+next;
+use lTransitiveClosureElemType[X][x := y];
+rearrange;
+apply inCross2;
+prenex;
+rewrite;
+rearrange;
+equality substitute;
+apply lTransitiveClosureEquivalence;
+rewrite;
+prenex;
+rewrite;
+prenex;
+instantiate e == i;
+simplify;
+instantiate B\_\_0 == \{~s~\} \ndres [X, X] iter[X]~i~R;
+rewrite;
+instantiate i\_\_0 == i;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lLastExtractNRresDistTransitiveClosureZEvesInduc]
+apply nat1Induction;
+prove by rewrite;
+split x = 1;
+cases;
+apply lIterPositive;
+prove by rewrite;
+apply extensionality to predicate
+    R \nrres [X, X] \{e\} \comp [X, X, X] R \nrres [X, X] \{e\} =
+    (R \comp [X, X, X] R) \nrres [X, X] \{e\};
+apply compDef;
+prove by rewrite;
+apply inNrres;
+invoke (\_\rel \_);
+prove by rewrite;
+instantiate y\_\_2 == y\_\_0;
+prove by rewrite;
+rearrange;
+instantiate y == y\_\_0;
+rearrange;
+rewrite;
+apply inDom;
+instantiate y\_\_1 == z;
+prove by rewrite;
+next;
+apply extensionality to predicate
+    iter[X] x (R \nrres [X, X] \{e\}) = iter[X] x R \nrres [X, X] \{e\};
+apply extensionality to predicate
+    iter[X] (1 + x) (R \nrres [X, X] \{e\}) = iter[X] (1 + x) R \nrres [X, X] \{e\};
+prenex;
+rewrite;
+apply lTrivialIterateCompositionPosLeft
+    to expression iter[X] (1 + x) (R \nrres [X, X] \{e\});
+apply lTrivialIterateCompositionPosLeft
+    to expression iter[X] (1 + x) R;
+rewrite;
+apply compDef;
+rewrite;
+prenex;
+rearrange;
+rewrite;
+instantiate x\_\_4 == x\_\_1, y\_\_3 == y\_\_0, z\_\_1 == z;
+instantiate x\_\_3 == (x\_\_0, y);
+rewrite;
+prove by rewrite;
+instantiate y\_\_3 == y\_\_0;
+rewrite;
+instantiate y\_\_2 == (x\_\_0, y);
+rearrange;
+rewrite;
+apply inDom to predicate e \in  \dom~[X, X] R;
+instantiate y\_\_2 == z;
+rearrange;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lLastExtractNRresDistTransitiveClosure]
+apply extensionality;
+prenex;
+use lLastExtractNRresDistTransitiveClosureZEvesInduc[X];
+rearrange;
+rewrite;
+apply inPower;
+rewrite;
+cases;
+use lTransitiveClosureElemType[X][R := R \nrres [X, X] \{e\}];
+apply inCross2;
+rearrange;
+rewrite;
+prenex;
+rearrange;
+equality substitute;
+apply lTransitiveClosureEquivalence;
+rewrite;
+prenex;
+rewrite;
+prenex;
+instantiate e\_\_0 == i;
+rearrange;
+simplify;
+split iter[X] i (R \nrres [X, X] \{e\}) = iter[X] i R \nrres [X, X] \{e\};
+simplify;
+equality substitute iter[X] i (R \nrres [X, X] \{e\});
+equality substitute B;
+rewrite;
+instantiate B\_\_0 == iter[X] i R;
+rewrite;
+instantiate i\_\_0 == i;
+rewrite;
+next;
+use lTransitiveClosureElemType[X][x := y];
+rearrange;
+apply inCross2;
+prenex;
+rewrite;
+rearrange;
+equality substitute;
+apply lTransitiveClosureEquivalence;
+rewrite;
+prenex;
+rewrite;
+prenex;
+instantiate e\_\_0 == i;
+simplify;
+instantiate B\_\_0 == iter[X] i R \nrres [X, X] \{e\};
+rewrite;
+instantiate i\_\_0 == i;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIteratedClosureElemType]
+apply lIterPositive to expression iter[X]~i~R;
+with normalization rewrite;
+\end{forget}\end{LPScript}
+
+\section{Function spaces}
+
+\begin{LToolkit}[Partial function point is an element]
+\begin[disabled]{theorem}{rule lPfunPointIsPfunElem}[X, Y]
+\forall  x: X; y: Y; f: X \pfun  Y | x \in  \dom~  f \land  y = f~x @ (x, y) \in  f
+\end{theorem}
+\end{LToolkit}
+
+\begin{LToolkit}[Expose $\pfun$ property]
+\begin[disabled]{theorem}{rule lPFunWeakening}[X, Y]
+    f \in  X \pfun  Y \\
+    \t1 \iff  \\
+    f \in X \rel Y \land \\
+    (\forall  d: X; r1, r2: Y | (d, r1) \in  f \land  (d, r2) \in  f @ r1 = r2)
+\end{theorem}\end{LToolkit}
+
+
+\begin{LTrivial}[Expose $\pfun$ property with fresh names]
+\begin[disabled]{theorem}{rule lPFunWeakeningFresh}[X, Y]
+    f \in  X \pfun  Y \\
+    \t1 \iff  \\
+    f \in X \rel Y \land \\
+    (\forall  df: X; rf1, rf2: Y | (df, rf1) \in  f \land  (df, rf2) \in  f @ rf1 = rf2)
+\end{theorem}\end{LTrivial}
+
+The next lemma is laid out for maximal automation.
+It is equivalent to $\dom~f = \{\} \implies f = \{\}$,
+which cannot be given as a rule.
+%
+\begin{LToolkit}[Non empty PFun has non empty $\dom$]
+\begin[disabled]{theorem}{rule lEmptyDomIsEmptyPFun}[X, Y]
+\forall  f: X \pfun  Y | \lnot  f = \{\} @ \lnot  \dom~ f = \{\}
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\dom$ element is specific $\pfun$ element]
+\begin[disabled]{theorem}{rule lDomElemIsElemPFun}[X, Y]
+\forall  x: X; f: X \pfun  Y | x \in  \dom~  f @ (x, f~ x) \in  f
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[Member of homogeneous $\pfun$ forms no loop]
+\begin[disabled]{theorem}{rule lHomogeneousMemberNoLoop}[X]
+\forall  x: X; f: X \pfun  X | x \in  \dom~  f \land  \lnot  x \in  \ran~  f @ \lnot  f~x = x
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\pfun$ non-immediate member]
+\begin[disabled]{theorem}{rule lNotImmediateMemberPFun}[X, Y]
+\forall  f: X \pfun  Y; x: X; y: Y | x \in  \dom~  f \land  \lnot  f~x = y @ \lnot  (x, y) \in  f
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\pfun$-$\oplus$ containment]
+\begin[disabled]{theorem}{rule lPFunSubsetOplus}[X, Y]
+   \forall f, g: X \pfun Y | g \subseteq  f @ f \oplus g = f \oplus (\dom~g \dres f)
+\end{theorem}~\end{LToolkit}
+
+\begin{LToolkit}[$\pfun$-$\oplus$ pointwise equivalence]
+\begin[disabled]{theorem}{rule lPFunElemAbsorbsUnitOplusRight}[X, Y]
+\forall  x: X; y: Y; f: X \pfun  Y | (x, y) \in  f @ f \oplus  \{(x, y)\} = f
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\pfun$-$\dom$ partitions over $\dres$]
+\begin[disabled]{theorem}{rule lPFunDomPartitionsPFunDRes}[X, Y]
+\forall  f: X \pfun  Y; s, t: \power  X | \langle s, t\rangle  \partition  \dom~ f @ \langle s \dres  f, t \dres  f\rangle  \partition  f
+\end{theorem}\end{LToolkit}
+
+\sectionproof{Functions}{theories-function-spaces}
+
+\begin{LPScript}\begin{forget}[lPfunPointIsPfunElem]
+apply inDom to predicate x \in  \dom~ [X, Y] f;
+prove by rewrite;
+use pairInFunction[X, Y][f := f, x := x, y := y\_\_0];
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lPFunWeakening]
+invoke (\_\pfun \_);
+prove;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lPFunWeakeningFresh]
+apply lPFunWeakening to predicate f \in  X \pfun  Y;
+simplify;
+\end{forget}\end{LPScript}
+
+\begin{forget}[lEmptyDomIsEmptyPFun]
+rewrite;
+apply domDefinition;
+apply extensionality;
+prove;
+invoke (\_\pfun \_);
+invoke (\_\rel \_);
+prove;
+apply inPower to predicate f \in  \power  (X \cross  Y);
+instantiate e == x;
+apply inCross2 to predicate x \in  X \cross  Y;
+prenex;
+instantiate x\_\_2 == x\_\_0;
+rearrange;
+rewrite;
+rearrange;
+instantiate y\_\_0 == y;
+rewrite;
+\end{forget}
+
+
+\begin{LPScript}\begin{forget}[lDomElemIsElemPFun]
+apply inDom to predicate x \in  \dom~ [X, Y] f;
+prove by rewrite;
+use pairInFunction[X, Y];
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lHomogeneousMemberNoLoop]
+apply inRanFunction to predicate x \in  \ran~ [X, X] f;
+prove by rewrite;
+instantiate x\_\_0 == x;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lNotImmediateMemberPFun]
+apply inDom to predicate x \in  \dom~ [X, Y] f;
+prenex;
+rewrite;
+use pairInFunction[X, Y][y := y\_\_0];
+rearrange;
+rewrite;
+invoke (\_\pfun \_);
+rewrite;
+instantiate x\_\_0 == x, y1 == y\_\_0, y2 == y;
+rearrange;
+rewrite;
+\end{forget}\end{LPScript}
+
+
+\begin{LPScript}\begin{forget}[lPFunSubsetOplus]
+    \znote{Expose at once:}
+    \znote{1-proof goals from =}
+    \znote{2-definition of override}
+    \znote{3-definition of dom}
+    with enabled (extensionality, oplusDef, inDom) prove by rewrite;
+    \znote{Special trick to avoid disjunction}
+    split y \in f;
+    simplify;
+    \znote{Special trick to avoid negation}
+    split \lnot  (y.1, y\_\_0) \in  g;
+    simplify;
+    rearrange;
+    \znote{Exposing the set types of f and g}
+    invoke (\_\pfun \_);
+    invoke (\_\rel \_);
+    prove by rewrite;
+    \znote{Expose at once all type information about f and g}
+    with enabled (inPower, inCross2) prove by rewrite;
+    \znote{Type of element from f}
+    instantiate e == y;
+    \znote{Type of element from g}
+    instantiate e\_\_0 == (y.1, y\_\_0);
+    \znote{Elements of g are elements of f}
+    instantiate e\_\_1 == (y.1, y\_\_0);
+    \znote{f is functional}
+    instantiate x\_\_3 == y.1, y1 == y\_\_0, y2 == y.2;
+    \znote{g is functional}
+    instantiate x\_\_4 == y.1, y1\_\_0 == y\_\_0, y2\_\_0 == y.2;
+    prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lPFunElemAbsorbsUnitOplusRight]
+    with enabled (inDom, dresDef, lPFunSubsetOplus, lPfunPointIsPfunElem)
+        prove by rewrite;
+    apply oplusDef;
+    prove by rewrite;
+    cases;
+      \znote{Case where the type is correct}
+      apply extensionality;
+      with enabled (inDom) prove by rewrite;
+    next;
+      \znote{Case where the type contradictory}
+      invoke (\_\rel \_);
+      prove by rewrite;
+    next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lPFunDomPartitionsPFunDRes]
+    with enabled (disjointCat) prove by rewrite;
+    cases;
+        apply extensionality to predicate s \dres [X, Y] f \cap [X \cross  Y] t \dres [X, Y] f = \{\};
+        apply extensionality to predicate s \cap [X] t = \{\};
+        prove by rewrite;
+        instantiate x\_\_0 == x.1;
+        prove by rewrite;
+    next;
+        apply extensionality to predicate s \dres [X, Y] f \cup [X \cross  Y] t \dres [X, Y] f = f;
+        prove by rewrite;
+        apply extensionality to predicate s \cup [X] t = \dom~[X, Y] f;
+        prove by rewrite;
+        instantiate y\_\_0 == y.1;
+        prove by rewrite;
+        apply inDom to predicate y.1 \in  \dom~[X, Y] f;
+        prove by rewrite;
+        instantiate y\_\_1 == y.2;
+        invoke (\_\pfun \_);
+        invoke (\_\rel \_);
+        prove by rewrite;
+        apply inPower to predicate f \in  \power  (X \cross  Y);
+        instantiate e == y;
+        prove by rewrite;
+    next;
+\end{forget}\end{LPScript} \section{Injections}
+
+Lemmas are toolkit theorems that are not rules (\textit{i.e.,} cannot be automatically applied)
+\begin{LLemma}[$\pinj$ element is part of its inverse]
+\begin[disabled]{theorem}{lPairInvInPInj}[X, Y]
+\forall  A: \power~  X; B: \power~  Y @ \forall  f: A \pinj  B | (x, y) \in  f @
+    x \in  A \land  y \in  B \land  x = (f~\inv)~y \land (y, x) \in f\inv
+\end{theorem}\end{LLemma}
+
+\begin{LToolkit}[Expose $\pinj$ property]
+\begin[disabled]{theorem}{rule lPInjWeakening}[X, Y]
+    f \in  X \pinj  Y \\
+    \t1 \iff  \\
+    f \in  X \pfun  Y \land  \\
+    (\forall  r: Y; d1, d2: X | (d1, r) \in  f \land  (d2, r) \in  f @ d1 = d2)
+\end{theorem}\end{LToolkit}
+
+\begin{LTrivial}[Expose $\pinj$ property with fresh names]
+\begin[disabled]{theorem}{rule lPInjWeakeningFresh}[X, Y]
+    f \in  X \pinj  Y \\
+        \t1 \iff  \\
+    f \in  X \pfun  Y \land \\
+     (\forall rf: Y; df1, df2: X | (df1, rf) \in  f \land  (df2, rf) \in  f @ df1 = df2)
+\end{theorem}\end{LTrivial}
+
+\begin{LLemma}[$\pinj$ element is part of its inverse]
+\begin[disabled]{theorem}{lPInjPairIsRanPoint}[X, Y]
+\forall  A: \power~  X; B: \power~  Y @ \forall  f: A \pinj  B | \\
+    \t1 (x, y) \in  f @ x \in  A \land  y \in  B \land  x \in  \dom~  f \\
+    \t1 \land y \in  \ran~  f \land  y = f~ x \land  x = (f~ \inv)~  y
+\end{theorem}\end{LLemma}
+
+\begin{LLemma}[$\pinj$ $\ran~$ element $\_\inv$ in $\pinj$]
+\begin[disabled]{theorem}{lApplyInvInDomPInj}[X, Y]
+\forall  A: \power~  X; B: \power~  Y @ \forall  f: A \pinj  B @ \forall  a: \ran~  f @
+    (f~\inv)~a \in  A \land  (f~ \inv)~  a \in  \dom~  f
+\end{theorem}\end{LLemma}
+
+\begin{LToolkit}[$\pinj$-$\dom$ element $\ran~$-$\ndres$ equivalence]
+\begin[disabled]{theorem}{rule lHomogeneousElemRanNDresPInj}[X]
+\forall  x: X; f: X \pinj  X | x \in  \dom~  f @ \ran~  (\{~x~\} \ndres  f) = \ran~  f \setminus  \{~f~ x~\}
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\pinj$-$\ran~$ element $\dom$-$\nrres$ equivalence]
+\begin[disabled]{theorem}{rule lHomogeneousElemDomNRresPInj}[X]
+\forall  y: X; f: X \pinj  X | y \in  \ran~  f @ \dom~  (f \nrres  \{~y~\}) = \dom~ f \setminus  \{~(f~ \inv)~  y~\}
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\pinj$-$\dom$ element expansion]
+\begin[disabled]{theorem}{rule lInDomInjection}[X, Y]
+\forall  f: X \pinj  Y @ x \in  \dom~  f \iff  (\exists  y: \ran~  f @ x = (f~ \inv)~  y)
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\pinj$-$\ran~$ element expansion]
+\begin[disabled]{theorem}{rule lInRanInjection}[X, Y]
+\forall  f: X \pinj  Y @ y \in  \ran~  f \iff  (\exists  x: X | (x, y) \in  f @ x = (f~ \inv)~  y)
+\end{theorem}\end{LToolkit}
+
+This lemmas is similar (yet complementary) to \zeves\ toolkit rule \texttt{applyInverse}.
+\begin{LToolkit}[$\pinj$-$\_\inv$ application]
+\begin[disabled]{theorem}{rule lApplyInverse2}[X, Y]
+\forall  A: \power~  X; B: \power~  Y @ \forall  f: A \pinj  B @ \forall  y: \ran~  f @ f~((f~ \inv)~y) = y
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\pinj$ point is $\pinj$ element]
+\begin[disabled]{theorem}{rule lPInjInvPointIsPInjElem}[X, Y]
+\forall  f: X \pinj  Y | y \in  \ran~  f \land  (f~\inv)~y = x @ (x, y) \in  f
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[Distinct $\pinj$ point is not shared in $\pinj$]
+\begin[disabled]{theorem}{rule lPInjPointIsNotShared}[X, Y]
+\forall  x1, x2: X; f: X \pinj  Y | x1 \in  \dom~  f \land  \lnot  x1 = x2 @ \lnot  (x2, f~ x1) \in  f
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\pinj$ following application is not $\pinj$ member]
+\begin[disabled]{theorem}{rule lFollowingApplicationNoLoopHomogeneousPInj}[X]
+\forall  x: X; f: X \pinj  X | x \in  \dom~  f \land  f~ x \in  \dom~  f \land  \lnot  f~ x = x @
+    \lnot  (f~ x, f~ x) \in  f
+\end{theorem}\end{LToolkit}
+
+
+\sectionproof{Injections}{theories-injections}
+
+\begin{LPScript}\begin{forget}[lPairInvInPInj]
+use pairInFunction[X, Y];
+rearrange;
+rewrite;
+use applyInverse[X, Y];
+rearrange;
+rewrite;
+apply inDom to predicate x \in  \dom~[X, Y] f;
+instantiate y\_\_0 == y;
+rewrite;
+split y \in  Y;
+rewrite;
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+invoke (\_\rel \_);
+prove by rewrite;
+apply inPower;
+cases;
+instantiate e\_\_1 == (x, f~ x);
+prove by rewrite;
+next;
+rewrite;
+instantiate e\_\_1 == (x, f~ x);
+prove by rewrite;
+instantiate e\_\_0 == f~ x;
+prove by rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lPInjWeakening]
+split f \in  X \pinj  Y;
+rewrite;
+cases;
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+prove;
+instantiate x\_\_0 == r, y1\_\_0 == d1, y2\_\_0 == d2;
+prove;
+next;
+rearrange;
+split \forall  r\_\_0: Y; d1\_\_0: X; d2\_\_0: X | (d1\_\_0, r\_\_0) \in  f
+    \land  (d2\_\_0, r\_\_0) \in  f @ d1\_\_0 = d2\_\_0;
+rewrite;
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+prove;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lPInjWeakeningFresh]
+apply lPInjWeakening to predicate f \in  X \pinj  Y;
+simplify;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lPInjPairIsRanPoint]
+apply ranDefinition to expression \ran~ [X, Y] f;
+apply domDefinition to expression \dom~[X, Y] f;
+rewrite;
+instantiate x\_\_0 == x;
+instantiate y\_\_0 == y;
+rewrite;
+use lPairInvInPInj[X, Y];
+rearrange;
+rewrite;
+use pairInFunction[X, Y];
+rearrange;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lApplyInvInDomPInj]
+apply inRan to predicate a \in  \ran~ [X, Y] f;
+prove by rewrite;
+use lPInjPairIsRanPoint[X, Y][y := a];
+rearrange;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lHomogeneousElemRanNDresPInj]
+apply extensionality;
+prove by rewrite;
+apply inRan;
+prove by rewrite;
+cases;
+rewrite;
+instantiate x\_\_2 == x\_\_1;
+rewrite;
+use pairInFunction[X, X][x := x\_\_0, y := x\_\_1];
+rearrange;
+rewrite;
+equality substitute;
+use pinjApplicationsEqual[X, X][A := X, B := X, f := f, x := x\_\_0, y := x];
+rearrange;
+rewrite;
+apply inDom to predicate x\_\_0 \in  \dom~[X, X] f;
+instantiate y == x\_\_1;
+rewrite;
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+invoke (\_\rel \_);
+prove by rewrite;
+apply inPower to predicate f \in  \power~  (X \cross  X);
+instantiate e == (x\_\_0, f~ x\_\_0);
+prove by rewrite;
+next;
+instantiate x\_\_4 == x\_\_2;
+rewrite;
+use pairInFunction[X, X];
+rearrange;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lHomogeneousElemDomNRresPInj]
+use lApplyInvInDomPInj[X, X][A := X, B := X, a := y];
+rearrange;
+rewrite;
+apply extensionality;
+prove by rewrite;
+apply inDom;
+prove by rewrite;
+apply inRan;
+prove by rewrite;
+use lPairInvInPInj[X, X][A := X, B := X, x := x\_\_0, y := y];
+rearrange;
+rewrite;
+equality substitute f \inv[X, X] y;
+cases;
+cases;
+invoke (\_ \pinj \_);
+invoke (\_ \pfun \_);
+rewrite;
+rewrite;
+split x = x\_\_0;
+rewrite;
+equality substitute x\_\_0;
+instantiate x\_\_1 == x, y1 == y, y2 == y\_\_2;
+rearrange;
+rewrite;
+next;
+instantiate y\_\_4 == y\_\_2;
+rewrite;
+next;
+instantiate y\_\_5 == y\_\_3;
+rewrite;
+invoke (\_ \pinj \_);
+invoke (\_ \pfun \_);
+rewrite;
+rewrite;
+instantiate x\_\_1 == y\_\_1, y1\_\_0 == x, y2\_\_0 == y\_\_2;
+rearrange;
+rewrite;
+invoke (\_ \rel \_);
+apply inPower to predicate f \in \power (X \cross X);
+instantiate e == (y\_\_2, y\_\_1);
+rearrange;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lInDomInjection]
+split x \in  \dom~ [X, Y] f;
+prove by rewrite;
+cases;
+apply inDom;
+prove by rewrite;
+use lPairInvInPInj[X, Y][A := X, B := Y];
+rearrange;
+rewrite;
+instantiate y\_\_0 == y;
+rewrite;
+apply inRan;
+prove by rewrite;
+instantiate x\_\_0 == x;
+prove by rewrite;
+next;
+rearrange;
+split x = f \inv [X, Y] y;
+rewrite;
+apply inRanFunction;
+prove by rewrite;
+use applyInverse[X, Y][A := X, B := Y, x := x\_\_0];
+prove by rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lInRanInjection]
+split y \in  \ran~ [X, Y] f;
+prove by rewrite;
+cases;
+use lApplyInvInDomPInj[X, Y][A := X, B := Y, a := y];
+rearrange;
+rewrite;
+apply inRanFunction to predicate y \in  \ran~ [X, Y] f;
+prenex;
+rewrite;
+use applyInverse[X, Y][A := X, B := Y];
+rearrange;
+rewrite;
+equality substitute;
+apply inDom to predicate x \in  \dom~  [X, Y] f;
+prenex;
+rewrite;
+use pairInFunction[X, Y][y := y\_\_0];
+rearrange;
+rewrite;
+next;
+rearrange;
+split f \inv [X, Y] y \in  X;
+simplify;
+split (f \inv [X, Y] y, y) \in  f;
+simplify;
+apply inRan to predicate y \in  \ran~ [X, Y] f;
+rewrite;
+instantiate x == f \inv [X, Y] y;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lApplyInverse2]
+apply inRanFunction;
+prove by rewrite;
+use applyInverse[X, Y];
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lPInjInvPointIsPInjElem]
+apply lInRanInjection to predicate y \in  \ran~ [X, Y] f;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lFollowingApplicationNoLoopHomogeneousPInj]
+apply inDom;
+prenex;
+rewrite;
+use pairInFunction[X, X];
+use pairInFunction[X, X][x := f~ x, y := y\_\_0];
+rearrange;
+rewrite;
+rearrange;
+equality substitute;
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+rewrite;
+rewrite;
+instantiate x\_\_1 == f~ x, y1\_\_0 == x, y2\_\_0 == f~ x;
+rearrange;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lPInjPointIsNotShared]
+apply lInDomInjection to predicate x1 \in  \dom~[X, Y] f;
+prenex;
+rewrite;
+apply lInRanInjection to predicate y \in  \ran~ [X, Y] f;
+prenex;
+rewrite;
+use pairInFunction[X, Y];
+rearrange;
+rewrite;
+rearrange;
+split y = f x;
+simplify;
+equality substitute y;
+equality substitute x1;
+equality substitute f \inv [X, Y] (f x);
+equality substitute f x;
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+rewrite;
+rewrite;
+instantiate x\_\_1 == y, y1\_\_0 == x, y2\_\_0 == x2;
+invoke (\_\rel \_);
+apply inPower to predicate f \in  \power  (X \cross  Y);
+instantiate e == (x, y);
+rearrange;
+rewrite;
+\end{forget}\end{LPScript}
+%\section{Set spaces}
+
+Toolkit theorems/lemmas are result useful during proofs.
+They are divided by category, similarly to the Z mathematical toolkit.
+%
+\begin{LToolkit}[Set difference distribute to the right on set difference]
+\begin[disabled]{theorem}{rule lRightDiffLeftDistribute}[X]
+\forall  S, T, U: \power~ X @ S \setminus  (T \setminus  U) = S \setminus  T \cup  S \cap  U
+\end{theorem}
+\end{LToolkit}
+
+\begin{LToolkit}[Set difference equivalence modulo set intersection]
+\begin[disabled]{theorem}{rule lCapEquivWeakensDiffEquiv}[X]
+\forall  S, R, T: \power~ X | S \cap  T = S \cap  R @ S \setminus  T = S \setminus  R
+\end{theorem}
+\end{LToolkit}
+
+Similar to \texttt{computeDiff1/2}
+\begin[disabled]{theorem}{rule lElemDiffAbsorbption}[X]
+\forall x: X; S: \power~  X | \lnot x \in  S @ S \setminus \{~x~\} = S
+\end{theorem}
+
+\begin{LToolkit}[Singleton set union absorbs set difference]
+\begin[disabled]{theorem}{rule lElemUnionAbsorbDiffRight}[X]
+\forall  x: X; S: \power~ X | x \in  S @ \{~x~\} \cup  (S \setminus  \{~x~\}) = S
+\end{theorem}
+\end{LToolkit}
+
+\begin{LToolkit}[Set union absorbs set intersection]
+\begin[disabled]{theorem}{rule lUnionAbsorbInter}[X]
+\forall  S, T: \power~  X @ S \cup  T \cap  S = S
+\end{theorem}
+\end{LToolkit}
+
+\begin{LToolkit}[Set union exchange to the right on set difference]
+\begin[disabled]{theorem}{rule lUnionExchangeDiffLeft}[X]
+\forall  S, T, Q: \power~  X | Q \cap  T = \{~\} @ (S \setminus T) \cup  Q = (S \cup  Q) \setminus  T
+\end{theorem}
+\end{LToolkit}
+
+\begin{LToolkit}[Smaller disjoint sets subsumption]
+\begin[disabled]{theorem}{rule lSmallerDisjointSetSubsumption}[X]
+\forall  S, T, Q: \power~  X | S \cap T = \{~\} @ S \cap (T \setminus Q) = \{~\}
+\end{theorem}
+\end{LToolkit}
+
+Trivial lemmas are those useful lemmas for algebraic proofs. For instance, where
+equations are not in the right shape/order to pattern match available rules.
+%
+\begin{LTrivial}[Flipping equality]
+\begin[disabled]{theorem}{rule lFlipEquiv}
+    x = y \iff y = x
+\end{theorem}\end{LTrivial}
+
+\begin{LToolkit}[Set with an element is not empty]
+\begin[disabled]{theorem}{rule lElemSetNonEmpty}[X]
+\forall  set: \power~ X @ \forall  elem: set @ \lnot  set = \{~\}
+\end{theorem}\end{LToolkit}
+
+Trivial lemmas named with a ``\texttt{Backwards}'' (at the end)
+are dual versions of original toolkit lemmas. For instance, \zeves\
+provides the toolkit rule \texttt{cupAssociates}:
+%
+\[
+  \forall S, T, V: \power  X @ (S \cup  T) \cup  V = S \cup  (T \cup  V)
+\]
+%
+Sometimes during a proof, it is useful to have this fact the other
+way, round (\textit{i.e.,} backwards), hence the following trivial lemma.
+%
+\begin{LTrivial}[Set union associates to the left]
+\begin[disabled]{theorem}{rule lCupAssociatesBackwards}[X]
+\forall  S, T, V: \power  X @ S \cup  (T \cup  V) = (S \cup  T) \cup  V
+\end{theorem}
+\end{LTrivial}
+
+\begin{LTrivial}[Set difference distributes over union backwards]
+\begin[disabled]{theorem}{rule lDistDiffOverUnionLeftBackwards}[X]
+\forall  A, B, C: \power~  X @ (A \setminus  C) \cup  (B \setminus  C) = (A \cup  B) \setminus  C
+\end{theorem}
+\end{LTrivial}
+
+\begin{LRRT}[Expanding $\bigcup$ without knowing the type of $x$]
+\begin[disabled]{theorem}{rule lBigCupElemType}[X]
+\forall  S: \power~  (\power~  X) | x \in  \bigcup  S @ x \in  X
+\end{theorem}
+\end{LRRT}
+%
+Usually, all weakening rules are enabled, as they mostly
+always improve the chance to increase the pattern matching
+of available rewriting rules. Nevertheless, sometimes we
+need ``strengthening'' (w.r.t. implication) rules, like the one above.
+That is, knowing a stronger fact, we can deduce a weaker one.
+
+
+
+
+
+
+\sectionproof{Sets}{theories-sets}
+
+\begin{LPScript}\begin{forget}[lRightDiffLeftDistribute]
+apply extensionality;
+prenex;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lCapEquivWeakensDiffEquiv]
+apply extensionality to predicate S \setminus [X] T = S \setminus [X] R;
+prenex;
+rewrite;
+cases;
+split x \in  R;
+rewrite;
+apply extensionality to predicate S \cap [X] T = R \cap [X] S;
+instantiate y == x;
+prove by rewrite;
+next;
+split y \in  T;
+rewrite;
+apply extensionality to predicate S \cap [X] T = R \cap [X] S;
+instantiate x == y;
+prove by rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lDistDiffOverUnionLeftBackwards]
+apply distributeDiffOverCupLeft to expression A \cup [X] B \setminus [X] C;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lElemDiffAbsorbption]
+apply extensionality;
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lElemUnionAbsorbDiffRight]
+apply extensionality to predicate \{~x~\} \cup [X] (S \setminus [X] \{~x~\}) = S;
+prove by rewrite;
+split x\_\_0 \in  S;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lUnionAbsorbInter]
+apply extensionality to predicate S \cup [X] T \cap [X] S = S;
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lCupAssociatesBackwards]
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lUnionExchangeDiffLeft]
+apply extensionality;
+prove by rewrite;
+with normalization rewrite;
+instantiate x\_\_0 == x;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lSmallerDisjointSetSubsumption]
+apply extensionality;
+prove by rewrite;
+instantiate x\_\_0 == x;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lFlipEquiv]
+split x = y;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lElemSetNonEmpty]
+apply extensionality;
+instantiate x == elem;
+prove;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lBigCupElemType]
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+
+\section{Finiteness}
+
+Leave enabled!
+\begin{LTrivial}[Improved version of toolkit rule $crossFinite$]
+\begin{theorem}{rule lCrossFinite2} % [disabled]
+  A \cross B \in \finset~ (C \cross D) \iff \\\t1
+  A = \{~\} \lor B = \{~\} \lor (A \in \finset~ C \land B \in \finset~ D)
+\end{theorem}
+\end{LTrivial}
+
+\begin{LTrivial}[Subset of finite set is finite]
+\begin[disabled]{theorem}{lFinsetSubset}
+  X \in \power Y \land Y \in \finset Z \implies X \in \finset Z
+\end{theorem}
+\end{LTrivial}
+
+\begin{LAbbr}[Inductive definition for $\finset$]
+\syndef{\finsetinduc}{pregen}{"&fsetinduc"} \quad\verb'\finsetinduc'
+
+%%Zpreword \finsetinduc finsetinduc
+\begin{zed}
+\generic (\finsetinduc~ \_)
+\end{zed}
+
+\begin[disabled]{zed}
+  \finsetinduc X == \bigcap~\{~ A: \power~(\power~X) | \lnot \{~\} \in A \land
+    (\forall a: A; x: X @ a \cup \{~x~\} \in A) ~\}
+\end{zed}\end{LAbbr}
+
+Leave enabled!
+\begin{LRRT}[Inferring finite sets are subset of infinite sets]
+\begin{theorem}{rule lIsFinite} % [disabled]
+x \in  \finset  X \implies  x \in  \power~  X
+\end{theorem}
+\end{LRRT}
+
+\sectionproof{Finiteness}{theories-finiteness}
+
+\begin{LPScript}\begin{forget}[lCrossFinite2]
+    rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lFinsetSubset]
+    rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lIsFinite]
+prove by rewrite;
+\end{forget}\end{LPScript}
+\section{Domain and range anti-restriction}
+
+Leave enabled!
+\begin{LToolkit}[Range element of homogeneous $R$ is in $\ndres$]
+\begin{theorem}{rule lInHomogeneousElemRanNDres}[X]  % [disabled]
+\forall  x, d: X; R: X \rel  X | x \in  \ran~  R \land  \lnot d \in \dom~ R @ x \in \ran~ (\{d\} \ndres  R)
+\end{theorem}
+\end{LToolkit}
+
+The next lemma is obvious, but useful in proofs
+\begin{LToolkit}[Not range element of homogeneous $R$ is not in $\ndres$]
+\begin[disabled]{theorem}{rule lInHomogeneousNotElemRanNDres}[X]
+\forall  x, d: X; R: X \rel  X | \lnot  x \in  \ran~  R @ \lnot  x \in  \ran~  (\{d\} \ndres  R)
+\end{theorem}
+\end{LToolkit}
+
+\begin{LToolkit}[Absorbtion for range union with $\ndres$ on homogeneous $R$]
+\begin[disabled]{theorem}{rule lHomoheneousUnionRanNDres}[X]
+\forall  x: X; R: X \rel  X @ \ran~  R \cup  \ran~  (\{x\} \ndres  R) = \ran~  R
+\end{theorem}
+\end{LToolkit}
+
+\begin{LToolkit}[Singleton $\oplus$ absorbs singleton $\ndres$]
+\begin[disabled]{theorem}{rule lUnitOplusAbsorbsUnitNDres}[X, Y]
+\forall  x: X; y: Y; R: X \rel  Y @ \{x\} \ndres  R \oplus  \{(x, y)\} = R \oplus  \{(x, y)\}
+\end{theorem}
+\end{LToolkit}
+
+For this rule, one needs to use \texttt{with disabled (ndresNdres) rewrite}.
+\begin{LToolkit}[$\ndres$ exchange with itself]
+\begin[disabled]{theorem}{rule lNDresExchange}[X, Y]
+\forall  S, T: \power  X; R: X \rel  Y @ S \ndres  (T \ndres  R) = T \ndres  (S \ndres  R)
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\ndres$-$\oplus$ associate, provided no common elements]
+\begin[disabled]{theorem}{rule lNDresOplusAssociates}[X, Y]
+\forall  S: \power~X; R, Q: X \rel  Y | S \cap \dom~Q = \{~\} @ (S \ndres  R) \oplus  Q = S \ndres  (R \oplus  Q)
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\ndres$-$\oplus$-unit associate, provided distinction]
+\begin[disabled]{theorem}{rule lNDresUnitOplusUnitAssociates}[X, Y]
+    \forall  a, b: X; c: Y; R: X \rel  Y | \lnot  a = b @ \\
+        \{~a~\} \ndres  R \oplus  \{~(b, c)~\} = \{~a~\} \ndres  (R \oplus  \{~(b, c)~\})
+\end{theorem}\end{LToolkit}
+
+\begin{LToolkit}[$\ran~$-$\ndres$-unit, provided distinction]
+\begin[disabled]{theorem}{rule lInRanNDresUnit}[X, Y]
+\forall  x, d: X; y: Y; R: X \rel  Y | (x, y) \in  R \land  \lnot  x = d @ y \in  \ran~  (\{~d~\} \ndres  R)
+\end{theorem}\end{LToolkit}
+
+Just like \texttt{ndresNdres}
+\begin{LTrivial}[$\ndres$ absorbs $\cup$ to the right]
+\begin[disabled]{theorem}{rule lNDresNDresBackwards}[X, Y]
+\forall  S, T: \power  X; R: X \rel  Y @ (S \cup  T) \ndres  R = S \ndres  (T \ndres  R)
+\end{theorem}\end{LTrivial}
+
+Just like \texttt{nrresNrres}
+\begin{LTrivial}[$\nrres$ absorbs $\cup$ to the left]
+\begin[disabled]{theorem}{rule lNRresNRresBackwards}[X, Y]
+\forall  S, T: \power  Y; R: X \rel  Y @ R \nrres (S \cup  T) = (R \nrres S) \nrres T
+\end{theorem}\end{LTrivial}
+
+\begin{LToolkit}[$\dres$-$\ndres$-set-difference trading]
+\begin[disabled]{theorem}{rule lDResNDresTradingSetminus}[X, Y]
+\forall  f, g: X \pfun  Y; s: \power  X @ s \dres  (\dom~ g \ndres  f) = (s \setminus  \dom~ g) \dres  f
+\end{theorem}\end{LToolkit}\sectionproof{Domain and range restriction}{theories-domran-antirestriction}
+
+\begin{LPScript}\begin{forget}[lInHomogeneousElemRanNDres]
+apply inRan;
+apply inDom;
+prenex;
+rewrite;
+instantiate y == x;
+instantiate x\_\_1 == x\_\_0;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lInHomogeneousNotElemRanNDres]
+apply inRan;
+rewrite;
+\end{forget}\end{LPScript}
+
+
+\begin{LPScript}\begin{forget}[lHomoheneousUnionRanNDres]
+apply extensionality;
+prove by rewrite;
+split x\_\_0 \in  \ran~ [X, X] R;
+prove by rewrite;
+rearrange;
+apply lInHomogeneousNotElemRanNDres;
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lUnitOplusAbsorbsUnitNDres]
+apply extensionality;
+prove by rewrite;
+apply oplusDef;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lNDresExchange]
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lNDresOplusAssociates]
+apply  extensionality;
+apply  oplusDef ;
+prove by rewrite;
+with normalization rewrite;
+instantiate  x\_\_0 == x.1;
+prove by rewrite;
+with normalization rewrite;
+apply  inDom ;
+invoke (\_ \rel  \_);
+apply inPower to predicate Q \in  \power  (X \cross  Y);
+instantiate  e == x;
+apply  inCross2;
+prove by rewrite;
+instantiate  y\_\_1 == y;
+prove by rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lNDresUnitOplusUnitAssociates]
+apply  lNDresOplusAssociates;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lInRanNDresUnit]
+apply  inRan ;
+rewrite;
+instantiate  x\_\_0 == x;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lNDresNDresBackwards]
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lNRresNRresBackwards]
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lDResNDresTradingSetminus]
+    apply extensionality;
+    prove;
+\end{forget}\end{LPScript}\section{Basic types}\label{basic-datatype}
+
+\begin{axdef}
+  maxpid: \nat_1
+\end{axdef}
+
+\begin{theorem}{rule lMaxPIDPositive}
+  1 \leq  maxpid
+\end{theorem}
+
+\begin[disabled]{zed}
+  PID ~~==~~ 1 \upto maxpid
+\end{zed}
+
+\begin{theorem}{rule lPIDNotEmpty}
+\lnot  PID = \{\}
+\end{theorem}
+
+\begin{theorem}{rule lMinPIDValue}
+1 \in  PID
+\end{theorem}
+
+\begin{theorem}{grule gMaxpidMaxType}
+maxpid \in  \num
+\end{theorem}
+
+\begin{theorem}{rule lMaxpidIsPID}
+maxpid \in  PID
+\end{theorem}
+
+\begin{axdef}
+  nullpid: \nat
+\where
+  \Label{disabled rule dNullPID}  \forall  p: PID @ p < nullpid
+\end{axdef}
+
+\begin{theorem}{rule lNullpidBound}
+maxpid < nullpid
+\end{theorem}
+
+\begin{theorem}{rule lNullPIDDisjoint}
+\forall  p: PID @ \lnot  p = nullpid
+\end{theorem}
+
+\begin[disabled]{zed}
+GPID ~~==~~ PID \cup  \{~nullpid~\}
+\end{zed}
+
+\begin{theorem}{grule gPIDMaxType}
+PID \in  \power~  \num
+\end{theorem}
+
+\begin{theorem}{grule gGPIDMaxType}
+GPID \in  \power~  \num
+\end{theorem}
+
+\begin{theorem}{rule lNullIsGPID}
+nullpid \in  GPID
+\end{theorem}
+
+\begin{theorem}{rule lNullIsNotPID}
+\lnot  nullpid \in  PID
+\end{theorem}
+
+\begin{theorem}{rule lPIDIsGPID}
+\forall  x: PID @ x \in  GPID
+\end{theorem}
+
+\begin{theorem}{rule lMinPIDIsGPID}
+1 \in  GPID
+\end{theorem}
+
+\begin{theorem}{rule lMaxPIDIsGPID}
+maxpid \in  GPID
+\end{theorem}
+
+\begin{theorem}{rule lNonNullGPIDIsPID}
+  \forall p: GPID | \lnot p = nullpid @ p \in PID
+\end{theorem}\section{Chain}\label{chain-datatype-def}
+
+\begin{schema}{Chain}
+  %\zstate \\
+  start, end: GPID\\
+  links: PID \pinj  PID\\
+  set: \power~PID
+\where
+  links \in  \finset  (PID \cross  PID)\\
+  set \in  \finset  PID\\
+  set = \dom~links \cup  \ran~links \cup  (\{~start~\} \setminus  \{~nullpid~\})\\
+  links = \emptyset \implies  start = end\\
+  links \neq  \emptyset \implies  \{~start~\} = \dom~  links \setminus  \ran~  links \land \\
+                              \t3 \{~end~\} = \ran~  links \setminus  \dom~  links\\
+  \forall  e: set | e \neq  start @ start \mapsto  e \in  links \plus
+\end{schema}
+
+\section{Chain data type properties}
+
+\begin[disabled]{theorem}{lEmptySetNullChain}
+\forall  Chain | set = \{~\} @ start = end = nullpid
+\end{theorem}
+
+\begin[disabled]{theorem}{lEmptySetEmptyLinks}
+\forall  Chain | set = \{\} @ links = \{\}
+\end{theorem}
+
+\begin[disabled]{theorem}{lEmptyLinksSingletonChain}
+\forall  Chain | links = \{~\} @ start = end
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lNonEmptySetNonNullStart}
+\forall  Chain | \lnot  set = \{\} @ \lnot  start = nullpid
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lNonEmptyLinksStartLinked}
+\forall  Chain | \lnot  links = \{~\} @ start \in  \dom~  links
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lNonEmptyLinksStartNotNull}
+\forall  Chain | \lnot  links = \{~\} @ \lnot  start = nullpid
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lNonEmptyLinksStartNotInRan}
+\forall  Chain | \lnot  links = \{~\} @ \lnot  start \in  \ran~  links
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lNonEmptyLinksEndNotInDom}
+\forall  Chain | \lnot  links = \{~\} @ \lnot  end \in  \dom~  links
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lNonEmptyLinksEndNotNull}
+\forall  Chain | \lnot  links = \{~\} @ \lnot  end = nullpid
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lNonEmptyLinksEndLinked}
+\forall  Chain | \lnot  links = \{~\} @ end \in  \ran~  links
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lChainLinksHasNoNullPid}
+\forall  links: PID \pinj  PID @ \lnot  nullpid \in  \dom~  links \cup  \ran~  links
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lChainLinksHasNoNullPidInDom}
+\forall  links: PID \pinj  PID @ \lnot  nullpid \in  \dom~  links
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lChainLinksHasNoNullPidInRan}
+\forall  links: PID \pinj  PID @ \lnot  nullpid \in  \ran~  links
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lChainElemNonEmptyLinks}
+\forall  Chain; p?: PID | p? \in  set \land  \lnot  p? = start @ \lnot  links = \{\}
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lChainElemInDom}
+\forall  Chain; p?: PID | \lnot  links = \{\} \land  p? \in  set \land  \lnot  p? \in  \ran~  links @ p? \in  \dom~ links
+\end{theorem}
+
+\begin[disabled]{theorem}{lChainMidElemEverywhere}
+\forall  Chain; p?: PID | p? \in  set \land \lnot p? = start \land \lnot p? = end @ p? \in \dom~ links \land p? \in \ran~ links
+\end{theorem} \section{Chain operations}
+
+\begin{zed}
+ChainErrorMessage  ::=  chain\_ok \\
+             \t1       |   push\_known\_element\_error \\
+             \t1       |   pop\_empty\_error \\
+             \t1       |   pop\_multiple\_error
+\end{zed}
+
+\begin{schema}{ChainInit}
+%  \zstinit \\
+  Chain~'
+\where
+  start' = end' = nullpid
+\end{schema}
+
+\begin{schema}{PushEmpty}
+  \Delta Chain\\
+  p?: PID
+\where
+  end = nullpid\\
+  end' = p?\\
+  links' = links
+\end{schema}
+
+\begin{schema}{PushNonEmpty}
+  \Delta Chain\\
+  p?: PID
+\where
+  end \neq  nullpid\\
+  links' = links \cup  \{~(end \mapsto  p?)~\}
+\end{schema}
+
+\begin{zed}
+Push0 ~~\defs~~ PushEmpty \lor  PushNonEmpty
+\end{zed}
+
+\znote{We cannot push an known element}
+\begin{schema}{PushKnownElementError}
+  \Xi Chain\\
+  p?: PID\\
+  msg!: ChainErrorMessage
+\where
+  p? \in set\\
+  msg! = push\_known\_element\_error
+\end{schema}
+
+\begin{schema}{ChainSuccess}
+  msg!: ChainErrorMessage
+\where
+  msg! = chain\_ok
+\end{schema}
+
+\begin{zed}
+Push ~~\defs~~ Push0 \land  ChainSuccess \lor PushKnownElementError
+\end{zed}
+
+\begin{schema}{PopSingleton}
+  \Delta Chain\\
+  p!: PID
+\where
+  start \neq  nullpid\\
+  links = \emptyset\\
+  start' = nullpid\\
+  links' = links\\
+  p! = start
+\end{schema}
+
+\begin{schema}{PopMultiple\_AtLeastTwoLinks}
+  \Delta Chain\\
+  p!: PID
+\where
+  links \neq  \emptyset\\
+  start' = links~ start\\
+  links' = \{~start~\} \ndres  links\\
+  p! = start
+\end{schema}
+
+\begin{zed}
+Pop0 ~~\defs~~ PopSingleton \lor  PopMultiple\_AtLeastTwoLinks
+\end{zed}
+
+\begin{schema}{PopEmpty}
+  \Xi Chain\\
+  msg!: ChainErrorMessage
+\where
+  start = nullpid\\
+  msg! = pop\_empty\_error
+\end{schema}
+
+\begin{schema}{PopMultiple\_TooFewElements}
+  \Xi Chain\\
+  msg!: ChainErrorMessage
+\where
+  links \neq  \emptyset\\
+  links~ start \notin  \dom~  links\\
+  msg! = pop\_multiple\_error
+\end{schema}
+
+\begin{zed}
+PopSingletonComplete ~~\defs~~ (PopSingleton \land  ChainSuccess) \lor  PopEmpty
+\end{zed}
+
+\begin{zed}
+PopMultipleComplete ~~\defs~~  (PopMultiple\_AtLeastTwoLinks \land  ChainSuccess) \lor  \\
+                           \t2 PopMultiple\_TooFewElements
+\end{zed}
+
+\begin{zed}
+   Pop0Okay  ~~\defs~~  Pop0 \land ChainSuccess
+   \also
+   PopErr    ~~\defs~~  PopEmpty \lor PopMultiple\_TooFewElements
+   \also
+   Pop       ~~\defs~~  Pop0Okay \lor PopErr
+\end{zed}
+
+\begin{zed}
+PopComplete ~~\defs~~ PopMultipleComplete \lor  PopSingletonComplete
+\end{zed}
+
+\begin{schema}{DeleteStart}
+  \Delta Chain\\
+  p?: PID\\
+  msg!: ChainErrorMessage
+\where
+  p? = start\\
+  \exists  p!: PID @ PopComplete
+\end{schema}
+
+\begin{schema}{DeleteEnd}
+  \Delta Chain\\
+  p?: PID\\
+  ChainSuccess
+\where
+  p? \neq  start\\
+  p? = end\\
+  links' = links \nrres  \{~end~\}
+\end{schema}
+
+\begin{schema}{DeleteMiddle}
+  \Delta Chain\\
+  p?: PID\\
+  ChainSuccess
+\where
+  p? \neq  start\\
+  p? \neq  end\\
+  p? \in  set\\
+  links' = \{p?\} \ndres  links \oplus  \{((links~\inv)~p? \mapsto  links~ p?)\}
+\end{schema}
+
+\begin{zed}
+   Delete0 ~~\defs~~ DeleteStart \lor DeleteEnd \lor DeleteMiddle
+\end{zed}
+\section{Chain operations auxiliary properties}
+
+These are useful for $tPREPushMultiple$
+\begin[disabled]{theorem}{rule lLinksPushUpdateIsPInj}
+\forall Chain; p?: PID | end \neq  nullpid \land p? \notin  set @ \\
+    \t1 links \cup  \{(end, p?)\} \in  PID \pinj  PID
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lLinksDomElemType}
+\forall  links: PID \pinj  PID | (x, y) \in  links @ x \in  PID
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lLinksRanElemType}
+\forall  links: PID \pinj  PID | (x, y) \in  links @ y \in  PID
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lLinksElemType}
+\forall  links: PID \pinj  PID | x \in  links @ x \in  PID \cross  PID
+\end{theorem}
+
+
+\begin{theorem}{rule lChainStartLeadsToValidPID}
+\forall  Chain | \lnot links = \{\} @ links~ start \in PID
+\end{theorem}
+
+These three are useful for $tPREPopMultiple$
+\begin[disabled]{theorem}{rule lTransClosureOneStepForwardChainTraversal}[X]
+\forall s, e: X; f: X \pfun  X | s \in  \dom~f \land  \lnot  f~s = e \land  (s, e) \in  f~\plus  @
+    (f~s, e) \in  f~\plus
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lTransitiveClosureChainHeadExtract}[X]
+\forall  s, e: X; f: X \pfun  X | s \in  \dom~f \land  \lnot  s \in  \ran~f \land
+    f~s \in  \dom~f \land  \\ \t1 \lnot  f~s = e \land  (s, e) \in  f~\plus  @
+        (f~s, e) \in  (\{s\} \ndres  f)~\plus
+\end{theorem}
+
+\begin[disabled]{theorem}{lNonEmptyLinksSingleton}
+\forall  Chain | (start, end) \in  links @ links = \{(start, end)\}
+\end{theorem}
+
+These three are useful for $tPREDeleteMiddle$
+\begin[disabled]{theorem}{rule lHomogeneousPInjMidPointExtractNotInRan}[X]
+\forall  f: X \pinj  X; x, y, p?: X | (x, p?) \in  f \land  (p?, y) \in  f \land  \lnot  x = p? \land  \lnot  p? = y @ \\ \t1 \lnot  p? \in  \ran~  (\{p?\} \ndres  f \oplus  \{(x, y)\})
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lHomogeneousMidPointExtractRanEquiv}[X]
+\forall  f: X \pinj  X; x, y, p?: X | (x, p?) \in  f \land  (p?, y) \in  f \land  \lnot  x = p? \land  \lnot  p? = y @ \\ \t1 \{p?\} \cup  \ran~  (\{p?\} \ndres  f \oplus  \{(x, y)\}) = \{p?, y\} \cup  \ran~  f
+\end{theorem}
+
+for fun!
+\begin[disabled]{theorem}{rule lHomogeneousMidPointExchangeRanEquiv}[X]
+\forall  f: X \pinj  X; x, y, p?: X | (x, p?) \in  f \land  (p?, y) \in  f \land  \lnot  x = p? \land  \lnot  p? = y @ \\ \t1 \ran~  (\{p?\} \ndres  f \oplus  \{(x, y)\}) \setminus  \dom~ f = \ran~  (\{x\} \ndres  f \oplus  \{(p?, y)\}) \setminus  \dom~ f
+\end{theorem}
+
+
+\section{Chain operation preconditions}
+
+\begin{schema}{PushEmptySig}
+  Chain\\
+  p?: PID
+\where
+  end = nullpid
+\end{schema}
+
+\begin{schema}{PushNonEmptySig}
+  Chain\\
+  p?: PID
+\where
+  end \neq  nullpid\\
+  p? \notin  set
+\end{schema}
+
+We cannot push an known element
+\begin{schema}{PushKnownElementErrorSig}
+  Chain\\
+  p?: PID
+\where
+  p? \in set
+\end{schema}
+
+\begin{schema}{Push0Sig}
+  Chain\\
+  p?: PID
+\where
+  p? \notin  set
+\end{schema}
+
+\begin{schema}{PushSig}
+  Chain\\
+  p?: PID
+\where
+  true
+\end{schema}
+
+\begin{schema}{PopSingletonSig}
+  Chain
+\where
+  start \neq  nullpid\\
+  links = \emptyset
+\end{schema}
+
+\begin{schema}{PopMultiple\_AtLeastTwoLinksSig}
+  Chain
+\where
+  links \neq  \emptyset\\
+  links~ start \in  \dom~  links
+\end{schema}
+
+\begin{schema}{Pop0Sig}
+  Chain
+\where
+  links = \emptyset \implies  start \neq  nullpid\\
+  links \neq  \emptyset \implies  links~ start \in  \dom~  links
+\end{schema}
+
+\begin{schema}{PopEmptySig}
+  Chain
+\where
+  start = nullpid
+\end{schema}
+
+\begin{schema}{PopMultiple\_TooFewElementsSig}
+  Chain
+\where
+  links \neq  \emptyset\\
+  links~ start \notin  \dom~  links
+\end{schema}
+
+\begin{zed}
+   PopErrSig ~~\defs~~  PopEmptySig \lor PopMultiple\_TooFewElementsSig
+\end{zed}
+
+\begin{schema}{PopSingletonCompleteSig}
+  Chain
+\where
+  links = \emptyset
+\end{schema}
+
+\begin{schema}{PopMultipleCompleteSig}
+  Chain
+\where
+  links \neq  \emptyset
+\end{schema}
+
+\begin{schema}{PopCompleteSig}
+  Chain
+\where
+  true
+\end{schema}
+
+\begin{schema}{PopSig}
+  Chain
+  \where
+  true
+\end{schema}
+
+\begin{schema}{DeleteStartSig}
+  Chain\\
+  p?: PID
+\where
+  p? = start
+\end{schema}
+
+\begin{schema}{DeleteEndSig}
+  Chain\\
+  p?: PID
+\where
+  p? \neq  start\\
+  p? = end
+\end{schema}
+
+\begin{schema}{DeleteMiddleSig}
+  Chain \\
+  p?: PID
+\where
+  p? \neq start\\
+  p? \neq end\\
+  p? \in  set\\
+\end{schema}
+
+\begin{theorem}{tPREChainInit}
+\exists  Chain~' @ ChainInit
+\end{theorem}
+
+\begin{theorem}{tPREPushEmpty}
+\forall  PushEmptySig @ \pre~  PushEmpty
+\end{theorem}
+
+
+Depends on: lLinksPushUpdateIsPInj, lInTransitiveClosure, lUnitTransitiveClosure,
+            lUnionTransitiveClosure, lUnionSingletonTransitiveClosure
+\begin{theorem}{tPREPushNonEmpty}
+\forall  PushNonEmptySig @ \pre~  PushNonEmpty
+\end{theorem}
+
+\begin{theorem}{tPREPush0}
+\forall  Push0Sig @ \pre~  Push0
+\end{theorem}
+
+\begin{theorem}{tPREPushKnownElementError}
+\forall  PushKnownElementErrorSig @ \pre~  PushKnownElementError
+\end{theorem}
+
+\begin{theorem}{tPREPushIsTotal}
+\forall  PushSig @ \pre~  Push
+\end{theorem}
+
+\begin{theorem}{tPREPopSingleton}
+\forall  PopSingletonSig @ \pre~  PopSingleton
+\end{theorem}
+
+\begin{theorem}{tPREPopMultiple\_AtLeastTwoLinks}
+\forall  PopMultiple\_AtLeastTwoLinksSig @ \pre~  PopMultiple\_AtLeastTwoLinks
+\end{theorem}
+
+\begin{theorem}{tPREPop0}
+\forall  Pop0Sig @ \pre~  Pop0
+\end{theorem}
+
+\begin{theorem}{tPREPopEmpty}
+\forall  PopEmptySig @ \pre~  PopEmpty
+\end{theorem}
+
+\begin{theorem}{tPREPopMultiple\_TooFewElements}
+\forall  PopMultiple\_TooFewElementsSig @ \pre~  PopMultiple\_TooFewElements
+\end{theorem}
+
+\begin{theorem}{tPREPopSinglegonComplete}
+\forall  PopSingletonCompleteSig @ \pre~  PopSingletonComplete
+\end{theorem}
+
+\begin{theorem}{tPREPopMultipleComplete}
+\forall  PopMultipleCompleteSig @ \pre~  PopMultipleComplete
+\end{theorem}
+
+\begin{theorem}{tPREPopCompleteIsTotal}
+\forall  PopCompleteSig @ \pre~  PopComplete
+\end{theorem}
+
+\begin{theorem}{tPREPop0Okay}
+\forall  Pop0Sig @ \pre~  Pop0Okay
+\end{theorem}
+
+\begin{theorem}{tPREPopErr}
+\forall  PopErrSig @ \pre~  PopErr
+\end{theorem}
+
+\begin{theorem}{tPREPopIsTotal}
+\forall  PopSig @ \pre~  Pop
+\end{theorem}
+
+\begin{theorem}{tPREDeleteStart}
+\forall  DeleteStartSig @ \pre~  DeleteStart
+\end{theorem}
+
+\begin{theorem}{tPREDeleteEnd}
+\forall  DeleteEndSig @ \pre~  DeleteEnd
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lDeleteTransitiveClosureLinksUpdateLemma}
+\forall  links: PID \pinj  PID; p?, x, y: PID | \lnot  x = p? \land  (p?, y) \in  links @ \{p?\} \ndres  links \oplus  \{(x, y)\} \in  PID \pinj  PID
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lEndEquivalenceLemma}
+\forall  DeleteMiddleSig; x, y: PID | \lnot  links = \{\} \land  y \in  \ran~  links \land  \lnot  p? = y \land  \lnot  x = p? \land  (p?, y) \in  links \land  (x, p?) \in  links @ \\
+    %\{end\} = \{y\} \cup  \ran~  ((\{p?\} \cup  \{x\}) \ndres  links) \setminus  \dom~ links
+    \{end\} = \ran~ ( \{ p? \} \ndres links \oplus \{(x,y)\}) \setminus  \dom~ links
+\end{theorem}
+
+\begin{schema}{ChainMidPoint}
+  Chain\\
+  x, y, p?: PID
+\where
+  \lnot  links = \{\}\\
+  p? \in  \dom~  links\\
+  p? \in  \ran~  links\\
+  x \in  PID\\
+  y \in  PID\\
+  y = links~ p?\\
+  x = (links~ \inv)~p?\\
+  \lnot  p? \in  \{start, end, x, y\}\\
+  (x, p?) \in  links\\
+  (p?, y) \in  links\\
+  \lnot  (x, y) \in  links
+\end{schema}
+
+\begin{theorem}{frule lChainLinks}
+\forall  Chain @ links \in  PID \pinj  PID
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lChainMidPointLinksMidPointEquiv}
+\forall  ChainMidPoint @ (\{p?\} \cup  \{x\}) \dres  links = \{(x, p?), (p?, y)\}
+\end{theorem}
+
+\begin{schema}{LinksFilterSets}
+  ChainMidPoint\\
+  links\_upto\_midpoint, last\_link\_before\_midpoint, links\_at\_midpoint, links\_from\_midpoint, all\_links: \power  PID\\
+  all\_links\_filters\_segments: \seq  (\power  PID)
+\where
+  links\_upto\_midpoint = \{  i: PID | x \in  \ran~  links \land  (i, (links~ \inv)~x) \in  links \plus  \}\\
+  last\_link\_before\_midpoint = \{  l: PID | x \in  \ran~  links \land  l = (links~\inv)~x \}\\
+  links\_at\_midpoint = \{x, p?\}\\
+  links\_from\_midpoint = \{  j: PID | (y, j) \in  links \plus  \land  (j, end) \in  links \plus  \}\\
+  all\_links = links\_upto\_midpoint \cup  last\_link\_before\_midpoint \cup  links\_at\_midpoint \cup  (\{y\} \cup  links\_from\_midpoint)\\
+  all\_links\_filters\_segments = \langle links\_upto\_midpoint \cup  last\_link\_before\_midpoint, links\_at\_midpoint, \{y\} \cup  links\_from\_midpoint\rangle
+\end{schema}
+
+\begin{schema}{LinksPartition}
+  LinksFilterSets\\
+  links\_before, links\_midpoint, links\_after: PID \pinj  PID\\
+  all\_links\_segments: \seq  (PID \pinj  PID)
+\where
+  links\_before = (links\_upto\_midpoint \cup  last\_link\_before\_midpoint) \dres  links\\
+  links\_midpoint = \{x, p?\} \dres  links\\
+  links\_after = (\{y\} \cup  links\_from\_midpoint) \dres  links\\
+  all\_links\_segments = \langle links\_before, links\_midpoint, links\_after\rangle
+\end{schema}
+
+\begin[disabled]{theorem}{lChainMidPointFilterSetsEquivalence}
+\forall LinksFilterSets @ all\_links = \bigcup~(\ran~all\_links\_filters\_segments)
+\end{theorem}
+
+\begin[disabled]{theorem}{lChainMidPointFilterSetsDisjoint}
+\forall LinksFilterSets @ \disjoint  all\_links\_filters\_segments
+\end{theorem}
+
+\begin[disabled]{theorem}{lChainMidPointFilterSetsEncompassAllLinks}
+\forall LinksFilterSets @ \dom~ links \subseteq  all\_links
+\end{theorem}
+
+\begin[disabled]{theorem}{lChainMidPointLinksPartition}
+\forall LinksPartition @ all\_links\_segments \partition  links
+\end{theorem}
+
+\begin{schema}{DeleteTransitiveClosureCase}
+  links: PID \pinj  PID\\
+  start, p?, x, y: PID
+\where
+  \forall  elem: \dom~ links \setminus  \{p?\} \cup  \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}) | \lnot  elem = start @ (start, elem) \in  (\{p?\} \ndres  links \oplus  \{(x, y)\}) \plus
+\end{schema}
+
+\begin[disabled]{theorem}{rule lDeleteTransitiveClosureLemma}
+\forall  DeleteMiddleSig; x, y: PID | \lnot  links = \{\} \land  y \in  \ran~  links \land  \lnot  p? = y \land  \lnot  x = p? \land  y = links~p? \land  (p?, y) \in  links \land  (x, p?) \in  links \land  \lnot  (x, y) \in  links \land  \lnot  p? \in  \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}) \land  \{end\} = \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}) \setminus  \dom~links @ DeleteTransitiveClosureCase
+\end{theorem}
+
+
+\begin{theorem}{tPREDeleteMiddle}
+\forall DeleteMiddleSig @ \pre~ DeleteMiddle
+\end{theorem} \sectionproof{Basic data types}{basic-datatype}
+
+\begin{forget}[lMaxPIDPositive]
+use maxpid\$declaration;
+apply inNat1;
+simplify;
+\end{forget}
+
+\begin{forget}[lPIDNotEmpty]
+apply extensionality;
+invoke PID;
+prove by rewrite;
+instantiate x == 1;
+rewrite;
+\end{forget}
+
+\begin{forget}[lMinPIDValue]
+with enabled (PID) prove by reduce;
+\end{forget}
+
+\begin{forget}[gMaxpidMaxType]
+rewrite;
+\end{forget}
+
+\begin{forget}[lMaxpidIsPID]
+with enabled (PID) prove by reduce;
+\end{forget}
+
+
+\begin{forget}[lNullpidBound]
+use dNullPID[p := maxpid];
+invoke PID;
+rewrite;
+\end{forget}
+
+\begin{forget}[lNullPIDDisjoint]
+use dNullPID;
+rearrange;
+rewrite;
+\end{forget}
+
+\begin{forget}[gPIDMaxType]
+invoke PID;
+rewrite;
+\end{forget}
+
+\begin{forget}[gGPIDMaxType]
+invoke GPID;
+invoke PID;
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[lNullIsGPID]
+invoke GPID;
+rewrite;
+\end{forget}
+
+\begin{forget}[lNullIsNotPID]
+use lNullpidBound;
+invoke PID;
+apply inRange;
+simplify;
+\end{forget}
+
+\begin{forget}[lPIDIsGPID]
+with enabled (GPID) prove by reduce;
+\end{forget}
+
+\begin{forget}[lMinPIDIsGPID]
+rewrite;
+\end{forget}
+
+\begin{forget}[lMaxPIDIsGPID]
+rewrite;
+\end{forget}
+
+\begin{forget}[lNonNullGPIDIsPID]
+   invoke GPID;
+   prove by rewrite;
+\end{forget} \sectionproof{Chain data type properties}{chain-datatype-properties}
+
+\begin{forget}[lEmptySetNullChain]
+invoke Chain;
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[lEmptyLinksSingletonChain]
+invoke Chain;
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[lEmptySetEmptyLinks]
+invoke Chain;
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[lNonEmptySetNonNullStart]
+invoke Chain;
+rearrange;
+rewrite;
+split links = \{\};
+rewrite;
+invoke GPID;
+rearrange;
+rewrite;
+rearrange;
+with normalization rewrite;
+apply extensionality to predicate \{start\} = \dom~ links \setminus  \ran~  links;
+rewrite;
+\end{forget}
+
+\begin{forget}[lNonEmptyLinksStartLinked]
+invoke Chain;
+rearrange;
+rewrite;
+apply extensionality to predicate \{~start~\} = \dom~  links \setminus  \ran~  links;
+rewrite;
+\end{forget}
+
+\begin{forget}[lNonEmptyLinksStartNotNull]
+invoke Chain;
+rearrange;
+rewrite;
+apply extensionality to predicate \{~start~\} = \dom~  links \setminus  \ran~  links;
+invoke GPID;
+rewrite;
+\end{forget}
+
+\begin{forget}[lNonEmptyLinksStartNotInRan]
+invoke Chain;
+rearrange;
+rewrite;
+apply extensionality to predicate \{~start~\} = \dom~  links \setminus  \ran~  links;
+rewrite;
+\end{forget}
+
+\begin{forget}[lNonEmptyLinksEndNotInDom]
+invoke Chain;
+rearrange;
+rewrite;
+apply extensionality to predicate \{~end~\} = \ran~  links \setminus  \dom~  links;
+rewrite;
+\end{forget}
+
+\begin{forget}[lNonEmptyLinksEndNotNull]
+invoke Chain;
+rearrange;
+rewrite;
+apply extensionality to predicate \{~end~\} = \ran~  links \setminus  \dom~  links;
+invoke GPID;
+rewrite;
+\end{forget}
+
+\begin{forget}[lNonEmptyLinksEndLinked]
+invoke Chain;
+rearrange;
+rewrite;
+apply extensionality to predicate \{~end~\} = \ran~  links \setminus  \dom~  links;
+rewrite;
+\end{forget}
+
+\begin{forget}[lChainLinksHasNoNullPid]
+split links = \emptyset;
+rewrite;
+apply inDom to predicate nullpid \in  \dom~  links;
+apply inRan to predicate nullpid \in  \ran~  links;
+rewrite;
+prenex;
+rewrite;
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+invoke (\_\rel \_);
+rewrite;
+rewrite;
+apply inPower to predicate links \in  \power~  (PID \cross  PID);
+cases;
+rewrite;
+instantiate e == (nullpid, y);
+apply tupleInCross2;
+rewrite;
+next;
+instantiate e == (x, nullpid);
+apply tupleInCross2;
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[lChainLinksHasNoNullPidInDom]
+use lChainLinksHasNoNullPid;
+rearrange;
+apply inCup;
+rewrite;
+\end{forget}
+
+\begin{forget}[lChainLinksHasNoNullPidInRan]
+use lChainLinksHasNoNullPid;
+rearrange;
+apply inCup;
+rewrite;
+\end{forget}
+
+\begin{forget}[lChainElemNonEmptyLinks]
+invoke Chain;
+invoke GPID;
+equality substitute;
+rewrite;
+rearrange;
+split start = nullpid;
+rewrite;
+cases;
+split end = nullpid;
+rewrite;
+apply extensionality to predicate links = \{\};
+rewrite;
+split p? \in  \dom~ links;
+simplify;
+cases;
+apply inDom to predicate p? \in  \dom~ links;
+prenex;
+instantiate x\_\_0 == (p?, y);
+rearrange;
+rewrite;
+next;
+apply inRan to predicate p? \in  \ran~  links;
+prenex;
+instantiate x\_\_1 == (x, p?);
+rewrite;
+next;
+split end = nullpid;
+rewrite;
+rearrange;
+rewrite;
+rearrange;
+rewrite;
+apply extensionality to predicate links = \{\};
+rewrite;
+prenex;
+split p? \in  \dom~ links;
+simplify;
+cases;
+apply inDom to predicate p? \in  \dom~ links;
+prenex;
+rearrange;
+instantiate x\_\_1 == (p?, y);
+rewrite;
+next;
+apply inRan to predicate p? \in  \ran~  links;
+prenex;
+instantiate x\_\_2 == (x\_\_0, p?);
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[lChainElemInDom]
+invoke Chain;
+equality substitute;
+rearrange;
+rewrite;
+split start = nullpid;
+rewrite;
+split p? = start;
+rewrite;
+apply extensionality to predicate \{start\} = \dom~ links \setminus  \ran~  links;
+rewrite;
+\end{forget}
+
+\begin{forget}[lChainMidElemEverywhere]
+use lChainElemNonEmptyLinks;
+rearrange;
+simplify;
+use lChainElemInDom;
+use lNonEmptyLinksStartNotNull;
+use lNonEmptyLinksEndNotNull;
+rearrange;
+simplify;
+invoke Chain;
+invoke GPID;
+rearrange;
+rewrite;
+instantiate e == p?;
+rearrange;
+rewrite;
+split
+       p? \in \dom~links \\
+  \lor p? \in \ran~ links;
+simplify;
+rearrange;
+use lTransitiveClosureConnectsRan[\num][R := links, x := start, y := p?];
+rearrange;
+rewrite;
+apply extensionality to predicate \{ end \} = \ran~ links \setminus \dom~links;
+rewrite;
+instantiate y == p?;
+rearrange;
+rewrite;
+\end{forget}
+
+
+\sectionproof{Chain operations}{chain-operations}
+
+\begin{forget}[PopMultiple\_AtLeastTwoLinks\$domainCheck]
+use lNonEmptyLinksStartLinked;
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[PopMultiple\_TooFewElements\$domainCheck]
+use lNonEmptyLinksStartLinked;
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[DeleteMiddle\$domainCheck]
+use lChainMidElemEverywhere;
+rearrange;
+rewrite;
+\end{forget}
+\begin{forget}[lLinksPushUpdateIsPInj]
+use lNonEmptyLinksEndNotInDom;
+rearrange;
+simplify;
+split links = \{\};
+cases;
+invoke Chain;
+prove by rewrite;
+next;
+simplify;
+invoke Chain;
+rearrange;
+rewrite;
+apply cupInPinj;
+invoke GPID;
+prove by rewrite;
+split start = nullpid;
+prove by rewrite;
+next;
+\end{forget}
+
+\begin{forget}[lLinksDomElemType]
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+invoke (\_\rel \_);
+prove by rewrite;
+apply inPower;
+instantiate e == (x, y);
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[lLinksRanElemType]
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+invoke (\_\rel \_);
+prove by rewrite;
+apply inPower;
+instantiate e == (x, y);
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[lLinksElemType]
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+invoke (\_\rel \_);
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[lChainStartLeadsToValidPID]
+use lNonEmptyLinksStartLinked;
+use lNonEmptyLinksStartNotNull;
+rearrange;
+rewrite;
+apply inDom;
+prenex;
+use pairInFunction[\num, \num][f := links, x := start, y := y];
+rearrange;
+rewrite;
+rearrange;
+rewrite;
+use lLinksRanElemType[x := start];
+rearrange;
+rewrite;
+\end{forget}
+
+\begin{forget}[lTransClosureOneStepForwardChainTraversal]
+use lNotImmediateMemberPFun[X, X][f := f, x := s, y := e];
+rearrange;
+rewrite;
+apply lTransitiveClosureEquivalence to expression f \plus [X];
+rewrite;
+apply inDom to predicate s \in  \dom~[X, X] f;
+prenex;
+rewrite;
+prenex;
+equality substitute;
+apply lIterPositive to expression iter[X] i f;
+rewrite;
+split i = 1;
+rewrite;
+prenex;
+instantiate B\_\_0 == iter[X] (- 1 + i) f;
+rewrite;
+instantiate i\_\_0 == - 1 + i;
+rewrite;
+use pairInFunction[X, X][f := f, x := s, y := y];
+rearrange;
+rewrite;
+invoke (\_\pfun \_);
+rewrite;
+instantiate x == s, y1 == y, y2 == y\_\_0;
+rearrange;
+rewrite;
+\end{forget}
+
+\begin{forget}[lTransitiveClosureChainHeadExtract]
+use lTransClosureOneStepForwardChainTraversal[X];
+use lHeadExtractNDresDistTransitiveClosure[X][s := s, R := f];
+rearrange;
+rewrite;
+equality substitute (\{s\} \ndres [X, X] f) \plus [X];
+rewrite;
+apply inRanFunction;
+rewrite;
+instantiate x == s;
+rewrite;
+\end{forget}
+
+\begin{forget}[lNonEmptyLinksSingleton]
+use lNonEmptyLinksStartNotNull;
+use lNonEmptyLinksEndNotNull;
+rearrange;
+simplify;
+invoke Chain;
+rearrange;
+rewrite;
+split links = \{\};
+rewrite;
+apply extensionality to predicate links = \{(start, end)\};
+prenex;
+rearrange;
+rewrite;
+use lLinksElemType;
+rearrange;
+apply inCross2 to predicate x \in  PID \cross  PID;
+prenex;
+rewrite;
+equality substitute x;
+rewrite;
+invoke GPID;
+rewrite;
+rearrange;
+rewrite;
+instantiate e == y;
+rearrange;
+rewrite;
+equality substitute set;
+rewrite;
+with normalization rewrite;
+cases;
+rearrange;
+apply extensionality to predicate \{start\} = \dom~ links \setminus  \ran~  links;
+rewrite;
+apply inRan to predicate start \in  \ran~  links;
+instantiate x\_\_1 == x;
+rewrite;
+next;
+cases;
+next;
+cases;
+apply extensionality to predicate \{end\} = \ran~  links \setminus  \dom~ links;
+instantiate y\_\_0 == y;
+rearrange;
+rewrite;
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+rewrite;
+rewrite;
+instantiate x\_\_2 == end, y1\_\_0 == x, y2\_\_0 == start;
+rearrange;
+rewrite;
+next;
+apply inRan to predicate y \in  \ran~  links;
+instantiate x\_\_1 == x;
+rewrite;
+next;
+use lTransClosureOneStepForwardChainTraversal[\num ][f := links, s := start, e := y];
+rearrange;
+rewrite;
+apply extensionality to predicate \{start\} = \dom~ links \setminus  \ran~  links;
+rewrite;
+use pairInFunction[\num , \num ][f := links, x := start, y := end];
+rearrange;
+rewrite;
+equality substitute x\_\_0;
+equality substitute links start;
+split end = y;
+rewrite;
+cases;
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+rewrite;
+rewrite;
+instantiate x\_\_2 == y, y1\_\_0 == x, y2\_\_0 == start;
+rearrange;
+rewrite;
+next;
+rearrange;
+apply extensionality to predicate \{end\} = \ran~  links \setminus  \dom~ links;
+rewrite;
+instantiate y\_\_0 == x;
+rewrite;
+rearrange;
+apply inDom to predicate x \in  \dom~ links;
+rewrite;
+instantiate y\_\_2 == y;
+rewrite;
+split x = start;
+rewrite;
+cases;
+invoke (\_\pinj \_);
+invoke (\_\pfun \_);
+rewrite;
+rewrite;
+instantiate x\_\_1 == start, y1 == y, y2 == end;
+rearrange;
+rewrite;
+next;
+instantiate e\_\_0 == x;
+instantiate e == end;
+rearrange;
+rewrite;
+use lTransitiveClosureConnectsDom[\num ][R := links, x := end, y := y];
+rearrange;
+rewrite;
+next;
+\end{forget}
+
+\begin{LPScript}\begin{forget}[lHomogeneousPInjMidPointExtractNotInRan]
+use lPInjPairIsRanPoint[X, X][A := X, B := X, x := p?];
+use lPairInvInPInj[X, X][A := X, B := X, y := p?];
+rearrange;
+rewrite;
+rearrange;
+apply oplusDef to expression \{p?\} \ndres [X, X] f \oplus [X, X] \{(x, y)\};
+rewrite;
+apply inRanFunction to predicate p? \in  \ran~ [X, X] ((\{p?\} \cup [X] \{x\}) \ndres [X, X] f);
+prenex;
+rewrite;
+rearrange;
+split \lnot  x\_\_0 = x;
+simplify;
+split \lnot  x\_\_0 = p?;
+simplify;
+split p? = f x\_\_0;
+simplify;
+rearrange;
+use pairInFunction[X, X][y := p?];
+rearrange;
+rewrite;
+use pinjApplicationsEqual[X, X][A := X, B := X, y := x\_\_0];
+rearrange;
+rewrite;
+apply inDom to predicate x \in  \dom~[X, X] f;
+instantiate y\_\_0 == p?;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lHomogeneousMidPointExtractRanEquiv]
+use lPInjPointIsNotShared[X, X][x1 := p?, x2 := x];
+rearrange;
+rewrite;
+apply inDom to predicate p? \in  \dom~[X, X] f;
+instantiate y\_\_0 == y;
+rewrite;
+use pairInFunction[X, X][x := p?];
+rearrange;
+rewrite;
+rearrange;
+equality substitute f p?;
+apply extensionality to predicate \{p?\} \cup [X] \ran~ [X, X] (\{p?\} \ndres [X, X] f \oplus [X, X] \{(x, y)\}) = \{p?\} \cup [X] (\{y\} \cup [X] \ran~ [X, X] f);
+prenex;
+rewrite;
+rearrange;
+rewrite;
+cases;
+apply inRan;
+apply oplusDef to expression \{p?\} \ndres [X, X] f \oplus [X, X] \{(x, y)\};
+prenex;
+rewrite;
+instantiate x\_\_2 == x\_\_1;
+rewrite;
+next;
+split y\_\_0 = y;
+cases;
+equality substitute y\_\_0;
+apply inRan to predicate y \in  \ran~ [X, X] (\{p?\} \ndres [X, X] f \oplus [X, X] \{(x, y)\});
+apply oplusDef to expression \{p?\} \ndres [X, X] f \oplus [X, X] \{(x, y)\};
+rewrite;
+instantiate x\_\_0 == x;
+rewrite;
+next;
+simplify;
+apply oplusDef to expression \{p?\} \ndres [X, X] f \oplus [X, X] \{(x, y)\};
+rewrite;
+apply inRanFunction to predicate y\_\_0 \in  \ran~ [X, X] f;
+apply inRanFunction to predicate y\_\_0 \in  \ran~ [X, X] ((\{p?\} \cup [X] \{x\}) \ndres [X, X] f);
+rewrite;
+prenex;
+instantiate x\_\_1 == x\_\_0;
+rewrite;
+rearrange;
+equality substitute x\_\_0;
+use pairInFunction[X, X][y := p?];
+rearrange;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[lHomogeneousMidPointExchangeRanEquiv]
+apply oplusDef;
+with disabled (ranCup) rewrite;
+with disabled (ranSingleton) rewrite;
+apply distributeDiffOverCupLeft;
+with disabled (unitDiff) rewrite;
+%%%apply oplusDef to expression \{p?\} \ndres [X, X] f \oplus [X, X] \{(x, y)\};
+%%%with disabled (ranCup) rewrite;
+%%%with disabled (ranSingleton) rewrite;
+%%%apply distributeDiffOverCupLeft to expression \ran~ [X, X] \{(x, y)\} \cup [X] \ran~ [X, X] ((\{p?\} \cup [X] \{x\}) \ndres [X, X] f) \setminus [X] \dom~[X, X] f;
+%%%with disabled (unitDiff) rewrite;
+%%%apply lNDresDoubleInv to expression (\{p?\} \cup [X] \{x\}) \ndres [X, X] f;
+%%%with predicate (\{p?\} \cup [X] \{x\} \in  \power  X \land  f \in  X \rel  X) rewrite;
+%%%apply ranInv to expression \ran~ [X, X] (f \inv [X, X] \nrres [X, X] (\{p?\} \cup [X] \{x\})) \inv [X, X];
+%%%with predicate (f \inv [X, X] \nrres [X, X] (\{p?\} \cup [X] \{x\}) \in  X \rel  X) rewrite;
+%%%apply lDistDiffOverUnionLeftBackwards to expression \{y\} \setminus [X] \dom~[X, X] f \cup [X] (\dom~[X, X] (f \inv [X, X] \nrres [X, X] (\{p?\} \cup [X] \{x\})) \setminus [X] \dom~[X, X] f);
+%%%apply lDomNRresInv to expression \dom~[X, X] (f \inv [X, X] \nrres [X, X] (\{p?\} \cup [X] \{x\}));
+%%%rewrite;
+%%%use lRanAbsorbsCupUnitLeft[X, X][R := (\{p?\} \cup [X] \{x\}) \ndres [X, X] f, x := p?];
+%%%rearrange;
+%%%with predicate (p? \in  X \land  y \in  X \land  (\{p?\} \cup [X] \{x\}) \ndres [X, X] f \in  X \rel  X) rewrite;
+%%%equality substitute \{y\} \cup [X] \ran~ [X, X] ((\{p?\} \cup [X] \{x\}) \ndres [X, X] f);
+%%%apply cupCommutes to expression \{(p?, y)\} \cup [X \cross  X] (\{p?\} \cup [X] \{x\}) \ndres [X, X] f;
+%%%with predicate (\{(p?, y)\} \in  \power  (X \cross  X) \land  (\{p?\} \cup [X] \{x\}) \ndres [X, X] f \in  \power  (X \cross  X)) rewrite;
+%%%apply lNDresNDresBackwards to expression (\{p?\} \cup [X] \{x\}) \ndres [X, X] f;
+%%%with disabled (ndresNdres, ranCup, cupCommutes) rewrite;
+%%%use lDomSingletonBackwards[X, X][x := p?];
+%%%rearrange;
+%%%simplify;
+%%%equality substitute \{p?\};
+%%%apply lOplusDefBackwards to expression \dom~[X, X] \{(p?, y)\} \ndres [X, X] (\{x\} \ndres [X, X] f) \cup [X \cross  X] \{(p?, y)\};
+%%%rewrite;
+\end{forget}\end{LPScript}\sectionproof{Chain operations preconditions}{chain-operations-pre}
+\begin{forget}[PopMultiple\_AtLeastTwoLinksSig\$domainCheck]
+use lNonEmptyLinksStartLinked;
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[Pop0Sig\$domainCheck]
+use lNonEmptyLinksStartLinked;
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[PopMultiple\_TooFewElementsSig\$domainCheck]
+use lNonEmptyLinksStartLinked;
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[tPREChainInit]
+invoke ChainInit;
+rewrite;
+instantiate set' == \{\}, links' == \{\};
+invoke Chain;
+rewrite;
+\end{forget}
+
+\begin{forget}[tPREPushEmpty]
+invoke PushEmpty;
+invoke PushEmptySig;
+invoke \Delta Chain;
+prove by rewrite;
+invoke Chain;
+invoke GPID;
+prove by rewrite;
+split links = \{\};
+prove by rewrite;
+apply extensionality to predicate \{nullpid\} = \ran~  links \setminus  \dom~ links;
+rewrite;
+apply lChainLinksHasNoNullPidInRan;
+rewrite;
+\end{forget}
+
+\begin{forget}[tPREPushNonEmpty]
+use lLinksPushUpdateIsPInj;
+rearrange;
+simplify;
+rewrite;
+invoke PushNonEmpty;
+invoke PushNonEmptySig;
+invoke \Delta Chain;
+prove by rewrite;
+split links = \{\};
+prove by rewrite;
+cases;
+invoke Chain;
+invoke GPID;
+prove by rewrite;
+equality substitute p?;
+apply lUnitTransitiveClosure;
+rewrite;
+next;
+use lNonEmptyLinksStartLinked;
+use lNonEmptyLinksStartNotNull;
+use lNonEmptyLinksStartNotInRan;
+use lNonEmptyLinksEndNotInDom;
+use lNonEmptyLinksEndNotNull;
+use lNonEmptyLinksEndLinked;
+rearrange;
+simplify;
+invoke Chain;
+invoke GPID;
+prove by rewrite;
+split start = nullpid;
+cases;
+equality substitute;
+apply extensionality to predicate
+  \{ nullpid \} = \dom~links \setminus \ran~ links;
+rewrite;
+apply lChainLinksHasNoNullPidInDom;
+rewrite;
+next;
+prove by rewrite;
+split \{ start \} = \dom~links \setminus \ran~ links;
+rewrite;
+split \{ end \} = \ran~ links \setminus \dom~links;
+rewrite;
+equality substitute \ran~ links \setminus \dom~links;
+rewrite;
+rearrange;
+apply distributeDiffOverCupRight;
+rewrite;
+equality substitute \dom~links \setminus \ran~ links;
+rewrite;
+equality substitute \ran~ links \setminus \dom~links;
+rewrite;
+rearrange;
+prenex;
+equality substitute \{ start \} \cup (\dom~links \cup \ran~ links);
+instantiate e\_\_0 == e;
+rearrange;
+rewrite;
+apply inCup to predicate e \in \{ end \} \cup (\{ p? \} \cup set);
+rearrange;
+rewrite;
+apply cupSubset to predicate \{ p? \} \cup set \in \power \num;
+rewrite;
+split set \in \power \num;
+rewrite;
+cases;
+split e \in set;
+rewrite;
+cases;
+apply lUnionTransitiveClosure to predicate
+  (start, e) \in (links \cup \{(end, p?)\}) \plus;
+rewrite;
+next;
+prove by rewrite;
+equality substitute p?;
+apply lUnionTransitiveClosure to predicate
+  (start, e) \in (links \cup \{(end, e)\}) \plus;
+rewrite;
+apply lUnionSingletonTransitiveClosure to predicate
+  (start, e) \in (links \cup \{(end, e)\}) \plus;
+rewrite;
+apply lInTransitiveClosure to predicate (start, e) \in links \plus;
+rewrite;
+apply lInTransitiveClosure to predicate (start, end) \in links \plus;
+rewrite;
+instantiate e\_\_0 == end;
+rewrite;
+split (start, end) \in links \plus;
+rewrite;
+next;
+prove by rewrite;
+next;
+\end{forget}
+
+
+\begin{forget}[tPREPush0]
+invoke Push0Sig;
+invoke Push0;
+split end = nullpid;
+cases;
+use tPREPushEmpty;
+invoke PushEmptySig;
+prenex;
+rearrange;
+simplify;
+invoke PushEmpty;
+invoke PushNonEmpty;
+invoke \Delta Chain;
+rewrite;
+rearrange;
+rewrite;
+instantiate set\_\_0' == set', start\_\_0' == start';
+rewrite;
+next;
+use tPREPushNonEmpty;
+invoke PushNonEmptySig;
+prenex;
+rearrange;
+rewrite;
+invoke PushEmpty;
+invoke PushNonEmpty;
+invoke \Delta Chain;
+rewrite;
+rearrange;
+rewrite;
+instantiate end\_\_0' == end', set\_\_0' == set', start\_\_0' == start';
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[tPREPushKnownElementError]
+invoke PushKnownElementError;
+invoke PushKnownElementErrorSig;
+invoke \Xi Chain;
+rewrite;
+\end{forget}
+
+
+\begin{forget}[tPREPushIsTotal]
+invoke Push;
+invoke PushSig;
+split p? \notin  set;
+cases;
+use tPREPush0;
+invoke Push0Sig;
+invoke ChainSuccess;
+rearrange;
+prenex;
+rewrite;
+instantiate end\_\_0' == end',
+    links\_\_0' == links',
+    msg! == chain\_ok,
+    set\_\_0' == set',
+    start\_\_0' == start';
+rewrite;
+next;
+use tPREPushKnownElementError;
+invoke PushKnownElementErrorSig;
+rearrange;
+prenex;
+rewrite;
+instantiate end\_\_0' == end',
+    links\_\_0' == links',
+    msg\_\_0! == msg!,
+    set\_\_0' == set',
+    start\_\_0' == start';
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[tPREPopSingleton]
+invoke PopSingleton;
+invoke PopSingletonSig;
+invoke \Delta Chain;
+prove by rewrite;
+invoke Chain;
+invoke GPID;
+prove by rewrite;
+\end{forget}
+
+\begin{forget}[tPREPopMultiple\_AtLeastTwoLinks]
+invoke PopMultiple\_AtLeastTwoLinks;
+invoke PopMultiple\_AtLeastTwoLinksSig;
+invoke \Delta Chain;
+prove by rewrite;
+use lNonEmptyLinksStartNotNull;
+use lNonEmptyLinksStartNotInRan;
+use lNonEmptyLinksStartLinked;
+use lNonEmptyLinksEndNotNull;
+use lNonEmptyLinksEndNotInDom;
+use lNonEmptyLinksEndLinked;
+rearrange;
+simplify;
+apply inDom to predicate start \in \dom~links;
+prenex;
+with predicate (links \in \num \rel \num) rewrite;
+use lNonEmptyLinksStartLinked;
+rearrange;
+simplify;
+invoke Chain;
+invoke GPID;
+prove by rewrite;
+equality substitute \dom~links \setminus \ran~ links;
+use pairInFunction[\num, \num][x := start, y := y, f := links];
+rearrange;
+rewrite;
+apply lHomogeneousElemRanNDresPInj;
+rewrite;
+equality substitute links start;
+use lLinksDomElemType[links := links, x := start, y := y];
+use lLinksRanElemType[links := links, x := start, y := y];
+use
+  lPInjPairIsRanPoint[\num, \num][A := PID, B := PID, f := links, x := start,
+                                  y := y];
+rearrange;
+simplify;
+rearrange;
+apply distributeDiffOverCupRight;
+rewrite;
+apply lRightDiffLeftDistribute to expression
+  \dom~links \setminus (\ran~ links \setminus \{ y \});
+apply lRightDiffLeftDistribute to expression
+  \ran~ links \setminus (\dom~links \setminus \{ start \});
+rewrite;
+equality substitute \dom~links \setminus \ran~ links;
+equality substitute \ran~ links \setminus \dom~links;
+rewrite;
+apply cupPermutes to expression
+  \{ y \}
+  \cup (\dom~links \setminus \{ start \} \cup (\ran~ links \setminus \{ y \}));
+with predicate
+  (      \{ y \} \in \power \num \\
+   \land \dom~links \setminus \{ start \} \in \power \num \\
+   \land \ran~ links \setminus \{ y \} \in \power \num) rewrite;
+apply lElemUnionAbsorbDiffRight to expression
+  \{ y \} \cup (\ran~ links \setminus \{ y \});
+rewrite;
+split \{ start \} \ndres links = \{\};
+cases;
+rewrite;
+prenex;
+rewrite;
+split
+        e \in \dom~links \\
+  \land \lnot e = start;
+rewrite;
+cases;
+apply inDom to predicate e \in \dom~links;
+rearrange;
+prenex;
+rewrite;
+apply extensionality to predicate \{ start \} \ndres links = \{\};
+rewrite;
+instantiate x == (e, y\_\_0);
+rewrite;
+next;
+apply inRan to predicate e \in \ran~ links;
+prenex;
+rewrite;
+use lLinksRanElemType[y := e];
+rearrange;
+simplify;
+apply extensionality to predicate \{ start \} \ndres links = \{\};
+rearrange;
+rewrite;
+invoke (\_ \pinj \_);
+invoke (\_ \pfun \_);
+rewrite;
+rewrite;
+instantiate x\_\_2 == (x, e);
+rearrange;
+rewrite;
+instantiate x\_\_0 == start, y1 == e, y2 == y;
+rearrange;
+rewrite;
+next;
+rewrite;
+prenex;
+rearrange;
+rewrite;
+instantiate e\_\_0 == e;
+rearrange;
+rewrite;
+use lTransitiveClosureConnectsRan[\num][R := links, x := start, y := e];
+rearrange;
+rewrite;
+use lTransitiveClosureElemType[\num][R := links, x := (start, e)];
+rearrange;
+rewrite;
+use lTransitiveClosureChainHeadExtract[\num][f := links, s := start, e := e];
+rearrange;
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[tPREPop0]
+split links = \emptyset;
+cases;
+use tPREPopSingleton;
+invoke Pop0Sig;
+invoke Pop0;
+invoke PopSingletonSig;
+rearrange;
+rewrite;
+rearrange;
+prenex;
+rewrite;
+invoke PopMultiple\_AtLeastTwoLinks;
+invoke PopSingleton;
+rewrite;
+invoke \Delta Chain;
+rewrite;
+invoke Chain;
+rewrite;
+next;
+invoke Pop0Sig;
+invoke Pop0;
+use tPREPopMultiple\_AtLeastTwoLinks;
+rearrange;
+invoke PopMultiple\_AtLeastTwoLinksSig;
+invoke PopSingleton;
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[tPREPopEmpty]
+invoke PopEmpty;
+invoke \Xi Chain;
+invoke PopEmptySig;
+rewrite;
+\end{forget}
+
+\begin{forget}[tPREPopMultiple\_TooFewElements]
+invoke PopMultiple\_TooFewElements;
+invoke PopMultiple\_TooFewElementsSig;
+invoke \Xi Chain;
+rewrite;
+\end{forget}
+
+\begin{forget}[tPREPopSinglegonComplete]
+invoke PopSingletonComplete;
+invoke PopSingletonCompleteSig;
+split start = nullpid;
+cases;
+use tPREPopEmpty;
+invoke PopEmptySig;
+rearrange;
+prenex;
+invoke PopEmpty;
+rewrite;
+instantiate end\_\_0' == end', links\_\_0' == links', p! == nullpid, set\_\_0' == set', start\_\_0' == start', msg\_\_0! == pop\_empty\_error;
+rewrite;
+next;
+%invoke Pop0;
+use tPREPopSingleton;
+prenex;
+invoke PopSingletonSig;
+rearrange;
+rewrite;
+instantiate end\_\_0' == end', links\_\_0' == links', p\_\_0! == start, set\_\_0' == set', start\_\_0' == start', msg! == chain\_ok;
+rewrite;
+invoke PopSingleton;
+invoke ChainSuccess;
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[tPREPopMultipleComplete]
+invoke PopMultipleComplete;
+invoke PopMultipleCompleteSig;
+split links start \in  \dom~ links;
+cases;
+use tPREPopMultiple\_AtLeastTwoLinks;
+rearrange;
+invoke PopMultiple\_AtLeastTwoLinksSig;
+prenex;
+rewrite;
+invoke PopMultiple\_AtLeastTwoLinks;
+invoke ChainSuccess;
+instantiate end\_\_0' == end', links\_\_0' == links', msg! == chain\_ok, p\_\_0! == start, set\_\_0' == set', start\_\_0' == start';
+rewrite;
+next;
+use tPREPopMultiple\_TooFewElements;
+rearrange;
+invoke PopMultiple\_TooFewElementsSig;
+prenex;
+rewrite;
+split links start \in  \num ;
+cases;
+rewrite;
+instantiate end\_\_0' == end', links\_\_0' == links', msg\_\_0! == pop\_multiple\_error, p! == nullpid, set\_\_0' == set', start\_\_0' == start';
+rewrite;
+invoke PopMultiple\_TooFewElements;
+rewrite;
+next;
+rewrite;
+use lNonEmptyLinksStartLinked;
+rearrange;
+simplify;
+rearrange;
+apply inDom to predicate start \in  \dom~ links;
+prenex;
+rewrite;
+use pairInFunction[\num , \num ][f := links, x := start];
+rearrange;
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[tPREPopCompleteIsTotal]
+invoke PopComplete;
+invoke PopCompleteSig;
+split links = \emptyset;
+cases;
+use tPREPopSinglegonComplete;
+invoke PopSingletonCompleteSig;
+rearrange;
+prenex;
+rewrite;
+split start = nullpid;
+cases;
+instantiate end\_\_0' == end', links\_\_0' == links', p\_\_0! == nullpid, set\_\_0' == set', start\_\_0' == start', msg\_\_0! == pop\_empty\_error;
+rewrite;
+invoke PopSingletonComplete;
+invoke PopEmpty;
+invoke PopSingleton;
+rewrite;
+next;
+simplify;
+instantiate end\_\_0' == end', links\_\_0' == links', p\_\_0! == start, set\_\_0' == set', start\_\_0' == start', msg\_\_0! == chain\_ok;
+rewrite;
+invoke PopSingletonComplete;
+invoke PopSingleton;
+invoke PopEmpty;
+invoke ChainSuccess;
+rewrite;
+next;
+use tPREPopMultipleComplete;
+rearrange;
+invoke PopMultipleCompleteSig;
+prenex;
+rewrite;
+use lNonEmptyLinksStartLinked;
+rearrange;
+simplify;
+rearrange;
+invoke PopSingletonComplete;
+invoke PopSingleton;
+invoke PopEmpty;
+rewrite;
+split \lnot  links = \{\};
+rewrite;
+invoke PopMultipleComplete;
+split PopMultiple\_TooFewElements;
+rewrite;
+cases;
+instantiate end\_\_0' == end', links\_\_0' == links', msg\_\_0! == pop\_multiple\_error, set\_\_0' == set', start\_\_0' == start', p\_\_0! == p!;
+rewrite;
+invoke PopMultiple\_TooFewElements;
+rewrite;
+next;
+rearrange;
+simplify;
+instantiate end\_\_0' == end', links\_\_0' == links', msg\_\_0! == chain\_ok, set\_\_0' == set', start\_\_0' == start', p\_\_0! == p!;
+rearrange;
+rewrite;
+invoke ChainSuccess;
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[tPREPop0Okay]
+use tPREPop0;
+rearrange;
+prenex;
+instantiate end\_\_0' == end', links\_\_0' == links', msg! == chain\_ok, set\_\_0' == set', start\_\_0' == start', p\_\_0! == p!;
+invoke Pop0Okay;
+invoke ChainSuccess;
+rewrite;
+\end{forget}
+
+\begin{forget}[tPREPopErr]
+invoke PopErrSig;
+invoke PopErr;
+split PopEmptySig;
+cases;
+use tPREPopEmpty;
+rearrange;
+prenex;
+instantiate end\_\_0' == end', links\_\_0' == links', set\_\_0' == set', start\_\_0' == start', msg\_\_0! == pop\_empty\_error;
+invoke PopEmpty;
+rewrite;
+next;
+use tPREPopMultiple\_TooFewElements;
+rearrange;
+prenex;
+instantiate end\_\_0' == end', links\_\_0' == links', set\_\_0' == set', start\_\_0' == start', msg\_\_0! == pop\_multiple\_error;
+rearrange;
+rewrite;
+rearrange;
+invoke PopMultiple\_TooFewElements;
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[tPREPopIsTotal]
+invoke Pop;
+invoke PopSig;
+split Pop0Sig;
+cases;
+use tPREPop0Okay;
+rearrange;
+prenex;
+instantiate end\_\_0' == end', links\_\_0' == links', set\_\_0' == set', start\_\_0' == start', msg\_\_0! == msg!, p\_\_0! == p!;
+rewrite;
+next;
+split PopErrSig;
+cases;
+use tPREPopErr;
+rearrange;
+prenex;
+instantiate end\_\_0' == end', links\_\_0' == links', set\_\_0' == set', start\_\_0' == start', msg\_\_0! == msg!, p! == 1;
+rewrite;
+next;
+invoke Pop0Sig;
+rearrange;
+invoke PopErrSig;
+invoke PopMultiple\_TooFewElementsSig;
+invoke PopEmptySig;
+rewrite;
+rearrange;
+rewrite;
+use lNonEmptyLinksStartLinked;
+rearrange;
+rewrite;
+apply inDom to predicate start \in  \dom~ links;
+prenex;
+rewrite;
+use pairInFunction[\num , \num ][f := links, x := start, y := y];
+rearrange;
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[tPREDeleteStart]
+invoke DeleteStart;
+invoke DeleteStartSig;
+invoke \Delta Chain;
+rewrite;
+use tPREPopCompleteIsTotal;
+invoke PopCompleteSig;
+prenex;
+rearrange;
+rewrite;
+instantiate end\_\_0' == end', links\_\_0' == links', msg\_\_0! == msg!, set\_\_0' == set', start\_\_0' == start';
+rewrite;
+invoke PopComplete;
+split PopMultipleComplete;
+simplify;
+cases;
+next;
+invoke PopSingletonComplete;
+split PopEmpty;
+simplify;
+cases;
+instantiate p\_\_0! == p?;
+rewrite;
+next;
+invoke PopSingleton;
+instantiate p\_\_0! == p!;
+rewrite;
+next;
+invoke PopMultipleComplete;
+split PopMultiple\_TooFewElements;
+simplify;
+cases;
+instantiate p\_\_0! == p?;
+rewrite;
+next;
+invoke PopMultiple\_AtLeastTwoLinks;
+instantiate p\_\_0! == p!;
+rewrite;
+next;
+\end{forget}
+
+\begin{LPScript}\begin{forget}[tPREDeleteEnd]
+invoke DeleteEnd;
+invoke DeleteEndSig;
+invoke \Delta Chain;
+invoke ChainSuccess;
+rewrite;
+split links = \{\};
+cases;
+rewrite;
+invoke Chain;
+rewrite;
+next;
+use lNonEmptyLinksEndNotNull;
+use lNonEmptyLinksStartNotNull;
+use lNonEmptyLinksStartLinked;
+use lNonEmptyLinksEndLinked;
+use lNonEmptyLinksStartNotInRan;
+use lNonEmptyLinksEndNotInDom;
+rearrange;
+simplify;
+apply inRan to predicate end \in  \ran~  links;
+prenex;
+with predicate (links \in  \num  \rel  \num ) rewrite;
+use lNonEmptyLinksEndLinked;
+rearrange;
+simplify;
+invoke Chain;
+invoke GPID;
+rearrange;
+split \lnot  start = nullpid;
+simplify;
+split \lnot  end = nullpid;
+rewrite;
+rearrange;
+rewrite;
+apply lRightDiffLeftDistribute;
+rewrite;
+split links \nrres  \{end\} = \{\};
+rewrite;
+cases;
+rearrange;
+equality substitute;
+rewrite;
+apply lRightDiffLeftDistribute to expression \ran~  links \setminus  (\ran~  links \setminus  \dom~ links);
+rewrite;
+apply diffSuperset to expression \ran~  links \setminus  \ran~  links;
+rewrite;
+apply extensionality to predicate links \nrres  \{end\} = \{\};
+rewrite;
+rewrite;
+instantiate end' == end;
+prenex;
+rewrite;
+apply inRan to predicate e \in  \ran~  links;
+prenex;
+rewrite;
+instantiate x\_\_1 == (x\_\_0, e);
+rewrite;
+next;
+use lLinksDomElemType[x := x, y := end];
+rearrange;
+rewrite;
+use lPInjPairIsRanPoint[\num , \num ][A := PID, B := PID, f := links, x := x, y := end];
+rearrange;
+rewrite;
+apply lHomogeneousElemDomNRresPInj;
+rewrite;
+apply distributeDiffOverCupRight to expression \dom~ links \setminus  (\ran~  links \cup  \{links \inv  end\});
+rewrite;
+equality substitute \dom~ links \setminus  \ran~  links;
+rewrite;
+equality substitute links \inv  end;
+apply distributeDiffOverCupRight to expression \ran~  links \setminus  (\{end\} \cup  (\dom~ links \setminus  \{x\}));
+rewrite;
+equality substitute \{end\};
+apply lRightDiffLeftDistribute to expression \ran~  links \setminus  (\ran~  links \setminus  \dom~ links);
+rewrite;
+apply diffSuperset to expression \ran~  links \setminus  \ran~  links;
+rewrite;
+apply capSubsetRight to expression \ran~  links \cap  (\ran~  links \setminus  (\dom~ links \setminus  \{x\}));
+rewrite;
+apply lRightDiffLeftDistribute to expression \ran~  links \setminus  (\dom~ links \setminus  \{x\});
+rewrite;
+equality substitute \ran~  links \setminus  \dom~ links;
+apply capUnit to expression \dom~ links \cap  \{end\};
+rewrite;
+cases;
+prove by rewrite;
+next;
+prove by rewrite;
+next;
+next;
+use lNonEmptyLinksSingleton;
+invoke Chain;
+invoke GPID;
+rearrange;
+rewrite;
+instantiate e == x;
+prove by rewrite;
+split links \inv  end = start;
+cases;
+next;
+simplify;
+use lTransitiveClosureConnectsRan[\num ][R := links, x := start, y := links \inv  end];
+rearrange;
+rewrite;
+next;
+equality substitute links \inv  end;
+with predicate ((start, end) \in  links) simplify;
+rearrange;
+equality substitute links;
+rewrite;
+next;
+use lHomogeneousElemDomNRresPInj[\num ][f := links, y := end];
+rearrange;
+apply lLastExtractNRresDistTransitiveClosure to expression (links \nrres  \{end\}) \plus ;
+rewrite;
+prenex;
+apply distributeCupOverCapRight to expression \dom~ links \setminus  \{x\} \cup  \dom~ links \cap  \ran~  links;
+with predicate (\dom~ links \setminus  \{x\} \in  \power  \num  \land  \dom~ links \in  \power  \num  \land  \ran~  links \in  \power  \num ) rewrite;
+apply cupSubsetLeft to expression \dom~ links \setminus  \{x\} \cup  \dom~ links;
+with predicate (\dom~ links \setminus  \{x\} \subseteq  \dom~ links) rewrite;
+apply distributeCapOverCupRight to expression \dom~ links \cap  (\dom~ links \setminus  \{x\} \cup  \ran~  links);
+with predicate (\dom~ links \in  \power  \num  \land  \dom~ links \setminus  \{x\} \in  \power  \num  \land  \ran~  links \in  \power  \num ) rewrite;
+apply capSubsetRight to expression \dom~ links \cap  (\dom~ links \setminus  \{x\});
+with predicate (\dom~ links \setminus  \{x\} \subseteq  \dom~ links) rewrite;
+equality substitute x;
+equality substitute \dom~ links \setminus  \{links \inv  end\};
+apply cupPermutes to expression \{start\} \cup  (\dom~ (links \nrres  \{end\}) \cup  \dom~ links \cap  \ran~  links);
+with predicate (\{start\} \in  \power  \num  \land  \dom~ (links \nrres  \{end\}) \in  \power  \num  \land  \dom~ links \cap  \ran~  links \in  \power  \num ) rewrite;
+equality substitute \{start\};
+apply distributeCupOverCapRight to expression \dom~ links \setminus  \ran~  links \cup  \dom~ links \cap  \ran~  links;
+with predicate (\dom~ links \setminus  \ran~  links \in  \power  \num  \land  \dom~ links \in  \power  \num  \land  \ran~  links \in  \power  \num ) rewrite;
+apply cupSubsetLeft to expression \dom~ links \setminus  \ran~  links \cup  \dom~ links;
+with predicate (\dom~ links \setminus  \ran~  links \subseteq  \dom~ links) rewrite;
+apply distributeCupOverCapRight to expression \dom~ (links \nrres  \{end\}) \cup  \dom~ links \cap  (\dom~ links \setminus  \ran~  links \cup  \ran~  links);
+with predicate (\dom~ (links \nrres  \{end\}) \in  \power  \num  \land  \dom~ links \in  \power  \num  \land  \dom~ links \setminus  \ran~  links \cup  \ran~  links \in  \power  \num ) rewrite;
+apply cupSubsetLeft to expression \dom~ (links \nrres  \{end\}) \cup  \dom~ links;
+with predicate (\dom~ (links \nrres  \{end\}) \subseteq  \dom~ links) rewrite;
+apply domSubset to predicate \dom~ (links \nrres  \{end\}) \in  \power  (\dom~ links);
+apply nrres\_result to predicate links \nrres  \{end\} \in  \power  links;
+with predicate (links \in  \num  \rel  \num  \land  (\{end\} \in  \power  \num  \land  links \in  \num  \rel  \num  \land  \power  links \in  \power  (\power  links) \lor  links \nrres  \{end\} \in  \power  links)) rewrite;
+apply cupPermutes to expression \dom~ (links \nrres  \{end\}) \cup  (\dom~ links \setminus  \ran~  links \cup  \ran~  links);
+with predicate (\dom~ (links \nrres  \{end\}) \in  \power  \num  \land  \dom~ links \setminus  \ran~  links \in  \power  \num  \land  \ran~  links \in  \power  \num ) rewrite;
+equality substitute \dom~ links \setminus  \ran~  links;
+split \lnot  e = start;
+simplify;
+rewrite;
+rearrange;
+instantiate e\_\_0 == e;
+rearrange;
+equality substitute set;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{forget}[lDeleteTransitiveClosureLinksUpdateLemma]
+apply lPInjWeakening to predicate \{p?\} \ndres  links \oplus  \{(x, y)\} \in  PID \pinj  PID;
+apply lPInjWeakeningFresh to predicate links \in  PID \pinj  PID;
+rewrite;
+prenex;
+apply lNDresUnitOplusUnitAssociates to expression \{p?\} \ndres  links \oplus  \{(x, y)\};
+rewrite;
+apply oplusDef to expression links \oplus  \{(x, y)\};
+rewrite;
+rearrange;
+with normalization rewrite;
+cases;
+instantiate rf == r, df1 == d2, df2 == p?;
+rearrange;
+rewrite;
+next;
+cases;
+instantiate rf == r, df1 == d1, df2 == p?;
+rearrange;
+rewrite;
+next;
+instantiate rf == r, df1 == d1, df2 == d2;
+rearrange;
+rewrite;
+next;
+\end{forget}
+
+\begin{LPScript}\begin{forget}[lEndEquivalenceLemma]
+invoke DeleteMiddleSig;
+use lChainMidElemEverywhere;
+rearrange;
+rewrite;
+use lNonEmptyLinksEndLinked;
+use lNonEmptyLinksEndNotNull;
+use lNonEmptyLinksEndNotInDom;
+use lNonEmptyLinksStartNotNull;
+rearrange;
+simplify;
+invoke Chain;
+invoke GPID;
+rearrange;
+split \lnot  end = nullpid;
+rewrite;
+apply oplusDef to expression \{p?\} \ndres links \oplus \{(x, y)\} ;
+rewrite;
+apply extensionality to predicate \{end\} = \{y\} \cup  \ran~  ((\{p?\} \cup  \{x\}) \ndres  links) \setminus  \dom~ links;
+prenex;
+rewrite;
+cases;
+equality substitute x\_\_0;
+apply inRan to predicate end \in  \ran~  ((\{p?\} \cup  \{x\}) \ndres  links);
+apply inRan to predicate end \in  \ran~  links;
+prenex;
+rewrite;
+instantiate x\_\_2 == x\_\_1;
+rewrite;
+split x\_\_0 = p?;
+rewrite;
+cases;
+equality substitute x\_\_0;
+apply lPInjWeakening to predicate links \in  PID \pinj  PID;
+apply lPFunWeakening to predicate links \in  PID \pfun  PID;
+instantiate d == p?, r1 == end, r2 == y;
+rearrange;
+rewrite;
+next;
+rearrange;
+equality substitute x\_\_0;
+apply lPInjWeakening to predicate links \in  PID \pinj  PID;
+apply lPFunWeakening to predicate links \in  PID \pfun  PID;
+instantiate d == x, r1 == end, r2 == p?;
+rearrange;
+rewrite;
+next;
+rearrange;
+apply extensionality to predicate \{end\} = \ran~  links \setminus  \dom~ links;
+rewrite;
+split y\_\_0 = y;
+rewrite;
+cases;
+equality substitute y\_\_0;
+instantiate y\_\_1 == y;
+rearrange;
+rewrite;
+next;
+simplify;
+apply inRan to predicate y\_\_0 \in  \ran~  ((\{p?\} \cup  \{x\}) \ndres  links);
+prenex;
+rewrite;
+instantiate y\_\_1 == y\_\_0;
+rearrange;
+rewrite;
+apply inRan to predicate y \in  \ran~  links;
+instantiate x\_\_1 == x\_\_0;
+rewrite;
+next;
+\end{forget}\end{LPScript}
+
+\begin{forget}[ChainMidPoint\$domainCheck]
+rewrite;
+\end{forget}
+
+\begin{forget}[lChainLinks]
+invoke Chain;
+simplify;
+\end{forget}
+
+\begin{forget}[lChainMidPointLinksMidPointEquiv]
+apply extensionality;
+prenex;
+rewrite;
+cases;
+next;
+invoke ChainMidPoint;
+split y\_\_0 = (p?, y);
+rewrite;
+next;
+use lLinksElemType[x := x\_\_0];
+rearrange;
+apply inCross2;
+prenex;
+simplify;
+rearrange;
+equality substitute;
+invoke ChainMidPoint;
+rewrite;
+with normalization rewrite;
+invoke Chain;
+apply lPInjWeakening to predicate links \in  PID \pinj  PID;
+apply lPFunWeakening to predicate links \in  PID \pfun  PID;
+cases;
+instantiate d == p?, r1 == y, r2 == y\_\_0;
+rearrange;
+rewrite;
+next;
+instantiate d == x, r1 == p?, r2 == y\_\_0;
+rearrange;
+rewrite;
+next;
+\end{forget}
+
+\begin{forget}[LinksFilterSets\$domainCheck]
+rewrite;
+\end{forget}
+
+\begin{forget}[lChainMidPointFilterSetsEquivalence]
+invoke LinksFilterSets;
+equality substitute;
+rewrite;
+\end{forget}
+
+\begin{forget}[lChainMidPointFilterSetsDisjoint]
+instantiate end\_\_0 == end,
+    links\_\_0 == links,
+    p\_\_0? == p?,
+    set\_\_0 == set,
+    start\_\_0 == start,
+    x\_\_0 == x,
+    y\_\_0 == y,
+    links\_upto\_midpoint == \{  i: PID | x \in  \ran~  links \land  (i, links \inv  x) \in  links \plus  \},
+    last\_link\_before\_midpoint == \{  l: PID | x \in  \ran~  links \land  l = links \inv  x \},
+    links\_at\_midpoint == \{x, p?\},
+    links\_from\_midpoint == \{  j: PID | (y, j) \in  links \plus  \land  (j, end) \in  links \plus  \},
+    all\_links == \{  i: PID | x \in  \ran~  links \land  (i, links \inv  x) \in  links \plus  \}
+        \cup  \{  l: PID | x \in  \ran~  links \land  l = links \inv  x \}
+        \cup  \{x, p?\}
+        \cup  \{y\} \cup  \{  j: PID | (y, j) \in  links \plus  \land  (j, end) \in  links \plus  \},
+    all\_links\_filters\_segments == \langle
+        \{  i: PID | x \in  \ran~  links \land  (i, links \inv  x) \in  links \plus  \} \cup
+        \{  l: PID | x \in  \ran~  links \land  l = links \inv  x \},
+        \{x, p?\},
+        \{y\} \cup  \{  j: PID | (y, j) \in  links \plus  \land  (j, end) \in  links \plus  \}
+        \rangle;
+invoke LinksFilterSets;
+rewrite;
+\end{forget}
+
+\begin{forget}[lChainMidPointLinksPartition]
+use lChainMidPointFilterSetsDisjoint;
+use lChainMidPointFilterSetsEncompassAllLinks;
+rearrange;
+simplify;
+invoke LinksPartition;
+invoke LinksFilterSets;
+equality substitute;
+with enabled (disjointCat) rewrite;
+apply lDresFilterCup;
+rewrite;
+apply lDresDisjointFiltering;
+rewrite;
+apply lDresFilterCup;
+rewrite;
+apply dresElimination;
+rewrite;
+\end{forget}
+
+\begin{LPScript}\begin{forget}[lDeleteTransitiveClosureLemma]
+invoke DeleteMiddleSig;
+use lChainMidElemEverywhere;
+rearrange;
+rewrite;
+use lNonEmptyLinksEndLinked;
+use lNonEmptyLinksEndNotNull;
+use lNonEmptyLinksEndNotInDom;
+use lNonEmptyLinksStartLinked;
+use lNonEmptyLinksStartNotNull;
+use lNonEmptyLinksStartNotInRan;
+rearrange;
+simplify;
+invoke Chain;
+invoke GPID;
+rearrange;
+split \lnot  start = nullpid;
+split \lnot  end = nullpid;
+rewrite;
+invoke DeleteTransitiveClosureCase;
+rewrite;
+prenex;
+instantiate e == elem;
+rearrange;
+rewrite;
+equality substitute set;
+rearrange;
+rewrite;
+apply lNDresUnitOplusUnitAssociates to expression \{p?\} \ndres  links \oplus  \{(x, y)\};
+rewrite;
+apply lHeadExtractNDresDistTransitiveClosure to expression (\{p?\} \ndres  (links \oplus  \{(x, y)\})) \plus ;
+rewrite;
+cases;
+apply inRan to predicate p? \in  \ran~  (\{p?\} \ndres  (links \oplus  \{(x, y)\}));
+apply inRan to predicate p? \in  \ran~  (links \oplus  \{(x, y)\});
+prenex;
+rewrite;
+instantiate x\_\_1 == x\_\_0;
+rearrange;
+rewrite;
+apply oplusDef to expression links \oplus  \{(x, y)\};
+rewrite;
+apply lPInjWeakening to predicate links \in  PID \pinj  PID;
+instantiate r == p?, d1 == x, d2 == p?;
+rearrange;
+rewrite;
+next;
+use lRelElemInDom[\num , \num ][R := links, y := p?];
+rearrange;
+rewrite;
+instantiate e == x;
+instantiate e == y;
+rearrange;
+rewrite;
+rearrange;
+apply oplusDef to expression links \oplus  \{(x, y)\};
+rewrite;
+split \lnot  elem \in  PID;
+cases;
+rearrange;
+split elem \in  \dom~ links \land  \lnot  elem = p?;
+cases;
+rewrite;
+next;
+rearrange;
+simplify;
+apply inRan to predicate elem \in  \ran~  ((\{p?\} \cup  \{x\}) \ndres  links);
+prenex;
+rewrite;
+use lLinksRanElemType[x := x\_\_0, y := elem];
+rearrange;
+simplify;
+next;
+apply lUnionTransitiveClosure;
+rewrite;
+use lUnionSingletonTransitiveClosure[\num ][R := \{x\} \ndres  links, x := start, y := elem, z := start];
+rearrange;
+rewrite;
+split (start, start) \in  (\{x\} \ndres  links) \plus ;
+simplify;
+split x = start;
+rewrite;
+cases;
+apply lHeadExtractNDresDistTransitiveClosure to expression (\{x\} \ndres  links) \plus ;
+equality substitute x;
+with predicate (start \in  \num  \land  links \in  \num  \rel  \num  \land  \lnot  start \in  \ran~  links) rewrite;
+apply inNdres to predicate (start, elem) \in  \{start\} \ndres  links \plus ;
+with predicate ((start, elem).1 \in  \{start\}) rewrite;
+with predicate (\{start\} \in  \power  \num  \land  links \plus  \in  \num  \rel  \num ) rewrite;
+rewrite;
+rewrite;
+cases;
+rewrite;
+rewrite;
+split x = start;
+rewrite;
+split y = start;
+rewrite;
+cases;
+split elem \in  \dom~ links \land  \lnot  elem = p?;
+rewrite;
+cases;
+next;
+rearrange;
+apply lInHomogeneousNotElemRanNDres to predicate elem \in  \ran~  (\{p?\} \ndres  (links \oplus  \{(x, y)\}));
+rearrange;
+rewrite;
+apply oplusDef to expression links \oplus  \{(x, y)\};
+rewrite;
+rewrite;
+apply lInHomogeneousElemRanNDres to predicate elem \in  \ran~  (\{p?\} \ndres  (links \oplus  \{(x, y)\}));
+rewrite;
+apply lInHomogeneousElemRanNDres to predicate elem \in  \ran~  (\{p?\} \ndres  (links \oplus  \{(x, y)\}));
+rearrange;
+rewrite;
+apply oplusDef to expression links \oplus  \{(x, y)\};
+rewrite;
+with normalization rewrite;
+rewrite;
+cases;
+with predicate (\{(x, y)\} \in  \power  (\num  \cross  \num ) \land  \{x\} \ndres  links \in  \power  (\num  \cross  \num )) rewrite;
+apply lInOplusUnit to predicate (x\_\_0, p?) \in  links \oplus  \{(x, y)\};
+rewrite;
+rearrange;
+rewrite;
+\end{forget}\end{LPScript}
+
+\begin{LPScript}\begin{forget}[tPREDeleteMiddle]
+invoke DeleteMiddle;
+invoke DeleteMiddleSig;
+use lChainMidElemEverywhere;
+invoke \Delta Chain;
+invoke ChainSuccess;
+prove;
+apply lInRanInjection to predicate p? \in  \ran~  links;
+apply inDom to predicate p? \in  \dom~ links;
+prenex;
+rewrite;
+use lPInjPairIsRanPoint[\num , \num ][A := PID, B := PID, f := links, x := p?, y := y];
+use lApplyInvInDomPInj[\num , \num ][A := PID, B := PID, f := links, a := p?];
+use lChainMidElemEverywhere;
+rearrange;
+rewrite;
+rearrange;
+split links = \{\};
+cases;
+rewrite;
+next;
+use lNonEmptyLinksEndNotNull;
+use lNonEmptyLinksStartNotNull;
+use lNonEmptyLinksStartLinked;
+use lNonEmptyLinksEndLinked;
+use lNonEmptyLinksStartNotInRan;
+use lNonEmptyLinksEndNotInDom;
+rearrange;
+simplify;
+invoke Chain;
+invoke GPID;
+rearrange;
+split \lnot  start = nullpid;
+simplify;
+split \lnot  end = nullpid;
+rewrite;
+rearrange;
+rewrite;
+apply lUnionExchangeDiffLeft to expression \dom~ links \setminus  \{p?\} \cup  \{links \inv  p?\};
+rewrite;
+split links \inv  p? = p?;
+rewrite;
+cases;
+apply lElemUnionAbsorbDiffRight to expression \{p?\} \cup  (\dom~ links \setminus  \{p?\});
+apply lUnitOplusAbsorbsUnitNDres to expression \{p?\} \ndres  links \oplus  \{(p?, links p?)\};
+apply lPFunElemAbsorbsUnitOplusRight to expression links \oplus  \{(p?, links p?)\};
+rewrite;
+apply lCupAssociatesBackwards to expression \{p?\} \cup  (\dom~ links \setminus  \{p?\} \cup  \ran~  links);
+apply lElemUnionAbsorbDiffRight to expression \{p?\} \cup  (\dom~ links \setminus  \{p?\});
+rewrite;
+equality substitute \dom~ links \setminus  \ran~  links;
+equality substitute \ran~  links \setminus  \dom~ links;
+rewrite;
+cases;
+prove;
+next;
+prove;
+next;
+prenex;
+apply cupPermutes to expression \{p?\} \cup  (\{start\} \cup  (\dom~ links \setminus  \{p?\} \cup  \ran~  links));
+apply lCupAssociatesBackwards to expression \{p?\} \cup  (\dom~ links \setminus  \{p?\} \cup  \ran~  links);
+apply lElemUnionAbsorbDiffRight to expression \{p?\} \cup  (\dom~ links \setminus  \{p?\});
+rewrite;
+instantiate e\_\_0 == e;
+equality substitute set;
+rearrange;
+rewrite;
+next;
+simplify;
+apply lCupAssociatesBackwards to expression \dom~ links \setminus  \{p?\} \cup  (\{links \inv  p?\} \cup  \ran~  (\{p?\} \ndres  links \oplus  \{(links \inv  p?, links p?)\}));
+apply lUnionExchangeDiffLeft to expression \dom~ links \setminus  \{p?\} \cup  \{links \inv  p?\};
+apply cupSubsetRight to expression \dom~ links \cup  \{links \inv  p?\};
+rewrite;
+apply lPFunElemAbsorbsUnitOplusRight to expression \{p?\} \ndres  links \oplus  \{(links \inv  p?, links p?)\};
+rewrite;
+rearrange;
+use lPInjPointIsNotShared[\num , \num ][f := links, x1 := p?, x2 := x];
+rearrange;
+rewrite;
+equality substitute links \inv  p?;
+equality substitute links p?;
+split \{p?\} \ndres  links \oplus  \{(x, y)\} = \{\};
+cases;
+apply oplusDef to expression \{p?\} \ndres  links \oplus  \{(x, y)\};
+rearrange;
+rewrite;
+next;
+rearrange;
+rewrite;
+split p? = y;
+rewrite;
+apply lUnionExchangeDiffLeft to expression \dom~ links \setminus  \{p?\} \cup  \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\});
+apply lRightDiffLeftDistribute to expression \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}) \setminus  (\dom~ links \setminus  \{p?\});
+apply capUnit to expression \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}) \cap  \{p?\};
+rewrite;
+apply lHomogeneousPInjMidPointExtractNotInRan to predicate p? \in  \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\});
+rewrite;
+use lHomogeneousPInjMidPointExtractNotInRan[\num ][f := links, p? := p?, x := x, y := y];
+rearrange;
+simplify;
+with predicate (links \in  \num  \pinj  \num  \land  p? \in  \num ) rewrite;
+apply distributeDiffOverCupLeft to expression \dom~ links \cup  \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}) \setminus  \{p?\};
+apply lElemDiffAbsorbption to expression \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}) \setminus  \{p?\};
+rewrite;
+apply lHomogeneousMidPointExtractRanEquiv to expression \{p?\} \cup  \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\});
+rewrite;
+apply cupPermutes to expression \{p?\} \cup  (\{y\} \cup  \ran~  links);
+apply cupSubsetLeft to expression \{p?\} \cup  \ran~  links;
+rewrite;
+apply cupSubsetLeft to expression \{y\} \cup  \ran~  links;
+rewrite;
+equality substitute \dom~ links \setminus  \ran~  links;
+rewrite;
+apply lUnionExchangeDiffLeft to expression \dom~ links \setminus  \{p?\} \cup  \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\});
+apply distributeDiffOverCupLeft to expression \dom~ links \cup  \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}) \setminus  \{p?\};
+apply lElemDiffAbsorbption to expression \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}) \setminus  \{p?\};
+rewrite;
+apply lCupAssociatesBackwards to expression \{start\} \cup  (\dom~ links \setminus  \{p?\} \cup  \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}));
+apply cupSubsetLeft to expression \{start\} \cup  (\dom~ links \setminus  \{p?\});
+rewrite;
+use lEndEquivalenceLemma;
+use lDeleteTransitiveClosureLinksUpdateLemma;
+use lDeleteTransitiveClosureLemma;
+rearrange;
+simplify;
+invoke DeleteMiddleSig;
+invoke Chain;
+invoke GPID;
+rearrange;
+rewrite;
+rearrange;
+invoke DeleteTransitiveClosureCase;
+simplify;
+instantiate end' == end;
+rewrite;
+rearrange;
+cases;
+prove;
+next;
+equality substitute set;
+rewrite;
+use lFinsetSubset[X := \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}), Y := \ran~  links, Z := PID];
+rearrange;
+simplify;
+apply ranInPower to predicate \ran~  (\{p?\} \ndres  links \oplus  \{(x, y)\}) \in  \power  (\ran~  links);
+apply overrideInRel to predicate \{p?\} \ndres  links \oplus  \{(x, y)\} \in  \num  \rel  \ran~  links;
+apply ndres\_result to predicate \{p?\} \ndres  links \in  \num  \rel  \ran~  links;
+apply rel\_ideal to predicate \power  links \in  \power  (\num  \rel  \ran~  links);
+apply lRelWithinRan to predicate links \in  \num  \rel  \ran~  links;
+rewrite;
+next;
+apply oplusDef to expression \{p?\} \ndres  links \oplus  \{(x, y)\};
+rewrite;
+next;
+\end{forget}\end{LPScript}

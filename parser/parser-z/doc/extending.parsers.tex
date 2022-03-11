@@ -1,0 +1,200 @@
+\documentclass{article}
+
+\usepackage{vmargin}
+
+\setpapersize{A4}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
+%\setmarginsrb{20mm}{10mm}{20mm}{10mm}{12pt}{11mm}{0pt}{11mm}
+%\setmarginsrb{25mm}{20mm}{25mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\newcommand{\Circus}{\textsf{\textit{Circus}}}
+
+\begin{document}
+
+\title{Extending CZT parsers}
+\author{Leo Freitas}
+\date{March 2006, January 2013}
+
+\maketitle
+
+\begin{abstract}
+    \noindent This article documents the process of extending the CZT parsing architecture
+    for a new Z extension. In particular, it uses \Circus\ and Circus time as target language
+    examples.
+\end{abstract}
+
+\section{Introduction}\label{introduction}
+
+In this document we define the general guidelines for extending the CZT parsing
+architecture. It includes various parsers, scanners, and pretty printers. The
+architecture allows one to use Apache ANT to generate the Java, CUP, and JFlex
+source files related to theses tools from various XML schema files containing
+the appropriate markup for each different language. Thus, we allow some reuse
+within the rather usually monolithic structure of parsing tools.
+
+The main tools generated are usually related to \LaTeX\ and Unicode. At the
+moment we have  extensions for Z, Object-Z and TCOZ, Z/EVES, \Circus, and Circus time. 
+New languages can be added as needed. For instance, in this document we use \Circus\ as the new
+language we are extending the CZT parsing architecture for. Furthermore, we
+assume the paths given are relative to the value of the \texttt{CZT\_HOME}
+environment variable.
+
+Although the modifications for different extensions spread across different
+files and directories, it is left to an irreducible minimum in order to allow
+extension with least effort possible. This is because parsers and scanner code
+are very difficult to extend through inheritance due to the very nature of its
+algorithm. Thus, our compromise here for reusability is using XML templates as
+an intermediate medium between the various versions. That is, from the XML
+templates, one is able to generate a set of different parsers and scanners,
+hence leaving room for better maintenance and extensibility.
+
+\subsection{Dependencies}
+
+The parsing architecture depends on other projects like \texttt{corejava}, and
+\texttt{session}. It's important to understand how these dependencies work, and
+the best way to do that is to look at the Maven dependency graphs of each project
+involved. Therefore, to extend a parser one should be aware of the
+dependencies and documentation of those two packages. Moreover, the JWSP files
+might be necessary if one want to read/write XML files using JAXB.
+
+During the execution of a parsing session, some warning or information messages
+about \texttt{clover.jar} or typechecking might appear. These can be ignored
+and have to do with CZT testing architecture, and session management
+typechecking configuration respectively.
+
+\section{Defining Unicode Characters}
+
++ devtools/circus2charclass.xsl!
+
++ talk about the 13 layered scanners!
+
++ talk about ContextFreeScanner + Latex2Unicode!
+
+\section{Defining keywords}\label{defining-keywords}
+
+To instruct the parsers to recognise keywords of a language as special tokens,
+one need to edit the following files:
+
+\begin{enumerate}
+    \item \texttt{./parser/lib/circus\_toolkit.tex}
+
+        The \texttt{parser/lib} directory contains the toolkits for the various
+        languages. Even if the target language do not have particular
+        definitions, the keywords must appear somewhere for the parser/scanners
+        to be aware of it.
+
+        It does not need to be in the toolkit file necessarily, neither on this directory.
+        Nevertheless, if one puts it somewhere else, the \texttt{czt.path}
+        environment variable must be to the appropriate directory where the file
+        containing the keywords lie. It can be either a Unicode
+        (\texttt{.utf8}, or \texttt{.utf16}), or a \LaTeX\ file.
+
+    \item \texttt{./devtools/circuschar.xml} \\
+          \texttt{./corejava/xsl/circuschar2stringclass.xsl}
+
+        These files are the link between Unicode characters and strings into Java.
+        The char file contains Unicode characters, whereas the string file
+        contains Unicode strings. Usually, keywords are to be found here.
+
+    \item \texttt{./parser/templates/KeywordScanner.xml}
+        This XML template is the place to define the keywords for the various
+        scanners, as well as to link them to the underlying parsers.
+
+    \item \texttt{./parser/templates/Parser.xml}
+        This XML template is where the language grammar rules are defined using
+        the CUP parser generator.
+
+        The Java variable name of the string constant defined in the
+        \texttt{} file \textbf{*must*} be the same as the CUP terminal name used
+        for this special token. This establishes a programmable link between the
+        CUP parsing and other Java files and scanners.
+
+\end{enumerate}
+
+For example, to define the $\mathbf{channel}$ keyword for declaration of
+channels in \Circus\, one needs to update these files as follows:
+
+\begin{enumerate}
+    \item \texttt{./parser/lib/circus\_toolkit.tex}
+
+      \hspace{5pt}\texttt{\%\%Zpreword $\backslash$circchannel channel}
+
+
+    \item \texttt{./corejava/xsl/circuschar2stringclass.xsl}
+
+      \hspace{5pt}\texttt{String CIRCCHAN = ``channel''}
+
+    \item \texttt{./parser/templates/KeywordScanner.xml}
+
+      \hspace{5pt}\texttt{<add:circus>}
+
+      \hspace{5pt}\texttt{import net.sourceforge.czt.circus.util.CircusString;}
+
+      \hspace{5pt}\texttt{</add:circus>}
+
+      \hspace{5pt}$\vdots$
+
+      \hspace{5pt}\texttt{public class KeywordScanner implements Scanner \{}
+
+      \hspace{5pt}$\vdots$
+
+        \hspace{15pt}\texttt{private Map<String, Integer> createKeywordMap() \{}
+
+          \hspace{25pt}\texttt{Map<String, Integer> result = new HashMap<String, Integer>();}
+
+          \hspace{25pt}$\vdots$
+
+          \hspace{25pt}\texttt{<add:circus>}
+
+          \hspace{25pt}\texttt{//Maps the Java Unicode string with the Parser symbols}
+
+          \hspace{25pt}\texttt{result.put(CircusString.CIRCCHAN, new Integer(Sym.CIRCCHAN));}
+
+          \hspace{25pt}\texttt{</add:circus>}
+
+          \hspace{25pt}$\vdots$
+
+        \hspace{15pt}\texttt{\}}
+
+      \hspace{5pt}\texttt{\}}
+
+    \item \texttt{./parser/templates/Parser.xml}
+
+      \hspace{5pt}\texttt{//Line 1055 (v1.214)}
+      \hspace{5pt}\texttt{scan with \{: return local\_next\_token(); :\};}
+      \hspace{5pt}\texttt{<add:circus>}
+
+        \hspace{10pt}\texttt{terminal CIRCCHAN;}
+
+      \hspace{5pt}\texttt{</add:circus>}
+
+\end{enumerate}
+
+Firstly, in \texttt{circus\_toolkit.tex} we define the mapping between \LaTeX\
+and Unicode representation. As in this example, they do not need to be the
+same. Moreover, we also define which markup directive is to be used for this
+keyword, which in this case is a \textbf{pre}fix key\textbf{word}
+(\textit{i.e.}, \texttt{\%\%Zpreword}). Next, in
+\texttt{circuschar2stringclass.xsl} we define Unicode representation for the
+\texttt{CIRCCHAN} terminal token for the CUP file generated from
+\texttt{Parser.xml}. Finally, in \texttt{KeywordScanner.xml} we define the last
+link between Unicode to \LaTeX\ for the \texttt{$\backslash$circchannel}
+\LaTeX\ command as just the \texttt{``channel''} Unicode string.
+
+
+\section{Setting a debugging environment}\label{setting-debug-environment}
+
+
+
+\section{Conclusion}\label{conclusion}
+
++ Simplifies the designs and extension.
+
++ Demands a series of well-documented steps.
+
+
+\end{document}
+
+
++ conflicting tokens!

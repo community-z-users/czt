@@ -1,0 +1,5148 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch8\_ps \parents ch8
+\end{zsection}
+CHANGES:
+* to -> "toN"
+* statuS -> "statuS"
+* - 1 or \neq 1 -> \negate~1
+* changed \bot to mondexError
+* added missing hard space + hard space for \inv
+* removed znote
+* removed zproofbreak
+* zeves/czt styles renaming adjustment (e.g., name/to -> to := name)
+}
+\chapter{Chapter~\ref{ch8} proofs}
+
+\begin{LPScript}\begin{zproof}[fConPurseNextSeqNoMaxType]
+    invoke ConPurse;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\section{Abstract model consistency}
+\plink{ch8.specproof-ab}
+
+\begin{LPScript}\begin{zproof}[tExistsInitialAbWorld]
+   prove by reduce ;
+   instantiate abAuthPurse' == \{\};
+   prove by reduce ;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tAbOpIsTotal]
+    instantiate a! == aNullOut, abAuthPurse' == abAuthPurse;
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tAbIgnoreIsTotal]
+   prove by reduce ;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tAbTransferIsTotal]
+    instantiate a! == aNullOut, abAuthPurse' == abAuthPurse;
+    with disabled (AbTransferOkay, AbTransferLost) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tAbWorldSecureOpPRE]
+    instantiate a! == aNullOut, abAuthPurse' == abAuthPurse;
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[AbTransferOpSig\$domainCheck]
+    prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[lAbTransferOkayPREAuthPurseUpdateMaxType]
+    apply overrideInPowerCross;
+    apply cupSubset;
+    invoke AbWorld;
+    rewrite;
+    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+    use rAbPurseLostTypeOpen[name := toN?, purse := abAuthPurse];
+    apply inNat;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAbTransferOkayPREAuthPurseMaxType]
+    apply overrideInPowerCross;
+    apply cupInRel;
+    invoke AbWorld;
+    rewrite;
+    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+    use rAbPurseLostTypeOpen[name := toN?, purse := abAuthPurse];
+    apply inNat;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAbTransferOkayPREAbWorld]
+    invoke AbWorld;
+    invoke (\_ \ffun \_);
+    rewrite;
+    cases;
+        apply overrideInPfun;
+        apply cupInPfun;
+        rewrite;
+        use rAbPurseLostTypeOpen[name := toN?, purse := abAuthPurse];
+        use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+        apply inNat;
+        invoke (\_ \ffun \_);
+        rearrange;
+        rewrite;
+        invoke AbPurse;
+        invoke SufficientFundsProperty;
+        prove by rewrite;
+        use rAbPurseBalanceTypeOpen[name := toN?, purse := abAuthPurse];
+        apply inNat;
+        invoke (\_ \ffun \_);
+        invoke Authentic;
+        invoke TransferDetails;
+        rearrange;
+        rewrite;
+    next;
+        apply oplusDef;
+        invoke (\_ \rel \_);
+        apply cupSubset;
+        prove by rewrite;
+        use rAbPurseLostTypeOpen[name := toN?, purse := abAuthPurse];
+        use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+        invoke (\_ \ffun \_);
+        apply inNat;
+        rearrange;
+        rewrite;
+        invoke AbPurse;
+        invoke TransferDetails;
+        rewrite;
+        use rAbPurseBalanceTypeOpen[name := from?, purse := abAuthPurse];
+        use rAbPurseBalanceTypeOpen[name := toN?, purse := abAuthPurse];
+        rearrange;
+        apply inNat;
+        invoke (\_ \ffun \_);
+        invoke SufficientFundsProperty;
+        rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+
+%\begin{LPScript}\begin{zproof}[lAbTransferOkayPRENDResEquiv]
+%    apply extensionality to predicate (\{from?\} \cup  \{to?\}) \ndres
+%        (abAuthPurse \oplus  (\{(from?, \theta  AbPurse[balance := - 1 * value?
+%            + (abAuthPurse~from?).balance, lost := (abAuthPurse~from?).lost])\}
+%        \cup  \{(to?, \theta  AbPurse[balance := value? +
+%            (abAuthPurse~to?).balance, lost := (abAuthPurse~to?).lost])\}))
+%        = (\{from?\} \cup  \{to?\}) \ndres  abAuthPurse;
+%    use lAbTransferOkayPREAuthPurseMaxType;
+%    use lAbTransferOkayPREAuthPurseUpdateMaxType;
+%    use rAbPurseLostTypeOpen[name := to?, purse := abAuthPurse];
+%    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+%    apply ndresDef;
+%    apply oplusDef;
+%    apply inNat;
+%    rearrange;
+%    simplify;
+%    prove by rewrite;
+%    apply inCup;
+%    invoke AbWorld;
+%    prove by rewrite;
+%\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAbTransferOkayPRENDResEquiv]
+	apply extensionality to predicate (\{from? \} \cup \{toN? \}) \ndres 
+		(abAuthPurse \oplus (\{(from?, \theta (AbPurse [balance :=~\negate 1 * value? + 
+		(abAuthPurse~from?) . balance, lost := (abAuthPurse~from?) . lost])) \} \cup 
+		\{(toN?, \theta (AbPurse [balance := value? + (abAuthPurse~toN?) . balance, 
+		lost := (abAuthPurse~toN?) . lost])) \})) = (\{from? \} \cup \{toN? \}) \ndres abAuthPurse;
+    use lAbTransferOkayPREAuthPurseMaxType;
+    use lAbTransferOkayPREAuthPurseUpdateMaxType;
+    with enabled (oplusDef) prove;
+    use rAbPurseLostTypeOpen[name := toN?, purse := abAuthPurse];
+    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+    rearrange;
+    apply inNat;
+    invoke AbWorld;
+    simplify;
+    apply inCup;
+    rewrite;
+    rearrange;
+   	with normalization rewrite;
+\end{zproof}\end{LPScript}
+%
+proof above needed some fiddling given the changes involving pushing the IF-THEN-ELSE, I guess. Strategy remains the same.
+
+\begin{LPScript}\begin{zproof}[lAbTransferOkayPREAuthentic]
+    use lAbTransferOkayPREAbWorld;
+    use lAbTransferOkayPREAuthPurseUpdateMaxType;
+    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+    use rAbPurseLostTypeOpen[name := toN?, purse := abAuthPurse];
+    apply inNat;
+    invoke Authentic;
+    rearrange;
+    simplify;
+    apply inDom;
+    prove by rewrite;
+    apply oplusDef;
+    prove by rewrite;
+    apply inCup;
+    invoke AbWorld;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAbTransferOkayPREFromOPlusEquiv]
+    apply applyOverride1;
+    apply applyCupLeft;
+    apply applyUnit;
+    invoke (\_\rel \_);
+    apply cupInPfun;
+    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+    use rAbPurseLostTypeOpen[name := toN?, purse := abAuthPurse];
+    apply lAbTransferOkayPREAuthPurseUpdateMaxType;
+    apply inNat;
+    invoke AbWorld;
+    invoke Authentic;
+    rearrange;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAbTransferOkayPREToOPlusEquiv]
+    apply applyOverride1;
+    apply applyCupLeft;
+    apply applyUnit;
+    invoke (\_\rel \_);
+    apply cupInPfun;
+    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+    use rAbPurseLostTypeOpen[name := toN?, purse := abAuthPurse];
+    apply lAbTransferOkayPREAuthPurseUpdateMaxType;
+    apply inNat;
+    invoke AbWorld;
+    invoke Authentic;
+    rearrange;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tAbTransferOkayTDPRE]
+    instantiate a! == aNullOut, abAuthPurse' == abAuthPurse
+       \oplus (\{(from?, \theta AbPurse[balance := \negate~1 * value? +
+        (abAuthPurse~from?).balance,
+        lost := (abAuthPurse~from?).lost])\}
+       \cup \{(toN?, \theta AbPurse[balance := value? +
+        (abAuthPurse~toN?).balance,
+        lost := (abAuthPurse~toN?).lost])\});
+    with disabled (AbWorldSecureOp, TransferDetails, Authentic,
+        SufficientFundsProperty) prove by reduce;
+    use lAbTransferOkayPREAuthPurseMaxType;
+    rearrange;
+    simplify;
+    with disabled (AbWorld, Authentic, SufficientFundsProperty,
+        TransferDetails) prove by reduce;
+    use lAbTransferOkayPREAbWorld;
+    use lAbTransferOkayPRENDResEquiv;
+    use lAbTransferOkayPREAuthentic;
+    use lAbTransferOkayPREFromOPlusEquiv;
+    use lAbTransferOkayPREToOPlusEquiv;
+    rearrange;
+    simplify;
+    apply muValue2;
+    prove by rewrite;
+    instantiate balance == (abAuthPurse~from?).balance,
+        lost == (abAuthPurse~from?).lost,
+        balance\_\_0 == 1, lost\_\_0 == 1;
+    instantiate balance\_\_3 == (abAuthPurse~toN?).balance,
+        lost\_\_3 == (abAuthPurse~toN?).lost,
+        balance\_\_4 == 1, lost\_\_4 == 1;
+    invoke \Delta AbPurse;
+    invoke AbPurse;
+    rearrange;
+    rewrite;
+    use rAbPurseBalanceTypeOpen[name := from?, purse := abAuthPurse];
+    use rAbPurseBalanceTypeOpen[name := toN?, purse := abAuthPurse];
+    invoke TransferDetails;
+    apply inNat;
+    rearrange;
+    invoke Authentic;
+    invoke SufficientFundsProperty;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+%\begin{LPScript}\begin{zproof}[tAbTransferLostTDPRE]
+%    instantiate a! == aNullOut,
+%        abAuthPurse' == abAuthPurse \oplus \{(from?,
+%           \theta AbPurse'[balance' := (abAuthPurse~from?).balance - value?,
+%                      lost' := (abAuthPurse~from?).lost + value?])\};
+%    with disabled (AbWorldSecureOp, TransferDetails, Authentic,
+%        SufficientFundsProperty) prove by reduce;
+%    use lAbTransferOkayPREAuthPurseMaxType;
+%    rearrange;
+%    simplify;
+%    with disabled (AbWorld, Authentic, SufficientFundsProperty,
+%        TransferDetails) prove by reduce;
+%    %%\znote{As this theorem is simpler, and we know}
+%    %%\znote{the path to follow already from OkayTD,}
+%    %%\znote{hence we tackle case by directly.}
+%    %%\znote{case: Theta equivalence to function application}
+%    instantiate
+%    balance == (abAuthPurse~from?).balance,
+%        lost == (abAuthPurse~from?).lost,
+%        balance\_\_0 == 1, lost\_\_0 == 1;
+%    invoke \Delta AbPurse;
+%    invoke AbPurse;
+%    use rAbPurseBalanceTypeOpen[name := from?, purse := abAuthPurse];
+%    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+%    apply inNat;
+%    invoke TransferDetails;
+%    invoke SufficientFundsProperty;
+%    prove by rewrite;
+%    %%\znote{case: Authentic from purse}
+%    invoke Authentic;
+%    invoke AbWorld;
+%    invoke (\_ \ffun \_);
+%    prove by rewrite;
+%    %%\znote{case: NDRes equivalence}
+%    apply extensionality to predicate (\{ from? \} \cup \{ toN? \})
+%        \ndres (abAuthPurse \oplus \{(from?,
+%            \theta AbPurse[balance := \negate~1 * value?
+%                 + (abAuthPurse~from?).balance,
+%                 lost := value? + (abAuthPurse~from?).lost])\})
+%        = (\{ from? \} \cup \{ toN? \}) \ndres abAuthPurse;
+%    use rAbPurseLostTypeOpen[name := toN?, purse := abAuthPurse];
+%    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+%    apply ndresDef;
+%    apply oplusDef;
+%    apply inNat;
+%    rearrange;
+%    simplify;
+%    invoke (\_ \ffun \_);
+%    prove by rewrite;
+%    %%\znote{case: final type checking}
+%    invoke AbPurse;
+%    prove by rewrite;
+%\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tAbTransferLostTDPRE]
+\end{zproof} HERE
+    instantiate a! == aNullOut,
+        abAuthPurse' == abAuthPurse \oplus \{(from?,
+           \theta AbPurse'[balance' := (abAuthPurse~from?).balance - value?,
+                      lost' := (abAuthPurse~from?).lost + value?])\};
+    with disabled (AbWorldSecureOp, TransferDetails, Authentic,
+        SufficientFundsProperty) prove by reduce;
+    use lAbTransferOkayPREAuthPurseMaxType;
+    rearrange;
+    simplify;
+    with disabled (AbWorld, Authentic, SufficientFundsProperty,
+        TransferDetails) prove by reduce;
+    %%\znote{As this theorem is simpler, and we know}
+    %%\znote{the path to follow already from OkayTD,}
+    %%\znote{hence we tackle case by directly.}
+    %%\znote{case: Theta equivalence to function application}
+    instantiate
+    balance == (abAuthPurse~from?).balance,
+        lost == (abAuthPurse~from?).lost,
+        balance\_\_0 == 1, lost\_\_0 == 1;
+    invoke \Delta AbPurse;
+    invoke AbPurse;
+    use rAbPurseBalanceTypeOpen[name := from?, purse := abAuthPurse];
+    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+    apply inNat;
+    invoke TransferDetails;
+    invoke SufficientFundsProperty;
+    prove by rewrite;
+    %%\znote{case: Authentic from purse}
+    invoke Authentic;
+    invoke AbWorld;
+    invoke (\_ \ffun \_);
+    prove by rewrite;
+    %%\znote{case: NDRes equivalence}
+    apply extensionality to predicate (\{ from? \} \cup \{ toN? \})
+        \ndres (abAuthPurse \oplus \{(from?,
+            \theta AbPurse[balance := \negate~1 * value?
+                 + (abAuthPurse~from?).balance,
+                 lost := value? + (abAuthPurse~from?).lost])\})
+        = (\{ from? \} \cup \{ toN? \}) \ndres abAuthPurse;
+    use rAbPurseLostTypeOpen[name := toN?, purse := abAuthPurse];
+    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+    apply ndresDef;
+    apply oplusDef;
+    apply inNat;
+    rearrange;
+    simplify;
+    invoke (\_ \ffun \_);
+    prove by rewrite;
+    %%\znote{case: final type checking}
+    invoke AbPurse;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\section{Totality of between model for purses}\plink{ch8.between}
+
+\begin{LPScript}\begin{zproof}[tIncreasePurseOkayIsTotal]
+    prove by reduce;
+    instantiate nextSeqNo' == nextSeqNo, nextSeqNo\_\_0 == nextSeqNo;
+    prove by rewrite;
+    cases;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tAbortPurseOkayIsTotal]
+    invoke AbortPurseOkay;
+    invoke BetwPurseOpSig;
+    invoke \Xi ConPurseAbort;
+    invoke LogIfNecessary;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+    split \lnot  statuS = epv \land  \lnot  statuS = epa;
+    simplify;
+    rearrange;
+    cases;
+    instantiate m! == m?, pdAuth' == pdAuth, nextSeqNo' == nextSeqNo;
+    prove by rewrite;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    cases;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    split statuS = epv;
+    simplify;
+    cases;
+    instantiate m! == m?, pdAuth' == pdAuth, nextSeqNo' == nextSeqNo;
+    prenex;
+    rewrite;
+    split pd \in  exLog;
+    rearrange;
+    simplify;
+    cases;
+    instantiate pd\_\_0 == pd;
+    simplify;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+    rewrite;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+    simplify;
+    %\zproofbreak
+    instantiate m! == m?, pdAuth' == pdAuth, nextSeqNo' == nextSeqNo;
+    prenex;
+    rewrite;
+    split pd \in  exLog;
+    rearrange;
+    simplify;
+    cases;
+    instantiate pd\_\_0 == pd;
+    simplify;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+    rewrite;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\section{Precondition of between model purses (Chapter~\ref{ch4})}\plink{ch8.ch4}
+
+
+\begin{LPScript}\begin{zproof}[tReqPurseOkayPRE]
+    invoke ReqPurseOkay;
+    invoke AuthenticReqMessage;
+    invoke BetwPurseOpSig;
+    invoke \Xi ConPurseReq;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    invoke ConPurseReq;
+    invoke ConPurse;
+    instantiate balance\_\_0 == balance, statuS\_\_0 == statuS;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tValPurseOkayPRE]
+    invoke ValPurseOkay;
+    invoke AuthenticValMessage;
+    invoke BetwPurseOpSig;
+    invoke \Xi ConPurseVal;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    invoke ConPurseVal;
+    invoke ConPurse;
+    instantiate balance\_\_0 == balance, statuS\_\_0 == statuS;
+    rewrite;
+    apply PayDetails\$member;
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tAckPurseOkayPRE]
+    invoke AckPurseOkay;
+    invoke AuthenticAckMessage;
+    invoke BetwPurseOpSig;
+    invoke \Xi ConPurseAck;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    instantiate pdAuth' == pdAuth;
+    rewrite;
+    invoke ConPurseAck;
+    invoke ConPurse;
+    instantiate statuS\_\_0 == statuS, pdAuth\_\_0 == pdAuth;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tReadExceptionLogPurseEafromOkayPRE]
+    invoke ReadExceptionLogPurseEafromOkay;
+    invoke BetwPurseOpSig;
+    invoke \Xi ConPurse;
+    rewrite;
+    instantiate m! == mondexError;
+    invoke ConPurse;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tClearExceptionLogPurseEafromOkayPRE]
+    invoke ClearExceptionLogPurseEafromOkay;
+    invoke BetwPurseOpSig;
+    invoke \Xi ConPurseClear;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    invoke ConPurseClear;
+    invoke ConPurse;
+    instantiate exLog\_\_0 == exLog;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+%Just like tAbortPurseOkay + tReadExceptionLogPurseEafromOkayPRE
+\begin{LPScript}\begin{zproof}[tReadExceptionLogEafromOkayPRE]
+    %%\znote{I tried reusing tAbortPurseOkayPRE}
+    %%\znote{but it did not help much.}
+    invoke ReadExceptionLogPurseOkay;
+    invoke BetwPurseOpSig;
+    invoke ReadExceptionLogPurseEafromOkay;
+    invoke AbortPurseOkay;
+    invoke LogIfNecessary;
+    invoke \Xi ConPurse;
+    invoke \Xi ConPurseAbort;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+    split \lnot statuS = epv \land \lnot statuS = epa;
+    simplify;
+    rearrange;
+    cases;
+    instantiate m! == mondexError, pdAuth' == pdAuth, nextSeqNo' == nextSeqNo;
+    prove by rewrite;
+    invoke ConPurseAbort;
+    instantiate
+    nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog, pdAuth\_\_0 == pdAuth,
+    statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    cases;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    split statuS = epv;
+    simplify;
+    %\zproofbreak
+    cases;
+    instantiate m! == mondexError, pdAuth' == pdAuth, nextSeqNo' == nextSeqNo;
+    prenex;
+    rewrite;
+    split pd \in exLog;
+    simplify;
+    cases;
+    instantiate pd\_\_0 == pd;
+    simplify;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+    rewrite;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+    simplify;
+    instantiate m! == mondexError, pdAuth' == pdAuth, nextSeqNo' == nextSeqNo;
+    prenex;
+    rewrite;
+    split pd \in exLog;
+    rearrange;
+    simplify;
+    cases;
+    instantiate pd\_\_0 == pd;
+    simplify;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+    rewrite;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+%Just like tAbortPurseOkay + tClearExceptionLogPurseEafromOkayPRE
+\begin{LPScript}\begin{zproof}[tClearExceptionLogEafromOkayPRE]
+    invoke ClearExceptionLogPurseOkay;
+    invoke BetwPurseOpSig;
+    invoke ClearExceptionLogPurseEafromOkay;
+    invoke AbortPurseOkay;
+    invoke LogIfNecessary;
+    invoke \Xi ConPurseAbort;
+    invoke \Xi ConPurseClear;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+    invoke ConPurseClear;
+    invoke ConPurse;
+    instantiate exLog\_\_1 == exLog;
+    rearrange;
+    rewrite;
+    split \lnot statuS = epv \land \lnot statuS = epa;
+    simplify;
+    rearrange;
+    cases;
+    instantiate pdAuth' == pdAuth, nextSeqNo' == nextSeqNo;
+    prove by rewrite;
+    cases;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    split statuS = epv;
+    simplify;
+    cases;
+    instantiate pdAuth' == pdAuth, nextSeqNo' == nextSeqNo;
+    prenex;
+    rewrite;
+    split pd \in exLog;
+    simplify;
+    cases;
+    instantiate pd\_\_0 == pd;
+    simplify;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+    %\zproofbreak
+    rewrite;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+    simplify;
+    instantiate pdAuth' == pdAuth, nextSeqNo' == nextSeqNo;
+    prenex;
+    rewrite;
+    split pd \in exLog;
+    rearrange;
+    simplify;
+    cases;
+    instantiate pd\_\_0 == pd;
+    simplify;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+    rewrite;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+Luckily, the few available \zeves\ rules includes the necessary
+information to discharge the proof of $rMuPayDetailsValue$
+establishing the relationship between these particular $\mu$ and
+$\theta$ expressions. For this we have used rule $muValue1$ (\zeves\
+toolkit p.$8$). The tricky bit is to define generic actual $S$ as
+the set $m$ involved in the $\mu$ expressions. In most \zeves\
+lemmas (99\% of them), you should always pass the maximal type
+(carrier set) as the generic actual. Otherwise, the typechecker will
+include the given generic actual around all related expressions,
+which becomes a pain for automation. Fortunately, the equality above
+does not involve any expression, such as $\cup$, or application,
+such as $f~x$, hence the use of non-maximal generic actuals does not
+incur any proof burden. This is the second time in our experience
+with the \zeves\ toolkit where a non-maximal generic actual is
+precisely what you need.
+%
+\begin{LPScript}\begin{zproof}[lStartFromMuPayDetailsEquivalence]
+   with enabled (CounterPartyDetails\$member) prove by reduce;
+   apply muValue1 ;
+   prove by reduce;
+\end{zproof}\end{LPScript}
+%
+\begin{LPScript}\begin{zproof}[lStartToMuPayDetailsEquivalence]
+   with enabled (CounterPartyDetails\$member) prove by reduce;
+   apply muValue1 ;
+   prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tStartFromPurseEafromOkayPRE]
+    invoke StartFromPurseEafromOkay;
+    invoke BetwPurseStartOpSig;
+    invoke \Xi ConPurseStart;
+    invoke BetwPurseOpSig;
+    invoke ValidStartFrom;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    instantiate nextSeqNo' == nextSeqNo + 1;
+    rewrite;
+    invoke PayDetails;
+    invoke TransferDetails;
+    rewrite;
+    invoke ConPurseStart;
+    invoke ConPurse;
+    instantiate nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    rearrange;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tStartToPurseEafromOkayPRE]
+    invoke StartToPurseEafromOkay;
+    invoke BetwPurseStartOpSig;
+    invoke \Xi ConPurseStart;
+    invoke BetwPurseOpSig;
+    invoke ValidStartTo;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    rearrange;
+    instantiate nextSeqNo' == nextSeqNo + 1;
+    rewrite;
+    invoke PayDetails;
+    invoke TransferDetails;
+    rewrite;
+    invoke ConPurseStart;
+    invoke ConPurse;
+    rewrite;
+    instantiate nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tStartFromEafromOkayPRE]
+    invoke StartFromPurseOkay;
+    invoke StartFromPurseEafromOkay;
+    invoke BetwPurseStartOpSig;
+    invoke AbortPurseOkay;
+    invoke LogIfNecessary;
+    invoke \Xi ConPurseAbort;
+    invoke \Xi ConPurseStart;
+    invoke BetwPurseOpSig;
+    invoke ValidStartFrom;
+    invoke \Delta ConPurse;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    invoke PayDetails;
+    invoke TransferDetails;
+    equality substitute (startFrom~ \inv)~ m?;
+    rearrange;
+    rewrite;
+    split \lnot statuS = epv \land \lnot statuS = epa;
+    simplify;
+    cases;
+    rearrange;
+    prove by rewrite;
+    instantiate nextSeqNo' == nextSeqNo + 1, nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth;
+    prove by rewrite;
+    cases;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    invoke ConPurseStart;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, pdAuth\_\_0 == pdAuth,
+        statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    split statuS = epv;
+    rewrite;
+    cases;
+    instantiate nextSeqNo' == nextSeqNo + 1, nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth;
+    rewrite;
+    prove by rewrite;
+    %\zproofbreak
+    cases;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    invoke ConPurseStart;
+    invoke ConPurse;
+    rewrite;
+    instantiate
+    nextSeqNo\_\_0 == nextSeqNo, pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    rewrite;
+    prenex;
+    rewrite;
+    split pd \in exLog;
+    simplify;
+    cases;
+    instantiate pd\_\_0 == pd;
+    rewrite;
+    next;
+    prove by rewrite;
+    next;
+    split pd \in exLog;
+    cases;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+    simplify;
+    instantiate
+    nextSeqNo' == nextSeqNo + 1, nextSeqNo\_\_0 == nextSeqNo,
+    pdAuth\_\_0 == pdAuth;
+    rewrite;
+    prove by rewrite;
+    cases;
+    invoke ConPurseAbort;
+    instantiate
+    nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog, pdAuth\_\_0 == pdAuth,
+    statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    invoke ConPurseStart;
+    invoke ConPurse;
+    rewrite;
+    instantiate
+    nextSeqNo\_\_0 == nextSeqNo, pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    rewrite;
+    prenex;
+    rewrite;
+    %\zproofbreak
+    split pd \in exLog;
+    simplify;
+    cases;
+    instantiate pd\_\_0 == pd;
+    rewrite;
+    next;
+    prove by rewrite;
+    next;
+    split pd \in exLog;
+    cases;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rReqStartToPayDetailsInMessage]
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tStartToEafromOkayPRE]
+    invoke StartToPurseOkay;
+    invoke StartToPurseEafromOkay;
+    invoke BetwPurseStartOpSig;
+    invoke AbortPurseOkay;
+    invoke LogIfNecessary;
+    invoke \Xi ConPurseAbort;
+    invoke \Xi ConPurseStart;
+    invoke BetwPurseOpSig;
+    invoke ValidStartTo;
+    invoke \Delta ConPurse;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+    invoke PayDetails;
+    invoke TransferDetails;
+    equality substitute (startTo~ \inv)~ m?;
+    rearrange;
+    rewrite;
+    split \lnot statuS = epv \land \lnot statuS = epa;
+    simplify;
+    cases;
+    rearrange;
+    rewrite;
+    instantiate nextSeqNo' == nextSeqNo + 1, nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth;
+    rewrite;
+    %\zproofbreak
+    cases;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    invoke ConPurseStart;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, pdAuth\_\_0 == pdAuth,
+        statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    rearrange;
+    rewrite;
+    split statuS = epv;
+    rewrite;
+    cases;
+    instantiate nextSeqNo' == nextSeqNo + 1, nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth;
+    rewrite;
+    prove by rewrite;
+    cases;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    invoke ConPurseStart;
+    invoke ConPurse;
+    rewrite;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, pdAuth\_\_0 == pdAuth,
+        statuS\_\_0 == statuS;
+    rewrite;
+    prenex;
+    rewrite;
+    split pd \in exLog;
+    simplify;
+    cases;
+    instantiate pd\_\_0 == pd;
+    rewrite;
+    next;
+    prove by rewrite;
+    next;
+    split pd \in exLog;
+    cases;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    %\zproofbreak
+    prove by rewrite;
+    next;
+    simplify;
+    instantiate nextSeqNo' == nextSeqNo + 1,
+        nextSeqNo\_\_0 == nextSeqNo, pdAuth\_\_0 == pdAuth;
+    rewrite;
+    prove by rewrite;
+    cases;
+    invoke ConPurseAbort;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    invoke ConPurse;
+    prove by rewrite;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    invoke ConPurseStart;
+    invoke ConPurse;
+    rewrite;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, pdAuth\_\_0 == pdAuth,
+        statuS\_\_0 == statuS;
+    rewrite;
+    prenex;
+    rewrite;
+    split pd \in exLog;
+    simplify;
+    cases;
+    instantiate pd\_\_0 == pd;
+    rewrite;
+    next;
+    prove by rewrite;
+    next;
+    split pd \in exLog;
+    cases;
+    instantiate pd\_\_0 == pd;
+    prove by rewrite;
+    next;
+    prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\section{\Betw\ consistency proofs}\plink{ch8.specproof-betw}
+
+%\begin{LPScript}\begin{zproof}[tExistsInitialBetweenWorld]
+%    prove by reduce;
+%    instantiate
+%      ether'
+%        == \{readExceptionLog, mondexError\}
+%          \cup \bigcup
+%                \{ cpd: CounterPartyDetails @ \{startFrom~ cpd, startTo~ cpd\} \};
+%    apply inPower;
+%    prove by reduce;
+%    instantiate
+%      conAuthPurse' == \{\}, archive' == \{\}, allLogs' == \{\},
+%      authenticFrom' == \{\}, authenticTo' == \{\}, fromLogged' == \{\},
+%      toLogged' == \{\}, toInEpv' == \{\}, toInEapayee' == \{\},
+%      fromInEpr' == \{\}, fromInEpa' == \{\}, definitelyLost' == \{\},
+%      maybeLost' == \{\};
+%    prove by reduce;
+%    apply dLogbook ;
+%    apply extensionality;
+%    prove by rewrite;
+%\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tExistsInitialBetweenWorld]
+\end{zproof} HERE
+    prove by reduce;
+    instantiate
+      ether'
+        == \{readExceptionLog, mondexError\}
+          \cup \bigcup
+                \{ cpd: CounterPartyDetails @ \{startFrom~ cpd, startTo~ cpd\} \};
+    apply inPower;
+    prove by reduce;
+    cases;
+    % instantiating to emptysets leads to problems with binding selectors in ZEves 2.4
+    split (\exists conAuthPurse: NAMES \finj ConPurse; archive: Logbook; allLogs: NAMES \rel PayDetails; \\
+    	authenticFrom, authenticTo, fromLogged, toLogged, toInEpv, toInEapayee, fromInEpr, fromInEpa,
+    	definitelyLost, maybeLost: \power~PayDetails @
+	    	conAuthPurse = \emptyset \land archive = \emptyset \land
+	    	allLogs = \emptyset \land authenticFrom  = \emptyset \land
+	    	authenticTo = \emptyset \land fromLogged = \emptyset \land 
+	    	toLogged  = \emptyset \land toInEpv  = \emptyset \land 
+	    	toInEapayee  = \emptyset \land fromInEpr  = \emptyset \land 
+	    	fromInEpa  = \emptyset \land definitelyLost  = \emptyset \land 
+	    	maybeLost = \emptyset);
+	cases;
+	prenex;
+    instantiate
+      conAuthPurse' == conAuthPurse, archive' == archive, allLogs' == allLogs,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo, fromLogged' == fromLogged,
+      toLogged' == toLogged, toInEpv' == toInEpv, toInEapayee' == toInEapayee,
+      fromInEpr' == fromInEpr, fromInEpa' == fromInEpa, definitelyLost' == definitelyLost,
+      maybeLost' == maybeLost;
+    with disabled (AuxWorld) invoke;
+    rearrange;
+    with disabled (emptyDefinition) prove;
+    invoke;
+    with disabled (emptyDefinition) prove;
+    rewrite;
+    apply extensionality;
+    rewrite;
+    reduce;
+	with predicate (pd\_\_8 \in \emptyset) rewrite;
+    cases;
+    with disabled (AuxWorld) invoke;
+    rearrange;
+    rewrite;
+    cases;
+	    invoke;
+	    rewrite;
+	    cases;
+	    	use Logbook\$declaration;
+	    	use dLogbook;
+	    	equality substitute Logbook;
+	    	rewrite;
+	    	prove;
+	    next;
+	    	apply extensionality;
+	    	prove;
+	    next;
+	    prove;
+	    rewrite;
+	    apply extensionality;
+	    rewrite;
+    next;
+    with enabled (extensionality, dLogBook) prove by reduce;
+    prove;
+    next;
+    prove;
+    next;
+    prove;
+    next;
+    prove;
+    next;
+    prove;
+    next;
+    prove;
+    next;
+    prove;
+    next;
+    prove;
+    next;
+    prove;
+    next;
+    prove;
+    next;
+
+    prove by reduce;
+    apply dLogbook ;
+    apply extensionality;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rPFunElement]
+    with enabled (inDom) prove by rewrite;
+    use pairInFunction[X, Y][f := f, x := x, y := y\_\_0];
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rPFunSubsetOplusRel]
+    %%\znote{Expose at once:}
+    %%\znote{1-proof goals from =}
+    %%\znote{2-definition of override}
+    %%\znote{3-definition of dom}
+    with enabled (extensionality, oplusDef, inDom) prove by rewrite;
+    %%\znote{Special trick to avoid disjunction}
+    split y \in f;
+    simplify;
+    %%\znote{Special trick to avoid negation}
+    split \lnot  (y.1, y\_\_0) \in  g;
+    simplify;
+    rearrange;
+    %%\znote{Exposing the set types of f and g}
+    invoke (\_\pfun \_);
+    invoke (\_\rel \_);
+    prove by rewrite;
+    %%\znote{Expose at once all type information about f and g}
+    with enabled (inPower, inCross2) prove by rewrite;
+    %%\znote{Type of element from f}
+    instantiate e == y;
+    %%\znote{Type of element from g}
+    instantiate e\_\_0 == (y.1, y\_\_0);
+    %%\znote{Elements of g are elements of f}
+    instantiate e\_\_1 == (y.1, y\_\_0);
+    %%\znote{f is functional}
+    instantiate x\_\_3 == y.1, y1 == y\_\_0, y2 == y.2;
+    %%\znote{g is functional}
+    instantiate x\_\_4 == y.1, y1\_\_0 == y\_\_0, y2\_\_0 == y.2;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPFunSubsetOplusUnitRel]
+    with enabled (inDom, dresDef, rPFunSubsetOplusRel, rPFunElement)
+        prove by rewrite;
+    apply oplusDef;
+    prove by rewrite;
+    cases;
+      %%\znote{Case where the type is correct}
+      %apply extensionality to predicate f =
+      %    \{  p\_\_0: f | p\_\_0.1 \in  \{x\} \} \cup [X \cross  Y]
+      %    \dom~[X, Y] \{  p\_\_1: f | p\_\_1.1 \in  \{x\} \} \ndres [X, Y] f;
+	  apply extensionality to predicate f = (\_ \cup \_) [X \cross Y] 
+	  		(\{p\_\_0: f | p\_\_0 . 1 \in \{x \} \}, 
+	  			((\_ \ndres \_) [X, Y] ((\dom [X, Y] \{p\_\_1: f | p\_\_1 . 1 \in \{x \} \}), f)));
+      with enabled (inDom) prove by rewrite;
+    next;
+      %%\znote{Case where the type contradictory}
+      invoke (\_\rel \_);
+      prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+% Not a goal?
+%\begin{LDCheck}\begin{zproof}[PhiBOpSig\$domainCheck]
+%   prove by rewrite;
+%\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[lPromotedAuxWorldType]
+    use lPFunSubsetOplusUnitRel[NAME, \lblot balance: \num;exLog:
+        \power \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo:
+        \num;value: \num \rblot;name: NAME;nextSeqNo: \num;pdAuth:
+        \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo:
+        \num;value:\num \rblot;statuS: STATUS \rblot]
+        [f := conAuthPurse, x := name?, y := \theta ConPurse];
+    rearrange;
+    invoke AuxWorld;
+    invoke ConWorld;
+    invoke ConPurse;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\ifProcessProofBreak
+%In here is for \LaTeX processing
+    \begin{LPScript}\begin{zproof}[lPromotedBetweenWorldType]
+        use lPromotedAuxWorldType;
+        use lPFunSubsetOplusUnitRel[NAME, \lblot balance: \num;exLog:
+        \power \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo:
+        \num;value: \num \rblot;name: NAME;nextSeqNo: \num;pdAuth:
+        \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo:
+        \num;value:\num \rblot;statuS: STATUS \rblot]
+            [f := conAuthPurse, x := name?, y := \theta ConPurse];
+        rearrange;
+        invoke PhiBOpSig;
+        invoke BetweenOpSig;
+        rewrite;
+        invoke BetweenWorld;
+        cases;
+        invoke BetweenWorldB1;
+        rewrite;
+        next;
+        invoke BetweenWorldB2;
+        invoke BetweenWorldB1;
+        rewrite;
+        next;
+        invoke BetweenWorldB3;
+        invoke BetweenWorldNEW1;
+        invoke BetweenWorldNEW2;
+        rewrite;
+        next;
+        invoke BetweenWorldB4;
+        invoke BetweenWorldNEW3;
+        invoke BetweenWorldNEW4;
+        rewrite;
+        next;
+        invoke BetweenWorldB5;
+        rewrite;
+        next;
+        invoke BetweenWorldB6;
+        rewrite;
+        next;
+        invoke BetweenWorldB7;
+        rewrite;
+        next;
+        invoke BetweenWorldB8;
+        rewrite;
+        next;
+        invoke BetweenWorldB9;
+        rewrite;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        with enabled (disjointCat, disjointDef) prove by rewrite;
+        apply extensionality to predicate
+            ether \cap (\{val~ pd\} \cup \{ack~ pd\}) = \{\};
+        apply extensionality to predicate
+            (ether \cup \{ m! \}) \cap (\{val~ pd\} \cup \{ack~ pd\}) = \{\};
+        prenex;
+        rewrite;
+        rewrite;
+        instantiate x\_\_0 == x;
+        rearrange;
+        %\zproofbreak
+        rewrite;
+        next;
+        invoke BetweenWorldB10;
+        rewrite;
+        next;
+        invoke BetweenWorldB11;
+        rewrite;
+        next;
+        invoke BetweenWorldB12;
+        rewrite;
+        next;
+        invoke BetweenWorldB13;
+        rewrite;
+        next;
+        invoke BetweenWorldB14;
+        rewrite;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        rearrange;
+        rewrite;
+        next;
+        invoke BetweenWorldB15;
+        rewrite;
+        next;
+        invoke BetweenWorldB16;
+        rewrite;
+        next;
+    \end{zproof}\end{LPScript}
+\else
+%In here, it is just for Z/EVES and not for type setting.
+%That is, Z/EVES will try the first proof and fail because of %\zproofbreak
+%Next it retries this proof and succeeds. I've also tried unsuccessfully
+%something simpler, such as %%\znote{%\zproofbreak}, but %%\znote{} does not allow
+%commands on it but just plain text.
+%The if then else also do not work!
+\fi
+
+Firstly, we expand the relevant schemas to prepare for
+instantiation. Next, we instantiate the variables of the local and
+global states. For $statuS'$, $exLog'$, $pdAuth'$, $nextSeqNo'$,
+$name$ we just use the values from the invariant from $ConPurse$.
+For $balance'$ any natural number would do, but we just have chosen
+the one from $ConPurse$ as well. For $m!$, we need a message from
+$ether$, which in here we can pick $m?$ because $m? \in ether$.
+After that, we discharge each property of between world.
+%
+\begin{LPScript}\begin{zproof}[tBetwPhiBOpPRE]
+   %%\znote{Gather lemma information}
+   use lPromotedBetweenWorldType[m! := m?];
+   use lPFunSubsetOplusUnitRel[NAME, \lblot balance: \num;exLog:
+        \power \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo:
+        \num;value: \num \rblot;name: NAME;nextSeqNo: \num;pdAuth:
+        \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo:
+        \num;value:\num \rblot;statuS: STATUS \rblot]
+        [f := conAuthPurse, x := name?, y := \theta ConPurse];
+   %%\znote{Expand schemas in the goal}
+    invoke PhiBOp;
+    invoke \Delta BetweenWorld;
+    invoke \Delta ConPurse;
+   %%\znote{Expand schema from the invariant}
+    invoke PhiBOpSig;
+    %%\znote{Invoke earlier to expose ConPurse' variables}
+    invoke ConPurse;
+    rearrange;
+    rewrite;
+   %%\znote{Properly build up the list of variables}
+   %%\znote{existentially quantified}
+    rearrange;
+    simplify;
+   %%\znote{Instantiate the variables from}
+   %%\znote{the local state on ConPurse}
+   %%\znote{Instantiate the variables from}
+   %%\znote{the global state on Betweenworld}
+    instantiate
+        balance' == balance, exLog' == exLog, name' == name,
+        nextSeqNo' == nextSeqNo, pdAuth' == pdAuth, statuS' == statuS,
+        allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged, m! == m?;
+    rewrite;
+    %%\znote{Deal with each case for statuS}
+    cases;
+    rearrange;
+    rewrite;
+    next;
+    rearrange;
+    rewrite;
+    next;
+    rearrange;
+    rewrite;
+    next;
+    rearrange;
+    rewrite;
+    next;
+    rearrange;
+    rewrite;
+    next;
+    rearrange;
+    rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+Here \textit{prove by reduce} is not the best choice as it does too
+much (too slowly). In general, in proofs involving (nested)schema
+inclusions, it is usually not a good idea to use \textit{prove by
+reduce}. Instead, one should use specific instantiations and should
+pick the right schema to \textit{invoke}.
+%
+\begin{LPScript}\begin{zproof}[tBetwIgnoreIsTotal]
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+In the next four proofs we take advantage on the fact the promoted
+operations are disjoined with $Ignore$, hence their proof follows
+directly as we have already proved $\pre Ignore$. The instantiation
+take into account that the two important facts about $Ignore$, which
+are $\Xi BetweenWorld \land m! = mondexError$.
+%
+\begin{LPScript}\begin{zproof}[tBetwIncreaseIsTotal]
+    instantiate
+      allLogs' == allLogs, archive' == archive,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+      conAuthPurse' == conAuthPurse, definitelyLost' == definitelyLost,
+      fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+      fromLogged' == fromLogged, maybeLost' == maybeLost,
+      toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+      toLogged' == toLogged, m! == mondexError, ether' == ether;
+    rewrite;
+    invoke Increase;
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwAbortIsTotal]
+   instantiate
+      allLogs' == allLogs, archive' == archive,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+      conAuthPurse' == conAuthPurse, definitelyLost' == definitelyLost,
+      fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+      fromLogged' == fromLogged, maybeLost' == maybeLost,
+      toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+      toLogged' == toLogged, m! == mondexError, ether' == ether;
+    rewrite;
+    invoke Abort;
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+Again, for these promoted operations, the precondition calculation
+is trivial because of the disjunction with $Ignore$.
+%
+\begin{LPScript}\begin{zproof}[tBetwStartFromIsTotal]
+   instantiate
+      allLogs' == allLogs, archive' == archive,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+      conAuthPurse' == conAuthPurse, definitelyLost' == definitelyLost,
+      fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+      fromLogged' == fromLogged, maybeLost' == maybeLost,
+      toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+      toLogged' == toLogged, m! == mondexError, ether' == ether;
+    rewrite;
+    invoke StartFrom;
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwStartToIsTotal]
+   instantiate
+      allLogs' == allLogs, archive' == archive,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+      conAuthPurse' == conAuthPurse, definitelyLost' == definitelyLost,
+      fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+      fromLogged' == fromLogged, maybeLost' == maybeLost,
+      toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+      toLogged' == toLogged, m! == mondexError, ether' == ether;
+    rewrite;
+    invoke StartTo;
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwReqIsTotal]
+   instantiate
+      allLogs' == allLogs, archive' == archive,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+      conAuthPurse' == conAuthPurse, definitelyLost' == definitelyLost,
+      fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+      fromLogged' == fromLogged, maybeLost' == maybeLost,
+      toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+      toLogged' == toLogged, m! == mondexError, ether' == ether;
+    rewrite;
+    invoke Req;
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwValIsTotal]
+   instantiate
+      allLogs' == allLogs, archive' == archive,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+      conAuthPurse' == conAuthPurse, definitelyLost' == definitelyLost,
+      fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+      fromLogged' == fromLogged, maybeLost' == maybeLost,
+      toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+      toLogged' == toLogged, m! == mondexError, ether' == ether;
+    rewrite;
+    invoke Val;
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwAckIsTotal]
+   instantiate
+      allLogs' == allLogs, archive' == archive,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+      conAuthPurse' == conAuthPurse, definitelyLost' == definitelyLost,
+      fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+      fromLogged' == fromLogged, maybeLost' == maybeLost,
+      toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+      toLogged' == toLogged, m! == mondexError, ether' == ether;
+    rewrite;
+    invoke Ack;
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+Once more, for these promoted operations, the precondition
+calculation is trivial because of the disjunction with $Ignore$.
+%
+\begin{LPScript}\begin{zproof}[tBetwReadExceptionLogIsTotal]
+   instantiate
+      allLogs' == allLogs, archive' == archive,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+      conAuthPurse' == conAuthPurse, definitelyLost' == definitelyLost,
+      fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+      fromLogged' == fromLogged, maybeLost' == maybeLost,
+      toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+      toLogged' == toLogged, m! == mondexError, ether' == ether;
+    rewrite;
+    invoke ReadExceptionLog;
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwClearExceptionLogIsTotal]
+   instantiate
+      allLogs' == allLogs, archive' == archive,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+      conAuthPurse' == conAuthPurse, definitelyLost' == definitelyLost,
+      fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+      fromLogged' == fromLogged, maybeLost' == maybeLost,
+      toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+      toLogged' == toLogged, m! == mondexError, ether' == ether;
+    rewrite;
+    invoke ClearExceptionLog;
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwAuthoriseExLogClearIsTotal]
+    instantiate
+      allLogs' == allLogs, archive' == archive,
+      authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+      conAuthPurse' == conAuthPurse, definitelyLost' == definitelyLost,
+      fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+      fromLogged' == fromLogged, maybeLost' == maybeLost,
+      toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+      toLogged' == toLogged, m! == mondexError, ether' == ether;
+    rewrite;
+    invoke AuthoriseExLogClear;
+    invoke Ignore;
+    invoke \Xi BetweenWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwArchiveIsTotal]
+    invoke Archive;
+    invoke \Delta BetweenWorld;
+    invoke BetweenOpSig;
+    rewrite;
+    instantiate allLogs' == allLogs, archive' == archive,
+        authenticFrom' == authenticFrom, authenticTo' == authenticTo,
+        definitelyLost' == definitelyLost, fromInEpa' == fromInEpa,
+        fromInEpr' == fromInEpr, fromLogged' == fromLogged,
+        maybeLost' == maybeLost, toInEapayee' == toInEapayee,
+        toInEpv' == toInEpv, toLogged' == toLogged;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldFromLoggedExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldToLoggedExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldAuthenticFromExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldAuthenticToExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldToInEpvExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldToInEapayeeExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldFromInEprExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldFromInEpaExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldAllLogsExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldDefinitelyLostExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldMaybeLostExpansion]
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAuxWorldArchiveExpansion]
+    invoke AuxWorld;
+    invoke ConWorld;
+    apply dLogbook;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[PhiBOpBranchesSig\$domainCheck]
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwIncreaseOkayPRE]
+    use lPromotedBetweenWorldType[m! := mondexError];
+    invoke IncreaseOkay;
+    invoke IncreasePurseOkay;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    invoke PhiBOp;
+    invoke \Xi ConPurseIncrease;
+    invoke \Delta BetweenWorld;
+    invoke \Delta ConPurse;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    rewrite;
+    instantiate balance\_\_0 == balance, exLog\_\_0 == exLog,
+        name\_\_0 == name, nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS,
+        nextSeqNo' == nextSeqNo;
+    rewrite;
+    invoke \Delta ConPurse;
+    invoke ConPurseIncrease;
+    rewrite;
+    instantiate nextSeqNo\_\_0 == nextSeqNo;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[PhiBOpAbortSig\$domainCheck]
+    invoke PhiBOpBranchesSig;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPromotedConAuthPurseInjectivity]
+    use lPFunSubsetOplusUnitRel[NAME, \lblot balance: \num;exLog:
+        \power \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo:
+        \num;value: \num \rblot;name: NAME;nextSeqNo: \num;pdAuth:
+        \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo:
+        \num;value:\num \rblot;statuS: STATUS \rblot]
+        [f := conAuthPurse, x := name?, y := \theta ConPurse];
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\newpage
+\begin{LPScript}\begin{zproof}[lPromotedConAuthNewPurseInjectivity]
+    %%\znote{Expand definitions}
+    invoke ConWorld;
+    invoke (\_ \finj \_);
+    invoke (\_ \pinj \_);
+    invoke (\_ \ffun \_);
+    %%\znote{Because oplus, avoid partially expansion too early}
+    prove by rewrite;
+    invoke (\_ \pfun \_);
+    prove by rewrite;
+    cases;
+        %%\znote{Finiteness case}
+        apply oplusDef;
+        prove by rewrite;
+    next;
+        %%\znote{Injectivity case}
+        rearrange;
+        instantiate x\_\_1 == x, y1\_\_1 == y1, y2\_\_1 == y2;
+        %%\znote{Carefully expand only the injectivity oplus expression}
+        apply oplusDef to expression conAuthPurse \oplus \{(name?, \theta ConPurse')\};
+        prove by rewrite;
+        %%\znote{Expand the crucial assumption for the injectivity}
+        apply inRan;
+        prove by rewrite;
+        %%\znote{Reshape the goal to a more intuitive proof}
+        split (y1, x) \in conAuthPurse \land \lnot y1 = name?;
+        split (y2, x) \in conAuthPurse \land \lnot y2 = name?;
+        rewrite;
+        cases;
+            rearrange;
+            split (y1, x) \in conAuthPurse;
+            rewrite;
+            instantiate x\_\_2 == y2;
+            apply oplusDef;
+            prove by rewrite;
+        next;
+            rearrange;
+            split (y2, x) \in conAuthPurse;
+            rewrite;
+            instantiate x\_\_2 == y1;
+            apply oplusDef;
+            prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\newpage
+\begin{LPScript}\begin{zproof}[lPromotedAuxWorldAbortType]
+    %%\znote{Expand signatures}
+    invoke PhiBOpAbortSig;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    %%\znote{Expose AuxWorld}
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    %%\znote{Remove trivial cases}
+    rewrite;
+    %%\znote{As name? is in conAuthPurse, simplify result of domain over oplus}
+    apply cupSubsetLeft to expression \{ name? \} \cup \dom~conAuthPurse;
+    rewrite;
+    %%\znote{authenticTo and From appear in many of the cases, early substitute them}
+    equality substitute authenticTo;
+    equality substitute authenticFrom;
+    %%\znote{Allow the first case to spread throughout the assumptions}
+    split statuS = epv \lor statuS = epa;
+    simplify;
+    %\znote{Case 1: statuS = epv or epa}
+    cases;
+        %\znote{Each part in AxuWorld generates a sub-goal}
+        cases;
+            %\znote{Case 1.1: ConWorld + conAuthPurse type check}
+            invoke ConWorld;
+            rewrite;
+            prenex;
+            instantiate n\_\_0 == n;
+            apply applyOverride1;
+            rewrite;
+            rearrange;
+            rewrite;
+            %\znote{Now only injectivity type checking remains}
+            use lPromotedConAuthNewPurseInjectivity[balance' := balance,
+                exLog' := exLog \cup \{ pdAuth \}, name' := name,
+                nextSeqNo' := nextSeqNo, pdAuth' := pdAuth,
+                statuS' := eaFrom];
+            rearrange;
+            invoke ConWorld;
+            %\znote{Simplify prior to expansion of ConPurse for better results}
+            simplify;
+            invoke ConPurse;
+            prenex;
+            rearrange;
+            simplify;
+            %\znote{Now two subsub-goals: archive from ConWorld}
+            %\znote{and pd from ConPurse with substitutions}
+            instantiate nld\_\_0 == nld;
+            instantiate pd\_\_0 == pd;
+            rewrite;
+            %\znote{Trivial cases on update of exLog'}
+            split pd \in exLog;
+            split name = pdAuth.from \lor name = pdAuth.toN;
+            rewrite;
+        next;
+            %\znote{Case 1.2: by extensionality on each AuxWorld}
+            %\znote{equality, firstly at toInEpv}
+            equality substitute toInEpv;
+            apply extensionality to predicate
+                \{ pd\_\_76: \{ pd\_\_77: PayDetails | pd\_\_77.toN \in \dom~conAuthPurse \}
+                    |  (conAuthPurse~ pd\_\_76.toN).statuS = epv
+                        \land (conAuthPurse~ pd\_\_76.toN).pdAuth = pd\_\_76 \} =
+                \{ pd\_\_78: \{ pd\_\_79: PayDetails | pd\_\_79.toN \in \dom~conAuthPurse \}
+                    |  ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := exLog \cup \{ pdAuth \},
+                            statuS := eaFrom])\}) pd\_\_78.toN).statuS = epv
+                    \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := exLog \cup \{ pdAuth \},
+                            statuS := eaFrom])\}) pd\_\_78.toN).pdAuth = pd\_\_78 \};
+            prenex;
+            rewrite;
+            %\znote{From the information in the assumption, we just need to apply oplus}
+            apply applyOverride;
+            rewrite;
+        next;
+            %\znote{Case 1.3: by extensionality on toInEapayee}
+            equality substitute toInEapayee;
+            apply extensionality to predicate
+                \{ pd\_\_74: \{ pd\_\_75: PayDetails | pd\_\_75.toN \in \dom~conAuthPurse \}
+                    |  (conAuthPurse~pd\_\_74.toN).statuS = eaTo
+                       \land (conAuthPurse~pd\_\_74.toN).pdAuth = pd\_\_74 \} =
+                \{ pd\_\_76: \{ pd\_\_77: PayDetails | pd\_\_77.toN \in \dom~conAuthPurse \}
+                    | ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := exLog \cup \{ pdAuth \},
+                        statuS := eaFrom])\}) pd\_\_76.toN).statuS = eaTo
+                    \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := exLog \cup \{ pdAuth \},
+                        statuS := eaFrom])\}) pd\_\_76.toN).pdAuth = pd\_\_76 \};
+            prenex;
+            rewrite;
+            apply applyOverride;
+            rewrite;
+        next;
+            %\znote{Case 1.4: by extensionality on fromInEpr}
+            equality substitute fromInEpr;
+            %\zproofbreak
+            apply extensionality to predicate
+                \{ pd\_\_74: \{ pd\_\_75: PayDetails | pd\_\_75.from \in \dom~conAuthPurse \}
+                    |  (conAuthPurse~pd\_\_74.from).statuS = epr
+                       \land (conAuthPurse~pd\_\_74.from).pdAuth = pd\_\_74 \} =
+                \{ pd\_\_76: \{ pd\_\_77: PayDetails | pd\_\_77.from \in \dom~conAuthPurse \}
+                    | ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := exLog \cup \{ pdAuth \},
+                        statuS := eaFrom])\}) pd\_\_76.from).statuS = epr
+                    \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := exLog \cup \{ pdAuth \},
+                        statuS := eaFrom])\}) pd\_\_76.from).pdAuth = pd\_\_76 \};
+            prenex;
+            rewrite;
+            apply applyOverride;
+            rewrite;
+        next;
+            %\znote{Case 1.5: by extensionality on fromInEpa}
+            equality substitute fromInEpa;
+            apply extensionality to predicate
+                \{ pd\_\_78: \{ pd\_\_79: PayDetails | pd\_\_79.from \in \dom~conAuthPurse \}
+                    | (conAuthPurse~pd\_\_78.from).statuS = epa
+                    \land (conAuthPurse~pd\_\_78.from).pdAuth = pd\_\_78 \}
+                = \{ pd\_\_80: \{ pd\_\_81: PayDetails | pd\_\_81.from \in \dom~conAuthPurse \}
+                    | ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := exLog \cup \{ pdAuth \},
+                        statuS := eaFrom])\}) pd\_\_80.from).statuS = epa
+                    \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := exLog \cup \{ pdAuth \},
+                        statuS := eaFrom])\}) pd\_\_80.from).pdAuth = pd\_\_80 \};
+            prenex;
+            rewrite;
+            apply applyOverride1;
+            rewrite;
+        next;
+            %\znote{Case 1.5: by extensionality on allLogs}
+            equality substitute allLogs;
+            apply extensionality to predicate
+                archive \cup \{ n\_\_15: \dom~conAuthPurse; pd\_\_59: PayDetails |
+                    pd\_\_59 \in (conAuthPurse~n\_\_15).exLog \} =
+                archive \cup \{ n\_\_16: \dom~conAuthPurse; pd\_\_60: PayDetails |
+                    pd\_\_60 \in ((conAuthPurse \oplus \{(name?,
+                        \theta ConPurse[exLog := exLog \cup \{ pdAuth \},
+                            statuS := eaFrom])\}) n\_\_16).exLog \};
+            prenex;
+            rewrite;
+            prenex;
+            cases;
+                instantiate n\_\_1 == n, pd\_\_2 == pd;
+                rearrange;
+                apply applyOverride1;
+                rewrite;
+            next;
+                instantiate n\_\_2 == n\_\_0, pd\_\_3 == pd\_\_0;
+                rearrange;
+                apply applyOverride1;
+                rewrite;
+                split \lnot n = name?;
+                simplify;
+    next;
+    %\zproofbreak
+    %\znote{Case 2: statuS not = epv or epa}
+        cases;
+            invoke ConWorld;
+            rewrite;
+            prenex;
+            instantiate n\_\_0 == n;
+            apply applyOverride1;
+            rewrite;
+            rearrange;
+            rewrite;
+            use lPromotedConAuthNewPurseInjectivity[balance' := balance,
+                exLog' := exLog, name' := name, nextSeqNo' := nextSeqNo,
+                pdAuth' := pdAuth, statuS' := eaFrom];
+            rearrange;
+            invoke ConWorld;
+            simplify;
+            invoke ConPurse;
+            prenex;
+            rearrange;
+            simplify;
+            instantiate nld\_\_0 == nld;
+            instantiate pd\_\_0 == pd;
+            rewrite;
+        next;
+            equality substitute toInEpv;
+            apply extensionality to predicate
+            \{ pd\_\_76: \{ pd\_\_77: PayDetails | pd\_\_77.toN \in \dom~conAuthPurse \}
+                |       (conAuthPurse~pd\_\_76.toN).statuS = epv \\
+                    \land (conAuthPurse~pd\_\_76.toN).pdAuth = pd\_\_76 \}
+            = \{ pd\_\_78: \{ pd\_\_79: PayDetails | pd\_\_79.toN \in \dom~conAuthPurse \}
+                    |       ((conAuthPurse
+                            \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\})
+                            pd\_\_78.toN).statuS
+                            = epv \\
+                    \land ((conAuthPurse
+                            \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\})
+                            pd\_\_78.toN).pdAuth
+                            = pd\_\_78 \};
+            prenex;
+            rewrite;
+            apply applyOverride;
+            rewrite;
+        next;
+            equality substitute toInEapayee;
+            %\zproofbreak
+            apply extensionality to predicate
+            \{ pd\_\_74: \{ pd\_\_75: PayDetails | pd\_\_75.toN \in \dom~conAuthPurse \}
+                |       (conAuthPurse~pd\_\_74.toN).statuS = eaTo \\
+                    \land (conAuthPurse~pd\_\_74.toN).pdAuth = pd\_\_74 \}
+            = \{ pd\_\_76: \{ pd\_\_77: PayDetails | pd\_\_77.toN \in \dom~conAuthPurse \}
+                    |       ((conAuthPurse
+                            \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\})
+                            pd\_\_76.toN).statuS
+                            = eaTo \\
+                    \land ((conAuthPurse
+                            \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\})
+                            pd\_\_76.toN).pdAuth
+                            = pd\_\_76 \};
+
+            prenex;
+            rewrite;
+            apply applyOverride;
+            rewrite;
+        next;
+            equality substitute fromInEpr;
+            apply extensionality to predicate
+            \{ pd\_\_74: \{ pd\_\_75: PayDetails | pd\_\_75.from \in \dom~conAuthPurse \}
+                |       (conAuthPurse~pd\_\_74.from).statuS = epr \\
+                    \land (conAuthPurse~pd\_\_74.from).pdAuth = pd\_\_74 \}
+            = \{ pd\_\_76:
+                    \{ pd\_\_77: PayDetails | pd\_\_77.from \in \dom~conAuthPurse \}
+                    |       ((conAuthPurse
+                            \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\})
+                            pd\_\_76.from).statuS
+                            = epr \\
+                    \land ((conAuthPurse
+                            \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\})
+                            pd\_\_76.from).pdAuth
+                            = pd\_\_76 \};
+            prenex;
+            rewrite;
+            apply applyOverride;
+            rewrite;
+        next;
+            equality substitute fromInEpa;
+            %\zproofbreak
+            apply extensionality to predicate
+            \{ pd\_\_78: \{ pd\_\_79: PayDetails | pd\_\_79.from \in \dom~conAuthPurse \}
+                |       (conAuthPurse~pd\_\_78.from).statuS = epa \\
+                    \land (conAuthPurse~pd\_\_78.from).pdAuth = pd\_\_78 \}
+            = \{ pd\_\_80:
+                    \{ pd\_\_81: PayDetails | pd\_\_81.from \in \dom~conAuthPurse \}
+                    |       ((conAuthPurse
+                            \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\})
+                            pd\_\_80.from).statuS
+                            = epa \\
+                    \land ((conAuthPurse
+                            \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\})
+                            pd\_\_80.from).pdAuth
+                            = pd\_\_80 \};
+            prenex;
+            rewrite;
+            apply applyOverride1;
+            rewrite;
+        next;
+            equality substitute allLogs;
+            apply extensionality to predicate
+            archive
+            \cup \{ n\_\_15: \dom~conAuthPurse; pd\_\_59: PayDetails
+                        | pd\_\_59 \in (conAuthPurse~n\_\_15).exLog \}
+            = archive
+                \cup \{ n\_\_16: \dom~conAuthPurse; pd\_\_60: PayDetails
+                        | pd\_\_60
+                            \in ((conAuthPurse
+                                \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\})
+                                n\_\_16).exLog \};
+            prenex;
+            rewrite;
+            prenex;
+            cases;
+                instantiate n\_\_1 == n, pd\_\_2 == pd;
+                rearrange;
+                apply applyOverride1;
+                rewrite;
+            next;
+                instantiate n\_\_2 == n\_\_0, pd\_\_3 == pd\_\_0;
+                rearrange;
+                apply applyOverride1;
+                rewrite;
+                split \lnot n = name?;
+                simplify;
+    next;
+\end{zproof}\end{LPScript}
+
+In the next proof we could have expanded $BetweenWorld$ at the beginning,
+hence reusing most proof commands and ending up with a considerably smaller
+proof. Nevertheless, if by any means some change is needed, rerunning the
+proof would require new insight. By leaving it very fine-grained, it is easier
+for further maintenance.
+
+\pagebreak
+\begin{LPScript}\begin{zproof}[lPromotedBetweenWorldAbortType]
+    %\znote{Start by assuming AuxWorld properly typed}
+    use lPromotedAuxWorldAbortType;
+    rearrange;
+    simplify;
+    %\znote{Expand the signatures}
+    invoke PhiBOpAbortSig;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    %\znote{The proof from now on is equivalent for both cases.}
+    %\znote{We split it for the sake of clarity in case we need}
+    %\znote{to modify the proof later on.}
+    split statuS = epv \lor statuS = epa;
+    rewrite;
+    cases;
+        invoke BetweenWorld;
+        cases;
+            invoke BetweenWorldB1;
+            rewrite;
+        next;
+            %\znote{For each B property, it follows directly by expanding}
+            %\znote{the appropriate AuxWorld component, providing the trivial}
+            %\znote{instantiations, as well as applying override application.}
+            invoke BetweenWorldB2;
+            invoke BetweenWorldB1;
+            rewrite;
+            prenex;
+            instantiate pd\_\_1 == pd;
+            apply applyOverride;
+            prove by rewrite;
+            instantiate pd\_\_0 == pd;
+            use lAuxWorldAuthenticToExpansion;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB3;
+            invoke BetweenWorldNEW1;
+            invoke BetweenWorldNEW2;
+            rewrite;
+            prenex;
+            instantiate pd\_\_2 == pd;
+            apply applyOverride;
+            prove by rewrite;
+            instantiate pd\_\_0 == pd;
+            instantiate pd\_\_1 == pd;
+            use lAuxWorldAuthenticFromExpansion;
+            use lAuxWorldAuthenticToExpansion;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB4;
+            invoke BetweenWorldNEW3;
+            invoke BetweenWorldNEW4;
+            rewrite;
+            prenex;
+            instantiate pd\_\_2 == pd;
+            apply applyOverride;
+            prove by rewrite;
+            instantiate pd\_\_0 == pd;
+            instantiate pd\_\_1 == pd;
+            use lAuxWorldAuthenticFromExpansion;
+            use lAuxWorldAuthenticToExpansion;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB5;
+            rewrite;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply applyOverride;
+            prove by rewrite;
+            use lAuxWorldFromLoggedExpansion;
+            use lAuxWorldAuthenticFromExpansion;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB6;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            use lAuxWorldToLoggedExpansion;
+            use lAuxWorldAuthenticToExpansion;
+            apply applyOverride;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB7;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            use lAuxWorldAuthenticFromExpansion;
+            use lAuxWorldFromLoggedExpansion;
+            apply applyOverride;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB8;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            use lAuxWorldAuthenticToExpansion;
+            use lAuxWorldToLoggedExpansion;
+            apply applyOverride;
+            prove by rewrite;
+        next;
+            %\znote{For B9-B16, but B13, we explore the fact bot is known in ether}
+            invoke BetweenWorldB9;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB10;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB11;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB12;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB13;
+            rewrite;
+        next;
+            invoke BetweenWorldB14;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB15;
+            prenex;
+            instantiate pds\_\_0 == pds, name\_\_1 == name\_\_0;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB16;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+    next;
+        %\znote{For the second (ELSE) statuS case, the proof is just the same.}
+        %\znote{As we know the shape, we minimise some of the proof steps.}
+        invoke BetweenWorld;
+        cases;
+            invoke BetweenWorldB1;
+            rewrite;
+        next;
+            invoke BetweenWorldB2;
+            invoke BetweenWorldB1;
+            rewrite;
+            prenex;
+            instantiate pd\_\_1 == pd;
+            instantiate pd\_\_0 == pd;
+            use lAuxWorldAuthenticToExpansion;
+            apply applyOverride;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB3;
+            invoke BetweenWorldNEW1;
+            invoke BetweenWorldNEW2;
+            rewrite;
+            prenex;
+            instantiate pd\_\_2 == pd;
+            instantiate pd\_\_0 == pd;
+            instantiate pd\_\_1 == pd;
+            use lAuxWorldAuthenticFromExpansion;
+            use lAuxWorldAuthenticToExpansion;
+            apply applyOverride;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB4;
+            invoke BetweenWorldNEW3;
+            invoke BetweenWorldNEW4;
+            rewrite;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            instantiate pd\_\_1 == pd;
+            instantiate pd\_\_2 == pd;
+            use lAuxWorldAuthenticFromExpansion;
+            use lAuxWorldAuthenticToExpansion;
+            apply applyOverride;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB5;
+            rewrite;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            use lAuxWorldFromLoggedExpansion;
+            use lAuxWorldAuthenticFromExpansion;
+            apply applyOverride;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB6;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            use lAuxWorldToLoggedExpansion;
+            use lAuxWorldAuthenticToExpansion;
+            apply applyOverride;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB7;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            use lAuxWorldAuthenticFromExpansion;
+            use lAuxWorldFromLoggedExpansion;
+            apply applyOverride;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB8;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            use lAuxWorldAuthenticToExpansion;
+            use lAuxWorldToLoggedExpansion;
+            apply applyOverride;
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB9;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB10;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB11;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB12;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB13;
+            rewrite;
+        next;
+            invoke BetweenWorldB14;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB15;
+            prenex;
+            instantiate pds\_\_0 == pds, name\_\_1 == name\_\_0;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+        next;
+            invoke BetweenWorldB16;
+            prenex;
+            instantiate pd\_\_0 == pd;
+            apply cupSubsetRight to expression ether \cup \{ mondexError \};
+            prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+Although the next proof is now small, do not let it be misleading.
+It took quite some time and effort to reach it. The difficulty lies
+beneath the various quantified variables and how they can be blown away
+through the various interactions hidden beneath the schema inclusions.
+Finding the right granularity for reduction/expansion, as well as the
+appropriate place where instantiations would be suitable took around 2 days.
+Also, finding the right lemma for $BetweenWorld$/$AuxWorld$ took most of this time.
+Fortunately, this will be reused in other proofs.
+%
+\begin{LPScript}\begin{zproof}[tBetwAbortOkayPRE]
+\end{zproof}%HERE
+    %\znote{We know about the BetweenWorld instantiations type}
+    use lPromotedBetweenWorldAbortType;
+    %\znote{Surgically reduce}
+    with disabled (BetweenWorld, ConPurse) prove by reduce;
+    %\znote{Instantiate the trivial variables from ConPurseAbort}
+    instantiate exLog\_\_0 == exLog, nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    %\znote{Instantiate remaining Delta ConPurse variables}
+    instantiate nextSeqNo' == nextSeqNo, pdAuth' == pdAuth,
+        exLog' == exLog \cup
+            (\IF statuS = epv \lor statuS = epa \THEN \{ pdAuth \} \ELSE \{\});
+    invoke \Delta ConPurse;
+    rearrange;
+    rewrite;
+    %\znote{Instantiate BetweenWorld, and we are done}
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    %\znote{ConPurse with altered exLog}
+    invoke ConPurse;
+    prenex;
+    rearrange;
+    %\znote{Handle each Abort case}
+    split statuS = epv \lor statuS = epa;
+    rewrite;
+    cases;
+        instantiate pd\_\_1 == pd;
+        split pd \in exLog;
+        rewrite;
+    next;
+        instantiate pd\_\_3 == pd\_\_0;
+        rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPromotedAuxWorldStartFromType]
+    %\znote{Expand signatures}
+    invoke PhiBOpStartFromSig;
+    invoke ValidStartFrom;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    %\znote{Expose AuxWorld}
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    %\znote{Remove trivial cases}
+    rewrite;
+    %\znote{As name? is in conAuthPurse, simplify result of domain over oplus}
+    apply cupSubsetLeft to expression \{ name? \} \cup \dom~conAuthPurse;
+    rewrite;
+    %\znote{authenticTo and From appear in many of the cases, early substitute them}
+    equality substitute authenticTo;
+    equality substitute authenticFrom;
+    %\znote{Each part in AxuWorld generates a sub-goal}
+    cases;
+        %\znote{Case 1.1: ConWorld + conAuthPurse type check}
+        invoke ConWorld;
+        rewrite;
+        prenex;
+        instantiate n\_\_0 == n;
+        apply applyOverride1;
+        rewrite;
+        rearrange;
+        rewrite;
+        %\znote{Now only injectivity type checking remains}
+        use lPromotedConAuthNewPurseInjectivity[balance' := balance,
+            exLog' := exLog, name' := name, nextSeqNo' := 1 + nextSeqNo,
+            pdAuth' := \theta PayDetails[
+            	%name/from, nextSeqNo/fromSeqNo,
+                from := name, fromSeqNo := nextSeqNo,
+                toN := ((startFrom~ \inv)~ m?).name,
+                toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+                value := ((startFrom~ \inv)~ m?).value],
+            statuS' := epr];
+        rearrange;
+        invoke ConWorld;
+        %\znote{Simplify prior to expansion of ConPurse}
+        %\znote{for better results}
+        simplify;
+        invoke ConPurse;
+        prenex;
+        rearrange;
+        simplify;
+        %\znote{Now two subsub-goals: archive from ConWorld}
+        %\znote{and pd from ConPurse with substitutions}
+        instantiate nld\_\_0 == nld;
+        instantiate pd\_\_0 == pd;
+        rewrite;
+        %\znote{Trivial cases: type check on updated pdAuth}
+        invoke PayDetails;
+        invoke TransferDetails;
+        rewrite;
+    next;
+        %\znote{Case 1.2: by extensionality on each AuxWorld}
+        %\znote{equality, firstly at toInEpv}
+        equality substitute toInEpv;
+        apply extensionality to predicate
+            \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_77.toN).statuS = epv
+             \land (conAuthPurse~pd\_\_77.toN).pdAuth = pd\_\_77 \}
+            = \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.toN \in \dom~conAuthPurse \}
+              | ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[
+                	%name/from, nextSeqNo/fromSeqNo,
+                    from := name, fromSeqNo := nextSeqNo,
+                    toN := ((startFrom~ \inv)~ m?).name,
+                    toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+                    value := ((startFrom~ \inv)~ m?).value],
+                statuS := epr])\}) pd\_\_79.toN).statuS = epv
+              \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[
+                	%name/from, nextSeqNo/fromSeqNo,
+                    from := name, fromSeqNo := nextSeqNo,
+                    toN := ((startFrom~ \inv)~ m?).name,
+                    toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+                    value := ((startFrom~ \inv)~ m?).value],
+                statuS := epr])\}) pd\_\_79.toN).pdAuth = pd\_\_79 \};
+        prenex;
+        rewrite;
+        %\znote{From the information in the assumption, we just need to apply oplus}
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.3: by extensionality on toInEapayee}
+        equality substitute toInEapayee;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_75.toN).statuS = eaTo
+              \land (conAuthPurse~pd\_\_75.toN).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[
+                	%name/from, nextSeqNo/fromSeqNo,
+                    from := name, fromSeqNo := nextSeqNo,
+                    toN := ((startFrom~ \inv)~ m?).name,
+                    toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+                    value := ((startFrom~ \inv)~ m?).value],
+                statuS := epr])\}) pd\_\_77.toN).statuS
+                = eaTo
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                    pdAuth := \theta PayDetails[
+                    	%name/from, nextSeqNo/fromSeqNo,
+                        from := name, fromSeqNo := nextSeqNo,
+                        toN := ((startFrom~ \inv)~ m?).name,
+                        toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+                        value := ((startFrom~ \inv)~ m?).value],
+                    statuS := epr])\}) pd\_\_77.toN).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.4: by extensionality on fromInEpr}
+        equality substitute fromInEpr;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_75.from).statuS = epr
+                \land (conAuthPurse~pd\_\_75.from).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[
+                		%name/from, nextSeqNo/fromSeqNo,
+                        from := name, fromSeqNo := nextSeqNo,
+                        toN := ((startFrom~ \inv)~ m?).name,
+                        toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+                        value := ((startFrom~ \inv)~ m?).value],
+                    statuS := epr])\}) pd\_\_77.from).statuS = epr
+             \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[
+                		%name/from, nextSeqNo/fromSeqNo,
+                        from := name, fromSeqNo := nextSeqNo,
+                        toN := ((startFrom~ \inv)~ m?).name,
+                        toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+                        value := ((startFrom~ \inv)~ m?).value],
+                    statuS := epr])\}) pd\_\_77.from).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on fromInEpa}
+        equality substitute fromInEpa;
+        apply extensionality to predicate
+            \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_79.from).statuS = epa
+                \land (conAuthPurse~pd\_\_79.from).pdAuth = pd\_\_79 \}
+            = \{ pd\_\_81: \{ pd\_\_82: PayDetails | pd\_\_82.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                 pdAuth := \theta PayDetails[
+                 		%name/from, nextSeqNo/fromSeqNo,
+                        from := name, fromSeqNo := nextSeqNo,
+                        toN := ((startFrom~ \inv)~ m?).name,
+                        toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+                        value := ((startFrom~ \inv)~ m?).value],
+                    statuS := epr])\}) pd\_\_81.from).statuS = epa
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                    pdAuth := \theta PayDetails[
+                    		%name/from, nextSeqNo/fromSeqNo,
+                            from := name, fromSeqNo := nextSeqNo,
+                            toN := ((startFrom~ \inv)~ m?).name,
+                            toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+                            value := ((startFrom~ \inv)~ m?).value],
+                        statuS := epr])\}) pd\_\_81.from).pdAuth = pd\_\_81 \};
+        prenex;
+        rewrite;
+        apply applyOverride1;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on allLogs}
+        equality substitute allLogs;
+        apply extensionality to predicate
+            archive \cup \{ n\_\_15: \dom~conAuthPurse; pd\_\_60: PayDetails
+                | pd\_\_60 \in (conAuthPurse~n\_\_15).exLog \}
+            = archive \cup \{ n\_\_16: \dom~conAuthPurse; pd\_\_61: PayDetails
+                | pd\_\_61 \in ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    nextSeqNo := 1 + nextSeqNo,
+                    pdAuth := \theta PayDetails[
+                    	%name/from, nextSeqNo/fromSeqNo,
+                        from := name, fromSeqNo := nextSeqNo,
+                        toN := ((startFrom~ \inv)~ m?).name,
+                        toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+                        value := ((startFrom~ \inv)~ m?).value],
+                    statuS := epr])\}) n\_\_16).exLog \};
+        prenex;
+        rewrite;
+        prenex;
+        cases;
+            instantiate n\_\_1 == n, pd\_\_3 == pd;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+        next;
+            instantiate n\_\_2 == n\_\_0, pd\_\_4 == pd\_\_0;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+            split \lnot n = name?;
+            simplify;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPromotedBetweenWorldStartFromType]
+    %\znote{Start by assuming AuxWorld properly typed}
+    use lPromotedAuxWorldStartFromType;
+    rearrange;
+    simplify;
+    %\znote{Expand the signatures}
+    invoke PhiBOpStartFromSig;
+    invoke PhiBOpBranchesSig;
+    invoke ValidStartFrom;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    invoke BetweenWorld;
+    cases;
+        invoke BetweenWorldB1;
+        rewrite;
+    next;
+        %\znote{For each B property, it follows directly by expanding}
+        %\znote{the appropriate AuxWorld component, providing the trivial}
+        %\znote{instantiations, as well as applying override application.}
+        invoke BetweenWorldB2;
+        invoke BetweenWorldB1;
+        rewrite;
+        prenex;
+        instantiate pd\_\_1 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB3;
+        invoke BetweenWorldNEW1;
+        invoke BetweenWorldNEW2;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB4;
+        invoke BetweenWorldNEW3;
+        invoke BetweenWorldNEW4;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB5;
+        rewrite;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        use lAuxWorldFromLoggedExpansion;
+        use lAuxWorldAuthenticFromExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB6;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldToLoggedExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        apply applyOverride;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB7;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldFromLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB8;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        use lAuxWorldToLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+    next;
+        %\znote{For B9-B16, but B13, we explore the fact bot is known in ether}
+        invoke BetweenWorldB9;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply cupSubsetRight to expression ether \cup \{ mondexError \};
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB10;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply cupSubsetRight to expression ether \cup \{ mondexError \};
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB11;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply cupSubsetRight to expression ether \cup \{ mondexError \};
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB12;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply cupSubsetRight to expression ether \cup \{ mondexError \};
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB13;
+        rewrite;
+    next;
+        invoke BetweenWorldB14;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply cupSubsetRight to expression ether \cup \{ mondexError \};
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB15;
+        prenex;
+        instantiate pds\_\_0 == pds, name\_\_1 == name\_\_0;
+        apply cupSubsetRight to expression ether \cup \{ mondexError \};
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB16;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply cupSubsetRight to expression ether \cup \{ mondexError \};
+        prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwStartFromEafromOkayPRE]
+    use lPromotedBetweenWorldStartFromType;
+    with disabled (BetweenWorld) prove by reduce;
+    %\znote{ConPurse: local ConPurseStart, and Delta ConPurse}
+    instantiate statuS\_\_0 == eaFrom, nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth, nextSeqNo' == nextSeqNo + 1;
+    rewrite;
+    %\znote{BetweenWorld}
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    with disabled (BetweenWorld) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwStartFromOkayPRE]
+    use lPromotedBetweenWorldStartFromType;
+    with disabled (BetweenWorld) prove by reduce;
+    %\znote{ConPurse: local ConPurseStart, and Delta ConPurse}
+    instantiate pdAuth\_\_0 == pdAuth, nextSeqNo\_\_0 == nextSeqNo,
+        nextSeqNo' == nextSeqNo + 1;
+    rearrange;
+    rewrite;
+    %\znote{BetweenWorld}
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rewrite;
+    %\znote{}
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    simplify;
+    instantiate nextSeqNo\_\_1 == nextSeqNo, pdAuth\_\_1 == pdAuth,
+        statuS\_\_1 == statuS;
+    simplify;
+    invoke PayDetails;
+    invoke TransferDetails;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[PhiBOpStartToSig\$domainCheck]
+    prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[lPromotedAuxWorldStartToType]
+    %\znote{Expand signatures}
+    invoke PhiBOpStartToSig;
+    invoke ValidStartTo;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    %\znote{Expose AuxWorld}
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    %\znote{Remove trivial cases}
+    rewrite;
+    %\znote{As name? is in conAuthPurse, simplify result of domain over oplus}
+    apply cupSubsetLeft to expression \{ name? \} \cup \dom~conAuthPurse;
+    rewrite;
+    %\znote{authenticTo and From appear in many of the cases, early substitute them}
+    equality substitute authenticTo;
+    equality substitute authenticFrom;
+    %\znote{Each part in AxuWorld generates a sub-goal}
+    cases;
+        %\znote{Case 1.1: ConWorld + conAuthPurse type check}
+        invoke ConWorld;
+        rewrite;
+        prenex;
+        instantiate n\_\_0 == n;
+        apply applyOverride1;
+        rewrite;
+        rearrange;
+        rewrite;
+        %\znote{Now only injectivity type checking remains}
+        use lPromotedConAuthNewPurseInjectivity[balance' := balance,
+            exLog' := exLog, name' := name, nextSeqNo' := 1 + nextSeqNo,
+            pdAuth' := \theta PayDetails[from := ((startTo~ \inv)~m?).name,
+                fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                %name/toN, nextSeqNo/toSeqNo, 
+                toN := name, toSeqNo := nextSeqNo,
+                value := ((startTo~ \inv)~ m?).value],
+            statuS' := epv];
+        rearrange;
+        invoke ConWorld;
+        %\znote{Simplify prior to expansion of ConPurse}
+        %\znote{for better results}
+        simplify;
+        invoke ConPurse;
+        prenex;
+        rearrange;
+        simplify;
+        %\znote{Now two subsub-goals: archive from ConWorld}
+        %\znote{and pd from ConPurse with substitutions}
+        instantiate nld\_\_0 == nld;
+        instantiate pd\_\_0 == pd;
+        rewrite;
+    next;
+        %\znote{Case 1.2: by extensionality on each AuxWorld}
+        %\znote{equality, firstly at toInEpv}
+        equality substitute toInEpv;
+        apply extensionality to predicate
+            \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_77.toN).statuS = epv
+             \land (conAuthPurse~pd\_\_77.toN).pdAuth = pd\_\_77 \}
+            = \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.toN \in \dom~conAuthPurse \}
+              | ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+                    fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, 
+                    toN := name, toSeqNo := nextSeqNo,
+                    value := ((startTo~ \inv)~ m?).value],
+                statuS := epv])\}) pd\_\_79.toN).statuS = epv
+              \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+                    fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, 
+                    toN := name, toSeqNo := nextSeqNo,
+                    value := ((startTo~ \inv)~ m?).value],
+                statuS := epv])\}) pd\_\_79.toN).pdAuth = pd\_\_79 \};
+        prenex;
+        rewrite;
+        %\znote{From the information in the assumption, we just need to apply oplus}
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.3: by extensionality on toInEapayee}
+        equality substitute toInEapayee;
+        %\znote{Name (numbers) here are different but it does not matter because the shape is right}
+        apply extensionality to predicate
+            \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_77.toN).statuS = eaTo
+             \land (conAuthPurse~pd\_\_77.toN).pdAuth = pd\_\_77 \}
+            = \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.toN \in \dom~conAuthPurse \}
+              | ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+                    fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, 
+                    toN := name, toSeqNo := nextSeqNo,
+                    value := ((startTo~ \inv)~ m?).value],
+                statuS := epv])\}) pd\_\_79.toN).statuS = eaTo
+              \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+                    fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, 
+                    toN := name, toSeqNo := nextSeqNo,
+                    value := ((startTo~ \inv)~ m?).value],
+                statuS := epv])\}) pd\_\_79.toN).pdAuth = pd\_\_79 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.4: by extensionality on fromInEpr}
+        equality substitute fromInEpr;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_75.from).statuS = epr
+                \land (conAuthPurse~pd\_\_75.from).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+                    fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, 
+                    toN := name, toSeqNo := nextSeqNo,
+                    value := ((startTo~ \inv)~ m?).value],
+                statuS := epv])\}) pd\_\_77.from).statuS = epr
+             \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+                    fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, 
+                    toN := name, toSeqNo := nextSeqNo,
+                    value := ((startTo~ \inv)~ m?).value],
+                statuS := epv])\}) pd\_\_77.from).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on fromInEpa}
+        equality substitute fromInEpa;
+        apply extensionality to predicate
+            \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_79.from).statuS = epa
+                \land (conAuthPurse~pd\_\_79.from).pdAuth = pd\_\_79 \}
+            = \{ pd\_\_81: \{ pd\_\_82: PayDetails | pd\_\_82.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                 pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+                    fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, 
+                    toN := name, toSeqNo := nextSeqNo,
+                    value := ((startTo~ \inv)~ m?).value],
+                statuS := epv])\}) pd\_\_81.from).statuS = epa
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+                    pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+                        fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                        %name/toN, nextSeqNo/toSeqNo, 
+                        toN := name, toSeqNo := nextSeqNo,
+                    	value := ((startTo~ \inv)~ m?).value],
+                    statuS := epv])\}) pd\_\_81.from).pdAuth = pd\_\_81 \};
+        prenex;
+        rewrite;
+        apply applyOverride1;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on allLogs}
+        equality substitute allLogs;
+        apply extensionality to predicate
+            archive \cup \{ n\_\_15: \dom~conAuthPurse; pd\_\_60: PayDetails
+                | pd\_\_60 \in (conAuthPurse~n\_\_15).exLog \}
+            = archive \cup \{ n\_\_16: \dom~conAuthPurse; pd\_\_61: PayDetails
+                | pd\_\_61 \in ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    nextSeqNo := 1 + nextSeqNo,
+                    pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+                        fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                        %name/toN, nextSeqNo/toSeqNo, 
+                        toN := name, toSeqNo := nextSeqNo,
+                    	value := ((startTo~ \inv)~ m?).value],
+                    statuS := epv])\}) n\_\_16).exLog \};
+        prenex;
+        rewrite;
+        prenex;
+        cases;
+            instantiate n\_\_1 == n, pd\_\_3 == pd;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+        next;
+            instantiate n\_\_2 == n\_\_0, pd\_\_4 == pd\_\_0;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+            split \lnot n = name?;
+            simplify;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPromotedBetweenWorldStartToType]
+    %\znote{Start by assuming AuxWorld properly typed}
+    use lPromotedAuxWorldStartToType;
+    rearrange;
+    simplify;
+    %\znote{Expand the signatures}
+    invoke PhiBOpStartToSig;
+    invoke PhiBOpBranchesSig;
+    invoke ValidStartTo;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    invoke BetweenWorld;
+    cases;
+        invoke BetweenWorldB1;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        %\znote{As req is injective and req pd = req pd', then pd = pd'}
+        use pinjApplicationsEqual[\lblot from: NAME;fromSeqNo: \num;toN:
+            NAME;toSeqNo: \num;value: \num \rblot, MESSAGE]
+            [A := \lblot from: NAME;fromSeqNo: \num;toN:
+                NAME;toSeqNo: \num;value: \num \rblot,
+             B := MESSAGE, f := req, x := pd, y := pd'];
+        %\znote{pd' must be in authenticTo}
+        use lAuxWorldAuthenticToExpansion;
+        %\znote{pd' is either pd or the update, split earlier then}
+        split req~ pd \in ether;
+        prove by rewrite;
+    next;
+        %\znote{For each B property, it follows directly by expanding}
+        %\znote{the appropriate AuxWorld component, providing the trivial}
+        %\znote{instantiations, as well as applying override application.}
+        invoke BetweenWorldB2;
+        invoke BetweenWorldB1;
+        prenex;
+        %\znote{As req is injective and req pd = req pd', then pd = pd'}
+        %\znote{Use it earlier to avoid loosing pd' via equality substitution}
+        use pinjApplicationsEqual[\lblot from: NAME;fromSeqNo: \num;toN:
+            NAME;toSeqNo: \num;value: \num \rblot, MESSAGE]
+            [A := \lblot from: NAME;fromSeqNo: \num;toN:
+                NAME;toSeqNo: \num;value: \num \rblot,
+             B := MESSAGE, f := req, x := pd, y := pd'];
+        use pinjApplicationsEqual[\lblot from: NAME;fromSeqNo: \num;toN:
+            NAME;toSeqNo: \num;value: \num \rblot, MESSAGE]
+            [A := \lblot from: NAME;fromSeqNo: \num;toN:
+                NAME;toSeqNo: \num;value: \num \rblot,
+             B := MESSAGE, f := req, x := pd\_\_0, y := pd'];
+        %\znote{Get rid of the AuxWorld type checking case}
+        simplify;
+        %\znote{pd' must be in authenticTo}
+        use lAuxWorldAuthenticToExpansion;
+        cases;
+            %\znote{Property B1 within B2}
+            instantiate pd\_\_1 == pd;
+            prove by rewrite;
+        next;
+            %\znote{Property B2}
+            instantiate pd\_\_1 == pd\_\_0;
+            apply applyOverride;
+            prove by rewrite;
+            split req~ pd \in ether;
+            prove by rewrite;
+            instantiate pd\_\_1 == pd;
+            rewrite;
+    next;
+        invoke BetweenWorldB3;
+        invoke BetweenWorldNEW1;
+        invoke BetweenWorldNEW2;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB4;
+        invoke BetweenWorldNEW3;
+        invoke BetweenWorldNEW4;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB5;
+        rewrite;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        use lAuxWorldFromLoggedExpansion;
+        use lAuxWorldAuthenticFromExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB6;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldToLoggedExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        apply applyOverride;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB7;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldFromLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB8;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        use lAuxWorldToLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB9;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        with enabled (disjointCat, disjointDef) prove by rewrite;
+        equality substitute \{\};
+        apply extensionality to predicate
+            (\{val~ pd\} \cup \{ack~ pd\}) \cap (ether \cup \{~
+                req~ (\theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+                    fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, 
+                    toN := name, toSeqNo := nextSeqNo,
+                    value := ((startTo~ \inv)~ m?).value])\})
+            = ether \cap (\{val~ pd\} \cup \{ack~ pd\});
+        prenex;
+        rewrite;
+        apply extensionality to predicate
+            ether \cap (\{val~ pd\} \cup \{ack~ pd\}) = \{\};
+        rewrite;
+        instantiate x\_\_0 == x;
+        rewrite;
+    next;
+        invoke BetweenWorldB10;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB11;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB12;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB13;
+        rewrite;
+    next;
+        invoke BetweenWorldB14;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB15;
+        prenex;
+        instantiate pds\_\_0 == pds, name\_\_1 == name\_\_0;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB16;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwStartToEafromOkayPRE]
+    use lPromotedBetweenWorldStartToType;
+    with disabled (BetweenWorld) prove by reduce;
+    instantiate statuS\_\_0 == eaFrom, nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth, nextSeqNo' == nextSeqNo + 1;
+    rewrite;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rewrite;
+    invoke PayDetails;
+    invoke TransferDetails;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwStartToOkayPRE]
+    use lPromotedBetweenWorldStartToType;
+    with disabled (BetweenWorld) prove by reduce;
+    instantiate pdAuth\_\_0 == pdAuth, nextSeqNo\_\_0 == nextSeqNo,
+        nextSeqNo' == nextSeqNo + 1;
+    rearrange;
+    rewrite;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rewrite;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    simplify;
+    instantiate nextSeqNo\_\_1 == nextSeqNo, pdAuth\_\_1 == pdAuth,
+        statuS\_\_1 == statuS;
+    simplify;
+    invoke PayDetails;
+    invoke TransferDetails;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+% No such a goal
+%\begin{LDCheck}\begin{zproof}[PhiBOpReqSig\$domainCheck]
+%    prove by rewrite;
+%\end{zproof}\end{LDCheck}
+
+%\begin{LPScript}\begin{zproof}[lPromotedAuxWorldReqType]
+%    %\znote{Expand signatures}
+%    invoke PhiBOpReqSig;
+%    invoke PhiBOpBranchesSig;
+%    invoke PhiBOpSig;
+%    invoke BetweenOpSig;
+%    %\znote{Expose AuxWorld}
+%    invoke BetweenWorld;
+%    invoke BetweenWorldB1;
+%    invoke AuxWorld;
+%    %\znote{Remove trivial cases}
+%    rewrite;
+%    %\znote{As name? is in conAuthPurse, simplify result of domain over oplus}
+%    apply cupSubsetLeft to expression \{ name? \} \cup \dom~conAuthPurse;
+%    rewrite;
+%    %\znote{authenticTo and From appear in many of the cases, early substitute them}
+%    equality substitute authenticTo;
+%    equality substitute authenticFrom;
+%    %\znote{Each part in AxuWorld generates a sub-goal}
+%    cases;
+%        %\znote{Case 1.1: ConWorld + conAuthPurse type check}
+%        invoke ConWorld;
+%        rewrite;
+%        prenex;
+%        instantiate n\_\_0 == n;
+%        apply applyOverride1;
+%        rewrite;
+%        rearrange;
+%        rewrite;
+%        %\znote{Now injectivity type checking}
+%        use lPromotedConAuthNewPurseInjectivity[balance' := balance - pdAuth.value,
+%            exLog' := exLog, name' := pdAuth.from, nextSeqNo' := nextSeqNo,
+%            pdAuth' := pdAuth, statuS' := epa];
+%        rearrange;
+%        invoke ConWorld;
+%        simplify;
+%        invoke ConPurse;
+%        prenex;
+%        rearrange;
+%        simplify;
+%        instantiate nld\_\_0 == nld;
+%        instantiate pd\_\_0 == pd;
+%        rearrange;
+%        rewrite;
+%    next;
+%        %\znote{Case 1.2: by extensionality on each AuxWorld}
+%        %\znote{equality, firstly at toInEpv}
+%        equality substitute toInEpv;
+%        apply extensionality to predicate
+%            \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+%              | (conAuthPurse~pd\_\_77.toN).statuS = epv
+%             \land (conAuthPurse~pd\_\_77.toN).pdAuth = pd\_\_77 \}
+%            = \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.toN \in \dom~conAuthPurse \}
+%              | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+%                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+%                  statuS := epa])\}) pd\_\_79.toN).statuS = epv
+%              \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+%                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+%                  statuS := epa])\}) pd\_\_79.toN).pdAuth = pd\_\_79 \};
+%        prenex;
+%        rewrite;
+%        %\znote{From the information in the assumption, we just need to apply oplus}
+%        apply applyOverride;
+%        rewrite;
+%    next;
+%        %\znote{Case 1.3: by extensionality on toInEapayee}
+%        equality substitute toInEapayee;
+%        apply extensionality to predicate
+%            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.toN \in \dom~conAuthPurse \}
+%              | (conAuthPurse~pd\_\_75.toN).statuS = eaTo
+%              \land (conAuthPurse~pd\_\_75.toN).pdAuth = pd\_\_75 \}
+%            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+%                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+%                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+%                  statuS := epa])\}) pd\_\_77.toN).statuS = eaTo
+%                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+%                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+%                  statuS := epa])\}) pd\_\_77.toN).pdAuth = pd\_\_77 \};
+%        prenex;
+%        rewrite;
+%        apply applyOverride;
+%        rewrite;
+%    next;
+%        %\znote{Case 1.4: by extensionality on fromInEpr}
+%        equality substitute fromInEpr;
+%        apply extensionality to predicate
+%            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.from \in \dom~conAuthPurse \}
+%                | (conAuthPurse~pd\_\_75.from).statuS = epr
+%                \land (conAuthPurse~pd\_\_75.from).pdAuth = pd\_\_75 \}
+%            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.from \in \dom~conAuthPurse \}
+%                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+%                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+%                  statuS := epa])\}) pd\_\_77.from).statuS = epr
+%             \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+%                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+%                  statuS := epa])\}) pd\_\_77.from).pdAuth = pd\_\_77 \};
+%        prenex;
+%        rewrite;
+%        apply applyOverride;
+%        rewrite;
+%    next;
+%        %\znote{Case 1.5: by extensionality on fromInEpa}
+%        equality substitute fromInEpa;
+%        apply extensionality to predicate
+%            \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.from \in \dom~conAuthPurse \}
+%                | (conAuthPurse~pd\_\_79.from).statuS = epa
+%                \land (conAuthPurse~pd\_\_79.from).pdAuth = pd\_\_79 \}
+%            = \{ pd\_\_81: \{ pd\_\_82: PayDetails | pd\_\_82.from \in \dom~conAuthPurse \}
+%                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+%                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+%                  statuS := epa])\}) pd\_\_81.from).statuS = epa
+%                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+%                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+%                  statuS := epa])\}) pd\_\_81.from).pdAuth = pd\_\_81 \};
+%        prenex;
+%        rewrite;
+%        apply applyOverride1;
+%        rewrite;
+%    next;
+%        %\znote{Case 1.5: by extensionality on allLogs}
+%        equality substitute allLogs;
+%        apply extensionality to predicate
+%            archive \cup \{ n\_\_15: \dom~conAuthPurse; pd\_\_60: PayDetails
+%                | pd\_\_60 \in (conAuthPurse~n\_\_15).exLog \}
+%            = archive \cup \{ n\_\_16: \dom~conAuthPurse; pd\_\_61: PayDetails
+%                | pd\_\_61 \in ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+%                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+%                  statuS := epa])\}) n\_\_16).exLog \};
+%        prenex;
+%        rewrite;
+%        prenex;
+%        cases;
+%            instantiate n\_\_1 == n, pd\_\_2 == pd;
+%            rearrange;
+%            apply applyOverride1;
+%            rewrite;
+%        next;
+%            instantiate n\_\_2 == n\_\_0, pd\_\_3 == pd\_\_0;
+%            rearrange;
+%            apply applyOverride1;
+%            rewrite;
+%            split \lnot n = name?;
+%            simplify;
+%    next;
+%\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPromotedAuxWorldReqType]
+\end{zproof}%HERE
+    %\znote{Expand signatures}
+    invoke PhiBOpReqSig;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    %\znote{Expose AuxWorld}
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    %\znote{Remove trivial cases}
+    rewrite;
+    %\znote{As name? is in conAuthPurse, simplify result of domain over oplus}
+    apply cupSubsetLeft to expression \{ name? \} \cup \dom~conAuthPurse;
+    rewrite;
+    %\znote{authenticTo and From appear in many of the cases, early substitute them}
+    equality substitute authenticTo;
+    equality substitute authenticFrom;
+    %\znote{Each part in AxuWorld generates a sub-goal}
+    cases;
+        %\znote{Case 1.1: ConWorld + conAuthPurse type check}
+        invoke ConWorld;
+        rewrite;
+        prenex;
+        instantiate n\_\_0 == n;
+        apply applyOverride1;
+        rewrite;
+        rearrange;
+        rewrite;
+        %\znote{Now injectivity type checking}
+        use lPromotedConAuthNewPurseInjectivity[balance' := balance - pdAuth.value,
+            exLog' := exLog, name' := pdAuth.from, nextSeqNo' := nextSeqNo,
+            pdAuth' := pdAuth, statuS' := epa];
+        rearrange;
+        invoke ConWorld;
+        simplify;
+        invoke ConPurse;
+        prenex;
+        rearrange;
+        simplify;
+        instantiate nld\_\_0 == nld;
+        instantiate pd\_\_0 == pd;
+        rearrange;
+        rewrite;
+    next;
+        %\znote{Case 1.2: by extensionality on each AuxWorld}
+        %\znote{equality, firstly at toInEpv}
+        equality substitute toInEpv;
+		apply extensionality to predicate 
+			\{pd\_\_76: \{pd\_\_77: PayDetails | pd\_\_77 . toN \in \dom conAuthPurse \} | 
+				(conAuthPurse (pd\_\_76 . toN)) . statuS = epv \land 
+				(conAuthPurse (pd\_\_76 . toN)) . pdAuth = pd\_\_76 \} 
+			= 
+		    \{pd\_\_78: \{pd\_\_79: PayDetails | pd\_\_79 . toN \in \dom conAuthPurse \} | 
+		    	((conAuthPurse \oplus \{(name?, \theta (ConPurse [balance := balance + 
+		    		(\negate 1 * pdAuth . value), name := pdAuth . from, statuS := epa])) \})~(pd\_\_78 . toN)) . statuS = epv 
+		    	\land ((conAuthPurse \oplus \{(name?, \theta (ConPurse [balance := balance + (\negate 1 * pdAuth . value), 
+		    		name := pdAuth . from, statuS := epa])) \})~(pd\_\_78 . toN)) . pdAuth = pd\_\_78 \};
+        prenex;
+        rewrite;
+        %\znote{From the information in the assumption, we just need to apply oplus}
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.3: by extensionality on toInEapayee}
+        equality substitute toInEapayee;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_75.toN).statuS = eaTo
+              \land (conAuthPurse~pd\_\_75.toN).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+                  statuS := epa])\}) pd\_\_77.toN).statuS = eaTo
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+                  statuS := epa])\}) pd\_\_77.toN).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.4: by extensionality on fromInEpr}
+        equality substitute fromInEpr;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_75.from).statuS = epr
+                \land (conAuthPurse~pd\_\_75.from).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+                  statuS := epa])\}) pd\_\_77.from).statuS = epr
+             \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+                  statuS := epa])\}) pd\_\_77.from).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on fromInEpa}
+        equality substitute fromInEpa;
+        apply extensionality to predicate
+            \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_79.from).statuS = epa
+                \land (conAuthPurse~pd\_\_79.from).pdAuth = pd\_\_79 \}
+            = \{ pd\_\_81: \{ pd\_\_82: PayDetails | pd\_\_82.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+                  statuS := epa])\}) pd\_\_81.from).statuS = epa
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+                  statuS := epa])\}) pd\_\_81.from).pdAuth = pd\_\_81 \};
+        prenex;
+        rewrite;
+        apply applyOverride1;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on allLogs}
+        equality substitute allLogs;
+        apply extensionality to predicate
+            archive \cup \{ n\_\_15: \dom~conAuthPurse; pd\_\_60: PayDetails
+                | pd\_\_60 \in (conAuthPurse~n\_\_15).exLog \}
+            = archive \cup \{ n\_\_16: \dom~conAuthPurse; pd\_\_61: PayDetails
+                | pd\_\_61 \in ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                  balance + \negate~1 * pdAuth.value, name := pdAuth.from,
+                  statuS := epa])\}) n\_\_16).exLog \};
+        prenex;
+        rewrite;
+        prenex;
+        cases;
+            instantiate n\_\_1 == n, pd\_\_2 == pd;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+        next;
+            instantiate n\_\_2 == n\_\_0, pd\_\_3 == pd\_\_0;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+            split \lnot n = name?;
+            simplify;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPromotedBetweenWorldReqType]
+\end{zproof}%HERE
+    %\znote{Start by assuming AuxWorld properly typed}
+    use lPromotedAuxWorldReqType;
+    rearrange;
+    simplify;
+    %\znote{Expand the signatures}
+    invoke PhiBOpReqSig;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    invoke BetweenWorld;
+    cases;
+        invoke BetweenWorldB1;
+        rewrite;
+    next;
+        %\znote{For each B property, it follows directly by expanding}
+        %\znote{the appropriate AuxWorld component, providing the trivial}
+        %\znote{instantiations, as well as applying override application.}
+        invoke BetweenWorldB2;
+        invoke BetweenWorldB1;
+        rewrite;
+        prenex;
+        instantiate pd\_\_1 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB3;
+        invoke BetweenWorldNEW1;
+        invoke BetweenWorldNEW2;
+        rewrite;
+        prenex;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        apply applyOverride;
+        prove by rewrite;
+        cases;
+            %\znote{pd in authenticTo}
+            instantiate pd\_\_2 == pd;
+            prove by rewrite;
+            instantiate pd\_\_0 == pd;
+            rearrange;
+			simplify;
+        next;
+            %\znote{pd in authenticFrom}
+            instantiate pd\_\_2 == pd;
+            prove by rewrite;
+            instantiate pd\_\_1 == pd;
+            rearrange;
+            simplify;
+    next;
+        invoke BetweenWorldB4;
+        invoke BetweenWorldNEW3;
+        invoke BetweenWorldNEW4;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB5;
+        rewrite;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        use lAuxWorldFromLoggedExpansion;
+        use lAuxWorldAuthenticFromExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB6;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldToLoggedExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        apply applyOverride;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB7;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldFromLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+        split (conAuthPurse~pd.from).statuS = epr
+          \lor (conAuthPurse~pd.from).statuS = epa;
+        simplify;
+    next;
+        invoke BetweenWorldB8;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        use lAuxWorldToLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+        split (conAuthPurse~pd.toN).statuS = eaTo
+          \lor (conAuthPurse~pd.toN).statuS = epv;
+        simplify;
+    next;
+        invoke BetweenWorldB9;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        with enabled (disjointCat, disjointDef) prove by rewrite;
+        equality substitute \{\};
+        apply extensionality to predicate
+            (ether \cup \{val~ pdAuth\}) \cap (\{val~ pd\} \cup \{ack~ pd\})
+             = ether \cap (\{val~ pd\} \cup \{ack~ pd\});
+        prenex;
+        rewrite;
+        apply extensionality to predicate
+            ether \cap (\{val~ pd\} \cup \{ack~ pd\}) = \{\};
+        rewrite;
+        instantiate x\_\_0 == x;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB10;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB11;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB12;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB13;
+        rewrite;
+    next;
+        invoke BetweenWorldB14;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB15;
+        prenex;
+        instantiate pds\_\_0 == pds, name\_\_1 == name\_\_0;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB16;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwReqOkayPRE]
+    use lPromotedBetweenWorldReqType;
+    with disabled (BetweenWorld) prove by reduce;
+    instantiate statuS\_\_0 == epr, balance\_\_0 == balance;
+    rewrite;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPromotedAuxWorldValType]
+    %\znote{Expand signatures}
+    invoke PhiBOpValSig;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    %\znote{Expose AuxWorld}
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    %\znote{Remove trivial cases}
+    rewrite;
+    %\znote{As name? is in conAuthPurse, simplify result of domain over oplus}
+    apply cupSubsetLeft to expression \{ name? \} \cup \dom~conAuthPurse;
+    rewrite;
+    %\znote{authenticTo and From appear in many of the cases, early substitute them}
+    equality substitute authenticTo;
+    equality substitute authenticFrom;
+    %\znote{Each part in AxuWorld generates a sub-goal}
+    cases;
+        %\znote{Case 1.1: ConWorld + conAuthPurse type check}
+        invoke ConWorld;
+        rewrite;
+        prenex;
+        instantiate n\_\_0 == n;
+        apply applyOverride1;
+        rewrite;
+        rearrange;
+        rewrite;
+        %\znote{Now only injectivity type checking remains}
+        use lPromotedConAuthNewPurseInjectivity[balance' := balance + pdAuth.value,
+            exLog' := exLog, name' := name, nextSeqNo' := nextSeqNo,
+            pdAuth' := pdAuth, statuS' := eaTo];
+        rearrange;
+        invoke ConWorld;
+        %\znote{Simplify prior to expansion of ConPurse}
+        %\znote{for better results}
+        simplify;
+        invoke ConPurse;
+        prenex;
+        rearrange;
+        simplify;
+        %\znote{Now two subsub-goals: archive from ConWorld}
+        %\znote{and pd from ConPurse with substitutions}
+        instantiate nld\_\_0 == nld;
+        instantiate pd\_\_0 == pd;
+        rearrange;
+        rewrite;
+        use fPayDetailsValueType[x := pdAuth];
+        rearrange;
+        apply rInNAT;
+        rewrite;
+    next;
+        %\znote{Case 1.2: by extensionality on each AuxWorld}
+        %\znote{equality, firstly at toInEpv}
+        equality substitute toInEpv;
+        apply extensionality to predicate
+            \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_77.toN).statuS = epv
+             \land (conAuthPurse~pd\_\_77.toN).pdAuth = pd\_\_77 \}
+            = \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.toN \in \dom~conAuthPurse \}
+              | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                  balance + pdAuth.value, statuS := eaTo])\}) pd\_\_79.toN).statuS = epv
+              \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                  balance + pdAuth.value, statuS := eaTo])\}) pd\_\_79.toN).pdAuth = pd\_\_79 \};
+        prenex;
+        rewrite;
+        %\znote{From the information in the assumption, we just need to apply oplus}
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.3: by extensionality on toInEapayee}
+        equality substitute toInEapayee;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_75.toN).statuS = eaTo
+              \land (conAuthPurse~pd\_\_75.toN).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                    balance + pdAuth.value, statuS := eaTo])\})
+                    pd\_\_77.toN).statuS = eaTo
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                    balance + pdAuth.value, statuS := eaTo])\}) pd\_\_77.toN).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.4: by extensionality on fromInEpr}
+        equality substitute fromInEpr;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_75.from).statuS = epr
+                \land (conAuthPurse~pd\_\_75.from).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                balance + pdAuth.value, statuS := eaTo])\}) pd\_\_77.from).statuS = epr
+             \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                balance + pdAuth.value, statuS := eaTo])\}) pd\_\_77.from).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on fromInEpa}
+        equality substitute fromInEpa;
+        apply extensionality to predicate
+            \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_79.from).statuS = epa
+                \land (conAuthPurse~pd\_\_79.from).pdAuth = pd\_\_79 \}
+            = \{ pd\_\_81: \{ pd\_\_82: PayDetails | pd\_\_82.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                balance + pdAuth.value, statuS := eaTo])\}) pd\_\_81.from).statuS = epa
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                balance + pdAuth.value, statuS := eaTo])\})
+                pd\_\_81.from).pdAuth = pd\_\_81 \};
+        prenex;
+        rewrite;
+        apply applyOverride1;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on allLogs}
+        equality substitute allLogs;
+        apply extensionality to predicate
+            archive \cup \{ n\_\_15: \dom~conAuthPurse; pd\_\_60: PayDetails
+                | pd\_\_60 \in (conAuthPurse~n\_\_15).exLog \}
+            = archive \cup \{ n\_\_16: \dom~conAuthPurse; pd\_\_61: PayDetails
+                | pd\_\_61 \in ((conAuthPurse \oplus \{(name?, \theta ConPurse[balance :=
+                balance + pdAuth.value, statuS := eaTo])\}) n\_\_16).exLog \};
+        prenex;
+        rewrite;
+        prenex;
+        cases;
+            instantiate n\_\_1 == n, pd\_\_2 == pd;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+        next;
+            instantiate n\_\_2 == n\_\_0, pd\_\_3 == pd\_\_0;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+            split \lnot n = name?;
+            simplify;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPromotedBetweenWorldValType]
+    %\znote{Start by assuming AuxWorld properly typed}
+    use lPromotedAuxWorldValType;
+    rearrange;
+    simplify;
+    %\znote{Expand the signatures}
+    invoke PhiBOpValSig;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    invoke BetweenWorld;
+    cases;
+        invoke BetweenWorldB1;
+        rewrite;
+    next;
+        %\znote{For each B property, it follows directly by expanding}
+        %\znote{the appropriate AuxWorld component, providing the trivial}
+        %\znote{instantiations, as well as applying override application.}
+        invoke BetweenWorldB2;
+        invoke BetweenWorldB1;
+        rewrite;
+        prenex;
+        instantiate pd\_\_1 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB3;
+        invoke BetweenWorldNEW1;
+        invoke BetweenWorldNEW2;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB4;
+        invoke BetweenWorldNEW3;
+        invoke BetweenWorldNEW4;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB5;
+        rewrite;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        use lAuxWorldFromLoggedExpansion;
+        use lAuxWorldAuthenticFromExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB6;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldToLoggedExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        apply applyOverride;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB7;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldFromLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+        split (conAuthPurse~pd.from).statuS = epr
+          \lor (conAuthPurse~pd.from).statuS = epa;
+        simplify;
+    next;
+        invoke BetweenWorldB8;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        use lAuxWorldToLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+        split (conAuthPurse~pd.toN).statuS = eaTo
+            \lor (conAuthPurse~pd.toN).statuS = epv;
+        simplify;
+    next;
+        invoke BetweenWorldB9;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        with enabled (disjointCat, disjointDef) prove by rewrite;
+        equality substitute \{\};
+        apply extensionality to predicate
+            (ether \cup \{ack~ pdAuth\}) \cap (\{val~ pd\} \cup \{ack~ pd\})
+             = ether \cap (\{val~ pd\} \cup \{ack~ pd\});
+        prenex;
+        rewrite;
+        apply extensionality to predicate
+            ether \cap (\{val~ pd\} \cup \{ack~ pd\}) = \{\};
+        rewrite;
+        instantiate x\_\_0 == x;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB10;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB11;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB12;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB13;
+        rewrite;
+    next;
+        invoke BetweenWorldB14;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB15;
+        prenex;
+        instantiate pds\_\_0 == pds, name\_\_1 == name\_\_0;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB16;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[PhiBOpValSig\$domainCheck]
+    prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[tBetwValOkayPRE]
+    use lPromotedBetweenWorldValType;
+    with disabled (BetweenWorld) prove by reduce;
+    instantiate statuS\_\_0 == epv, balance\_\_0 == balance;
+    rewrite;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    rewrite;
+    use fPayDetailsValueType[x := pdAuth];
+    rearrange;
+    apply rInNAT;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPromotedAuxWorldAckType]
+    %\znote{Expand signatures}
+    invoke PhiBOpAckSig;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    %\znote{Expose AuxWorld}
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    %\znote{Remove trivial cases}
+    rewrite;
+    %\znote{As name? is in conAuthPurse, simplify result of domain over oplus}
+    apply cupSubsetLeft to expression \{ name? \} \cup \dom~conAuthPurse;
+    rewrite;
+    %\znote{authenticTo and From appear in many of the cases, early substitute them}
+    equality substitute authenticTo;
+    equality substitute authenticFrom;
+    %\znote{Each part in AxuWorld generates a sub-goal}
+    cases;
+        %\znote{Case 1.1: ConWorld + conAuthPurse type check}
+        invoke ConWorld;
+        rewrite;
+        prenex;
+        instantiate n\_\_0 == n;
+        apply applyOverride1;
+        rewrite;
+        rearrange;
+        rewrite;
+        %\znote{Now only injectivity type checking remains}
+        use lPromotedConAuthNewPurseInjectivity[balance' := balance,
+            exLog' := exLog, name' := name, nextSeqNo' := nextSeqNo,
+            pdAuth' := pdAuth, statuS' := eaFrom];
+        rearrange;
+        invoke ConWorld;
+        %\znote{Simplify prior to expansion of ConPurse}
+        %\znote{for better results}
+        simplify;
+        invoke ConPurse;
+        prenex;
+        rearrange;
+        simplify;
+        %\znote{Now two subsub-goals: archive from ConWorld}
+        %\znote{and pd from ConPurse with substitutions}
+        instantiate nld\_\_0 == nld;
+        instantiate pd\_\_0 == pd;
+        rewrite;
+    next;
+        %\znote{Case 1.2: by extensionality on each AuxWorld}
+        %\znote{equality, firstly at toInEpv}
+        equality substitute toInEpv;
+        apply extensionality to predicate
+            \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_77.toN).statuS = epv
+             \land (conAuthPurse~pd\_\_77.toN).pdAuth = pd\_\_77 \}
+            = \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.toN \in \dom~conAuthPurse \}
+              | ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    statuS := eaFrom])\}) pd\_\_79.toN).statuS = epv
+              \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    statuS := eaFrom])\}) pd\_\_79.toN).pdAuth = pd\_\_79 \};
+        prenex;
+        rewrite;
+        %\znote{From the information in the assumption, we just need to apply oplus}
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.3: by extensionality on toInEapayee}
+        equality substitute toInEapayee;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_75.toN).statuS = eaTo
+              \land (conAuthPurse~pd\_\_75.toN).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\})
+                    pd\_\_77.toN).statuS = eaTo
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    statuS := eaFrom])\}) pd\_\_77.toN).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.4: by extensionality on fromInEpr}
+        equality substitute fromInEpr;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_75.from).statuS = epr
+                \land (conAuthPurse~pd\_\_75.from).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    statuS := eaFrom])\}) pd\_\_77.from).statuS = epr
+             \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    statuS := eaFrom])\}) pd\_\_77.from).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on fromInEpa}
+        equality substitute fromInEpa;
+        apply extensionality to predicate
+            \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_79.from).statuS = epa
+                \land (conAuthPurse~pd\_\_79.from).pdAuth = pd\_\_79 \}
+            = \{ pd\_\_81: \{ pd\_\_82: PayDetails | pd\_\_82.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    statuS := eaFrom])\}) pd\_\_81.from).statuS = epa
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    statuS := eaFrom])\}) pd\_\_81.from).pdAuth = pd\_\_81 \};
+        prenex;
+        rewrite;
+        apply applyOverride1;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on allLogs}
+        equality substitute allLogs;
+        apply extensionality to predicate
+            archive \cup \{ n\_\_15: \dom~conAuthPurse; pd\_\_60: PayDetails
+                | pd\_\_60 \in (conAuthPurse~n\_\_15).exLog \}
+            = archive \cup \{ n\_\_16: \dom~conAuthPurse; pd\_\_61: PayDetails
+                | pd\_\_61 \in ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    statuS := eaFrom])\}) n\_\_16).exLog \};
+        prenex;
+        rewrite;
+        prenex;
+        cases;
+            instantiate n\_\_1 == n, pd\_\_2 == pd;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+        next;
+            instantiate n\_\_2 == n\_\_0, pd\_\_3 == pd\_\_0;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+            split \lnot n = name?;
+            simplify;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[PhiBOpAckSig\$domainCheck]
+    prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[lPromotedBetweenWorldAckType]
+    %\znote{Start by assuming AuxWorld properly typed}
+    use lPromotedAuxWorldAckType;
+    rearrange;
+    simplify;
+    %\znote{Expand the signatures}
+    invoke PhiBOpAckSig;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    invoke BetweenWorld;
+    cases;
+        invoke BetweenWorldB1;
+        rewrite;
+    next;
+        %\znote{For each B property, it follows directly by expanding}
+        %\znote{the appropriate AuxWorld component, providing the trivial}
+        %\znote{instantiations, as well as applying override application.}
+        invoke BetweenWorldB2;
+        invoke BetweenWorldB1;
+        rewrite;
+        prenex;
+        instantiate pd\_\_1 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB3;
+        invoke BetweenWorldNEW1;
+        invoke BetweenWorldNEW2;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB4;
+        invoke BetweenWorldNEW3;
+        invoke BetweenWorldNEW4;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB5;
+        rewrite;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        use lAuxWorldFromLoggedExpansion;
+        use lAuxWorldAuthenticFromExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB6;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldToLoggedExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        apply applyOverride;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB7;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldFromLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+        split (conAuthPurse~pd.from).statuS = epr
+          \lor (conAuthPurse~pd.from).statuS = epa;
+        simplify;
+    next;
+        invoke BetweenWorldB8;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        use lAuxWorldToLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+        split (conAuthPurse~pd.toN).statuS = eaTo
+            \lor (conAuthPurse~pd.toN).statuS = epv;
+        simplify;
+    next;
+        invoke BetweenWorldB9;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        with enabled (disjointCat, disjointDef) prove by rewrite;
+        equality substitute \{\};
+        apply extensionality to predicate
+            (\{val~ pd\} \cup \{ack~ pd\}) \cap (ether \cup \{ mondexError \})
+            = ether \cap (\{val~ pd\} \cup \{ack~ pd\});
+        prenex;
+        rewrite;
+        apply extensionality to predicate
+            ether \cap (\{val~ pd\} \cup \{ack~ pd\}) = \{\};
+        rewrite;
+        instantiate x\_\_0 == x;
+        prove by rewrite;
+        split x = val~ pd;
+        simplify;
+    next;
+        invoke BetweenWorldB10;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB11;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB12;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB13;
+        rewrite;
+    next;
+        invoke BetweenWorldB14;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB15;
+        prenex;
+        instantiate pds\_\_0 == pds, name\_\_1 == name\_\_0;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB16;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwAckOkayPRE]
+    use lPromotedBetweenWorldAckType;
+    with disabled (BetweenWorld) prove by reduce;
+    instantiate statuS\_\_0 == epa, pdAuth\_\_0 == pdAuth;
+    rewrite;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged, pdAuth' == pdAuth;
+    rewrite;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwReadExceptionLogEafromOkayPRE]
+    use lPromotedBetweenWorldType[m! := mondexError, statuS := eaFrom];
+    with disabled (BetweenWorld) prove by reduce;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged, m! == mondexError;
+    with disabled (BetweenWorld) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwReadExceptionLogOkayPRE]
+    use lPromotedBetweenWorldType[m! := mondexError, statuS := eaFrom];
+    with disabled (BetweenWorld) prove by reduce;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS,
+        nextSeqNo' == nextSeqNo, pdAuth' == pdAuth;
+    rewrite;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged, m! == mondexError;
+    with disabled (BetweenWorld) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[PhiBOpClearExceptionLogSig\$domainCheck]
+    invoke PhiBOpBranchesSig;
+    prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[lPromotedAuxWorldClearExceptionLogType]
+    %\znote{Expand signatures}
+    invoke PhiBOpClearExceptionLogSig;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    %\znote{Expose AuxWorld}
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    %\znote{Remove trivial cases}
+    rewrite;
+    %\znote{As name? is in conAuthPurse, simplify result of domain over oplus}
+    apply cupSubsetLeft to expression \{ name? \} \cup \dom~conAuthPurse;
+    rewrite;
+    %\znote{authenticTo and From appear in many of the cases, early substitute them}
+    equality substitute authenticTo;
+    equality substitute authenticFrom;
+    %\znote{Each part in AxuWorld generates a sub-goal}
+    cases;
+        %\znote{Case 1.1: ConWorld + conAuthPurse type check}
+        invoke ConWorld;
+        rewrite;
+        prenex;
+        instantiate n\_\_0 == n;
+        apply applyOverride1;
+        rewrite;
+        rearrange;
+        rewrite;
+        %\znote{Now only injectivity type checking remains}
+        use lPromotedConAuthNewPurseInjectivity[balance' := balance,
+            exLog' := \{\}, name' := name, nextSeqNo' := nextSeqNo,
+            pdAuth' := pdAuth, statuS' := eaFrom];
+        rearrange;
+        invoke ConWorld;
+        %\znote{Simplify prior to expansion of ConPurse}
+        %\znote{for better results}
+        simplify;
+        invoke ConPurse;
+        prenex;
+        rearrange;
+        rewrite;
+        %\znote{Now two subsub-goals: archive from ConWorld}
+        %\znote{and pd from ConPurse with substitutions}
+        instantiate nld\_\_0 == nld;
+        rewrite;
+    next;
+        %\znote{Case 1.2: by extensionality on each AuxWorld}
+        %\znote{equality, firstly at toInEpv}
+        equality substitute toInEpv;
+        apply extensionality to predicate
+            \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_77.toN).statuS = epv
+             \land (conAuthPurse~pd\_\_77.toN).pdAuth = pd\_\_77 \}
+            = \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.toN \in \dom~conAuthPurse \}
+              | ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := \{\}, statuS := eaFrom])\})
+                    pd\_\_79.toN).statuS = epv
+              \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := \{\},
+                    statuS := eaFrom])\}) pd\_\_79.toN).pdAuth = pd\_\_79 \};
+        prenex;
+        rewrite;
+        %\znote{From the information in the assumption, we just need to apply oplus}
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.3: by extensionality on toInEapayee}
+        equality substitute toInEapayee;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.toN \in \dom~conAuthPurse \}
+              | (conAuthPurse~pd\_\_75.toN).statuS = eaTo
+              \land (conAuthPurse~pd\_\_75.toN).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.toN \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := \{\},
+                    statuS := eaFrom])\}) pd\_\_77.toN).statuS
+                = eaTo
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := \{\},
+                    statuS := eaFrom])\}) pd\_\_77.toN).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.4: by extensionality on fromInEpr}
+        equality substitute fromInEpr;
+        apply extensionality to predicate
+            \{ pd\_\_75: \{ pd\_\_76: PayDetails | pd\_\_76.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_75.from).statuS = epr
+                \land (conAuthPurse~pd\_\_75.from).pdAuth = pd\_\_75 \}
+            = \{ pd\_\_77: \{ pd\_\_78: PayDetails | pd\_\_78.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := \{\},
+                    statuS := eaFrom])\}) pd\_\_77.from).statuS = epr
+             \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := \{\},
+                    statuS := eaFrom])\}) pd\_\_77.from).pdAuth = pd\_\_77 \};
+        prenex;
+        rewrite;
+        apply applyOverride;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on fromInEpa}
+        equality substitute fromInEpa;
+        apply extensionality to predicate
+            \{ pd\_\_79: \{ pd\_\_80: PayDetails | pd\_\_80.from \in \dom~conAuthPurse \}
+                | (conAuthPurse~pd\_\_79.from).statuS = epa
+                \land (conAuthPurse~pd\_\_79.from).pdAuth = pd\_\_79 \}
+            = \{ pd\_\_81: \{ pd\_\_82: PayDetails | pd\_\_82.from \in \dom~conAuthPurse \}
+                | ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := \{\},
+                    statuS := eaFrom])\}) pd\_\_81.from).statuS = epa
+                \land ((conAuthPurse \oplus \{(name?, \theta ConPurse[exLog := \{\},
+                    statuS := eaFrom])\}) pd\_\_81.from).pdAuth = pd\_\_81 \};
+        prenex;
+        rewrite;
+        apply applyOverride1;
+        rewrite;
+    next;
+        %\znote{Case 1.5: by extensionality on allLogs}
+        equality substitute allLogs;
+        apply extensionality to predicate
+            archive \cup \{ n\_\_15: \dom~conAuthPurse; pd\_\_60: PayDetails
+                | pd\_\_60 \in (conAuthPurse~n\_\_15).exLog \}
+            = archive \cup \{ n\_\_16: \dom~conAuthPurse; pd\_\_61: PayDetails
+                | pd\_\_61 \in ((conAuthPurse \oplus \{(name?, \theta ConPurse[
+                    exLog := \{\}, statuS := eaFrom])\}) n\_\_16).exLog \};
+        prenex;
+        rewrite;
+        prenex;
+        cases;
+            instantiate n\_\_1 == n, pd\_\_3 == pd;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+            instantiate pd\_\_1 == pd;
+            rearrange;
+            rewrite;
+        next;
+            instantiate n\_\_2 == n\_\_0, pd\_\_4 == pd\_\_0;
+            rearrange;
+            apply applyOverride1;
+            rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPromotedBetweenWorldClearExceptionLogType]
+    %\znote{Start by assuming AuxWorld properly typed}
+    use lPromotedAuxWorldClearExceptionLogType;
+    rearrange;
+    simplify;
+    %\znote{Expand the signatures}
+    invoke PhiBOpClearExceptionLogSig;
+    invoke PhiBOpBranchesSig;
+    invoke PhiBOpSig;
+    invoke BetweenOpSig;
+    invoke BetweenWorld;
+    cases;
+        invoke BetweenWorldB1;
+        rewrite;
+    next;
+        %\znote{For each B property, it follows directly by expanding}
+        %\znote{the appropriate AuxWorld component, providing the trivial}
+        %\znote{instantiations, as well as applying override application.}
+        invoke BetweenWorldB2;
+        invoke BetweenWorldB1;
+        rewrite;
+        prenex;
+        instantiate pd\_\_1 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB3;
+        invoke BetweenWorldNEW1;
+        invoke BetweenWorldNEW2;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB4;
+        invoke BetweenWorldNEW3;
+        invoke BetweenWorldNEW4;
+        rewrite;
+        prenex;
+        instantiate pd\_\_2 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate pd\_\_1 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB5;
+        rewrite;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        apply applyOverride;
+        prove by rewrite;
+        use lAuxWorldFromLoggedExpansion;
+        use lAuxWorldAuthenticFromExpansion;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB6;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldToLoggedExpansion;
+        use lAuxWorldAuthenticToExpansion;
+        apply applyOverride;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB7;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticFromExpansion;
+        use lAuxWorldFromLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+        split (conAuthPurse~pd.from).statuS = epr
+          \lor (conAuthPurse~pd.from).statuS = epa;
+        simplify;
+    next;
+        invoke BetweenWorldB8;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        use lAuxWorldAuthenticToExpansion;
+        use lAuxWorldToLoggedExpansion;
+        apply applyOverride;
+        prove by rewrite;
+        split (conAuthPurse~pd.toN).statuS = eaTo
+            \lor (conAuthPurse~pd.toN).statuS = epv;
+        simplify;
+    next;
+        invoke BetweenWorldB9;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        with enabled (disjointCat, disjointDef) prove by rewrite;
+        equality substitute \{\};
+        apply extensionality to predicate
+            (\{val~ pd\} \cup \{ack~ pd\}) \cap (ether \cup \{ mondexError \})
+            = ether \cap (\{val~ pd\} \cup \{ack~ pd\});
+        prenex;
+        rewrite;
+        apply extensionality to predicate
+            ether \cap (\{val~ pd\} \cup \{ack~ pd\}) = \{\};
+        rewrite;
+        instantiate x\_\_0 == x;
+        prove by rewrite;
+        split x = val~ pd;
+        simplify;
+    next;
+        invoke BetweenWorldB10;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB11;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB12;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB13;
+        rewrite;
+    next;
+        invoke BetweenWorldB14;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB15;
+        prenex;
+        instantiate pds\_\_0 == pds, name\_\_1 == name\_\_0;
+        prove by rewrite;
+    next;
+        invoke BetweenWorldB16;
+        prenex;
+        instantiate pd\_\_0 == pd;
+        prove by rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwClearExceptionLogEafromOkayPRE]
+    use lPromotedBetweenWorldClearExceptionLogType;
+    with disabled (BetweenWorld) prove by reduce;
+    instantiate exLog\_\_0 == exLog;
+    rewrite;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwClearExceptionLogOkayPRE]
+    use lPromotedBetweenWorldClearExceptionLogType;
+    with disabled (BetweenWorld) prove by reduce;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS;
+    instantiate exLog\_\_1 == exLog;
+    rewrite;
+    instantiate nextSeqNo' == nextSeqNo, pdAuth' == pdAuth;
+    rewrite;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    rewrite;
+    invoke \Delta ConPurse;
+    invoke ConPurse;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwAuthoriseExLogClearOkayPRE]
+\end{zproof}%HERE - lBetweenWorldArchiveExpansion is in ch10
+    with disabled (BetweenWorld) prove by reduce;
+    instantiate allLogs' == allLogs, authenticFrom' == authenticFrom,
+        authenticTo' == authenticTo, definitelyLost' == definitelyLost,
+        fromInEpa' == fromInEpa, fromInEpr' == fromInEpr,
+        fromLogged' == fromLogged, maybeLost' == maybeLost,
+        toInEapayee' == toInEapayee, toInEpv' == toInEpv,
+        toLogged' == toLogged;
+    rewrite;
+    use lBetweenWorldArchiveExpansion;
+    rearrange;
+    simplify;
+    %MISSING:
+    %(\exists pds: \power_1 PayDetails @
+    %    (BetweenWorld[ether := ether \cup \{exceptionLogClear~(name?, image pds)\}]
+    %    \land (\forall e\_\_1: \{name?\} \cross pds @ e\_\_1 \in archive)))
+%%%\begin{}
+%%%   ArchivePaymentsInstance: \power_1~PayDetails
+%%%\where
+%%%   \Label{disabled rule dArchivePaymentsInstance} \forall name: NAMES @ ArchivePaymentsInstance = \{~ PayDetails | from = name ~\}
+%%%\end{}
+instantiate pds == ArchivePaymentsInstance;
+rearrange;
+use dArchivePaymentsInstance[name := name?];
+rearrange;
+rewrite;
+equality substitute ArchivePaymentsInstance;
+apply inPower;
+prenex;
+apply inCross2;
+prenex;
+instantiate e\_\_0 == e;
+rearrange;
+rewrite;
+\end{zproof}\end{LPScript}
+
+
+\section{\Conc\ consistency proofs}\plink{ch8.specproof-conc}
+
+This proof is a little different from what is on the text.
+\begin{LPScript}\begin{zproof}[tExistsInitialConWorld]
+\end{zproof}%HERE as before for BetweenWorld
+    prove by reduce;
+    instantiate
+      etherCh7'
+        == \{readExceptionLog, mondexError\}
+          \cup \bigcup
+                \{ cpd: CounterPartyDetails @ \{startFrom~ cpd, startTo~ cpd\} \},
+      conAuthPurseCh7' == \{\}, archiveCh7' == \{\};
+    prove by reduce;
+    instantiate
+      allLogs' == \{\}, authenticFrom' == \{\}, authenticTo' == \{\},
+      fromLogged' == \{\}, toLogged' == \{\}, toInEpv' == \{\},
+      toInEapayee' == \{\}, fromInEpr' == \{\}, fromInEpa' == \{\},
+      definitelyLost' == \{\}, maybeLost' == \{\},
+      ether'
+        == \{readExceptionLog, mondexError\}
+          \cup \bigcup
+                \{ cpd: CounterPartyDetails @ \{startFrom~ cpd, startTo~ cpd\} \};
+    prove by reduce;
+    apply dLogbook;
+    apply extensionality;
+    prove by rewrite;
+    apply inPower;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tPhiCOpPRE]
+    instantiate conAuthPurseCh7' == conAuthPurseCh7
+        \oplus  \{(name? \mapsto  \theta  ConPurse)\},
+        archiveCh7' == archiveCh7, etherCh7' == etherCh7,
+        m! == m?, balance' == (conAuthPurseCh7~name?).balance,
+        exLog' == (conAuthPurseCh7~name?).exLog,
+        name' == (conAuthPurseCh7~name?).name,
+        nextSeqNo' == (conAuthPurseCh7~name?).nextSeqNo,
+        pdAuth' == (conAuthPurseCh7~name?).pdAuth,
+        statuS' == (conAuthPurseCh7~name?).statuS;
+    invoke PhiCOp;
+    invoke PhiCOpSig;
+    invoke \Delta ConPurse;
+    invoke \Delta ConWorldCh7;
+    invoke ConOpSig;
+    use lPromotedConAuthPurseInjectivity[conAuthPurse := conAuthPurseCh7,
+        archive := archiveCh7, ether := etherCh7];
+    rearrange;
+    simplify;
+    invoke ConWorldCh7;
+    invoke ConWorld;
+    prove by rewrite;
+    instantiate nld\_\_0 == nld;
+    instantiate n\_\_0 == n;
+    prove by rewrite;
+    apply applyOverride;
+    prove by rewrite;
+    invoke (\_ \finj \_);
+    invoke (\_ \pinj \_);
+    invoke (\_ \ffun \_);
+    prove by rewrite;
+    apply oplusDef;
+    prove by rewrite;
+    split n = name?;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCIgnoreIsTotal]
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCIncreaseIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    with disabled (PhiCOp, ConPurse, IncreasePurseOkay) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCAbortIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    with disabled (PhiCOp, ConPurse, IncreasePurseOkay) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCStartFromIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    with disabled (PhiCOp, ConPurse, IncreasePurseOkay) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCStartToIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    with disabled (PhiCOp, ConPurse, IncreasePurseOkay) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCReqIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    with disabled (PhiCOp, ConPurse, IncreasePurseOkay) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCValIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    with disabled (PhiCOp, ConPurse, IncreasePurseOkay) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCAckIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    with disabled (PhiCOp, ConPurse, IncreasePurseOkay) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCReadExceptionLogIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    with disabled (PhiCOp, ConPurse, IncreasePurseOkay) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCClearExceptionLogIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    with disabled (PhiCOp, ConPurse, IncreasePurseOkay) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCAuthoriseExLogClearIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    with disabled (PhiCOp, ConPurse, IncreasePurseOkay) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tCArchiveIsTotal]
+    instantiate archiveCh7' == archiveCh7,
+        conAuthPurseCh7' == conAuthPurseCh7,
+        etherCh7' == etherCh7, m! == mondexError;
+    invoke CArchive;
+    invoke ConOpSig;
+    invoke \Delta ConWorldCh7;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[PhiCOpBranchesSig\$domainCheck]
+    prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[lConAuthPurseInjFinite]
+    use lPFunSubsetOplusUnitRel[NAME, \lblot balance: \num;exLog:
+        \power \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo:
+        \num;value: \num \rblot;name: NAME;nextSeqNo: \num;pdAuth:
+        \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo:
+        \num;value:\num \rblot;statuS: STATUS \rblot]
+            [f := conAuthPurseCh7, x := name?, y := \theta ConPurse];
+    use lPromotedConAuthPurseInjectivity[archive := archiveCh7,
+        conAuthPurse := conAuthPurseCh7, ether := etherCh7];
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+Again, to get the instantiations and expansions right, as well
+as the (minimal) necessary auxiliary lemmas, took quite a while.
+%
+\begin{LPScript}\begin{zproof}[tConcIncreaseOkayPRE]
+    with disabled (ConWorldCh7, ConPurse) prove by reduce;
+    instantiate nextSeqNo\_\_0 == nextSeqNo,
+        nextSeqNo' == nextSeqNo, etherCh7' == etherCh7;
+    use lConAuthPurseInjFinite;
+    with disabled (ConPurse) prove by reduce;
+    instantiate n\_\_0 == n;
+    split n = name?;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tConcAbortOkayPRE]
+    with disabled (ConWorldCh7, ConPurse) prove by reduce;
+    instantiate nextSeqNo\_\_0 == nextSeqNo, exLog\_\_0 == exLog,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS,
+        nextSeqNo' == nextSeqNo, pdAuth' == pdAuth,
+        exLog' == exLog \cup (\IF statuS = epv \lor statuS = epa
+            \THEN \{ pdAuth \} \ELSE \{\}),
+        etherCh7' == etherCh7;
+    use lConAuthPurseInjFinite;
+    with disabled (ConPurse) prove by reduce;
+    split statuS = epv \lor statuS = epa;
+    simplify;
+    cases;
+        invoke ConPurse;
+        prove by rewrite;
+        apply applyOverride1;
+        instantiate pd\_\_0 == pd;
+        instantiate n\_\_0 == n;
+        split n \in \dom~conAuthPurseCh7;
+        prove by rewrite;
+    cases;
+        %\znote{Now only remains to prove (twice the same) that}
+        %conAuthPurseCh7 \oplus \{(name?, \theta ConPurse[exLog := exLog \cup
+        %    \{pdAuth\}, statuS := eaFrom])\} \in NAMES \finj ConPurse
+    next;
+    next;
+    next;
+        apply applyOverride1;
+        invoke ConPurse;
+        prove by rewrite;
+        instantiate pd\_\_0 == pd;
+        instantiate n\_\_0 == n;
+        prove by rewrite;
+        %MISSING:
+        %conAuthPurseCh7 \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\}
+        %    \in NAMES \finj ConPurse
+    next;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tConcStartFromOkayPRE]
+    with disabled (ConWorldCh7, ConPurse) prove by reduce;
+    instantiate nextSeqNo\_\_1 == nextSeqNo,
+        exLog\_\_0 == exLog, pdAuth\_\_1 == pdAuth,
+        statuS\_\_0 == statuS;
+    instantiate nextSeqNo\_\_2 == nextSeqNo,
+        pdAuth\_\_2 == pdAuth, statuS\_\_1 == statuS;
+    instantiate etherCh7' == etherCh7, nextSeqNo' == nextSeqNo + 1,
+        nextSeqNo\_\_0 == nextSeqNo, pdAuth\_\_0 == pdAuth;
+    prove by reduce;
+    apply applyOverride1;
+    instantiate n\_\_0 == n;
+    split n \in \dom~conAuthPurseCh7;
+    prove by rewrite;
+    cases;
+        %MISSING:
+        %conAuthPurseCh7 \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+        %    pdAuth := \theta PayDetails[name/from, nextSeqNo/fromSeqNo,
+        %        toN := ((startFrom~ \inv)~ m?).name, toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+        %        value := ((startFrom~ \inv)~ m?).value], statuS := epr])\}
+        %            \in NAMES \finj ConPurse
+    next;
+        %MISSING:
+        %conAuthPurseCh7\oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+        %    pdAuth := \theta PayDetails[name/from, nextSeqNo/fromSeqNo,
+        %        toN := ((startFrom~ \inv)~ m?).name,  toSeqNo := ((startFrom~ \inv)~ m?).nextSeqNo,
+        %        value := ((startFrom~ \inv)~ m?).value], statuS := epr])\}
+        %            \in NAMES \finj ConPurse
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tConcStartToOkayPRE]
+    with disabled (ConWorldCh7, ConPurse) prove by reduce;
+    instantiate nextSeqNo\_\_1 == nextSeqNo,
+        exLog\_\_0 == exLog, pdAuth\_\_1 == pdAuth,
+        statuS\_\_0 == statuS;
+    instantiate nextSeqNo\_\_2 == nextSeqNo,
+        pdAuth\_\_2 == pdAuth, statuS\_\_1 == statuS;
+    instantiate etherCh7' == etherCh7, nextSeqNo' == nextSeqNo + 1,
+        nextSeqNo\_\_0 == nextSeqNo, pdAuth\_\_0 == pdAuth;
+    prove by reduce;
+    apply applyOverride1;
+    instantiate n\_\_0 == n;
+    split n \in \dom~conAuthPurseCh7;
+    prove by rewrite;
+    cases;
+        %MISSING:
+        %conAuthPurseCh7 \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+        %    pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+        %        fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, name/toN, nextSeqNo/toSeqNo,
+        %        value := ((startTo~ \inv)~ m?).value], statuS := epv])\}
+        %            \in NAMES \finj ConPurse
+    next;
+        %MISSING:
+        %conAuthPurseCh7 \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo,
+        %    pdAuth := \theta PayDetails[from := ((startTo~ \inv)~ m?).name,
+        %        fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, name/toN, nextSeqNo/toSeqNo,
+        %        value := ((startTo~ \inv)~ m?).value], statuS := epv])\}
+        %            \in NAMES \finj ConPurse
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tConcReqOkayPRE]
+    with disabled (ConWorldCh7, ConPurse) prove by reduce;
+    instantiate etherCh7' == etherCh7, balance\_\_0 == balance,
+        statuS\_\_0 == statuS;
+    prove by reduce;
+    apply applyOverride1;
+    instantiate n\_\_0 == n;
+    split n = name?;
+    prove by rewrite;
+    %MISSING:
+    %conAuthPurseCh7
+    %     \oplus \{(name?,
+    %               \theta
+    %                 ConPurse[balance := balance + \negate~1 * pdAuth.value,
+    %                          name := pdAuth.from, statuS := epa])\}
+    %     \in NAMES \finj ConPurse
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tConcValOkayPRE]
+    with disabled (ConWorldCh7, ConPurse) prove by reduce;
+    instantiate etherCh7' == etherCh7, balance\_\_0 == balance,
+        statuS\_\_0 == statuS;
+    prove by reduce;
+    apply applyOverride1;
+    instantiate n\_\_0 == n;
+    prove by rewrite;
+    use fPayDetailsValueType[x := pdAuth];
+    apply rInNAT;
+    rearrange;
+    rewrite;
+    %MISSING:
+    %conAuthPurseCh7 \oplus \{(name?, \theta ConPurse[balance := balance + pdAuth.value,
+    %    statuS := eaTo])\} \in NAMES \finj ConPurse
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tConcAckOkayPRE]
+    with disabled (ConWorldCh7, ConPurse) prove by reduce;
+    instantiate etherCh7' == etherCh7, pdAuth' == pdAuth,
+        statuS\_\_0 == statuS, pdAuth\_\_0 == pdAuth;
+    prove by reduce;
+    apply applyOverride1;
+    instantiate n\_\_0 == n;
+    prove by rewrite;
+    split n = name?;
+    rewrite;
+    cases;
+    %MISSING:
+    %conAuthPurseCh7 \oplus \{(name?, \theta ConPurse[statuS := eaFrom])\} \in NAMES \finj ConPurse
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tConcReadExceptionLogOkayPRE]
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[PhiCOpClearExceptionLogSig\$domainCheck]
+    prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[tConcClearExceptionLogOkayPRE]
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tConcAuthoriseExLogClearOkayPRE]
+    prove by reduce;
+    instantiate etherCh7' == etherCh7, balance\_\_0 == balance,
+        exLog\_\_0 == exLog, name\_\_0 == name, nextSeqNo\_\_0 == nextSeqNo,
+        pdAuth\_\_0 == pdAuth, statuS\_\_0 == statuS,
+        balance' == balance, exLog' == exLog, name' == name,
+        nextSeqNo' == nextSeqNo, pdAuth' == pdAuth,
+        statuS' == statuS;
+    prove by reduce;
+    %MISSING:
+\end{zproof}\end{LPScript}
+
+\newpage
+\section{Summary}\label{ch8.ps.summary}
+\lpscriptsummary
+
+
+%%%try
+%%%                 \Local conAuthPurse \in \Global NAMES \finj ConPurse \\
+%%%           \land (\forall n: \Global \dom~\Local conAuthPurse
+%%%                    @ (\Local conAuthPurse \Local n).name = \Local n) \\
+%%%           \land \Local name? \in \Global NAMES \\
+%%%           \land \Local statuS = \Global epr \\
+%%%           \land ConPurse \\
+%%%           \land \Local name? \in \Global \dom~\Local conAuthPurse \\
+%%%           \land \theta ConPurse = \Local conAuthPurse \Local name? \\
+%%%           \land \Local name = \Local name? \\
+%%%  \implies
+%%%   \Local conAuthPurse
+%%%   \oplus \{(\Local name,
+%%%             \theta
+%%%               ConPurse[balance
+%%%                          := \Local balance + \negate~1 * \Local pdAuth.value,
+%%%                        name := \Local pdAuth.from, statuS := \Global epa])\}
+%%%   \in \Global NAMES \finj ConPurse;
+%%%use
+%%%  rPFunElement[NAME,
+%%%               \lblot balance: \num;
+%%%                      exLog:
+%%%                        \power \lblot from: NAME; fromSeqNo: \num; toN: NAME;
+%%%                                      toSeqNo: \num; value: \num \rblot;
+%%%                      name: NAME; nextSeqNo: \num;
+%%%                      pdAuth:
+%%%                        \lblot from: NAME; fromSeqNo: \num; toN: NAME;
+%%%                               toSeqNo: \num; value: \num \rblot;
+%%%                      statuS: STATUS \rblot][f := conAuthPurse, x := name?,
+%%%                                             y := \theta ConPurse];
+%%%rearrange;
+%%%rewrite;
+%%%invoke (\_ \finj \_);
+%%%invoke (\_ \pinj \_);
+%%%invoke (\_ \ffun \_);
+%%%prove by rewrite;
+%%%invoke (\_ \pfun \_);
+%%%prove by rewrite;
+%%%cases;
+%%%apply oplusDef;
+%%%prove by rewrite;
+%%%invoke ConPurse;
+%%%prove by rewrite;
+%%%instantiate pd\_\_0 == pd;
+%%%prove by rewrite;
+%%%next;
+%%%apply oplusDef;
+%%%prove by reduce;
+%%%instantiate pd\_\_0 == pd;
+%%%prove by rewrite;
+%%%next;
+%%%rewrite;
+%%%instantiate x\_\_0 == x, y1\_\_0 == y1, y2\_\_0 == y2;
+%%%apply oplusDef;
+%%%prove by rewrite;
+%%%split x = name;
+%%%simplify;
+%%%next;
+%%%simplify;
+%%%instantiate n == y1\_\_0;
+%%%instantiate n == y2;
+%%%apply oplusDef;
+%%%prove by rewrite;
+%%%instantiate x\_\_1 == x, y1\_\_1 == y1, y2\_\_1 == y2;
+%%%prove by rewrite;
+%%%split y1 = name;
+%%%simplify;
+%%%split y2 = name;
+%%%simplify;
+%%%cases;
+%%%prove by reduce;
+%%%cases;
+%%%apply inDom;
+%%%prove by rewrite;
+%%%instantiate y\_\_0 == x;
+%%%prove by rewrite;
+%%%next;
+%%%instantiate n == y1;
+%%%rearrange;

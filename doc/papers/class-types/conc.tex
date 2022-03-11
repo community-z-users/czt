@@ -1,0 +1,34 @@
+\section{Conclusions and Discussion}
+
+In this paper, we discuss some of the difficulties encountered for
+typechecking Object-Z, such as inheritance, polymorphism, implicit
+downcasting, generic classes, and feature renaming. We present the
+model for class types that is used in the CZT Object-Z
+typechecker. This model of class types is flexible enough to represent
+the types of class reference expressions, polymorphic expressions, and
+class union expressions, all found in Object-Z, and also to handle
+renaming and generic class instantiations.
+
+We also present two type unification algorithms used for type
+inferencing and detecting type inconsistencies between
+expressions. The first enforces a weak form of unification
+between two class types, and the second enforces a strong
+form. The strong form of type consistency is used to detect possible
+implicit downcasts, while the weak form permits implicit downcasts
+provided there is at least one legal downcast. The CZT Object-Z
+typechecker gives users the flexibility to choose which form of typing
+to use.
+
+In the typechecker, we have found that the model of class types
+presented in this paper is sufficient for detecting type
+inconsistencies between Object-Z expressions and it makes type
+inference and applying the type rules straightforward. It also fits in
+well with the existing Z type system.
+
+\subsection{Other Work}
+
+We have drafted a set of Object-Z type rules using a combination of
+the calculus used by Palsberg \cite{palsberg95} and the type-inference
+rule metalanguage defined in \theStandard \cite{isoz}, and will
+continue to review and refine these. This will be coordinated with the
+continued effort developing the open-source CZT project.

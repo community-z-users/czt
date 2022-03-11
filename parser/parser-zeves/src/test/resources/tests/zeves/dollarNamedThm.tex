@@ -1,0 +1,56 @@
+\begin{zsection}
+   \SECTION dollarNamedThm \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{Aha}
+   a: \nat
+\end{schema}
+
+\begin{schema}{Test}
+   \Delta Aha \\
+   today: \nat \\
+   byNight: \nat
+\end{schema}
+
+Dollar in thm name and in variable name and list of names
+\begin{zproof}[bla\$dom]
+prenex;
+apply inDom to predicate x = \dom~f \cup \dom~r;
+apply S\$member;
+instantiate x == 10 + 5, y == \{ a: \nat; b:\nat | P(a,b) \},
+    z == 0, wierd\$ == 20; % wierd case for variable name that is allowed...
+prenex;
+with enabled (S\$member, inDom) prove;
+\end{zproof}
+
+\begin{zed}
+[Service, Data]
+\end{zed}
+
+\begin{axdef}
+   d0, d1: Data
+\\
+   s0, s1: Service
+\end{axdef}
+
+\begin{theorem}{lServDatWitness}
+   (\exists s: Service @ true) \land (\exists d: Data @ true)
+\end{theorem}
+
+dollar in usage
+\begin{zproof}[lServDatWitness]
+use d0\$declaration;
+use d1\$declaration;
+\end{zproof}
+
+Dashed variable (captured) names + duplicated dollar in domaincheck name
+\begin{zproof}[unammed\$n5\$domainCheck]
+prove by reduce;
+use bla[weird\$' := 10];
+instantiate x\$' == 10;
+\end{zproof}
+
+
+\begin{theorem}{tinteger}
+   \forall x: \num @ the\$integer~x = x
+\end{theorem}

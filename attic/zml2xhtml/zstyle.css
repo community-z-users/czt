@@ -1,0 +1,26 @@
+  div#axdefdeclarations {border-left-style: solid; padding: 10px 10px 10px 10px}
+  div#axdefpredicates {border-left-style: solid; border-top-style: solid; padding: 10px 10px 10px 10px}
+  div#axdefpredicates_notopline {border-left-style: solid; padding: 10px 10px 10px 10px}
+  
+  div#schemadeclarations {border-top-style: solid; border-left-style: solid; padding: 10px 10px 10px 10px}
+  div#schemadeclarationsnopredicates {border-top-style: solid; border-left-style: solid; border-bottom-style: solid;
+	padding: 10px 10px 10px 10px}
+
+  div#schemapredicates {border-left-style: solid; border-bottom-style: solid; padding: 10px 10px 10px 10px}
+  div#schemadividingline {border-bottom-style: solid}
+
+  div#genericschemadeclarations {border-top-style: double; border-left-style: solid; padding: 10px 10px 10px 10px;
+	                         border-top-width: 0.3cm}
+
+  div#schemadivline {border-bottom-style: solid}
+  table#schemadivline {border-left-style: solid}
+  
+  div#schemaheading {margin-left: 10px}
+
+  div#schema_area {width: 500px}
+  div#axdef_area {width: 500px}
+
+  div#keyword {font-weight: bold}
+
+
+

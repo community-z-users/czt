@@ -1,0 +1,17 @@
+section_BEGIN
+\begin{zsection}
+  \SECTION\ indexed\_processes \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{zed}
+     RingIndex == 0 \upto 10
+\end{zed}
+
+\begin{circus}
+	\circprocess\ RingDef \circdef \Interleave i: RingIndex \circindex\ IRingCell
+\end{circus}
+
+\begin{circus}
+	\circprocess\ Ring \circdef RingDef \lcircindex i \rcircindex
+\end{circus}
+

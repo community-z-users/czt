@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+<p>
+  Provides classes for parsing Z specifications written in
+  unicode or using LaTeX mark-up as defined in the ISO Standard for Z.
+  The overall structure of the parser is shown in the following picture:
+</p>
+
+<p align="center">
+<img src="doc-files/parser.jpg" border="0"> 
+<p>
+
+<p>
+  The {@link net.sourceforge.czt.parser.z.UnicodeParser}
+  is responsible for parsing Z specifications written in unicode.
+  It consists of an LALR {@link net.sourceforge.czt.parser.z.Parser},
+  which gets its input from the
+  {@link net.sourceforge.czt.parser.z.UnicodeScanner}.
+</p>
+<p>
+  According to the ISO Standard for Z, the lexis for Z specifications
+  consists of two phases: the context-free lexis and the context-sensitive
+  lexis.  The {@link net.sourceforge.czt.parser.z.ContextFreeScanner}
+  is an implementation of the context-free lexis described in section 7.2
+  of the Standard.  The context-free lexis is followed by the context-sensitive
+  lexis provided by {@link net.sourceforge.czt.parser.z.KeywordScanner} and
+  {@link net.sourceforge.czt.parser.z.OperatorScanner}.  The
+  {@link net.sourceforge.czt.parser.z.SmartScanner} resolves some ambiguities
+  in the grammer.
+</p>
+<p>
+  The {@link  net.sourceforge.czt.parser.z.LatexParser}
+  parses Z specifications in LaTeX.  This is done by first converting
+  the latex mark-up into unicode.  Then the UnicodeParser is used to parse
+  the specification.  The {@link net.sourceforge.czt.parser.util.CztReader}
+  is responsible for preserving the line and column number information of
+  the latex document.
+</p>
+<p>
+  The result of a parse is an abstract syntax tree (AST) representation
+  of the parsed specification.
+  Note that the strings, like for instance operator names,
+  used within the AST are provided in unicode independently
+  from the input language used (whether unicode or LaTeX).
+</p>
+
+<p>
+  Limitations and incompatibilities with the ISO Standard for Z:
+</p>
+
+<ul>
+  <li>
+    The parents of a section must either be already parsed (and
+    information about it accessible via section info objects), or the
+    sections must be provided in the right order, i.e. the parents of
+    a section must occur before the section having these parents.
+    This makes sure that the parser has access to the operator tables
+    (and latex mark-up table in case LaTeX mark-up is parsed)
+    of the parents of a section.
+  </li>
+  <li>
+    User defined operators must be defined before they are used.
+    This is not standard conforming since according to the standard,
+    the scope of an operator template is the whole section in which
+    it appears (not only from the operator template onwards).
+  </li>
+  <li>
+    (LaTeX parser only) Latex markup directives must be outside formal
+    paragraphs.  Currently they are just ignored inside formal paragraphs.
+  </li>
+  <li>
+    (LaTeX parser only) Latex markup directives must be defined before their
+    latex command is used.
+    This is not standard conforming since according to the standard,
+    the scope of a latex markup directive is the whole section in which
+    it appears (not only from the operator template onwards).
+  </li>
+</ul>
+
+</body>
+</html>

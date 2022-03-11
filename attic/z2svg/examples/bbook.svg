@@ -1,0 +1,79 @@
+<?xml version="1.0" standalone="no"?>
+
+<svg
+width="100%"
+height="200"
+version="1.1"
+baseProfile="full"
+onload="init()"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:ev="http://www.w3.org/2001/xml-events">
+
+<script type="text/ecmascript" xlink:href="../src/wffs.es"/>
+
+<rect x="10" y="10" width="400" height="200" fill="silver" outline="none" onclick="deselect()"/>
+<g id="wff_root" fill="black" sel="true">
+  <g sel="false">
+    <line x1="30" y1="50" x2="45" y2="50" stroke="black"
+      onclick="deselect()"/>
+    <g sel="true"><text x="50" y="50" font-family="CZT"
+      onclick="select(evt)" space="5">BirthdayBook</text></g>
+    <line x1="130" y1="50" x2="220" y2="50" stroke="black"
+      onclick="deselect()" space="5"/>
+    <line x1="220" y1="50" x2="220" y2="60" stroke="black"
+      onclick="deselect()"/>
+  </g>
+  <g sel="true" break="yes" indent="20">
+    <g sel="false">
+      <g sel="true"><text x="50" y="80" font-family="CZT"
+        onclick="select(evt)">known</text></g>
+      <text x="95" y="80" font-family="CZT"
+        onclick="select(evt)" space="5">:</text>
+      <g sel="true" break="maybe" indent="20">
+        <text x="105" y="80" font-family="CZT"
+          onclick="select(evt)" space="5">&#x2119;</text>
+        <g sel="true">
+          <text x="115" y="80" font-family="CZT"
+            onclick="select(evt)" space="3">NAME</text>
+        </g>
+      </g>
+    </g>
+    <g sel="false" break="yes">
+      <g sel="true"><text x="50" y="100" font-family="CZT"
+        onclick="select(evt)">birthday</text></g>
+      <text x="105" y="100" font-family="CZT"
+        onclick="select(evt)" space="5">:</text>
+      <g sel="true" break="maybe" indent="20">
+        <g sel="true"><text x="115" y="100" font-family="CZT"
+          onclick="select(evt)" space="5">NAME</text></g>
+        <g sel="true"><text x="155" y="100" font-family="CZT"
+          onclick="select(evt)" space="3">&#x21F8;</text></g>
+        <g sel="true"><text x="175" y="100" font-family="CZT"
+          onclick="select(evt)" space="3">DATE</text></g>
+      </g>
+    </g>
+    <line x1="30" y1="110" x2="90" y2="110" stroke="black"
+      onclick="deselect()" break="yes"/>
+    <g sel="true" break="yes">
+      <g sel="true"><text x="50" y="130" font-family="CZT"
+        onclick="select(evt)">known</text></g>
+      <text x="95" y="130" font-family="CZT"
+        onclick="select(evt)" space="5">=</text>
+      <g sel="true" break="maybe" indent="20">
+        <g sel="true"><text x="110" y="130" font-family="CZT"
+          onclick="select(evt)" space="5">dom</text></g>
+        <g sel="true"><text x="140" y="130" font-family="CZT"
+          onclick="select(evt)" space="3">birthday</text></g>
+      </g>
+    </g>
+  </g>
+  <line x1="30" y1="140" x2="220" y2="140" stroke="black"
+    onclick="deselect()" break="yes"/>
+  <line x1="220" y1="140" x2="220" y2="130" stroke="black"
+    onclick="deselect()"/>
+  <line x1="30" y1="50" x2="30" y2="140" stroke="black"
+    onclick="deselect()"/>
+</g>
+
+</svg>

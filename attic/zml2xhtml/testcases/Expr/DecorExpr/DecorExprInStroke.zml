@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>A DecorExpr using INSTROKE as the decoraction</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <DecorExpr>
+            <RefExpr>
+              <RefName><Word>A</Word></RefName>
+            </RefExpr>
+            <InStroke/>
+          </DecorExpr>
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

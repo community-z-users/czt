@@ -1,0 +1,57 @@
+\begin{algorithmic}[1]
+\STATE $Unify(s : Type,~t : Type)$\\
+\STATE \nexti\TBEGIN\\
+\STATE \nexti\nexti\TIF $s = TypeVar~\alpha$ \TTHEN\label{alg:start-variable-types}\\
+%\STATE \nexti\nexti\nexti\TIF $t = ClassType \mathrel{\_}$~  \TTHEN\label{alg:if-empty-class-type}\\
+%\STATE \nexti\nexti\nexti\nexti $\alpha :=
+%ClassTypeVar~t$\label{alg:then-empty-class-type}\\
+\STATE \nexti\nexti\nexti\TIF $t = ClassType \mathrel{\_}$~  \TTHEN $\alpha :=
+ClassTypeVar~t$\label{alg:empty-class-type}\\
+\STATE \nexti\nexti\nexti\TELSE\TIF $\alpha$ occurs in $t$ \TTHEN $FAIL$\\
+%\STATE \nexti\nexti\nexti\TELSE\TIF $t = TypeVar \_$~\TTHEN $PARTIAL$\\
+\STATE \nexti\nexti\nexti\TELSE\TIF $\alpha \neq t$ \TTHEN $\alpha := t$\\
+\STATE \nexti\nexti\TELSE\TIF $t = TypeVar~\alpha$ \TTHEN $Unify(\alpha, s)$\label{alg:end-variable-types}\\
+\STATE \nexti\nexti\TELSE\TIF $s = GivenType~ m \land t = GivenType~n$ \TTHEN\\
+\STATE \nexti\nexti\nexti\TIF $m \neq n$ \TTHEN $FAIL$\\
+\STATE \nexti\nexti\TELSE\TIF $s = GenType~ m \land t = GenType~n$ \TTHEN\\
+\STATE \nexti\nexti\nexti\TIF $m \neq n$ \TTHEN $FAIL$\\
+%\STATE \nexti\nexti\TELSE\TIF $s = PowerType~s_1 \land t = PowerType~t_1$ \TTHEN\\
+%\STATE \nexti\nexti\nexti $Unify(s_1, t_1)$\\
+\STATE \nexti\nexti\TELSE\TIF $s = PowerType~s_1 \land t = PowerType~t_1$ \TTHEN $Unify(s_1, t_1)$\\
+\STATE \nexti\nexti\TELSE\TIF $s = ProdType(s_1, \ldots, s_m) \land t = ProdType(t_1, \ldots, t_n)$ \TTHEN\\
+\STATE \nexti\nexti\nexti\TIF $m = n$ \TTHEN\\
+%\STATE \nexti\nexti\nexti\nexti\TFOR $i \in 1 \upto n$ \TDO\label{myline}\\
+%\STATE \nexti\nexti\nexti\nexti\nexti$Unify(s_i, t_i)$\\
+%\STATE \nexti\nexti\nexti\nexti\TEND\\
+\STATE \nexti\nexti\nexti\nexti\TFOR $i \in 1 \upto n$ \TDO
+$Unify(s_i, t_i)$ \TEND\\
+\STATE \nexti\nexti\nexti\TELSE $FAIL$\\
+\STATE \nexti\nexti\TELSE\TIF $s = SchemaType~p \land t = SchemaType~q$ \TTHEN\label{myline}\\
+\STATE \nexti\nexti\nexti $UnifySignature(p, q)$\label{alg:unify-signature}\\
+\STATE \nexti\nexti\TELSE\TIF $s=ClassTypeVar~s_1 \land t=ClassTypeVar~t_1$ \TTHEN
+      \label{alg:start-var-class-types}\\
+\STATE \nexti\nexti\nexti \TIF $s_1 \approx_{c} t_1$ \TTHEN%\\
+ $s_1 := s_1 \cup_{c} t_1;~ t_1 := s_1$\\
+\STATE \nexti\nexti\nexti \TELSE $FAIL$\\
+\STATE \nexti\nexti\TELSE\TIF $s = ClassTypeVar~s_1 \land t =
+ClassType\mathrel{\_}$~~\TTHEN\\
+\STATE \nexti\nexti\nexti\TIF $s_1 \approx_{c} t$ \TTHEN $s_1 := s_1 \cup_{c} t$\\
+\STATE \nexti\nexti\nexti\TELSE $FAIL$\label{alg:end-var-class-types}\\
+\STATE \nexti\nexti\TELSE\TIF $s = ClassType \{c_1, \ldots, c_m\} \land t =
+   ClassType\{d_1, \ldots, d_n\}$ \TTHEN\label{alg:state-ground-class-types}\\
+\STATE \nexti\nexti\nexti{\bf boolean} $matched := false$\\
+\STATE \nexti\nexti\nexti\TFOR $i \in 1 \upto m$ \TDO\\
+\STATE \nexti\nexti\nexti\nexti\TFOR $j \in 1 \upto n$ \TDO\\
+\STATE \nexti\nexti\nexti\nexti\nexti\TIF $c_i.refName = d_j.refName$ \TTHEN\\
+\STATE \nexti\nexti\nexti\nexti\nexti\nexti$matched := true;$\\
+%\STATE \nexti\nexti\nexti\nexti\nexti\nexti\TFOR $k \in 1 \upto \#c_i.type$ \TDO\\
+%\STATE \nexti\nexti\nexti\nexti\nexti\nexti\nexti $Unify(c_i.type(k), d_j.type(k))$\\
+%\STATE \nexti\nexti\nexti\nexti\nexti\nexti\TEND\\
+\STATE \nexti\nexti\nexti\nexti\nexti\nexti\TFOR  $k \in 1 \upto
+\#c_i.type$ \TDO $Unify(c_i.type(k), d_j.type(k))$ \TEND\\
+\STATE \nexti\nexti\nexti\nexti\TEND\\
+\STATE \nexti\nexti\nexti\TEND\\
+\STATE \nexti\nexti\nexti\TIF $\lnot matched$ \TTHEN $FAIL$\label{alg:end-ground-class-types}\\
+\STATE \nexti\nexti\TELSE $FAIL$\\
+\STATE \nexti\TEND
+\end{algorithmic}

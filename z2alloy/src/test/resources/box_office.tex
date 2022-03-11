@@ -1,0 +1,26 @@
+\begin{zsection}
+  \SECTION box_office \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+[Seat, Customer]
+\end{zed}
+
+
+ \begin{schema}{BoxOffice}
+  seating : \power Seat \\
+  sold : Seat \pfun Customer \\
+  \where
+  \dom(sold) \subseteq seating
+ \end{schema}
+
+\begin{zed}
+ Month ::= jan | feb | mar | apr | may | jun | jul | aug | sep | oct | nov | dec
+\end{zed}
+
+\begin{schema}{Date}
+ month : Month \\
+ day : 1..31
+  \where
+  month \in \{sep, apr, jun, nov\} \implies day \leq 30
+\end{schema}

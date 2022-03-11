@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+  <properties>
+    <title>Release Notes</title>
+  </properties>
+
+  <body>
+    <!-- Add new releases here -->
+    <release version="1.1" date="unreleased">
+      <action dev="Tim" type="update">
+        Add a new type of annotation known as a DefinitionUseAnn,
+        which is annotated to all *reference* ZNames (that is, ZNames
+        inside RefExps) that refers to the declaring name.
+      </action>
+      <action dev="Tim" type="update">
+        Add use before declaration functionalty that does not permit
+        recursive types. What was previously the use before
+        declaration options is now the recursive types option.
+      </action>
+      <action dev="Petra" type="update">
+        Add a more detailed explanation of the error for the case
+        that the hard space is missing between a schema name and
+        its decoration.
+      </action>
+    </release>
+    <release version="1.0" date="July 2007">
+      <action dev="Tim" type="fix">
+        Corrected bug 1688910 -- Characterisation rules not
+        implemented correctly
+      </action>
+      <action dev="Tim" type="fix">
+        Corrected bug 1609808 -- Ids become inconsistent if an expr is
+        typechecked twice
+      </action>
+      <action dev="Tim" type="fix">
+        Corrected bug 1606459 -- Ids in set comprehension
+      </action>
+      <action dev="Tim" type="fix">
+        Corrected bug 1578608 -- Using a given type as a generic
+        doesn't work
+      </action>
+    </release>
+    <release version="0.5" date="July 6, 2006">
+      <action dev="Tim" type="fix">
+        Corrected bug 1497266 -- Typechecker merges too many DeclName ids.
+      </action>
+      <action dev="Tim" type="fix">
+        Corrected bug 1486054 -- Stack overflow.
+        Also, corrected problem with type inference in the example
+        specification provided with that bug report.
+      </action>
+      <action dev="Tim" type="fix">
+        Restrict class types to trees and not graphs to prevent stack
+        overflowing when printing ASTs (bug 1448515).
+      </action>
+      <action dev="Tim" type="fix">
+        Fixed problem with renaming in mutually recursive types.
+      </action>
+      <action dev="Tim" type="fix">
+        Corrected bug number 1443880 -- Duplicate names not allowed in
+        unrelated sections.
+      </action>
+      <action dev="Tim" type="fix">
+        Expanded schema references beginning Delta and Xi when they
+        are locally declared. Added new class AbstractTypeEnv,
+        superclass to SectTypeEnv and TypeEnv, which provides the
+        method to do this.
+      </action>
+      <action dev="Tim" type="fix">
+        Only the left side of freetypes are in scope for mutually
+        recursive free types.
+      </action>
+      <action dev="Tim" type="fix">
+        Use the ZDeclName ID attribute to distinguish between
+        the same names in different scopes.
+      </action>
+      <action dev="Tim" type="fix">
+        Fixed a problem with calculating the characteristic tuple in
+        SetCompExprs, LambdaExprs, and MuExprs.
+      </action>
+      <action dev="Tim" type="fix">
+        Fixed a problem with class type unification to improve type
+        inferencing.
+      </action>
+      <action dev="Tim" type="fix">
+        Implement a check that generic classes with an empty signature
+        cannot be class unioned with two different sets of parameters,
+        e.g. G[\nat] \classunin G[\power\nat].
+      </action>
+    </release>
+    <release version="0.4" date="September 2, 2005">
+      <action dev="Tim" type="add">
+        Implemented implicit downcasting (e.g. a \in B => p)
+      </action>
+      <action dev="Tim" type="add">
+        Improved the error messages reported for relation applications.
+      </action>
+      <action dev="Tim" type="fix">
+        Instantiate and check that generic types are instantiated for
+        selection expressions that reference a generic definition in a
+        class.
+      </action>
+      <action dev="Tim" type="add">
+        Add recursive operation definitions within the same class paragraph.
+      </action>
+      <action dev="Tim" type="add">
+        Finish type rules for PolyExpr (check that sublasses have the
+        type-compatible features).
+      </action>
+      <action dev="Tim" type="fix">
+        Added a method "override" to TypeEnv that is used in downcasting 
+        objects, so that downcasting in a scope enrichment is visible to 
+        the right-hand-side of the scope enrichment.
+      </action>
+      <action dev="Tim" type="fix">
+        Primary variable names declared in a superclass can now be used 
+        in delta lists.
+      </action>
+      <action dev="Tim" type="fix">
+        Rename primary variable names in rename exprs.
+      </action>
+      <action dev="Tim" type="fix">
+        Add functionality to check clashing inherited features.
+      </action>
+      <action dev="Tim" type="fix">
+        Add the "self" variable to a class state.
+      </action>
+      <action dev="Tim" type="update">
+        Changed the type rule for containment exprs to allow any class
+        expression after discussions with Graeme.
+      </action>
+      <action dev="Tim" type="fix">
+        Allow type-compatible overriding of attributes and state variables.
+      </action>
+      <action dev="Tim" type="fix">
+        Overridden operations have access to the declarations in the
+        definition in the superclass.
+      </action>
+      <action dev="Tim" type="fix">
+        No "Init" definition in a class implies init = true. This
+        allows "Init" to be selected even if not declared.
+      </action>
+      <action dev="Tim" type="fix">
+        Prevent calls on recursive types in renameUnknownTypes()
+      </action>
+      <action dev="Tim" type="update">
+        Implemented a check that names in the visibility list are features 
+        of the class.
+      </action>
+      <action dev="Tim" type="update">
+        Changed the Object-Z typechecker so that only class names can be
+        inherited, not just arbitrary classes of type ClassRefType. 
+      </action>
+      <action dev="Tim" type="update">
+        If the signature of an operation cannot be determined due to a
+        recursive defition, the signature should be empty instead of
+        raising an error.
+      </action>
+     <action  dev="Tim" type="update">
+        Improved error message for incompatible Object-Z operation
+        inheritance by specifying the inheritance expression.
+      </action>
+     <action  dev="Tim" type="update">
+        Addition of \oid to the Object-Z typing environment.
+      </action>
+     <action dev="Tim" type="fix">
+        Conjunction operations and scope enrichments operators both
+        allow downcasting within larger operation expressions.
+      </action>
+      <action dev="Tim" type="update">
+        Improved the weak typing unification algorithm to better infer
+        variable types.
+      </action>
+      <!-- Sample action:
+      <action dev="JB" type="fix" due-to="Joe Contributor"
+          due-to-email="joec@apache.org" fixes-bug="123">
+          Fixed a bug in the Foo class.
+        </action>
+      Some action types have associated images. By default, images are
+      defined for 'add', 'fix', 'remove', 'update' and 'hack'. If you add
+      src/site/resources/images/<foo>.jpg images, these will
+      automatically be used for entries of type <foo>. -->
+    </release>
+    <release version="0.3" date="March 17, 2005">
+      <action dev="Tim" type="add" context="admin">
+        Initial Release.
+      </action>
+    </release>
+  </body>
+</document>

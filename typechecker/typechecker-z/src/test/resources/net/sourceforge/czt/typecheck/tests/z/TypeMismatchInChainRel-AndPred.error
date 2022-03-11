@@ -1,0 +1,13 @@
+\begin{zsection}
+  \SECTION TypeMismatchInChainRelation\_AndPred
+\end{zsection}
+
+\begin{zed}
+   empty[X] == \{x : X | false\}
+\end{zed}
+
+\begin{axdef}
+  a == \{1\}
+\where
+  \{1\} = empty = \{\{1\}\}
+\end{axdef}

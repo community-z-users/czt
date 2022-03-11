@@ -1,0 +1,232 @@
+=================================================
+Copyright 2009, Leo Freitas, University of York
+leo@cs.york.ac.uk,  16 April 2009
+=================================================
+
+The Standard Z defines a series of rules for where
+(hard) new lines can appear. In what follows we 
+summarise all these rules for user reference.
+we also add the rules concerning Circus.
+
+The rules can be either:
+
+NEITHER = no new line before or after
+BEFORE  = hard new lines before the token
+AFTER   = hard new lines after the token
+BOTH    = either or none
+
+Hard new lines are:
+\\      (hard new lines of varied sizes)
+\also
+\Also
+\ALSO
+\zbreak
+
+In the choices for Circus, we tried to be as close
+as possible with available CSP parsers, such as the
+one for the FDR model checker. Nevertheless, in a 
+few places, such as process renaming, one needs to
+adhere to the Standard Z rules because of the connection
+with the Z part, which is a bit tricker.
+
+These rules are very nitty-gritty and meant mostly
+for tool builders that want to extend the toolset,
+yet doesn't want to look into the parser implementation
+details, which can give raise to a pretty steep learning curve
+
+Comments, suggestions, or bugs, please send an email to
+the czt-devel mailing list.
+
+
+
+So, here we go:
+
+===== Standard Z tokens spacing rules =====
+
+NEITHER [7]
+Narrative paragraphs (or just text)
+DECORWORD            (names)
+NUMERAL              (numbers)
+'                    (strokes in names)
+_1
+?
+!
+
+BEFORE [12]
+)
+]
+\}
+\
+\ldata  (free type)
+\rdata
+\rblot  (binding)
+\end{zed} 
+\end{axdef}
+\end{gendef}
+\end{schema}
+\end{zsection}
+\end{theorem}
+
+AFTER [10]
+(
+[
+\{
+\lblot     (binding)
+\begin{zed}
+\begin{zsection}
+\begin{axdef}
+\begin{schema}
+\begin{schema}[
+\begin{gendef}[
+
+===== Standard Z keywords spacing rules =====
+
+NEITHER [2]
+false
+true
+
+BEFORE [0]
+
+AFTER  [15]
+\SECTION   (language)
+\IF        
+\LET
+\pre
+\power
+\theta
+
+\function  (op templates)
+\generic
+\relation
+
+\forall    (logic)
+\exists
+\exists_1
+\not
+\lambda
+\mu
+
+
+BOTH    [29]
+\parents    (language)
+\ELSE  
+\THEN
+
+\leftassoc  (op templates)
+\rightassoc
+,,          (list argument in op template, ex: \langle ,, \rangle)
+\_ \varg     (single argument in op template, ex: \_)
+
+==     (definitions)
+;
+:
+,
+.
+|  \where 
+@
+/
+
+\vdash?          (conjectures and named conjectures)
+\begin{theorem}{name}  
+
+\hide  (schema)
+\proj
+\pipe
+\semi
+
+::=    (free types)
+&      (mutually recursive free-types)
+
+=        (logic)
+\iff
+\implies
+\lor
+\land
+\in
+
+
+
+
+===== Circus tokens spacing rules =====
+
+NEITHER [0]
+
+BEFORE  [5]
+\rchanset
+\rcircindex
+\rcircguard
+\rschexpract
+\rcircrename
+
+AFTER   [5]
+\lchanset
+\lcircinst
+\lcircguard
+\lschexpract
+\lcircrename        (difficult to relax because of 
+                     awkward precedence in rename)
+
+BOTH [6]
+\lpar               (relaxed for beautification)
+\rpar
+\linter   
+\rinter
+\begin{circus}      (needed because of multiple envs)
+\begin{circusaction}
+
+===== Circus keywords spacing rules =====
+
+NEITHER [3]
+\Skip
+\Stop
+\Chaos
+
+BEFORE [4]
+\circod
+\circfi
+\end{circus}
+\end{circusaction}
+
+AFTER [19]
+\circif
+\circdo
+\circvar
+\circval
+\circres
+\circvres
+
+\circchannel
+\circchannelfrom
+\circchannelset
+\circnameset
+\circprocess
+\circassertref
+\circbegin
+\circstate
+
+\Interleave   (replicated op)
+\Pallalel
+\ExtChoice
+\IntChoice
+
+\circmu
+
+BOTH
+\circdef
+\circindex
+\circspot
+\circthen
+\circelse
+\then
+\prefixcolon
+\circseq
+\interleave
+\circhide
+\extchoice
+\intchoice
+\circrefines
+\circsimulates
+:=
+\circguard
+
+\Seq   (replicated op)

@@ -1,0 +1,114 @@
+\begin{zsection}
+   \SECTION zevesopt \parents standard\_toolkit
+\end{zsection}
+
+The "name on the thrid" parameter *must* not be the same as the unicode markup for
+\verb'\after. That is, it cannot be just *after*. Otherwise, it gets confused later
+on for the domain check and other theorems.
+%
+%%Zinword \after after
+%%Zinword \before before
+%%Zinword \middle middle
+%%Zinword \zevesgen zevesgen
+%%Zinword \zevesgenother zevesgenother
+Zinword \zevesthmgen zevesthmgen
+%%Zinword \zevesrel zevesrel
+%%Zinword \zevesthmrel zevesthmrel
+
+No need for ZEves syndef. Instead, define them as usual CZT / StdZ op templates.
+The CZT2ZEves printer figures out what kind of ZEves optemp to use, and raise an
+error in case they are not feasible. For instance, Z/EVES does not allow list ops
+(e.g., seq display). And also, ZEves does not take assoc into account and precedences
+are transformed (e.g., ZEves only have 1..6).
+syndef{\after}{infun6}{"afterOp"}
+syndef{\before}{infun6}{"beforeOp"}
+syndef{\middle}{infun6}{"middleOp"}
+syndef{\zevesgen}{ingen}{"zevesgen"}
+syndef{\zevesrel}{inrel}{"zevesrel"}
+syndef{\zevesthmrel}{inrel}{"zevesthmrel"}
+
+\begin{zed}
+\function 60 \leftassoc (\_ \after \_)
+\also
+\function 60 \leftassoc (\_ \before \_)
+\also
+\function 50 \leftassoc (\_ \middle \_)
+\also
+\generic 10 \leftassoc (\_ \zevesgen \_)
+%\also
+%\generic 10 \leftassoc (\_ \zevesthmgen \_)
+\also
+\generic 10 \leftassoc (\_ \zevesgenother \_)
+\also
+\relation  (\_ \zevesrel \_)
+\also
+\relation  (\_ \zevesthmrel \_)
+\end{zed}
+
+Example of an operator within an axdef
+\begin{gendef}[X]
+   \_ \after \_ : \seq~X \cross \nat \fun \seq~X
+\where
+   \Label{disabled rule dAfter}
+   \forall s: \seq~X; n: \nat @ s \after n = \emptyset
+\end{gendef}
+
+\begin{zproof}[dAfter\$domainCheck]
+prove by reduce;
+\end{zproof}
+
+Example of operator within a schema both as declaration (E.g., include the _)
+and as an application (e.g., don't include the _ in (a \before b)).
+\begin{schema}{S}
+   \_ \before \_ : \nat \cross \nat \fun \nat
+\where
+  \forall a, b: \nat @ a \before b > b
+\end{schema}
+
+\begin{zproof}[S\$domainCheck]
+prove by reduce;
+\end{zproof}
+
+We are deliberately not accepting them in theorems like
+\begin{theorem}{lOpInThm}
+  \forall \_ \middle \_ : \nat \cross \nat \fun \nat @ 0 \middle 0 = 0
+\end{theorem}
+
+\begin{zed}
+   X \zevesgen Y == \{ f: X \fun Y | f \neq \emptyset \}
+\end{zed}
+
+\begin{zed}
+   \_ \zevesgenother \_ == (\nat \cross \nat) \rel \nat
+\end{zed}
+
+This is an error: name zevesthmgen is not declared, and neither is the first f
+%begin{theorem}{lOpGenInThm}[X,Y]
+%   \forall f: X \zevesthmgen Y @ f \neq \emptyset
+%end{theorem}
+
+\begin{gendef}[X, Y]
+   \_ \zevesrel \_ : X \rel Y
+\where
+   \forall x: X ; y: Y @ (x \zevesrel y)
+\end{gendef}
+
+\begin{theorem}{lOpRelInThm}[X,Y]
+   \forall \_ \zevesthmrel \_ : X \rel Y; x: X; y: Y @ x \zevesthmrel y
+\end{theorem}
+
+Add a case where an error is not raise and there are undeclared names
+\begin[disabled]{theorem}{rule lRanElemType}[X, Y]
+ \forall  A: \power~X; B: \power~Y @ \forall  R: A \rel  B | (x, y) \in  R @ y \in  B
+\end{theorem}
+
+
+\begin{theorem}{test}[A, B]
+    \forall R: A \rel B; S: \power~A @ (\_ \limg \_ \rimg)[A,B]~(R, S) = \{~ p : R | p.1 \in S @ p.2 ~\}
+\end{theorem}
+
+\begin{zproof}[test]
+	apply imageDef;
+	prove;
+	apply extensionality;
+\end{zproof}

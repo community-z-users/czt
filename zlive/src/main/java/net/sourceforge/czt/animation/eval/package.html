@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>CZT Zlive Animator</title>
+</head>
+
+<body>
+<h1>CZT ZLive Animator</h1>
+
+ZLive provides animation and testing facilities for standard Z
+specifications.  It allows simple (finite) expressions, predicates
+and schemas to be evaluated.
+
+<h2>Purpose</h2>
+ZLive is typically used to test schemas
+by supplying concrete values for all the variables in the
+schema and asking ZLive to determine whether or not those values
+satisfy the schema predicates.  It can also be used to generate
+values for some of the variables, and to show all possible solutions
+of a schema given values for some of the variables of that schema.
+This makes it a useful tool for exploring the behaviour of schemas,
+and for experimenting to see if a schema is deterministic (one solution),
+non-deterministic (multiple solutions), or unsatisfiable (no solutions).
+
+<h2>Overview of Classes</h2>
+
+<p>
+Many users of ZLive will use the text-based user interface provided by the
+TextUI class.  This user interface has a 'help' command that lists the most
+common commands of that interface, with brief descriptions.
+</p>
+
+<p>
+Programs that want to animate/evaluate Z terms should use the
+ZLive class directly.  This provides the following three main evaluation
+methods.  The input terms to these evaluation method must all be parsed and
+typechecked before they are passed to ZLive.
+<dl>
+  <dt>evalPred
+  <dd>Evaluates a predicate, returning true, false, or an exception.
+  <dt>evalExpr
+  <dd>Evaluates an expression and returns another expression that
+      contains the evaluation result.  If the input expression defines
+      a set, then the result of the evaluation will usually be some
+      subclass of the EvalSet interface, which implements the Java
+      Set interface and provides lots of methods for querying the size of
+      the set and stepping through the members of the set.  Note that,
+      unlike Java sets,
+      EvalSet objects may contain an infinite number of members, so it is
+      usually best to call the estSize() method to learn the approximate
+      number of members before calling size(), which will force the whole
+      set to be evaluated, so may throw an exception or fail to terminate
+      for infinite sets.
+  <dt>evalSchema
+  <dd>This evaluates a schema with some given inputs/output.
+      It is equivalent to calling
+      <code>evalExpr(exists binding @ schema)</code> where
+      <code>binding</code> (a collection of <code>name==value</code>
+      pairs) gives values for some of the variables of the schema.
+</dl>
+plus a number of getter/setter
+pairs for controlling the behaviour of ZLive.
+<dl>
+  <dt>getMarkup/setMarkup
+  <dd>Determines which syntax (LaTeX or Unicode) is used to parse
+      and print Z terms.
+  <dt>getFactory/setFactory
+  <dd>Determines the AST factory used for creating Z terms.
+      Unless you are building special kinds of AST with your
+      own classes of Z terms, it is best to use the default
+      factory rather than calling setFactory.
+  <dt>getSectionManager/setSectionManager
+  <dd>Determines the section manager that will be used during evaluation.
+      The section manager manages the Z specifications that are available,
+      so that expressions being evaluated by ZLive can use the names
+      defined in those specifications.
+  <dt>getGivenSetSize/setGivenSetSize
+  <dd>The maximum size of each given set. 
+      This is Integer.MAX_VALUE by default, but can be set to a small
+      integer if you want to limit the Z specification to use only
+      finite/small sets of given values.
+  <dt>getCurrentSection/setCurrentSection
+  <dd>Determines which section evaluations are being done in.
+      If a Z specification contains multiple sections, then
+      setCurrentSection can be used to change from one section to another
+      so that different names are in scope.
+</dl>
+
+
+
+<hr>
+<address>marku@cs.waikato.ac.nz</address>
+<!-- hhmts start -->
+Last modified: Mon Mar 19 14:50:35 NZST 2007
+<!-- hhmts end -->
+</body> </html>

@@ -1,0 +1,2950 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NarrSect>
+        <Anns>
+            <LocAnn Start="0" Loc="lib/bag_toolkit_zeves.tex" Line="0" Length="236" Col="0"/>
+        </Anns>
+        <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">\documentclass[draft,a4paper,10pt,wd]{article}
+
+\usepackage{czt}
+
+\begin{document}
+
+This file contains the bag toolkit definitions as in the Z/EVES
+theorem prover. It follows Spivey's definitions, yet with the
+right flavour for Z/EVES
+
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Start="236" Loc="lib/bag_toolkit_zeves.tex" Line="10" Length="2288" Col="0"/>
+        </Anns>
+        <Name>bag_toolkit_zeves</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Start="291" Loc="lib/bag_toolkit_zeves.tex" Line="11" Length="17" Col="38"/>
+            </Anns>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="18"/>
+                    </Anns>
+                    <Command>\bag</Command>
+                    <Unicode>bag</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="19"/>
+                    </Anns>
+                    <Command>\bcount</Command>
+                    <Unicode>♯</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="20"/>
+                    </Anns>
+                    <Command>\otimes</Command>
+                    <Unicode>⊗</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="21"/>
+                    </Anns>
+                    <Command>\inbag</Command>
+                    <Unicode>⋿</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="22"/>
+                    </Anns>
+                    <Command>\subbageq</Command>
+                    <Unicode>subbageq</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="23"/>
+                    </Anns>
+                    <Command>\uplus</Command>
+                    <Unicode>⊎</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="24"/>
+                    </Anns>
+                    <Command>\uminus</Command>
+                    <Unicode>⩁</Unicode>
+                </Directive>
+            </LatexMarkupPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="323" Loc="lib/bag_toolkit_zeves.tex" Line="12" Length="68" Col="14"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+\section{Bags }\label{def-bag}
+
+\subsection*{Operator templates}
+
+</Content>
+            </NarrPara>
+            <OptempPara Cat="Generic">
+                <Anns>
+                    <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="26" Col="4"/>
+                </Anns>
+                <Operator>
+                    <Anns>
+                        <LocAnn Start="589" Loc="lib/bag_toolkit_zeves.tex" Line="26" Length="4" Col="14"/>
+                    </Anns>
+                    <Word>bag</Word>
+                </Operator>
+                <Operand List="false"/>
+            </OptempPara>
+            <OptempPara Prec="50" Cat="Function" Assoc="Left">
+                <Anns>
+                    <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="27" Col="4"/>
+                </Anns>
+                <Operand List="false"/>
+                <Operator>
+                    <Anns>
+                        <LocAnn Start="633" Loc="lib/bag_toolkit_zeves.tex" Line="27" Length="7" Col="32"/>
+                    </Anns>
+                    <Word>♯</Word>
+                </Operator>
+                <Operand List="false"/>
+            </OptempPara>
+            <OptempPara Prec="40" Cat="Function" Assoc="Left">
+                <Anns>
+                    <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="28" Col="4"/>
+                </Anns>
+                <Operand List="false"/>
+                <Operator>
+                    <Anns>
+                        <LocAnn Start="680" Loc="lib/bag_toolkit_zeves.tex" Line="28" Length="7" Col="32"/>
+                    </Anns>
+                    <Word>⊗</Word>
+                </Operator>
+                <Operand List="false"/>
+            </OptempPara>
+            <OptempPara Cat="Relation">
+                <Anns>
+                    <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="29" Col="4"/>
+                </Anns>
+                <Operand List="false"/>
+                <Operator>
+                    <Anns>
+                        <LocAnn Start="713" Loc="lib/bag_toolkit_zeves.tex" Line="29" Length="6" Col="18"/>
+                    </Anns>
+                    <Word>⋿</Word>
+                </Operator>
+                <Operand List="false"/>
+            </OptempPara>
+            <OptempPara Cat="Relation">
+                <Anns>
+                    <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="30" Col="4"/>
+                </Anns>
+                <Operand List="false"/>
+                <Operator>
+                    <Anns>
+                        <LocAnn Start="745" Loc="lib/bag_toolkit_zeves.tex" Line="30" Length="9" Col="18"/>
+                    </Anns>
+                    <Word>subbageq</Word>
+                </Operator>
+                <Operand List="false"/>
+            </OptempPara>
+            <OptempPara Prec="30" Cat="Function" Assoc="Left">
+                <Anns>
+                    <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="31" Col="4"/>
+                </Anns>
+                <Operand List="false"/>
+                <Operator>
+                    <Anns>
+                        <LocAnn Start="794" Loc="lib/bag_toolkit_zeves.tex" Line="31" Length="6" Col="32"/>
+                    </Anns>
+                    <Word>⊎</Word>
+                </Operator>
+                <Operand List="false"/>
+            </OptempPara>
+            <OptempPara Prec="30" Cat="Function" Assoc="Left">
+                <Anns>
+                    <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="32" Col="4"/>
+                </Anns>
+                <Operand List="false"/>
+                <Operator>
+                    <Anns>
+                        <LocAnn Start="840" Loc="lib/bag_toolkit_zeves.tex" Line="32" Length="7" Col="32"/>
+                    </Anns>
+                    <Word>⩁</Word>
+                </Operator>
+                <Operand List="false"/>
+            </OptempPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="861" Loc="lib/bag_toolkit_zeves.tex" Line="33" Length="35" Col="9"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+\subsection*{Basic definitions}
+
+</Content>
+            </NarrPara>
+            <AxPara Box="OmitBox">
+                <Anns>
+                    <LocAnn Start="896" Loc="lib/bag_toolkit_zeves.tex" Line="37" Length="48" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="915" Loc="lib/bag_toolkit_zeves.tex" Line="38" Length="1" Col="7"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="38" Col="7"/>
+                    </Anns>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="38" Col="9"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="38" Col="7"/>
+                                </Anns>
+                                <Word>bag _ </Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="920" Loc="lib/bag_toolkit_zeves.tex" Line="38" Length="14" Col="14"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="922" Loc="lib/bag_toolkit_zeves.tex" Line="38" Length="5" Col="14"/>
+                                    </Anns>
+                                    <Word> _ ⇸ _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="920" Loc="lib/bag_toolkit_zeves.tex" Line="38" Length="1" Col="12"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="920" Loc="lib/bag_toolkit_zeves.tex" Line="38" Length="1" Col="12"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="928" Loc="lib/bag_toolkit_zeves.tex" Line="38" Length="6" Col="20"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="928" Loc="lib/bag_toolkit_zeves.tex" Line="38" Length="6" Col="20"/>
+                                            </Anns>
+                                            <Word>ℕ</Word>
+                                            <ZStrokeList>
+                                                <NumStroke Digit="1"/>
+                                            </ZStrokeList>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="944" Loc="lib/bag_toolkit_zeves.tex" Line="39" Length="2" Col="9"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="946" Loc="lib/bag_toolkit_zeves.tex" Line="41" Length="356" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="961" Loc="lib/bag_toolkit_zeves.tex" Line="41" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="42" Col="14"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="42" Col="14"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="42" Col="14"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="42" Col="12"/>
+                                    </Anns>
+                                    <Word> _ ⋿ _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="980" Loc="lib/bag_toolkit_zeves.tex" Line="42" Length="13" Col="18"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="982" Loc="lib/bag_toolkit_zeves.tex" Line="42" Length="4" Col="18"/>
+                                    </Anns>
+                                    <Word> _ ↔ _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="980" Loc="lib/bag_toolkit_zeves.tex" Line="42" Length="1" Col="16"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="980" Loc="lib/bag_toolkit_zeves.tex" Line="42" Length="1" Col="16"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="987" Loc="lib/bag_toolkit_zeves.tex" Line="42" Length="6" Col="23"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="987" Loc="lib/bag_toolkit_zeves.tex" Line="42" Length="4" Col="23"/>
+                                            </Anns>
+                                            <Word>bag _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="992" Loc="lib/bag_toolkit_zeves.tex" Line="42" Length="1" Col="28"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="992" Loc="lib/bag_toolkit_zeves.tex" Line="42" Length="1" Col="28"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Start="999" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="31" Col="7"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="999" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="5" Col="2"/>
+                                    </Anns>
+                                    <Word>count</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="1006" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="24" Col="16"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1013" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="4" Col="16"/>
+                                    </Anns>
+                                    <Word> _ → _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="1006" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="6" Col="9"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1006" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="4" Col="9"/>
+                                            </Anns>
+                                            <Word>bag _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1011" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="1" Col="14"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1011" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="1" Col="14"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="1019" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="11" Col="24"/>
+                                            <ParenAnn>
+                                                <Anns>
+                                                    <LocAnn Start="1018" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="13" Col="21"/>
+                                                </Anns>
+                                            </ParenAnn>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1021" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="4" Col="24"/>
+                                            </Anns>
+                                            <Word> _ → _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1019" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="1" Col="22"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1019" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="1" Col="22"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1026" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="4" Col="29"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1026" Loc="lib/bag_toolkit_zeves.tex" Line="43" Length="4" Col="29"/>
+                                                    </Anns>
+                                                    <Word>ℕ</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="44" Col="15"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="44" Col="13"/>
+                                    </Anns>
+                                    <Word> _ ♯ _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="1052" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="25" Col="33"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1068" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="4" Col="33"/>
+                                    </Anns>
+                                    <Word> _ → _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <ProdExpr>
+                                        <Anns>
+                                            <LocAnn Start="1052" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="15" Col="31"/>
+                                        </Anns>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="true" Explicit="true">
+                                                <Anns>
+                                                    <LocAnn Start="1052" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="6" Col="17"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1052" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="4" Col="17"/>
+                                                    </Anns>
+                                                    <Word>bag _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1057" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="1" Col="22"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1057" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="1" Col="22"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1066" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="1" Col="31"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1066" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="1" Col="31"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </ProdExpr>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="1073" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="4" Col="38"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1073" Loc="lib/bag_toolkit_zeves.tex" Line="44" Length="4" Col="38"/>
+                                            </Anns>
+                                            <Word>ℕ</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                    <AndPred And="NL">
+                        <Anns>
+                            <LocAnn Start="1087" Loc="lib/bag_toolkit_zeves.tex" Line="49" Length="202" Col="0"/>
+                        </Anns>
+                        <AndPred And="NL">
+                            <Anns>
+                                <LocAnn Start="1087" Loc="lib/bag_toolkit_zeves.tex" Line="47" Length="115" Col="0"/>
+                            </Anns>
+                            <ForallPred>
+                                <Anns>
+                                    <LocAnn Start="1087" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="54" Col="2"/>
+                                </Anns>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Start="1095" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="15" Col="11"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Start="1095" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="15" Col="11"/>
+                                        </Anns>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="1095" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="4" Col="11"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1095" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="10"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1098" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="13"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1098" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="13"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="1101" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="9" Col="17"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1101" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="16"/>
+                                                    </Anns>
+                                                    <Word>B</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <RefExpr Mixfix="true" Explicit="true">
+                                                <Anns>
+                                                    <LocAnn Start="1104" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="6" Col="19"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1104" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="4" Col="19"/>
+                                                    </Anns>
+                                                    <Word>bag _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1109" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="24"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1109" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="24"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </RefExpr>
+                                        </VarDecl>
+                                    </ZDeclList>
+                                </ZSchText>
+                                <IffPred>
+                                    <Anns>
+                                        <LocAnn Start="1113" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="28" Col="39"/>
+                                    </Anns>
+                                    <MemPred Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Start="1113" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="10" Col="28"/>
+                                        </Anns>
+                                        <TupleExpr>
+                                            <ZExprList>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1113" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="28"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1113" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="28"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1122" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="37"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1122" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="37"/>
+                                                        </Anns>
+                                                        <Word>B</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ZExprList>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1115" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="6" Col="30"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1115" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="6" Col="30"/>
+                                                </Anns>
+                                                <Word> _ ⋿ _ </Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </MemPred>
+                                    <MemPred Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Start="1129" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="12" Col="46"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1129" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="44"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1129" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="44"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <ApplExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Start="1135" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="6" Col="50"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1135" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="4" Col="50"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1135" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="4" Col="50"/>
+                                                    </Anns>
+                                                    <Word>dom</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1140" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="55"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1140" Loc="lib/bag_toolkit_zeves.tex" Line="46" Length="1" Col="55"/>
+                                                    </Anns>
+                                                    <Word>B</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ApplExpr>
+                                    </MemPred>
+                                </IffPred>
+                            </ForallPred>
+                            <ForallPred>
+                                <Anns>
+                                    <LocAnn Start="1150" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="52" Col="2"/>
+                                </Anns>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Start="1158" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="15" Col="11"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Start="1158" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="15" Col="11"/>
+                                        </Anns>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="1158" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="4" Col="11"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1158" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="10"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1161" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="13"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1161" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="13"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="1164" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="9" Col="17"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1164" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="16"/>
+                                                    </Anns>
+                                                    <Word>B</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <RefExpr Mixfix="true" Explicit="true">
+                                                <Anns>
+                                                    <LocAnn Start="1167" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="6" Col="19"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1167" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="4" Col="19"/>
+                                                    </Anns>
+                                                    <Word>bag _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1172" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="24"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1172" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="24"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </RefExpr>
+                                        </VarDecl>
+                                    </ZDeclList>
+                                </ZSchText>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Start="1177" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="25" Col="41"/>
+                                    </Anns>
+                                    <ApplExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Start="1177" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="11" Col="29"/>
+                                        </Anns>
+                                        <ApplExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Start="1177" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="9" Col="29"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="1176" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="11" Col="28"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1177" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="5" Col="29"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1177" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="5" Col="29"/>
+                                                    </Anns>
+                                                    <Word>count</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1185" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="37"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1185" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="37"/>
+                                                    </Anns>
+                                                    <Word>B</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ApplExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1187" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="39"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1187" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="39"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ApplExpr>
+                                    <SetExpr>
+                                        <ZExprList>
+                                            <ApplExpr Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Start="1191" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="11" Col="45"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1193" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="7" Col="45"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1193" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="7" Col="45"/>
+                                                        </Anns>
+                                                        <Word> _ ♯ _ </Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <TupleExpr>
+                                                    <ZExprList>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1191" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="43"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1191" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="43"/>
+                                                                </Anns>
+                                                                <Word>B</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1201" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="53"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1201" Loc="lib/bag_toolkit_zeves.tex" Line="48" Length="1" Col="53"/>
+                                                                </Anns>
+                                                                <Word>x</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </ZExprList>
+                                                </TupleExpr>
+                                            </ApplExpr>
+                                        </ZExprList>
+                                    </SetExpr>
+                                </MemPred>
+                            </ForallPred>
+                        </AndPred>
+                        <ForallPred>
+                            <Anns>
+                                <LocAnn Start="1211" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="78" Col="2"/>
+                            </Anns>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="1219" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="15" Col="11"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <Anns>
+                                        <LocAnn Start="1219" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="15" Col="11"/>
+                                    </Anns>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Start="1219" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="4" Col="11"/>
+                                        </Anns>
+                                        <ZNameList>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1219" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="1" Col="10"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                        </ZNameList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1222" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="1" Col="13"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1222" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="1" Col="13"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </VarDecl>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Start="1225" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="9" Col="17"/>
+                                        </Anns>
+                                        <ZNameList>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1225" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="1" Col="16"/>
+                                                </Anns>
+                                                <Word>B</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                        </ZNameList>
+                                        <RefExpr Mixfix="true" Explicit="true">
+                                            <Anns>
+                                                <LocAnn Start="1228" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="6" Col="19"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1228" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="4" Col="19"/>
+                                                </Anns>
+                                                <Word>bag _ </Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1233" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="1" Col="24"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1233" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="1" Col="24"/>
+                                                        </Anns>
+                                                        <Word>X</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ZExprList>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                            <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Start="1237" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="52" Col="40"/>
+                                </Anns>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Start="1237" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="11" Col="30"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="1239" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="7" Col="30"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1239" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="7" Col="30"/>
+                                            </Anns>
+                                            <Word> _ ♯ _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1237" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="1" Col="28"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1237" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="1" Col="28"/>
+                                                    </Anns>
+                                                    <Word>B</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1247" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="1" Col="38"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1247" Loc="lib/bag_toolkit_zeves.tex" Line="50" Length="1" Col="38"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </TupleExpr>
+                                </ApplExpr>
+                                <SetExpr>
+                                    <ZExprList>
+                                        <CondExpr>
+                                            <Anns>
+                                                <LocAnn Start="1256" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="33" Col="4"/>
+                                            </Anns>
+                                            <MemPred Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Start="1260" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="10" Col="8"/>
+                                                </Anns>
+                                                <TupleExpr>
+                                                    <ZExprList>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1260" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="1" Col="8"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1260" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="1" Col="8"/>
+                                                                </Anns>
+                                                                <Word>x</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1269" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="1" Col="17"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1269" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="1" Col="17"/>
+                                                                </Anns>
+                                                                <Word>B</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </ZExprList>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1262" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="6" Col="10"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1262" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="6" Col="10"/>
+                                                        </Anns>
+                                                        <Word> _ ⋿ _ </Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </MemPred>
+                                            <ApplExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Start="1277" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="3" Col="25"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1277" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="1" Col="25"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1277" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="1" Col="25"/>
+                                                        </Anns>
+                                                        <Word>B</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1279" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="1" Col="27"/>
+                                                        <ParenAnn>
+                                                            <Anns>
+                                                                <LocAnn Start="1278" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="3" Col="26"/>
+                                                            </Anns>
+                                                        </ParenAnn>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1279" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="1" Col="27"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ApplExpr>
+                                            <NumExpr>
+                                                <Anns>
+                                                    <LocAnn Start="1288" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="1" Col="36"/>
+                                                </Anns>
+                                                <ZNumeral Value="0">
+                                                    <Anns>
+                                                        <LocAnn Start="1288" Loc="lib/bag_toolkit_zeves.tex" Line="51" Length="1" Col="36"/>
+                                                    </Anns>
+                                                </ZNumeral>
+                                            </NumExpr>
+                                        </CondExpr>
+                                    </ZExprList>
+                                </SetExpr>
+                            </MemPred>
+                        </ForallPred>
+                    </AndPred>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="1302" Loc="lib/bag_toolkit_zeves.tex" Line="52" Length="28" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+\subsubsection*{Subbags}
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="1330" Loc="lib/bag_toolkit_zeves.tex" Line="56" Length="169" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="1345" Loc="lib/bag_toolkit_zeves.tex" Line="56" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="57" Col="17"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="57" Col="17"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="57" Col="17"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="57" Col="15"/>
+                                    </Anns>
+                                    <Word> _ subbageq _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="1367" Loc="lib/bag_toolkit_zeves.tex" Line="57" Length="18" Col="26"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1374" Loc="lib/bag_toolkit_zeves.tex" Line="57" Length="4" Col="26"/>
+                                    </Anns>
+                                    <Word> _ ↔ _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="1367" Loc="lib/bag_toolkit_zeves.tex" Line="57" Length="6" Col="19"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1367" Loc="lib/bag_toolkit_zeves.tex" Line="57" Length="4" Col="19"/>
+                                            </Anns>
+                                            <Word>bag _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1372" Loc="lib/bag_toolkit_zeves.tex" Line="57" Length="1" Col="24"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1372" Loc="lib/bag_toolkit_zeves.tex" Line="57" Length="1" Col="24"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="1379" Loc="lib/bag_toolkit_zeves.tex" Line="57" Length="6" Col="31"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1379" Loc="lib/bag_toolkit_zeves.tex" Line="57" Length="4" Col="31"/>
+                                            </Anns>
+                                            <Word>bag _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1384" Loc="lib/bag_toolkit_zeves.tex" Line="57" Length="1" Col="36"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1384" Loc="lib/bag_toolkit_zeves.tex" Line="57" Length="1" Col="36"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                    <ForallPred>
+                        <Anns>
+                            <LocAnn Start="1398" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="87" Col="2"/>
+                        </Anns>
+                        <ZSchText>
+                            <Anns>
+                                <LocAnn Start="1406" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="12" Col="14"/>
+                            </Anns>
+                            <ZDeclList>
+                                <Anns>
+                                    <LocAnn Start="1406" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="12" Col="14"/>
+                                </Anns>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="1406" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="12" Col="14"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1406" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="1" Col="10"/>
+                                            </Anns>
+                                            <Word>A</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1409" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="1" Col="13"/>
+                                            </Anns>
+                                            <Word>B</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="1412" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="6" Col="16"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1412" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="4" Col="16"/>
+                                            </Anns>
+                                            <Word>bag _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1417" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="1" Col="21"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1417" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="1" Col="21"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </VarDecl>
+                            </ZDeclList>
+                        </ZSchText>
+                        <IffPred>
+                            <Anns>
+                                <LocAnn Start="1421" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="64" Col="39"/>
+                            </Anns>
+                            <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Start="1421" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="13" Col="25"/>
+                                </Anns>
+                                <TupleExpr>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1421" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="1" Col="25"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1421" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="1" Col="25"/>
+                                                </Anns>
+                                                <Word>A</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1433" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="1" Col="37"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1433" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="1" Col="37"/>
+                                                </Anns>
+                                                <Word>B</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </TupleExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="1423" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="9" Col="27"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="1423" Loc="lib/bag_toolkit_zeves.tex" Line="59" Length="9" Col="27"/>
+                                        </Anns>
+                                        <Word> _ subbageq _ </Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </MemPred>
+                            <ForallPred>
+                                <Anns>
+                                    <LocAnn Start="1442" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="43" Col="2"/>
+                                    <ParenAnn>
+                                        <Anns>
+                                            <LocAnn Start="1441" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="45" Col="1"/>
+                                        </Anns>
+                                    </ParenAnn>
+                                </Anns>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Start="1450" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="4" Col="11"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Start="1450" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="4" Col="11"/>
+                                        </Anns>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="1450" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="4" Col="11"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1450" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="10"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1453" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="13"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1453" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="13"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </VarDecl>
+                                    </ZDeclList>
+                                </ZSchText>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Start="1457" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="28" Col="19"/>
+                                    </Anns>
+                                    <TupleExpr>
+                                        <ZExprList>
+                                            <ApplExpr Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Start="1457" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="11" Col="19"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1459" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="7" Col="19"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1459" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="7" Col="19"/>
+                                                        </Anns>
+                                                        <Word> _ ♯ _ </Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <TupleExpr>
+                                                    <ZExprList>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1457" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="17"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1457" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="17"/>
+                                                                </Anns>
+                                                                <Word>A</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1467" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="27"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1467" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="27"/>
+                                                                </Anns>
+                                                                <Word>x</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </ZExprList>
+                                                </TupleExpr>
+                                            </ApplExpr>
+                                            <ApplExpr Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Start="1474" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="11" Col="36"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1476" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="7" Col="36"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1476" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="7" Col="36"/>
+                                                        </Anns>
+                                                        <Word> _ ♯ _ </Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <TupleExpr>
+                                                    <ZExprList>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1474" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="34"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1474" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="34"/>
+                                                                </Anns>
+                                                                <Word>B</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1484" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="44"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1484" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="1" Col="44"/>
+                                                                </Anns>
+                                                                <Word>x</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </ZExprList>
+                                                </TupleExpr>
+                                            </ApplExpr>
+                                        </ZExprList>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="1469" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="4" Col="29"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1469" Loc="lib/bag_toolkit_zeves.tex" Line="60" Length="4" Col="29"/>
+                                            </Anns>
+                                            <Word> _ ≤ _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </MemPred>
+                            </ForallPred>
+                        </IffPred>
+                    </ForallPred>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="1499" Loc="lib/bag_toolkit_zeves.tex" Line="61" Length="32" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+\subsubsection*{Bag scaling}
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="1531" Loc="lib/bag_toolkit_zeves.tex" Line="65" Length="171" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="1546" Loc="lib/bag_toolkit_zeves.tex" Line="65" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="66" Col="15"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="66" Col="15"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="66" Col="15"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="66" Col="13"/>
+                                    </Anns>
+                                    <Word> _ ⊗ _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="1566" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="30" Col="36"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1585" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="4" Col="36"/>
+                                    </Anns>
+                                    <Word> _ → _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <ProdExpr>
+                                        <Anns>
+                                            <LocAnn Start="1566" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="18" Col="34"/>
+                                        </Anns>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1566" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="4" Col="17"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1566" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="4" Col="17"/>
+                                                    </Anns>
+                                                    <Word>ℕ</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="true" Explicit="true">
+                                                <Anns>
+                                                    <LocAnn Start="1578" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="6" Col="29"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1578" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="4" Col="29"/>
+                                                    </Anns>
+                                                    <Word>bag _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1583" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="1" Col="34"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1583" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="1" Col="34"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </ProdExpr>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="1590" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="6" Col="41"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1590" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="4" Col="41"/>
+                                            </Anns>
+                                            <Word>bag _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1595" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="1" Col="46"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1595" Loc="lib/bag_toolkit_zeves.tex" Line="66" Length="1" Col="46"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                    <ForallPred>
+                        <Anns>
+                            <LocAnn Start="1606" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="82" Col="2"/>
+                        </Anns>
+                        <ZSchText>
+                            <Anns>
+                                <LocAnn Start="1614" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="24" Col="11"/>
+                            </Anns>
+                            <ZDeclList>
+                                <Anns>
+                                    <LocAnn Start="1614" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="24" Col="11"/>
+                                </Anns>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="1614" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="7" Col="11"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1614" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="1" Col="10"/>
+                                            </Anns>
+                                            <Word>n</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="1617" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="4" Col="13"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1617" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="4" Col="13"/>
+                                            </Anns>
+                                            <Word>ℕ</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </VarDecl>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="1623" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="9" Col="20"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1623" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="1" Col="19"/>
+                                            </Anns>
+                                            <Word>B</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="1626" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="6" Col="22"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1626" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="4" Col="22"/>
+                                            </Anns>
+                                            <Word>bag _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1631" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="1" Col="27"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1631" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="1" Col="27"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </VarDecl>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="1634" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="4" Col="31"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1634" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="1" Col="30"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="1637" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="1" Col="33"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1637" Loc="lib/bag_toolkit_zeves.tex" Line="68" Length="1" Col="33"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </VarDecl>
+                            </ZDeclList>
+                        </ZSchText>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Start="1647" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="41" Col="29"/>
+                            </Anns>
+                            <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Start="1647" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="22" Col="19"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="1660" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="7" Col="19"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="1660" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="7" Col="19"/>
+                                        </Anns>
+                                        <Word> _ ♯ _ </Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <ZExprList>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Start="1647" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="11" Col="8"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="1646" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="13" Col="5"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1649" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="7" Col="8"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1649" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="7" Col="8"/>
+                                                    </Anns>
+                                                    <Word> _ ⊗ _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1647" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="6"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1647" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="6"/>
+                                                            </Anns>
+                                                            <Word>n</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1657" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="16"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1657" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="16"/>
+                                                            </Anns>
+                                                            <Word>B</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1668" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="27"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1668" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="27"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ZExprList>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Start="1672" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="16" Col="33"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1674" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="33"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1674" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="33"/>
+                                                </Anns>
+                                                <Word> _ * _ </Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <ZExprList>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1672" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="31"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1672" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="31"/>
+                                                        </Anns>
+                                                        <Word>n</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <ApplExpr Mixfix="true">
+                                                    <Anns>
+                                                        <LocAnn Start="1677" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="11" Col="38"/>
+                                                        <ParenAnn>
+                                                            <Anns>
+                                                                <LocAnn Start="1676" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="13" Col="35"/>
+                                                            </Anns>
+                                                        </ParenAnn>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1679" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="7" Col="38"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1679" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="7" Col="38"/>
+                                                            </Anns>
+                                                            <Word> _ ♯ _ </Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <TupleExpr>
+                                                        <ZExprList>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="1677" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="36"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="1677" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="36"/>
+                                                                    </Anns>
+                                                                    <Word>B</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="1687" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="46"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="1687" Loc="lib/bag_toolkit_zeves.tex" Line="69" Length="1" Col="46"/>
+                                                                    </Anns>
+                                                                    <Word>x</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </ZExprList>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                            </ZExprList>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </ZExprList>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="1702" Loc="lib/bag_toolkit_zeves.tex" Line="70" Length="81" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+\subsection*{Bag union }
+
+Z/EVES' bag union is predefined, so we reuse CadiZ's
+</Content>
+            </NarrPara>
+            <AxPara Box="OmitBox">
+                <Anns>
+                    <LocAnn Start="1783" Loc="lib/bag_toolkit_zeves.tex" Line="75" Length="122" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="1809" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="14"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="76" Col="17"/>
+                    </Anns>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="76" Col="17"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="76" Col="10"/>
+                                </Anns>
+                                <Word> _ ⊎ _ </Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <LambdaExpr>
+                                <Anns>
+                                    <LocAnn Start="1815" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="80" Col="20"/>
+                                </Anns>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Start="1823" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="12" Col="32"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Start="1823" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="12" Col="32"/>
+                                        </Anns>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="1823" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="12" Col="32"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1823" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="28"/>
+                                                    </Anns>
+                                                    <Word>B</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1826" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="31"/>
+                                                    </Anns>
+                                                    <Word>C</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <RefExpr Mixfix="true" Explicit="true">
+                                                <Anns>
+                                                    <LocAnn Start="1829" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="6" Col="34"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1829" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="4" Col="34"/>
+                                                    </Anns>
+                                                    <Word>bag _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1834" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="39"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1834" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="39"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </RefExpr>
+                                        </VarDecl>
+                                    </ZDeclList>
+                                </ZSchText>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Start="1839" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="56" Col="86"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="1881" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="6" Col="86"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1881" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="6" Col="86"/>
+                                            </Anns>
+                                            <Word> _ ⩥ _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <ZExprList>
+                                            <LambdaExpr>
+                                                <Anns>
+                                                    <LocAnn Start="1839" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="40" Col="44"/>
+                                                    <ParenAnn>
+                                                        <Anns>
+                                                            <LocAnn Start="1838" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="42" Col="43"/>
+                                                        </Anns>
+                                                    </ParenAnn>
+                                                </Anns>
+                                                <ZSchText>
+                                                    <Anns>
+                                                        <LocAnn Start="1847" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="4" Col="53"/>
+                                                    </Anns>
+                                                    <ZDeclList>
+                                                        <Anns>
+                                                            <LocAnn Start="1847" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="4" Col="53"/>
+                                                        </Anns>
+                                                        <VarDecl>
+                                                            <Anns>
+                                                                <LocAnn Start="1847" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="4" Col="53"/>
+                                                            </Anns>
+                                                            <ZNameList>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="1847" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="52"/>
+                                                                    </Anns>
+                                                                    <Word>x</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                            </ZNameList>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="1850" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="55"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="1850" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="55"/>
+                                                                    </Anns>
+                                                                    <Word>X</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </VarDecl>
+                                                    </ZDeclList>
+                                                </ZSchText>
+                                                <ApplExpr Mixfix="true">
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1866" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="71"/>
+                                                            </Anns>
+                                                            <Word> _ + _ </Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <TupleExpr>
+                                                        <ZExprList>
+                                                            <ApplExpr Mixfix="true">
+                                                                <Anns>
+                                                                    <LocAnn Start="1854" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="11" Col="61"/>
+                                                                </Anns>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="1856" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="7" Col="61"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="1856" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="7" Col="61"/>
+                                                                        </Anns>
+                                                                        <Word> _ ♯ _ </Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                                <TupleExpr>
+                                                                    <ZExprList>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="1854" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="59"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="1854" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="59"/>
+                                                                                </Anns>
+                                                                                <Word>B</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="1864" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="69"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="1864" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="69"/>
+                                                                                </Anns>
+                                                                                <Word>x</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                    </ZExprList>
+                                                                </TupleExpr>
+                                                            </ApplExpr>
+                                                            <ApplExpr Mixfix="true">
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="1870" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="7" Col="75"/>
+                                                                        </Anns>
+                                                                        <Word> _ ♯ _ </Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                                <TupleExpr>
+                                                                    <ZExprList>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="1868" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="73"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="1868" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="73"/>
+                                                                                </Anns>
+                                                                                <Word>C</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="1878" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="83"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="1878" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="83"/>
+                                                                                </Anns>
+                                                                                <Word>x</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                    </ZExprList>
+                                                                </TupleExpr>
+                                                            </ApplExpr>
+                                                        </ZExprList>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                            </LambdaExpr>
+                                            <SetExpr>
+                                                <Anns>
+                                                    <LocAnn Start="1888" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="7" Col="93"/>
+                                                </Anns>
+                                                <ZExprList>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Start="1891" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="96"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="0">
+                                                            <Anns>
+                                                                <LocAnn Start="1891" Loc="lib/bag_toolkit_zeves.tex" Line="76" Length="1" Col="96"/>
+                                                            </Anns>
+                                                        </ZNumeral>
+                                                    </NumExpr>
+                                                </ZExprList>
+                                            </SetExpr>
+                                        </ZExprList>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </LambdaExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="1905" Loc="lib/bag_toolkit_zeves.tex" Line="77" Length="35" Col="9"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+\subsubsection*{Bag difference}
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="1940" Loc="lib/bag_toolkit_zeves.tex" Line="81" Length="191" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="1955" Loc="lib/bag_toolkit_zeves.tex" Line="81" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="82" Col="15"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="82" Col="15"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="82" Col="15"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/bag_toolkit_zeves.tex" Line="82" Col="13"/>
+                                    </Anns>
+                                    <Word> _ ⩁ _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="1975" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="32" Col="38"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1996" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="4" Col="38"/>
+                                    </Anns>
+                                    <Word> _ → _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <ProdExpr>
+                                        <Anns>
+                                            <LocAnn Start="1975" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="20" Col="36"/>
+                                        </Anns>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="true" Explicit="true">
+                                                <Anns>
+                                                    <LocAnn Start="1975" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="6" Col="17"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1975" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="4" Col="17"/>
+                                                    </Anns>
+                                                    <Word>bag _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1980" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="1" Col="22"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1980" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="1" Col="22"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="true" Explicit="true">
+                                                <Anns>
+                                                    <LocAnn Start="1989" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="6" Col="31"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1989" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="4" Col="31"/>
+                                                    </Anns>
+                                                    <Word>bag _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1994" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="1" Col="36"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1994" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="1" Col="36"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </ProdExpr>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="2001" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="6" Col="43"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2001" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="4" Col="43"/>
+                                            </Anns>
+                                            <Word>bag _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="2006" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="1" Col="48"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="2006" Loc="lib/bag_toolkit_zeves.tex" Line="82" Length="1" Col="48"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                    <ForallPred>
+                        <Anns>
+                            <LocAnn Start="2017" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="101" Col="2"/>
+                        </Anns>
+                        <ZSchText>
+                            <Anns>
+                                <LocAnn Start="2025" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="18" Col="14"/>
+                            </Anns>
+                            <ZDeclList>
+                                <Anns>
+                                    <LocAnn Start="2025" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="18" Col="14"/>
+                                </Anns>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="2025" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="12" Col="14"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2025" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="1" Col="10"/>
+                                            </Anns>
+                                            <Word>A</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2028" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="1" Col="13"/>
+                                            </Anns>
+                                            <Word>B</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="2031" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="6" Col="16"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2031" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="4" Col="16"/>
+                                            </Anns>
+                                            <Word>bag _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="2036" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="1" Col="21"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="2036" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="1" Col="21"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </VarDecl>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="2039" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="4" Col="25"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2039" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="1" Col="24"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="2042" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="1" Col="27"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2042" Loc="lib/bag_toolkit_zeves.tex" Line="84" Length="1" Col="27"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </VarDecl>
+                            </ZDeclList>
+                        </ZSchText>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Start="2052" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="66" Col="29"/>
+                            </Anns>
+                            <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Start="2052" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="22" Col="19"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="2065" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="7" Col="19"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="2065" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="7" Col="19"/>
+                                        </Anns>
+                                        <Word> _ ♯ _ </Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <ZExprList>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Start="2052" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="11" Col="8"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="2051" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="13" Col="5"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="2054" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="7" Col="8"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="2054" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="7" Col="8"/>
+                                                    </Anns>
+                                                    <Word> _ ⩁ _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="2052" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="6"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="2052" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="6"/>
+                                                            </Anns>
+                                                            <Word>A</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="2062" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="16"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="2062" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="16"/>
+                                                            </Anns>
+                                                            <Word>B</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="2073" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="27"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="2073" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="27"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ZExprList>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Start="2076" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="42" Col="30"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="2076" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="3" Col="30"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="2076" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="3" Col="30"/>
+                                                </Anns>
+                                                <Word>max _ </Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <Anns>
+                                                <LocAnn Start="2080" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="38" Col="34"/>
+                                            </Anns>
+                                            <ZExprList>
+                                                <NumExpr>
+                                                    <Anns>
+                                                        <LocAnn Start="2083" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="37"/>
+                                                    </Anns>
+                                                    <ZNumeral Value="0">
+                                                        <Anns>
+                                                            <LocAnn Start="2083" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="37"/>
+                                                        </Anns>
+                                                    </ZNumeral>
+                                                </NumExpr>
+                                                <ApplExpr Mixfix="true">
+                                                    <Anns>
+                                                        <LocAnn Start="2087" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="27" Col="54"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="2100" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="54"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="2100" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="54"/>
+                                                            </Anns>
+                                                            <Word> _ − _ </Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <TupleExpr>
+                                                        <ZExprList>
+                                                            <ApplExpr Mixfix="true">
+                                                                <Anns>
+                                                                    <LocAnn Start="2087" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="11" Col="43"/>
+                                                                    <ParenAnn>
+                                                                        <Anns>
+                                                                            <LocAnn Start="2086" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="13" Col="40"/>
+                                                                        </Anns>
+                                                                    </ParenAnn>
+                                                                </Anns>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="2089" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="7" Col="43"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="2089" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="7" Col="43"/>
+                                                                        </Anns>
+                                                                        <Word> _ ♯ _ </Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                                <TupleExpr>
+                                                                    <ZExprList>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="2087" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="41"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="2087" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="41"/>
+                                                                                </Anns>
+                                                                                <Word>A</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="2097" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="51"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="2097" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="51"/>
+                                                                                </Anns>
+                                                                                <Word>x</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                    </ZExprList>
+                                                                </TupleExpr>
+                                                            </ApplExpr>
+                                                            <ApplExpr Mixfix="true">
+                                                                <Anns>
+                                                                    <LocAnn Start="2103" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="11" Col="59"/>
+                                                                    <ParenAnn>
+                                                                        <Anns>
+                                                                            <LocAnn Start="2102" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="13" Col="56"/>
+                                                                        </Anns>
+                                                                    </ParenAnn>
+                                                                </Anns>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="2105" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="7" Col="59"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="2105" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="7" Col="59"/>
+                                                                        </Anns>
+                                                                        <Word> _ ♯ _ </Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                                <TupleExpr>
+                                                                    <ZExprList>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="2103" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="57"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="2103" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="57"/>
+                                                                                </Anns>
+                                                                                <Word>B</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="2113" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="67"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="2113" Loc="lib/bag_toolkit_zeves.tex" Line="85" Length="1" Col="67"/>
+                                                                                </Anns>
+                                                                                <Word>x</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                    </ZExprList>
+                                                                </TupleExpr>
+                                                            </ApplExpr>
+                                                        </ZExprList>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                            </ZExprList>
+                                        </SetExpr>
+                                    </ApplExpr>
+                                </ZExprList>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="2131" Loc="lib/bag_toolkit_zeves.tex" Line="86" Length="160" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+\subsubsection*{Bag items}
+
+In Z/EVES, sequence-to-bag transformation is predefined, and a set
+of theorems hold for them. See the Z/EVES toolkit for details.
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="2293" Loc="lib/bag_toolkit_zeves.tex" Line="93" Length="58" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="2308" Loc="lib/bag_toolkit_zeves.tex" Line="93" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Start="2313" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="25" Col="7"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Start="2313" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="25" Col="7"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Start="2313" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="25" Col="7"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="2313" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="5" Col="2"/>
+                                    </Anns>
+                                    <Word>items</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="2320" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="18" Col="16"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="2327" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="4" Col="16"/>
+                                    </Anns>
+                                    <Word> _ → _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="2320" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="6" Col="9"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2320" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="4" Col="9"/>
+                                            </Anns>
+                                            <Word>seq _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="2325" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="1" Col="14"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="2325" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="1" Col="14"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="2332" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="6" Col="21"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2332" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="4" Col="21"/>
+                                            </Anns>
+                                            <Word>bag _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="2337" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="1" Col="26"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="2337" Loc="lib/bag_toolkit_zeves.tex" Line="94" Length="1" Col="26"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="2351" Loc="lib/bag_toolkit_zeves.tex" Line="95" Length="173" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+To use this file, just add  
+
+begin{zsection}
+\SECTION my\_section \parents circus\_toolkit, bag\_toolkit\_zeves
+end{zsection}
+
+within a file caled \verb'my\_section.tex'.</Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>
+

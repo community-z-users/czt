@@ -1,0 +1,102 @@
+================================================================================
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
+================================================================================ 
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+================================================================================
+
+Configuration
+=============
+The DesignerCore runs a configuration script when it starts.
+Extra or replacement scripts can be configured on a per system/per user basis.
+The ability to configure this will be added to the GUI, but at present anyone wishing to do this will
+have to find an alternative way to configure this into java.util.prefs' persistent store.
+
+IAQ (Infrequently Asked Questions)
+==================================
+
+1. What does GAfFE mean?
+------------------------
+GAfFE stands for (G)raphical (A)nimator (F)ront(E)nd.  I couldn't think of something for the other f to
+stand for.  
+
+
+2. Building GAfFE with Ant, it complained that it could not find a correct jar file for BSF, or Rhino.
+------------------------------------------------------------------------------------------------------
+[Now obsolete: since 2006 we use Maven to build gaffe.]
+To find the BSF and Rhino libraries, build.xml first checks for a bsf.jar.path/rhino.jar.path property 
+containing the complete pathname of the jar file.
+If there is no *.jar.path property, it checks for a bsf.home/rhino.home property (getting these from 
+../czt.properties if not already set).
+  bsf.jar.path=${bsf.home}/lib/bsf.jar
+  rhino.jar.path=${rhino.home}/js.jar
+If there is no *.home property, it tries to get that from a BSFHOME/RHINOHOME environment variable.
+  bsf.home=${environment.BSFHOME}
+  rhino.home=${environment.RHINOHOME}
+If there is no *HOME environment variable, it prompts the user for values for *.jar.path.
+
+It then checks if the values it has found for *.jar.path contain the correct libraries.  If not, it 
+complains.
+
+Ways to correct this error:
+  1. Add BSFHOME/RHINOHOME variables to the environment.
+  2. Provide *.jar.path, or *.home properties on Ant's command line with -D, or in czt.properties.
+  3. If these have been done, make sure they are pointing at the correct jar files.
+
+
+3. What properties can be given to Ant when building GAfFE?
+-----------------------------------------------------------
+[Now obsolete: since 2006 we use Maven to build gaffe.]
+gaffe.source.path    = Where the java files are stored (default src).
+gaffe.resources.path = Where the resource (mostly .gif) files are stored (default resources).
+gaffe.build.path     = Where to put the compiled .class files (default classes).
+gaffe.api.path       = Where to put the javadoc documentation (default doc/api).
+gaffe.jar.path       = Where to put the .jar file (default ../${jar.dir}/${gaffe.jar.file}).
+gaffe.bin.path       = Where to put the shell scripts for running GAfFE.
+
+jar.dir              = See gaffe.jar.path
+gaffe.jar.file       = See gaffe.jar.path
+rhino.home           = See Question 2
+bsf.home             = See Question 2
+
+4. Are interfaces created using GAfFE derivative works under the GPL?
+---------------------------------------------------------------------
+Based on my meager understanding of copyright law, files created with the GAfFE interface designer would not
+qualify as derivatives.  This may not be the case with interfaces created using the generator, or using init
+script code from the 'library'.
+
+However for the sake of having a definitive answer, interface files created by the GAfFE designer, or the
+generator should be considered exempt from the GPL's restrictions on derivative works.
+
+What this means is that the files you create are not automatically GPLed, and you may attach any license you
+wish to them.
+
+5. The build file tells me that it can't find the correct jar file, but it says
+-------------------------------------------------------------------------------
+it is looking in the right place. What is wrong?
+------------------------------------------------
+[Now obsolete: since 2006 we use Maven to build gaffe.]
+The build file checks that it has the correct .jar file by using it as the classpath, while looking for a class that is known to be in the correct .jar file.
+If the jar file location it mentions is pointing at a real jar file, then there are two possibilities.
+ - One is that the jar file has the right name, but doesn't contain the right stuff (maybe it's the wrong
+   version, maybe it's the wrong package with the write name).  If this is the case, you'll have to find the
+   correct package and put it where gaffe's build file can find it.
+ - Or, more likely, is that one of the classes that the searched for class depends on can't be found.
+   If you run ant with -verbose, it should mention in the output which class it couldn't find.  If this is 
+   the case, then you may need to put the library the missing class belongs to where gaffe's build file can
+   find it.
+   If you're sure it is in the right place, then try commenting out the <fail ...> tag in the build file; it
+   will stop the build file complaining, but if the java compiler can't find that class when it comes to be
+   its turn, then it will complain then.

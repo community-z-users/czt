@@ -1,0 +1,93 @@
+\begin{zsection}
+  \SECTION st \parents standard\_toolkit
+\end{zsection}
+
+A block-structured symbol table taken from Chapter 2
+of Ian Hayes' specification case studies book.
+
+\begin{zed}
+[SYM, VAL]
+\end{zed}
+
+\begin{schema}{Delta ST}
+ st, st' : SYM \pfun VAL \\
+\end{schema}
+
+\begin{schema}{Xi ST}
+  Delta ST
+\where
+  st = st'
+\end{schema}
+
+\begin{schema}{LookUp}
+  Xi ST \\
+  s?:SYM \\
+  v!:VAL
+\where
+  s? \in \dom(st) \\
+  v! = st(s?)
+\end{schema}
+
+\begin{schema}{Add}
+  Delta ST \\
+  s?:SYM \\
+  v?: VAL
+\where
+  s? \notin \dom(st) \\
+  st' = st \cup \{ s? \mapsto v? \}
+\end{schema}
+
+\begin{schema}{Replace}
+  Delta ST \\
+  s?: SYM \\
+  v?: VAL
+\where
+  s? \in \dom(st) \\
+  st' = st \oplus \{ s? \mapsto v? \}
+\end{schema}
+
+\begin{schema}{Delete}
+  Delta ST \\
+  s?: SYM
+\where
+  s? \in \dom(st) \\
+  st' = \{ s? \} \ndres st
+\end{schema}
+
+%\begin{theorem}{AddDelete}
+%\vdash? \forall Delta ST; s?: SYM; v?:VAL @ Add \semi Delete \implies st = st'
+%\end{theorem}
+
+\begin{zed}
+  Report ::= OK
+                  | Symbol\_not\_present
+		  | Symbol\_present
+		  | Not\_within\_any\_block
+		  | Symbol\_not\_found
+\end{zed}
+
+\begin{schema}{NotPresent}
+  Xi ST \\
+  s?: SYM \\
+  rep!: Report
+\where
+  s? \notin \dom(st) \\
+  rep! = Symbol\_not\_present
+\end{schema}
+
+\begin{schema}{Present}
+  Xi ST \\
+  s?: SYM \\
+  rep!: Report
+\where
+  s? \in \dom(st) \\
+  rep! = Symbol\_present
+\end{schema}
+
+\begin{zed}
+Success == [rep!: Report | rep! = OK] \\
+STLookUp == (LookUp \land Success) \lor NotPresent \\
+STAdd == (Add \land Success) \lor Present \\
+STReplace == (Replace \land Success) \lor NotPresent \\
+STDelete == (Delete \land Success) \lor NotPresent
+\end{zed}

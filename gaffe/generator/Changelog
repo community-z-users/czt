@@ -1,0 +1,183 @@
+GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+Copyright 2003 Nicholas Daley
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+Generator Changelog:
+18 Mar 2004 - (not committed)
+        - Removed depend from classes target in build.xml.
+                - Should make builds a bit faster.
+        - Made Fixes to BasicBeanInterfaceGenerator.
+                - Mostly scripts, and bean names.
+                - So now it produces interfaces that will actually work (given a
+                  working back-end).
+        - Fixed build.xml to work with new version of czt.properties
+                - which now uses rhino.jar, bsf.jar, and not rhino.home,
+                  bsf.home.
+                - Should still work with the old version too!
+
+ 8 Jan 2004 -
+	- Copied checkstyle rule from corejava into build.xml
+
+ 7 Jan 2004 -
+	- Modified build.xml to make use of czt.properties.
+	- Modified build rules for scripts so that only the scripts rule for the platform will be called.
+		- Didn't work before, because dependencies get run regardless of the success or failure of an
+		  'if' property on a 'target' element.
+	- Modified build rule for scripts so that path of JWSDP's JAXB libraries are added to the classpath 
+	  in the script.
+	- Changed FileInterfaceDestination plugin to guess an output name when input file ends with .xml,
+	  not just .zml.
+	- Changed name of a BufferedReader in SpecReaderSource (from reader to authReader) to distinguish it
+	  from another Reader that did have the same name.
+
+ 5 Dec 2003 -
+	- Moved where the config script(s) get run in Generator.
+		- Placed it just before the interface is generated.  Doesn't need to be earlier, avoids extra
+		  time being taken if the program stops before generating the interface (e.g. if -help was
+		  used).
+	- Corrected BasicBeanInterfaceGenerator to use thisForm.lookup instead of thisForm.locate in 
+	  generated scripts.
+	- Corrected BasicBeanInterfaceGenerator to use java.lang.System.exit, System was not imported.
+
+ 4 Dec 2003 (2) -
+	- Changed History classes to accept properties specifying the names of the state and init schemas.
+		- Changed generator to reflect this.
+	- Made corrections to generated init script to prevent errors at runtime.
+	- Fixed generated scripts to refer to History.previousSolutionSet and History.previousSolution, not
+	  History.prevSolutionSet and History.prevSolution.
+	- Fixed generated scripts to refer to Forms.lookup not Forms.locate.
+
+ 4 Dec 2003 -
+	- Fixed scripts to pass command line options along.
+
+ 3 Dec 2003 (2) -
+	- Added build target for bash scripts for running GAfFE generator.
+
+ 3 Dec 2003 -
+	- Added code to Generator to run persistence-config.js from the main gaffe package.
+		- Ensures that the same persistence delegates are used as in the designer.
+	- Changed PluginList.findOption to handle null option names.
+	- Changed BeanChooser to take a String rather than a DeclName.  Was more convenient, because when
+	  creating the State form, though its interface is based on the unprimed state variables, all of the
+	  components should have primed names.  Making a String with an added ' is easier than making a 
+	  DeclName with an added '.
+	- Added an Authenticator inside SpecReaderSource, so that when the JaxbReader tries to fetch the XML
+	  schemas from the web, it can get through the authentication on the school's proxy.
+	- Made some small fixes to the BasicBeanInterfaceGenerator.
+		- Corrected the buttons in the history button panel.
+		- Did some work getting forms to come out sized well.
+			- Set sizes from preferred sizes.
+			- Added border to Forms, even though they won't be saved, they affect the preferred
+			  size.
+	- Blocked creation of operation output forms when an operation did not produce output.
+	- Corrected state form to add prime to all component names.
+	- Changed CommandLineSchemaIdentifier to ignore repeated operation schemas.
+	- Changed FileInterfaceDestination to allow writing to a file that doesn't exist yet.
+	- Used GaffeEncoder rather than XMLEncoder.
+
+28 Nov 2003 -
+	- Removed the DOM based interface generator, and bean chooser plugins
+	- Set up Generator to use BeanInterfaceGenerator and BeanChooser plugins instead.
+	- Changed BeanChooser interface to just return a Component, rather than having the Form, and parent
+	  Container passed in.  This no longer causes problems; because, as of 26 Nov, any children of this
+	  Component will be added to the Form as well.
+	- Changed BeanChooser interface to also take a boolean 'editable' to indicate whether the created 
+	  beans are intended for user input or not.
+	- Finished, but haven't tested the BasicBeanInterfaceGenerator.
+	- Changed one of the checks for stateSchemaName==null in CommandLineSchemaIdentifier to throw an 
+	  Error, because command line options should be processed before identifySchema is called.
+	- To do:
+		- Fix BeanChooser to handle a wider range of type expressions.	e.g. RefExpr.
+		- Fix BeanChooser to handle input through tables.	
+
+19 Nov 2003 -
+	- Started work on InterfaceGenerator implementation.  May get discarded.
+	- Started work on version of the BeanChooser and InterfaceGenerator classes that create the 
+	  interfaces, and use XMLEncoder, rather than using DOM.
+		- Methods for creating parts of the interface with DOM were becoming lengthy, repetitive, and
+		  rather opaque.
+	- Added URL parameter for the interface generator plugin, URL indicates location of Z specification.
+	- To do:
+		- Remove XML DOM based interface generator and bean chooser plugins, change Generator to 
+		  account for this.
+
+13 Nov 2003 - (uncommited)
+	- Reintroduced BadArgumentsException as BadOptionException.
+		- Used by PluginList, and various OptionHandlers to indicate a problem with information
+		  received from the plugins.
+		- Modified PluginList.processOptions to catch and report BadOptionException.
+	- Introduced PluginInstantiationException.
+		- Used by PluginList to indicate that for some reason a plugin implementation could not be
+		  instantiated.
+		- Caught and forwarded as a BadOptionException in many places in PluginList.
+	- Added code to run anonymous options (optionName==null) with no argument when option processing has
+	  finished.  This way plugins can check that they have been given all the data they need.
+	- Fixed Name2String.
+		- Wasn't applying itself to Strokes.
+
+12 Nov 2003 -
+	- Added javadoc documentation for all files.
+	- Added license header to all files.
+	- Made 'all' target dependent on 'doc'.
+	- Removed the BadArgumentsException class (no longer being used).
+
+ 7 Nov 2003 (3) - 
+	- Added a plugin for selecting the location to which the interface should be written.
+
+ 7 Nov 2003 (2) - 
+	- Revamped the command line handling system used by plugins.
+		- Introduced Option class for describing a command line option.
+		- Introduced PluginList class for handling a collection of plugins, processing a command 
+		  line, and for displaying help.
+
+ 7 Nov 2003 -
+	- Modified classes to be compatible with the new naming scheme for the corejava libraries.
+	- Modified the build file to find the new jar files in the corejava libraries.
+		- Disabled the available/fail check, was failing because the JAXB libraries weren't in the 
+		  classpath.
+	- Added help display to Generator
+	- Seperated command line argument processing into seperate, more general, utility function in
+	  Generator.
+	- Added a getArgsDocumentation method to all plugins for use when '-help' is supplied on the command
+	  line.
+	- Added getStateVariables method to VariableExtractor.
+	- Created the DOMInterfaceGenerator plugin class.
+
+29 Oct 2003 - First commit to CVS
+	- Package name = net.sourceforge.czt.animation.gui.generation
+	- Written as a series of plugins.
+		- Plugin interfaces are defined in n.s.c.a.g.g.plugins
+		- Plugin implementations are defined in n.s.c.a.g.g.plugins.impl
+		- SpecSource - retrieves an AST of a Z specification.
+		- SchemaExtractor - finds all of the schemas in the AST.
+		- SchemaIdentifier - identifies which schemas are irrelevant, which are state, init, and 
+		  operation schemas.
+		- VariableExtractor - identifies the relevant variables for input and display in each schema.
+		- DOMBeanChooser - decides on an appropriate display/input bean for a given variable, and
+		  produces the XML code for the interface.
+			- Incomplete.
+		- Generator - puts together the bits of interface for each variable to create the whole 
+		  interface file.
+			- Not yet written.
+	- Each plugin provides a method for getting what info it needs from the list of arguments (sourced 
+	  from the command line).
+	- The implementation used for a particular plugin can be specified on the command line.
+	- To do:
+		- Write DOMBeanChooser.
+		- Instead of having BeanChooser plugin produce XML, have it produce actual beans, use Encoder
+		  to write the file???
+		- Write Generator(s).
+		- Write better implementations of plugins.

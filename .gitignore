@@ -1,0 +1,46 @@
+# LaTeX files
+*.aux
+*.bbl
+*.blg
+*.log
+*.synctex.gz
+*.tmp
+
+# Eclipse-specific files
+.classpath
+.project
+.settings
+# Manifests are created in m2e as a workaround for PDE (see pom.xml), ignore them
+META-INF/
+
+# NetBeans-specific files
+nbactions.xml
+nb-configuration.xml
+
+# Maven output dirs
+target/
+
+# Misc
+/lib
+/doc/papers/sectman/master.pdf
+/rules/*.log.lck
+/util/src/main/resources
+/vcg/src/test/resources/tests/z/czt.sty
+velocity.log*
+doc/papers/ifm/OZTypeChecker-eps-converted-to.pdf
+doc/papers/ifm/ZTypeChecker-eps-converted-to.pdf
+doc/papers/ifm/ifm.fdb_latexmk
+doc/papers/ifm/ifm.fls
+doc/papers/ifm/ifm.pdf
+doc/papers/zml/master.fdb_latexmk
+doc/papers/zml/master.fls
+doc/papers/zml/master.pdf
+typechecker/typechecker-circus/src/test/resources/tests/circus/circus_cookies.fdb_latexmk
+typechecker/typechecker-circus/src/test/resources/tests/circus/circus_cookies.fls
+doc/papers/class-types/main.fdb_latexmk
+doc/papers/class-types/main.fls
+doc/papers/class-types/main.synctex.gz(busy)
+typechecker/typechecker-z/src/test/resources/net/sourceforge/czt/typecheck/tests/z/typechecker_speed.fdb_latexmk
+typechecker/typechecker-z/src/test/resources/net/sourceforge/czt/typecheck/tests/z/typechecker_speed.fls
+parser/parser-circus/src/test/resources/tests/circus/channels.fdb_latexmk
+parser/parser-circus/src/test/resources/tests/circus/channels.fls

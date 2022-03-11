@@ -1,0 +1,13 @@
+\begin{zsection}
+  \SECTION TypeMismatchInSignature\_ExprPred
+\end{zsection}
+
+\begin{zed}
+  schExpr == [x : \nat]
+\end{zed}
+
+\begin{axdef}
+  x : \power \nat
+\where
+  schExpr
+\end{axdef}

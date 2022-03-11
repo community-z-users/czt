@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION DuplicateInBindExpr\_BindExpr
+\end{zsection}
+
+\begin{zed}
+  error == \lblot one == 1, two == 2, one == 1, three == 3 \rblot
+\end{zed}

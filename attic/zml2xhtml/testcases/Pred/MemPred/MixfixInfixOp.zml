@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <Anns>
+    <zmltp:description>
+      Mixfix with Infix Operator
+    </zmltp:description>		
+  </Anns>		
+  
+  <ZSect>
+    <Name>Equality Mixfix Test</Name>
+    <AxPara>
+      <SchText>
+        <MemPred Mixfix='true'>
+          <TupleExpr>
+            <RefExpr>	
+              <RefName>	
+                <Word>
+                  A
+                </Word>	
+              </RefName>
+            </RefExpr>
+            <RefExpr>
+              <RefName>	
+                <Word>
+                  B
+                </Word>	
+              </RefName>	
+            </RefExpr>
+          </TupleExpr>
+          <RefExpr>	
+            <RefName>	
+              <Word>=</Word>	
+            </RefName>	
+          </RefExpr>
+        </MemPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

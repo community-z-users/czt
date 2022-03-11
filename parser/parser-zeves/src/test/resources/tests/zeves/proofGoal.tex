@@ -1,0 +1,17 @@
+\begin{zsection}
+   \SECTION proofGoal \parents standard\_toolkit
+\end{zsection}
+
+\begin{theorem}{Test}
+    \forall WFBellLapadula @
+      readBy \in Data \rel Service \land writes \in Service \rel Data \land
+      readableTo \in Data \rel Service \land canWrite \in Service \rel Data \land
+      wf = ( readBy \comp writes ) \plus \land graph = ( readableTo \comp canWrite ) \plus \land
+      knownServices = \dom writes \cup \ran readBy \land knownData = \dom readBy \cup \ran writes \land
+      clearance \in Service \pfun Level \land locationS \in Service \pfun Level \land
+      locationD \in Data \pfun Level \land u \in Service \land i \in Data \land
+      \dom locationS \in \power ( \dom clearance ) \land \dom writes \in \power ( \dom locationS ) \land
+      \ran readBy \in \power ( \dom locationS ) \land \dom readBy \in \power ( \dom locationD ) \land
+      \ran writes \in \power ( \dom locationD ) \land ( \forall s : \dom locationS @ locationS~s \leq clearance~s )
+      \land ( i , u ) \in readBy \implies i \in \dom locationD \land u \in \dom clearance
+\end{theorem}

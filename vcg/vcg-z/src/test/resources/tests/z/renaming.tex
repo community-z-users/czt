@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION renaming \parents function\_toolkit
+\end{zsection}
+
+\begin{schema}{State}
+   x: \nat \\
+   y: \power~\nat
+\where
+   x \in y
+\end{schema}
+
+\begin{schema}{Op}
+   \Delta State\\
+   in?: \nat \\
+   out!: \nat
+\where
+   in? \neq out!
+\end{schema}
+
+\begin{zed}
+   OpRename1 == Op[a/x, a'/x', b/y, b'/y'] \\
+   OpRename2 == OpRename1[param?/in?, result!/out!] \\
+%   OpHR	     == Op[c/x, c'/x'] \hide (c', y)
+\end{zed}

@@ -1,0 +1,51 @@
+─ section refRulesEquivUtf parents zeves_toolkit └ 
+
+Bla bla
+
+┌ AS 
+x : ℙ ℕ └ 
+─ FI ::= NatIn ⟪ ℕ ⟫ └ ─ FO ::= NatOut ⟪ ℕ ⟫ └ 
+
+┌ CS 
+y : seq ℕ └ 
+
+The next refinement tag is mistaken on purpose - just to test the parser for it.
+
+┌ AOper 
+ΔAS 
+ai? : ℕ 
+ao! : ℕ |
+ x′ = x ∪ { ai? } 
+ao! ∈ x └ 
+
+┌ COper 
+ΔCS 
+ci? : FI 
+co! : FO |
+ y′ = y ⁀ ⟨ ( NatIn ∼ ) ( ci? ) ⟩ 
+( NatOut ∼ ) ( co! ) ∈ ran y └ 
+
+┌ R 
+AS 
+CS |
+ x = ran y └ 
+
+┌ RIn 
+ai? : ℕ 
+ci? : FI |
+ ai? = ( NatIn ∼ ) ( ci? ) └ 
+
+┌ ROut 
+ao! : ℕ 
+co! : FO |
+ ao! = ( NatOut ∼ ) ( co! ) └ 
+
+─ theorem BSCorrectnessEquiv0 ( ∀ CS ; ci? : FI | ( ∀ AS ; ai? : ℕ | R ∧ RIn ⦁ pre AOper ) ⦁ ( ∀ CS ′ ; co! : FO ; AS ′ ; ao! : ℕ | COper ∧ R ′ ∧ ROut ⦁ ( ∃ AS ; ai? : ℕ ⦁ R ∧ RIn ∧ AOper ) ) ) └ 
+
+─ theorem rule lNatInType ∀ x : FI ⦁ ( NatIn ∼ ) x ∈ ℤ └ 
+
+─ theorem rule lNatInIsNat ∀ x : FI ⦁ ( NatIn ∼ ) x ≥ 0 └ 
+
+─ theorem BSCorrectnessEquiv ( ∀ CS ; ci? : FI | ( ∀ AS ; ai? : ℕ | R ∧ RIn ⦁ pre AOper ) ⦁ ( ∀ CS ′ ; co! : FO ; AS ′ ; ao! : ℕ | COper ∧ R ′ ∧ ROut ⦁ ( ∃ AS ; ai? : ℕ ⦁ R ∧ RIn ∧ AOper ) ) ) ⇔ ( ∀ COper ; ROut ; R ′ | ( ∀ AS ; RIn | R ⦁ pre AOper ) ⦁ ( ∃ AS ; R ; RIn ⦁ AOper ) ) └ 
+
+├ BSCorrectnessEquiv split ( ∀ CS ; ci? : FI | ( ∀ AS ; ai? : ℕ | R ∧ RIn ⦁ pre AOper ) ⦁ ( ∀ CS ′ ; co! : FO ; AS ′ ; ao! : ℕ | COper ∧ R ′ ∧ ROut ⦁ ( ∃ AS ; ai? : ℕ ⦁ R ∧ RIn ∧ AOper ) ) ) ;  cases ;  prove by reduce ;  instantiate x == ran y , y__0 == y ;  prove by reduce ;  instantiate ci__1? == ci? , ai__0? == ( NatIn ∼ ) ( ci? ) ;  prove by reduce ;  next ;  split ( ∀ COper ; ROut ; R ′ | ( ∀ AS ; RIn | R ⦁ pre AOper ) ⦁ ( ∃ AS ; R ; RIn ⦁ AOper ) ) ;  simplify ;  prove by reduce ;  next ;  └ 

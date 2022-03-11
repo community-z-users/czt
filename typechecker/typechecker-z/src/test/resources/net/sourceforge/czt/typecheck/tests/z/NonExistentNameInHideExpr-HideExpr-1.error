@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonExistentNameInHideExpr\_HideExpr\_1
+\end{zsection}
+
+\begin{zed}
+  error == [x : \nat] \hide (y)
+\end{zed}

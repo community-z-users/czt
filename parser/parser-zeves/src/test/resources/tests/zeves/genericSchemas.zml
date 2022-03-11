@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ZSect xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns4="http://czt.sourceforge.net/circuspatt" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:ns5="http://czt.sourceforge.net/object-z" xmlns:ns6="http://czt.sourceforge.net/zeves" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Anns>
+        <LocAnn Length="346" Start="1" Col="1" Line="1" Loc="./tests/zeves/genericSchemas.tex"/>
+    </Anns>
+    <Name>genericSchemas</Name>
+    <Parent>
+        <Anns>
+            <LocAnn Length="15" Start="54" Col="36" Line="2" Loc="./tests/zeves/genericSchemas.tex"/>
+        </Anns>
+        <Word>zeves_toolkit</Word>
+    </Parent>
+    <ZParaList>
+        <LatexMarkupPara/>
+        <NarrPara>
+            <Anns>
+                <LocAnn Length="41" Start="84" Col="14" Line="3" Loc="./tests/zeves/genericSchemas.tex"/>
+            </Anns>
+            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+Warning about missing hard space. Good
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <Anns>
+                <ns6:ZEvesLabel Usage="none" Ability="none">
+                    <ZName>
+                        <Anns>
+                            <LocAnn Length="1" Start="140" Col="15" Line="6" Loc="./tests/zeves/genericSchemas.tex"/>
+                        </Anns>
+                        <Word>S</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ns6:ZEvesLabel>
+                <LocAnn Length="91" Start="125" Col="0" Line="6" Loc="./tests/zeves/genericSchemas.tex"/>
+            </Anns>
+            <ZNameList>
+                <ZName>
+                    <Anns>
+                        <LocAnn Length="1" Start="143" Col="18" Line="6" Loc="./tests/zeves/genericSchemas.tex"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZName>
+            </ZNameList>
+            <ZSchText>
+                <ZDeclList>
+                    <ConstDecl>
+                        <ZName>
+                            <Anns>
+                                <LocAnn Length="1" Start="140" Col="15" Line="6" Loc="./tests/zeves/genericSchemas.tex"/>
+                            </Anns>
+                            <Word>S</Word>
+                            <ZStrokeList/>
+                        </ZName>
+                        <SchExpr>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Length="40" Start="163" Col="4" Line="8" Loc="./tests/zeves/genericSchemas.tex"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <Anns>
+                                        <LocAnn Length="22" Start="163" Col="4" Line="8" Loc="./tests/zeves/genericSchemas.tex"/>
+                                    </Anns>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Length="11" Start="163" Col="4" Line="8" Loc="./tests/zeves/genericSchemas.tex"/>
+                                        </Anns>
+                                        <ZNameList>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="163" Col="3" Line="8" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                </Anns>
+                                                <Word>a</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                        </ZNameList>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Length="8" Start="166" Col="6" Line="8" Loc="./tests/zeves/genericSchemas.tex"/>
+                                            </Anns>
+                                            <RefExpr Explicit="false" Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="173" Col="13" Line="8" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Length="1" Start="173" Col="13" Line="8" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </VarDecl>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Length="4" Start="181" Col="4" Line="9" Loc="./tests/zeves/genericSchemas.tex"/>
+                                        </Anns>
+                                        <ZNameList>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="181" Col="3" Line="9" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                </Anns>
+                                                <Word>b</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                        </ZNameList>
+                                        <RefExpr Explicit="false" Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Length="1" Start="184" Col="6" Line="9" Loc="./tests/zeves/genericSchemas.tex"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="184" Col="6" Line="9" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                                <MemPred Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Length="7" Start="196" Col="5" Line="11" Loc="./tests/zeves/genericSchemas.tex"/>
+                                    </Anns>
+                                    <RefExpr Explicit="false" Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Length="1" Start="196" Col="3" Line="11" Loc="./tests/zeves/genericSchemas.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="196" Col="3" Line="11" Loc="./tests/zeves/genericSchemas.tex"/>
+                                            </Anns>
+                                            <Word>b</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Explicit="false" Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Length="1" Start="202" Col="9" Line="11" Loc="./tests/zeves/genericSchemas.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="202" Col="9" Line="11" Loc="./tests/zeves/genericSchemas.tex"/>
+                                            </Anns>
+                                            <Word>a</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </MemPred>
+                            </ZSchText>
+                        </SchExpr>
+                    </ConstDecl>
+                </ZDeclList>
+            </ZSchText>
+        </AxPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Length="2" Start="216" Col="12" Line="12" Loc="./tests/zeves/genericSchemas.tex"/>
+            </Anns>
+            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <Anns>
+                <ns6:ZEvesLabel Usage="none" Ability="none">
+                    <ZName>
+                        <Anns>
+                            <LocAnn Length="4" Start="233" Col="15" Line="14" Loc="./tests/zeves/genericSchemas.tex"/>
+                        </Anns>
+                        <Word>Init</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ns6:ZEvesLabel>
+                <LocAnn Length="62" Start="218" Col="0" Line="14" Loc="./tests/zeves/genericSchemas.tex"/>
+            </Anns>
+            <ZNameList>
+                <ZName>
+                    <Anns>
+                        <LocAnn Length="1" Start="239" Col="21" Line="14" Loc="./tests/zeves/genericSchemas.tex"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZName>
+            </ZNameList>
+            <ZSchText>
+                <ZDeclList>
+                    <ConstDecl>
+                        <ZName>
+                            <Anns>
+                                <LocAnn Length="4" Start="233" Col="15" Line="14" Loc="./tests/zeves/genericSchemas.tex"/>
+                            </Anns>
+                            <Word>Init</Word>
+                            <ZStrokeList/>
+                        </ZName>
+                        <SchExpr>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Loc="./tests/zeves/genericSchemas.tex"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <Anns>
+                                        <LocAnn Loc="./tests/zeves/genericSchemas.tex"/>
+                                    </Anns>
+                                    <InclDecl>
+                                        <DecorExpr>
+                                            <Anns>
+                                                <LocAnn Length="3" Start="245" Col="3" Line="15" Loc="./tests/zeves/genericSchemas.tex"/>
+                                            </Anns>
+                                            <RefExpr Explicit="false" Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="245" Col="3" Line="15" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Length="1" Start="245" Col="3" Line="15" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                    </Anns>
+                                                    <Word>S</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <NextStroke>
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="247" Col="5" Line="15" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                </Anns>
+                                            </NextStroke>
+                                        </DecorExpr>
+                                    </InclDecl>
+                                </ZDeclList>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Length="8" Start="259" Col="5" Line="17" Loc="./tests/zeves/genericSchemas.tex"/>
+                                    </Anns>
+                                    <RefExpr Explicit="false" Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Length="1" Start="259" Col="3" Line="17" Loc="./tests/zeves/genericSchemas.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="259" Col="3" Line="17" Loc="./tests/zeves/genericSchemas.tex"/>
+                                            </Anns>
+                                            <Word>a</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <SetExpr>
+                                        <ZExprList>
+                                            <SetExpr>
+                                                <Anns>
+                                                    <LocAnn Length="4" Start="263" Col="7" Line="17" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                </Anns>
+                                                <ZExprList/>
+                                            </SetExpr>
+                                        </ZExprList>
+                                    </SetExpr>
+                                </MemPred>
+                            </ZSchText>
+                        </SchExpr>
+                    </ConstDecl>
+                </ZDeclList>
+            </ZSchText>
+        </AxPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Length="2" Start="280" Col="12" Line="18" Loc="./tests/zeves/genericSchemas.tex"/>
+            </Anns>
+            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <Anns>
+                <LocAnn Length="65" Start="282" Col="0" Line="20" Loc="./tests/zeves/genericSchemas.tex"/>
+                <ns6:ZEvesLabel Usage="none" Ability="none">
+                    <ZName>
+                        <Anns>
+                            <LocAnn Length="1" Start="297" Col="3" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                        </Anns>
+                        <Word>T</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ns6:ZEvesLabel>
+            </Anns>
+            <ZNameList>
+                <ZName>
+                    <Anns>
+                        <LocAnn Length="1" Start="299" Col="5" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZName>
+            </ZNameList>
+            <ZSchText>
+                <Anns>
+                    <LocAnn Length="40" Start="297" Col="8" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                </Anns>
+                <ZDeclList>
+                    <ConstDecl>
+                        <Anns>
+                            <LocAnn Length="40" Start="297" Col="8" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                        </Anns>
+                        <ZName>
+                            <Anns>
+                                <LocAnn Length="1" Start="297" Col="3" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                            </Anns>
+                            <Word>T</Word>
+                            <ZStrokeList/>
+                        </ZName>
+                        <SchExpr>
+                            <Anns>
+                                <LocAnn Length="32" Start="305" Col="11" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                            </Anns>
+                            <ZSchText>
+                                <ZDeclList>
+                                    <Anns>
+                                        <LocAnn Length="11" Start="307" Col="14" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                    </Anns>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Length="11" Start="307" Col="14" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                        </Anns>
+                                        <ZNameList>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="307" Col="13" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                </Anns>
+                                                <Word>c</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                        </ZNameList>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Length="8" Start="310" Col="16" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                            </Anns>
+                                            <RefExpr Explicit="false" Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="317" Col="23" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Length="1" Start="317" Col="23" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                    </Anns>
+                                                    <Word>Y</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                                <NegPred>
+                                    <Anns>
+                                        <LocAnn Length="14" Start="321" Col="27" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                    </Anns>
+                                    <MemPred Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Length="8" Start="327" Col="35" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                        </Anns>
+                                        <RefExpr Explicit="false" Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Length="1" Start="327" Col="33" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="327" Col="33" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                </Anns>
+                                                <Word>c</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <ZExprList>
+                                                <SetExpr>
+                                                    <Anns>
+                                                        <LocAnn Length="4" Start="331" Col="37" Line="21" Loc="./tests/zeves/genericSchemas.tex"/>
+                                                    </Anns>
+                                                    <ZExprList/>
+                                                </SetExpr>
+                                            </ZExprList>
+                                        </SetExpr>
+                                    </MemPred>
+                                </NegPred>
+                            </ZSchText>
+                        </SchExpr>
+                    </ConstDecl>
+                </ZDeclList>
+            </ZSchText>
+        </AxPara>
+    </ZParaList>
+</ZSect>

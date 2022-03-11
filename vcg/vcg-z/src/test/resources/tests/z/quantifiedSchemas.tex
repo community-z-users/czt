@@ -1,0 +1,19 @@
+\begin{zsection}
+\SECTION quantifiedSchemas \parents function\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+   x: \nat \\
+   y: \power~\nat
+\where
+   x \in y
+\end{schema}
+
+\begin{schema}{T}
+   S \\
+   w, z: \nat
+\end{schema}
+
+\begin{zed}
+   R == \exists S @ T
+\end{zed}

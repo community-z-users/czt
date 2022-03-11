@@ -1,0 +1,21 @@
+
+\begin{zsection}
+  \SECTION\ tc327\_extchoice\_bp \parents\ circus\_toolkit
+\end{zsection}
+
+Locally declared variable in basic process of a external choice branch
+cannot be used across the branch into another basic process. Note it 
+can be used within the basic process, though.
+%
+\begin{circus}
+    \circchannel c : \nat \\
+    \circprocess\ P \circdef\  \\
+    	\t1 \circbegin \circspot\ \circvar x: \nat \circspot c?a \then c!(x+a) \then \Skip \circend \\
+		\t2 \extchoice \\
+	\t1 \circbegin \circspot\ c!x \then \Stop \circend 
+   \also    
+    \circprocess\ Q \circdef\  a: \nat \circspot \\
+    	\t1 \circbegin \circspot\ c!(a+1) \then \Skip \circend \\
+		\t2 \intchoice \\
+	\t1 \circbegin \circspot\ c?b  \then c!(a+b) \then \Skip \circend 
+\end{circus}

@@ -1,0 +1,75 @@
+
+\documentclass{article}
+
+\usepackage{czt}
+\usepackage[color]{circus}
+
+\begin{document}
+
+\title{Special \LaTeX\ symbols within \Circus\ tools}
+\author{Leo Freitas}
+\date{April 2008}
+
+\maketitle
+
+The parser accepts some extra commands useful for \LaTeX\ typesetting.
+They are:
+\begin{itemize}
+   \item \verb'\circblockbegin' and \verb'\circblockend' --- parsed as hard space
+   \item \verb'\circminipagebegin' and \verb'\circminipageend' --- parsed as hard space
+   \item \verb'\circnote{whatever text without \ or \\ in it}' --- parsed as comment
+   \item \verb'\circtoolsoff' and \verb'\circtoolson' --- parsed as comment
+   \item \verb'\znewpage' and \verb'\zbreak' --- parsed as new lines
+\end{itemize}
+%
+Their meaning are self-evident: it switches block indentation and
+mini-page configuration;~allows the user to add commentary text
+within formal material;~enables the user to switch on/off the
+Circus tools within parts of the text;~and breaks page or formulae
+accordingly.
+
+The commands \verb'\circblockbegin' and \verb'\circblockend' can appear anywhere
+a \verb'\begin{block}/\end{block}'
+can appear (\textit{i.e.,} within mathematical formulae). And similarly for mini page.
+The command \verb'\circnote{...}' is intended to appear within Z or Circus environments,
+but could indeed appear anywhere. The commands \verb'\znewpage' and \verb'\zbreak' can
+appear only within a Z or Circus environment. Finally, the commands
+\verb'\circtoolsoff' and \verb'\circtoolson' can appear only where ever narrative text
+can (\textit{i.e.,} they cannot appear within Z or Circus environments.
+
+These commands are parsed as either hard space or comments.
+That is, their UNICODE representation is either of a \verb'~' (hard space)
+or just ignored (\textit{i.e.,} don't appear at all) as they are comments.
+This has the obvious consequence that translation among markups is no longer
+injective. This is already the case in Standard Z: \verb'\t1 ... \t9' is
+also translated as hard space and would not translate back to \LaTeX\ as
+the appropriate tabbing commands.
+
+\begin{zsection}
+   \SECTION special\_symbols \parents circus\_prelude
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c \\
+   \circnote{This is a chance to add comments to the user}
+    \circprocess\ P \circdef \circbegin \\
+       C \circdef c \then \Skip \\
+       \znewpage
+    \circspot \Skip \\
+    \zbreak
+    \circend
+\end{circus}
+
+\circtoolsoff
+
+\begin{circus}
+   \circchannel should\_not\_be\_processed : \nat
+\end{circus}
+
+\circtoolson
+
+\begin{circus}
+   \circchannel should\_be\_processed : \nat
+\end{circus}
+
+\end{document}

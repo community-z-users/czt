@@ -1,0 +1,13 @@
+From the Z standard chapter 8.3 (User-defined operators):
+
+  "A template can reuse the same words as other templates in the same scope,
+   so long as the same token is associated with a word by all templates that
+   use that word."
+
+These two operators assign DIFFERENT tokens to 'b' in a single template
+%%Zinword \b b
+
+This maps 'b' to both the EL token and the ERE token.
+\begin{zed}
+\generic 30 \leftassoc (\_ \b \_ \b \_)
+\end{zed}

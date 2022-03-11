@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION RedeclaredGlobalName\_FreePara\_2
+\end{zsection}
+
+\begin{zed}
+  x == 1\\
+  y ::= x
+\end{zed}

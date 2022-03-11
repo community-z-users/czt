@@ -1,0 +1,16 @@
+\begin{schema}{A}
+	i : \nat \\
+\where
+	i > 5 
+\end{schema}
+
+\begin{schema}{B}
+	i, j : \nat \\
+\where	
+	j > i \\
+\end{schema}
+
+\begin{zed}
+	C == A \hide (i) \\
+	D == (A \land B) \hide (i) \\
+\end{zed}

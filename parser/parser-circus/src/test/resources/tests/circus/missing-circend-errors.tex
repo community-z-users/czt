@@ -1,0 +1,18 @@
+
+\begin{zsection}
+  \SECTION\ basic\_processes\_errors1 \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circchannel\ out: \nat
+\end{circus}
+
+
+\begin{circus}
+    \circprocess\ MissingCircEnd ~~\circdef~~ \circbegin
+\end{circus}
+
+\begin{circusaction}
+    \circspot out.0 \then \Skip
+\end{circusaction}
+

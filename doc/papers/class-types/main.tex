@@ -1,0 +1,65 @@
+\documentclass{llncs}
+\let\SS=\S
+\usepackage{oz}
+\usepackage{makeidx}
+%\usepackage{largepaper}
+\usepackage{verbatim}
+\usepackage{url}
+\usepackage{epsf}
+\usepackage{xspace}
+\usepackage{algorithm}
+\usepackage{oldalgorithmic}
+
+% Short reference to a section of the ISO Z Standard. Stolen from Mark
+% and Petra's ZB2005 paper ;)
+\newcommand{\ISOZ}[1]{the Z Standard{\SS}#1}
+\newcommand{\Standard}{ISO Standard for Z\xspace}
+\newcommand{\theStandard}{the \Standard}
+
+\def\arithmos{\bbold A}
+
+\newcommand{\TIF}{\xspace{\bf if}\xspace}
+\newcommand{\TTHEN}{\xspace{\bf then}\xspace}
+\newcommand{\TELSE}{\xspace{\bf else}\xspace}
+\newcommand{\TBEGIN}{\xspace{\bf begin}\xspace}
+\newcommand{\TEND}{\xspace{\bf end}\xspace}
+\newcommand{\TFOR}{\xspace{\bf for}\xspace}
+\newcommand{\TDO}{\xspace{\bf do}\xspace}
+\newcommand{\TRETURN}{\xspace{\bf return}\xspace}
+
+\newcommand{\nexti}{\hspace{4mm}}
+
+\zedindent=3mm
+
+\newcommand{\varclasstype}{\xspace\varphi\xspace}
+
+\title{Class Types and Type Unification in Object-Z}
+\author{Tim Miller\inst{1} \and Tim McComb\inst{2}}
+
+\institute{
+  Department of Computer Science,\\
+  The University of Liverpool, Liverpool, L69 7ZF, UK\\
+  \email{tim@csc.liv.ac.uk}
+\and
+  School of Information Technology and Electrical Engineering,\\
+  The University of Queensland, Australia\\
+  \email{tjm@itee.uq.edu.au}
+}
+
+
+\begin{document}
+
+\maketitle
+
+\input{abstract}
+\input{intro}
+\input{background}
+\input{types}
+\input{inference}
+\input{lit}
+\input{conc}
+
+\bibliography{bib/bib}
+\bibliographystyle{splncs}
+
+\end{document}

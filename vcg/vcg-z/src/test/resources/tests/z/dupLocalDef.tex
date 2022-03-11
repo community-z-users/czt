@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION dupLocalDef \parents function\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+   f: \nat \pfun \nat \\
+   f: \power~(\nat \cross \nat)
+\where
+   f \neq \emptyset
+\end{schema}
+
+\begin{schema}{T}
+   S
+\end{schema}
+
+\begin{schema}{R}
+   S; T
+\end{schema}
+
+\begin{schema}{R2}
+   S; S; T
+\end{schema}

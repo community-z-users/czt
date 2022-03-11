@@ -1,0 +1,194 @@
+A block-structured symbol table taken from Chapter 2
+of Ian Hayes' specification case studies book.
+
+\begin{zed}
+[SYM, VAL]
+\end{zed}
+
+\begin{schema}{\Delta ST}
+ st, st' : SYM \pfun VAL \\
+\end{schema}
+
+\begin{schema}{\Xi ST}
+  \Delta ST
+\where
+  st = st'
+\end{schema}
+
+\begin{schema}{LookUp}
+  \Xi ST \\
+  s?:SYM \\
+  v!:VAL
+\where
+  s? \in \dom(st) \\
+  v! = st(s?)
+\end{schema}
+
+\begin{schema}{Add}
+  \Delta ST \\
+  s?:SYM \\
+  v?: VAL
+\where
+  s? \notin \dom(st) \\
+  st' = st \cup \{ s? \mapsto v? \}
+\end{schema}
+
+\begin{schema}{Replace}
+  \Delta ST \\
+  s?: SYM \\
+  v?: VAL
+\where
+  s? \in \dom(st) \\
+  st' = st \oplus \{ s? \mapsto v? \}
+\end{schema}
+
+\begin{schema}{Delete}
+  \Delta ST \\
+  s?: SYM
+\where
+  s? \in \dom(st) \\
+  st' = \{ s? \} \ndres st
+\end{schema}
+
+%\begin{theorem}{AddDelete}
+%\vdash? \forall \Delta ST; s?: SYM; v?:VAL @ Add \semi Delete \implies st = st'
+%\end{theorem}
+
+\begin{zed}
+  Report ::= OK
+                  | Symbol\_not\_present
+		  | Symbol\_present
+		  | Not\_within\_any\_block
+		  | Symbol\_not\_found
+\end{zed}
+
+\begin{schema}{NotPresent}
+  \Xi ST \\
+  s?: SYM \\
+  rep!: Report
+\where
+  s? \notin \dom(st) \\
+  rep! = Symbol\_not\_present
+\end{schema}
+
+\begin{schema}{Present}
+  \Xi ST \\
+  s?: SYM \\
+  rep!: Report
+\where
+  s? \in \dom(st) \\
+  rep! = Symbol\_present
+\end{schema}
+
+\begin{zed}
+Success == [rep!: Report | rep! = OK] \\
+STLookUp == (LookUp \land Success) \lor NotPresent \\
+STAdd == (Add \land Success) \lor Present \\
+STReplace == (Replace \land Success) \lor NotPresent \\
+STDelete == (Delete \land Success) \lor NotPresent
+\end{zed}
+
+%%Zinword \distro {\oplus}/
+%\begin{axdef}
+%  \distro: \seq ST \fun ST
+%\where
+%  \forall s: ST; ss,tt: \seq ST @
+%    \distro \langle\rangle = \emptyset \land
+%    \distro \langle s \rangle = s \land
+%    \distro(ss \cat tt) = \distro(ss) \oplus \distro(tt)
+%\end{axdef}
+
+\begin{axdef}
+  \distro == \lambda s:\seq (SYM \pfun VAL) @
+      \{sym: SYM; val: VAL | (\exists index: \nat @ sym \mapsto val \in s~index \land \forall i:\nat | i > index @ sym \notin \dom(s~i))@ sym \mapsto val \}
+\end{axdef}
+
+\begin{zed}
+  BST == \seq (SYM \pfun VAL) \\
+  \Delta BST == [bst, bst' : BST] \\
+  \Xi BST == [\Delta BST | bst' = bst] \\
+\end{zed}
+
+\begin{schema}{BSearch0}
+  \Xi BST \\
+  s?: SYM \\
+  v!: VAL
+\where
+  s? \in \dom(\distro bst) \land v! = (\distro bst)(s?)
+\end{schema}
+
+\begin{schema}{BStart0}
+  \Delta BST
+\where
+  bst' = bst \cat \langle \emptyset \rangle
+\end{schema}
+
+\begin{schema}{BEnd0}
+  \Delta BST
+\where
+  bst \neq \langle\rangle \land bst' = front(bst)
+\end{schema}
+
+\begin{schema}{BReplace00}
+  \Delta BST \\
+  s?: SYM \\
+  v?: VAL \\
+  rep!: Report \\
+  \Delta ST
+\where
+  bst \neq \langle\rangle \\
+  front(bst') = front(bst) \\
+  st = last(bst) \\
+  st' = last(bst') \\
+  ((s? \in \dom(st) \land st' = st \oplus \{ s? \mapsto v? \} \land rep! = OK)
+    \lor
+    (s? \notin \dom(st) \land st' = st \land rep! = Symbol\_not\_present))
+\end{schema}
+
+\begin{schema}{\Phi BST}
+  \Delta BST \\
+  \Delta ST
+\where
+  bst \neq \langle\rangle = front(bst) \\
+  st = last(bst) \\
+  st' = last(bst')
+\end{schema}
+
+\begin{zed}
+  BLookUp0 == STLookUp \land \Phi BST \\
+  BAdd0 == STAdd \land \Phi BST \\
+  BReplace0 == STReplace \land \Phi BST \\
+  BDelete0 == STDelete \land \Phi BST \\
+
+  BLookUp1 == \exists \Delta ST @ BLookUp0 \\
+  BAdd1 == \exists \Delta ST @ BAdd0 \\
+  BReplace1 == \exists \Delta ST @ BReplace0 \\
+  BDelete1 == \exists \Delta ST @ BDelete0
+\end{zed}
+
+\begin{schema}{Empty}
+  \Xi BST \\
+  rep!: Report
+\where
+  bst = \langle\rangle \land rep! = Not\_within\_any\_block
+\end{schema}
+
+\begin{schema}{NotFound}
+  \Xi BST \\
+  s?: SYM \\
+  rep!: Report
+\where
+  bst \neq \langle\rangle \\
+  s? \notin \dom(\distro bst) \\
+  rep! = Symbol\_not\_found
+\end{schema}
+
+\begin{zed}
+  BSearch == (BSearch0 \land Success) \lor NotFound \lor Empty \\
+  BStart == BStart0 \land Success \\
+  BEnd == (BEnd0 \land Success) \lor Empty \\
+  BLookUp == BLookUp1 \lor Empty \\
+  BAdd == BAdd1 \lor Empty \\
+  BReplace == BReplace1 \lor Empty \\
+  BDelete == BDelete1 \lor Empty
+\end{zed}

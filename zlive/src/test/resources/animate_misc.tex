@@ -1,0 +1,190 @@
+\documentclass{article}
+\usepackage{oz}
+\newcommand{\negate}{-}
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+\title{CZT Tests for Basic Set Operations}
+\author{Mark Utting \\ \texttt{marku@cs.waikato.ac.nz}}
+\begin{document}
+\maketitle
+
+Each conjecture should evaluate to True.
+However, those conjectures whose right-hand-size contains
+the constant undefnum should have an undefined left-hand-side.
+
+\begin{axdef}
+  undefnum : \num
+\end{axdef}
+
+\section{Testing miscellaneous operators...}
+
+
+\section{Testing IF-THEN-ELSE expressions}
+
+ STATEGY: Equivalence Partitioning based on boolean inputs
+
+ 1. test true if statement (comparison)
+\begin{zed} \vdash? (\IF 3 < 4 \THEN 1 \ELSE 2) = 1 \end{zed}
+ 2. test false if statement (comparison)
+\begin{zed} \vdash? (\IF 3 > 4 \THEN 1 \ELSE 2) = 2 \end{zed}
+
+ 3. test true if statement (explicit boolean)
+\begin{zed} \vdash? (\IF true \THEN 1 \ELSE 2) = 1 \end{zed}
+ 4. test false if statement (explicit boolean)
+\begin{zed} \vdash? (\IF (false) \THEN 1 \ELSE 2) = 2 \end{zed}
+
+ 5. test true if statement (set membership)
+\begin{zed} \vdash? (\IF 3 \in \nat \THEN 1 \ELSE 2) = 1 \end{zed}
+ 6. test false if statement (set membership)
+\begin{zed} \vdash? (\IF (3 \notin \nat) \THEN 1 \ELSE 2) = 2 \end{zed}
+
+ 7. test true if statement (compound)
+\begin{zed} \vdash? (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) = 1 \end{zed}
+ 8. test false if statement (compound)
+\begin{zed} \vdash? (\IF \lnot (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) = 2 \end{zed}
+
+ 9. nested true-true if statement (compound)
+\begin{zed} \vdash? (\IF 3 < 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 1 \end{zed}
+ 10. nested false-true if statement (compound)
+\begin{zed} \vdash? (\IF 3 > 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 3 \end{zed}
+ 11. nested true-false if statement (compound)
+\begin{zed} \vdash? (\IF 3 < 4 \THEN (\IF (3 < 4 \land 3 \notin \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 2 \end{zed}
+ 12. nested false-false if statement (compound)
+\begin{zed} \vdash? (\IF 3 > 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \notin \nat)\THEN 3 \ELSE 4)) = 4 \end{zed}
+
+
+\section{Testing \mu expressions}
+\begin{zed} \vdash?  (\mu x,y:1 \upto 4|x=3=y) = (3,3) \end{zed}
+\begin{zed} \vdash?  (\mu x,y:1 \upto 4|x<2=y) = (1,2) \end{zed}
+\begin{zed} \vdash?  (\mu x,y:1 \upto 4|x<2=y @ x-y) = \negate 1 \end{zed}
+\begin{zed} \vdash?  (\mu x,y:1 \upto 4|x<3=y).1 = undefnum \end{zed}
+
+
+\section{Testing logical operators}
+\begin{zed} \vdash?  \lnot false \end{zed}
+\begin{zed} \vdash?  \lnot \lnot true \end{zed}
+\begin{zed} \vdash?  \lnot true \iff false \end{zed}
+
+\begin{zed} \vdash?  true \lor true \end{zed}
+\begin{zed} \vdash?  true \lor false \end{zed}
+\begin{zed} \vdash?  false \lor true \end{zed}
+\begin{zed} \vdash?  \lnot(false \lor false) \end{zed}
+
+\begin{zed} \vdash?  true \land true \end{zed}
+\begin{zed} \vdash?  \lnot(true \land false) \end{zed}
+\begin{zed} \vdash?  \lnot(false \land true) \end{zed}
+\begin{zed} \vdash?  \lnot(false \land false) \end{zed}
+
+\begin{zed} \vdash?  true \implies true \end{zed}
+\begin{zed} \vdash?  \lnot(true \implies false) \end{zed}
+\begin{zed} \vdash?  false \implies true \end{zed}
+\begin{zed} \vdash?  false \implies false \end{zed}
+
+\begin{zed} \vdash?  true \iff true \end{zed}
+\begin{zed} \vdash?  \lnot(true \iff false) \end{zed}
+\begin{zed} \vdash?  \lnot(false \iff true) \end{zed}
+\begin{zed} \vdash?  false \iff false \end{zed}
+
+
+\section{Testing logical quantifiers}
+
+Universal quantifiers with no bound variables.
+\begin{zed} \vdash?       \forall @ true \end{zed}
+\begin{zed} \vdash? \lnot \forall @ false \end{zed}
+\begin{zed} \vdash?       \forall | true @ true \end{zed}
+\begin{zed} \vdash? \lnot \forall | true @ false \end{zed}
+\begin{zed} \vdash?       \forall | false @ false \end{zed}
+\begin{zed} \vdash?       \forall | false @ true \end{zed}
+
+Universal quantifiers with one bound variable.
+\begin{zed} \vdash?       \forall x:0 \upto 4 | x < 0 @ false \end{zed}  %empty range
+\begin{zed} \vdash?       \forall x:0 \upto 4 | x \neq 4 @ x \in 0 \upto 3 \end{zed}
+\begin{zed} \vdash? \lnot \forall x:0 \upto 4 | x \neq 2 @ x < 4 \end{zed}
+\begin{zed} \vdash? \lnot \forall x:0 \upto 4 | x \neq 2 @ x > 0 \end{zed}
+\begin{zed} \vdash? \lnot \forall x:0 \upto 4 @ x \neq 2 \end{zed}
+
+Universal quantifiers with multiple bound variables.
+\begin{zed} \vdash?       \forall x,y:1 \upto 3 | y<1 @ false \end{zed} %empty range
+\begin{zed} \vdash?       \forall x,y:1 \upto 3 | x<y @ x*x < y*y \end{zed}
+\begin{zed} \vdash? \lnot \forall x,y:1 \upto 3 | x<y @ x*x+8 > y*y \end{zed}
+\begin{zed} \vdash? \lnot \forall x,y:0 \upto 2 | x \leq y @ x*x < y*y \end{zed}
+
+Existential quantifiers with no bound variables.
+\begin{zed} \vdash?       \exists @ true \end{zed}
+\begin{zed} \vdash? \lnot \exists @ false \end{zed}
+\begin{zed} \vdash?       \exists | true @ true \end{zed}
+\begin{zed} \vdash? \lnot \exists | true @ false \end{zed}
+\begin{zed} \vdash? \lnot \exists | false @ true \end{zed}
+\begin{zed} \vdash? \lnot \exists | false @ false \end{zed}
+
+Existential quantifiers with one bound variable.
+\begin{zed} \vdash? \exists x:0 \upto 4 | x \neq 4 @ x \in 1 \upto 2 \end{zed}
+\begin{zed} \vdash? \exists x:0 \upto 4 | x \neq 2 @ x < 4 \end{zed}
+\begin{zed} \vdash? \exists x:0 \upto 4 | x \neq 2 @ x > 0 \end{zed}
+\begin{zed} \vdash? \exists x:0 \upto 4 @ x \neq 2 \end{zed}
+\begin{zed} \vdash? \lnot \exists x:0 \upto 4 @ \lnot x \in 0 \upto 4 \end{zed}
+
+Existential quantifiers with multiple bound variables.
+\begin{zed} \vdash?       \exists x,y:1 \upto 4 | x<y @ x*x+5 = y*y \end{zed}
+\begin{zed} \vdash? \lnot \exists x,y:1 \upto 4 | x<y @ x*x+4 = y*y \end{zed}
+
+Unique existential quantifiers.
+\begin{zed} \vdash? \lnot \exists_1 x:0 \upto 4 | x \neq 4 @ x \in 1 \upto 2 \end{zed}
+\begin{zed} \vdash? \exists_1 x:0 \upto 4 | x \neq 2 @ x \leq 0 \end{zed}
+\begin{zed} \vdash? \exists_1 x:0 \upto 4 | x \neq 2 @ x \geq 4 \end{zed}
+\begin{zed} \vdash? \exists_1 x:0 \upto 4 | x \neq 2 @ x \in 1 \upto 2\end{zed}
+\begin{zed} \vdash? \exists_1 x:0 \upto 4 | x \neq 2 @ x \in 2 \upto 3\end{zed}
+\begin{zed} \vdash? \lnot \exists_1 x:0 \upto 4 | x \neq 2 @ x \in 1 \upto 3\end{zed}
+\begin{zed} \vdash? \lnot \exists_1 x:0 \upto 4 | x \neq 2 @ \lnot x \in 1 \upto 3\end{zed}
+
+TODO: it would be nice to have some way of testing that a predicate is 
+      undefined (that is, its truth value is unknown according to the Z 
+      standard semantics), but this would be an extension of standard Z syntax.
+      If we added such syntax, then we could check that:
+      (\exists S@P) is undefined when P is never true, but sometimes undefined.
+      (\forall S@P) is undefined when P is sometimes undefined.
+
+
+\section{Testing tuples}
+
+Equality and inequality of tuples
+\begin{zed} \vdash? (1,2,3) = (1,2,3) \end{zed}
+\begin{zed} \vdash? (1,2,3) \neq (0,2,3) \end{zed}
+\begin{zed} \vdash? (1,2,3) \neq (1,2,4) \end{zed}
+\begin{zed} \vdash? ((1,2),\{3,3,5\}) = ((1,2),\{3,5,5\}) \end{zed}
+
+Selection of fields within tuples
+\begin{zed} \vdash? (5,6,7).1 = 5 \end{zed}
+\begin{zed} \vdash? (5,6,7).2 = 6 \end{zed}
+\begin{zed} \vdash? (5,6,7).3 = 7 \end{zed}
+\begin{zed} \vdash? ((1,2),3,4).1 = (1,2) \end{zed}
+\begin{zed} \vdash? first ~ (5,6) = 5 \end{zed}
+\begin{zed} \vdash? second ~ (5,6) = 6 \end{zed}
+
+
+\section{Testing disjunctions with inputs and outputs}
+
+\begin{zed} \vdash?       (\forall x:1..9 @ x < 9 \lor x = 9)      \end{zed}
+\begin{zed} \vdash? \lnot (\forall x:1..9 @ x < 8 \lor x = 9)      \end{zed}
+\begin{zed} \vdash? (\forall x:1..4       @ x=4 \lor x=2 \lor x \mod 2 = 1)   \end{zed}
+\begin{zed} \vdash? (\forall x,y:1..4     @ y>1 \lor x*y \leq 4)   \end{zed}
+These next tests illustrated a bug in the output vars of FlatOr. Fixed 27 March 2015.
+\begin{zed} \vdash? (\forall x,y:1..4     @ y>1 \implies x*y > 1)  \end{zed}
+\begin{zed} \vdash? (\forall x:1..9 @ \lnot \lnot (x < 9) \lor \lnot \lnot (x = 9)) \end{zed}
+
+Similar disjunction tests, but within schemas and sets.
+\begin{zed} \vdash? \# [x:1..100 | x < 9 \lor x = 5] = 8 \end{zed}
+\begin{zed} \vdash? \# [x:1..100 | x < 8 \lor x = 9] = 8 \end{zed}
+\begin{zed} \vdash? \# [x:1..100 | x < x*x < 9 \lor x = 9] = 2 \end{zed}
+\begin{zed} \vdash? \# \{x:0..5 | x \neq 4 \land 2 \neq x \implies x \mod 2 = 1\} = 5 \end{zed}
+
+This next one needs bounds inference to be propagated out of disjunctions.
+(If the multiply operator had bounds inference, the x+y<100 constraint could be omitted too).
+\begin{zed} \vdash? \{ x,y:\nat | y > 3 \land x+y \leq 4 \lor x*y = 9 \land x+y < 100 \} = \{ (0,4), (1,9), (9,1), (3,3) \} \end{zed}
+\begin{zed} \vdash? \# \{ x,y:0..2 | y>1 \land x>0 \implies x*y \geq 2 \} = 9 \end{zed}
+\begin{zed} \vdash? \# \{ x,y:0..2 | \lnot y>1 \lor x=0 \lor x*y \geq 2 \} = 9 \end{zed}
+\begin{zed} \vdash? \{ (2,1), (1,2), (0,0) \} = \{ x,y:0..2 | x*y=2 \lor \lnot(y>0 \lor x \neq 0) \} \end{zed}
+
+
+\end{document}

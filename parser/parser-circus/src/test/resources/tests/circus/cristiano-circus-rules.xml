@@ -1,0 +1,1294 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NarrSect>
+        <Anns>
+            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="0" Length="2" Col="0"/>
+        </Anns>
+        <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Start="2" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="1" Length="1049" Col="1"/>
+        </Anns>
+        <Name>chronos</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Start="46" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="2" Length="15" Col="26"/>
+            </Anns>
+            <Word>circus_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="119" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="3" Length="4" Col="14"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="OmitBox">
+                <Anns>
+                    <LocAnn Start="123" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="5" Length="44" Col="0"/>
+                </Anns>
+                <ZNameList/>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Start="137" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="6" Length="19" Col="1"/>
+                    </Anns>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <Anns>
+                                <LocAnn Start="137" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="6" Length="19" Col="7"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="137" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="6" Length="5" Col="1"/>
+                                </Anns>
+                                <Word>RANGE</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Start="146" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="6" Length="10" Col="12"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="148" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="6" Length="5" Col="12"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="148" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="6" Length="5" Col="12"/>
+                                        </Anns>
+                                        <Word> _ .. _ </Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <ZExprList>
+                                        <NumExpr>
+                                            <Anns>
+                                                <LocAnn Start="146" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="6" Length="1" Col="10"/>
+                                            </Anns>
+                                            <ZNumeral Value="0">
+                                                <Anns>
+                                                    <LocAnn Start="146" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="6" Length="1" Col="10"/>
+                                                </Anns>
+                                            </ZNumeral>
+                                        </NumExpr>
+                                        <NumExpr>
+                                            <Anns>
+                                                <LocAnn Start="154" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="6" Length="2" Col="18"/>
+                                            </Anns>
+                                            <ZNumeral Value="59">
+                                                <Anns>
+                                                    <LocAnn Start="154" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="6" Length="2" Col="18"/>
+                                                </Anns>
+                                            </ZNumeral>
+                                        </NumExpr>
+                                    </ZExprList>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="167" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="7" Length="4" Col="9"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns3:ChannelPara>
+                <Anns>
+                    <LocAnn Start="188" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="10" Col="1"/>
+                </Anns>
+                <ZDeclList>
+                    <ns3:ChannelDecl>
+                        <Anns>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex"/>
+                        </Anns>
+                        <ZNameList/>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="202" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="10" Length="4" Col="15"/>
+                                </Anns>
+                                <Word>tick</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="208" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="10" Length="4" Col="21"/>
+                                </Anns>
+                                <Word>time</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Word>$$SYNCH</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ns3:ChannelDecl>
+                </ZDeclList>
+            </ns3:ChannelPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="226" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="11" Length="4" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns3:ChannelPara>
+                <Anns>
+                    <LocAnn Start="247" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="14" Length="38" Col="1"/>
+                </Anns>
+                <ZDeclList>
+                    <ns3:ChannelDecl>
+                        <Anns>
+                            <LocAnn Start="261" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="14" Length="24" Col="15"/>
+                        </Anns>
+                        <ZNameList/>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="261" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="14" Length="3" Col="15"/>
+                                </Anns>
+                                <Word>out</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <ProdExpr>
+                            <Anns>
+                                <LocAnn Start="267" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="14" Length="18" Col="34"/>
+                            </Anns>
+                            <ZExprList>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="267" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="14" Length="5" Col="21"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="267" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="14" Length="5" Col="21"/>
+                                        </Anns>
+                                        <Word>RANGE</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="280" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="14" Length="5" Col="34"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="280" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="14" Length="5" Col="34"/>
+                                        </Anns>
+                                        <Word>RANGE</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </ProdExpr>
+                    </ns3:ChannelDecl>
+                </ZDeclList>
+            </ns3:ChannelPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="299" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="15" Length="4" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="SchBox">
+                <Anns>
+                    <LocAnn Start="303" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="17" Length="67" Col="0"/>
+                </Anns>
+                <ZNameList/>
+                <ZSchText>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="318" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="17" Length="6" Col="15"/>
+                                </Anns>
+                                <Word>AState</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <SchExpr>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Start="328" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="28" Col="16"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Start="328" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="28" Col="16"/>
+                                        </Anns>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Start="328" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="28" Col="16"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="328" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="6" Col="1"/>
+                                                    </Anns>
+                                                    <Word>second</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="336" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="6" Col="9"/>
+                                                    </Anns>
+                                                    <Word>minute</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <ApplExpr Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Start="346" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="10" Col="21"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="348" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="5" Col="21"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="348" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="5" Col="21"/>
+                                                        </Anns>
+                                                        <Word> _ .. _ </Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <TupleExpr>
+                                                    <ZExprList>
+                                                        <NumExpr>
+                                                            <Anns>
+                                                                <LocAnn Start="346" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="1" Col="19"/>
+                                                            </Anns>
+                                                            <ZNumeral Value="0">
+                                                                <Anns>
+                                                                    <LocAnn Start="346" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="1" Col="19"/>
+                                                                </Anns>
+                                                            </ZNumeral>
+                                                        </NumExpr>
+                                                        <NumExpr>
+                                                            <Anns>
+                                                                <LocAnn Start="354" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="2" Col="27"/>
+                                                            </Anns>
+                                                            <ZNumeral Value="59">
+                                                                <Anns>
+                                                                    <LocAnn Start="354" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="18" Length="2" Col="27"/>
+                                                                </Anns>
+                                                            </ZNumeral>
+                                                        </NumExpr>
+                                                    </ZExprList>
+                                                </TupleExpr>
+                                            </ApplExpr>
+                                        </VarDecl>
+                                    </ZDeclList>
+                                </ZSchText>
+                            </SchExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="370" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="19" Length="4" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="SchBox">
+                <Anns>
+                    <LocAnn Start="374" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="21" Length="46" Col="0"/>
+                </Anns>
+                <ZNameList/>
+                <ZSchText>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="389" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="21" Length="5" Col="15"/>
+                                </Anns>
+                                <Word>Teste</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <SchExpr>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex"/>
+                                        </Anns>
+                                        <InclDecl>
+                                            <DecorExpr>
+                                                <Anns>
+                                                    <LocAnn Start="398" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="22" Length="8" Col="1"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="398" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="22" Length="6" Col="1"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="398" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="22" Length="6" Col="1"/>
+                                                        </Anns>
+                                                        <Word>AState</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <NextStroke>
+                                                    <Anns>
+                                                        <LocAnn Start="405" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="22" Length="1" Col="8"/>
+                                                    </Anns>
+                                                </NextStroke>
+                                            </DecorExpr>
+                                        </InclDecl>
+                                    </ZDeclList>
+                                </ZSchText>
+                            </SchExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="420" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="23" Length="4" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="SchBox">
+                <Anns>
+                    <LocAnn Start="424" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="25" Length="84" Col="0"/>
+                </Anns>
+                <ZNameList/>
+                <ZSchText>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="440" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="25" Length="5" Col="16"/>
+                                </Anns>
+                                <Word>AInit</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <SchExpr>
+                                <ZSchText>
+                                    <Anns>
+                                        <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex"/>
+                                    </Anns>
+                                    <ZDeclList>
+                                        <Anns>
+                                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex"/>
+                                        </Anns>
+                                        <InclDecl>
+                                            <DecorExpr>
+                                                <Anns>
+                                                    <LocAnn Start="453" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="26" Length="8" Col="4"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="453" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="26" Length="6" Col="4"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="453" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="26" Length="6" Col="4"/>
+                                                        </Anns>
+                                                        <Word>AState</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <NextStroke>
+                                                    <Anns>
+                                                        <LocAnn Start="460" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="26" Length="1" Col="11"/>
+                                                    </Anns>
+                                                </NextStroke>
+                                            </DecorExpr>
+                                        </InclDecl>
+                                    </ZDeclList>
+                                    <AndPred And="Chain">
+                                        <Anns>
+                                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Col="11"/>
+                                        </Anns>
+                                        <MemPred Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Start="473" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Length="17" Col="9"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="473" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Length="7" Col="1"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="473" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Length="7" Col="1"/>
+                                                    </Anns>
+                                                    <Word>second</Word>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <SetExpr>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="483" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Length="7" Col="11"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="483" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Length="7" Col="11"/>
+                                                            </Anns>
+                                                            <Word>minute</Word>
+                                                            <ZStrokeList>
+                                                                <NextStroke/>
+                                                            </ZStrokeList>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </SetExpr>
+                                        </MemPred>
+                                        <MemPred Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Col="11"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="483" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Length="7" Col="11"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="483" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Length="7" Col="11"/>
+                                                    </Anns>
+                                                    <Word>minute</Word>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <SetExpr>
+                                                <Anns>
+                                                    <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Col="11"/>
+                                                </Anns>
+                                                <ZExprList>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Start="493" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Length="1" Col="21"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="0">
+                                                            <Anns>
+                                                                <LocAnn Start="493" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="28" Length="1" Col="21"/>
+                                                            </Anns>
+                                                        </ZNumeral>
+                                                    </NumExpr>
+                                                </ZExprList>
+                                            </SetExpr>
+                                        </MemPred>
+                                    </AndPred>
+                                </ZSchText>
+                            </SchExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="508" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="29" Length="4" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="528" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="32" Length="507" Col="0"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="542" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="32" Length="12" Col="14"/>
+                    </Anns>
+                    <Word>Achronometer</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:BasicProcess>
+                    <Anns>
+                        <LocAnn Start="564" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="32" Length="471" Col="36"/>
+                    </Anns>
+                    <ZParaList>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Start="601" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="60" Col="16"/>
+                                <ns3:CircusStateAnn/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="601" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="60" Col="16"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="601" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="60" Col="16"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="601" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="6" Col="16"/>
+                                            </Anns>
+                                            <Word>AState</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <AndExpr>
+                                            <Anns>
+                                                <LocAnn Start="615" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="46" Col="50"/>
+                                            </Anns>
+                                            <SchExpr>
+                                                <Anns>
+                                                    <LocAnn Start="615" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="19" Col="30"/>
+                                                </Anns>
+                                                <ZSchText>
+                                                    <ZDeclList>
+                                                        <VarDecl>
+                                                            <Anns>
+                                                                <LocAnn Start="618" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="13" Col="39"/>
+                                                            </Anns>
+                                                            <ZNameList>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="618" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="6" Col="33"/>
+                                                                    </Anns>
+                                                                    <Word>second</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                            </ZNameList>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="626" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="5" Col="41"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="626" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="5" Col="41"/>
+                                                                    </Anns>
+                                                                    <Word>RANGE</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </VarDecl>
+                                                    </ZDeclList>
+                                                </ZSchText>
+                                            </SchExpr>
+                                            <SchExpr>
+                                                <Anns>
+                                                    <LocAnn Start="641" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="20" Col="56"/>
+                                                </Anns>
+                                                <ZSchText>
+                                                    <ZDeclList>
+                                                        <VarDecl>
+                                                            <Anns>
+                                                                <LocAnn Start="644" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="14" Col="66"/>
+                                                            </Anns>
+                                                            <ZNameList>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="644" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="6" Col="59"/>
+                                                                    </Anns>
+                                                                    <Word>minute</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                            </ZNameList>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="653" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="5" Col="68"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="653" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="5" Col="68"/>
+                                                                    </Anns>
+                                                                    <Word>RANGE</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </VarDecl>
+                                                    </ZDeclList>
+                                                </ZSchText>
+                                            </SchExpr>
+                                        </AndExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Start="667" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="67" Col="1"/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="667" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="67" Col="1"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="667" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="67" Col="10"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="667" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="6" Col="1"/>
+                                            </Anns>
+                                            <Word>IncSec</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <SchExpr>
+                                            <Anns>
+                                                <LocAnn Start="681" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="53" Col="15"/>
+                                            </Anns>
+                                            <ZSchText>
+                                                <ZDeclList>
+                                                    <Anns>
+                                                        <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex"/>
+                                                    </Anns>
+                                                    <InclDecl>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="684" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="13" Col="18"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="684" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="13" Col="18"/>
+                                                                </Anns>
+                                                                <Word>?AState</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </InclDecl>
+                                                </ZDeclList>
+                                                <MemPred Mixfix="true">
+                                                    <Anns>
+                                                        <LocAnn Start="700" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="31" Col="42"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="700" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="7" Col="34"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="700" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="7" Col="34"/>
+                                                            </Anns>
+                                                            <Word>second</Word>
+                                                            <ZStrokeList>
+                                                                <NextStroke/>
+                                                            </ZStrokeList>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <SetExpr>
+                                                        <ZExprList>
+                                                            <ApplExpr Mixfix="true">
+                                                                <Anns>
+                                                                    <LocAnn Start="711" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="20" Col="57"/>
+                                                                </Anns>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="723" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="3" Col="57"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="723" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="3" Col="57"/>
+                                                                        </Anns>
+                                                                        <Word> _ mod _ </Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                                <TupleExpr>
+                                                                    <ZExprList>
+                                                                        <ApplExpr Mixfix="true">
+                                                                            <Anns>
+                                                                                <LocAnn Start="711" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="10" Col="52"/>
+                                                                                <ParenAnn>
+                                                                                    <Anns>
+                                                                                        <LocAnn Start="710" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="12" Col="44"/>
+                                                                                    </Anns>
+                                                                                </ParenAnn>
+                                                                            </Anns>
+                                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                                <Anns>
+                                                                                    <LocAnn Start="718" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="1" Col="52"/>
+                                                                                </Anns>
+                                                                                <ZName>
+                                                                                    <Anns>
+                                                                                        <LocAnn Start="718" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="1" Col="52"/>
+                                                                                    </Anns>
+                                                                                    <Word> _ + _ </Word>
+                                                                                    <ZStrokeList/>
+                                                                                </ZName>
+                                                                                <ZExprList/>
+                                                                            </RefExpr>
+                                                                            <TupleExpr>
+                                                                                <ZExprList>
+                                                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                                                        <Anns>
+                                                                                            <LocAnn Start="711" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="6" Col="45"/>
+                                                                                        </Anns>
+                                                                                        <ZName>
+                                                                                            <Anns>
+                                                                                                <LocAnn Start="711" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="6" Col="45"/>
+                                                                                            </Anns>
+                                                                                            <Word>second</Word>
+                                                                                            <ZStrokeList/>
+                                                                                        </ZName>
+                                                                                        <ZExprList/>
+                                                                                    </RefExpr>
+                                                                                    <NumExpr>
+                                                                                        <Anns>
+                                                                                            <LocAnn Start="720" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="1" Col="54"/>
+                                                                                        </Anns>
+                                                                                        <ZNumeral Value="1">
+                                                                                            <Anns>
+                                                                                                <LocAnn Start="720" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="1" Col="54"/>
+                                                                                            </Anns>
+                                                                                        </ZNumeral>
+                                                                                    </NumExpr>
+                                                                                </ZExprList>
+                                                                            </TupleExpr>
+                                                                        </ApplExpr>
+                                                                        <NumExpr>
+                                                                            <Anns>
+                                                                                <LocAnn Start="729" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="2" Col="63"/>
+                                                                            </Anns>
+                                                                            <ZNumeral Value="60">
+                                                                                <Anns>
+                                                                                    <LocAnn Start="729" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="35" Length="2" Col="63"/>
+                                                                                </Anns>
+                                                                            </ZNumeral>
+                                                                        </NumExpr>
+                                                                    </ZExprList>
+                                                                </TupleExpr>
+                                                            </ApplExpr>
+                                                        </ZExprList>
+                                                    </SetExpr>
+                                                </MemPred>
+                                            </ZSchText>
+                                        </SchExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Start="740" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="67" Col="1"/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="740" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="67" Col="1"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="740" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="67" Col="10"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="740" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="6" Col="1"/>
+                                            </Anns>
+                                            <Word>IncMin</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <SchExpr>
+                                            <Anns>
+                                                <LocAnn Start="754" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="53" Col="15"/>
+                                            </Anns>
+                                            <ZSchText>
+                                                <ZDeclList>
+                                                    <Anns>
+                                                        <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex"/>
+                                                    </Anns>
+                                                    <InclDecl>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="757" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="13" Col="18"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="757" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="13" Col="18"/>
+                                                                </Anns>
+                                                                <Word>?AState</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </InclDecl>
+                                                </ZDeclList>
+                                                <MemPred Mixfix="true">
+                                                    <Anns>
+                                                        <LocAnn Start="773" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="31" Col="42"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="773" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="7" Col="34"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="773" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="7" Col="34"/>
+                                                            </Anns>
+                                                            <Word>minute</Word>
+                                                            <ZStrokeList>
+                                                                <NextStroke/>
+                                                            </ZStrokeList>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <SetExpr>
+                                                        <ZExprList>
+                                                            <ApplExpr Mixfix="true">
+                                                                <Anns>
+                                                                    <LocAnn Start="784" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="20" Col="57"/>
+                                                                </Anns>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="796" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="3" Col="57"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="796" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="3" Col="57"/>
+                                                                        </Anns>
+                                                                        <Word> _ mod _ </Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                                <TupleExpr>
+                                                                    <ZExprList>
+                                                                        <ApplExpr Mixfix="true">
+                                                                            <Anns>
+                                                                                <LocAnn Start="784" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="10" Col="52"/>
+                                                                                <ParenAnn>
+                                                                                    <Anns>
+                                                                                        <LocAnn Start="783" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="12" Col="44"/>
+                                                                                    </Anns>
+                                                                                </ParenAnn>
+                                                                            </Anns>
+                                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                                <Anns>
+                                                                                    <LocAnn Start="791" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="1" Col="52"/>
+                                                                                </Anns>
+                                                                                <ZName>
+                                                                                    <Anns>
+                                                                                        <LocAnn Start="791" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="1" Col="52"/>
+                                                                                    </Anns>
+                                                                                    <Word> _ + _ </Word>
+                                                                                    <ZStrokeList/>
+                                                                                </ZName>
+                                                                                <ZExprList/>
+                                                                            </RefExpr>
+                                                                            <TupleExpr>
+                                                                                <ZExprList>
+                                                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                                                        <Anns>
+                                                                                            <LocAnn Start="784" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="6" Col="45"/>
+                                                                                        </Anns>
+                                                                                        <ZName>
+                                                                                            <Anns>
+                                                                                                <LocAnn Start="784" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="6" Col="45"/>
+                                                                                            </Anns>
+                                                                                            <Word>minute</Word>
+                                                                                            <ZStrokeList/>
+                                                                                        </ZName>
+                                                                                        <ZExprList/>
+                                                                                    </RefExpr>
+                                                                                    <NumExpr>
+                                                                                        <Anns>
+                                                                                            <LocAnn Start="793" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="1" Col="54"/>
+                                                                                        </Anns>
+                                                                                        <ZNumeral Value="1">
+                                                                                            <Anns>
+                                                                                                <LocAnn Start="793" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="1" Col="54"/>
+                                                                                            </Anns>
+                                                                                        </ZNumeral>
+                                                                                    </NumExpr>
+                                                                                </ZExprList>
+                                                                            </TupleExpr>
+                                                                        </ApplExpr>
+                                                                        <NumExpr>
+                                                                            <Anns>
+                                                                                <LocAnn Start="802" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="2" Col="63"/>
+                                                                            </Anns>
+                                                                            <ZNumeral Value="60">
+                                                                                <Anns>
+                                                                                    <LocAnn Start="802" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="36" Length="2" Col="63"/>
+                                                                                </Anns>
+                                                                            </ZNumeral>
+                                                                        </NumExpr>
+                                                                    </ZExprList>
+                                                                </TupleExpr>
+                                                            </ApplExpr>
+                                                        </ZExprList>
+                                                    </SetExpr>
+                                                </MemPred>
+                                            </ZSchText>
+                                        </SchExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Start="813" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="93" Col="1"/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="813" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="93" Col="1"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="813" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="93" Col="7"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="813" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="3" Col="1"/>
+                                            </Anns>
+                                            <Word>Def</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <SchExpr>
+                                            <Anns>
+                                                <LocAnn Start="824" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="82" Col="12"/>
+                                            </Anns>
+                                            <ZSchText>
+                                                <ZDeclList>
+                                                    <Anns>
+                                                        <LocAnn Start="827" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="22" Col="31"/>
+                                                    </Anns>
+                                                    <VarDecl>
+                                                        <Anns>
+                                                            <LocAnn Start="827" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="22" Col="31"/>
+                                                        </Anns>
+                                                        <ZNameList>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="827" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="7" Col="15"/>
+                                                                </Anns>
+                                                                <Word>second</Word>
+                                                                <ZStrokeList>
+                                                                    <NextStroke/>
+                                                                </ZStrokeList>
+                                                            </ZName>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="836" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="7" Col="24"/>
+                                                                </Anns>
+                                                                <Word>minute</Word>
+                                                                <ZStrokeList>
+                                                                    <NextStroke/>
+                                                                </ZStrokeList>
+                                                            </ZName>
+                                                        </ZNameList>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="845" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="4" Col="33"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="845" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="4" Col="33"/>
+                                                                </Anns>
+                                                                <Word>?</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </VarDecl>
+                                                </ZDeclList>
+                                                <AndPred And="Wedge">
+                                                    <Anns>
+                                                        <LocAnn Start="852" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="51" Col="70"/>
+                                                    </Anns>
+                                                    <AndPred And="Wedge">
+                                                        <Anns>
+                                                            <LocAnn Start="852" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="30" Col="52"/>
+                                                        </Anns>
+                                                        <MemPred Mixfix="true">
+                                                            <Anns>
+                                                                <LocAnn Start="852" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="11" Col="48"/>
+                                                            </Anns>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="852" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="7" Col="40"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="852" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="7" Col="40"/>
+                                                                    </Anns>
+                                                                    <Word>second</Word>
+                                                                    <ZStrokeList>
+                                                                        <NextStroke/>
+                                                                    </ZStrokeList>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <SetExpr>
+                                                                <ZExprList>
+                                                                    <NumExpr>
+                                                                        <Anns>
+                                                                            <LocAnn Start="862" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="1" Col="50"/>
+                                                                        </Anns>
+                                                                        <ZNumeral Value="0">
+                                                                            <Anns>
+                                                                                <LocAnn Start="862" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="1" Col="50"/>
+                                                                            </Anns>
+                                                                        </ZNumeral>
+                                                                    </NumExpr>
+                                                                </ZExprList>
+                                                            </SetExpr>
+                                                        </MemPred>
+                                                        <MemPred Mixfix="true">
+                                                            <Anns>
+                                                                <LocAnn Start="870" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="12" Col="66"/>
+                                                            </Anns>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="870" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="7" Col="58"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="870" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="7" Col="58"/>
+                                                                    </Anns>
+                                                                    <Word>minute</Word>
+                                                                    <ZStrokeList>
+                                                                        <NextStroke/>
+                                                                    </ZStrokeList>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <SetExpr>
+                                                                <ZExprList>
+                                                                    <ApplExpr Mixfix="false">
+                                                                        <Anns>
+                                                                            <LocAnn Start="880" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="2" Col="68"/>
+                                                                        </Anns>
+                                                                        <NumExpr>
+                                                                            <Anns>
+                                                                                <LocAnn Start="880" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="1" Col="68"/>
+                                                                            </Anns>
+                                                                            <ZNumeral Value="0">
+                                                                                <Anns>
+                                                                                    <LocAnn Start="880" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="1" Col="68"/>
+                                                                                </Anns>
+                                                                            </ZNumeral>
+                                                                        </NumExpr>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="881" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="1" Col="69"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="881" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="1" Col="69"/>
+                                                                                </Anns>
+                                                                                <Word>mod</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                    </ApplExpr>
+                                                                </ZExprList>
+                                                            </SetExpr>
+                                                        </MemPred>
+                                                    </AndPred>
+                                                    <MemPred Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Start="888" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="15" Col="78"/>
+                                                        </Anns>
+                                                        <NumExpr>
+                                                            <Anns>
+                                                                <LocAnn Start="888" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="1" Col="76"/>
+                                                            </Anns>
+                                                            <ZNumeral Value="1">
+                                                                <Anns>
+                                                                    <LocAnn Start="888" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="1" Col="76"/>
+                                                                </Anns>
+                                                            </ZNumeral>
+                                                        </NumExpr>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="894" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="9" Col="82"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="894" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="37" Length="9" Col="82"/>
+                                                                </Anns>
+                                                                <Word>?</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </MemPred>
+                                                </AndPred>
+                                            </ZSchText>
+                                        </SchExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Start="912" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="38" Length="22" Col="1"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="912" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="38" Length="3" Col="1"/>
+                                </Anns>
+                                <Word>Run</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:SkipAction>
+                                <Anns>
+                                    <LocAnn Start="929" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="38" Length="5" Col="18"/>
+                                </Anns>
+                            </ns3:SkipAction>
+                        </ns3:ActionPara>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Start="945" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="73" Col="5"/>
+                            </Anns>
+                            <ZName>
+                                <Word>$$mainAction_L39C5</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:SeqAction>
+                                <Anns>
+                                    <LocAnn Start="945" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="73" Col="5"/>
+                                    <ParenAnn>
+                                        <Anns>
+                                            <LocAnn Start="955" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="66" Col="15"/>
+                                        </Anns>
+                                    </ParenAnn>
+                                    <ns3:OnTheFlyDefAnn/>
+                                </Anns>
+                                <ns3:CallAction>
+                                    <Anns>
+                                        <LocAnn Start="956" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="6" Col="16"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="956" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="6" Col="16"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList>
+                                        <Anns>
+                                            <LocAnn Start="962" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="7" Col="22"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="963" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="5" Col="23"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="963" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="5" Col="23"/>
+                                                </Anns>
+                                                <Word>AInit</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </ns3:CallAction>
+                                <ns3:MuAction>
+                                    <Anns>
+                                        <LocAnn Start="981" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="37" Col="41"/>
+                                        <ParenAnn>
+                                            <Anns>
+                                                <LocAnn Start="980" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="40" Col="40"/>
+                                            </Anns>
+                                        </ParenAnn>
+                                    </Anns>
+                                    <ns3:SeqAction>
+                                        <Anns>
+                                            <LocAnn Start="1003" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="15" Col="63"/>
+                                            <ParenAnn>
+                                                <Anns>
+                                                    <LocAnn Start="1002" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="17" Col="62"/>
+                                                </Anns>
+                                            </ParenAnn>
+                                        </Anns>
+                                        <ns3:CallAction>
+                                            <Anns>
+                                                <LocAnn Start="1003" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="3" Col="63"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1003" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="3" Col="63"/>
+                                                </Anns>
+                                                <Word>Run</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </ns3:CallAction>
+                                        <ns3:CallAction>
+                                            <Anns>
+                                                <LocAnn Start="1017" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="1" Col="77"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1017" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="1" Col="77"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </ns3:CallAction>
+                                    </ns3:SeqAction>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="990" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="1" Col="50"/>
+                                        </Anns>
+                                        <Word>X</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                </ns3:MuAction>
+                            </ns3:SeqAction>
+                        </ns3:ActionPara>
+                    </ZParaList>
+                </ns3:BasicProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="1049" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="41" Length="2" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+</Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>

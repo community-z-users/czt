@@ -1,0 +1,130 @@
+# Plugin properties
+
+# Basic plugin information properties
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.activate=defer
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.name=ZSideKick
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.author=Petra Malik
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.version=${project.version}
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.jars=czt.jar
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.docs=zsidekick.html
+
+# Plugin dependency properties
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.depend.0=jdk 1.6
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.depend.1=jedit 04.00.04.00
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.depend.2=plugin errorlist.ErrorListPlugin 1.3
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.depend.3=plugin sidekick.SideKickPlugin 0.3
+
+# Plugin menu item properties
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.menu=sidekick-tree \
+                                      - \
+                                      net.sourceforge.czt.jedit.zsidekick.toLatex \
+                                      net.sourceforge.czt.jedit.zsidekick.toOldLatex \
+                                      net.sourceforge.czt.jedit.zsidekick.toUnicode \
+                                      net.sourceforge.czt.jedit.zsidekick.toXml \
+                                      net.sourceforge.czt.jedit.zsidekick.domainCheck \
+                                      net.sourceforge.czt.jedit.zsidekick.fsbCheck \
+                                      net.sourceforge.czt.jedit.zsidekick.nextWff \
+                                      net.sourceforge.czt.jedit.zsidekick.insertTypeForCurrentWff \
+                                      net.sourceforge.czt.jedit.zsidekick.rewriteCurrentWff \
+                                      net.sourceforge.czt.jedit.zsidekick.interactiveRewriteCurrentWff \
+                                      net.sourceforge.czt.jedit.zsidekick.proveCurrentWff \
+                                      - \
+                                      net.sourceforge.czt.jedit.zsidekick.disableTypechecking \
+                                      net.sourceforge.czt.jedit.zsidekick.show_current_sm_options \
+                                      net.sourceforge.czt.jedit.zsidekick.reset_sm
+#                                      net.sourceforge.czt.jedit.zsidekick.show_complete_tree
+#                                      net.sourceforge.czt.jedit.zsidekick.gotoDefinition 
+
+# action labels
+sidekick-tree.label=Structure Browser
+net.sourceforge.czt.jedit.zsidekick.toLatex.label=Convert to Latex mark-up
+net.sourceforge.czt.jedit.zsidekick.toOldLatex.label=Convert to old Latex mark-up
+net.sourceforge.czt.jedit.zsidekick.toUnicode.label=Convert to Unicode mark-up
+net.sourceforge.czt.jedit.zsidekick.toXml.label=Convert to XML
+net.sourceforge.czt.jedit.zsidekick.domainCheck.label=Domain check buffer
+net.sourceforge.czt.jedit.zsidekick.fsbCheck.label=Feasibility check buffer
+net.sourceforge.czt.jedit.zsidekick.nextWff.label=Highlight next wff
+#net.sourceforge.czt.jedit.zsidekick.gotoDefinition.label=Goto definition of selected referencing name
+net.sourceforge.czt.jedit.zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula
+net.sourceforge.czt.jedit.zsidekick.proveCurrentWff.label=Prove selected predicate
+net.sourceforge.czt.jedit.zsidekick.rewriteCurrentWff.label=Rewrite selected formula
+net.sourceforge.czt.jedit.zsidekick.interactiveRewriteCurrentWff.label=Show proof tree for rewriting selected formula
+net.sourceforge.czt.jedit.zsidekick.disableTypechecking.label=Disable Typechecking
+#net.sourceforge.czt.jedit.zsidekick.showCompleteTree.label=Show complete syntax tree
+net.sourceforge.czt.jedit.zsidekick.show_current_sm_options.label=Show section manager options
+net.sourceforge.czt.jedit.zsidekick.reset_sm.label=Reset section manager
+
+# Option defaults
+net.sourceforge.czt.jedit.zsidekick.ignore_unknown_latex_commands=false
+net.sourceforge.czt.jedit.zsidekick.print_name_ids=false
+net.sourceforge.czt.jedit.zsidekick.print_z_eves=false
+net.sourceforge.czt.jedit.zsidekick.txt_witdh=80
+net.sourceforge.czt.jedit.zsidekick.typecheck_use_before_decl=false
+net.sourceforge.czt.jedit.zsidekick.typecheck_raise_warnings=true
+net.sourceforge.czt.jedit.zsidekick.typecheck_recursive_types=false
+net.sourceforge.czt.jedit.zsidekick.typecheck_use_strong_typing=false
+net.sourceforge.czt.jedit.zsidekick.vcg_process_parents=false
+net.sourceforge.czt.jedit.zsidekick.vcg_add_trivial_vc=false
+net.sourceforge.czt.jedit.zsidekick.vcg_apply_transformers=true
+#net.sourceforge.czt.jedit.zsidekick.vcg_raise_type_warnings=true    - use just one raise-type-warning
+net.sourceforge.czt.jedit.zsidekick.vcg_dc_use_infix_appliesto=true
+net.sourceforge.czt.jedit.zsidekick.vcg_fsb_add_givenset_vcs=true
+net.sourceforge.czt.jedit.zsidekick.vcg_fsb_create_zschemas=false
+net.sourceforge.czt.jedit.zsidekick.debugZsideKick=false
+#net.sourceforge.czt.jedit.zsidekick.czt.path=./
+net.sourceforge.czt.jedit.zsidekick.show_complete_tree=false
+
+# Option pane
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.option-pane=zsidekick
+options.net.sourceforge.czt.jedit.zsidekick.label=ZSideKick
+options.net.sourceforge.czt.jedit.zsidekick.code=new net.sourceforge.czt.jedit.zsidekick.OptionPane();
+options.net.sourceforge.czt.jedit.zsidekick.standardConformance=<html><h2>Extensions to Z Standard</h2></html>
+# Parser / printer properties
+options.net.sourceforge.czt.jedit.zsidekick.show_complete_tree=Show complete syntax tree
+options.net.sourceforge.czt.jedit.zsidekick.ignore_unknown_latex_commands=Allow latex commands that do not have mark-up directives
+options.net.sourceforge.czt.jedit.zsidekick.print_name_ids=Print the Ids of names
+options.net.sourceforge.czt.jedit.zsidekick.print_z_eves=Print using (old) Spivey's Z
+options.net.sourceforge.czt.jedit.zsidekick.txt_witdh=Collumn to break line when printing
+#options.net.sourceforge.czt.jedit.zsidekick.addSpaceBeforeLatexPunctation=Add space before latex punctation (, and ; characters)
+# Typechecker properties
+options.net.sourceforge.czt.jedit.zsidekick.typecheck_use_before_decl=Allow use of variables before their declaration
+options.net.sourceforge.czt.jedit.zsidekick.typecheck_raise_warnings=Raise warnings as errors
+options.net.sourceforge.czt.jedit.zsidekick.typecheck_recursive_types=Use recursive types
+options.net.sourceforge.czt.jedit.zsidekick.typecheck_use_strong_typing=Use strong typing for typechecking Object-Z specifications
+# VCG properties
+options.net.sourceforge.czt.jedit.zsidekick.vcg_process_parents=Process parents during VCG
+options.net.sourceforge.czt.jedit.zsidekick.vcg_add_trivial_vc=Add trivial VCs to VCG results
+options.net.sourceforge.czt.jedit.zsidekick.vcg_apply_transformers=Apply term transformers during VCG
+#options.net.sourceforge.czt.jedit.zsidekick.vcg_raise_type_warnings=Raise VCG warnings as errors
+options.net.sourceforge.czt.jedit.zsidekick.vcg_dc_use_infix_appliesto=Use infix appliesTo for DC VCG
+options.net.sourceforge.czt.jedit.zsidekick.vcg_fsb_add_givenset_vcs=Create VC for given sets for FSB VCG
+options.net.sourceforge.czt.jedit.zsidekick.vcg_fsb_create_zschemas=Create extra schemas for PRE in FSB VCG
+# jEdit related
+options.net.sourceforge.czt.jedit.zsidekick.resetButton=Reset all options to be Z Standard conforming
+options.net.sourceforge.czt.jedit.zsidekick.debugZsideKick=Switch to debug mode; it logs information on JEdit-SectionManager.log
+options.net.sourceforge.czt.jedit.zsidekick.cztPathLabel=CZT search paths
+#     vcg_parents_to_ignore
+#     vcgu_preferred_markup
+ 
+# SideKick parsers
+sidekick.parser.z.label=Z
+mode.z.sidekick.parser=z
+sidekick.parser.oz.label=Object-Z
+mode.oz.sidekick.parser=oz
+sidekick.parser.zpatt.label=ZPattern
+mode.zpatt.sidekick.parser=zpatt
+sidekick.parser.circus.label=Circus
+mode.circus.sidekick.parser=circus
+sidekick.parser.zlatex.label=Z (Latex)
+mode.zlatex.sidekick.parser=zlatex
+sidekick.parser.ozlatex.label=Object-Z (Latex)
+mode.ozlatex.sidekick.parser=ozlatex
+sidekick.parser.zpattlatex.label=ZPattern (Latex)
+mode.zpattlatex.sidekick.parser=zpattlatex
+sidekick.parser.circuslatex.label=Circus (Latex)
+mode.circuslatex.sidekick.parser=circuslatex
+sidekick.parser.z.label=Z/EVES
+mode.z.sidekick.parser=zeves
+sidekick.parser.z.label=Z/EVES (Latex)
+mode.z.sidekick.parser=zeveslatex
+

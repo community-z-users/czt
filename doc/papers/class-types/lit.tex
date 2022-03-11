@@ -1,0 +1,67 @@
+\section{Related Work}
+
+Typechecking formal object-oriented specification languages has not
+been investigated in great detail in the existing literature,
+especially when compared to other specification languages such as
+Z. Much work has focuses on the theoretical aspects of
+object-oriented type analysis, such as Palsberg \cite{palsberg95},
+however, the treatment of classes in Object-Z as sets of object
+identities is quite different to the object types discussed in work
+such as Palsberg's, which consider object types compatible if their
+interfaces are compatible.
+
+Chen's class type model \cite{chen94}, discussed in
+Section~\ref{background}, is similar to our model in that it models
+classes as sets of object identities, but Chen does not discuss how to
+represent these sets. Also, Chen does not model the polymorphic core
+in class types, making feature renaming difficult to support, and
+meaning that the polymorphic core must be calculated each time a
+reference to a class type with more than one subtype is made. Chen
+does not discuss unification or type inference. No other reference to
+Chen's Object-Z typechecker can be found in literature or via an
+Internet search.
+
+The Wizard typechecker for Object-Z \cite{johnston96} models class
+types similar to that of Chen. The basic class type is a {\em class
+reference type}, with two additional types included: {\em polymorphic
+reference type} and {\em class union type}. A polymorphic reference
+type is a class reference type with an additional list of subclasses
+that define possible sets of object identities. A class union type is
+a set of class reference types. This is similar to our model, but
+differs in that the core information of polymorphic expressions and
+class unions is modelled in each class reference. Neither unification
+or type inference are discussed in \cite{johnston96}, and Wizard does
+not infer the minimal class union type for implicitly instantiated
+references, but instead infers the type to be the first type it
+encounters.
+
+Smalltalk \cite{goldberg83} seems to be one of the few object-oriented
+languages that has attracted interest in the research community with
+regards to typechecking. It is also quite relevant to Object-Z because
+it supports class union types and implicit downcasting. Graver and
+Johnson \cite{graver90} discuss a type system for Smalltalk that is
+similar to both Chen's model and our model. Graver and Johnson model
+class union types as lists of class types, similar to ours. However,
+they use a subtype relation in their type system.
+
+This is because Smalltalk is a language in which the type information
+flow is one-way. That is, for the assignment statement $b := a$, in
+which $b \in B$, $a \in \poly A$, and $B$ inherits $A$, a Smalltalk
+typechecker can detected that $a$ could possibly be in $A$, and that
+this is type inconsistent. Specification languages using the pre- and
+post-condition style for operations do not have assignment, so the
+statement $b = a$ is a predicate specifying that they are equal -- not
+a one-way assignment. Even though it is possible that $a \in A$, it is
+also possible that $a \in B$, so this can be considered type
+consistent. 
+%Therefore, in Graver and Johnson's Smalltalk type system,
+%if we have a type $A$, then $A \subtypeeq A \classuni B$ (in which
+%$\subtypeeq$ is a subtyping relation), but $A \classuni B
+%\not\subtypeeq A$ and $A \classuni B
+%\not\subtypeeq B$,
+%$$B \not\subtypeeq A \classuni B$
+ even though an object $ab$ with type $AB$ is an instance of one of
+the classes representing the types $A$ and $B$. 
+%Subtyping over two class reference types is defined as equality. 
+%These definitions are different to both versions of our unification
+%function.

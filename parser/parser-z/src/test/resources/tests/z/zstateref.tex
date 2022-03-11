@@ -1,0 +1,127 @@
+
+\begin{zsection}
+   \SECTION zstateref \parents standard\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   foo: \nat
+\where
+   foo = 1
+\end{axdef}
+
+\begin{axdef}
+   bar: \nat
+\where
+   bar > foo
+\end{axdef}
+
+
+\begin{schema}{S}
+  \zstate \\
+  x: \nat
+\where
+   bar > x
+\end{schema}
+
+\begin{schema}{SInit}
+  \zstinit \\
+   S~'
+\where
+   x' = 0
+\end{schema}
+
+\begin{schema}{AState}
+  \zastate \\
+   x: \power \nat
+\where
+  x \neq \emptyset
+\end{schema}
+
+\begin{schema}{ASInit}
+  \zastinit \\
+   AState~'
+\where
+   x' = \{ 0 \}
+\end{schema}
+
+\begin{schema}{ASFin}
+  \zastfin \\
+   AState
+\where
+   true
+\end{schema}
+
+\begin{schema}{CState}
+  \zcstate \\
+  y: \seq \nat
+\where
+   y \neq \langle \rangle
+\end{schema}
+
+\begin{schema}{CSInit}
+  \zcstinit \\
+   CState~'
+\where
+  y' = \langle 0 \rangle
+\end{schema}
+
+\begin{schema}{CSFin}
+  \zcstfin \\
+   CState
+\where
+   true
+\end{schema}
+
+\begin{schema}{Retr}
+  \zretrieve \\
+   AState \\
+   CState
+\where
+   \ran~y = x
+\end{schema}
+
+One schema with no z state info
+\begin{schema}{Nothing}
+   \Delta AState
+\where
+   true
+\end{schema}
+
+\begin{schema}{NothingAgain}
+   \Delta CState
+\where
+   true
+\end{schema}
+
+\begin{schema}{AOp1}
+   \Delta AState \\
+   i?: \nat
+\where
+   x' = x \cup \{i?\}
+\end{schema}
+
+\begin{schema}{COp1}
+  \zfsrefines AOp1 \\
+   \Delta CState \\
+   i?: \nat
+\where
+   y' = y \cat \langle i? \rangle
+\end{schema}
+
+\begin{schema}{AOp2}
+   \Xi AState \\
+   o!: \nat
+\where
+    o! \in  x'
+\end{schema}
+
+\begin{schema}{COp2}
+  \zbsrefines AOp2 \\
+   \Xi CState \\
+   o!: \nat
+\where
+   o! \in \ran~y'
+\end{schema}
+
+PS: horizontally defined schemas *cannot* have state tags. That's because
+unboxed paragraphs accept multiple items and would mean more complicated lexing.

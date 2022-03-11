@@ -1,0 +1,14 @@
+\begin{zsection}
+ \SECTION TypeMismatch\_In\_ThetaExpr
+\end{zsection}
+
+\begin{schema}{S}
+  n : \nat
+\end{schema}
+
+\begin{axdef}
+  n : \power \nat\\
+  n' : \nat
+\where
+  \theta~S~ = \theta~S~'
+\end{axdef}

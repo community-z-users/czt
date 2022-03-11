@@ -1,0 +1,364 @@
+\documentclass{article}
+
+\usepackage{czt}
+\usepackage{vmargin}
+\usepackage{circus}
+
+\setpapersize{A4}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
+%\setmarginsrb{20mm}{10mm}{20mm}{10mm}{12pt}{11mm}{0pt}{11mm}
+%\setmarginsrb{25mm}{20mm}{25mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\begin{document}
+
+\title{\Circus\ small Mondex - typechecking}
+\author{Leo Freitas}
+\date{March 2008}
+
+\maketitle
+
+\begin{zsection}
+  \SECTION\ circus\_small\_mondex \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{zed}
+   [NAME]
+   \also
+   MESSAGE ::= OK | LOST | FAIL | NOT\_CON
+\end{zed}
+
+\begin{axdef}
+   purseLimit: \nat
+\where
+   purseLimit > 0
+\end{axdef}
+
+\begin{circus}
+   \circchannel\ inFrom, inTo: NAME \\
+   \circchannel\ inValue: \nat \\
+   \circchannel\ out: MESSAGE
+\end{circus}
+
+\begin{circus}
+   \circprocess\ AbstractWorld \circdef \circbegin
+\end{circus}
+
+\begin{schema}{State}
+   purses: \power~NAME \\
+   balances: NAME \pfun \nat \\
+   lost: NAME \pfun \nat
+\where
+   \dom~balances = purses \\
+   \dom~lost = purses
+\end{schema}
+
+\begin{circusaction}
+   \circstate\ State
+\end{circusaction}
+
+\begin{schema}{TransferOk}
+   \Delta State \\
+   from?, to?: NAME \\
+   value? : \nat \\
+   o!: MESSAGE
+\where
+   from? \in purses \land  to? \in purses \land from? \neq to? \\
+   balances~from? \geq value? \\
+   balances~to? + value? < purseLimit \\
+   balances' = balances \oplus \{~ from? \mapsto (balances~from? - value?) ~\} \\
+   balances' = balances \oplus \{~ to? \mapsto (balances~to? + value?) ~\} \\
+   lost' = lost \land purses' = purses \\
+   o! = OK
+\end{schema}
+
+\begin{schema}{TransferLost}
+   \Delta State \\
+   from?, to?: NAME \\
+   value? : \nat \\
+   o!: MESSAGE
+\where
+   from? \in purses \land  to? \in purses \land from? \neq to? \\
+   balances~from? \geq value? \\
+   balances~to? + value? < purseLimit \\
+   balances' = balances \oplus \{~ from? \mapsto (balances~from? - value?) ~\} \\
+   lost' = lost  \oplus \{~ from? \mapsto (lost~from? + value?) ~\} \\
+   purses' = purses \land o! = LOST
+\end{schema}
+
+\begin{zed}
+   DoNothing ~~==~~ [~ \Xi State; o!: MESSAGE | o! = NOT\_CON ~]
+\end{zed}
+
+Here we have a curious situation: the action parameters are in scope, but not
+as state variables (i.e., no version with prime, shierk and pling). So, we do need
+to rename them in the schema expression action disjunct.
+%
+\begin{circusaction}
+    Transfer \circdef from, to: NAME; value: \nat \circspot \\
+    	\t1 \circvar o: MESSAGE \circspot \\
+		\t2 (\lcircguard value < 0 \rcircguard \circguard inValue?v \then Transfer(from, to, v)) \\
+		\t2 \extchoice \\
+		\t2 (\lcircguard value \geq 0 \rcircguard \circguard \\
+			\t3 (\lcircguard from \neq to \land from \in purses \land to \in purses \land balances~from \geq value \\
+				\t4 \land balances~to + value \leq purseLimit \rcircguard \circguard \\
+					\t5 (\lschexpract (TransferOk \lor TransferLost \lor DoNothing)[from/from?, to/to?, value/value?] \rschexpract \circseq \\
+					\t5 out!o \then \Skip) \\
+			\t3 \extchoice \\
+			 \t3  \lcircguard from = to \lor from \notin purses \lor to \notin purses \lor \\
+			 	\t4  balances~from < value \lor balances~to + value > purseLimit \rcircguard \circguard \\
+					\t5 out!FAIL \then Skip \\
+			 \t3) \\
+	        \t2 )
+\end{circusaction}
+
+\begin{circusaction}
+     Start \circdef inFrom?from \then inTo?to \then inValue?value \then Transfer(from, to, value)
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 \circspot \circmu\ X \circspot Start \circseq X
+\end{circusaction}
+
+\begin{circus}
+   \circend
+\end{circus}
+
+\begin{axdef}
+    initBalance: \nat
+\where
+    initBalance > 0 \\
+    purseLimit > initBalance
+\end{axdef}
+
+\begin{zed}
+    STATUS ::= EPR | EPV | EPA| INIT | CAN \\
+    INTERCHANGE\_MSG ::= REQ | VAL | ACK | CANCEL | READY \\
+    CONTROL\_MSG ::= COK | CFAIL
+\end{zed}
+
+\begin{circus}
+      \circchannel\ inVal, outVal: \nat \\
+      \circchannel\ inMsg, outMsg: INTERCHANGE\_MSG \\
+      \circchannel\ controlMsg: CONTROL\_MSG
+\end{circus}
+
+\begin{circus}
+    \circprocess\ Purse \circdef\ \circbegin
+\end{circus}
+
+\begin{circusaction}
+     \circstate\ PurseState ~~==~~ [~ balance: \nat; status: STATUS; value: \nat | balance \geq 0 ~]
+\end{circusaction}
+
+\begin{zed}
+    InitPurseState ~~==~~ [~ PurseState~' | balance' = initBalance \land status' = INIT ~]
+\end{zed}
+
+\begin{schema}{CancelTransaction}
+     \Delta PurseState \\
+     v? : \nat \\
+     m!: INTERCHANGE\_MSG
+\where
+     (v? > balance \lor v? + balance > purseLimit) \\
+     balance' = balance \\
+     status' = CAN \\
+     m! = CANCEL
+\end{schema}
+
+\begin{schema}{ReinitPurse}
+     \Delta PurseState
+\where
+      balance' = balance \\
+      status' = INIT
+\end{schema}
+
+\begin{schema}{StartFromPurse}
+     \Delta PurseState \\
+     v? : \nat \\
+     m! : INTERCHANGE\_MSG
+\where
+      status = INIT \land balance \geq v? \\
+      status' = EPR \land value' = v? \\
+      balance' = balance \land m! = READY
+\end{schema}
+
+\begin{circusaction}
+    \t1 StartPayer ~~\circdef~~ \\
+    		\t2 \circvar m: INTERCHANGE\_MSG \circspot outVal?v \then \\
+			\t3 (\lcircguard balance \geq v \rcircguard \circguard \lschexpract StartFromPurse \rschexpract \circseq outMsg!m \then \Skip \\
+				\t4 \extchoice \\
+			\t3 \lcircguard v > balance \rcircguard \circguard \lschexpract CancelTransaction \rschexpract \circseq outMsg!m \then \Skip)
+\end{circusaction}
+
+\begin{schema}{StartToPurse}
+     \Delta PurseState \\
+     v? : \nat \\
+     m! : INTERCHANGE\_MSG
+\where
+      status = INIT\\
+      status' = EPV \land value' = v? \\
+      balance' = balance \land m! = REQ
+\end{schema}
+
+\begin{circusaction}
+    \t1 StartReceiver ~~\circdef~~  \circvar m: INTERCHANGE\_MSG \circspot inVal?v \then \\
+		\t2 (inMsg.READY \then \\
+			\t3 (\lcircguard v + balance \leq purseLimit \rcircguard \circguard \lschexpract StartToPurse \rschexpract \circseq outMsg!m \then \Skip \\
+				\t4 \extchoice \\
+			\t3 \lcircguard v + balance > purseLimit \rcircguard \circguard \lschexpract CancelTransaction \rschexpract \circseq outMsg!m \then \Skip) \\
+		\t1 \extchoice \\
+		\t2 inMsg.CANCEL \then \Skip)
+	\also
+	InitTransaction ~~\circdef~~ StartPayer \extchoice StartReceiver
+\end{circusaction}
+
+\begin{schema}{ReqPurseOk}
+     \Delta PurseState \\
+     m! : INTERCHANGE\_MSG
+\where
+      status = EPR \\
+      balance' = balance - value \\
+      status' = EPA \land value' = value \\
+      m! = VAL
+\end{schema}
+
+\begin{circusaction}
+    \t1 ReqPurse ~~\circdef~~  \circvar m: INTERCHANGE\_MSG \circspot \\
+		\t2 inMsg.REQ \then  \lschexpract ReqPurseOk \rschexpract \circseq outMsg!m \then \Skip \\
+				\t3 \extchoice \\
+		\t2 inMsg.CANCEL \then \lschexpract ReinitPurse \rschexpract
+\end{circusaction}
+
+\begin{schema}{ValPurseOk}
+     \Delta PurseState \\
+     m! : INTERCHANGE\_MSG
+\where
+      status = EPV \\
+      balance' = balance + value \\
+      status' = INIT \land value' = value \\
+      m! = ACK
+\end{schema}
+
+\begin{circusaction}
+    \t1 ValPurse ~~\circdef~~  \circvar m: INTERCHANGE\_MSG \circspot \\
+		\t2 inMsg.VAL \then  \lschexpract ValPurseOk \rschexpract \circseq outMsg!m \then \Skip
+\end{circusaction}
+
+\begin{schema}{AckPurseOk}
+     \Delta PurseState
+\where
+      status = EPA \\
+      balance' = balance \\
+      status' = INIT
+\end{schema}
+
+\begin{circusaction}
+    \t1 AckPurse ~~\circdef~~  inMsg.ACK \then  \lschexpract AckPurseOk \rschexpract \circseq controlMsg!COK \then \Skip
+\end{circusaction}
+
+\begin{circusaction}
+    \t1 \circspot\ \lschexpract InitPurseState \rschexpract \circseq \\
+        \t2 \circmu X \circspot\ \\
+		\t3 (\lcircguard status = INIT \rcircguard \circguard  InitTransaction  \\
+	\t2 \extchoice \lcircguard status = EPR \rcircguard \circguard  ReqPurse  \\
+	\t2 \extchoice \lcircguard status = EPV \rcircguard \circguard  ValPurse  \\
+	\t2 \extchoice \lcircguard status = EPA \rcircguard \circguard  AckPurse  \\
+	\t2 \extchoice \lcircguard status = CAN \rcircguard \circguard \lschexpract ReinitPurse \rschexpract \circseq controlMsg!CFAIL \then \Skip) \circseq X \\	
+\end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus}
+
+\begin{circus}
+     \circchannel\ inValueReceiver, outValuePayer: NAME \cross \nat \\
+     \circchannel\ inM, outM : NAME \cross INTERCHANGE\_MSG \\
+     \circchannel\ controlM : NAME \cross CONTROL\_MSG
+\end{circus}
+
+begin{circus}
+      \circprocess IdxPurse \circdef i : NAME \circindex Purse \\
+      \circprocess IPurse     \circdef i: NAME \circspot (IdxPurse \lcircindex i \rcircindex)
+	\lcircrename outVal, inVal, inMsg, outMsg, controlMsg :=
+		\t2 outValuePayer, inValueReceiver, inM, outM, controlM \rcircrename \\
+      \circprocess Purses \circdef \Interleave i: NAME \circspot IPurse(i)
+end{circus}
+
+\begin{circus}
+      \circprocess IdxPurse \circdef i : NAME \circindex Purse
+%	\circprocess IdxPurse \circdef (i : NAME \circindex Purse) \lcircrename \\
+%	 	\t2 outVal, inVal, inMsg, outMsg, controlMsg := \\
+%		\t2 outValuePayer, inValueReceiver, inM, outM, controlM \rcircrename
+\\
+      \circprocess Purses \circdef \Interleave i: NAME \circspot (IdxPurse \lcircindex i \rcircindex)
+\end{circus}
+
+\begin{circus}
+      \circprocess\ Controller \circdef \circbegin
+\end{circus}
+
+\begin{circusaction}
+     \circstate\ State == [~payer, receiver: NAME; value: \nat ~]
+\end{circusaction}
+
+\begin{schema}{InitOk}
+     \Delta State \\
+     p?, r?: NAME \\
+     v?: \nat
+\where
+      v? \geq 0 \land p? \neq r? \\
+      payer' = p? \land receiver' = r? \\
+      value' = v?
+\end{schema}
+
+\begin{circusaction}
+     Exchange \circdef \circvar msg: INTERCHANGE\_MSG \circspot \\
+     	\t1 outM.payer?msg \then inM.receiver!msg \then \Skip \\
+		\t2 \extchoice \\
+	\t1 outM.receiver?msg \then inM.payer!msg \then \Skip
+\end{circusaction}
+
+\begin{circusaction}
+     Control \circdef \circmu X \circspot \\
+     	\t1 Exchange \circseq X \\
+		\t2 \extchoice \\
+	\t1 controlM.payer.COK \then out!OK \then \Skip \\
+		\t2 \extchoice \\
+	\t1 controlM?x \prefixcolon (x \in \{~ payer, receiver ~\}).CFAIL \then out!FAIL \then \Skip
+\end{circusaction}
+
+\begin{circusaction}
+     StartTransaction \circdef outValuePayer.payer!value \then inValueReceiver.receiver!value \then Control
+\end{circusaction}
+
+\begin{circusaction}
+     Init \circdef p, r: NAME; v: \nat \circspot \\
+     	\t1 \lcircguard v < 0 \rcircguard \circguard inValue?inval \then Init(p, r, inval) \\
+		\t2 \extchoice \\
+	\t1 \lcircguard v \geq 0 \rcircguard \circguard \\
+		\t2 (\lcircguard p \neq r \rcircguard \circguard \\
+				\t3 (\lschexpract InitOk[p/p?, r/r?, v/v?] \rschexpract \circseq StartTransaction \intchoice out!NOT\_CON \then \Skip)
+			\t2 \extchoice \\
+		     \lcircguard p = r \rcircguard \circguard out!FAIL \then \Skip)
+\end{circusaction}
+
+\begin{circusaction}
+      Start \circdef inFrom?p \then inTo?r \then inValue?v \then Init(p, r, v)
+\end{circusaction}
+
+\begin{circusaction}
+    \circspot \circmu X \circspot Start \circseq X
+\end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus}
+
+\begin{circus}
+      \circchannelset\ IChannels == \lchanset outValuePayer, inValueReceiver, inM, outM, controlM \rchanset \\
+      \circprocess ConcreteWorld \circdef (Controller \lpar IChannels \rpar Purses) \circhide IChannels
+\end{circus}
+
+\end{document}
+

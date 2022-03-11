@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>A Projection Expression</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+
+          <ProjExpr>
+            <RefExpr>
+              <RefName><Word>A</Word></RefName>
+            </RefExpr>
+            <RefExpr>
+              <RefName><Word>B</Word></RefName>
+            </RefExpr>
+          </ProjExpr>
+
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

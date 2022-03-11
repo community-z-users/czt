@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+<MODE>
+  <PROPS>
+    <PROPERTY NAME="indentNextLine" VALUE="\s*(((?|?|?)"/>
+    <PROPERTY NAME="commentStart" VALUE="/*"/>
+    <PROPERTY NAME="commentEnd" VALUE="*/"/>
+    <PROPERTY NAME="lineComment" VALUE="//"/>
+  </PROPS>
+  <RULES ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="COMMENT1">
+    <!-- schema definition -->
+    <SPAN DELEGATE="ZED">
+      <BEGIN>&#x250C;</BEGIN>  <!-- SCHCHAR -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- generic schema definition -->
+    <SPAN DELEGATE="ZED">
+      <BEGIN>&#x250C;&#x2550;</BEGIN>  <!-- GENSCH  -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- axiomatic description -->
+    <SPAN DELEGATE="ZED">
+      <BEGIN>&#x2577;</BEGIN>  <!-- AXCHAR -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- generic axiomatic description -->
+    <SPAN DELEGATE="ZED">
+      <BEGIN>&#x2577;&#x2550;</BEGIN>  <!-- GENAX -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- all other Zed that begin with ZED -->
+    <SPAN DELEGATE="ZED">
+      <BEGIN>&#x2500;</BEGIN> <!-- ZEDCHAR -->
+      <END>&#x2514;</END>
+    </SPAN>
+    <!-- the name part of a vertical Z schema definition -->
+    <EOL_SPAN TYPE="KEYWORD1" AT_LINE_START="TRUE">&#x250C;</EOL_SPAN>
+  </RULES>
+  <RULES SET="ZED" ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="KEYWORD2">
+    <SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
+      <BEGIN>"</BEGIN>
+      <END>"</END>
+    </SPAN>
+    <SEQ TYPE="OPERATOR">(</SEQ>
+    <SEQ TYPE="OPERATOR">)</SEQ>
+    <SEQ TYPE="OPERATOR">}</SEQ>
+    <SEQ TYPE="OPERATOR">{</SEQ>
+    <SEQ TYPE="OPERATOR">]</SEQ>
+    <SEQ TYPE="OPERATOR">[</SEQ>
+    <!-- symbolic keywords -->
+    <SEQ TYPE="OPERATOR">:</SEQ>
+    <SEQ TYPE="OPERATOR">==</SEQ>
+    <SEQ TYPE="OPERATOR">,</SEQ>
+    <SEQ TYPE="OPERATOR">::=</SEQ>
+    <SEQ TYPE="OPERATOR">|</SEQ>		
+    <SEQ TYPE="OPERATOR">&amp;</SEQ>
+    <SEQ TYPE="OPERATOR">\</SEQ>
+    <SEQ TYPE="OPERATOR">/</SEQ>
+    <SEQ TYPE="OPERATOR">.</SEQ>
+    <SEQ TYPE="OPERATOR">;</SEQ>
+    <SEQ TYPE="OPERATOR">=</SEQ>
+    <!-- toolkit operators -->
+    <SEQ TYPE="OPERATOR">&gt;</SEQ>
+    <SEQ TYPE="OPERATOR">&lt;</SEQ>
+    <SEQ TYPE="OPERATOR">*</SEQ>
+    <SEQ TYPE="OPERATOR">+</SEQ>
+    <SEQ TYPE="OPERATOR">~</SEQ>
+    <SEQ TYPE="OPERATOR">-</SEQ>
+    <SEQ TYPE="OPERATOR">^</SEQ>
+    <KEYWORDS>
+      <KEYWORD1>else</KEYWORD1>
+      <KEYWORD1>false</KEYWORD1>
+      <KEYWORD1>function</KEYWORD1>
+      <KEYWORD1>generic</KEYWORD1>
+      <KEYWORD1>if</KEYWORD1>
+      <KEYWORD1>leftassoc</KEYWORD1>
+      <KEYWORD1>let</KEYWORD1>
+      <KEYWORD1>parents</KEYWORD1>
+      <KEYWORD1>pre</KEYWORD1>
+      <KEYWORD1>relation</KEYWORD1>
+      <KEYWORD1>rightassoc</KEYWORD1>
+      <KEYWORD1>section</KEYWORD1>
+      <KEYWORD1>then</KEYWORD1>
+      <KEYWORD1>true</KEYWORD1>
+      <!-- toolkit functions and relations -->
+      <FUNCTION>dom</FUNCTION>
+      <FUNCTION>ran</FUNCTION>
+      <FUNCTION>id</FUNCTION>
+      <FUNCTION>first</FUNCTION>
+      <FUNCTION>second</FUNCTION>
+    </KEYWORDS>
+  </RULES>
+</MODE>

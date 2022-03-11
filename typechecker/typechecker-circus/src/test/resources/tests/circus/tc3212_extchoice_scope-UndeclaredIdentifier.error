@@ -1,0 +1,27 @@
+
+\begin{zsection}
+  \SECTION\ tc3212\_extchoice\_scope \parents\ circus\_toolkit
+\end{zsection}
+
+Although the values of $x$ and $y$ are available within the 
+left branch of the extenal choice, they are not in the right one
+because the scope of the prefixing action does not go beyond it.
+%
+Note that with or without parenthesis, the stronger precedence 
+for prefixing, make them equivalent.
+\begin{circus}
+    \circchannel\ c: \nat  \\ 
+    \circprocess\ P \circdef \circbegin \\
+        \t1 A \circdef 
+			c?x \then c?y \then c!(x+y) \then \Skip \\
+			\t2 \extchoice \\
+			c!(x+x) \then \Stop \\
+	  \t1 B \circdef 
+			(c?x \then c?y \then c!(x+y) \then \Skip) \\
+			\t2 \extchoice \\
+			(c!(x+x) \then \Stop) \\
+	\t1 \circspot A \circseq B \\
+    \circend \\
+\end{circus}
+
+

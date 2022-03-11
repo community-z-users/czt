@@ -1,0 +1,34 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION complexHidingRenaming \parents function\_toolkit
+\end{zsection}
+
+\begin{zed}
+   S == [ x: \nat ] \\
+   SR == S[a/x] %\\
+   %T == [ y: \power~\nat ] \\
+   %TR == T[b/y]
+\end{zed}
+
+\begin{schema}{State}
+   S; SR \\
+   %T; TR
+\where
+   a \neq x %\\
+   %b \neq y
+\end{schema}
+
+\begin{schema}{Op}
+   \Delta State\\
+   in?, out!: \nat
+\where
+   in? \neq out!
+\end{schema}
+
+\begin{zed}
+   OpIORename == Op[param?/in?, result!/out!] \\
+   OpHR	      == Op[c/x, c'/x'] \hide (c', a)
+\end{zed}

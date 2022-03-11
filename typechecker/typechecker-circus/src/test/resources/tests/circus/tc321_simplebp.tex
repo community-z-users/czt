@@ -1,0 +1,13 @@
+
+\begin{zsection}
+  \SECTION\ tc321\_simplebp \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circchannel in, out : \nat   \\
+    \circprocess\ Sum \circdef  \circbegin\  \\
+    \t1 \circspot \circmu\ X \circspot in?x \then out!(x+x) \then X \\
+    \circend
+\end{circus}
+
+

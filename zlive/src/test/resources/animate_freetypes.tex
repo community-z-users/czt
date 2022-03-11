@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{czt}
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+\title{CZT Tests for Freetypes}
+\author{Mark Utting \\ \texttt{marku@cs.waikato.ac.nz}}
+\begin{document}
+\maketitle
+
+Each conjecture should evaluate to True.
+However, those conjectures whose right-hand-size contains
+the constant undefnum should have an undefined left-hand-side.
+
+\begin{axdef}
+  undefnum : \num
+\end{axdef}
+
+Testing free types...
+
+\begin{zed}
+T ::= Happy | Sad
+\end{zed}
+
+\begin{zed}
+U ::= Unknown | Known\ldata T\rdata | Soon\ldata U\rdata
+\end{zed}
+
+\begin{zed}
+V ::= Red | Blue | Feeling\ldata T \rdata
+\end{zed}
+
+\begin{zed}
+N14 == \{1,2,3,4\}
+\end{zed}
+
+\begin{zed}
+N58 == \{5,6,7,8\}
+\end{zed}
+
+\begin{zed}
+LETTER ::= a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z
+\end{zed}
+
+Testing membership of free types
+\begin{zed} \vdash?  Happy \in T \end{zed}
+\begin{zed} \vdash?  Sad \in T \end{zed}
+\begin{zed} \vdash?  Unknown \in U \end{zed}
+\begin{zed} \vdash?  Known~Happy \in U \end{zed}
+\begin{zed} \vdash?  Known~Sad \in U \end{zed}
+\begin{zed} \vdash?  Soon~Unknown \in U \end{zed}
+\begin{zed} \vdash?  Soon (Known~Happy) \in U \end{zed}
+\begin{zed} \vdash?  Soon (Known~Sad) \in U \end{zed}
+\begin{zed} \vdash?  Soon (Soon (Known~Happy)) \in U \end{zed}
+\begin{zed} \vdash?  Red \notin \ran Feeling \end{zed}
+
+Testing equality of free types
+\begin{zed} \vdash?  T = \{Happy, Sad\} \end{zed}
+\begin{zed} \vdash?  T \neq \{Happy\} \end{zed}
+\begin{zed} \vdash?  T \neq \{\} \end{zed}
+
+
+Testing cardinality of free types
+\begin{zed} \vdash?  \# \{a\} = 1 \end{zed}
+\begin{zed} \vdash?  \# LETTER = 26 \end{zed}
+\begin{zed} \vdash?  \# T = 2 \end{zed}
+
+\begin{zed} \vdash?  \# V = 4 \end{zed}
+\begin{zed} \vdash?  \# (\power V) = 16 \end{zed}
+
+\end{document}

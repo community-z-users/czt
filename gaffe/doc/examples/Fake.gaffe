@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.4.2" class="java.beans.XMLDecoder"> 
+ <void property="owner"> 
+  <void property="history">
+   <object class="net.sourceforge.czt.animation.gui.temp.FakeHistory"/>
+  </void>
+  <void property="initScript"> 
+   <string>
+function fillBeans(form) {
+  if(form==null) return;
+  
+  importClass(java.awt.Label);
+  importClass(java.awt.TextComponent);
+  importClass(Packages.javax.swing.JLabel);
+  importClass(Packages.javax.swing.JTable);
+  importClass(Packages.javax.swing.text.JTextComponent);
+  importPackage(Packages.net.sourceforge.czt.animation.gui.beans.table);
+  importPackage(Packages.net.sourceforge.czt.animation.gui.temp);
+  importClass(Packages.net.sourceforge.czt.animation.ZLocator);
+
+  function fillBean(component, value) {
+
+    if(component instanceof TextComponent || component instanceof JTextComponent
+       || component instanceof Label || component instanceof JLabel) 
+      component.text=value.toString();
+    else if(component instanceof JTable)
+      if(component.model instanceof RelationModel)
+        if(value instanceof ZSet)     component.model.relation=value;
+        else                          component.model.relation=null;
+      else if(component.model instanceof BindingModel)
+        if(value instanceof ZBinding) component.model.binding=value;
+	else                          component.model.binding=null;
+    //XXX Fill in here for more types of components.
+  };
+
+  function clearBean(component) {
+
+    if(component instanceof TextComponent || component instanceof JTextComponent
+       || component instanceof Label || component instanceof JLabel)
+      component.text=&quot;&quot;;
+    else if(component instanceof JTable)
+      if(component.model instanceof RelationModel)     component.model.relation=null;
+      else if(component.model instanceof BindingModel) component.model.binding=null;
+    //XXX Fill in here for more types of components.
+  };
+
+  var beans=form.components;
+  for(var i in beans) {
+    var name=beans[i].name;
+    if(name!=null) try {
+      binding=History.currentSolution;
+      if(binding!=null)
+	fillBean(beans[i], ZLocator.fromString(name).apply(binding));
+      else
+	clearBean(beans[i]);
+    } catch (ex) {
+      clearBean(beans[i]);
+    };
+  }
+
+};
+  
+
+</string> 
+  </void> 
+  <void property="initScriptLanguage"> 
+   <string>javascript</string> 
+  </void> 
+ </void> 
+ <object class="net.sourceforge.czt.animation.gui.Form"> 
+  <void method="addBean"> 
+   <object id="JButton0" class="javax.swing.JButton"> 
+    <string>&gt;</string> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>147</int> 
+      <int>311</int> 
+      <int>45</int> 
+      <int>36</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object class="javax.swing.JLabel"> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>67</int> 
+      <int>101</int> 
+      <int>62</int> 
+      <int>36</int> 
+     </object> 
+    </void> 
+    <void property="name"> 
+     <string>value</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="HistoryProxy0" class="net.sourceforge.czt.animation.gui.beans.HistoryProxy"/> 
+  </void> 
+  <void method="addBean"> 
+   <object id="JButton1" class="javax.swing.JButton"> 
+    <string>&lt;</string> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>11</int> 
+      <int>312</int> 
+      <int>46</int> 
+      <int>35</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script1" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>History.previousSolutionSet();</string> 
+    </void> 
+   </object>
+  </void> 
+  <void method="addBean"> 
+   <object id="Script0" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>History.nextSolutionSet();</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script2" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>fillBeans(thisForm);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="size"> 
+   <object class="java.awt.Dimension"> 
+    <int>200</int> 
+    <int>355</int> 
+   </object> 
+  </void> 
+  <void property="name"> 
+   <string>Main</string> 
+  </void> 
+  <void property="title"> 
+   <string>Main</string> 
+  </void> 
+  <void property="startsVisible">
+   <boolean>true</boolean>
+  </void>
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object id="BeanWrapper0" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script1"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>35</int> 
+      <int>369</int> 
+      <int>77</int> 
+      <int>48</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="BeanWrapper1" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script0"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>177</int> 
+      <int>368</int> 
+      <int>102</int> 
+      <int>60</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="BeanWrapper2" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="HistoryProxy0"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>369</int> 
+      <int>51</int> 
+      <int>79</int> 
+      <int>108</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="BeanWrapper3" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script2"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>246</int> 
+      <int>165</int> 
+      <int>105</int> 
+      <int>94</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+ </object> 
+ <object class="java.util.Vector"> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton1"/> 
+    <object idref="Script1"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="JButton0"/> 
+    <object idref="Script0"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="HistoryProxy0"/> 
+    <object idref="Script2"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+ </object> 
+</java> 

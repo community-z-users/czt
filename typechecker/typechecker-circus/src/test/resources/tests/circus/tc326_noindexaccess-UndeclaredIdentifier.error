@@ -1,0 +1,12 @@
+
+\begin{zsection}
+  \SECTION\ tc326\_noindexacess \parents\ circus\_toolkit
+\end{zsection}
+
+Just like error in file $tc325\_noindexacess-AssignmentCommandDontUnify.error$.
+%
+\begin{circus}
+    \circchannel c : \nat \\
+    \circprocess\ P \circdef\  i: \nat \circindex (\circbegin \circspot\  c!(i+2) \then \Skip  \circend)
+\end{circus}
+

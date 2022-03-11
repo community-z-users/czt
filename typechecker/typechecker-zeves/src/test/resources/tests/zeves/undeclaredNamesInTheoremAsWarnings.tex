@@ -1,0 +1,37 @@
+\begin{zsection}
+   \SECTION undeclaredNamesInTheoremAsWarnings \parents standard\_toolkit
+\end{zsection}
+
+Names x and y not declared explicitly, but universally quantified implicitly in Z/EVES.
+This is like a name joker/wildcard.
+%
+\begin[disabled]{theorem}{rule lRanElemType}[X, Y]
+ \forall  A: \power~X; B: \power~Y @ \forall  R: A \rel  B | (x, y) \in  R @ y \in  B
+\end{theorem}
+
+\begin{schema}{S}
+   v: \seq~\nat
+\where
+   v \neq \langle \rangle
+\end{schema}
+
+\begin{schema}{SNew}
+   v: \nat \pfun \nat
+\where
+   v \neq \emptyset 
+   \\
+   (\exists n: \nat @ \dom~v = 1 \upto n)
+\end{schema}
+
+\begin[disabled]{theorem}{rule lSchEquiv}
+   S \iff SNew
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lSchEquiv2}
+   \forall S @ S \iff SNew
+\end{theorem}
+
+\begin{theorem}{rule lFunWeakening}[X,Y]
+   f \in X \rel Y \iff (f \in X \rel Y \land (\forall x: X; y1, y2: Y | (x,y1) \in f \land (x,y2) \in f @ y1 = y2))
+\end{theorem}
+

@@ -1,0 +1,13 @@
+\begin{circus}
+    \circchannel\ out
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+         \t1 \circstate\ State == [~ x: \nat | true ~] \\
+        \t1 A \circdef \lcircguard ((size = 0) \lor (size > 0)) \rcircguard \circguard ((a1 \extchoice a2) \linter ns1 | ns2 \rinter (a3 \extchoice a4))
+                    \\ %
+        \t1 \circspot A
+    \circend
+\end{circus}
+

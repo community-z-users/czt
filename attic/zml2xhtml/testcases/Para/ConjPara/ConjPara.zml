@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>A Conjecture Paragraph</Name>
+    <ConjPara>
+      <DeclName><Word>H</Word><InStroke/></DeclName>
+      <MemPred Mixfix='true'>
+        <TupleExpr>
+          <RefExpr>	
+            <RefName>	
+              <Word>
+                A
+              </Word>	
+            </RefName>
+          </RefExpr>
+          <RefExpr>
+            <RefName>	
+              <Word>
+                B
+              </Word>	
+            </RefName>	
+          </RefExpr>
+        </TupleExpr>
+        <RefExpr>	
+          <RefName>	
+            <Word>=</Word>	
+          </RefName>	
+        </RefExpr>
+      </MemPred>        
+    </ConjPara>
+  </ZSect>
+</Spec>

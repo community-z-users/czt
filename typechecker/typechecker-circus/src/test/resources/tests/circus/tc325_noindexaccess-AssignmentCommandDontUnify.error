@@ -1,0 +1,25 @@
+
+\begin{zsection}
+  \SECTION\ tc325\_noindexacess \parents\ circus\_toolkit
+\end{zsection}
+
+Differently from process parameters, process indexes are not within
+the scope of the process, hence cannot be referenced explicitly. 
+%
+\begin{circus}
+    \circchannel in : \nat \\
+    \circprocess\ P \circdef\  i: \nat \circindex (\circbegin \circspot\ in?x \then x := i  \circend)
+\end{circus}
+%
+Indexed processes are used semantically to rename (and retype) 
+all channels, so that one can refer to channel communications as 
+events, like one can do in CSP. That is, if one want to refer to 
+(i.e., synchronise on) a particular even, say $c.0$, the way to do it is
+to use $P \lcircindex 0 \rcircindex$. This way, we will have $P$ with
+channel $ih\$\$i \in \nat \cross \nat$, and all occurrences of $in$ are
+renamed/retype accordingly. For instance, in a communication
+$in?x$, it would become  $in\$\$i.0?x$.
+
+
+
+

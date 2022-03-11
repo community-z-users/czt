@@ -1,0 +1,44 @@
+\begin{zsection}
+   \SECTION zeveslabelsDuplicate\_RedeclaredGlobalName \parents standard\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   foo: \nat
+\where
+   \Label{disabled rule dFoo}
+   foo = 10
+\\
+   \Label{disabled rule dFoo}
+   foo > 2
+\\
+   % implicit axiom name added here
+   foo < 11
+\end{axdef}
+
+\begin[disabled]{theorem}{rule lFooLemma}
+  \vdash? \forall x: \nat @ x > foo
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lOptionalVDash}
+    \forall x: \nat @ x > foo
+\end{theorem}
+
+\begin{zproof}[lFooLemma]
+apply dFoo;
+prove by reduce;
+\end{zproof}
+
+
+\begin{theorem}{lZOpsinProof}
+   true
+\end{theorem}
+
+\begin{zproof}[lZOpsinProof]
+  prove by reduce;
+  use finiteFunction[Y, X][f := f (\_ \inv) [X, Y]];
+\end{zproof}
+
+Duplicate name
+\begin{theorem}{lZOpsinProof}
+   true
+\end{theorem}

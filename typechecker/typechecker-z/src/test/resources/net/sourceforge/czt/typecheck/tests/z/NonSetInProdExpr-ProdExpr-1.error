@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSetInProdExpr\_ProdExpr\_1
+\end{zsection}
+
+\begin{zed}
+  x == 1 \cross \nat
+\end{zed}

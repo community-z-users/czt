@@ -1,0 +1,934 @@
+Testsuite: net.sourceforge.czt.animation.eval.AnimateSetsTest
+Tests run: 259, Failures: 0, Errors: 25, Skipped: 0, Time elapsed: 10.34 sec
+------------- Standard Output ---------------
+Passed test:animate_sets.tex:33
+Passed test:animate_sets.tex:34
+Passed test:animate_sets.tex:35
+Passed test:animate_sets.tex:36
+Passed test:animate_sets.tex:37
+Passed test:animate_sets.tex:38
+Passed test:animate_sets.tex:39
+Passed test:animate_sets.tex:40
+Passed test:animate_sets.tex:41
+Passed test:animate_sets.tex:44
+Passed test:animate_sets.tex:45
+Passed test:animate_sets.tex:46
+Passed test:animate_sets.tex:47
+Passed test:animate_sets.tex:48
+Passed test:animate_sets.tex:49
+Passed test:animate_sets.tex:50
+Passed test:animate_sets.tex:51
+Passed test:animate_sets.tex:52
+Passed test:animate_sets.tex:53
+Passed test:animate_sets.tex:54
+Passed test:animate_sets.tex:59
+Passed test:animate_sets.tex:60
+Passed test:animate_sets.tex:61
+Passed test:animate_sets.tex:62
+Passed test:animate_sets.tex:63
+Passed test:animate_sets.tex:65
+Passed test:animate_sets.tex:66
+Passed test:animate_sets.tex:67
+Passed test:animate_sets.tex:69
+Passed test:animate_sets.tex:70
+Passed test:animate_sets.tex:71
+Passed test:animate_sets.tex:72
+Passed test:animate_sets.tex:74
+Passed test:animate_sets.tex:75
+Passed test:animate_sets.tex:76
+Passed test:animate_sets.tex:77
+Passed test:animate_sets.tex:96
+Passed test:animate_sets.tex:97
+Passed test:animate_sets.tex:98
+Passed test:animate_sets.tex:99
+Passed test:animate_sets.tex:100
+Passed test:animate_sets.tex:101
+Passed test:animate_sets.tex:102
+Passed test:animate_sets.tex:103
+Passed test:animate_sets.tex:104
+Passed test:animate_sets.tex:105
+Passed test:animate_sets.tex:106
+Passed test:animate_sets.tex:109
+Passed test:animate_sets.tex:110
+Passed test:animate_sets.tex:111
+Passed test:animate_sets.tex:112
+Passed test:animate_sets.tex:113
+Passed test:animate_sets.tex:114
+Passed test:animate_sets.tex:115
+Passed test:animate_sets.tex:118
+Passed test:animate_sets.tex:119
+Passed test:animate_sets.tex:120
+Passed test:animate_sets.tex:121
+Passed test:animate_sets.tex:122
+Passed test:animate_sets.tex:123
+Passed test:animate_sets.tex:124
+Passed test:animate_sets.tex:125
+Passed test:animate_sets.tex:137
+Passed test:animate_sets.tex:138
+Passed test:animate_sets.tex:139
+Passed test:animate_sets.tex:140
+Passed test:animate_sets.tex:141
+Passed test:animate_sets.tex:143
+Passed test:animate_sets.tex:144
+Passed test:animate_sets.tex:145
+Passed test:animate_sets.tex:147
+Passed test:animate_sets.tex:148
+Passed test:animate_sets.tex:149
+Passed test:animate_sets.tex:150
+Passed test:animate_sets.tex:152
+Passed test:animate_sets.tex:153
+Passed test:animate_sets.tex:154
+Passed test:animate_sets.tex:155
+Passed test:animate_sets.tex:157
+Passed test:animate_sets.tex:158
+Passed test:animate_sets.tex:159
+Passed test:animate_sets.tex:160
+Passed test:animate_sets.tex:161
+Passed test:animate_sets.tex:162
+Passed test:animate_sets.tex:163
+Passed test:animate_sets.tex:164
+Passed test:animate_sets.tex:166
+Passed test:animate_sets.tex:167
+Passed test:animate_sets.tex:168
+Passed test:animate_sets.tex:175
+Passed test:animate_sets.tex:176
+Passed test:animate_sets.tex:177
+Passed test:animate_sets.tex:179
+Passed test:animate_sets.tex:183
+Passed test:animate_sets.tex:188
+Passed test:animate_sets.tex:199
+Passed test:animate_sets.tex:202
+Passed test:animate_sets.tex:205
+Passed test:animate_sets.tex:208
+Passed test:animate_sets.tex:211
+Passed test:animate_sets.tex:214
+Passed test:animate_sets.tex:220
+Passed test:animate_sets.tex:221
+Passed test:animate_sets.tex:222
+Passed test:animate_sets.tex:223
+Passed test:animate_sets.tex:224
+Passed test:animate_sets.tex:226
+Passed test:animate_sets.tex:227
+Passed test:animate_sets.tex:228
+Passed test:animate_sets.tex:230
+Passed test:animate_sets.tex:231
+Passed test:animate_sets.tex:232
+Passed test:animate_sets.tex:233
+Passed test:animate_sets.tex:235
+Passed test:animate_sets.tex:236
+Passed test:animate_sets.tex:237
+Passed test:animate_sets.tex:238
+Passed test:animate_sets.tex:242
+Passed test:animate_sets.tex:243
+Passed test:animate_sets.tex:244
+Passed test:animate_sets.tex:245
+Passed test:animate_sets.tex:246
+Passed test:animate_sets.tex:247
+Passed test:animate_sets.tex:248
+Passed test:animate_sets.tex:249
+Passed test:animate_sets.tex:250
+Passed test:animate_sets.tex:251
+Passed test:animate_sets.tex:255
+Passed test:animate_sets.tex:256
+Passed test:animate_sets.tex:257
+Passed test:animate_sets.tex:258
+Passed test:animate_sets.tex:259
+Passed test:animate_sets.tex:261
+Passed test:animate_sets.tex:265
+Passed test:animate_sets.tex:268
+Passed test:animate_sets.tex:272
+Passed test:animate_sets.tex:281
+Passed test:animate_sets.tex:282
+Passed test:animate_sets.tex:287
+Passed undef test: animate_sets.tex:288
+Passed undef test: animate_sets.tex:289
+Passed test:animate_sets.tex:291
+Passed undef test: animate_sets.tex:292
+Passed undef test: animate_sets.tex:293
+Passed test:animate_sets.tex:295
+Passed undef test: animate_sets.tex:296
+Passed test:animate_sets.tex:299
+Passed undef test: animate_sets.tex:300
+Passed test:animate_sets.tex:302
+Passed undef test: animate_sets.tex:303
+Passed undef test: animate_sets.tex:304
+Passed test:animate_sets.tex:306
+Passed undef test: animate_sets.tex:308
+Passed test:animate_sets.tex:310
+Passed test:animate_sets.tex:311
+Passed test:animate_sets.tex:315
+Passed test:animate_sets.tex:316
+Passed test:animate_sets.tex:317
+Passed test:animate_sets.tex:318
+Passed test:animate_sets.tex:319
+Passed test:animate_sets.tex:320
+Passed test:animate_sets.tex:321
+Passed test:animate_sets.tex:322
+Passed test:animate_sets.tex:323
+Passed test:animate_sets.tex:324
+Passed test:animate_sets.tex:325
+Passed test:animate_sets.tex:326
+Passed test:animate_sets.tex:327
+Passed test:animate_sets.tex:328
+Passed test:animate_sets.tex:329
+Passed test:animate_sets.tex:330
+Passed test:animate_sets.tex:331
+Passed test:animate_sets.tex:332
+Passed test:animate_sets.tex:349
+Passed test:animate_sets.tex:350
+Passed test:animate_sets.tex:358
+Passed test:animate_sets.tex:360
+Passed test:animate_sets.tex:362
+Passed test:animate_sets.tex:368
+Passed test:animate_sets.tex:370
+Passed test:animate_sets.tex:372
+Passed test:animate_sets.tex:378
+Passed test:animate_sets.tex:380
+Passed test:animate_sets.tex:382
+Passed test:animate_sets.tex:383
+Passed test:animate_sets.tex:384
+Passed test:animate_sets.tex:385
+Passed test:animate_sets.tex:386
+Passed test:animate_sets.tex:387
+Passed test:animate_sets.tex:397
+Passed test:animate_sets.tex:398
+Passed test:animate_sets.tex:403
+Passed test:animate_sets.tex:404
+Passed test:animate_sets.tex:405
+Passed test:animate_sets.tex:406
+Passed test:animate_sets.tex:407
+Passed test:animate_sets.tex:408
+Passed test:animate_sets.tex:409
+Passed test:animate_sets.tex:410
+Passed test:animate_sets.tex:411
+Passed test:animate_sets.tex:412
+Passed test:animate_sets.tex:413
+Passed test:animate_sets.tex:414
+Passed test:animate_sets.tex:415
+Passed test:animate_sets.tex:416
+Passed test:animate_sets.tex:417
+Passed test:animate_sets.tex:418
+Passed test:animate_sets.tex:419
+Passed test:animate_sets.tex:420
+Passed test:animate_sets.tex:421
+Passed test:animate_sets.tex:422
+Passed test:animate_sets.tex:423
+Passed test:animate_sets.tex:424
+Passed test:animate_sets.tex:425
+Passed test:animate_sets.tex:426
+Passed test:animate_sets.tex:427
+Passed test:animate_sets.tex:428
+Passed test:animate_sets.tex:429
+Passed test:animate_sets.tex:433
+Passed test:animate_sets.tex:434
+Passed test:animate_sets.tex:435
+Passed test:animate_sets.tex:436
+Passed test:animate_sets.tex:443
+Passed test:animate_sets.tex:444
+Passed test:animate_sets.tex:445
+Passed test:animate_sets.tex:448
+Passed test:animate_sets.tex:449
+Passed test:animate_sets.tex:450
+Passed test:animate_sets.tex:453
+Passed test:animate_sets.tex:454
+Passed test:animate_sets.tex:455
+Passed test:animate_sets.tex:456
+Passed test:animate_sets.tex:457
+Passed test:animate_sets.tex:458
+------------- ---------------- ---------------
+
+Testcase: animate_sets.tex:33 took 0.046 sec
+Testcase: animate_sets.tex:34 took 0.044 sec
+Testcase: animate_sets.tex:35 took 0.042 sec
+Testcase: animate_sets.tex:36 took 0.04 sec
+Testcase: animate_sets.tex:37 took 0.04 sec
+Testcase: animate_sets.tex:38 took 0.054 sec
+Testcase: animate_sets.tex:39 took 0.071 sec
+Testcase: animate_sets.tex:40 took 0.058 sec
+Testcase: animate_sets.tex:41 took 0.063 sec
+Testcase: animate_sets.tex:44 took 0.033 sec
+Testcase: animate_sets.tex:45 took 0.03 sec
+Testcase: animate_sets.tex:46 took 0.03 sec
+Testcase: animate_sets.tex:47 took 0.053 sec
+Testcase: animate_sets.tex:48 took 0.06 sec
+Testcase: animate_sets.tex:49 took 0.033 sec
+Testcase: animate_sets.tex:50 took 0.033 sec
+Testcase: animate_sets.tex:51 took 0.032 sec
+Testcase: animate_sets.tex:52 took 0.034 sec
+Testcase: animate_sets.tex:53 took 0.036 sec
+Testcase: animate_sets.tex:54 took 0.035 sec
+Testcase: animate_sets.tex:59 took 0.039 sec
+Testcase: animate_sets.tex:60 took 0.04 sec
+Testcase: animate_sets.tex:61 took 0.04 sec
+Testcase: animate_sets.tex:62 took 0.043 sec
+Testcase: animate_sets.tex:63 took 0.051 sec
+Testcase: animate_sets.tex:65 took 0.033 sec
+Testcase: animate_sets.tex:66 took 0.035 sec
+Testcase: animate_sets.tex:67 took 0.04 sec
+Testcase: animate_sets.tex:69 took 0.04 sec
+Testcase: animate_sets.tex:70 took 0.046 sec
+Testcase: animate_sets.tex:71 took 0.036 sec
+Testcase: animate_sets.tex:72 took 0.033 sec
+Testcase: animate_sets.tex:74 took 0.042 sec
+Testcase: animate_sets.tex:75 took 0.044 sec
+Testcase: animate_sets.tex:76 took 0.044 sec
+Testcase: animate_sets.tex:77 took 0.049 sec
+Testcase: animate_sets.tex:96 took 0.042 sec
+Testcase: animate_sets.tex:97 took 0.05 sec
+Testcase: animate_sets.tex:98 took 0.086 sec
+Testcase: animate_sets.tex:99 took 0.078 sec
+Testcase: animate_sets.tex:100 took 0.082 sec
+Testcase: animate_sets.tex:101 took 0.073 sec
+Testcase: animate_sets.tex:102 took 0.046 sec
+Testcase: animate_sets.tex:103 took 0.033 sec
+Testcase: animate_sets.tex:104 took 0.046 sec
+Testcase: animate_sets.tex:105 took 0.038 sec
+Testcase: animate_sets.tex:106 took 0.045 sec
+Testcase: animate_sets.tex:109 took 0.037 sec
+Testcase: animate_sets.tex:110 took 0.051 sec
+Testcase: animate_sets.tex:111 took 0.064 sec
+Testcase: animate_sets.tex:112 took 0.044 sec
+Testcase: animate_sets.tex:113 took 0.051 sec
+Testcase: animate_sets.tex:114 took 0.059 sec
+Testcase: animate_sets.tex:115 took 0.057 sec
+Testcase: animate_sets.tex:118 took 0.065 sec
+Testcase: animate_sets.tex:119 took 0.054 sec
+Testcase: animate_sets.tex:120 took 0.053 sec
+Testcase: animate_sets.tex:121 took 0.07 sec
+Testcase: animate_sets.tex:122 took 0.049 sec
+Testcase: animate_sets.tex:123 took 0.07 sec
+Testcase: animate_sets.tex:124 took 0.056 sec
+Testcase: animate_sets.tex:125 took 0.067 sec
+Testcase: animate_sets.tex:128 took 0.042 sec
+	Caused an ERROR
+Gave up unbounded iteration from 1 by 1 after 10 results in RangeSet tmp1771
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 1 by 1 after 10 results in RangeSet tmp1771
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:279)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.findNext(UnionSet.java:166)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:159)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet.nextMember(UnionSet.java:112)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:129 took 0.034 sec
+	Caused an ERROR
+Gave up unbounded iteration from 1 by 1 after 10 results in RangeSet tmp1778
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 1 by 1 after 10 results in RangeSet tmp1778
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:279)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.findNext(UnionSet.java:166)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:159)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet.nextMember(UnionSet.java:112)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:130 took 0.038 sec
+	Caused an ERROR
+Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp1787
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp1787
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:279)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.findNext(UnionSet.java:166)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:159)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet.nextMember(UnionSet.java:112)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:131 took 0.044 sec
+	Caused an ERROR
+Gave up unbounded iteration from 1 by 1 after 10 results in RangeSet tmp1794
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 1 by 1 after 10 results in RangeSet tmp1794
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:279)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.findNext(UnionSet.java:166)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:159)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet.nextMember(UnionSet.java:112)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:137 took 0.038 sec
+Testcase: animate_sets.tex:138 took 0.037 sec
+Testcase: animate_sets.tex:139 took 0.037 sec
+Testcase: animate_sets.tex:140 took 0.042 sec
+Testcase: animate_sets.tex:141 took 0.048 sec
+Testcase: animate_sets.tex:143 took 0.036 sec
+Testcase: animate_sets.tex:144 took 0.044 sec
+Testcase: animate_sets.tex:145 took 0.056 sec
+Testcase: animate_sets.tex:147 took 0.051 sec
+Testcase: animate_sets.tex:148 took 0.056 sec
+Testcase: animate_sets.tex:149 took 0.048 sec
+Testcase: animate_sets.tex:150 took 0.038 sec
+Testcase: animate_sets.tex:152 took 0.043 sec
+Testcase: animate_sets.tex:153 took 0.038 sec
+Testcase: animate_sets.tex:154 took 0.043 sec
+Testcase: animate_sets.tex:155 took 0.047 sec
+Testcase: animate_sets.tex:157 took 0.036 sec
+Testcase: animate_sets.tex:158 took 0.036 sec
+Testcase: animate_sets.tex:159 took 0.036 sec
+Testcase: animate_sets.tex:160 took 0.038 sec
+Testcase: animate_sets.tex:161 took 0.042 sec
+Testcase: animate_sets.tex:162 took 0.036 sec
+Testcase: animate_sets.tex:163 took 0.041 sec
+Testcase: animate_sets.tex:164 took 0.054 sec
+Testcase: animate_sets.tex:166 took 0.041 sec
+Testcase: animate_sets.tex:167 took 0.036 sec
+Testcase: animate_sets.tex:168 took 0.041 sec
+Testcase: animate_sets.tex:169 took 0.034 sec
+	Caused an ERROR
+Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp2080_n_x
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp2080_n_x
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:279)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:279)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:153)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:170 took 0.035 sec
+	Caused an ERROR
+Gave up unbounded iteration from 1 by 1 after 10 results in RangeSet tmp2086_n_x
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 1 by 1 after 10 results in RangeSet tmp2086_n_x
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:279)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:279)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:153)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:175 took 0.03 sec
+Testcase: animate_sets.tex:176 took 0.037 sec
+Testcase: animate_sets.tex:177 took 0.038 sec
+Testcase: animate_sets.tex:179 took 0.044 sec
+Testcase: animate_sets.tex:183 took 0.039 sec
+Testcase: animate_sets.tex:188 took 0.045 sec
+Testcase: animate_sets.tex:195 took 0.074 sec
+	Caused an ERROR
+Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp2170
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp2170
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:279)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.nextAddElementIterator(PowerSet.java:169)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.next(PowerSet.java:186)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:118)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:278)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:153)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:199 took 0.051 sec
+Testcase: animate_sets.tex:202 took 0.054 sec
+Testcase: animate_sets.tex:205 took 0.048 sec
+Testcase: animate_sets.tex:208 took 0.045 sec
+Testcase: animate_sets.tex:211 took 0.038 sec
+Testcase: animate_sets.tex:214 took 0.036 sec
+Testcase: animate_sets.tex:220 took 0.035 sec
+Testcase: animate_sets.tex:221 took 0.035 sec
+Testcase: animate_sets.tex:222 took 0.034 sec
+Testcase: animate_sets.tex:223 took 0.041 sec
+Testcase: animate_sets.tex:224 took 0.043 sec
+Testcase: animate_sets.tex:226 took 0.033 sec
+Testcase: animate_sets.tex:227 took 0.044 sec
+Testcase: animate_sets.tex:228 took 0.046 sec
+Testcase: animate_sets.tex:230 took 0.039 sec
+Testcase: animate_sets.tex:231 took 0.04 sec
+Testcase: animate_sets.tex:232 took 0.037 sec
+Testcase: animate_sets.tex:233 took 0.038 sec
+Testcase: animate_sets.tex:235 took 0.042 sec
+Testcase: animate_sets.tex:236 took 0.047 sec
+Testcase: animate_sets.tex:237 took 0.041 sec
+Testcase: animate_sets.tex:238 took 0.046 sec
+Testcase: animate_sets.tex:242 took 0.035 sec
+Testcase: animate_sets.tex:243 took 0.028 sec
+Testcase: animate_sets.tex:244 took 0.028 sec
+Testcase: animate_sets.tex:245 took 0.036 sec
+Testcase: animate_sets.tex:246 took 0.037 sec
+Testcase: animate_sets.tex:247 took 0.033 sec
+Testcase: animate_sets.tex:248 took 0.039 sec
+Testcase: animate_sets.tex:249 took 0.042 sec
+Testcase: animate_sets.tex:250 took 0.034 sec
+Testcase: animate_sets.tex:251 took 0.037 sec
+Testcase: animate_sets.tex:255 took 0.03 sec
+Testcase: animate_sets.tex:256 took 0.04 sec
+Testcase: animate_sets.tex:257 took 0.031 sec
+Testcase: animate_sets.tex:258 took 0.033 sec
+Testcase: animate_sets.tex:259 took 0.036 sec
+Testcase: animate_sets.tex:261 took 0.037 sec
+Testcase: animate_sets.tex:265 took 0.032 sec
+Testcase: animate_sets.tex:268 took 0.032 sec
+Testcase: animate_sets.tex:272 took 0.032 sec
+Testcase: animate_sets.tex:281 took 0.042 sec
+Testcase: animate_sets.tex:282 took 0.039 sec
+Testcase: animate_sets.tex:287 took 0.03 sec
+Testcase: animate_sets.tex:288 took 0.028 sec
+Testcase: animate_sets.tex:289 took 0.027 sec
+Testcase: animate_sets.tex:291 took 0.037 sec
+Testcase: animate_sets.tex:292 took 0.036 sec
+Testcase: animate_sets.tex:293 took 0.037 sec
+Testcase: animate_sets.tex:295 took 0.037 sec
+Testcase: animate_sets.tex:296 took 0.038 sec
+Testcase: animate_sets.tex:297 took 0.036 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.LambdaExprImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LambdaExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:279)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:319)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:68)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:108)
+	at net.sourceforge.czt.z.impl.QntExprImpl.accept(QntExprImpl.java:134)
+	at net.sourceforge.czt.z.impl.Qnt1ExprImpl.accept(Qnt1ExprImpl.java:108)
+	at net.sourceforge.czt.z.impl.LambdaExprImpl.accept(LambdaExprImpl.java:127)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:95)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:262)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:219)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:626)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:138)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:95)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:371)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:374)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:324)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:157)
+
+Testcase: animate_sets.tex:299 took 0.041 sec
+Testcase: animate_sets.tex:300 took 0.029 sec
+Testcase: animate_sets.tex:302 took 0.041 sec
+Testcase: animate_sets.tex:303 took 0.039 sec
+Testcase: animate_sets.tex:304 took 0.046 sec
+Testcase: animate_sets.tex:306 took 0.042 sec
+Testcase: animate_sets.tex:308 took 0.036 sec
+Testcase: animate_sets.tex:310 took 0.036 sec
+Testcase: animate_sets.tex:311 took 0.034 sec
+Testcase: animate_sets.tex:315 took 0.031 sec
+Testcase: animate_sets.tex:316 took 0.032 sec
+Testcase: animate_sets.tex:317 took 0.027 sec
+Testcase: animate_sets.tex:318 took 0.029 sec
+Testcase: animate_sets.tex:319 took 0.032 sec
+Testcase: animate_sets.tex:320 took 0.035 sec
+Testcase: animate_sets.tex:321 took 0.034 sec
+Testcase: animate_sets.tex:322 took 0.031 sec
+Testcase: animate_sets.tex:323 took 0.029 sec
+Testcase: animate_sets.tex:324 took 0.028 sec
+Testcase: animate_sets.tex:325 took 0.03 sec
+Testcase: animate_sets.tex:326 took 0.028 sec
+Testcase: animate_sets.tex:327 took 0.033 sec
+Testcase: animate_sets.tex:328 took 0.03 sec
+Testcase: animate_sets.tex:329 took 0.032 sec
+Testcase: animate_sets.tex:330 took 0.029 sec
+Testcase: animate_sets.tex:331 took 0.03 sec
+Testcase: animate_sets.tex:332 took 0.028 sec
+Testcase: animate_sets.tex:334 took 0.029 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:358)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:335 took 0.031 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:336 took 0.032 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:337 took 0.035 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:338 took 0.029 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:339 took 0.032 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:340 took 0.032 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:341 took 0.035 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:342 took 0.032 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:393)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:343 took 0.028 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:393)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:344 took 0.036 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:345 took 0.031 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:393)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:346 took 0.033 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:347 took 0.032 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:393)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:348 took 0.031 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:177)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:151)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sets.tex:349 took 0.035 sec
+Testcase: animate_sets.tex:350 took 0.035 sec
+Testcase: animate_sets.tex:358 took 0.039 sec
+Testcase: animate_sets.tex:360 took 0.035 sec
+Testcase: animate_sets.tex:362 took 0.043 sec
+Testcase: animate_sets.tex:368 took 0.032 sec
+Testcase: animate_sets.tex:370 took 0.048 sec
+Testcase: animate_sets.tex:372 took 0.04 sec
+Testcase: animate_sets.tex:378 took 0.034 sec
+Testcase: animate_sets.tex:380 took 0.037 sec
+Testcase: animate_sets.tex:382 took 0.032 sec
+Testcase: animate_sets.tex:383 took 0.035 sec
+Testcase: animate_sets.tex:384 took 0.033 sec
+Testcase: animate_sets.tex:385 took 0.034 sec
+Testcase: animate_sets.tex:386 took 0.036 sec
+Testcase: animate_sets.tex:387 took 0.041 sec
+Testcase: animate_sets.tex:393 took 0.031 sec
+	Caused an ERROR
+cardinalities larger than 2147483647 not handled yet
+net.sourceforge.czt.animation.eval.EvalException: cardinalities larger than 2147483647 not handled yet
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:86)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:444)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:324)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:157)
+
+Testcase: animate_sets.tex:394 took 0.031 sec
+	Caused an ERROR
+cardinalities larger than 2147483647 not handled yet
+net.sourceforge.czt.animation.eval.EvalException: cardinalities larger than 2147483647 not handled yet
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:86)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:444)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:324)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:157)
+
+Testcase: animate_sets.tex:397 took 0.034 sec
+Testcase: animate_sets.tex:398 took 0.04 sec
+Testcase: animate_sets.tex:403 took 0.035 sec
+Testcase: animate_sets.tex:404 took 0.03 sec
+Testcase: animate_sets.tex:405 took 0.035 sec
+Testcase: animate_sets.tex:406 took 0.033 sec
+Testcase: animate_sets.tex:407 took 0.034 sec
+Testcase: animate_sets.tex:408 took 0.029 sec
+Testcase: animate_sets.tex:409 took 0.03 sec
+Testcase: animate_sets.tex:410 took 0.033 sec
+Testcase: animate_sets.tex:411 took 0.034 sec
+Testcase: animate_sets.tex:412 took 0.033 sec
+Testcase: animate_sets.tex:413 took 0.035 sec
+Testcase: animate_sets.tex:414 took 0.034 sec
+Testcase: animate_sets.tex:415 took 0.033 sec
+Testcase: animate_sets.tex:416 took 0.043 sec
+Testcase: animate_sets.tex:417 took 0.037 sec
+Testcase: animate_sets.tex:418 took 0.032 sec
+Testcase: animate_sets.tex:419 took 0.039 sec
+Testcase: animate_sets.tex:420 took 0.046 sec
+Testcase: animate_sets.tex:421 took 0.045 sec
+Testcase: animate_sets.tex:422 took 0.041 sec
+Testcase: animate_sets.tex:423 took 0.042 sec
+Testcase: animate_sets.tex:424 took 0.034 sec
+Testcase: animate_sets.tex:425 took 0.038 sec
+Testcase: animate_sets.tex:426 took 0.042 sec
+Testcase: animate_sets.tex:427 took 0.031 sec
+Testcase: animate_sets.tex:428 took 0.036 sec
+Testcase: animate_sets.tex:429 took 0.037 sec
+Testcase: animate_sets.tex:433 took 0.035 sec
+Testcase: animate_sets.tex:434 took 0.036 sec
+Testcase: animate_sets.tex:435 took 0.036 sec
+Testcase: animate_sets.tex:436 took 0.048 sec
+Testcase: animate_sets.tex:443 took 0.036 sec
+Testcase: animate_sets.tex:444 took 0.041 sec
+Testcase: animate_sets.tex:445 took 0.045 sec
+Testcase: animate_sets.tex:448 took 0.044 sec
+Testcase: animate_sets.tex:449 took 0.044 sec
+Testcase: animate_sets.tex:450 took 0.043 sec
+Testcase: animate_sets.tex:453 took 0.034 sec
+Testcase: animate_sets.tex:454 took 0.036 sec
+Testcase: animate_sets.tex:455 took 0.043 sec
+Testcase: animate_sets.tex:456 took 0.037 sec
+Testcase: animate_sets.tex:457 took 0.043 sec
+Testcase: animate_sets.tex:458 took 0.045 sec

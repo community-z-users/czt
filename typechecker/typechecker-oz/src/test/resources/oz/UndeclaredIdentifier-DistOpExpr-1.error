@@ -1,0 +1,14 @@
+\begin{zsection}
+  \SECTION UndeclaredIdentifier\_DistOpExpr\_1 \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{B}
+  \begin{state}
+    pa : \power A
+  \end{state}
+  Test1 \sdef \dcnj a : pa @ b.Op1
+\end{class}

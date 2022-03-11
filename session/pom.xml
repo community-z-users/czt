@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+  <artifactId>session</artifactId>
+  <packaging>jar</packaging>
+  <name>CZT Session</name>
+  <description>
+    Provides classes for managing and caching Z sections and other
+    Z-related artifacts.
+  </description>
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+  <url>http://czt.sourceforge.net/session/</url>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <!-- Instruction to make all exported packages from bundles in OSGI runtime available
+                 to this bundle. This is necessary (albeit a bit a hack) to allow SectionManager to
+                 resolve CZT command classes in other bundle.
+                 TODO: maybe implement something more OSGI-friendly? Investigate class-loading in CZT
+                 and services or similar approaches. -->
+            <DynamicImport-Package>*</DynamicImport-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

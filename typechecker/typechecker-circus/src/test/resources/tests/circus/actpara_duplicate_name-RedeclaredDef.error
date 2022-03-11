@@ -1,0 +1,25 @@
+\begin{zsection}
+  \SECTION\ actpara\_duplicate\_name\_REDECLARED\_DEF \parents\ circus\_toolkit
+\end{zsection}
+
+
+Names within a process have local scope. That is, they are contained within the process,
+hence can appear across several processes or even globally. They cannot appear within
+the same process, though.
+%
+\begin{circus}
+  \circchannel\ Test0 \\
+  \circprocess\ P \circdef \circbegin  \\
+  \t1 Test0 \circdef \Stop \\
+  \circspot Test0 \circend 
+  \also
+  \circprocess\ Q \circdef \circbegin \\
+   \t1 Test0 \circdef \Skip \\
+   \t1 Test0 \circdef \Stop \\
+   \circspot \Skip \\
+   \circend
+\end{circus}
+%
+In the example above $Test0$ declared as a channel and
+within $P$ is well type, but when declared twice within $Q$
+a type error arises.

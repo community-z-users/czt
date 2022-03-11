@@ -1,0 +1,25 @@
+\begin{zsection}
+  \SECTION\ comm\_COMM\_DOTFIELD\_DONT\_UNIFY \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{zed}
+   [A, B, C, D]
+\end{zed}
+
+\begin{circus}
+   \circchannel\ c: % \cross B \cross C \cross D 
+    \nat \cross \nat \cross \nat \cross \nat
+\end{circus}
+
+\begin{axdef}
+   n1, n2: \nat 
+\end{axdef}
+
+\begin{circus}
+  \circprocess\ TypeError \circdef \circbegin
+   \t1 Test1 \circdef c?x!n1.n2 \then \Skip \\
+   \circspot \Skip \\
+   \circend
+\end{circus}
+
+   

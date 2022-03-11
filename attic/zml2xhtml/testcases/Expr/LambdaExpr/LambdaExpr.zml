@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zmltp="http://czt.sourceforge.net/zmltp" xsi:schemaLocation="Z.xsd Z.xsd">
+
+  <ZSect>
+    <Name>A 'Let' expression</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <LambdaExpr>
+            <SchText>
+              <ConstDecl>
+                <DeclName><Word>A</Word></DeclName>
+                <RefExpr>
+                  <RefName><Word>Horse</Word></RefName>
+                </RefExpr>
+              </ConstDecl>
+              <ConstDecl>
+                <DeclName><Word>B</Word></DeclName>
+                <RefExpr>
+                  <RefName><Word>Goat</Word></RefName>
+                </RefExpr>
+              </ConstDecl>
+            </SchText>
+            <NumExpr Value="1"/>
+          </LambdaExpr>         
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

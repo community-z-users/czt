@@ -1,0 +1,18 @@
+
+\begin{zsection}
+  \SECTION\ tc326\_unknownvar\_UNDECLARED\_IDENTIFIER \parents\ circus\_toolkit
+\end{zsection}
+
+Variables in output fields MUST be into scope before they can be used.
+This way, $c!a$ is valid because of the parameter of $P$, but $c!b$ is a
+type error because $b$ is unknown in the scope of $Q$.
+%
+\begin{circus}
+    \circchannel c : \nat \\
+    \circprocess\ P \circdef\  a: \nat \circspot \circbegin \circspot c!a \then \Skip  \circend \\
+    \circprocess\ Q \circdef\ \circbegin \circspot  c!b \then \Skip  \circend 
+\end{circus}
+
+
+
+

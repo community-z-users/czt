@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>ZCharMap Plugin</title>
+</head>
+
+<body>
+
+<h1>ZCharMap plugin user's guide</h1>
+
+<h3>by Petra Malik and Mark Utting</h3>
+
+<p>
+  The ZCharMap plugin displays a dockable window listing
+  important Z characters and Z constructs.  The plugin currently
+  supports two markup formats for Z: the LaTeX markup and the Unicode
+  markup.
+</p>
+
+<p>You can simply click on a Z character or construct to insert it
+  into your current buffer.
+  The top line ("Paragraphs") inserts complete Z paragraphs, with
+  uppercase placeholders for the parts that you should fill in,
+  while most of the other constructs insert just one Z symbol
+  or operator.  For example, clicking on "Sch[]", with LaTeX
+  markup selected, will insert a
+  <em>generic schema</em> construct, like this:
+<pre>
+  \begin{schema}{NAME}[ TYPE ]
+    DECLS
+  \where
+    PREDS
+  \end{schema}
+</pre> 
+  You should replace NAME by the name of your schema, TYPE by
+  the generic type parameter(s), DECLS by a sequence of declarations
+  and PREDS by a sequence of predicates.
+</p>
+
+<p><b>Hints:</b>
+  <ul>
+    <li>To write the name of a primed variable, like <code>x'</code>,
+        use the <code>'</code> character from the "Schemas" line of
+        the CZT plugin.  (In LaTeX, this just inserts the normal ASCII
+        prime character, but in Unicode it inserts a special prime
+        symbol.  To prime a schema or expression, you must put a
+        space inbetween the schema name and the prime.  This space
+        must be a normal space character in Unicode markup, but a special
+        spacing command like tilde (<code>~</code>) in LaTeX markup.</li>
+
+    <li>In LaTeX markup, you must write underscores as <code>\_</code>,
+        newlines as <code>\\</code> and spaces as <code>~</code>.  
+        In Unicode markup these can just be written as normal
+        ASCII characters.</li>
+
+    <li>To enter subscripts within a name, use the "subscript-1" construct
+	at the end of the "Schemas" line.  This can also be used to
+        convert "exists" into "exists-unique", or "nat" into "nat_1" etc.
+
+    <li>To enter superscripts within a name, use the "Transitive Closure"
+        construct from the "Relations" line, then replace the <code>+</code>
+        by the superscript that you want.
+    <li>Be careful to distinguish between some pairs of operators that
+	look quite similar:
+	<ul>
+	  <li>Binary subtraction (long minus) 
+              versus unary negation (short minus).</li>
+	  <li>Set subtraction looks like a normal backslash (<code>\</code>)
+              but is different (it is bolder and more sloped).  The schema
+	      hiding operator is also visually similar, but is even larger
+	      and bolder.</li>
+	  <li>The union and intersection operators come in a small binary
+	      version (for "a union b") as well as a large distributed
+              version (for "union S", where S is a set of sets).</li>
+          <li>The "Relational Inverse" operator looks like a normal
+	      ASCII tilde, except that it is higher.</li>
+          <li>Z uses three different semicolon characters!  
+              The normal ASCII semicolon
+              can be used as a separator between declarations, or as
+	      a separator between predicates.  A larger semicolon
+	      with holes in it is used for composition of two relations
+	      (see the "Relations" line of the CZT plugin).
+	      A huge bold semicolon with holes in it is used for
+	      sequential composition of schemas (see the "Schemas"
+	      line of the CZT plugin).</li>
+	</ul>
+  </ul>
+</p>
+
+</body>
+</html>

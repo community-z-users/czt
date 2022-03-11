@@ -1,0 +1,10 @@
+
+\begin{zsection}
+  \SECTION\ comm\_unification \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circchannel\ c1: \nat \cross \nat   \\ 
+    \circprocess\ P \circdef\ i: \nat \circspot \circbegin \circspot c1?x \then c1!(x+i) \then \Skip \circend \\
+\end{circus}
+

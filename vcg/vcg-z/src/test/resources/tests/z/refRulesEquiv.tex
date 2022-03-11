@@ -1,0 +1,106 @@
+\begin{zsection}
+   \SECTION refRulesEquiv \parents standard\_toolkit
+\end{zsection}
+
+This file shows an equivalence lemma (last theorem below) for a simplified
+version of the Z IO refinement rules as described in the University of York
+report YCS-2002-347 by Iain Toyn, Susan Stepney, and Jim Woodcock.
+
+\begin{schema}{AS}
+%\zastate\\
+   x: \power~\nat
+\end{schema}
+\begin{zed}
+   FI ::= NatIn \ldata \nat \rdata
+ \also
+   FO ::= NatOut \ldata \nat \rdata
+\end{zed}
+
+\begin{schema}{CS}
+%\zcstate\\
+   y: \seq~\nat
+\end{schema}
+
+The next refinement tag is mistaken on purpose - just to test the parser for it.
+\begin{schema}{AOper}
+   \Delta AS\\
+   ai? : \nat\\
+   ao! : \nat
+\where
+   x' = x \cup \{ ai? \}
+   \\
+   ao! \in x
+\end{schema}
+
+\begin{schema}{COper}
+%\zfsrefines AOper\\
+   \Delta CS \\
+   ci?: FI \\
+   co!: FO
+\where
+   y' = y \cat \langle (NatIn\inv)~(ci?) \rangle \\
+   (NatOut\inv)~(co!) \in \ran~y
+\end{schema}
+
+\begin{schema}{R}
+%\zretrieve\\
+   AS; CS
+\where
+   x = \ran~y
+\end{schema}
+
+\begin{schema}{RIn}
+%\zretrievein\\
+   ai?: \nat \\
+   ci?: FI
+\where
+   ai? = (NatIn\inv)~(ci?)
+\end{schema}
+
+\begin{schema}{ROut}
+%\zretrieveout\\
+   ao!: \nat \\
+   co!: FO
+\where
+   ao! = (NatOut\inv)~(co!)
+\end{schema}
+
+\begin{theorem}{BSCorrectnessEquiv0} \vdash?
+  (\forall CS; ci?: FI  | (\forall AS; ai?: \nat | R \land RIn @ \pre AOper) @
+  	(\forall CS~'; co!: FO; AS~'; ao!: \nat | COper \land R~' \land ROut @
+  		(\exists AS; ai?: \nat @ R \land RIn \land AOper)))
+\end{theorem}
+
+\begin{theorem}{lNatInType}\vdash?
+   \forall x: FI @ (NatIn\inv)~x \in \num
+\end{theorem}
+
+\begin{theorem}{lNatInIsNat}\vdash?
+   \forall x: FI @ (NatIn\inv)~x \geq 0
+\end{theorem}
+
+\begin{theorem}{BSCorrectnessEquiv} \vdash?
+  (\forall CS; ci?: FI  | (\forall AS; ai?: \nat | R \land RIn @ \pre AOper) @
+  	(\forall CS~'; co!: FO; AS~'; ao!: \nat | COper \land R~' \land ROut @
+  		(\exists AS; ai?: \nat @ R \land RIn \land AOper)))
+  	\iff
+  (\forall COper; ROut; R~' | (\forall AS; RIn | R @ \pre AOper) @ (\exists AS; R; RIn @ AOper))
+\end{theorem}
+
+Z parser will ignore this
+\begin{zproof}[BSCorrectnessEquiv]
+split (\forall CS; ci?: FI  | (\forall AS; ai?: \nat | R \land RIn @ \pre AOper) @
+  	(\forall CS~'; co!: FO; AS~'; ao!: \nat | COper \land R~' \land ROut @
+  		(\exists AS; ai?: \nat @ R \land RIn \land AOper)));
+cases;
+prove by reduce;
+instantiate x == \ran~y, y\_\_0 == y;
+prove by reduce;
+instantiate ci\_\_1? == ci?, ai\_\_0? == (NatIn\inv)~(ci?);
+prove by reduce;
+next;
+split (\forall COper; ROut; R~' | (\forall AS; RIn | R @ \pre AOper) @ (\exists AS; R; RIn @ AOper));
+simplify;
+prove by reduce;
+next;
+\end{zproof}

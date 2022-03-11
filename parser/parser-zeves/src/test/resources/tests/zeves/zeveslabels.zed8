@@ -1,0 +1,18 @@
+─ section zeveslabelsUtf parents standard_toolkit └
+
+More than one labelled predicate per axiomatic box (!)
+╷ foo : ℕ |
+ 《 disabled rule dFoo 》 foo = 10
+《 disabled rule dFoo2 》 foo > 2
+foo < 11 └
+
+─ ☒ theorem rule lFooLemma ∀ x : ℕ ⦁ x > foo └
+
+─ ☒ theorem rule lOptionalVDash ∀ x : ℕ ⦁ x > foo └
+
+├ lFooLemma apply dFoo ;  prove by reduce ;  └
+
+┌ ☓ S
+x : ℕ └
+
+─ [ GS ] └

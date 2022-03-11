@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSchExprInQnt1Expr\_Qnt1Expr
+\end{zsection}
+
+\begin{zed}
+  error == \forall x : \nat @ 1
+\end{zed}

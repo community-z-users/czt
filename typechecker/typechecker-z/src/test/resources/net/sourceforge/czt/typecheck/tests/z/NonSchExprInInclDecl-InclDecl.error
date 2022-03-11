@@ -1,0 +1,11 @@
+\begin{zsection}
+  \SECTION NonSchExprInInclDecl\_InclDecl
+\end{zsection}
+
+\begin{axdef}
+  x == 1
+\end{axdef}
+
+\begin{axdef}
+  x
+\end{axdef}

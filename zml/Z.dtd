@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- XML DTD for ISO Standard Z -->
+<!-- Begun by Ian Toyn of the University of York in January 2002 -->
+<!-- Validated by David Currie of IBM UK Ltd in May 2002 -->
+<!ENTITY % Z-prefix "Z">
+<!ENTITY % Z-colon ":">
+<!ENTITY % Z-PCDATA "%Z-prefix;%Z-colon;PCDATA">
+<!ENTITY % Z-Spec "%Z-prefix;%Z-colon;Spec">
+<!ENTITY % Z-Sect "%Z-prefix;%Z-colon;Sect">
+<!ENTITY % Z-Parent "%Z-prefix;%Z-colon;Parent">
+<!ENTITY % Z-SectTypeEnv "%Z-prefix;%Z-colon;SectTypeEnv">
+<!ENTITY % Z-GivenPara "%Z-prefix;%Z-colon;GivenPara">
+<!ENTITY % Z-AxPara "%Z-prefix;%Z-colon;AxPara">
+<!ENTITY % Z-Box "%Z-prefix;%Z-colon;Box">
+<!ENTITY % Z-Params "%Z-prefix;%Z-colon;Params">
+<!ENTITY % Z-FreePara "%Z-prefix;%Z-colon;FreePara">
+<!ENTITY % Z-FreeType "%Z-prefix;%Z-colon;FreeType">
+<!ENTITY % Z-Branch "%Z-prefix;%Z-colon;Branch">
+<!ENTITY % Z-ConjPara "%Z-prefix;%Z-colon;ConjPara">
+<!ENTITY % Z-OptempPara "%Z-prefix;%Z-colon;OptempPara">
+<!ENTITY % Z-Cat "%Z-prefix;%Z-colon;Cat">
+<!ENTITY % Z-Assoc "%Z-prefix;%Z-colon;Assoc">
+<!ENTITY % Z-Numeral "%Z-prefix;%Z-colon;Numeral">
+<!ENTITY % Z-Template "%Z-prefix;%Z-colon;Template">
+<!ENTITY % Z-Operand "%Z-prefix;%Z-colon;Operand">
+<!ENTITY % Z-OperandList "%Z-prefix;%Z-colon;OperandList">
+<!ENTITY % Z-NarrPara "%Z-prefix;%Z-colon;NarrPara">
+<!ENTITY % Z-ExprPred "%Z-prefix;%Z-colon;ExprPred">
+<!ENTITY % Z-NegPred "%Z-prefix;%Z-colon;NegPred">
+<!ENTITY % Z-LogPred "%Z-prefix;%Z-colon;LogPred">
+<!ENTITY % Z-Log "%Z-prefix;%Z-colon;Log">
+<!ENTITY % Z-QntPred "%Z-prefix;%Z-colon;QntPred">
+<!ENTITY % Z-Qnt "%Z-prefix;%Z-colon;Qnt">
+<!ENTITY % Z-MemPred "%Z-prefix;%Z-colon;MemPred">
+<!ENTITY % Z-Fix "%Z-prefix;%Z-colon;Fix">
+<!ENTITY % Z-FalsePred "%Z-prefix;%Z-colon;FalsePred">
+<!ENTITY % Z-TruePred "%Z-prefix;%Z-colon;TruePred">
+<!ENTITY % Z-RefExpr "%Z-prefix;%Z-colon;RefExpr">
+<!ENTITY % Z-Inst "%Z-prefix;%Z-colon;Inst">
+<!ENTITY % Z-NumExpr "%Z-prefix;%Z-colon;NumExpr">
+<!ENTITY % Z-PowerExpr "%Z-prefix;%Z-colon;PowerExpr">
+<!ENTITY % Z-SetExpr "%Z-prefix;%Z-colon;SetExpr">
+<!ENTITY % Z-TupleExpr "%Z-prefix;%Z-colon;TupleExpr">
+<!ENTITY % Z-ProdExpr "%Z-prefix;%Z-colon;ProdExpr">
+<!ENTITY % Z-BindExpr "%Z-prefix;%Z-colon;BindExpr">
+<!ENTITY % Z-TupleselExpr "%Z-prefix;%Z-colon;TupleselExpr">
+<!ENTITY % Z-BindselExpr "%Z-prefix;%Z-colon;BindselExpr">
+<!ENTITY % Z-CondExpr "%Z-prefix;%Z-colon;CondExpr">
+<!ENTITY % Z-ApplExpr "%Z-prefix;%Z-colon;ApplExpr">
+<!ENTITY % Z-Fix "%Z-prefix;%Z-colon;Fix">
+<!ENTITY % Z-DecorExpr "%Z-prefix;%Z-colon;DecorExpr">
+<!ENTITY % Z-InStroke "%Z-prefix;%Z-colon;InStroke">
+<!ENTITY % Z-OutStroke "%Z-prefix;%Z-colon;OutStroke">
+<!ENTITY % Z-NextStroke "%Z-prefix;%Z-colon;NextStroke">
+<!ENTITY % Z-NumStroke "%Z-prefix;%Z-colon;NumStroke">
+<!ENTITY % Z-ThetaExpr "%Z-prefix;%Z-colon;ThetaExpr">
+<!ENTITY % Z-SchExpr "%Z-prefix;%Z-colon;SchExpr">
+<!ENTITY % Z-RenmExpr "%Z-prefix;%Z-colon;RenmExpr">
+<!ENTITY % Z-Renm "%Z-prefix;%Z-colon;Renm">
+<!ENTITY % Z-NegExpr "%Z-prefix;%Z-colon;NegExpr">
+<!ENTITY % Z-PreExpr "%Z-prefix;%Z-colon;PreExpr">
+<!ENTITY % Z-LogExpr "%Z-prefix;%Z-colon;LogExpr">
+<!ENTITY % Z-QntExpr "%Z-prefix;%Z-colon;QntExpr">
+<!ENTITY % Z-CompExpr "%Z-prefix;%Z-colon;CompExpr">
+<!ENTITY % Z-PipeExpr "%Z-prefix;%Z-colon;PipeExpr">
+<!ENTITY % Z-ProjExpr "%Z-prefix;%Z-colon;ProjExpr">
+<!ENTITY % Z-HideExpr "%Z-prefix;%Z-colon;HideExpr">
+<!ENTITY % Z-SchemaSig "%Z-prefix;%Z-colon;SchemaSig">
+<!ENTITY % Z-GivenType "%Z-prefix;%Z-colon;GivenType">
+<!ENTITY % Z-GenType "%Z-prefix;%Z-colon;GenType">
+<!ENTITY % Z-PowerType "%Z-prefix;%Z-colon;PowerType">
+<!ENTITY % Z-ProdType "%Z-prefix;%Z-colon;ProdType">
+<!ENTITY % Z-SchemaType "%Z-prefix;%Z-colon;SchemaType">
+<!ENTITY % Z-TextSch "%Z-prefix;%Z-colon;TextSch">
+<!ENTITY % Z-VarDecl "%Z-prefix;%Z-colon;VarDecl">
+<!ENTITY % Z-ConstDecl "%Z-prefix;%Z-colon;ConstDecl">
+<!ENTITY % Z-InclDecl "%Z-prefix;%Z-colon;InclDecl">
+<!ENTITY % Z-DeclName "%Z-prefix;%Z-colon;DeclName">
+<!ENTITY % Z-RefName "%Z-prefix;%Z-colon;RefName">
+<!ENTITY % Z-Name "%Z-prefix;%Z-colon;Name">
+<!ENTITY % Z-Word "%Z-prefix;%Z-colon;Word">
+<!ENTITY % Z-SpecAnns "%Z-Spec;Anns">
+<!ENTITY % Z-SectAnns "%Z-Sect;Anns">
+<!ENTITY % Z-ParentAnns "%Z-Parent;Anns">
+<!ENTITY % Z-GivenParaAnns "%Z-GivenPara;Anns">
+<!ENTITY % Z-AxParaAnns "%Z-AxPara;Anns">
+<!ENTITY % Z-FreeParaAnns "%Z-FreePara;Anns">
+<!ENTITY % Z-FreeTypeAnns "%Z-FreeType;Anns">
+<!ENTITY % Z-BranchAnns "%Z-Branch;Anns">
+<!ENTITY % Z-ConjParaAnns "%Z-ConjPara;Anns">
+<!ENTITY % Z-OptempParaAnns "%Z-OptempPara;Anns">
+<!ENTITY % Z-ExprPredAnns "%Z-ExprPred;Anns">
+<!ENTITY % Z-NegPredAnns "%Z-NegPred;Anns">
+<!ENTITY % Z-LogPredAnns "%Z-LogPred;Anns">
+<!ENTITY % Z-QntPredAnns "%Z-QntPred;Anns">
+<!ENTITY % Z-MemPredAnns "%Z-MemPred;Anns">
+<!ENTITY % Z-FalsePredAnns "%Z-FalsePred;Anns">
+<!ENTITY % Z-TruePredAnns "%Z-TruePred;Anns">
+<!ENTITY % Z-RefExprAnns "%Z-RefExpr;Anns">
+<!ENTITY % Z-NumExprAnns "%Z-NumExpr;Anns">
+<!ENTITY % Z-PowerExprAnns "%Z-PowerExpr;Anns">
+<!ENTITY % Z-SetExprAnns "%Z-SetExpr;Anns">
+<!ENTITY % Z-TupleExprAnns "%Z-TupleExpr;Anns">
+<!ENTITY % Z-ProdExprAnns "%Z-ProdExpr;Anns">
+<!ENTITY % Z-BindExprAnns "%Z-BindExpr;Anns">
+<!ENTITY % Z-TupleselExprAnns "%Z-TupleselExpr;Anns">
+<!ENTITY % Z-BindselExprAnns "%Z-BindselExpr;Anns">
+<!ENTITY % Z-CondExprAnns "%Z-CondExpr;Anns">
+<!ENTITY % Z-ApplExprAnns "%Z-ApplExpr;Anns">
+<!ENTITY % Z-DecorExprAnns "%Z-DecorExpr;Anns">
+<!ENTITY % Z-ThetaExprAnns "%Z-ThetaExpr;Anns">
+<!ENTITY % Z-SchExprAnns "%Z-SchExpr;Anns">
+<!ENTITY % Z-RenmExprAnns "%Z-RenmExpr;Anns">
+<!ENTITY % Z-RenmAnns "%Z-Renm;Anns">
+<!ENTITY % Z-NegExprAnns "%Z-NegExpr;Anns">
+<!ENTITY % Z-PreExprAnns "%Z-PreExpr;Anns">
+<!ENTITY % Z-LogExprAnns "%Z-LogExpr;Anns">
+<!ENTITY % Z-QntExprAnns "%Z-QntExpr;Anns">
+<!ENTITY % Z-CompExprAnns "%Z-CompExpr;Anns">
+<!ENTITY % Z-PipeExprAnns "%Z-PipeExpr;Anns">
+<!ENTITY % Z-ProjExprAnns "%Z-ProjExpr;Anns">
+<!ENTITY % Z-HideExprAnns "%Z-HideExpr;Anns">
+<!ENTITY % Z-TextSchAnns "%Z-TextSch;Anns">
+<!ENTITY % Z-VarDeclAnns "%Z-VarDecl;Anns">
+<!ENTITY % Z-ConstDeclAnns "%Z-ConstDecl;Anns">
+<!ENTITY % Z-InclDeclAnns "%Z-InclDecl;Anns">
+<!ENTITY % Z-DeclNameAnns "%Z-DeclName;Anns">
+<!ENTITY % Z-RefNameAnns "%Z-RefName;Anns">
+<!-- Alternative abbreviations -->
+<!ENTITY % Z-Para "(%Z-GivenPara; | %Z-AxPara; | %Z-FreePara; |
+		    %Z-ConjPara; | %Z-OptempPara; | %Z-NarrPara;)">
+<!ENTITY % Z-Pred "(%Z-ExprPred; | %Z-NegPred; | %Z-LogPred; | %Z-QntPred; |
+		    %Z-MemPred; | %Z-FalsePred; | %Z-TruePred;)">
+<!ENTITY % Z-Stroke "(%Z-InStroke; | %Z-OutStroke; | %Z-NextStroke; | %Z-NumStroke;)">
+<!ENTITY % Z-Expr "(%Z-RefExpr; | %Z-NumExpr; | %Z-PowerExpr; | %Z-SetExpr; |
+		    %Z-TupleExpr; | %Z-ProdExpr; | %Z-BindExpr; | %Z-TupleselExpr; |
+		    %Z-BindselExpr; | %Z-CondExpr; | %Z-ApplExpr; | %Z-DecorExpr; |
+		    %Z-ThetaExpr; | %Z-SchExpr; | %Z-RenmExpr; | %Z-NegExpr; |
+		    %Z-PreExpr; | %Z-LogExpr; | %Z-QntExpr; | %Z-CompExpr; |
+		    %Z-PipeExpr; | %Z-ProjExpr; | %Z-HideExpr;)">
+<!ENTITY % Z-Exprs "(%Z-Expr;*)">
+<!ENTITY % Z-Sch "(%Z-TextSch;)">
+<!ENTITY % Z-Decl "(%Z-VarDecl; | %Z-ConstDecl; | %Z-InclDecl;)">
+<!ENTITY % Z-Decls "(%Z-Decl;*)">
+<!ENTITY % Z-Signature "%Z-SchemaSig;">
+<!ENTITY % Z-Type "(%Z-GivenType; | %Z-GenType; | %Z-PowerType; |
+		    %Z-ProdType; | %Z-SchemaType;)">
+<!-- Element declarations -->
+<!ELEMENT %Z-Spec; (((%Z-Sect;)*, (%Z-SpecAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-Sect; (((%Z-Word;), (%Z-Parent;)*, (%Z-Para;)*, (%Z-SectAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-Parent; ((%Z-Word;, (%Z-ParentAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-GivenPara; (((%Z-DeclName;)*, (%Z-GivenParaAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-AxPara; (((%Z-DeclName;)*, %Z-Sch;, (%Z-AxParaAnns;)?) | (%Z-PCDATA;))>
+<!ATTLIST %Z-AxPara;
+	%Z-Box; (OmitBox | AxBox | SchBox) "AxBox"
+	%Z-Params; (Square | Mixfix) "Square"
+>
+<!ELEMENT %Z-FreePara; (((%Z-FreeType;)+, (%Z-FreeParaAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-FreeType; ((%Z-DeclName;, (%Z-Branch;)+, (%Z-FreeTypeAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-Branch; ((%Z-DeclName;, (%Z-Expr;)?, (%Z-BranchAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-ConjPara; (((%Z-DeclName;)*, %Z-Pred;, (%Z-ConjParaAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-OptempPara; ((%Z-Numeral;, %Z-Template;, (%Z-OptempParaAnns;)?) | (%Z-PCDATA;))>
+<!ATTLIST %Z-OptempPara;
+	%Z-Cat; (Relation | Function | Generic) #REQUIRED
+	%Z-Assoc; (Left | Right) "Left"
+>
+<!ELEMENT %Z-Numeral; (%Z-PCDATA;)>
+<!ELEMENT %Z-Template; ((%Z-Word; | %Z-Operand; | %Z-OperandList;), (%Z-Word; | %Z-Operand; | %Z-OperandList;)+)>
+<!ELEMENT %Z-Operand; EMPTY>
+<!ELEMENT %Z-OperandList; EMPTY>
+<!ELEMENT %Z-NarrPara; (%Z-PCDATA;)>
+<!ELEMENT %Z-ExprPred; ((%Z-Expr;, (%Z-ExprPredAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-NegPred; ((%Z-Pred;, (%Z-NegPredAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-LogPred; ((%Z-Pred;, %Z-Pred;, (%Z-LogPredAnns;)?) | (%Z-PCDATA;))>
+<!ATTLIST %Z-LogPred;
+	%Z-Log; (And | Or | Imp | Iff | Nl | Semi | Chain) #REQUIRED
+>
+<!ELEMENT %Z-QntPred; ((%Z-Sch;, %Z-Pred;, (%Z-QntPredAnns;)?) | (%Z-PCDATA;))>
+<!ATTLIST %Z-QntPred;
+	%Z-Qnt; (Forall | Exists | Exists1) #REQUIRED
+>
+<!ELEMENT %Z-MemPred; ((%Z-Expr;, %Z-Expr;, (%Z-MemPredAnns;)?) | (%Z-PCDATA;))>
+<!ATTLIST %Z-MemPred;
+	%Z-Fix; (Mem | Mixfix) "Mem"
+>
+<!ELEMENT %Z-FalsePred; ((%Z-FalsePredAnns;)?)>
+<!ELEMENT %Z-TruePred; ((%Z-TruePredAnns;)?)>
+<!ELEMENT %Z-RefExpr; ((%Z-RefName;, %Z-Exprs;, (%Z-RefExprAnns;)?) | (%Z-PCDATA;))>
+<!ATTLIST %Z-RefExpr;
+	%Z-Inst; (Square | Mixfix) "Square"
+>
+<!ELEMENT %Z-NumExpr; ((%Z-Numeral;, (%Z-NumExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-PowerExpr; ((%Z-Expr;, (%Z-PowerExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-SetExpr; ((%Z-Exprs;, (%Z-SetExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-TupleExpr; ((%Z-Exprs;, (%Z-TupleExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-ProdExpr; ((%Z-Exprs;, (%Z-ProdExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-BindExpr; (((%Z-DeclName;, %Z-Expr;)*, (%Z-BindExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-TupleselExpr; ((%Z-Expr;, %Z-Numeral;, (%Z-TupleselExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-BindselExpr; ((%Z-Expr;, %Z-Name;, (%Z-BindselExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-CondExpr; ((%Z-Pred;, %Z-Expr;, %Z-Expr;, (%Z-CondExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-ApplExpr; ((%Z-Expr;, %Z-Expr;, (%Z-ApplExprAnns;)?) | (%Z-PCDATA;))>
+<!ATTLIST %Z-ApplExpr;
+	%Z-Fix; (Juxta | Mixfix) "Juxta"
+>
+<!ELEMENT %Z-DecorExpr; ((%Z-Expr;, %Z-Stroke;, (%Z-DecorExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-InStroke; EMPTY>
+<!ELEMENT %Z-OutStroke; EMPTY>
+<!ELEMENT %Z-NextStroke; EMPTY>
+<!ELEMENT %Z-NumStroke; (%Z-Numeral;)>
+<!ELEMENT %Z-ThetaExpr; ((%Z-Expr;, (%Z-Stroke;)*, (%Z-ThetaExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-SchExpr; ((%Z-Sch;, (%Z-SchExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-RenmExpr; ((%Z-Expr;, (%Z-Renm;)+, (%Z-RenmExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-Renm; ((%Z-DeclName;, %Z-RefName;, (%Z-RenmAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-NegExpr; ((%Z-Expr;, (%Z-NegExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-PreExpr; ((%Z-Expr;, (%Z-PreExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-LogExpr; ((%Z-Expr;, %Z-Expr;, (%Z-LogExprAnns;)?) | (%Z-PCDATA;))>
+<!ATTLIST %Z-LogExpr;
+	%Z-Log; (And | Or | Imp | Iff) #REQUIRED
+>
+<!ELEMENT %Z-QntExpr; ((%Z-Sch;, (%Z-Expr;)?, (%Z-QntExprAnns;)?) | (%Z-PCDATA;))>
+<!ATTLIST %Z-QntExpr;
+	%Z-Qnt; (Forall | Exists | Exists1 | Lambda | Mu | Let | Set) #REQUIRED
+>
+<!ELEMENT %Z-CompExpr; ((%Z-Expr;, %Z-Expr;, (%Z-CompExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-PipeExpr; ((%Z-Expr;, %Z-Expr;, (%Z-PipeExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-ProjExpr; ((%Z-Expr;, %Z-Expr;, (%Z-ProjExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-HideExpr; ((%Z-Expr;, (%Z-RefName;)+, (%Z-HideExprAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-TextSch; ((%Z-Decls;, (%Z-Pred;)?, (%Z-TextSchAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-VarDecl; (((%Z-DeclName;)*, %Z-Expr;, (%Z-VarDeclAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-ConstDecl; ((%Z-DeclName;, %Z-Expr;, (%Z-ConstDeclAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-InclDecl; ((%Z-Expr;, (%Z-InclDeclAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-DeclName; ((%Z-Word;, (%Z-Stroke;)*, (%Z-DeclNameAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-RefName; ((%Z-Word;, (%Z-Stroke;)*, (%Z-RefNameAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-Name; ((%Z-Word;, (%Z-Stroke;)*) | (%Z-PCDATA;))>
+<!ELEMENT %Z-Word; (#PCDATA)>
+<!ELEMENT %Z-SectTypeEnv; ((%Z-Name;, %Z-Word;, %Z-Type;)*)>
+<!ELEMENT %Z-Signature; ((%Z-Name;, %Z-Type;)*)>
+<!ELEMENT %Z-GivenType; (%Z-Name;)>
+<!ELEMENT %Z-GenType; (%Z-Name;)>
+<!ELEMENT %Z-PowerType; (%Z-Type;)>
+<!ELEMENT %Z-ProdType; (%Z-Type;, (%Z-Type;)+)>
+<!ELEMENT %Z-SchemaType; (%Z-Signature;)>
+<!-- <!ELEMENT %Z-Type; (%Z-GivenType; | %Z-GenType; | %Z-PowerType; |
+		    %Z-ProdType; | %Z-SchemaType;)> -->
+<!ELEMENT %Z-SpecAnns; EMPTY>
+<!ELEMENT %Z-SectAnns; (%Z-SectTypeEnv;)>
+<!ELEMENT %Z-ParentAnns; EMPTY>
+<!ELEMENT %Z-GivenParaAnns; (%Z-Signature;)>
+<!ELEMENT %Z-AxParaAnns; (%Z-Signature;)>
+<!ELEMENT %Z-FreeParaAnns; (%Z-Signature;)>
+<!ELEMENT %Z-FreeTypeAnns; EMPTY>
+<!ELEMENT %Z-BranchAnns; EMPTY>
+<!ELEMENT %Z-ConjParaAnns; (%Z-Signature;)>
+<!ELEMENT %Z-OptempParaAnns; (%Z-Signature;)>
+<!ELEMENT %Z-ExprPredAnns; EMPTY>
+<!ELEMENT %Z-NegPredAnns; EMPTY>
+<!ELEMENT %Z-LogPredAnns; EMPTY>
+<!ELEMENT %Z-QntPredAnns; EMPTY>
+<!ELEMENT %Z-MemPredAnns; EMPTY>
+<!ELEMENT %Z-FalsePredAnns; EMPTY>
+<!ELEMENT %Z-TruePredAnns; EMPTY>
+<!ELEMENT %Z-RefExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-NumExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-PowerExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-SetExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-TupleExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-ProdExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-BindExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-TupleselExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-BindselExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-CondExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-ApplExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-DecorExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-ThetaExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-SchExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-RenmExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-RenmAnns; EMPTY>
+<!ELEMENT %Z-NegExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-PreExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-LogExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-QntExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-CompExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-PipeExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-ProjExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-HideExprAnns; (%Z-Type;)>
+<!ELEMENT %Z-TextSchAnns; (%Z-Signature;)>
+<!ELEMENT %Z-VarDeclAnns; EMPTY>
+<!ELEMENT %Z-ConstDeclAnns; EMPTY>
+<!ELEMENT %Z-InclDeclAnns; EMPTY>
+<!ELEMENT %Z-DeclNameAnns; EMPTY>
+<!ELEMENT %Z-RefNameAnns; EMPTY>
+<!ELEMENT %Z-PCDATA; (#PCDATA)>

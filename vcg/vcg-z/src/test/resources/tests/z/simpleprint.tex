@@ -1,0 +1,31 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION simpleprint \parents 
+			 standard\_toolkit 
+			% fuzz\_toolkit
+\end{zsection}
+
+\begin{schema}{State}
+   x, y: \nat
+\where
+   x > y
+\end{schema}
+
+\begin{schema}{StInit}
+   State~'
+\where
+   x' = 10 \\
+   y' = 0
+\end{schema}
+
+\begin{schema}{Op}
+   \Delta State;
+   i?: \num
+\where
+   x' = x + i?
+\end{schema}
+
+\end{document}

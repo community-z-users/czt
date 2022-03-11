@@ -1,0 +1,42 @@
+
+\begin{zsection}
+\SECTION chronos \parents circus\_toolkit %,expansion\_rules, simplification\_rules
+\end{zsection}
+
+\begin{zed}
+	RANGE == 0 \upto 59
+\end{zed}
+
+\begin{circus}
+	\circchannel\ tick, time
+\end{circus}
+
+\begin{circus}
+	\circchannel\ out : RANGE \cross RANGE
+\end{circus}
+
+\begin{schema}{AState}
+	second, minute :  0 \upto 59
+\end{schema}
+
+\begin{schema}{Teste}
+	AState~'
+\end{schema}
+
+\begin{schema}{ AInit }
+   	AState~'
+	\where
+	second' = minute' = 0
+\end{schema}
+
+\begin{circus}
+\circprocess\ Achronometer \circdef \circbegin
+\also %
+    \circstate\ AState ~~==~~ [~ second: RANGE ~] \land [~ minute : RANGE ~] \\
+	IncSec ~~==~~ [~ \Delta AState | second' = (second + 1) \mod 60 ~] \\
+	IncMin ~~==~~ [~ \Delta AState | minute' = (minute + 1) \mod 60 ~] \\
+	Def ~~==~~ [~ second', minute': \nat | second' = 0 \land minute' = 0´\land 1 \in \emptyset ~] \\
+	Run ~~\circdef~~ \Skip  \\
+	\t1 \circspot (\alpha(AInit) \circseq\ (\circmu\ X \circspot (Run \circseq\ X))) \\
+	\circend
+\end{circus}

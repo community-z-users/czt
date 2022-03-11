@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION NonExistentSelection\_BindSelExpr\_3
+\end{zsection}
+
+\begin{zed}
+  bindExpr == \lblot one == 1, two == \{2\}, three == \power \{2\} \rblot\\
+  error == bindExpr.nonExistent
+\end{zed}

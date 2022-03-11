@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION TypeMismatchInSignature\_RenameExpr
+\end{zsection}
+
+\begin{zed}
+  error ==  [x : \nat; y : \power \nat] [a/x, a/y]
+\end{zed}

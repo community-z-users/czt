@@ -1,0 +1,23 @@
+\begin{zsection}
+  \SECTION MuExpr
+\end{zsection}
+
+\begin{zed}
+  muOneWithoutExpr == (\mu x : \nat | true)\\
+  muManyWithoutExpr == (\mu x : \nat; y : \power \nat | true)\\
+  muOneWithExpr == \mu x : \nat @ \{x\}\\
+  muManyWithExpr == \mu x : \nat; y : \power \nat @ (x, y)
+\end{zed}
+
+\begin{zed} \vdash? muOneWithoutExpr \in \nat \end{zed}
+\begin{zed} \vdash? muManyWithoutExpr \in \nat \cross \power \nat \end{zed}
+\begin{zed} \vdash? muOneWithExpr \in \power \nat \end{zed}
+\begin{zed} \vdash? muManyWithExpr \in \nat \cross \power \nat \end{zed}
+
+\begin{zed}
+  muOneWithSchema == (\mu [x : \nat] | true)\\
+  muManyWithSchema == (\mu [x : \nat; y : \power \nat] | true)
+\end{zed}
+
+\begin{zed} \vdash? muOneWithSchema \in [x : \nat] \end{zed}
+\begin{zed} \vdash? muManyWithSchema \in [x : \nat; y : \power \nat] \end{zed}

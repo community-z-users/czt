@@ -1,0 +1,13 @@
+\begin{zsection}
+  \SECTION ParameterMismatchInDefPara\_RefExpr
+\end{zsection}
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{gendef}[X]
+  error == g[\nat]
+\where
+  \forall g2 : error[X] @ true
+\end{gendef}

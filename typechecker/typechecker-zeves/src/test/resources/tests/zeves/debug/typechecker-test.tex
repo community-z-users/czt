@@ -1,0 +1,27 @@
+\begin{zsection}
+   \SECTION typechecker\_test \parents zeves\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   x, z: \nat
+\where
+   \Label{dX} x > 10
+   \\
+   \Label{dZ} z > x
+\end{axdef}
+
+\begin{theorem}{Test}
+    \forall n: \nat @ n \geq 0
+\end{theorem}
+
+\begin{theorem}{Okay1}
+    \exists y: \nat @ y > x
+\end{theorem}
+
+\begin{zproof}[Okay1]
+   use Test;
+   use x\$declaration;
+   use dX;
+   instantiate y == z;
+   prove;
+\end{zproof}

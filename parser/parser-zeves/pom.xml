@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>parser-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>parser-zeves</artifactId>
+  <packaging>jar</packaging>
+
+  <name>CZT Parser Z/EVES</name>
+  <description>
+    Provides classes for parsing and printing Z/EVES specifications.
+  </description>
+
+  <properties>
+    <parser.nodes>zeves,zevescore</parser.nodes>
+    <parser.package>net.sourceforge.czt.parser.zeves</parser.package>
+    <printer.nodes>z,zevescore,zeves</printer.nodes>
+    <printer.package>net.sourceforge.czt.print.zeves</printer.package>
+    <contextfree.nodes>zeves,print</contextfree.nodes>
+  </properties>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>parser-z</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>parser-z</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>corejava-zeves</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>${czt.dev.groupId}</groupId>
+        <artifactId>parsergen-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-parser-java</id>
+            <configuration>
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-parser-java-symmap</id>
+            <configuration>
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-parser-cup</id>
+            <configuration>
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-parser-jflex</id>
+            <configuration>
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-printer-unicode2latex</id>
+            <configuration>
+              <addNodes>${printer.nodes}</addNodes>
+              <packageName>${printer.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-printer-contextfree</id>
+            <configuration>
+              <addNodes>${contextfree.nodes}</addNodes>
+              <packageName>${printer.package}</packageName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>de.jflex</groupId>
+        <artifactId>maven-jflex-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>${czt.dev.groupId}</groupId>
+        <artifactId>cup-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,63 @@
+\begin{zsection}
+   \SECTION toolkitThms \parents standard\_toolkit
+\end{zsection}
+
+\begin[disabled]{theorem}{rule lNonMaximalCardEquiv}[X]
+   \forall A: \power~X @ \forall S: \finset~A @  \#~S = (\# \_)[A]~S
+\end{theorem}
+As below, it's not a valid/complete Reference Name
+(Syntax error at symbol RSQUARE: \#[A]~S)
+
+
+\begin[disabled]{theorem}{rule lUnitElemBelongs}[X]
+   \forall e: \nat \cross X; x: X @ e \in \langle x\rangle  \iff  e = (1, x)
+\end{theorem}
+(Syntax error at symbol MEM: e \in \langle x\rangle)
+
+
+\begin[disabled]{theorem}{rule lElemUnionDiffAbsorption}[X]
+\forall  x: X; S: \power  X | x \in  S @ \{x\} \cup  (S \setminus  \{x\}) = S
+\end{theorem}
+
+\begin{zproof}[lElemUnionDiffAbsorption]
+%apply extensionality to predicate \{x\} (\_ \cup \_)[X] (S (\_ \setminus \_)[X] \{x\}) = S;
+apply extensionality to predicate (\_ \cup \_)[X] (\{x\}, ((\_ \setminus \_)[X] (S, \{x\}))) = S;
+prenex;
+with normalization rewrite;
+\end{zproof}
+
+\begin[disabled]{theorem}{rule lCupDisThroughDiff}[X]
+\forall  x: X; S, R: \power  X | \lnot  x \in  S @ S \cup  (R \setminus  \{x\}) = S \cup  R \setminus  \{x\}
+\end{theorem}
+
+\begin{zproof}[lCupDisThroughDiff]
+%apply extensionality to predicate S \cup [X] (R \setminus [X] \{x\}) = S \cup [X] R \setminus [X] \{x\};
+apply extensionality to predicate (\_ \cup \_ )[X] (S, ((\_ \setminus \_)[X] (R, \{x\}))) = (\_ \setminus \_)[X]( (\_ \cup \_)[X] (S, R) , \{x\});
+%apply extensionality to predicate S (\_ \cup \_)[X] (R (\_ \setminus \_)[X] \{x\}) = (S (\_ \cup \_)[X] R) (\_ \setminus \_)[X] \{x\};
+prove;
+\end{zproof}
+
+Last case doesn't work it gives:
+ERROR: Error  NotStartToken  (line 1) [Parser 1]: the next token, ")", does not begin an expression.
+ERROR: Error  NotStartToken  (line 1) [Parser 1]: the next token, "\" (an infix function), does not begin a predicate or expression.
+ERROR: Error  NextToken  (line 1) [Parser 1]: the next token, "\" (an infix function), is not ")".
+ERROR: Error  NotStartToken  (line 1) [Parser 1]: the next token, ")", does not begin an expression.
+ERROR: Error  NextToken  (line 1) [Parser 1]: the next token, ")", is not allowed here.
+ERROR: Error  NotStartToken  (line 1) [Parser 1]: the next token, ")", does not begin an expression.
+ERROR: Error  NotStartToken  (line 1) [Parser 1]: the next token, "\" (an infix function), does not begin a predicate or expression.
+ERROR: Error  NextToken  (line 1) [Parser 1]: the next token, "\" (an infix function), is not ")".
+ERROR: Error  NotStartToken  (line 1) [Parser 1]: the next token, ")", does not begin an expression.
+ERROR: Error  NextToken  (line 1) [Parser 1]: the next token, ")", is not allowed here.
+
+
+apply extensionality to predicate (S &cup;[X]) ((R (\[X])) ({ x }))  =  (((S &cup;[X]) (R)) ((\[X]))) ({ x })
+
+\begin{theorem}{rule lCapDisThroughDiff}[X] % [disabled]? No. Otherwise the inductive proof below is more complicated?
+\forall  x: X; S, R: \power  X @ S \cap  (R \setminus  \{x\}) = S \cap  R \setminus  \{x\}
+\end{theorem}
+
+\begin{zproof}[lCapDisThroughDiff]
+%apply extensionality to predicate (\_ \cap \_ )[X] (S, ((\_ R \setminus [X] \{x\}) = S \cap [X] R \setminus [X] \{x\};
+apply extensionality to predicate (\_ \cap \_ )[X] (S, ((\_ \setminus \_)[X] (R, \{x\}))) = (\_ \setminus \_)[X]( (\_ \cap \_)[X] (S, R) , \{x\});
+prove;
+\end{zproof}

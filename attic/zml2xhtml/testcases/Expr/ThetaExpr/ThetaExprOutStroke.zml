@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>A ThetaExpr using OUTSTROKE as the decoraction</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <ThetaExpr>
+            <RefExpr>
+              <RefName><Word>A</Word></RefName>
+            </RefExpr>
+            <OutStroke/>
+          </ThetaExpr>
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

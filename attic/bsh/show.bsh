@@ -1,0 +1,11 @@
+/**
+   Opens a window that shows the given string in a text area.
+*/
+void show(String text)
+{
+  area = new TextArea(text, 20, 100);
+  frame = new JFrame();
+  frame.getContentPane().add(area);
+  frame.pack();
+  frame.setVisible(true);
+}

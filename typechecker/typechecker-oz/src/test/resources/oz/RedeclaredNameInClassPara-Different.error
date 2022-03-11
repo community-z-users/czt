@@ -1,0 +1,21 @@
+\begin{zsection}
+  \SECTION RedeclaredNameInClassPara\_Different \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    s : \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    s? : \nat
+  \end{op}
+\end{class}
+
+This tests that a type of definition (state variable) in one class is 
+not duplicated in a second 
+
+\begin{class}{B}
+  A\\
+  s == \{1\}
+\end{class}
+

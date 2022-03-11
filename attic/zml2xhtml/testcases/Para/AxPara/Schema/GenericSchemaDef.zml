@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+<ZSect>
+    <Name>Generic Schema Definition, with predicates</Name>
+    <AxPara Box="SchBox">
+      <DeclName>
+        <Word>
+          generic1
+        </Word>
+      </DeclName>
+      <SchText>
+        <ConstDecl>
+          <DeclName>
+            <Word>ASchema</Word>
+          </DeclName>
+          <SchExpr>
+            <SchText>
+              <VarDecl>
+                <DeclName>
+                  <Word>p</Word>
+                </DeclName>
+                <RefExpr>
+                  <RefName>
+                    <Word>
+                      TYPE
+                    </Word>
+                  </RefName>
+                </RefExpr>
+              </VarDecl>
+<MemPred Mixfix="true">
+                <TupleExpr>
+                  <ApplExpr Mixfix="true">
+                    <RefExpr>
+                      <RefName>
+<Word>p</Word>
+</RefName>
+                    </RefExpr>
+                    <RefExpr>
+                      <RefName>
+                        <Word>#</Word>
+                      </RefName>
+                    </RefExpr>
+                  </ApplExpr>
+                  <NumExpr Value="1"/>
+                </TupleExpr>
+                <RefExpr>
+                  <RefName>
+                    <Word>=</Word>
+                  </RefName>
+                </RefExpr>
+              </MemPred>                    
+            </SchText>
+          </SchExpr>
+        </ConstDecl>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>

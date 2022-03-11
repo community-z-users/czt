@@ -1,0 +1,1188 @@
+%%Zfile /lib/prelude.tex
+%%Zloc 18#1@470
+\begin{zsection}
+\SECTION prelude
+\end{zsection}
+%%Zloc 26#1@639
+%%Zchar	\{ U+007B
+%%Zloc 27#1@657
+%%Zchar	\} U+007D
+%%Zloc 28#1@675
+%%Zinchar \where U+007C
+%%Zloc 29#1@699
+%%Zchar \Delta U+0394
+%%Zloc 30#1@721
+%%Zchar \Xi U+039E
+%%Zloc 31#1@740
+%%Zprechar \theta U+03B8
+%%Zloc 32#1@765
+%%Zprechar \lambda U+03BB
+%%Zloc 33#1@791
+%%Zprechar \mu U+03BC
+%%Zloc 34#1@813
+%%Zchar \ldata U+27EA
+%%Zloc 35#1@835
+%%Zchar \rdata U+27EB
+%%Zloc 36#1@857
+%%Zchar \lblot U+2989
+%%Zloc 37#1@879
+%%Zchar \rblot U+298A
+%%Zloc 38#1@901
+%%Zchar \vdash U+22A2
+%%Zloc 39#1@923
+%%Zinchar \land U+2227
+%%Zloc 40#1@946
+%%Zinchar \lor U+2228
+%%Zloc 41#1@968
+%%Zinchar \implies U+21D2
+%%Zloc 42#1@994
+%%Zinchar \iff U+21D4
+%%Zloc 43#1@1016
+%%Zprechar \lnot U+00AC
+%%Zloc 44#1@1040
+%%Zprechar \forall U+2200
+%%Zloc 45#1@1066
+%%Zprechar \exists U+2203
+%%Zloc 46#1@1092
+%%Zinchar \in U+2208
+%%Zloc 47#1@1113
+%%Zinchar \spot U+2981
+%%Zloc 48#1@1136
+%%Zinchar \hide U+29F9
+%%Zloc 49#1@1159
+%%Zinchar \project U+2A21
+%%Zloc 50#1@1185
+%%Zinchar \semi U+2A1F
+%%Zloc 51#1@1208
+%%Zinchar \pipe U+2A20
+%%Zloc 52#1@1231
+%%Zpreword \IF if
+%%Zloc 53#1@1249
+%%Zinword \THEN then
+%%Zloc 54#1@1270
+%%Zinword \ELSE else
+%%Zloc 55#1@1291
+%%Zpreword \LET let
+%%Zloc 56#1@1311
+%%Zpreword \pre pre
+%%Zloc 57#1@1331
+%%Zinword \function function
+%%Zloc 58#1@1360
+%%Zinword \generic generic
+%%Zloc 59#1@1387
+%%Zinword \relation relation
+%%Zloc 60#1@1416
+%%Zinword \leftassoc leftassoc
+%%Zloc 61#1@1447
+%%Zinword \rightassoc rightassoc
+%%Zloc 62#1@1480
+%%Zinword \listarg {,}{,}
+%%Zloc 63#1@1506
+%%Zinword \varg \_
+%%Zloc 64#1@1525
+%%Zprechar \power U+2119
+%%Zloc 65#1@1550
+%%Zinchar \cross U+00D7
+%%Zloc 66#1@1574
+%%Zchar \arithmos U-0001D538
+%%Zloc 67#1@1603
+%%Zchar \nat U+2115
+%%Zloc 71#1@1699
+%%Zchar \alpha U+03B1
+%%Zloc 72#1@1721
+%%Zchar \beta U+03B2
+%%Zloc 73#1@1742
+%%Zchar \gamma U+03B3
+%%Zloc 74#1@1764
+%%Zchar \delta U+03B4
+%%Zloc 75#1@1786
+%%Zchar \epsilon U+03B5
+%%Zloc 76#1@1810
+%%Zchar \zeta U+03B6
+%%Zloc 77#1@1831
+%%Zchar \eta U+03B7
+%%Zloc 78#1@1851
+%%Zchar \iota U+03B9
+%%Zloc 79#1@1872
+%%Zchar \kappa U+03BA
+%%Zloc 80#1@1894
+%%Zchar \nu U+03BD
+%%Zloc 81#1@1913
+%%Zchar \xi U+03BE
+%%Zloc 82#1@1932
+%%Zchar \pi U+03C0
+%%Zloc 83#1@1951
+%%Zchar \rho U+03C1
+%%Zloc 84#1@1971
+%%Zchar \sigma U+03C3
+%%Zloc 85#1@1993
+%%Zchar \tau U+03C4
+%%Zloc 86#1@2013
+%%Zchar \upsilon U+03C5
+%%Zloc 87#1@2037
+%%Zchar \phi U+03C6
+%%Zloc 88#1@2057
+%%Zchar \chi U+03C7
+%%Zloc 89#1@2077
+%%Zchar \psi U+03C8
+%%Zloc 90#1@2097
+%%Zchar \omega U+03C9
+%%Zloc 91#1@2119
+%%Zchar \Gamma U+0393
+%%Zloc 92#1@2141
+%%Zchar \Theta U+0398
+%%Zloc 93#1@2163
+%%Zchar \Lambda U+039B
+%%Zloc 94#1@2186
+%%Zchar \Pi U+03A0
+%%Zloc 95#1@2205
+%%Zchar \Sigma U+03A3
+%%Zloc 96#1@2227
+%%Zchar \Upsilon U+03A5
+%%Zloc 97#1@2251
+%%Zchar \Phi U+03A6
+%%Zloc 98#1@2271
+%%Zchar \Psi U+03A8
+%%Zloc 99#1@2291
+%%Zchar \Omega U+03A9
+%%Zloc 102#1@2321
+\begin{zed}
+\generic (\power \_)
+\end{zed}
+%%Zloc 119#1@2903
+\begin{zed}
+[\arithmos]
+\end{zed}
+
+%%Zloc 126#1@3058
+\begin{axdef}
+\nat : \power \arithmos
+\end{axdef}
+
+%%Zloc 139#1@3337
+\begin{axdef}
+  number\_literal\_0 : \nat\\
+  number\_literal\_1 : \nat
+\end{axdef}
+
+%%Zloc 147#1@3542
+\begin{zed}
+\function 30 \leftassoc (\_ + \_)
+\end{zed}
+
+%%Zloc 151#1@3599
+\begin{axdef}
+\_ + \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+\where
+\forall m, n: \nat @ \exists_1 p: ( \_ + \_ ) @ p.1 = (m, n)\\
+\forall m, n: \nat @ m + n \in \nat\\
+\forall m, n: \nat | m + 1 = n + 1 @ m = n\\
+\forall n: \nat @ \lnot n + 1 = 0\\
+\forall w: \power \nat | 0 \in w \land (\forall y: w @ y + 1 \in w) @ w = \nat\\
+\forall m: \nat @ m + 0 = m\\
+\forall m, n: \nat @ m + (n + 1) = (m + n) + 1
+\end{axdef}
+
+%%Zfile /lib/set_toolkit.tex
+%%Zloc 8#1@179
+\begin{zsection}
+\SECTION set\_toolkit
+\end{zsection}
+%%Zloc 14#1@256
+%%Zinchar \rel U+2194
+%%Zloc 29#1@609
+%%Zinchar \fun U+2192
+%%Zloc 46#1@1025
+%%Zinchar \neq U+2260
+%%Zloc 62#1@1327
+%%Zinchar \notin U+2209
+%%Zloc 79#1@1697
+%%Zchar \emptyset U+2205
+%%Zloc 89#1@1886
+%%Zinchar \subseteq U+2286
+%%Zloc 106#1@2275
+%%Zinchar \subset U+2282
+%%Zloc 137#1@2951
+%%Zinchar \cup U+222A
+%%Zloc 153#1@3321
+%%Zinchar \cap U+2229
+%%Zloc 169#1@3696
+%%Zinchar \setminus U+2216
+%%Zloc 185#1@4140
+%%Zinchar \symdiff U+2296
+%%Zloc 202#1@4591
+%%Zprechar \bigcup U+22C3
+%%Zloc 214#1@4953
+%%Zprechar \bigcap U+22C2
+%%Zloc 229#1@5341
+%%Zprechar \finset U-0001D53D
+%%Zloc 15#1@278
+\begin{zed}
+\generic 5 \rightassoc (\_ \rel \_)
+\end{zed}
+
+%%Zloc 19#1@337
+\begin{zed}
+X \rel Y == \power ( X \cross Y )
+\end{zed}
+
+%%Zloc 30#1@631
+\begin{zed}
+\generic 5 \rightassoc (\_ \fun \_)
+\end{zed}
+
+%%Zloc 34#1@690
+\begin{zed}
+X \fun Y == \{~ f : X \rel Y | \forall x : X @ \exists_1 y : Y @ (x , y) \in f ~\}
+\end{zed}
+
+%%Zloc 47#1@1047
+\begin{zed}
+\relation (\_ \neq \_)
+\end{zed}
+
+%%Zloc 51#1@1093
+\begin{gendef}[X]
+\_ \neq \_ : X \rel X
+\where
+\forall x , y : X @ x \neq y \iff \lnot x = y
+\end{gendef}
+
+%%Zloc 63#1@1351
+\begin{zed}
+\relation (\_ \notin \_)
+\end{zed}
+
+%%Zloc 67#1@1399
+\begin{gendef}[X]
+\_ \notin \_ : X \rel \power X
+\where
+\forall x : X ; a : \power X @ x \notin a \iff \lnot x \in a
+\end{gendef}
+
+%%Zloc 80#1@1722
+\begin{zed}
+\emptyset [ X ] == \{~ x : X | false ~\}
+\end{zed}
+
+%%Zloc 90#1@1913
+\begin{zed}
+\relation (\_ \subseteq \_)
+\end{zed}
+
+%%Zloc 94#1@1964
+\begin{gendef}[X]
+\_ \subseteq \_ : \power X \rel \power X
+\where
+\forall a , b : \power X @ a \subseteq b \iff
+( \forall x : a @ x \in b )
+\end{gendef}
+
+%%Zloc 107#1@2300
+\begin{zed}
+\relation (\_ \subset \_)
+\end{zed}
+
+%%Zloc 111#1@2349
+\begin{gendef}[X]
+\_ \subset \_ : \power X \rel \power X
+\where
+\forall a , b : \power X @ a \subset b \iff
+a \subseteq b \land a \neq b
+\end{gendef}
+
+%%Zloc 125#1@2674
+\begin{zed}
+\power_1 X == \{~ a : \power X | a \neq \emptyset ~\}
+\end{zed}
+
+%%Zloc 138#1@2973
+\begin{zed}
+\function 30 \leftassoc (\_ \cup \_)
+\end{zed}
+
+%%Zloc 142#1@3033
+\begin{gendef}[X]
+\_ \cup \_ : \power X \cross \power X \fun \power X
+\where
+\forall a , b : \power X @ a \cup b = \{~ x : X | x \in a \lor x \in b ~\}
+\end{gendef}
+
+%%Zloc 154#1@3343
+\begin{zed}
+\function 40 \leftassoc (\_ \cap \_)
+\end{zed}
+
+%%Zloc 158#1@3403
+\begin{gendef}[X]
+\_ \cap \_ : \power X \cross \power X \fun \power X
+\where
+\forall a , b : \power X @ a \cap b = \{~ x : X | x \in a \land x \in b ~\}
+\end{gendef}
+
+%%Zloc 170#1@3723
+\begin{zed}
+\function 30 \leftassoc (\_ \setminus \_)
+\end{zed}
+
+%%Zloc 174#1@3788
+\begin{gendef}[X]
+\_ \setminus \_ : \power X \cross \power X \fun \power X
+\where
+\forall a , b : \power X @ a \setminus b = \{~ x : X | x \in a \land x \notin b ~\}
+\end{gendef}
+
+%%Zloc 186#1@4166
+\begin{zed}
+\function 25 \leftassoc (\_ \symdiff \_)
+\end{zed}
+
+%%Zloc 190#1@4230
+\begin{gendef}[X]
+\_ \symdiff \_ : \power X \cross \power X \fun \power X
+\where
+\forall a , b : \power X @ a \symdiff b = \{~ x : X | \lnot ( x \in a \iff x \in b) ~\}
+\end{gendef}
+
+%%Zloc 203#1@4617
+\begin{gendef}[X]
+\bigcup : \power \power X  \fun \power X
+\where
+\forall A : \power \power X @ \bigcup A = \{~ x : X | \exists a : A @ x \in a ~\}
+\end{gendef}
+
+%%Zloc 215#1@4979
+\begin{gendef}[X]
+\bigcap : \power \power X \fun \power X
+\where
+\forall A : \power \power X @ \bigcap A = \{~ x : X | \forall a : A @ x \in a ~\}
+\end{gendef}
+
+%%Zloc 230#1@5371
+\begin{zed}
+\generic (\finset \_)
+\end{zed}
+
+%%Zloc 234#1@5416
+\begin{zed}
+\finset X == \bigcap \{~ A : \power \power X |
+	\emptyset \in A \land ( \forall a : A ; x : X @ a \cup \{ x \} \in A ) ~\}
+\end{zed}
+
+%%Zloc 246#1@5821
+\begin{zed}
+\finset_1 X == \finset X \setminus \{ \emptyset \}
+\end{zed}
+
+%%Zfile /lib/number_toolkit.tex
+%%Zloc 7#1@135
+\begin{zsection}
+\SECTION number\_toolkit
+\end{zsection}
+%%Zloc 27#1@442
+%%Zchar \num U+2124
+%%Zloc 43#1@900
+%%Zprechar \negate U+002D
+%%Zloc 132#1@3340
+%%Zinchar \leq U+2264
+%%Zloc 163#1@3943
+%%Zinchar \geq U+2265
+%%Zloc 256#1@6127
+%%Zinword \div div
+%%Zloc 257#1@6146
+%%Zinword \mod mod
+%%Zloc 13#1@215
+\begin{zed}
+\function (succ~\_)
+\end{zed}
+
+%%Zloc 17#1@258
+\begin{axdef}
+succ~\_ : \power (\nat \cross \nat)
+\where
+(succ~\_) = \lambda n : \nat @ n+1
+\end{axdef}
+
+%%Zloc 28#1@462
+\begin{axdef}
+\num : \power \arithmos
+\end{axdef}
+
+%%Zloc 44#1@926
+\begin{zed}
+\function (\negate \_)
+\end{zed}
+
+%%Zloc 48#1@972
+\begin{axdef}
+\negate \_ : \power (\arithmos \cross \arithmos)
+\where
+\forall x, y : \num @ \exists_1 z : \num @ ((x,y),z) \in (\_ + \_)\\
+\forall x : \num @ \exists_1 y : \num @ (x,y) \in (\negate \_)
+\also
+\forall i , j , k : \num @
+\\ \t1	( i + j ) + k = i + ( j + k )
+\\ \t1	\land i + j = j + i
+\\ \t1	\land i + \negate i = 0
+\\ \t1	\land i + 0 = i
+\also
+\num = \{ z : \arithmos | \exists x : \nat @ z = x \lor z = \negate x \}
+\end{axdef}
+
+%%Zloc 99#1@2510
+\begin{zed}
+\function 30 \leftassoc (\_ - \_)
+\end{zed}
+
+%%Zloc 103#1@2567
+\begin{axdef}
+\_ - \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+\where
+\forall x, y : \num @ \exists_1 z : \num @ ((x,y),z) \in (\_ - \_)
+\also
+\forall i , j : \num @ i - j = i + \negate j
+\end{axdef}
+
+%%Zloc 133#1@3362
+\begin{zed}
+\relation (\_ \leq \_)
+\end{zed}
+
+%%Zloc 137#1@3408
+\begin{axdef}
+\_ \leq \_ : \power (\arithmos \cross \arithmos)
+\where
+\forall i , j : \num @ i \leq j \iff j - i \in \nat
+\end{axdef}
+
+%%Zloc 148#1@3669
+\begin{zed}
+\relation (\_ < \_)
+\end{zed}
+
+%%Zloc 152#1@3712
+\begin{axdef}
+\_ < \_ : \power (\arithmos \cross \arithmos)
+\where
+\forall i , j : \num @ i < j \iff i + 1 \leq j
+\end{axdef}
+
+%%Zloc 164#1@3965
+\begin{zed}
+\relation (\_ \geq \_)
+\end{zed}
+
+%%Zloc 168#1@4011
+\begin{axdef}
+\_ \geq \_ : \power (\arithmos \cross \arithmos)
+\where
+\forall i , j : \num @ i \geq j \iff j \leq i
+\end{axdef}
+
+%%Zloc 179#1@4234
+\begin{zed}
+\relation (\_ > \_)
+\end{zed}
+
+%%Zloc 183#1@4277
+\begin{axdef}
+\_ > \_ : \power (\arithmos \cross \arithmos)
+\where
+\forall i , j : \num @ i > j \iff j < i
+\end{axdef}
+
+%%Zloc 194#1@4506
+\begin{zed}
+\nat_1 == \{ x : \nat | \lnot x = 0 \}
+\end{zed}
+
+%%Zloc 203#1@4684
+\begin{zed}
+\num_1 == \{ x : \num | \lnot x = 0 \}
+\end{zed}
+
+%%Zloc 211#1@4848
+\begin{zed}
+\function 40 \leftassoc (\_ * \_)
+\end{zed}
+
+%%Zloc 215#1@4905
+\begin{axdef}
+\_ * \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+\where
+\forall x, y : \num @ \exists_1 z : \num @ ((x,y),z) \in (\_ * \_)
+\also
+\forall i , j , k : \num @
+\\ \t1	( i * j ) * k = i * ( j * k )
+\\ \t1	\land i * j = j * i
+\\ \t1	\land i * ( j + k ) = i * j + i * k
+\\ \t1	\land 0 * i = 0
+\\ \t1	\land 1 * i = i
+\end{axdef}
+
+%%Zloc 258#1@6165
+\begin{zed}
+\function 40 \leftassoc (\_ \div \_)\\
+\function 40 \leftassoc (\_ \mod \_)
+\end{zed}
+
+%%Zloc 263#1@6264
+\begin{axdef}
+\_ \div \_~, \_ \mod \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+\where
+\forall x : \num ; y : \num_1 @ \exists_1 z : \num @ ((x,y),z) \in (\_ \div \_)
+\also
+\forall x : \num ; y : \num_1 @ \exists_1 z : \num @ ((x,y),z) \in (\_ \mod \_)
+\also
+\forall i : \num ; j : \num_1 @
+\\ \t1	i = ( i \div j ) * j + i \mod j
+\\ \t1	\land ( 0 \leq i \mod j < j  \lor  j < i \mod j \leq 0 )
+\end{axdef}
+
+%%Zfile /lib/relation_toolkit.tex
+%%Zloc 7#1@156
+\begin{zsection}
+\SECTION relation\_toolkit \parents set\_toolkit
+\end{zsection}
+%%Zloc 35#1@710
+%%Zinchar \mapsto U+21A6
+%%Zloc 51#1@1053
+%%Zpreword \dom dom
+%%Zloc 63#1@1306
+%%Zpreword \ran ran
+%%Zloc 75#1@1571
+%%Zpreword \id id
+%%Zloc 89#1@1821
+%%Zinchar \comp U+2A3E
+%%Zloc 109#1@2460
+%%Zinchar \circ U+2218
+%%Zloc 125#1@2838
+%%Zinchar \dres U+25C1
+%%Zloc 141#1@3270
+%%Zinchar \rres U+25B7
+%%Zloc 157#1@3701
+%%Zinchar \ndres U+2A64
+%%Zloc 174#1@4144
+%%Zinchar \nrres U+2A65
+%%Zloc 191#1@4588
+%%Zpostchar \inv U+223C
+%%Zloc 207#1@4931
+%%Zinchar \limg U+2987
+%%Zloc 208#1@4954
+%%Zpostchar \rimg U+2988
+%%Zloc 224#1@5406
+%%Zinchar \oplus U+2295
+%%Zloc 242#1@5902
+%%Zpostword \plus ^+
+%%Zloc 260#1@6351
+%%Zpostword \star ^*
+%%Zloc 13#1@277
+\begin{gendef}[X,Y]
+first : X \cross Y  \fun X
+\where
+\forall x : X; y : Y @ first~(x,y) = x
+\end{gendef}
+
+%%Zloc 24#1@503
+\begin{gendef}[X,Y]
+second : X \cross Y \fun Y
+\where
+\forall x : X; y : Y @ second~(x,y) = y
+\end{gendef}
+
+%%Zloc 36#1@735
+\begin{zed}
+\function 10 \leftassoc (\_ \mapsto \_)
+\end{zed}
+
+%%Zloc 40#1@798
+\begin{gendef}[X,Y]
+\_ \mapsto \_ : X \cross Y \fun X \cross Y
+\where
+\forall x : X ; y : Y @ x \mapsto y = ( x , y )
+\end{gendef}
+
+%%Zloc 52#1@1073
+\begin{gendef}[X,Y]
+\dom : (X \rel Y) \fun \power X
+\where
+\forall r : X \rel Y @ \dom r = \{~ p : r @ p.1 ~\}
+\end{gendef}
+
+%%Zloc 64#1@1326
+\begin{gendef}[X,Y]
+\ran : (X \rel Y) \fun \power Y
+\where
+\forall r : X \rel Y @ \ran r = \{~ p : r @ p.2 ~\}
+\end{gendef}
+
+%%Zloc 76#1@1589
+\begin{zed}
+\generic (\id \_)
+\end{zed}
+
+%%Zloc 80#1@1630
+\begin{zed}
+\id X == \{~ x : X @ x \mapsto x ~\}
+\end{zed}
+
+%%Zloc 90#1@1844
+\begin{zed}
+\function 40 \leftassoc (\_ \comp \_)
+\end{zed}
+
+%%Zloc 94#1@1905
+\begin{gendef}[X,Y,Z]
+\_ \comp \_ : (X \rel Y) \cross (Y \rel Z) \fun (X \rel Z)
+\where
+\forall r : X \rel Y ; s : Y \rel Z @
+ r \comp s = \{~ p : r ; q : s | p.2 = q.1 @ p.1 \mapsto q.2 ~\}
+\end{gendef}
+
+%%Zloc 110#1@2483
+\begin{zed}
+\function 40 \leftassoc (\_ \circ \_)
+\end{zed}
+
+%%Zloc 114#1@2544
+\begin{gendef}[X,Y,Z]
+\_ \circ \_ : (Y \rel Z) \cross (X \rel Y) \fun (X \rel Z)
+\where
+\forall r : X \rel Y ; s : Y \rel Z @ s \circ r = r \comp s
+\end{gendef}
+
+%%Zloc 126#1@2861
+\begin{zed}
+\function 65 \rightassoc (\_ \dres \_)
+\end{zed}
+
+%%Zloc 130#1@2923
+\begin{gendef}[X,Y]
+\_ \dres \_ : \power X \cross ( X \rel Y ) \fun ( X \rel Y )
+\where
+\forall a : \power X ; r : X \rel Y @ a \dres r = \{~ p : r | p.1 \in a ~\}
+\end{gendef}
+
+%%Zloc 142#1@3293
+\begin{zed}
+\function 60 \leftassoc (\_ \rres \_)
+\end{zed}
+
+%%Zloc 146#1@3354
+\begin{gendef}[X,Y]
+\_ \rres \_ : ( X \rel Y) \cross \power Y \fun ( X \rel Y )
+\where
+\forall r : X \rel Y ; b : \power Y @ r \rres b = \{~ p : r | p.2 \in b ~\}
+\end{gendef}
+
+%%Zloc 158#1@3725
+\begin{zed}
+\function 65 \rightassoc (\_ \ndres \_)
+\end{zed}
+
+%%Zloc 162#1@3788
+\begin{gendef}[X,Y]
+\_ \ndres \_ : \power X \cross ( X \rel Y ) \fun ( X \rel Y )
+\where
+\forall a : \power X ; r : X \rel Y @ a \ndres r = \{~ p : r | p.1 \notin a ~\}
+\end{gendef}
+
+%%Zloc 175#1@4168
+\begin{zed}
+\function 60 \leftassoc (\_ \nrres \_)
+\end{zed}
+
+%%Zloc 179#1@4230
+\begin{gendef}[X,Y]
+\_ \nrres \_ : ( X \rel Y) \cross \power Y \fun ( X \rel Y )
+\where
+\forall r : X \rel Y ; b : \power Y @
+r \nrres b = \{~ p : r | p.2 \notin b ~\}
+\end{gendef}
+
+%%Zloc 192#1@4612
+\begin{zed}
+\function (\_ \inv)
+\end{zed}
+
+%%Zloc 196#1@4655
+\begin{gendef}[X,Y]
+\_ \inv : ( X \rel Y ) \fun ( Y \rel X )
+\where
+\forall r : X \rel Y @ r \inv = \{~ p : r @ p.2 \mapsto p.1 ~\}
+\end{gendef}
+
+%%Zloc 209#1@4979
+\begin{zed}
+\function (\_ \limg \_ \rimg)
+\end{zed}
+
+%%Zloc 213#1@5032
+\begin{gendef}[X,Y]
+\_ \limg \_ \rimg : ( X \rel Y ) \cross \power X \fun \power Y
+\where
+\forall r : X \rel Y ; a : \power X @ r \limg a \rimg = \{~ p : r | p.1 \in a @ p.2 ~\}
+\end{gendef}
+
+%%Zloc 225#1@5430
+\begin{zed}
+\function 50 \leftassoc (\_ \oplus \_)
+\end{zed}
+
+%%Zloc 229#1@5492
+\begin{gendef}[X,Y]
+\_ \oplus \_ : ( X \rel Y ) \cross ( X \rel Y ) \fun ( X \rel Y )
+\where
+\forall r , s : X \rel Y @ r \oplus s = ( ( \dom s ) \ndres r ) \cup s
+\end{gendef}
+
+%%Zloc 243#1@5923
+\begin{zed}
+\function (\_ \plus)
+\end{zed}
+
+%%Zloc 247#1@5967
+\begin{gendef}[X]
+\_ \plus : ( X \rel X ) \fun (X \rel X )
+\where
+\forall r : X \rel X @
+r \plus = \bigcap \{~ s : X \rel X | r \subseteq s \land r \comp s \subseteq s ~\}
+\end{gendef}
+
+%%Zloc 261#1@6372
+\begin{zed}
+\function (\_ \star)
+\end{zed}
+
+%%Zloc 265#1@6416
+\begin{gendef}[X]
+\_ \star : ( X \rel X ) \fun (X \rel X )
+\where
+\forall r : X \rel X @ r \star = r \plus \cup \id X
+\end{gendef}
+
+%%Zfile /lib/function_toolkit.tex
+%%Zloc 7#1@137
+\begin{zsection}
+\SECTION function\_toolkit \parents relation\_toolkit
+\end{zsection}
+%%Zloc 13#1@254
+%%Zinchar \pfun U+21F8
+%%Zloc 29#1@717
+%%Zinchar \pinj U+2914
+%%Zloc 46#1@1247
+%%Zinchar \inj U+21A3
+%%Zloc 61#1@1581
+%%Zinchar \psurj U+2900
+%%Zloc 77#1@1976
+%%Zinchar \surj U+21A0
+%%Zloc 92#1@2307
+%%Zinchar \bij U+2916
+%%Zloc 107#1@2640
+%%Zinchar \ffun U+21FB
+%%Zloc 121#1@2926
+%%Zinchar \finj U+2915
+%%Zloc 135#1@3225
+%%Zpreword \disjoint disjoint
+%%Zloc 152#1@3627
+%%Zinword \partition partition
+%%Zloc 14#1@277
+\begin{zed}
+\generic 5 \rightassoc (\_ \pfun \_)
+\end{zed}
+
+%%Zloc 18#1@337
+\begin{zed}
+X \pfun Y == \{~ f : X \rel Y | \forall p , q : f | p.1 = q.1 @ p.2 = q.2 ~\}
+\end{zed}
+
+%%Zloc 30#1@740
+\begin{zed}
+\generic 5 \rightassoc (\_ \pinj \_)
+\end{zed}
+
+%%Zloc 34#1@800
+\begin{zed}
+X \pinj Y == \{~ f : X \rel Y | \forall p, q : f @ p.1 = q.1 \iff p.2 = q.2 ~\}
+\end{zed}
+
+%%Zloc 47#1@1269
+\begin{zed}
+\generic 5 \rightassoc (\_ \inj \_)
+\end{zed}
+
+%%Zloc 51#1@1328
+\begin{zed}
+X \inj Y == ( X \pinj Y ) \cap ( X \fun Y )
+\end{zed}
+
+%%Zloc 62#1@1605
+\begin{zed}
+\generic 5 \rightassoc (\_ \psurj \_)
+\end{zed}
+
+%%Zloc 66#1@1666
+\begin{zed}
+X \psurj Y == \{~ f : X \pfun Y | \ran f = Y ~\}
+\end{zed}
+
+%%Zloc 78#1@1999
+\begin{zed}
+\generic 5 \rightassoc (\_ \surj \_)
+\end{zed}
+
+%%Zloc 82#1@2059
+\begin{zed}
+X \surj Y == ( X \psurj Y) \cap ( X \fun Y )
+\end{zed}
+
+%%Zloc 93#1@2329
+\begin{zed}
+\generic 5 \rightassoc (\_ \bij \_)
+\end{zed}
+
+%%Zloc 97#1@2388
+\begin{zed}
+X \bij Y == ( X \surj Y ) \cap ( X \inj Y )
+\end{zed}
+
+%%Zloc 108#1@2663
+\begin{zed}
+\generic 5 \rightassoc (\_ \ffun \_)
+\end{zed}
+
+%%Zloc 112#1@2723
+\begin{zed}
+X \ffun Y == (X \pfun Y) \cap \finset (X \cross Y)
+\end{zed}
+
+%%Zloc 122#1@2949
+\begin{zed}
+\generic 5 \rightassoc (\_ \finj \_)
+\end{zed}
+
+%%Zloc 126#1@3009
+\begin{zed}
+X \finj Y == ( X \ffun Y ) \cap ( X \pinj Y )
+\end{zed}
+
+%%Zloc 136#1@3255
+\begin{zed}
+\relation (\disjoint \_)
+\end{zed}
+
+%%Zloc 140#1@3303
+\begin{gendef}[L,X]
+\disjoint \_ : \power ( L \rel \power X )
+\where
+\forall f : L \rel \power X @
+\disjoint f \iff ( \forall p , q : f | p \neq q @ p.2 \cap q.2 = \emptyset )
+\end{gendef}
+
+%%Zloc 153#1@3658
+\begin{zed}
+\relation (\_ \partition \_)
+\end{zed}
+
+%%Zloc 157#1@3710
+\begin{gendef}[L,X]
+\_ \partition \_ : ( L \rel \power X ) \rel \power X
+\where
+\forall f : L \rel \power X ; a : \power X @
+f \partition a \iff \disjoint f \land \bigcup ( \ran f ) = a
+\end{gendef}
+
+%%Zfile /lib/sequence_toolkit.tex
+%%Zloc 7#1@137
+\begin{zsection}
+\SECTION sequence\_toolkit \parents function\_toolkit, number\_toolkit
+\end{zsection}
+%%Zloc 13#1@266
+%%Zinword \upto ..
+%%Zloc 64#1@1692
+%%Zprechar \# U+0023
+%%Zloc 112#1@2845
+%%Zpreword \seq seq
+%%Zloc 138#1@3497
+%%Zpreword \iseq iseq
+%%Zloc 152#1@3791
+%%Zprechar \langle U+27E8
+%%Zloc 153#1@3817
+%%Zpostchar \rangle U+27E9
+%%Zloc 166#1@4087
+%%Zinchar \cat U+2040
+%%Zloc 255#1@6252
+%%Zinchar \extract U+21BF
+%%Zloc 274#1@6721
+%%Zinchar \filter U+21BE
+%%Zloc 293#1@7168
+%%Zinword \prefix prefix
+%%Zloc 310#1@7487
+%%Zinword \suffix suffix
+%%Zloc 327#1@7825
+%%Zinword \infix infix
+%%Zloc 344#1@8176
+%%Zinword \dcat {\cat}/
+%%Zloc 14#1@285
+\begin{zed}
+\function 20 \leftassoc (\_ \upto \_)
+\end{zed}
+
+%%Zloc 18#1@346
+\begin{axdef}
+\_ \upto \_ : \arithmos \cross \arithmos \pfun \power \arithmos
+\where
+(\num \cross \num) \dres (\_ \upto \_) \in \num \cross \num \fun \power \num
+\also
+\forall i , j : \num @ i \upto j = \{~ k : \num | i \leq k \leq j ~\}
+\end{axdef}
+
+%%Zloc 32#1@752
+\begin{gendef}[X]
+iter : \num \fun (X \rel X) \fun (X \rel X)
+\where
+\forall r : X \rel X @ iter ~ 0 ~ r = \id X
+\also
+\forall r : X \rel X; n : \nat @ iter~(n+1)~r = r \comp (iter~n~r)
+\also
+\forall r : X \rel X; n : \nat @ iter~(\negate n)~r = iter~n~(r \inv)
+\end{gendef}
+
+%%Zloc 50#1@1421
+\begin{zed}
+\function (\_~^{~\_~})
+\end{zed}
+
+%%Zloc 54#1@1467
+\begin{gendef}[X]
+\_~^{~\_~} : (X \rel X) \cross \num \fun (X \rel X)
+\where
+\forall r : X \rel X; n : \nat @ r~^{~n~} = iter~n~r
+\end{gendef}
+
+%%Zloc 65#1@1713
+\begin{zed}
+\function (\# \_)
+\end{zed}
+
+%%Zloc 69#1@1754
+\begin{gendef}[X]
+\# \_ : \finset X \fun \nat
+\where
+\forall a : \finset X @ \# a = (\mu n : \nat | ( \exists f : 1 \upto n \inj a @ \ran f = a ) )
+\end{gendef}
+
+%%Zloc 80#1@2075
+\begin{zed}
+\function (min~\_)
+\end{zed}
+
+%%Zloc 84#1@2117
+\begin{axdef}
+min~\_ : \power \arithmos \pfun \arithmos
+\where
+\power \num \dres (min~\_) = \{~ a : \power \num ; m : \num | m \in a \land ( \forall n : a @ m \leq n ) @ a \mapsto m ~\}
+\end{axdef}
+
+%%Zloc 96#1@2454
+\begin{zed}
+\function (max~\_)
+\end{zed}
+
+%%Zloc 100#1@2496
+\begin{axdef}
+max~\_ : \power \arithmos \pfun \arithmos
+\where
+\power \num \dres (max~\_) = \{~ a : \power \num ; m : \num | m \in a \land ( \forall n : a @ n \leq m ) @ a \mapsto m ~\}
+\end{axdef}
+
+%%Zloc 113#1@2865
+\begin{zed}
+\generic (\seq \_)
+\end{zed}
+
+%%Zloc 117#1@2907
+\begin{zed}
+\seq X == \{~ f : \nat \ffun X | \dom f = 1 \upto \# f ~\}
+\end{zed}
+
+%%Zloc 130#1@3322
+\begin{zed}
+\seq_1 X == \seq X \setminus \{ \emptyset \}
+\end{zed}
+
+%%Zloc 139#1@3519
+\begin{zed}
+\generic (\iseq \_)
+\end{zed}
+
+%%Zloc 143#1@3562
+\begin{zed}
+\iseq X == \seq X \cap (\nat \pinj X)
+\end{zed}
+
+%%Zloc 154#1@3844
+\begin{zed}
+\function (\langle \listarg \rangle)
+\end{zed}
+
+%%Zloc 158#1@3904
+\begin{zed}
+\langle \listarg \rangle [ X ]  == \lambda s : \seq X @ s
+\end{zed}
+
+%%Zloc 167#1@4109
+\begin{zed}
+\function 30 \leftassoc (\_ \cat \_)
+\end{zed}
+
+
+%%Zloc 172#1@4170
+\begin{gendef}[X]
+\_ \cat \_ : \seq X \cross \seq X \fun \seq X
+\where
+\forall s , t : \seq X @
+s \cat t = s \cup \{~ n : \dom t @ n + \# s \mapsto t~n ~\}
+\end{gendef}
+
+%%Zloc 186#1@4581
+\begin{gendef}[X]
+rev : \seq X \fun \seq X
+\where
+\forall s : \seq X @ rev~s = \lambda n : \dom s @ s ( \# s - n + 1 )
+\end{gendef}
+
+%%Zloc 197#1@4843
+\begin{gendef}[X]
+head : \seq_1 X \fun X
+\where
+\forall s : \seq_1 X @ head~s = s~1
+\end{gendef}
+
+%%Zloc 208#1@5073
+\begin{gendef}[X]
+last : \seq_1 X \fun X
+\where
+\forall s : \seq_1 X @ last~s = s ( \# s )
+\end{gendef}
+
+%%Zloc 219#1@5309
+\begin{gendef}[X]
+tail : \seq_1 X \fun \seq X
+\where
+\forall s : \seq_1 X @ tail~s = \lambda n : 1 \upto (\# s - 1) @ s ( n + 1 )
+\end{gendef}
+
+%%Zloc 231#1@5657
+\begin{gendef}[X]
+front : \seq_1 X \fun \seq X
+\where
+\forall s : \seq_1 X @ front~s = \{ \# s \} \ndres s
+\end{gendef}
+
+%%Zloc 243#1@5942
+\begin{gendef}[X]
+squash : ( \num \ffun X ) \fun \seq X
+\where
+\forall f : \num \ffun X @ squash~f =
+	\{~ p : f @ \# \{~ i : \dom f | i \leq p.1 ~\} \mapsto p.2 ~\}
+\end{gendef}
+
+%%Zloc 256#1@6278
+\begin{zed}
+\function 45 \rightassoc (\_ \extract \_)
+\end{zed}
+
+%%Zloc 260#1@6343
+\begin{gendef}[X]
+\_ \extract \_ : \power \num \cross \seq X \fun \seq X
+\where
+\forall a : \power \num ; s : \seq X @
+	a \extract s = squash ( a \dres s )
+\end{gendef}
+
+%%Zloc 275#1@6746
+\begin{zed}
+\function 40 \leftassoc (\_ \filter \_)
+\end{zed}
+
+%%Zloc 279#1@6809
+\begin{gendef}[X]
+\_ \filter \_ : \seq X \cross \power X \fun \seq X
+\where
+\forall s : \seq X ; a : \power X @
+	s \filter a = squash ( s \rres a )
+\end{gendef}
+
+%%Zloc 294#1@7193
+\begin{zed}
+\relation (\_ \prefix \_)
+\end{zed}
+
+%%Zloc 298#1@7242
+\begin{gendef}[X]
+\_ \prefix \_ : \seq X \rel \seq X
+\where
+\forall s,t: \seq X @
+s \prefix t \iff s \subseteq t
+\end{gendef}
+
+%%Zloc 311#1@7512
+\begin{zed}
+\relation (\_ \suffix \_)
+\end{zed}
+
+%%Zloc 315#1@7561
+\begin{gendef}[X]
+\_ \suffix \_ : \seq X \rel \seq X
+\where
+\forall s,t: \seq X @
+s \suffix t \iff ( \exists u: \seq X @ u \cat s = t)
+\end{gendef}
+
+%%Zloc 328#1@7848
+\begin{zed}
+\relation (\_ \infix \_)
+\end{zed}
+
+%%Zloc 332#1@7896
+\begin{gendef}[X]
+\_ \infix \_ : \seq X \rel \seq X
+\where
+\forall s,t: \seq X @
+s \infix t \iff ( \exists u,v: \seq X @ u \cat s \cat v = t)
+\end{gendef}
+
+%%Zloc 345#1@8200
+\begin{gendef}[X]
+\dcat : \seq \seq X \fun \seq X
+\where
+\dcat \langle \rangle = \langle \rangle
+\also
+\forall s : \seq X @ \dcat \langle s \rangle = s
+\also
+\forall q , r : \seq \seq X @ \dcat ( q \cat r ) = ( \dcat q ) \cat ( \dcat r )
+\end{gendef}
+
+%%Zfile /lib/standard_toolkit.tex
+%%Zloc 1#1@0
+\begin{zsection}
+  \SECTION standard\_toolkit \parents sequence\_toolkit
+\end{zsection}
+%%Zfile /lib/permutemarkup.tex
+%%Zloc 1#1@0
+\begin{zsection}
+\SECTION permuteMarkup \parents standard\_toolkit
+\end{zsection}
+%%Zloc 15#1@218
+%%Zword \mynum 43
+%%Zloc 7#1@134
+\begin{axdef}
+\mynum == 44
+\end{axdef}
+
+%%Zloc 11#1@174
+\begin{axdef}
+x == 42 + \mynum
+\end{axdef}
+

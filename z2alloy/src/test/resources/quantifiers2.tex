@@ -1,0 +1,19 @@
+\begin{schema}{X}
+	x : \num \\
+\end{schema}
+
+\begin{schema}{A}
+	a : \power \num
+\where
+	\forall X | x \geq 1 @ x \in a \\
+	\exists X | x \geq 1 @ x \in a \\
+	\exists_{1} X | x \geq 1 @ x \in a \\
+	
+	\forall X @ x \in a \\
+	\exists X @ x \in a \\
+	\exists_{1} X @ x \in a \\
+	
+	\forall X; y : \num | x \geq 1 @ x \in a \\
+	\exists X; y : \num | x \geq 1 @ x \in a \\
+	\exists_{1} X; y : \num | x \geq 1 @ x \in a \\
+\end{schema}

@@ -1,0 +1,28 @@
+\begin{zsection}
+\SECTION smalltest \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+   y: \nat
+\where
+   y > 10
+\end{schema}
+
+
+\begin{gendef}[X]
+    x: X \\
+    e: (\num \cross X)
+\where
+   \forall A: \power~X @ \forall S: \power~A @ S \neq \emptyset[A] \land (\# \_)[A]~S > 0 \land \#~S = 1
+%   \\
+%   \forall A: \power~X @ \forall S: \finset~A @  \#~S = \#[A]~S
+%\\
+ %  e \in \langle x \rangle  \iff  e = (1, x)
+\end{gendef}
+
+\begin{theorem}{Test}[X]
+    e[X] \in \langle x[X] \rangle  \iff  e[X] = (1, x[X])
+\end{theorem}
+
+
+

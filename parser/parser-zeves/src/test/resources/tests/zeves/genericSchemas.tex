@@ -1,0 +1,23 @@
+
+\begin{zsection}
+   \SECTION genericSchemas \parents zeves\_toolkit
+\end{zsection}
+
+Warning about missing hard space if no new line added. Good
+\begin{schema}{S}[X, Y]
+  % \zstate \\
+   a: \power~X \\
+   b: X
+\where
+   b \in a
+\end{schema}
+
+\begin{schema}{Init}[X, Y]
+   S~'
+\where
+   a = \{\}
+\end{schema}
+
+\begin{zed}
+   T[X, Y] == [ c: \power~Y | \lnot c = \{\} ]
+\end{zed}

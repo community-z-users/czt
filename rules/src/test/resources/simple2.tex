@@ -1,0 +1,164 @@
+\begin{zsection}
+\SECTION simple2 \parents oracle\_toolkit
+\end{zsection}
+
+We define an infix operator for unfolding schemas.
+
+
+\newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+
+\begin{verbatim}
+%%Zinword \unfoldsTo unfoldsTo
+\end{verbatim}
+
+\begin{zed}
+  \relation ( \_ \unfoldsTo \_ )
+\end{zed}
+
+\begin{gendef}[SCHEMA]
+  \_ \unfoldsTo \_ : SCHEMA \rel SCHEMA
+\where
+  \forall s1,s2:SCHEMA @ s1 \unfoldsTo s2 \iff s1=s2
+\end{gendef}
+
+
+\begin{schema}{Foo}
+  x:\nat
+\where
+  true
+\end{schema}
+
+\begin{zed}
+  \relation ( \_~foo~\_ )
+\end{zed}
+
+\begin{gendef}[SCHEMA]
+  \_ ~foo~ \_ : SCHEMA \rel SCHEMA
+\where
+  \forall s1,s2:SCHEMA @ s1 ~foo~ s2 \iff s1=s2
+\end{gendef}
+
+\begin{zedrule}{test}
+  [ N:E ; D | P1 ] foo~ E2
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [ x:\nat | true ] ~foo~ [ x:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x:\nat; y:\nat | true ] ~foo~ [ x:\nat; y:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x:\nat; y:\nat ; Foo | true ] ~foo~
+           [ x:\nat; y:\nat ; Foo | true ]
+\end{zed}
+
+
+\begin{zedrule}{argh}
+  [ N ; D | P1 ] ~foo~ E2
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [Foo | true] ~foo~ [Foo | true]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [Foo ; x,y:\nat | true] ~foo~ [Foo ; x,y:\nat | true]
+\end{zed}
+
+\begin{zedrule}{test2}
+  [ N:E ; D | P1 ] = [ N:E ; D | P1 ]
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [ x:\nat | true ] = [ x:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x:\nat; y:\nat | true ] = [ x:\nat; y:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x:\nat; y:\nat ; z:\nat | true ] =
+           [ x:\nat; y:\nat ; z:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x, y:\nat | true ] = [ x:\nat; y:\nat | true ]
+\end{zed}
+
+
+\begin{zedrule}{normaliseEmpty}
+   [~ | true] \unfoldsTo [~ | true]
+\end{zedrule}
+
+\begin{zedrule}{normaliseVarDecl}
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [N:E; D1 | true] \unfoldsTo [N:E; D2 | P2]
+\end{zedrule}
+
+This is a very specific instance of normaliseConstDecl
+that will always fail.  
+This allows us to test that the rule application and the
+unification are undone correctly.
+\begin{zedrule}{normaliseConstDecl42}
+   [D1 | true] \unfoldsTo [D2 | false \land P2]
+\derives
+   [N==42; D1 | true] \unfoldsTo [N:\{42\}; D2 | P2]
+\end{zedrule}
+
+\begin{zedrule}{normaliseConstDecl}
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [N==E; D1 | true] \unfoldsTo [N:\{E\}; D2 | P2]
+\end{zedrule}
+
+\begin{zedrule}{startNormalise}
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [D1 | P] = [D2 | P2 \land P]
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [~ | true] = [~ | true \land true]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [x:\nat | true] = [x:\nat | true \land true]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [x:\nat ; y:\nat | true] = [x:\nat ; y:\nat | true \land true]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [x:\nat ; y:\nat ; z:\nat | true] =
+           [x:\nat ; y:\nat ; z:\nat | true \land true]
+\end{zed}
+
+
+
+\begin{zedrule}{normaliseIncludeDecl}
+   N \hasDefn [D1 | P1] \\
+\derives
+   [N; D | true] \unfoldsTo [D1 | P1 \land P2]
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [ Foo | true ] \unfoldsTo [ x:\nat | true \land true ]
+\end{zed}
+
+
+\begin{zed}
+  \vdash?~ [ x==43 | true ] \unfoldsTo [ x:\{43\} | true ]
+\end{zed}
+
+This conjecture tests that rules are undone correctly when their
+premisses fail (because normaliseConstDecl42 will fail, then
+normaliseConstDecl will succeed).
+\begin{zed}
+  \vdash?~ [ x==42 | true ] \unfoldsTo [ x:\{42\} | true ]
+\end{zed}

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE SERVICES SYSTEM "services.dtd">
+
+<SERVICES>
+  <SERVICE CLASS="console.Shell" NAME="ZLive">
+    new net.sourceforge.czt.jedit.zlive.ZLiveConsole();
+  </SERVICE>
+</SERVICES>

@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>vcg-parent</artifactId>
+  <packaging>pom</packaging>
+
+  <name>CZT Verification Condition Generators</name>
+  <description>
+    Parent of VC generators for Z and Z extensions.
+  </description>
+  
+  <modules>
+    <module>vcg-z</module>
+    <!--
+    <module>vcg-zeves</module>
+    <module>vcg-circus</module>
+    -->
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Apache Commons -->
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.1</version>
+        <scope>test</scope>
+      </dependency>
+      
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- Put site under /vcg -->
+  <url>${site.url}/vcg</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/vcg</url>
+    </site>
+  </distributionManagement>
+
+</project>

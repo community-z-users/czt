@@ -1,0 +1,24 @@
+\begin{zsection}
+  \SECTION\ call\_postcheck \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c: \nat
+\end{circus}
+
+\begin{circus}
+   \circprocess\ CallPostCheck \circdef \circbegin
+\end{circus}
+
+\begin{circusaction}
+    A \circdef i: \nat \circspot c!i \then A(i+1) \\
+    B \circdef c?j \then A(j)
+\end{circusaction}
+
+\begin{circusaction}
+     \circspot\ \circmu X \circspot B \circseq X
+\end{circusaction}
+
+\begin{circus}
+   \circend
+\end{circus}

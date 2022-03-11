@@ -1,0 +1,124 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+%----------------------------------
+
+\begin{zsection}	 \SECTION refRulesEquiv\_ref \parents~ref\_toolkit , refRulesEquiv
+\end{zsection}
+
+VC ZSection Created at Thu Sep 08 16:58:54 BST 2011.
+
+
+Added schema for feasibility VC signature of paragraph named AOperSig at unknown.
+\begin{schema}{AOperSig}
+ai? : \nat \\
+ x : \power \nat 
+\where
+ AS
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named ASSig at unknown.
+\begin{schema}{ASSig}
+x : \power \nat 
+\where
+ AS
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named COperSig at unknown.
+\begin{schema}{COperSig}
+ci? : FI \\
+ y : \seq \nat 
+\where
+ CS
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named CSSig at unknown.
+\begin{schema}{CSSig}
+y : \seq \nat 
+\where
+ CS
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named RInSig at unknown.
+\begin{schema}{RInSig}
+ai? : \nat \\
+ ci? : FI 
+\where
+ RIn
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named ROutSig at unknown.
+\begin{schema}{ROutSig}
+ao! : \nat \\
+ co! : FO 
+\where
+ ROut
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named RSig at unknown.
+\begin{schema}{RSig}
+x : \power \nat \\
+ y : \seq \nat 
+\where
+ R
+\end{schema}
+
+VC3 for line 9 column 1 start 303 length 60 in "refRulesEquiv"
+\begin{theorem}{AS\_ vc\_ ref}\vdash ? \exists ASSig | true @ true
+\end{theorem}
+
+VC5 [RULE] for line 14 column 7 start 379 length 31 in "refRulesEquiv"
+\begin{theorem}{FI\_ vc\_ ref}\vdash ?~NatIn \in \nat \inj FI
+\end{theorem}
+
+VC6 [RULE] for line 16 column 7 start 421 length 32 in "refRulesEquiv"
+\begin{theorem}{FO\_ vc\_ ref}\vdash ?~NatOut \in \nat \inj FO
+\end{theorem}
+
+VC8 for line 19 column 1 start 465 length 58 in "refRulesEquiv"
+\begin{theorem}{CS\_ vc\_ ref}\vdash ? \exists CSSig | true @ true
+\end{theorem}
+
+VC10 for line 25 column 1 start 606 length 130 in "refRulesEquiv"
+\begin{theorem}{AOper\_ vc\_ ref}\vdash ? \forall AOperSig | true @ \pre AOper
+\end{theorem}
+
+VC12 for line 35 column 1 start 738 length 187 in "refRulesEquiv"
+\begin{theorem}{COper\_ vc\_ ref}\vdash ? \forall COperSig | true @ \pre COper
+\end{theorem}
+
+VC14 for line 45 column 1 start 927 length 74 in "refRulesEquiv"
+\begin{theorem}{R\_ vc\_ ref}\vdash ? \exists RSig | true @ true
+\end{theorem}
+
+VC16 for line 52 column 1 start 1003 length 108 in "refRulesEquiv"
+\begin{theorem}{RIn\_ vc\_ ref}\vdash ? \exists RInSig | true @ true
+\end{theorem}
+
+VC18 for line 60 column 1 start 1113 length 111 in "refRulesEquiv"
+\begin{theorem}{ROut\_ vc\_ ref}\vdash ? \exists ROutSig | true @ true
+\end{theorem}
+
+VC28 for line 35 column 1 start 738 length 187 in "refRulesEquiv"
+\begin{theorem}{tFSApplicabilityCOper\_ vc\_ ref}\vdash ? \forall AOperSig ; COperSig ; RIn ; R | \pre \pre AOper @ \pre COper
+\end{theorem}
+
+VC29 for line 35 column 1 start 738 length 187 in "refRulesEquiv"
+\begin{theorem}{tFSCorrectnessCOper\_ vc\_ ref}\vdash ? \forall AS ; COper ; R ; RIn | \pre AOper @ \exists AS~' ; ROut | R~' @ AOper
+\end{theorem}
+
+
+
+ VC Z section "refRulesEquiv_ref" has $11$ interesting VCs (Total = 29; Simplified to $true$ = 18).
+
+
+
+%----------------------------------
+\end{document}

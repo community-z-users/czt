@@ -1,0 +1,45 @@
+\begin{zsection}
+  \SECTION zeves\_prelude
+\end{zsection}
+
+% Technically, this should be \znote{... and \Label{... ?
+%%Zprechar \znote U+231C
+%%Zprechar \Label U+2329
+
+% Dollar sign for special names is interpreted as a LaTeX command (!)
+%%Zchar \$ U+0024
+
+% Long-new line for separation within \begin{zed} environments. ZEves doesn't like \\
+%%Zchar \also U+000A
+
+% This may create a problem if one inherits fuzz\_toolkit. However, given ZEves is
+% already fuzz-compatible, it makes little sense, I guess.
+%%Zinword \defs {==}
+
+The next two definitions \textbf{must} be within the \textsf{zeves\_prelude} since it is
+included by default in all sections using the ZEves parser. It was previously in the ZEves
+toolkit, which is only included if explicitly added.
+
+These are added implicitly because of the use of $applies\$to$ as a decl name and as an 
+operators and Latex markup command. This is important to add because otherwise when ZEves
+generates VCs containing the predicate (the only time it appears), CZT won't know about 
+this name and hence will complain it can't parse what ZEves gives back.
+%
+%%%Zinword applies\$to applies$to
+\begin{zed}
+   \relation (\_ ~applies\$to~ \_)
+\end{zed}
+
+% Don't use \rel to avoid dependency on set_toolkit.tex
+\begin{gendef}[X, Y]
+   \_ ~applies\$to~ \_ : \power~(\power~(X \cross Y) \cross X)
+\where
+   \forall R: \power(X \cross Y); x: X @ R ~applies\$to~ x \iff (\exists_1 y: Y @ (x, y) \in R)
+\end{gendef}
+
+Similarly, for the $KnownMember$ schema, we add it so that CZT knows about it, yet
+we don't send it to ZEves, given it already knows about it.
+%
+\begin{schema}{KnownMember}[X]
+	element: X
+\end{schema}

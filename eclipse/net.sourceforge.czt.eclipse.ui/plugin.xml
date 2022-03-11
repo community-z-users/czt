@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension-point id="problemSeverityProviders" name="Z Compiler Problem Severity Providers" schema="schema/problemSeverityProviders.exsd"/>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor"
+            contributorClass="net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditorActionContributor"
+            extensions="zed,zed8,zed16"
+            icon="icons/ZSpec.png"
+            id="net.sourceforge.czt.eclipse.ui.ZEditor"
+            name="%Editor.name">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="net.sourceforge.czt.eclipse.ui.category.views"
+            name="%Views.categoryName"/>
+      <view
+            category="net.sourceforge.czt.eclipse.ui.category.views"
+            class="net.sourceforge.czt.eclipse.ui.internal.views.ZCharMapView"
+            icon="icons/ZSpec.png"
+            id="net.sourceforge.czt.eclipse.ui.views.ZCharMap"
+            name="%CharMapView.name"/>
+      <view
+            category="net.sourceforge.czt.eclipse.ui.category.views"
+            class="net.sourceforge.czt.eclipse.ui.internal.views.ZConversionView"
+            icon="icons/ZSpec.png"
+            id="net.sourceforge.czt.eclipse.ui.views.ZConversion"
+            name="%ConversionView.name"/>
+      <view
+            category="net.sourceforge.czt.eclipse.ui.category.views"
+            class="net.sourceforge.czt.eclipse.ui.views.ZInfoView"
+            icon="icons/ZSpec.png"
+            id="net.sourceforge.czt.eclipse.ui.views.ZInfo"
+            name="Z Info">
+      </view>
+   </extension>
+   <extension
+         id="ZLatexDocumentSetupParticipant"
+         name="%DocumentSetupParticipant.name"
+         point="org.eclipse.core.filebuffers.documentSetup">
+      <participant
+            class="net.sourceforge.czt.eclipse.ui.internal.editors.latex.ZDocumentSetupParticipant_Latex"
+            extensions="zed">
+      </participant>
+   </extension>
+   <extension
+         id="ZUtf8DocumentSetupParticipant"
+         name="%DocumentSetupParticipant.name"
+         point="org.eclipse.core.filebuffers.documentSetup">
+      <participant
+            class="net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZDocumentSetupParticipant_Utf8"
+            extensions="zed8">
+      </participant>
+   </extension>
+   <extension
+         id="ZUtf16DocumentSetupParticipant"
+         name="%DocumentSetupParticipant.name"
+         point="org.eclipse.core.filebuffers.documentSetup">
+      <participant
+            class="net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZDocumentSetupParticipant_Utf16"
+            extensions="zed16">
+      </participant>
+   </extension>
+   <extension
+         id="problemmarker"
+         name="%ProblemMarker.name"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <super type="org.eclipse.core.resources.textmarker"/>
+      <persistent value="true"/>
+      <attribute name="problemId"/>
+   </extension>
+   <extension
+         id="taskmarker"
+         name="%TaskMarker.name"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.taskmarker"/>
+      <super type="org.eclipse.core.resources.textmarker"/>
+      <persistent value="true"/>
+      <attribute name="taskId"/>
+   </extension>
+   <extension
+         id="bookmarkmarker"
+         name="%BookmarkMarker.name"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.bookmark"/>
+      <super type="org.eclipse.core.resources.textmarker"/>
+      <persistent value="true"/>
+      <attribute name="bookmarkId"/>
+   </extension>
+   <extension
+         id="occurrencemarker"
+         name="%OccurrenceMarker.name"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+      <persistent value="false"/>
+      <attribute name="term"/>
+   </extension>
+   <extension
+         id="termhighlightmarker"
+         name="%TermHighlightMarker.name"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+      <persistent value="false"/>
+      <attribute name="term"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerSeverity="2"
+            markerType="net.sourceforge.czt.eclipse.ui.problemmarker"
+            name="net.sourceforge.czt.eclipse.ui.annotation.error"
+            super="org.eclipse.ui.workbench.texteditor.error"/>
+      <type
+            markerSeverity="1"
+            markerType="net.sourceforge.czt.eclipse.ui.problemmarker"
+            name="net.sourceforge.czt.eclipse.ui.annotation.warning"
+            super="org.eclipse.ui.workbench.texteditor.warning"/>
+      <type
+            markerSeverity="0"
+            markerType="net.sourceforge.czt.eclipse.ui.problemmarker"
+            name="net.sourceforge.czt.eclipse.ui.annotation.info"
+            super="org.eclipse.ui.workbench.texteditor.info"/>
+      <type
+            markerType="net.sourceforge.czt.eclipse.ui.taskmarker"
+            name="net.sourceforge.czt.eclipse.ui.annotation.task"
+            super="org.eclipse.ui.workbench.texteditor.task"/>
+      <type
+            markerType="net.sourceforge.czt.eclipse.ui.bookmarkmarker"
+            name="net.sourceforge.czt.eclipse.ui.annotation.bookmark"
+            super="org.eclipse.ui.workbench.texteditor.bookmark"/>
+      <type
+            markerType="net.sourceforge.czt.eclipse.ui.occurrencemarker"
+            name="net.sourceforge.czt.eclipse.ui.annotation.occurrence"
+            super="org.eclipse.jdt.ui.occurrences"/>
+      <type
+            markerType="net.sourceforge.czt.eclipse.ui.termhighlightmarker"
+            name="net.sourceforge.czt.eclipse.ui.annotation.termhighlight"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification">
+      <specification
+            annotationType="net.sourceforge.czt.eclipse.ui.annotation.termhighlight"
+            colorPreferenceKey="termHighlightIndicationColor"
+            colorPreferenceValue="255,248,147"
+            contributesToHeader="false"
+            highlightPreferenceKey="termHighlightHighlighting"
+            highlightPreferenceValue="true"
+            icon="icons/term_highlight.gif"
+            includeOnPreferencePage="true"
+            isGoToNextNavigationTarget="false"
+            isGoToNextNavigationTargetKey="isTermHighlightGoToNextNavigationTarget"
+            isGoToPreviousNavigationTarget="false"
+            isGoToPreviousNavigationTargetKey="isTermHighlightGoToPreviousNavigationTarget"
+            label="%TermHighlightAnnotation.label"
+            overviewRulerPreferenceKey="termHighlightIndicationInOverviewRuller"
+            overviewRulerPreferenceValue="false"
+            presentationLayer="6"
+            showInNextPrevDropdownToolbarAction="true"
+            showInNextPrevDropdownToolbarActionKey="showTermHighlightInNextPrevDropdownToolbarAction"
+            symbolicIcon="info"
+            textPreferenceKey="termHighlightTextIndication"
+            textPreferenceValue="false"
+            textStylePreferenceKey="termHighlightTextStyle"
+            textStylePreferenceValue="BOX"
+            verticalRulerPreferenceKey="termHighlightIndicationInVerticalRuller"
+            verticalRulerPreferenceValue="false"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            description="%category.ZEditor.description"
+            id="net.sourceforge.czt.eclipse.ui.category.ZEditor"
+            name="%category.ZEditor.name"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.ui.category.ZEditor"
+            description="Go to the point where the current Z name is declared"
+            id="net.sourceforge.czt.eclipse.ui.editor.goToDeclaration"
+            name="Go To Declaration"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.ui.category.ZEditor"
+            description="Expand the current selection to the surrounding term"
+            id="net.sourceforge.czt.eclipse.ui.editor.expandSelection"
+            name="Grow Selected Term"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.ui.category.ZEditor"
+            description="Return to the previously selected term"
+            id="net.sourceforge.czt.eclipse.ui.editor.contractSelection"
+            name="Shrink Selected Term"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.ui.category.ZEditor"
+            description="Convert current specification to Z LaTeX markup"
+            id="net.sourceforge.czt.eclipse.ui.convert.latex"
+            name="Convert To Z LaTeX"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.ui.category.ZEditor"
+            description="Convert current specification to Spivey/Fuzz Z LaTeX markup"
+            id="net.sourceforge.czt.eclipse.ui.convert.oldlatex"
+            name="Convert To Old Z LaTeX"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.ui.category.ZEditor"
+            description="Convert current specification to Z Unicode markup"
+            id="net.sourceforge.czt.eclipse.ui.convert.unicode"
+            name="Convert To Z Unicode"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.ui.category.ZEditor"
+            description="Convert current specification to Z XML"
+            id="net.sourceforge.czt.eclipse.ui.convert.xml"
+            name="Convert To ZML"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            description="%context.ZEditor.description"
+            id="net.sourceforge.czt.eclipse.ui.context.ZEditor"
+            name="%context.ZEditor.name"
+            parentId="org.eclipse.ui.textEditorScope"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="net.sourceforge.czt.eclipse.ui.editor.goToDeclaration"
+            contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="F3"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.ui.editor.expandSelection"
+            contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Alt+Shift+M1+ARROW_UP"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.ui.editor.contractSelection"
+            contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Alt+Shift+M1+ARROW_DOWN"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.ui.convert.latex"
+            contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Shift+M1+L"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.ui.convert.oldlatex"
+            contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Shift+M1+O"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.ui.convert.unicode"
+            contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Shift+M1+U"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.ui.convert.xml"
+            contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Shift+M1+X"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="net.sourceforge.czt.eclipse.ui.internal.perspective.ZPerspectiveFactory"
+            icon="icons/CZTproject.png"
+            id="net.sourceforge.czt.eclipse.ui.ZPerspective"
+            name="Z"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+         <perspectiveShortcut id="net.sourceforge.czt.eclipse.ui.ZPerspective"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <perspectiveShortcut id="net.sourceforge.czt.eclipse.ui.ZPerspective"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
+         <perspectiveShortcut id="net.sourceforge.czt.eclipse.ui.ZPerspective"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaBrowsingPerspective">
+         <perspectiveShortcut id="net.sourceforge.czt.eclipse.ui.ZPerspective"/>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.CZTBasePreferencePage"
+            id="net.sourceforge.czt.eclipse.ui.preferences.base"
+            name="%CztBasePreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.general"/>
+      </page>
+      <page
+            category="net.sourceforge.czt.eclipse.ui.preferences.base"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.CompilerPreferencePage"
+            id="net.sourceforge.czt.eclipse.ui.preferences.compiler"
+            name="%CompilerPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.compiler"/>
+      </page> <page
+            category="net.sourceforge.czt.eclipse.ui.preferences.base"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorBasePreferencePage"
+            id="net.sourceforge.czt.eclipse.ui.preferences.editor"
+            name="%ZEditorBasePreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.editor"/>
+      </page>
+      <page
+            category="net.sourceforge.czt.eclipse.ui.preferences.editor"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorAnnotationPreferencePage"
+            id="net.sourceforge.czt.eclipse.ui.preferences.annotation"
+            name="%ZEditorAnnotationPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.annotation"/>
+      </page>
+     
+      <page
+            category="net.sourceforge.czt.eclipse.ui.preferences.editor"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorFoldingPreferencePage"
+            id="net.sourceforge.czt.eclipse.ui.preferences.folding"
+            name="%ZEditorFoldingPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.folding"/>
+      </page>
+      <page
+            category="net.sourceforge.czt.eclipse.ui.preferences.editor"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorSyntaxColoringPreferencePage"
+            id="net.sourceforge.czt.eclipse.ui.preferences.syntaxcoloring"
+            name="%ZEditorSyntaxColoringPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.syntaxcoloring"/>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.keywords">
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.keywords.general"
+            label="%PreferenceKeywords.general"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.keywords.compiler"
+            label="%PreferenceKeywords.compiler"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.keywords.editor"
+            label="%PreferenceKeywords.editor"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.keywords.annotation"
+            label="%PreferenceKeywords.annotation"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.keywords.folding"
+            label="%PreferenceKeywords.folding"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.keywords.syntaxcoloring"
+            label="%PreferenceKeywords.syntaxcoloring"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="net.sourceforge.czt.eclipse.ui.internal.preferences.CZTPreferenceInitializer"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="net.sourceforge.czt.eclipse.ui.category.newWizards"
+            name="%NewWizardCategoryName"/>
+      <wizard
+            category="net.sourceforge.czt.eclipse.ui.category.newWizards"
+            class="net.sourceforge.czt.eclipse.ui.internal.wizards.NewCZTProjectWizard"
+            finalPerspective="net.sourceforge.czt.eclipse.ui.ZPerspective"
+            icon="icons/CZTproject.png"
+            id="net.sourceforge.czt.eclipse.ui.wizards.CztProject"
+            name="%NewCZTProjectWizard.label"
+            preferredPerspectives="net.sourceforge.czt.eclipse.ui.ZPerspective"
+            project="true"/>
+      <wizard
+            category="net.sourceforge.czt.eclipse.ui.category.newWizards"
+            class="net.sourceforge.czt.eclipse.ui.internal.wizards.NewZSpecificationWizard"
+            finalPerspective="net.sourceforge.czt.eclipse.ui.ZPerspective"
+            icon="icons/ZSpec.png"
+            id="net.sourceforge.czt.eclipse.ui.wizards.ZSpecification"
+            name="%NewZSpecificationWizard.label"
+            preferredPerspectives="net.sourceforge.czt.eclipse.ui.ZPerspective"
+            project="false"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               id="net.sourceforge.czt.ui.menu"
+               label="CZT"
+               tooltip="CZT commands">
+            <command
+                  commandId="net.sourceforge.czt.eclipse.ui.editor.goToDeclaration"
+                  id="GotoDeclaration"
+                  style="push"
+                  tooltip="Go to the declaration of the current name">
+            </command>
+            <command
+                  commandId="net.sourceforge.czt.eclipse.ui.editor.expandSelection"
+                  id="ExpandSelection"
+                  style="push">
+            </command>
+            <command
+                  commandId="net.sourceforge.czt.eclipse.ui.editor.contractSelection"
+                  id="ContractSelection"
+                  style="push">
+            </command>
+            <menu
+                  id="ConvertTo"
+                  label="Convert">
+               <command
+                     commandId="net.sourceforge.czt.eclipse.ui.convert.latex"
+                     id="Convert2Latex"
+                     style="push"
+                     tooltip="Convert to Z LaTeX markup">
+               </command>
+               <command
+                     commandId="net.sourceforge.czt.eclipse.ui.convert.oldlatex"
+                     id="Convert2OldLatex"
+                     style="push"
+                     tooltip="Convert to pre-standard (Spivey/FUZZ) Z LaTeX">
+               </command>
+               <command
+                     commandId="net.sourceforge.czt.eclipse.ui.convert.unicode"
+                     id="Convert2Unicode"
+                     style="push"
+                     tooltip="Convert to Z Unicode markup">
+               </command>
+               <command
+                     commandId="net.sourceforge.czt.eclipse.ui.convert.xml"
+                     id="Convert2XML"
+                     style="push"
+                     tooltip="Convert to the CZT XML markup (ZML)">
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.themes">
+      <themeElementCategory
+            id="net.sourceforge.czt.eclipse.ui.preferences.theme"
+            label="CZT">
+         <description>
+            CZT fonts and colors
+         </description>
+      </themeElementCategory>
+      <fontDefinition
+            categoryId="net.sourceforge.czt.eclipse.ui.preferences.theme"
+            id="net.sourceforge.czt.eclipse.ui.editor.font.unicode"
+            isEditable="true"
+            label="Unicode Z Editor Font"
+            value="CZT-regular-12">
+         <description>
+            The Unicode Z editor text font is used by Z editors when editing Unicode Z specifications.
+         </description>
+      </fontDefinition>
+      <fontDefinition
+            categoryId="net.sourceforge.czt.eclipse.ui.preferences.theme"
+            defaultsTo="org.eclipse.jface.textfont"
+            id="net.sourceforge.czt.eclipse.ui.editor.font.latex"
+            isEditable="true"
+            label="LaTeX Z Editor Font">
+         <description>
+            The LaTeX Z editor text font is used by Z editors when editing LaTeX Z specifications.
+         </description>
+      </fontDefinition>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="net.sourceforge.czt.eclipse.ui.inZPerspective">
+         <with
+               variable="activeWorkbenchWindow.activePerspective">
+            <equals
+                  value="net.sourceforge.czt.eclipse.ui.ZPerspective">
+            </equals>
+         </with>
+      </definition>
+      <definition
+            id="net.sourceforge.czt.eclipse.ui.inZEditor">
+         <with
+               variable="activePartId">
+            <equals
+                  value="net.sourceforge.czt.eclipse.ui.ZEditor">
+            </equals>
+         </with>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <commonWizard
+            type="new"
+            wizardId="net.sourceforge.czt.eclipse.ui.wizards.CztProject">
+         <enablement>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.ui.inZPerspective">
+            </reference></enablement>
+      </commonWizard>
+      <commonWizard
+            type="new"
+            wizardId="net.sourceforge.czt.eclipse.ui.wizards.ZSpecification">
+         <enablement>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.ui.inZPerspective">
+            </reference></enablement>
+      </commonWizard>
+   </extension>
+
+</plugin>

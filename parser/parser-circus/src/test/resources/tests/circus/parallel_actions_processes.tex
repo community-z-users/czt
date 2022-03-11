@@ -1,0 +1,51 @@
+\begin{zsection}
+  \SECTION\ parallel\_actions\_processes \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c, d, e: \nat 
+\end{circus}
+
+\begin{circus}
+   \circprocess\ ParallelActions \circdef \circbegin
+\end{circus}
+
+
+\begin{circusaction}
+   \circstate S == [~ n1, n2, n3, n4: \nat ~]
+\end{circusaction}
+
+Interface parallelism with default (empty) name sets for both sides.
+Notice the required extra BAR (\verb'|') after/before the parallel brackets.
+%
+\begin{circusaction}
+   A1 \circdef B \lpar | \lchanset c, d, e \rchanset | \rpar C
+\end{circusaction}
+
+Interface parallelism with explicit name sets.
+%
+\begin{circusaction}
+   A2 \circdef B \lpar \{~ n1, n4 ~\} | \lchanset c, d, e \rchanset | \{~ n2, n3 ~\} \rpar C
+\end{circusaction}
+
+Alphabetised parallelism with default (empty) name sets for both sides.
+Notice the required extra BAR (\verb'|') after/before the parallel brackets.
+%
+\begin{circusaction}
+   A3 \circdef B [ | \lchanset b, c \rchanset || \lchanset c, d \rchanset | ] C
+\end{circusaction}
+
+Alphabetised parallelism with explicit name sets.
+%
+\begin{circusaction}
+   A4 \circdef B [ \emptyset | \lchanset b, c \rchanset || \lchanset c, d \rchanset | \{~\} ] C
+\end{circusaction}
+
+
+\begin{circusaction}
+    \circspot \Skip
+\end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus}

@@ -1,0 +1,21 @@
+\begin{zsection}
+ \SECTION TypeMismatchInApplExpr\_ApplExpr\_Oz \parents prelude
+\end{zsection}
+
+\begin{gendef}[X, Y]
+ fun : \power (\power(X \cross Y))
+\end{gendef}
+
+\begin{class}{A}
+\end{class}
+
+\begin{class}{B}
+\end{class}
+
+\begin{axdef}
+ f : fun[A,A]\\
+ a : A\\
+ b : B
+\where
+ f(b) \in A\\
+\end{axdef}

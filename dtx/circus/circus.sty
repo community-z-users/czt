@@ -1,0 +1,1157 @@
+%%
+%% This is file `circus.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% circus.dtx  (with options: `package')
+%%
+%% This is a generated file
+%%
+%% Copyright (C) 2008 Leo Freitas.
+%% University of York All rights reserved.
+%%
+%% This is a generated file for Circus within the
+%% Community Z Tools (CZT). It is based on the zed-csp.sty
+%% package distribution.  Permission is granted to to
+%% customize the declarations in this file to serve the
+%% needs of your installation.  However, no permission
+%% is granted to distribute a modified version of this
+%% file under its original name.
+%%
+\def\fileversion{v.1.4}
+\def\filedate{2015/07/23}
+\def\filedesc{Circus style file by the Community Z Tools}
+
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesPackage{circus}
+    [\filedate\space\fileversion\space \filedesc]
+\message{`\filedesc'\space \fileversion\space <\filedate>}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Design guidelines:
+%   1) keep it minimal + simple + consistent
+%   2) for machine readable Circus only
+%   3) identify code sources (when different)
+%   4) normalise definitions for consistency
+%   5) complete missing cases (use common sense)
+%   6) keep it well documented, but not verbose
+%   7) order of definitions from Circus.xsd, circus_prelude.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package options - zed.sty (old version of zed-csp.sty)        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% Call czt.sty with the same options as given for circus.sty
+\RequirePackageWithOptions{czt}[2008/10/01]
+
+% create conditionals for each option available, init=false
+\newif\if@ctkkeyword@ \@ctkkeyword@false
+
+% Pass czt.sty options to its package
+\DeclareOption{lucida}{\PassOptionsToPackage{lucida}{czt}}
+\DeclareOption{color}{\PassOptionsToPackage{color}{czt}}
+\DeclareOption{colour}{\PassOptionsToPackage{colour}{czt}}
+\DeclareOption{mathit}{\PassOptionsToPackage{mathit}{czt}}
+\DeclareOption{mathrm}{\PassOptionsToPackage{mathrm}{czt}}
+\DeclareOption{tkkeyword}{\PassOptionsToPackage{tkkeyword}{czt}}
+\DeclareOption{cntglobally}{\PassOptionsToPackage{cntglobally}{czt}}
+\DeclareOption{cntbychapter}{\PassOptionsToPackage{cntbychapter}{czt}}
+\DeclareOption{cntbysection}{\PassOptionsToPackage{cntbysection}{czt}}
+
+% New options from this package
+\DeclareOption{ctkkeyword}{\PackageInfo{circus}{'ctkkeyword' option chosen} \@ctkkeyword@true}
+
+% default option as using math italics for mathcode names.
+%\ExecuteOptions{mathit,colour,cntglobally}
+\ProcessOptions\relax
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Treating colours                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% If colouring is available
+\if@color@
+  \PackageInfo{circus}{Rendering Circus math mode with colours}
+
+  % check whether to load color package or not
+  \@ifpackageloaded{color}{%
+        \relax
+  }{%
+        \PackageInfo{circus}{Package `color' loaded with `dvipsnames' \MessageBreak and `usenames' options}
+        \RequirePackage[dvipsnames,usenames]{color}
+  }
+
+  \definecolor{CSPBoxColor}{cmyk}{1,0,1,0}% Green
+  \definecolor{MetaColor}{cmyk}{0,0.61,0.87,0}% Orange
+  \definecolor{CSPColor}{cmyk}{0.50,1,0,0}% Plum
+
+  \PackageInfo{circus}{Circus colours defined as:\MessageBreak%
+    \space\space CSPBoxColor\space\space          = cmyk(   1,   0,   1,0) \MessageBreak%
+    \space\space MetaColor\space\space\space      = cmyk(   0,0.61,0.87,0) \MessageBreak%
+    \space\space CSPColor\space\space\space\space = cmyk(0.50,   1,   0,0)}%
+
+\else
+  \PackageInfo{circus}{Rendering Circus math mode in monochrome.}
+
+  \@ifpackageloaded{color}{\relax}{\def\color#1{\relax}}
+\fi
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Loading mathematical symbols from AMS/Lucuida fonts           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% declares the math version for fonts as circus -
+% there is no need to create a new math version for Circus
+%\DeclareMathVersion{circus}
+%\PackageInfo{circus}{Creating `circus' math version}
+
+\@ifpackageloaded{lucidabr}{%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Lucida Bright font setup                                      %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                                               %
+    \PackageInfo{circus}{Loading Lucida Bright font symbols for Circus}
+
+  %%%%%%%%%%%%%%%%% 1) BRACKETS - brackets used in Circus         %
+
+    \def \csym@lchanset      {{\{}\mkern-5mu{|}~}%{\{\!|~}
+    \def \csym@rchanset      {~{|}\mkern-5mu{\}}}%{~|\!\}}
+    \DeclareMathSymbol{\csym@lcircindex}{\mathopen}{symbols}{"62}% \lfloor
+    \DeclareMathSymbol{\csym@rcircindex}{\mathclose}{symbols}{"63}% \rfloor
+    \def \csym@lcircguard    {\zbig{(}}
+    \def \csym@rcircguard    {\zbig{)}}
+    \def \csym@lschexpract   {\zBig{(}}
+    \def \csym@rschexpract   {\zBig{)}}
+    \def \csym@linter        {|\!|\hspace{-5pt}[}
+    \def \csym@rinter        {]\hspace{-5pt}|\!|}
+    %\def \csym@lpar          {{\mid}\mkern -2mu{[}\mkern-1mu}
+    %\def \csym@rpar          {\mkern-1mu{]}\mkern -2mu{\mid}}
+    \DeclareMathSymbol{\csym@lpar}{\mathopen}{letters}{"82}%
+    \DeclareMathSymbol{\csym@rpar}{\mathclose}{letters}{"83}%
+    \def \csym@lcircrename   {[}%{\left[}
+    \def \csym@rcircrename   {]}%{\right]}
+ 
+  % Support for Circus Time 
+  %  \def \csym@lcirctimeout {TODO}%\circlearrowleft} ?? what are those in Lucida font ??
+  %  \def \csym@rcirctimeout {TODO}%\vartriangleright}
+
+  %%%%%%%%%%%%%%%%% 2) Special symbols used in Circus             %
+
+    \DeclareMathSymbol{\csym@circrefines}{\mathrel}{symbols}{"76}%   \sqsubseteq
+    \DeclareMathSymbol{\csym@circsimulates}{\mathrel}{letters}{"EC}% \succcurlyeq
+    \DeclareMathSymbol{\csym@circassertref}{\mathrel}{symbols}{"F0}%
+    \def \csym@circdef       {\widehat=}
+    \DeclareMathSymbol{\csym@spotbase}{\mathord}{symbols}{"0F}%
+    \def \csym@circspot      {\zbig{\csym@spotbase}}
+    \DeclareMathSymbol{\csym@circindex}{\mathbin}{symbols}{"0C}%
+
+  %%%%%%%%%%%%%%%%% 3) CSP symbols used in Circus                 %
+
+    \def\indexed@op#1{\mathop{\zBIG{\mathstrut#1}}\nolimits} %
+
+    \let \csym@cspthen       \longrightarrow
+    \def \csym@prefixcolon   {\zbig{:}}
+    \def \csym@cspSemi       {\indexed@op{;}}
+
+    %\def \csym@cspinterleave  {{|}\mkern-2mu{|}\mkern-2mu{|}}
+    \DeclareMathSymbol{\csym@cspinterleave}{\mathbin}{stmry}{"39}%
+    \def \csym@cspInterleave {\indexed@op{\csym@cspinterleave}}
+    %\DeclareMathSymbol{\csym@cspInterleave}{\mathbin}{stmry}{"67}%
+
+    %\def \csym@cspParallel   {\parallel}
+    \DeclareMathSymbol{\csym@cspParallelbase}{\mathop}{stmry}{"66}%
+    \def \csym@cspParallel    {\mathop{\mathstrut \csym@cspParallelbase}\nolimits}
+
+    \DeclareMathSymbol{\csym@cspextchoice}{\mathbin}{stmry}{"40}%
+    \def \csym@cspExtchoice  {\indexed@op{\csym@cspextchoice}}
+    %\DeclareMathSymbol{\csym@cspExtchoice}{\mathbin}{stmry}{"65}%
+
+    \DeclareMathSymbol{\csym@cspintchoice}{\mathrel}{symbols}{"7D}%
+    \def \csym@cspIntchoice  {\indexed@op{\csym@cspintchoice}}
+
+    \def \csym@circhide      {\zbig{\zsym@solidus}}
+    \def \csym@circseq       {\zbig{;}}
+    \def \csym@circinterrupt {\zbig{\bigtriangleup}}
+    \def \csym@circmu        {\zbig{\zsym@mu}}
+    \def \csym@circthen      {\zbig{\longrightarrow}}
+    \DeclareMathSymbol{\csym@circelse}{\mathbin}{stmry}{"38}% %\def \csym@circelse {[\!]}
+    \DeclareMathSymbol{\csym@circguard}{\mathbin}{stmry}{"4E}% \let \csym@circguard \&
+
+  %%%%%%%%%%%%%%%%% 4) Special CSP symbols                        %
+
+    \DeclareMathSymbol{\csym@tick}{\mathord}{arrows}{"AC}%
+
+  %%%%%%%%%%%%%%%%% 5) Circus prelude symbols                     %
+
+    \def \csym@boolean       {\mathbb B}
+    \def \csym@universe      {\mathbb U}
+
+  %%%%%%%%%%%%%%%%% 6) Circus model checking toolkit symbols      %
+
+    \DeclareMathSymbol{\cmcsym@gendj}{\mathbin}{letters}{"F2}%
+    \DeclareMathSymbol{\cmcsym@regions}{\mathbin}{symbols}{"0A}% \otimes
+    \DeclareMathSymbol{\cmcsym@dsetminusbase}{\mathbin}{symbols}{"26}%
+    \def \cmcsym@dsetminus {\zbig{\cmcsym@dsetminusbase}}
+    \DeclareMathSymbol{\cmcsym@dcap}{\mathbin}{arrows}{"08}% \lozenge
+
+  %%%%%%%%%%%%%%%%% 7) Special symbols used for Z bags            %
+
+    % added symbols for bags within Circus.sty
+    \def \zsym@lbag    {{[}\mkern-3mu{[}~}%{[\![~}
+    \def \zsym@rbag    {{]}\mkern-3mu{]}~}%{]\!]~}
+    \def \zsym@inbag   {\mathrm{E}} %{\mbox{\texttt{E}}}, Leo 17/06/2010, see czt.sty->\zword
+    \def \zsym@uminus{\setbox0=\hbox{$\cup$}\rlap{\hbox
+                        to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
+    \let \zsym@otimes   \otimes
+    \let \zsym@uplus    \uplus
+    \let \zsym@bcount   \sharp
+    \let \zsym@subbageq \sqsubseteq
+
+}{%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % AMS font setup                                                %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                                               %
+    \PackageInfo{circus}{Loading AMS font symbols for Circus}
+
+  %%%%%%%%%%%%%%%%% 1) BRACKETS - brackets used in Circus         %
+
+    \def \csym@lchanset      {{\{}\mkern-3.5mu{|}~}%{\{\!|~}
+    \def \csym@rchanset      {~{|}\mkern-3.5mu{\}}}%{~|\!\}}
+    \let \csym@lcircindex    \lfloor
+    \let \csym@rcircindex    \rfloor
+    \def \csym@lcircguard    {\zbig{(}}
+    \def \csym@rcircguard    {\zbig{)}}
+    \def \csym@lschexpract   {\zBig{(}}
+    \def \csym@rschexpract   {\zBig{)}}
+    \def \csym@linter        {|\!|\hspace{-4pt}[}
+    \def \csym@rinter        {]\hspace{-4pt}|\!|}
+    %\def \csym@lpar          {{\mid}\mkern -2mu{[}\mkern-1mu}
+    %\def \csym@rpar          {\mkern-1mu{]}\mkern -2mu{\mid}}
+    \DeclareMathSymbol{\csym@lpar}{\mathopen}{stmry}{"4A}%
+    \DeclareMathSymbol{\csym@rpar}{\mathclose}{stmry}{"4B}%
+    \def \csym@lcircrename   {[}%{\left[}
+    \def \csym@rcircrename   {]}%{\right]}
+    % Support for Circus Time 
+    % \def \csym@lcirctimeout {\circlearrowleft}
+    % \def \csym@rcirctimeout {\vartriangleright}
+
+  %%%%%%%%%%%%%%%%% 2) Special symbols used in Circus             %
+
+    \let \csym@circrefines   \sqsubseteq
+    \DeclareMathSymbol{\csym@circsimulates}{\mathrel}{AMSa}{"34}% \succcurlyeq
+    \DeclareMathSymbol{\csym@circassertref}{\mathrel}{AMSa}{"0D}%
+    \def \csym@circdef       {\widehat=}
+    \def \csym@circspot      {\zbig{\spot}}
+    \let \csym@circindex     \odot
+
+  %%%%%%%%%%%%%%%%% 3) CSP symbols used in Circus                 %
+
+    \def\indexed@op#1{\mathop{\zBIG{\mathstrut#1}}\nolimits} %
+
+    \let \csym@cspthen       \longrightarrow
+    \def \csym@prefixcolon   {\zbig{:}}
+    \def \csym@cspSemi       {\indexed@op{;}}
+
+    %\def \csym@cspinterleave  {{|}\mkern-2mu{|}\mkern-2mu{|}}
+    \DeclareMathSymbol{\csym@cspinterleave}{\mathbin}{stmry}{"39}%
+    \def \csym@cspInterleave {\indexed@op{\csym@cspinterleave}}
+    %\DeclareMathSymbol{\csym@cspInterleave}{\mathbin}{stmry}{"67}%
+
+    %\def \csym@cspParallel   {\parallel}
+    \DeclareMathSymbol{\csym@cspParallelbase}{\mathop}{stmry}{"66}%
+    \def \csym@cspParallel    {\mathop{\mathstrut \csym@cspParallelbase}\nolimits}
+
+    \DeclareMathSymbol{\csym@cspextchoice}{\mathbin}{stmry}{"40}%
+    \def \csym@cspExtchoice  {\indexed@op{\csym@cspextchoice}}
+    %\DeclareMathSymbol{\csym@cspExtchoice}{\mathbin}{stmry}{"65}%
+
+    \let \csym@cspintchoice  \sqcap
+    \def \csym@cspIntchoice  {\indexed@op{\csym@cspintchoice}}
+    %\DeclareMathSymbol{\csym@cspIntchoice}{\mathbin}{stmry}{"64}%
+
+    \def \csym@circhide      {\zbig{\zsym@solidus}}
+    \def \csym@circseq       {\zbig{;}}
+    \def \csym@circinterrupt {\zbig{\bigtriangleup}}
+    \def \csym@circmu        {\zbig{\zsym@mu}}
+    \def \csym@circthen      {\zbig{\longrightarrow}}
+    \DeclareMathSymbol{\csym@circelse}{\mathbin}{stmry}{"38}% %\def \csym@circelse {[\!]}
+    \DeclareMathSymbol{\csym@circguard}{\mathbin}{stmry}{"4E}% \let \csym@circguard \&
+
+  %%%%%%%%%%%%%%%%% 4) Special CSP symbols                        %
+
+    \DeclareMathSymbol{\csym@tick}{\mathord}{AMSa}{"58}%
+
+  %%%%%%%%%%%%%%%%% 5) Circus prelude symbols                     %
+
+    \def \csym@boolean       {\mathbb B}
+    \def \csym@universe      {\mathbb U}
+
+  %%%%%%%%%%%%%%%%% 6) Circus model checking toolkit symbols      %
+
+    \DeclareMathSymbol{\cmcsym@gendj}{\mathbin}{AMSa}{"47}%
+    \let \cmcsym@regions   \otimes
+    \let \cmcsym@dsetminus \searrow
+    \DeclareMathSymbol{\cmcsym@dcap}{\mathbin}{AMSa}{"06}% \lozenge
+
+  %%%%%%%%%%%%%%%%% 7) Special symbols used for Z bags            %
+
+    % added symbols for bags within Circus.sty
+    \def \zsym@lbag    {{[}\mkern-2mu{[}~}%{[\![~}
+    \def \zsym@rbag    {{]}\mkern-2mu{]}~}%{]\!]~}
+    \def \zsym@inbag   {\mathrm{E}} %{\mbox{\texttt{E}}}                 % ??? find something better ??? , Leo 17/06/2010 see czt.sty->\zword
+    \def \zsym@uminus{\setbox0=\hbox{$\cup$}\rlap{\hbox
+                        to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
+    \let \zsym@otimes   \otimes
+    \let \zsym@uplus    \uplus
+    \let \zsym@bcount   \sharp
+    \let \zsym@subbageq \sqsubseteq
+}
+
+% sets the math version
+% keep the math version as CZT
+%\mathversion{circus}%
+%\PackageInfo{circus}{Current math version set to `circus'}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Circus registers: skip, dimen, tab, etc                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+%%%%%%%%%% new registers                                        %
+
+% Low-level TeX register used to define what to count
+% 0 = channels     (i.e., \circchannel, \circchannelfrom)
+% 1 = channel sets (i.e., \circchanset)
+% 2 = processes (i.e. \circprocess)
+% 3 = process ref. (i.e. \circassertref)
+% 4 = start action counting
+% 5 = name sets (i.e. \circnameset)
+% 6 = actions (\i.e. \begin{circusaction})
+% 7 = action ref. (i.e. \circassertref within basic process -after \circbegin-)
+% 8 = end action counting
+% 99= nothing
+\newcount\@circuscountingwhat
+\@circuscountingwhat=99
+
+% Flag used to switch tools-only commands typesetting on/off
+\newif\ifTypesetCircusToolsCmds
+
+\newif\if@circusbasicproc@               % determines whether within circus basic process
+\@circusbasicproc@false
+
+\newif\if@circusdefnameset@
+\@circusdefnameset@false
+
+% Few counters used to calculate number of definitions.
+% Reset is controlled by flag/option, default is "cntglobally".
+% Stared versions of environments, which are not parsed, are not counted.
+% We do not care about parsing rules here (i.e., incorrect specs
+% are going to be counted incorrectly). We have local and global counters.
+% Global counters accumulate decls from the whole documents.
+%
+% Global paragraphs    | Keywords used for counting
+%  Z paragraphs        |  see czt.sty counters
+%  Channels            |  \circchannel, \circchannelfrom
+%  Channel sets        |  \circchannelset
+%  Process             |  \circprocess
+%  Process refinement  |  \circassertref
+%
+% Local paragraphs     | Keywords used for counting
+%  Z paragraphs        |  see czt.sty counters
+%  Action para         |  \circdef after passed \circbegin
+%  Action refinement   |  \circassertref after passed \circbegin
+%  Name sets           |  \circnameset
+%
+% Global counters:
+%  a) number of channel declarations (not channels declared - may have more than one per \circchannel!)
+%  b) number of channel set declarations (the number declared - only one per \circchannelset!)
+%  c) number of processes
+%  d) number of process assertions
+%
+%  e) total number of declarations per (basic) process (total within each basic process)
+%  f) total number of global declarations (don't consider local numbers within basic processes)
+%  g) total number of all declarations (all declarations including within basic processes)
+\newcounter{cntCircusChannel}
+\newcounter{cntCircusChannelset}
+\newcounter{cntCircusProcess}
+\newcounter{cntCircusProcessRef}
+\newcounter{cntCircusNameset}[cntCircusProcess]
+\newcounter{cntCircusAction}[cntCircusProcess]
+\newcounter{cntCircusActionRef}[cntCircusProcess]
+\newcounter{cntCircusDeclShallow}[cntCircusProcess]
+\newcounter{cntCircusDeclDeep}
+
+\newcounter{cntCircusZunboxed}[cntCircusProcess]
+\newcounter{cntCircusZaxdef}[cntCircusProcess]
+\newcounter{cntCircusZgendef}[cntCircusProcess]
+\newcounter{cntCircusZschema}[cntCircusProcess]
+\newcounter{cntCircusZgenschema}[cntCircusProcess]
+
+\newcounter{cntCircustotChannel}
+\newcounter{cntCircustotChannelset}
+\newcounter{cntCircustotProcess}
+\newcounter{cntCircustotProcessRef}
+\newcounter{cntCircustotNameset}
+\newcounter{cntCircustotAction}
+\newcounter{cntCircustotActionRef}
+\newcounter{cntCircustotDeclShallow}
+\newcounter{cntCircustotDeclDeep}
+
+\newcounter{cntCircusunknown}
+\newcounter{cntCircustotunknown}
+
+\newcounter{cntCircusZtotunboxed}
+\newcounter{cntCircusZtotaxdef}
+\newcounter{cntCircusZtotgendef}
+\newcounter{cntCircusZtotschema}
+\newcounter{cntCircusZtotgenschema}
+\newcounter{cntCircusZunknown}  % bug? / double-check
+\newcounter{cntCircusZtotunknown}  % bug? / double-check
+
+% update the reseting rationale based on package options.
+% maybe put this code at the \DeclareOption part (?)
+\if@cntbychapter@
+  \@addtoreset{cntCircusChannel}{chapter}
+  \@addtoreset{cntCircusChannelset}{chapter}
+  \@addtoreset{cntCircusProcess}{chapter}
+  \@addtoreset{cntCircusProcessRef}{chapter}
+  \@addtoreset{cntCircusDeclDeep}{chapter}
+  \@addtoreset{cntCircusunknown}{chapter}
+  \@addtoreset{cntCircusZunknown}{chapter}
+
+% These counters are to be reset by cntCircusProcess
+%  \@addtoreset{cntCircusNameset}{chapter}
+%  \@addtoreset{cntCircusAction}{chapter}
+%  \@addtoreset{cntCircusActionRef}{chapter}
+%  \@addtoreset{cntCircusDeclShallow}{chapter}
+
+
+%  \renewcommand{\thecntCircusChannel}{\arabic{cntCircus} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items\fi in Chapter~\thechapter}
+%  \renewcommand{\thecntCircusChannelset}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
+%  \renewcommand{\thecntCircusProcess}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
+%  \renewcommand{\thecntCircusProcessRef}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
+%  \renewcommand{\thecntCircusNameset}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
+%  \renewcommand{\the}{\arabic{cntZdecl} in Chapter~\thechapter}
+\else
+  \if@cntbysection@
+     \@addtoreset{cntCircusChannel}{section}
+     \@addtoreset{cntCircusChannelset}{section}
+     \@addtoreset{cntCircusProcess}{section}
+     \@addtoreset{cntCircusProcessRef}{section}
+     \@addtoreset{cntCircusDeclDeep}{section}
+  \@addtoreset{cntCircusunknown}{section}
+  \@addtoreset{cntCircusZunknown}{section}
+\else 
+  \if@cntglobally@ \relax 
+\fi
+\fi
+\fi
+
+%%%%%%%%%% registers initialisation                             %
+
+\TypesetCircusToolsCmdsfalse
+
+\PackageInfo{circus}{%
+    Initialising Circus registers with default values.\MessageBreak
+    \space\space\space\protect\TypesetCircusToolsCmds=\ifTypesetCircusToolsCmds true \else false \fi%
+}
+
+% Count Z paragraphs to keep czt.sty happy then count Circus paragraphs, possibly inner
+\let\@@countZGlobal=\@countZGlobal
+\def\@countZGlobal {%
+    \@@countZGlobal
+    \@countCircusGlobal%
+}
+\let\@@countZPara=\@countZPara
+\def\@countZPara {%
+    \ifCountDefs
+    		% if counting global Circus items
+       \ifnum \@circuscountingwhat < 4      % x < 4
+          % count Z global, updating circus global counters
+          \@@countZPara
+       \else
+          \ifnum \@circuscountingwhat < 8   % 4 <= x < 8
+            % count Z para
+            \@countCircusZPara
+          \else                             % x >= 8
+            % do the default Z counting (?) or just \relax?
+            \@@countZPara
+          \fi
+       \fi
+    \else
+       \relax
+    \fi
+}
+
+\let\@@countZHNL=\@countZHNL
+\def\@countZHNL{%
+	\@@countZHNL
+	\@circusdefnameset@false
+}
+
+% 0 = channels     (i.e., \circchannel, \circchannelfrom)
+% 1 = channel sets (i.e., \circchanset)
+% 2 = processes (i.e. \circprocess)
+% 3 = process ref. (i.e. \circassertref)
+% 4 = start action counting
+% 5 = name sets (i.e. \circnameset)
+% 6 = actions (\i.e. \begin{circusaction})
+% 7 = action ref. (i.e. \circassertref within basic process -after \circbegin-)
+% 8 = end action counting
+% 99= nothing
+
+\def\circuscountingwhat{%
+       \ifnum \@circuscountingwhat= 0
+           channel
+       \else
+          \ifnum \@circuscountingwhat = 1
+             channel set
+          \else
+             \ifnum \@circuscountingwhat = 2
+                process
+          \else
+             \ifnum \@circuscountingwhat = 3
+                process ref.
+             \else
+                \ifnum \@circuscountingwhat = 4
+                  start act count
+                \else
+                   \ifnum \@circuscountingwhat = 5
+                      name set
+                   \else
+                     \ifnum \@circuscountingwhat = 6
+                        action def.
+                      \else
+                     \ifnum \@circuscountingwhat = 7
+                        action ref.
+                      \else
+                     \ifnum \@circuscountingwhat = 8
+                        end act count
+                      \else
+                      	\ifnum \@circuscountingwhat = 99
+							nothing
+					\else
+                       %don't count at all but debug?
+                          unknown?
+                       \fi
+                     \fi
+                   \fi
+                \fi
+             \fi
+          \fi
+       \fi
+       \fi
+       \fi
+       \fi
+}
+
+
+\def\@countCircusZPara{%
+   \ifCountDefs
+       \PackageWarning{circus}{Counting (Z) \zcountingwhat}
+       \PackageWarning{circus}{Counting (C) \circuscountingwhat \if@circusbasicproc@ in BP. Ok. \else not in BP? Error! \fi} 
+       \ifnum \@zcountingwhat = 0
+          %unboxed para code...
+          \stepcounter{cntCircusZunboxed}
+          \stepcounter{cntCircusZtotunboxed}
+          \@countCircusGlobal
+       \else
+          \ifnum \@zcountingwhat = 1
+             %axdef code...
+             \stepcounter{cntCircusZaxdef}
+             \stepcounter{cntCircusZtotaxdef}
+             \@countCircusGlobal
+          \else
+             \ifnum \@zcountingwhat = 2
+                %gendef code...
+                \stepcounter{cntCircusZgendef}
+                \stepcounter{cntCircusZtotgendef}
+                \@countCircusGlobal
+             \else
+                \ifnum \@zcountingwhat = 3
+                   %schemas code...
+                   \stepcounter{cntCircusZschema}
+                   \stepcounter{cntCircusZtotschema}
+                   \@countCircusGlobal
+                \else
+                   \ifnum \@zcountingwhat = 4
+                      %gen schemas code...
+                      \stepcounter{cntCircusZgenschema}
+                      \stepcounter{cntCircusZtotgenschema}
+                      \@countCircusGlobal
+                      \else
+                      	\ifnum \@zcountingwhat = 99
+							\relax
+					\else
+                       %don't count at all but debug?
+                          \stepcounter{cntCircusZunknown}
+                          \stepcounter{cntCircusZtotunknown}
+                   \fi
+                \fi
+             \fi
+          \fi
+       \fi
+       \fi
+   \else
+      \relax
+   \fi
+}
+
+\def\@countCircusGlobal{%
+      \stepcounter{cntCircusDeclShallow}
+      \stepcounter{cntCircustotDeclShallow}
+      \stepcounter{cntCircusDeclDeep}
+      \stepcounter{cntCircustotDeclDeep}}
+\def\@countCircusPara{%
+   \ifCountDefs
+       \PackageWarning{circus}{Counting  (C) \circuscountingwhat \if@circusbasicproc@ in BP \else not in BP \fi}
+       \ifnum \@circuscountingwhat = 0
+          %channel and channel from para code...
+          \stepcounter{cntCircusChannel}
+          \stepcounter{cntCircustotChannel}
+          \@countCircusGlobal
+       \else
+          \ifnum \@circuscountingwhat = 1
+              %channel set code...
+              \stepcounter{cntCircusChannelset}
+              \stepcounter{cntCircustotChannelset}
+              \@countCircusGlobal
+          \else
+             \ifnum \@circuscountingwhat = 2
+                %process code...
+                \stepcounter{cntCircusProcess}
+                \stepcounter{cntCircustotProcess}
+                \@countCircusGlobal
+             \else
+                \ifnum \@circuscountingwhat = 3
+                   %process refinement code...
+                   \stepcounter{cntCircusProcessRef}
+                   \stepcounter{cntCircustotProcessRef}
+                   \@countCircusGlobal
+                \else
+                   \ifnum \@circuscountingwhat = 4
+                      %inner basic process counting code...
+                      %we need to redefine the way \@countZPara works?
+                      
+                      % using Count Circus Z Para, which will count \@countZPara as well as \@countCircusGlobal accordingly
+                      \@countCircusZPara 
+                   \else
+                       % if within \circbegin (4) .. \circend (8)
+                       \ifnum \@circuscountingwhat > 4
+                          \ifnum \@circuscountingwhat < 8
+                             % inner basic process counting code...
+                             \ifnum \@circuscountingwhat = 5
+                                %name set code...
+                                \stepcounter{cntCircusNameset}
+                                \stepcounter{cntCircustotNameset}
+                                \@countCircusGlobal
+                             \else
+                                \ifnum \@circuscountingwhat = 6
+                                   %action code...
+                                   \stepcounter{cntCircusAction}
+                                   \stepcounter{cntCircustotAction}
+                                   \@countCircusGlobal
+                                \else
+                                   \ifnum \@circuscountingwhat = 7
+                                      %action code...
+                                      \stepcounter{cntCircusActionRef}
+                                      \stepcounter{cntCircustotActionRef}
+                                      \@countCircusGlobal
+                                   \else
+                                      % don't count, e.g., \@circuscountingwhat=99
+                                    	\ifnum \@circuscountingwhat = 99
+              							\relax
+              					\else
+                                     %don't count at all but debug?
+                                        \stepcounter{cntCircusunknown}
+                                        \stepcounter{cntCircustotunknown}
+                                   \fi
+                                \fi
+                             \fi
+                             \fi
+                          \else
+                             % don't count, reached \circend, \@circuscountingwhat=8
+                             \ifnum \@circuscountingwhat = 99
+          							\relax
+          					\else
+                                 %don't count at all but debug?
+                                    \stepcounter{cntCircusunknown}
+                                    \stepcounter{cntCircustotunknown}
+                               \fi 
+                          \fi
+                       \else
+                          %don't count, e.g., \@circuscountingwhat=99
+                         \ifnum \@circuscountingwhat = 99
+        							\relax
+        					\else
+                               %don't count at all but debug?
+                                  \stepcounter{cntCircusunknown}
+                                  \stepcounter{cntCircustotunknown}
+                             \fi 
+
+                       \fi
+                   \fi
+                \fi
+             \fi
+          \fi
+       \fi
+   \else
+      \relax
+   \fi
+}
+
+% NOTE: maybe using the "ifthen.sty" package would be a good idea here?
+\def\@circusPossibleInnerParaCount#1#2{%
+      \ifCountDefs
+         % if not knowing where we are counting from
+         \ifnum \@circuscountingwhat = 99
+            % we are at process refinement level
+            \@circuscountingwhat=#1
+         \else
+            % if we know and we are not within a basic process
+            \ifnum \@circuscountingwhat < 4
+               % we are at process refinement level
+               \@circuscountingwhat=#1
+            \else
+               % we are within basic process before \circend
+               \ifnum \@circuscountingwhat < 8
+                   \@circuscountingwhat=#2
+               \fi
+            \fi
+         \fi
+         % actually count the paragraph
+         \@countCircusPara
+      \fi}
+
+\newcounter{cntCircusOverallTotShallow}
+\newcounter{cntCircusOverallTotDeep}
+\setcounter{cntCircusOverallTotShallow}{\value{cntZtotdecl}}
+\setcounter{cntCircusOverallTotDeep}{\value{cntZtotdecl}}
+\addtocounter{cntCircusOverallTotShallow}{\value{cntCircustotDeclShallow}}
+\addtocounter{cntCircusOverallTotDeep}{\value{cntCircustotDeclDeep}}
+
+\def\CircusDeclTblInfoGlobal{%
+					\hline
+                    \hline
+                    \textbf{\Circus\ Declarations}   & \textbf{Total} \\
+                    \hline
+                     Channel decls.          & \arabic{cntCircustotChannel} \\
+                    \hline
+                    Channel set decls.      & \arabic{cntCircustotChannelset} \\
+                    \hline
+                    Process decls.          & \arabic{cntCircustotProcess} \\
+                    \hline
+                    Process ref. assertions & \arabic{cntCircustotProcessRef} \\
+                    \hline
+                    Name sets & \arabic{cntCircustotNameset} \\
+                    \hline
+                    Actions & \arabic{cntCircustotAction} \\
+                    \hline
+                    Action ref. assertions & \arabic{cntCircustotActionRef} \\
+%                    \hline
+%                    Z unboxed  & \arabic{cntCircusZtotunboxed} \\
+%                    \hline
+%                    Axiomatic Defs & \arabic{cntCircusZtotaxdef} \\
+%                    \hline
+%                    Gen defs & \arabic{cntCircusZtotgendef} \\
+%                    \hline
+%                    Schemas & \arabic{cntCircusZtotschema} \\
+%                    \hline
+%                    Generic schemas & \arabic{cntCircusZtotgenschema} \\
+                    \hline
+                     \textbf{Total}          & \textbf{\arabic{cntCircustotDeclShallow}} \\
+%                    \hline
+%                     \textbf{TotalD}          & \textbf{\arabic{cntCircustotDeclDeep}} \\
+                    \hline
+}
+
+\def\CircusDeclTblInfoBy{%
+                    \hline
+                    \hline
+                    \textbf{\Circus\ Declarations}   & \textbf{This \@cntpart} & \textbf{Total} \\
+                    \hline
+                     Channel decls.          & \arabic{cntCircusChannel} & \arabic{cntCircustotChannel} \\
+                    \hline
+                    Channel set decls.      & \arabic{cntCircusChannelset}  & \arabic{cntCircustotChannelset} \\
+                    \hline
+                    Process decls.          & \arabic{cntCircusProcess} & \arabic{cntCircustotProcess} \\
+                    \hline
+                    Process ref. assertions & \arabic{cntCircusProcessRef} & \arabic{cntCircustotProcessRef} \\
+                    \hline
+                    Name sets 			& \arabic{cntCircusNameset} & \arabic{cntCircustotNameset} \\
+                    \hline
+                    Actions 					& \arabic{cntCircusAction} & \arabic{cntCircustotAction} \\
+                    \hline
+                    Action ref. assertions & \arabic{cntCircusActionRef} & \arabic{cntCircustotActionRef} \\
+%                    \hline
+%                    Z unboxed  			& \arabic{cntCircusZunboxed} & \arabic{cntCircusZtotunboxed} \\
+%                    \hline
+%                    Axiomatic Defs 		& \arabic{cntCircusZaxdef} & \arabic{cntCircusZtotaxdef} \\
+%                    \hline
+%                    Gen defs 				& \arabic{cntCircusZgendef} & \arabic{cntCircusZtotgendef} \\
+%                    \hline
+%                    Schemas 				& \arabic{cntCircusZschema} & \arabic{cntCircusZtotschema} \\
+%                    \hline
+%                    Generic schemas & \arabic{cntCircusZgenschema} & \arabic{cntCircusZtotgenschema} \\
+                    \hline
+                     \textbf{Total}          & \arabic{cntCircusDeclShallow} & \textbf{\arabic{cntCircustotDeclShallow}} \\
+                    %\hline
+                    % \textbf{TotalD}     & \arabic{cntCircusDeclDeep}     & \textbf{\arabic{cntCircustotDeclDeep}} \\
+                    \hline
+}
+
+\def \CircusDeclSummary {%
+   \ifCountDefs
+      \begin{table}[ht]
+        \begin{center}
+            \if@cntglobally@
+                \begin{tabular}{|l|r|}
+                    \ZDeclTblInfoGlobal
+                    \CircusDeclTblInfoGlobal
+                    %\hline
+                    %\textbf{Overall Total}          &   \textbf{\arabic{cntCircusOverallTotShallow}} \\
+                    %\hline
+                \end{tabular}
+            \else
+                \begin{tabular}{|l|c|c|}
+                    \ZDeclTblInfoBy
+                    \CircusDeclTblInfoBy
+                \end{tabular}
+            \fi
+        \end{center}
+        \if@cntglobally@
+           \caption{Summary of all \Circus{} declarations.}\label{tbl:circusdecl:global}
+        \else
+          \if@cntbychapter@
+             \caption{Summary of \Circus{} declarations for Chapter~\thechapter.}\label{tbl:circusdecl:\thechapter}
+          \else
+            \if@cntbysection@
+               \caption{Summary of \Circus{} declarations for Section~\thesection.}\label{tbl:circusdecl:\thesection}
+            \fi
+          \fi
+        \fi
+      \end{table}
+   \else
+      \relax
+   \fi
+}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Circus environments                                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\@circus#1{%
+    \@circuscountingwhat=#1
+    \@zed}
+\def\circus{\@circus{99}}       % make it as global (top level)
+\let\endcircus=\endzed
+
+\def\circusaction{\@circusbasicproc@true\@circus{4}} % make it as local (\circbegin)
+\let\endcircusaction=\endzed
+
+\PackageInfo{circus}{Setting up Circus LaTeX environments}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Language keywords                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Just like in Z, but with \textsl and underline instead of \texrm.
+% This (i.e., being different from Z keywords) is useful because
+% some names are reused (e.g., if)
+%
+\def\mathsl#1{\hbox{\slshape #1}}
+\def\circusword#1{\zword{#1}} % changed from: \zword{\mathsl{#1}}
+\def\circuskeyword#1{\zkeyword{#1}}        %  \zkeyword{\mathsl{#1}}
+\def\circustoolkit#1{\if@ctkkeyword@ \circuskeyword{#1} \else \circusword{#1} \fi}
+
+%%%%%%%%%%%%%%%%% 1) Guarded commands                           %
+
+\def \circif      {\zpreop{\circuskeyword{if}}}
+\def \circfi      {\zpostop{\circuskeyword{fi}}}
+\def \circdo      {\zpreop{\circuskeyword{do}}}
+\def \circod      {\zpostop{\circuskeyword{od}}}
+\def \circcon     {\zpreop{\circuskeyword{con}}}
+\def \circvar     {\zpreop{\circuskeyword{var}}}
+\def \circval     {\zpreop{\circuskeyword{val}}}
+\def \circres     {\zpreop{\circuskeyword{res}}}
+\def \circvres    {\zpreop{\circuskeyword{vres}}}
+
+%%%%%%%%%%%%%%%%% 2) Channel and name set                       %
+
+\def \circchannel     {\zpreop{\circuskeyword{channel}}\@circuscountingwhat=0 \@countCircusPara}
+\def \circchannelfrom {\zpreop{\circuskeyword{channelfrom}}\@circuscountingwhat=0 \@countCircusPara}
+\def \circchannelset  {\zpreop{\circuskeyword{channelset}}\@circuscountingwhat=1 \@countCircusPara}
+\def \circnameset     {\zpreop{\circuskeyword{nameset}}\@circuscountingwhat=5 \@countCircusPara\@circusdefnameset@true}
+
+%%%%%%%%%%%%%%%%% 3) Processes                                  %
+
+\def \circprocess {\zpreop{\circuskeyword{process}}\@circuscountingwhat=2 \@countCircusPara}
+\def \circbegin   {\zpreop{\circuskeyword{begin}} \@circusbasicproc@true \@circuscountingwhat=4}%starts basic process! cool
+% for main action, count the circend instead to keep it simple
+\def \circend{%
+	\zpreop{\circuskeyword{end}}
+	\@circuscountingwhat=6 
+	\@countCircusPara
+	\@circusbasicproc@false
+	\@circuscountingwhat=8
+}
+
+\def \circstate   {\zpreop{\circuskeyword{state}}
+	\@circuscountingwhat=6 
+	\@countCircusPara
+}
+
+%%%%%%%%%%%%%%%%% 4) Actions                                    %
+
+\def \Skip        {\zordop{\circuskeyword{Skip}}}
+\def \Stop        {\zordop{\circuskeyword{Stop}}}
+\def \Chaos       {\zordop{\circuskeyword{Chaos}}}
+
+\PackageInfo{circus}{Loading Circus keywords}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Core symbols                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%% 1) BRACKETS - brackets used in Circus         %
+
+\def \lchanset      {\zopenop{\csym@lchanset}}
+\def \rchanset      {\zcloseop{\csym@rchanset}}
+\def \lcircindex    {\zopenop{\csym@lcircindex}}
+\def \rcircindex    {\zcloseop{\csym@rcircindex}}
+\def \lcircguard    {\zopenop{\csym@lcircguard}}
+\def \rcircguard    {\zcloseop{\csym@rcircguard}}
+\def \lschexpract   {\zopenop{\csym@lschexpract}}
+\def \rschexpract   {\zcloseop{\csym@rschexpract}}
+\def \linter        {\zbinop{\zopenop{\csym@linter}}}
+\def \rinter        {\zbinop{\zcloseop{\csym@rinter}}}
+\def \lpar          {\zbinop{\zopenop{\csym@lpar}}}
+\def \rpar          {\zbinop{\zcloseop{\csym@rpar}}}
+\def \lcircrename   {\zopenop{\csym@lcircrename}}
+\def \rcircrename   {\zcloseop{\csym@rcircrename}}
+
+% Support for Circus Time (hack F Zeyda)
+%\def \lcirctimeout  {\zbinop{\csym@lcirctimeout}}
+%\def \rcirctimeout  {\zbinop{\csym@rcirctimeout}}
+%\def \circwait      {\zpreop{\circuskeyword{wait}}}
+%\def \circdeadline  {\zbinop{\circuskeyword{deadline}}}
+
+\PackageInfo{circus}{Loading Circus brackets}
+
+%%%%%%%%%%%%%%%%% 2) Special symbols used in Circus             %
+
+\def \circrefines   {\zrelop{\csym@circrefines}}
+\def \circsimulates {\zrelop{\csym@circsimulates}}
+\def \circspot      {\zrelop{\csym@circspot}}
+\def \circindex     {\zrelop{\csym@circindex}}
+
+% if I've seen a \circbegin (and not \circend), then \circdef is for 
+\def \circdef{%
+	\zrelop{\csym@circdef}
+	\if@circusdefnameset@
+		% if after \circnameset X \circdef xxxx ignore
+		\relax
+	\else
+		% ifnot but within basic it's an action
+		\if@circusbasicproc@ 
+			\@circuscountingwhat=6
+			\@countCircusPara 
+		\else  
+		% it's neither nameset nor action must be process?
+			\ifnum  \@circuscountingwhat = 2
+				\relax
+			\else
+				\PackageWarning{circus}{Couln't identify kind of definition for circdef command (\circuscountingwhat); ignored counting}
+			\fi
+		\fi
+	\fi
+}
+
+%\def \circdef       {\zrelop{\csym@circdef}\@circuscountingwhat=6\@countCircusPara}%\@circusPossibleInnerParaCount{2}{6}}
+\def \circassertref {\zrelop{\csym@circassertref}\@circuscountingwhat=7\@countCircusPara}
+
+\PackageInfo{circus}{Loading Circus special symbols}
+
+%%%%%%%%%%%%%%%%% 3) CSP symbols used in Circus                 %
+
+\def \then          {\zbinop{\csym@cspthen}}
+\def \prefixcolon   {\zbinop{\csym@prefixcolon}}
+\def \Semi          {\zpreop{\csym@cspSemi}}
+\def \interleave    {\zbinop{\csym@cspinterleave}}
+\def \Parallel      {\zpreop{\csym@cspParallel}}
+\def \Interleave    {\zpreop{\csym@cspInterleave}}
+\def \extchoice     {\zbinop{\csym@cspextchoice}}
+\def \Extchoice     {\zpreop{\csym@cspExtchoice}}
+\def \intchoice     {\zbinop{\csym@cspintchoice}}
+\def \Intchoice     {\zpreop{\csym@cspIntchoice}}
+\def \circhide      {\zbinop{\csym@circhide}}
+\def \circseq       {\zbinop{\csym@circseq}}
+\def \circinterrupt {\zbinop{\csym@circinterrupt}}
+\def \circmu        {\zbinop{\csym@circmu}}
+\def \circthen      {\zbinop{\csym@circthen}}
+\def \circelse      {\zbinop{\csym@circelse}}
+\def \circguard     {\zbinop{\csym@circguard}}
+
+\PackageInfo{circus}{Loading Circus CSP symbols}
+
+%%%%%%%%%%%%%%%%% 4) Circus boxing characters                   %
+
+%    <BOXCHAR>
+%      <char id="CIRCUSCHAR" hex="257A" description="box drawings thick horizontal line to the right."/>
+%      <char id="CIRCUSACTIONCHAR" hex="2576" description="box drawings thin horizontal line to the right."/>
+%    </BOXCHAR>
+
+%  <SPECIAL>
+%    <BOXCHAR>
+%      <char id="CIRCUSJOKERCHAR" hex="2606" description="hollow version of JOKER char."/>
+%      <char id="CIRCUSACTIONLAWCHAR" hex="25A1" description="hollow version of Rule char."/>
+%      <char id="CIRCUSPROCESSLAWCHAR" hex="25A3" description="hollow contained version of Rule char."/>
+%    </BOXCHAR>
+%  </SPECIAL>
+
+\PackageInfo{circus}{Loading Circus boxing symbols}
+
+%%%%%%%%%%%%%%%%% 5) Circus prelude symbols                     %
+
+\def \boolean  {\zordop{\csym@boolean}}
+\def \universe {\zordop{\csym@universe}}
+
+\renewcommand{\true}{\zordop{\circuskeyword{True}}}
+\renewcommand{\false}{\zordop{\circuskeyword{False}}}
+
+\PackageInfo{circus}{Loading Circus circus\_prelude symbols}
+
+%%%%%%%%%%%%%%%%% 6) Circus model checking toolkit symbols      %
+
+\def \gendj     {\zbinop{\cmcsym@gendj}}
+\def \regions   {\zbinop{\cmcsym@regions}}
+\def \dsetminus {\zbinop{\cmcsym@dsetminus}}
+\def \dcap      {\zbinop{\cmcsym@dcap}}
+\def \minimal   {\zordop{\circustoolkit{minimal}}}
+
+\PackageInfo{circus}{Loading Circus circus\_mc\_toolkit symbols}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Few extra helpful commands                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% users referring to this file in their \LaTeX
+\def \circusstylefile {\texttt{circus.sty}}
+
+\def \Circus {{\sf\slshape Circus}}
+
+\def \tick   {\zordop{\csym@tick}}
+
+% Special Circus tool controlling commands
+\newcommand{\circblockbegin}{\begin{zedblock}}
+\newcommand{\circblockend}{\end{zedblock}}
+\newcommand{\circtoolson}{\ifTypesetCircusToolsCmds \hbox{[\textsl{\textbf{Circus tools on}}]} \else \relax \fi}
+\newcommand{\circtoolsoff}{\ifTypesetCircusToolsCmds \hbox{[\textsl{\textbf{Circus tools off}}]} \else \relax \fi}
+
+\newlength{\circnotewidth}
+\setlength{\circnotewidth}{.75\linewidth}
+%\newlength{\circnoteindent}
+%\circnoteindent=\zedtab or dimen?
+%\setlength{\circnoteindent}{2em}
+\newcommand{\circnote}[1]{\ifTypesetCircusToolsCmds \ensuremath{\t1}\parbox{\circnotewidth}{\small \textsf{#1}}\ensuremath{\\} \else \relax \fi}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Extra symbols for Bags                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+\def \bag     {\zpreop{\ztoolkit{bag}}}              % G
+\def \bcount  {\zbinop{\zsym@bcount}}                % F
+\def \otimes  {\zbinop{\zsym@otimes}}                % F
+\def \uplus   {\zbinop{\zsym@uplus}}                 % F
+\def \uminus  {\zbinop{\zsym@uminus}}                % F
+\def \subbageq{\zrelop{\zSmall{\zsym@subbageq}}}     % R  % \subbageq smaller to avoid confusion with \circrefines, which has the same symbol
+\def \inbag   {\zrelop{\zsym@inbag}}                 % R
+\def \lbag    {\zopenop{\zsym@lbag}}
+\def \rbag    {\zcloseop{~\zsym@rbag}}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Extra environments from zed.sty                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% NOT PARSEABLE - pointless.
+% Same as zed environment, yet allows column alignment
+%\def\syntax{\@zed\@znoskip \halign\bgroup
+%  \strut$\@zlign##$\hfil &\hfil$\@zlign{}##{}$\hfil
+%  &$\@zlign##$\hfil\cr}
+%\let\endsyntax=\endzed
+
+% Environment to display informal proof steps / arguments,
+% but it considers the alignment as in zed-csp, and colours
+% as in encoded here (which renders the same as there, but
+% slightly differently coded).
+\def\@argue{\ifvmode\@zleavevmode\fi
+  $$\global\zt@ptrue
+  \@setzsize
+  \advance\linewidth by-\zedindent
+  \advance\displayindent by\zedindent
+  \def\\{\crcr}% Must have \def and not \let for nested alignments.
+  \let\par=\relax
+  \tabskip=0pt}
+\def\argue{\@argue \interzedlinepenalty=\interdisplaylinepenalty
+  \openup\@jot \halign to\linewidth\bgroup
+  {\strut$\color{ZedColor}\@zlign##$}\hfil \tabskip=0pt plus1fil
+  &\hbox to0pt{\hss[\@zlign##\unskip]}\tabskip=0pt\cr
+  \noalign{\vskip-\@jot}}
+\let\endargue=\endzed
+
+% Environment to display natural deduction inference rules
+\def\infrule{\@zed\@znoskip \halign\bgroup
+  \strut\quad$\@zlign##$\quad\hfil&\quad\@zlign##\hfil\cr}
+\let\endinfrule=\endzed
+
+\def\derive{\crcr \noalign{\vskip\@jot} \omit\@zrulefill
+  \@ifnextchar[{\@xderive}{\@yderive}}
+\def\@xderive[#1]{&$\smash{\lower 0.5ex\hbox{$[\;#1\;]$}}$\cr
+  \noalign{\vskip\@jot}}
+\def\@yderive{\cr \noalign{\vskip\@jot}}
+
+\endinput
+%%
+%% End of file `circus.sty'.
+%
+%% Some useful symbols for the UTP:
+
+%\def\II{\hbox{\texttt{\slshape I \kern -7.5pt I}}}
+%\def\circledR{{\mathhexbox\msafam@72 }}

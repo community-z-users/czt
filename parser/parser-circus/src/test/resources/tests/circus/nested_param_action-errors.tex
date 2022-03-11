@@ -1,0 +1,15 @@
+
+\begin{zsection}
+  \SECTION\ nested\_param\_action\_errors \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circchannel\ out: \nat
+\end{circus}
+
+\begin{circus}
+    \circprocess\ NestedParamsProcess ~~\circdef~~ \circbegin \\
+    A \circdef\ a: \nat \circspot a: \seq~\nat \circspot\ \Skip \\
+    \circspot out.0 \then \Skip \\
+    \circend
+\end{circus}

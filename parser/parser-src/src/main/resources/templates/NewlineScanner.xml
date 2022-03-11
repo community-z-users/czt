@@ -1,0 +1,237 @@
+<!--
+     Copyright (C) 2004 Tim Miller
+     Copyright (C) 2004, 2006, 2007 Petra Malik
+     This file is part of the CZT project.
+
+     The CZT project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with CZT; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<parser xmlns:add="http://czt.sourceforge.net/templates/additional">
+
+package <package/>;
+
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import java_cup.runtime.Symbol;
+import net.sourceforge.czt.parser.util.CztScanner;
+import net.sourceforge.czt.parser.util.CztScannerImpl;
+import net.sourceforge.czt.parser.util.NewlineCategory;
+import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.util.TokenStack;
+import net.sourceforge.czt.session.Dialect;
+
+<add:circustime>
+import net.sourceforge.czt.parser.circus.CircusToken;
+import net.sourceforge.czt.parser.circus.CircusKeyword;
+</add:circustime>
+<add:circusconf>
+import net.sourceforge.czt.parser.circus.CircusToken;
+import net.sourceforge.czt.parser.circus.CircusKeyword;
+</add:circusconf>
+
+/**
+ * &lt;p&gt;This is a NL lexer
+ * (part of context-sensitive lexis) for
+ * specifications in unicode format.&lt;/p&gt;
+ */
+public class <class/>
+  extends CztScannerImpl
+{
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  static final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+    				  
+  private static Map&lt;Integer,NewlineCategory&gt; map_ = createMap();
+
+  private static Map&lt;Integer,NewlineCategory&gt; createMap()
+  {
+    Map&lt;Integer,NewlineCategory&gt; result =
+      new HashMap&lt;Integer,NewlineCategory&gt;();
+    Map&lt;String,NewlineCategory&gt; map =
+      new HashMap&lt;String,NewlineCategory&gt;();
+    map.put("_APPLICATION", null);
+    map.put("_RENAME", null);
+    map.put("EXPR", null);
+    map.put("PRED", null);
+    map.put("PARA", null);
+    map.put("EOF", null);
+    map.put("error", null);
+    map.put("DECLWORD", net.sourceforge.czt.parser.z.ZToken.DECORWORD.getNewlineCategory());
+    insertInto(map, net.sourceforge.czt.parser.z.ZToken.values());
+    insertInto(map, net.sourceforge.czt.parser.z.ZKeyword.values());
+    insertInto(map, net.sourceforge.czt.parser.z.ZOpToken.values());
+<add:pattern>
+    insertInto(map, net.sourceforge.czt.parser.zpatt.ZpattToken.values());
+    insertInto(map, net.sourceforge.czt.parser.zpatt.ZPattKeyword.values());
+    insertInto(map, net.sourceforge.czt.parser.zpatt.JokerToken.values());
+</add:pattern>
+<add:oz>
+    insertInto(map, net.sourceforge.czt.parser.oz.OzToken.values());
+    insertInto(map, net.sourceforge.czt.parser.oz.OzKeyword.values());
+</add:oz>
+<add:circus>
+    insertInto(map, CircusToken.values());
+    insertInto(map, CircusKeyword.values());
+    map.put("_CIRCIF", null);
+    map.put("_REPSEQ", null);
+    map.put("_CIRCGUARD", null);
+    
+    /* Special cases for communication patterns - just like a DECORWORD */
+    map.put("CHANNELNAME", net.sourceforge.czt.parser.z.ZToken.DECORWORD.getNewlineCategory());
+    map.put("FIELDNAME", net.sourceforge.czt.parser.z.ZToken.DECORWORD.getNewlineCategory());
+    map.put("CHANNELERROR", net.sourceforge.czt.parser.z.ZToken.DECORWORD.getNewlineCategory());
+    
+    /* For CHANNELDOT don't accept new lines, which is different from the Z DOT */
+    map.put("CHANNELIN", NewlineCategory.NEITHER);
+    map.put("CHANNELOUT", NewlineCategory.NEITHER);
+    map.put("CHANNELDOT", NewlineCategory.NEITHER);    
+</add:circus>
+
+<add:circustime>
+    insertInto(map, CircusTimeToken.values());
+    insertInto(map, CircusTimeKeyword.values());
+</add:circustime>
+
+<add:circusconf>
+    insertInto(map, CircusConfToken.values());
+    //insertInto(map, CircusConfKeyword.values());
+</add:circusconf>
+
+<add:zeves>
+    insertInto(map, ZEvesProofToken.values());
+    insertInto(map, ZEvesProofKeyword.values());
+    map.put("PROOFWORD", NewlineCategory.BOTH);
+    map.put("THMNAME", NewlineCategory.BOTH);
+</add:zeves>
+    for (String s : SymMap.getMap().keySet()) {
+      if (! map.containsKey(s)) {
+        final String msg = "No new line category for token or keyword " + s + " was found for " + 
+        	dialect_.toString() + " in NewlineScanner";
+        System.err.println(msg);
+        throw new IllegalStateException(msg);
+      }
+      NewlineCategory category = map.get(s);
+      result.put(SymMap.getMap().get(s), category);
+    }
+    return result;
+  }
+
+  private static void insertInto(Map&lt;String,NewlineCategory&gt; map,
+                                 Token[] tokens)
+  {
+    for (Token t : tokens) {
+      map.put(t.getName(), t.getNewlineCategory());
+    }
+  }
+
+  /**
+   * The token returned via the last call to #next_token,
+   * or &lt;code&gt;null&lt;/code&gt; if #next_token has not yet been called.
+   */
+  private Symbol symbol_ = null;
+
+  /**
+   * The token stream from which NL tokens are to be removed.
+   * Should never be &lt;code&gt;null&lt;/code&gt;.
+   */
+  private final TokenStack tokens_;
+
+  <class/>(CztScanner scanner, Properties properties)
+  {
+    super(properties);
+    tokens_ = new TokenStack(scanner);
+    assert dialect_ != null;
+    if (!dialect_.equals(scanner.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in NewlineScanner. " + dialect_.toString() +
+    		" expected, but CztScanner dialect " + scanner.getDialect() + " found.");     
+  }
+  
+  @Override
+  public Dialect getDialect()
+  {
+  	assert dialect_.equals(tokens_.getDialect()) : "dialect = " + dialect_ + "; tokens.dialect = " + tokens_.getDialect();
+  	return tokens_.getDialect();
+  }
+
+  @Override
+  public Symbol next_token()
+    throws Exception
+  {
+    symbol_ = next();
+    return symbol_;
+  }
+
+  private Symbol next()
+    throws Exception
+  {
+    Symbol symbol = tokens_.pop();
+    logSymbol(symbol);
+    if (symbol.sym == Sym.NL &amp;&amp;
+        (previousAllowsNewline() ||
+         nextAllowsNewline())) {
+      return next();
+    }
+    return symbol;
+  }
+
+  private boolean previousAllowsNewline()
+  {
+    if (symbol_ == null) return true;
+    final int sym = symbol_.sym;
+    final NewlineCategory category = map_.get(sym);
+    return NewlineCategory.BOTH == category ||
+      NewlineCategory.AFTER == category;
+  }
+
+  private boolean nextAllowsNewline()
+    throws Exception
+  {
+    Symbol next = tokens_.pop();
+    // consecutive NLs are treated the same as a single NL
+    while (next.sym == Sym.NL) {
+      next = tokens_.pop();
+    }
+    final int sym = next.sym;
+    final NewlineCategory category = map_.get(sym);
+    tokens_.push(next);
+    return NewlineCategory.BOTH == category ||
+      NewlineCategory.BEFORE == category;
+  }
+  
+  @Override
+  protected Class&lt;?&gt; getSymbolClass()
+  {
+    return Sym.class;
+  }
+
+}
+</parser>

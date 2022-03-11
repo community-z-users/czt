@@ -1,0 +1,301 @@
+\section{Type Inference and Unification}
+\label{inference}
+
+In this section, we present two algorithms for type unification in
+Object-Z. These algorithms are used in our typechecker to detect
+inconsistencies between types, and to infer types of expressions and
+declarations. Abstractly, the unification of class types is checking
+that the sets of object identities in the two types are compatible,
+meanwhile unifying the types contained in those identities. The first
+unification algorithm is based around the notion of {\em weak
+unification}, while the second is based around the notion of {\em
+strong unification}.
+
+\subsection{Weak Type Unification}
+
+The first unification algorithm is based around the notion of {\em
+  weak unification}. To explain this, we use some  examples. Take the
+  following declarations.
+
+\begin{axdef}
+  a : \poly A; b : B
+\where
+  a = b
+\end{axdef}
+
+In this example, if $B$ is neither a direct nor indirect a subclass of
+$A$, then the predicate $a=b$ is ill-typed, because the types of $a$
+and $b$ come from different subtrees of the inheritance
+hierarchy. However, if $B$ is a subclass of $A$, such that the
+expression $\poly A$ is well-typed , then the predicate $a=b$ is
+well-typed, even though it is possible that $a \in A$, and therefore
+the identities of $a$ and $b$ come from different classes. Checking
+the compatible of two class types is therefore checking whether the
+two sets of object identities in the types intersect.
+
+One non-trivial aspect of the Z (and therefore Object-Z) type systems
+is that all generic parameters must be instantiated with a type,
+either explicitly by the specifier, or implicitly by the
+typechecker. If there is not enough information for the typechecker to
+infer a type for the parameters, the specification is ill-typed. Toyn
+et al.\ \cite{toyn00} discuss type inferencing for Z specifications
+via several carefully crafted examples. However, Object-Z presents
+problems with instantiation of generic types that are not found in
+Z. First, take the following definition.
+
+\begin{zed}
+ G[X] == X
+\end{zed}
+
+This introduces, into the typing environment, the declaration $G : [X]
+\power$ {\tt GENTYPE} $X$.
+Now, we refer to $G$ in a predicate without explicitly instantiating
+its parameters.
+
+\begin{axdef}
+  g_1 : G
+\where
+  g_1 = 1
+\end{axdef}
+
+
+Thus, at the point of referencing $G$, the typechecker cannot
+determine a type with which to instantiate the generic parameter type
+{\tt GENTYPE} $X$, so it will instantiate it with a {\em variable
+type}, say $\alpha_1$. A variable type is not a type itself, but a
+placeholder for a type. The value of a variable type can be another
+variable type. After evaluating the declaration $g : G$, $g$ will be
+introduced into the typing environment with the type $\alpha_1$.  The
+typechecker then evaluates the predicate $g = 1$, it will unify the
+type of $g$ with the type of $1$. Therefore, it will unify $\alpha_1$
+with {\tt GIVEN} $\arithmos$, which will give $g$ the type {\tt GIVEN}
+$\arithmos$, and will in turn instantiate the parameters of the
+reference to $G$ with {\tt GIVEN} $\arithmos$\footnote{We assume the
+use of a pointer-like system in which $\alpha_1$ in the type of $g$ is
+the same as $\alpha_1$ in the type of $G$, so an update in one will be
+reflected in the other.}.
+
+For class types, however, the inference is not so straightforward.
+Consider another example using $G$ without explicitly instantiating
+its parameters.
+
+\begin{axdef}
+  g_2 : G; a : A; b : B
+\where
+  g_2 \neq a \land g_2 \neq b
+\end{axdef}
+
+In this example, $A$ and $B$ are introduced by two unrelated class
+paragraphs (by unrelated, we mean neither inherits the other).  The
+typechecker attempts to find the minimal type that satisfies the
+predicate $ g_2 \neq a \land g_2 \neq b$. That type is $ClassUnionType
+\{A, B\}$. Therefore, when the typechecker evaluates $g_2 \neq a$, the
+variable type $\alpha_1$ cannot be unified with the type of $A$,
+otherwise the predicate $g_2 \neq b$ will fail due to the type of
+$g_2$ being $A$ and the type of $b$ being $B$, which are
+incompatible. Therefore, our unification algorithm needs to be more
+clever than standard unification algorithms.
+
+Figure~\ref{weak-unification-algorithm} presents our algorithm for
+weak type unification. In this figure $\alpha$ represents variable
+types, $s$ and $t$ represent types, $p$ and $q$ represent schema
+signatures, $m$ and $n$ represent names, and $c$ and $d$ represent
+$ClassRef$s. Number subscripts are appended to these names to indicate
+different variables. That is, $\alpha_1$ and $\alpha_2$ are distinct
+variable types. We use the format $s = Type(s_1, \ldots, s_m)$ to
+indicate that $s$ is of type $Type$ containing children $s_1, \ldots,
+s_m$. For example, $s = PowerType~s_1$ says that $s$ is a power type
+of the type $s_1$. $s = ClassType \{c_1, \ldots, c_m\}$ indicates that
+$s$ is a class type with class references $c_1, \ldots, c_m$. By class
+references, we mean the state variable $classRef$ in the class
+$ClassSignature$ in Figure~\ref{ClassType.fig}. $TypeVar$ and
+$ClassTypeVar$ refer to variable types and {\em variable class types}
+respectively. A variable class type is similar to a variable type,
+except it is a placeholder for a class type only.
+
+\begin{figure}
+\input{fig/weak-unification}
+\caption{Weak Unification Algorithm}
+\label{weak-unification-algorithm}
+\end{figure}
+
+%\begin{figure}
+%\input{fig/schema-unification}
+%\caption{Unification Algorithm for Schema Signatures}
+%\label{schema-unification-algorithm}
+%\end{figure}
+
+This algorithm is quite different to other type unification
+algorithms, such as Spivey and Sufrin's algorithm for unifying Z
+types \cite{spivey90}. Unification of the Z types resembles other
+unification algorithms, in which unification of atoms is successful if
+the atoms are equal, unification of terms is successful if the
+function symbol, for example $PowerType$, is the same, and the
+parameters can be unified, and unification of a variable with a term
+succeeds provides that variable does not occur in the term. The
+function $UnifySignature$, referenced on
+line~\ref{alg:unify-signature}, is not shown, but this is a
+straightforward comparison of two signatures to check that both
+contain the same names with unifiable types. We assume the use of a
+pointer-like system in the assignment of a type to a variable will be
+reflected in other types that use that variable. Therefore, if
+unification succeeds, parameters $s$ and $t$ are both the most general
+unifier.
+
+Class type unification is quite different. For starters, it is not
+strictly unification, as we unify only parts of each of the types. For
+example, calling $Unify$ with arguments $ClassUnionType \{A,
+B[\alpha_1]\}$ and $ClassUnionType \{B[${\tt GIVEN} $\arithmos], C\}$
+will succeed, with $\alpha_1$ assigned the value {\tt GIVEN}
+$\arithmos$. However, the unification is only performed in the class
+references with common names.
+
+Stepping through the algorithm, we first examine the case of two
+ground (containing no variable types) class types, which is handled in
+between lines \ref{alg:state-ground-class-types} and
+\ref{alg:end-ground-class-types} of
+Figure~\ref{weak-unification-algorithm}. Recall that compatible class
+types are those who object identities intersect. This part of the
+algorithm checks this property. It does so by comparing the names of
+the class references in each type. If there is no common names, the
+types do not match, and unification fails (line
+\ref{alg:end-ground-class-types}). Otherwise, the algorithm unifies
+the types of the generic parameters of each class reference, which
+will fail if any are incompatible. If any of generic parameters have
+not been explicitly instantiated, that is, their types are variables,
+then the unification algorithm will unify them not only in the class
+reference set, but also in any other features from the class
+signature, such as the state signature, because any reference to a
+generic parameter will be replaced with the same variable type as any
+other reference to that parameter. Therefore, the types of other class
+features such as state variables need not be explicitly unified.
+
+Now, we look at the handling of variable types --- lines
+\ref{alg:start-variable-types} to
+\ref{alg:end-variable-types}. Without line \ref{alg:empty-class-type},
+this unification is much like others. If $\alpha$ occurs in type $t$,
+which means that we have encountered a cyclic type, then the algorithm
+fails. Otherwise, the type $t$ is assigned to the $\alpha$, unless
+they are the same variable type ($\alpha = t$), then nothing
+happens. Line \ref{alg:empty-class-type} is introduced to handle the
+case when a class type is unified with a variable type. Recall the
+example earlier in this section in which a reference to the generic
+definition $G$ required implicit instantiation, and the resulting type
+is $ClassUnionType \{A, B\}$. In this case, when the predicate $g_2
+\neq a$ is encountered, the typechecker will call $Unify(\alpha_1,
+ClassType\{A\})$. Assigning $ClassType\{A\}$ to $\alpha_1$ is not
+possible, because when $g_2 \neq b$ is encountered, the unification
+will fail (the class references to not intersect). Instead, we assign
+to $\alpha_1$ the variable class type $ClassTypeVar~t$, in which
+$t$ is the {\em candidate type}.
+
+Now, we move to handling of variable class types --- lines
+\ref{alg:start-var-class-types} to \ref{alg:end-var-class-types}. The
+binary relation $\approx_{c}$ over two class types holds if and
+only if the signatures of those two types are compatible. That is, the
+types of commonly named features unify. The binary function
+$\cup_{c}$ represents the union of two class types. The first
+branch in this block deals with the case that two class variable types
+are unified.  If the signatures of the two candidate types are
+compatible, then the candidate types, $s_1$ and $t_1$, are unioned, and
+both class variable types are the same; otherwise the unification
+fails. The second branch in this block deals with the case that a
+variable class type is unified with a ground class type. If the
+signatures of the candidate type in the variable class type and the
+ground class type are compatible, then the candidate type is unioned
+with the class type; otherwise the unification fails.
+
+From this algorithm, one can see that the minimal class type that
+satisfies a specification such as our example above is found by
+gathering all possible candidate types to which an object can belong,
+and creating a class union from them. Until one candidate type is
+found, the type is a variable type. When a candidate type is found,
+any subsequent candidates must be compatible with the existing
+candidate type. The compatibility of two ground class types is checked
+using the names and parameter instantiations of their class
+references, which represents a check that their object identities
+intersect.
+
+Once a paragraph has been typechecked, the typechecker returns to
+evaluate expressions whose type was initially a variable type to
+ensure that the type is fully determined, raising an error if it is
+not. Similarly, it returns to expressions whose type is a variable
+class type, and uses the candidate type as the actual type.
+
+\subsection{Strong Type Consistency}
+
+The second unification algorithm is based around the notion of {\em
+  strong unification}. To explain this, we again turn to an
+  example. Z type rules specify that for a declaration, $v : E$, $E$
+  must be a set; therefore, the type of $E$ must be power type. To
+  typecheck this, the CZT typechecker will get the type of $E$, and
+  check that it unifies with the type $\power \alpha_1$, in which
+  $\alpha_1$ is a fresh variable type. If the unification fails, $E$
+  is not a set, and the typechecker raises an error. If the
+  unification succeeds, the type assigned to $\alpha_1$ (which may
+  still be $\alpha_1$ or another variable type) becomes the type of
+  $v$ in the typing environment. Now, consider the paragraph.
+
+\begin{axdef}
+ a : A\\
+ b : B
+\where
+ a = b
+\end{axdef}
+
+In this example, $A$ and $B$ are unrelated classes. If we use the weak
+ unification algorithm, after evaluating the two declarations, the
+ types of $a$ and $b$ will be variable class types, because the
+ assignment statement on line \ref{alg:empty-class-type} will be
+ executed. When the predicate $a=b$ is evaluated, the candidate types
+ in these, $A$ and $B$ respectively, will be unioned, and the final
+ type of both $a$ and $b$ will be $ClassUnionType \{A, B\}$. However,
+ this is not the correct inference. In fact, the typechecker should
+ raise an error for the predicate $a=b$, because these classes are
+ incompatible. Therefore, declarations and several other types of
+ Z/Object-Z structures must be handled differently. For these cases,
+ we use strong unification.
+
+ For strong unification, there are three changes to the algorithm in
+ Figure~\ref{weak-unification-algorithm}. Firstly, when we attempt to
+ unify a variable type with a class type, the variable is assigned the
+ value of the class type. Therefore, line \ref{alg:empty-class-type}
+ is removed from the algorithm, so that the declaration $a:A$ from
+ above will infer the type of $a$ as $ClassRefType\{A\}$.  Secondly,
+ there are no variable class types (these essentially become just
+ variable types), so lines \ref{alg:start-var-class-types} to
+ \ref{alg:end-var-class-types} are removed. Thirdly, the unification
+ of two ground class types is different. Rather than checking that the
+ class references intersect, they must be equal; that is, the same
+ class reference names with unifiable types.
+
+ Strong unification can also be used to give a tighter check on
+ specifications. For example, if we have $a \in \poly A$ and $b \in
+ B$, in which $B$ inherits $A$, then the predicate $a=b$ can be a
+ possible downcast. That is, it is possible that $a \in A$ and $b \in
+ B$, so we are comparing two incompatible types. The CZT typechecker
+ provides a switch which allows strong unification to be used at all
+ times, not just on declarations and other expressions that require
+ strong unification, therefore reporting the $a=b$ is ill-typed. Many
+ Object-Z specifications that we have used seen in literature and run
+ through the CZT typechecker have successfully typechecked using
+ strong unification.
+
+\subsection{Termination, Correctness, and Completeness}
+
+We have done proofs that our algorithms terminate, are complete
+and are correct. Termination is straightforward to prove. Types are
+represented using finite, directed tree structure, with the {\em
+occurs} check in the unification algorithm preventing cycles. Each
+case in the algorithm either halts immediately, either failing or
+succeeding, or recursively calls $Unify$ on the child nodes of the
+current types, for which the depth of the tree must be less than the
+parent.
+
+Proving correctness and completeness is done using induction on any
+recursive calls to $Unify$.  Proofs for the Z types and for the ground
+class types are straightforward, as those parts of the algorithm
+resemble generic unification algorithms. For these, we prove each case
+(each top-level branch block in the algorithm) separately. Proofs for
+the cases involving variable class types require more discussion than
+other cases, but are still straightforward to prove.

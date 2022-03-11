@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2004, 2005, Tim Miller
+     Copyright (C) 2004, 2005, 2007 Petra Malik
+     This file is part of the czt project.
+     
+     The czt project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+     
+     The czt project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+     
+     You should have received a copy of the GNU General Public License
+     along with czt; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+     -->
+
+<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
+package <package/>;
+
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Stack;
+
+import java_cup.runtime.Symbol;
+import net.sourceforge.czt.parser.util.CztScannerImpl;
+import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.LocInt;
+import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.InStroke;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.NextStroke;
+import net.sourceforge.czt.z.ast.NumStroke;
+import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.ZStrokeList;
+
+
+/**
+ * &lt;p&gt;This is a keyword lexer (part of context-sensitive lexis) for
+<add:z> * Z</add:z>
+<add:oz> * Object Z</add:oz>
+<add:circus> * Circus </add:circus>
+<add:circustime> * CircusTime </add:circustime>
+<add:circustime> * CircusConf </add:circustime>
+<add:tcoz> and TCOZ</add:tcoz>
+ * specifications in unicode format.&lt;/p&gt;
+ *
+ * &lt;p&gt;According to the ISO Standard for Z, the lexis for Z specifications
+ * consists of two phases: the context-free lexis and the context-sensitive
+ * lexis.  This class is an implementation of sections 7.4.2 and 7.4.3
+ * of the ISO Z standard, which describes the context-sensitive lexis.
+ * &lt;/p&gt;
+ * 
+ * &lt;p&gt;This class transforms a stream of tokens into another stream of
+ * tokens.  The input is usually provided by the {@link ContextFreeScanner}.
+ * Each DECORWORD token whose spelling is exactly that of a keyword is mapped
+ * to the corresponding keyword token.  All other tokens are left unchanged.
+ * &lt;/p&gt;
+ */
+public class KeywordScanner
+  extends CztScannerImpl
+{
+  private ContextFreeScanner scanner_;
+  private static Map &lt;String, Integer&gt; keywords_ = createKeywordMap();
+  private Stack&lt;Symbol&gt; tokens_ = new Stack&lt;Symbol&gt;();
+  
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  static final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+  
+  public KeywordScanner(ContextFreeScanner scanner, Properties properties)
+  {
+    super(properties);
+    if (scanner == null) throw new NullPointerException();
+    scanner_ = scanner;
+    assert dialect_ !=null;
+    if (!dialect_.equals(scanner_.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in KeywordScanner. " + dialect_.toString() +
+    		" expected, but ContextFreeScanner dialect " + scanner_.getDialect() + " found.");    
+  }
+  
+  @Override
+  public Dialect getDialect()
+  {
+  	assert scanner_.getDialect().isExtensionOf(dialect_) :
+  		   "dialect_ = " + dialect_ + "; scanner.dialect = " + scanner_.getDialect(); 
+	return scanner_.getDialect();
+  }
+
+  private static Map &lt;String, Integer&gt; createKeywordMap()
+  {
+    Map &lt;String, Integer&gt; result = new HashMap&lt;String, Integer&gt;();
+
+    /* Adds all Z Standard keyword tokens */
+    addKeywords(result, net.sourceforge.czt.parser.z.ZKeyword.values());
+
+<add:pattern>
+    /* Adds all Z pattern keyword tokens */
+    addKeywords(result, net.sourceforge.czt.parser.zpatt.ZPattKeyword.values());
+</add:pattern>
+
+<add:oz>
+    /* Adds all Object-Z keyword tokens */
+    addKeywords(result, net.sourceforge.czt.parser.oz.OzKeyword.values());
+</add:oz>
+
+<add:tcoz>
+    /* Adds all Tcoz keyword tokens */
+    addKeywords(result, net.sourceforge.czt.parser.tcoz.TcozKeyword.values());
+</add:tcoz>
+
+<add:circus>
+    /* Adds all Circus keyword tokens */
+    addKeywords(result, net.sourceforge.czt.parser.circus.CircusKeyword.values());
+</add:circus>
+
+<add:circustime>
+    /* Adds all Circus keyword tokens */
+    addKeywords(result, net.sourceforge.czt.parser.circustime.CircusTimeKeyword.values());
+</add:circustime>
+<add:circusconf>
+    /* Adds all Circus keyword tokens = none yet*/
+    //addKeywords(result, net.sourceforge.czt.parser.circusconf.CircusConfKeyword.values());
+</add:circusconf>
+
+<add:zeves>
+    /* Technically proof words are not keywords, since they can appear in the
+     * user specification, albeit that's rare. This is easily achieved in Z/EVES
+     * because the underlying markup is XML and the parser separates the two kinds
+     * when showing it to the user (and it appears in different fonts for that effect).
+     * In CZT this is a bit of a problem given the premasy of UNICODE. We kept them
+     * as Keywords for now (e.g., user cannot have them in the spec). This is also
+     * important to differentiate the parser productions more easily and without 
+     * conflicts.
+     *
+     */
+    addKeywords(result, ZEvesProofKeyword.values());
+</add:zeves>
+
+<add:circuspatt>
+    /* Adds all Circus pattern keyword tokens */
+    addKeywords(result, CircusPattKeyword.values());
+</add:circuspatt>
+    return result;
+  }
+  
+  private static void addKeywords(Map &lt;String, Integer&gt; result, Token[] keywords) {
+    for (Token keyword : keywords) {
+      final Integer symbol = SymMap.getMap().get(keyword.toString());
+      if (symbol == null) {
+        final String message = "Cannot map keyword " + keyword +
+          " to a parser token of " + dialect_.toString() + " in KeywordScanner.";
+        throw new CztException(message);
+      }
+      addKeyword(result, keyword.spelling(), symbol);
+    }
+  }
+
+  private static Map&lt;Object, String&gt; symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+
+  /**
+   * &lt;p&gt;
+   * Maps the given keyword string with a specific &lt;code&gt;Symbol&lt;/code&gt;
+   * by including it into the &lt;code&gt;keyword_&lt;/code&gt; map. 
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * If a previous mapping to same keyword already exists, a warning message is given.
+   * It is useful while debugging the parsers/scanners to ensure that the Unicode
+   * symbols used are indeed unique.
+   * &lt;/p&gt;
+   */
+  private static void addKeyword(Map &lt;String, Integer&gt; map,
+                                 String keyword,
+                                 int symbol) {
+    Integer old = map.put(keyword, Integer.valueOf(symbol));        
+    if (old != null) {
+      final String logMessage = java.text.MessageFormat.format(
+        "Invalid keyoword mapping [{0} -> {1}] for {3} in KeywordScanner. The keyword '{0}' has already been mapped to token {2}.",
+        keyword, symbolMap_.get(symbol), symbolMap_.get(old), dialect_.toString());
+      CztLogger.getLogger(KeywordScanner.class).severe(logMessage);
+    }
+  }
+
+  private Symbol toToken(Stroke stroke, int left, int right)
+  {
+    if (stroke instanceof InStroke) {
+      return new Symbol(Sym.INSTROKE, left, right);
+    }
+    else if (stroke instanceof OutStroke) {
+      return new Symbol(Sym.OUTSTROKE, left, right);
+    }
+    else if (stroke instanceof NextStroke) {
+      return new Symbol(Sym.NEXTSTROKE, left, right);
+    }
+    else if (stroke instanceof NumStroke) {
+      NumStroke numStroke = (NumStroke) stroke;
+      LocAnn locAnn = (LocAnn) stroke.getAnn(LocAnn.class);
+      LocInt locInt = new LocInt(numStroke.getDigit().getValue(), new LocInfoImpl(getDialect(), locAnn));
+      return new Symbol(Sym.NUMSTROKE, left, right, locInt);
+    }
+    else {
+      throw new CztException("Unexpected stroke for " + getDialect().toString() + " in KeywordScanner.");
+    }
+  }
+
+  public Symbol next_token()
+    throws IOException
+  {
+    if (! tokens_.empty()) return tokens_.pop();
+    Symbol symbol = scanner_.next_token();
+    logSymbol(symbol);
+    if (symbol.sym == Sym.DECORWORD <add:zeves> || symbol.sym == Sym.PROOFWORD </add:zeves>
+    ) {
+      Decorword decorword = (Decorword) symbol.value;
+      if ("".equals(decorword.getWord())) {
+        ZStrokeList strokes = decorword.getStrokes();
+        assert strokes.size() > 0;
+        for (int i = strokes.size() - 1; i > 0; i--) {
+          tokens_.push(toToken(strokes.get(i), symbol.left, symbol.right));
+        }
+        return toToken(strokes.get(0), symbol.left, symbol.right);
+      }
+      String value = decorword.getName();
+      Integer token = (Integer) keywords_.get(value);
+      if (token != null) {
+        logFormatted("{0}: decorword {1} -> {2} named as {3} for {4} dialect.",
+            getClass().getName(), 
+            value, 
+            token, 
+            getSymbolMap().get(token),
+            getDialect().toString());
+        return new Symbol(token.intValue(),
+                          symbol.left, symbol.right,
+                          decorword.getLocation());
+      }
+    }
+    return symbol;
+  }
+
+  @Override
+  protected Class&lt;?&gt; getSymbolClass()
+  {
+    return Sym.class;
+  }
+}
+</scanner>

@@ -1,0 +1,1 @@
+* rename_indexed_process.tex - commented the case for addImplicit channels, which isn't working yet

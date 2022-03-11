@@ -1,0 +1,178 @@
+\documentclass{article}
+\usepackage{oz}
+\newcommand{\negate}{-}
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+\title{CZT Tests for Binding and Schema Operations}
+\author{Mark Utting \\ \texttt{marku@cs.waikato.ac.nz}}
+\begin{document}
+\maketitle
+
+Each conjecture should evaluate to True.
+However, those conjectures whose right-hand-size contains
+the constant undefnum should have an undefined left-hand-side.
+
+\begin{axdef}
+  undefnum : \num
+\end{axdef}
+
+\section{Testing Explicit Bindings}
+
+Test equality of bindings.
+\begin{zed}\vdash? \lblot\rblot= \lblot\rblot\end{zed}
+\begin{zed}\vdash? \lblot a==1\rblot= \lblot a==1\rblot\end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2\rblot= \lblot a==1,b==2\rblot\end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2\rblot\neq \lblot a==1,b==3\rblot\end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2\rblot= \lblot b==2,a==1\rblot\end{zed}
+\begin{zed}\vdash? \forall a==2 @ \lblot a==1,b==2 \rblot = \lblot a==1,b==a\rblot\end{zed}
+\begin{zed}\vdash? \forall a==1 @ \lblot a==1,b==2 \rblot \neq \lblot a==1,b==a\rblot\end{zed}
+
+Test selection of fields within bindings.
+\begin{zed}\vdash? \lblot a==1,b==2,c==3 \rblot.a = 1 \end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2,c==3 \rblot.b = 2 \end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2,c==3 \rblot.c = 3 \end{zed}
+
+Membership/equality with schemas (sets of bindings).
+\begin{zed}\vdash? \lblot a==1,b==2 \rblot \in [a,b:1 \upto 3 | a < b]\end{zed}
+\begin{zed}\vdash?\{\lblot a==1,b==2 \rblot\} = [a,b:1 \upto 2 | a < b]\end{zed}
+
+
+\section{Testing finite schemas...}
+
+Note that this is a `dishonest' schema, because the type of $out!$
+means that values of $3 \upto 7$ are excluded from $\pre A$.
+\begin{schema}{A}
+  x,x' : 0 \upto 10 \\
+  out! : 0 \upto 20
+\where
+  x + x' = 10 \\
+  out! = x * x'
+\end{schema}
+
+Schemas A2 and A3 are equivalent to the precondition of schema A.
+\begin{zed}
+  A2 == [x : 0 \upto 10 | (\exists out!:0 \upto 20 @ out! = x * (10-x))]
+\\
+  A3 == [x : \{0,1,2,8,9,10\}]
+\\
+  preA == \pre A
+\\
+  preA2 == \pre A2
+\end{zed}
+
+Test unfolding of schema A and various schema operators.
+\begin{zed} \vdash? 
+  \# A = 6
+\end{zed}
+\begin{zed} \vdash? 
+  [A | x=2] = \{\lblot x==2,x'==8,out!==16 \rblot\}
+\end{zed}
+\begin{zed} \vdash? 
+  (A \land [x:\{2\}]) = \{\lblot x==2,x'==8,out!==16 \rblot\}
+\end{zed}
+\begin{zed} \vdash? 
+  [A~' | x''=2] = \{\lblot x''==2,x'==8,out!'==16 \rblot\}
+\end{zed}
+\begin{zed} \vdash? 
+  A \semi [x : \{8\}; x'==5] = \{\lblot x==2,x'==5,out!==16 \rblot\}
+\end{zed}
+\begin{zed} \vdash? 
+  [x==5;x'==1] \semi A  =  \{\lblot x==5,x'==8,out!==16 \rblot\}
+\end{zed}
+
+Test use of schema A within quantifiers.
+\begin{zed} \vdash? (\exists A @ out!=16) \end{zed}
+\begin{zed} \vdash? \lnot (\exists A @ out!=15) \end{zed}
+\begin{zed} \vdash? (\forall A @ out! \neq 15) \end{zed}
+\begin{zed} \vdash? (\exists_1 A @ out!=16) \end{zed}
+
+Test use of schema A as a predicate.
+\begin{zed} \vdash?
+  (\exists x,x',out! : 0 \upto 10 @ A \land x=1)
+\end{zed}
+\begin{zed} \vdash?
+  \lnot (\exists x,x',out! : 0 \upto 10 @ x=2 \land A)
+\end{zed}
+
+Test the precondition of schema A.
+\begin{zed} \vdash? preA = A3 \end{zed}
+\begin{zed} \vdash? preA2 = A3 \end{zed}
+\begin{zed} \vdash? preA = preA2 \end{zed}
+
+\begin{zed} \vdash? (\forall x : 0 \upto 20 @ \pre A \iff A2) \end{zed}
+
+\section{One-point tests}
+\begin{zed}
+  OnePoint1 == [x : \nat | (\exists   f:\nat | f=x+1 @ f=10)] \\
+  OnePoint2 == [x : \nat | (\exists_1 f:\nat | f=x+1 @ f=10)] \\
+  OnePoint3 == [x : \nat | (\forall   f:\nat | f=x+1 @ f=10)] \\
+  OnePoint4 == [x : \nat | (\forall f: 2 \upto 2 @
+                               (\exists g:\nat | f=g @ g=x)) ] \\
+  OnePoint5 == [x : \nat | (\exists f: 2 \upto 4 @
+                               (\forall g:\nat | f=g @ g=x)) ]
+\end{zed}
+
+\begin{zed} \vdash? \# OnePoint1 = 1 \end{zed}
+\begin{zed} \vdash? \# OnePoint2 = 1 \end{zed}
+TODO: enable this when we have DNF normalisation?
+(It cannot use the (x+1 \in \nat \implies x+1=10) conjunct)
+\begin{zed} \vdash? \# OnePoint3 = 1 \end{zed}
+TODO: this one needs pre-evaluation of the type 2..2
+\begin{zed} \vdash? \# OnePoint4 = 1 \end{zed}
+TODO: same difficulty as OnePoint3
+\begin{zed} \vdash? \# OnePoint5 = 3 \end{zed}
+
+
+\section{Miscellaneous schema challenges}
+
+\begin{schema}{Test1}
+  a,a':0 \upto 10
+\where
+  (\exists i:\num @ (i,a') \in \{(a,4)\})
+\end{schema}
+
+This test case used to expose a subtle bug in Unfold.hs of Jaza
+until it was fixed.
+\begin{zed} \vdash? \lblot a'==4 \rblot \in [Test1 | a=3] \hide(a) \end{zed}
+
+\begin{schema}{SimpleHeap}
+    items: \seq \nat \\
+    maxsize: \nat \\
+    currsize: \nat
+\where
+    maxsize \geq currsize \\
+    currsize = \#(\ran items)
+\end{schema}
+
+A schema written by Dana that exposed scope errors in the one-point rule 
+of Jaza.
+\begin{schema}{SimpleHeapRemove}
+    offheap!: \nat \\
+    \Delta SimpleHeap \\
+\where
+    currsize > 0 \\
+    \exists i, v : \nat | (i,v) \in items \land v = min~ (\ran items)
+    \t1 @ items' = squash (items \setminus \{(i,v)\}) \land offheap! = v\\ 
+    currsize' = currsize - 1 \\
+    maxsize' = maxsize 
+\end{schema}
+
+This was executable with Jaza after exists were expanded inline within schemas.
+\begin{zed}
+  RemoveTest == [SimpleHeapRemove | maxsize=10 \land items = \langle 2 \rangle]
+\end{zed}
+\begin{zed} \vdash? \# RemoveTest = 1 \end{zed}
+
+
+These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
+\begin{zed}
+  SeqTest  == [s : \seq \nat | (\forall i : \dom s @ i \neq s~i) ] \\
+  UniqSoln == [deref : \seq \nat | deref = \langle 1,3,5,7 \rangle] \\
+  MuTest1  == [SeqTest | s = (\mu UniqSoln).deref] \\
+  MuTest2  == [SeqTest | s = tail (\mu UniqSoln).deref]
+\end{zed}
+\begin{zed} \vdash? \# MuTest1 = 0 \end{zed}
+\begin{zed} \vdash? \# MuTest2 = 1 \end{zed}
+
+\end{document}

@@ -1,0 +1,33 @@
+
+
+\begin{zsection}
+  \SECTION\ dot\_field\_errors \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c: \nat \cross \nat
+\end{circus}
+
+\begin{circus}
+   \circprocess\ DotTestErrors \circdef \circbegin
+\end{circus}
+
+\begin{axdef}
+   n1: \nat
+\end{axdef}
+
+\begin{circusaction}
+   MissingInputPrefixColonParenthesis \circdef c?x \prefixcolon x > 0!n1 \then \Skip
+\end{circusaction}
+
+\begin{circusaction}
+   MissingOutputExpressionParenthesis \circdef c!n1+1?x \then \Skip
+\end{circusaction}
+
+\begin{circusaction}
+    \circspot \Skip
+\end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus}

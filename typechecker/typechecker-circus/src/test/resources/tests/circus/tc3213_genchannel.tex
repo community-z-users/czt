@@ -1,0 +1,17 @@
+
+\begin{zsection}
+  \SECTION\ t3213\_genchannel \parents\ circus\_toolkit
+\end{zsection}
+
+Since $v$ is bound as a communication of $c1$, then it has
+type $v \in \nat$, then that gives its type, hence the implicit
+instantiation for the type of channel $c2$ as $\nat$.
+\begin{circus}
+     \circchannel\ c1: \nat \\
+     \circchannel\ [X] c2: X  
+     \also
+     \circprocess\ P \circdef\ \circbegin \\
+       \t1 A \circdef c1?v \then c2[\nat]!v \then \Skip \\
+     	\t1 \circspot\ c1?v \then c2!v \then \Skip \\	
+     \circend
+\end{circus}

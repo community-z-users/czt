@@ -1,0 +1,19 @@
+\begin{zsection}
+  \SECTION IncompatibleSignatures\_Qnt1Expr\_Vright
+\end{zsection}
+
+This tests that if on the initial visit to a sch expr2, if the right
+signature of the expr is still variable, everything is still handled 
+correctly.
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  rightExpr == g
+\where
+  [z : \nat] \land rightExpr\\
+  rightExpr = [z : \power \nat]\\
+\end{axdef}
+

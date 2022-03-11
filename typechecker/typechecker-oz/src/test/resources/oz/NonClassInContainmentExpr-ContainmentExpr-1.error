@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonRefInContainmentExpr\_ContainmentExpr\_1 \parents oz\_toolkit
+\end{zsection}
+
+\begin{axdef}
+  x : \nat\copyright
+\end{axdef}

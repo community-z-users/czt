@@ -1,0 +1,14 @@
+\begin{zsection}
+ \SECTION GenericType\_In\_ThetaExpr
+\end{zsection}
+
+\begin{schema}{S}[X]
+  n : X
+\end{schema}
+
+\begin{gendef}[Y]
+  n : Y\\
+  n' : Y
+\where
+  \theta~S[Y]~ = \theta~S[Y]~'
+\end{gendef}

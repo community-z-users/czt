@@ -1,0 +1,76 @@
+\begin{zsection}
+  \SECTION cs \parents ss
+\end{zsection}
+
+The channel system allows sequential use of the read and write operations.
+
+A channel remembers the current position in the file:
+
+\begin{schema}{CHAN}
+  fid : FID \\
+  posn : \nat
+\end{schema}
+
+\begin{schema}{\Delta CHAN}
+  fid, fid' : FID \\
+  posn, posn' : \nat
+\where
+  fid' = fid
+\end{schema}
+
+\begin{schema}{readCHAN}
+  readSS \\
+  \Delta CHAN
+\where
+  offset? = posn \\
+  posn' = posn + #data!
+\end{schema}
+
+\begin{schema}{writeCHAN}
+  writeSS \\
+  \Delta CHAN
+\where
+  offset? = posn \\
+  posn' = posn + #data?
+\end{schema}
+
+\begin{schema}{seekCHAN}
+  \Delta SS \\
+  \Delta CHAN \\
+  newposn? : \nat
+\where
+  fstore' = fstore \\
+  posn' = newposn?
+\end{schema}
+
+\begin{zed}
+  [CID]
+\end{zed}
+
+\begin{schema}{CS}
+  cstore : CID \pfun CHAN
+\end{schema}
+
+\begin{schema}{InitCS}
+  CS~'
+\where
+  cstore' = \emptyset
+\end{schema}
+
+\begin{schema}{openCS}
+  \Delta CS \\
+  CHAN \\
+  cid! : CID
+\where
+  cid! \notin \dom cstore \\
+  posn = 0 \\
+  cstore' = cstore \oplus \{ cid! \mapsto \theta CHAN \}
+\end{schema}
+
+\begin{schema}{closeCS}
+  \Delta CS \\
+  cid? : CID
+\where
+  cid? \in \dom cstore \\
+  cstore' = \{ cid? \} \ndres cstore
+\end{schema}

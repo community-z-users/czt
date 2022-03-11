@@ -1,0 +1,60 @@
+\documentclass{article}
+
+\usepackage{circus}
+\newenvironment{zsection}{\begin{quotation}}{\end{quotation}}
+
+\begin{document}
+
+\begin{zsection}
+   \SECTION channel\_errors \parents circus\_toolkit
+\end{zsection}
+
+This example shows how the parser handles channel declaration errors.
+Firstly, the $\circchannel$ keyword without a name or with wrong types
+%
+\begin{circus}
+    \circchannel
+\end{circus}
+%
+\begin{cirucs}
+    \circchannelfrom
+\end{cirucs}
+%
+\begin{circus}
+   \circchannel\ c, d \someunknowncmd
+\end{circus}
+%
+\begin{circus}
+   \circchannel\ c, d : \\
+\end{circus}
+%
+\begin{circus}
+   \circchannel\ [X, Y] c, d : \\
+\end{circus}
+
+\begin{circus}
+    \circchannelset
+\end{circus}
+
+\begin{circus}
+    \circchannelset\ C1 \\
+\end{circus}
+
+\begin{circus}
+    \circchannelset\ C2 == \\
+\end{circus}
+\begin{circus}
+    \circchannelset\ [X, Y] C3 ==
+\end{circus}
+
+
+By the way, channels and other process level paragraphs MUST
+be declared within the CIRCUS environment! The declaration
+below is a valid ChannelPara, but it raise an error since it 
+is given within a ZED environment.
+%
+\begin{zed}
+    \circchannel\ x: \nat   
+\end{zed}
+
+\end{document}

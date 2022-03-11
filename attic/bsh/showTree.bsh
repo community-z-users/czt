@@ -1,0 +1,12 @@
+import net.sourceforge.czt.base.ast.Term;
+
+/**
+   Opens a window that shows the given term as a tree.
+*/
+void showTree(Term term)
+{
+  node = new net.sourceforge.czt.base.util.TermTreeNode(-1, term, null);
+  model = new javax.swing.tree.DefaultTreeModel(node);
+  tree = new javax.swing.JTree(model);
+  frame(new JScrollPane(tree));
+}

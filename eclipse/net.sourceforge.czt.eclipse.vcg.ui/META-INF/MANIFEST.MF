@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CZT Verification Condition Generator UI
+Bundle-SymbolicName: net.sourceforge.czt.eclipse.vcg.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin
+Bundle-Vendor: Community Z Tools Project
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime;bundle-version="3.7.0",
+ net.sourceforge.czt.eclipse.core;bundle-version="1.6.0",
+ net.sourceforge.czt.eclipse.ui;bundle-version="1.6.0",
+ org.eclipse.ui.editors,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Import-Package: net.sourceforge.czt.base.ast;version="1.6.0",
+ net.sourceforge.czt.base.visitor;version="1.6.0",
+ net.sourceforge.czt.parser.util;version="1.6.0",
+ net.sourceforge.czt.session;version="1.6.0",
+ net.sourceforge.czt.util;version="1.6.0",
+ net.sourceforge.czt.vcg.util;version="1.6.0",
+ net.sourceforge.czt.vcg.z;version="1.6.0",
+ net.sourceforge.czt.vcg.z.dc;version="1.6.0",
+ net.sourceforge.czt.vcg.z.feasibility;version="1.6.0",
+ net.sourceforge.czt.vcg.z.refinement;version="1.6.0",
+ net.sourceforge.czt.z.ast;version="1.6.0",
+ net.sourceforge.czt.z.util;version="1.6.0",
+ net.sourceforge.czt.z.visitor;version="1.6.0",
+ net.sourceforge.czt.zeves.ast;version="1.6.0",
+ net.sourceforge.czt.zeves.util;version="1.6.0",
+ net.sourceforge.czt.zpatt.util;version="1.6.0"

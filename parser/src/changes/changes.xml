@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+  <properties>
+    <title>Release Notes</title>
+  </properties>
+
+  <body>
+    <release version="1.1" date="unreleased">
+      <action dev="MarkU" type="add">
+        Support for conjecture names in Unicode markup and in AST.
+      </action>
+      <action dev="Petra" type="add">
+        A simple pretty printer for Unicode.
+      </action>
+      <action dev="Petra" type="fix" fixes-bug="1747445">
+        Fix the printers to handle number strokes in decoration
+        expressions correctly.
+      </action>
+      <action type="update">
+        Improve error and warning messages.
+      </action>
+    </release>
+    <release version="1.0" date="July 2007">
+      <action dev="Petra" type="update">
+        Update to ZML 2.1 and the corresponding changes in the AST.
+      </action>
+      <action dev="Petra" type="update">
+        Use the new Unicode characters defined by the Technical
+        Corrigendum 13568/001 of the Z Standard.
+      </action>
+      <action dev="Petra" type="update">
+        Support the theorem environment introduced by the Technical
+        Corrigendum 13568/003 of the Z Standard.
+      </action>
+      <action dev="Petra" type="update">
+        Update the lexis of punctation characters according to the Technical
+        Corrigendum 13568/006 of the Z Standard.
+      </action>
+      <action type="update">
+        Lots of improvements in the way errors and warnings are handled.
+      </action>
+      <action dev="Petra" type="update">
+        Move the different sort of parsers (Z Pattern, Object Z, Circus, etc)
+        into their own subprojects.
+      </action>
+    </release>
+    <release version="0.5" date="July 6, 2006">
+      <action dev="Petra" type="update">
+        Update to ZML 2.0.
+      </action>
+      <action dev="Tim,Petra" type="fix">
+        Improve support for parsing and printing Z pattern, Object Z,
+        and TCOZ.
+      </action>
+      <action dev="Petra" type="add">
+        Improve location annotion information of the AST classes
+        created by the parser.  Now, start character number and length
+        information is, in addition to line and column numbers, also
+        recorded.
+      </action>
+      <action dev="Petra" type="fix">
+        Improve error reporting.
+      </action>
+      <action dev="Petra" type="fix" fixes-bug="1475274">
+        Use BigInteger for Z numerals.
+      </action>
+      <action dev="Tim" type="fix">
+        Corrected the Object-Z grammar so that scope enrichment has a
+        lower precedence than other infix operators.
+      </action>
+      <action dev="Tim" type="fix">
+        Corrected the Object-Z grammar so that any expression can be
+        used as the LHS of an operation promotion.
+      </action>
+      <action dev="Tim" type="fix">
+        Change some rules to improve memory usage for LALR(1) grammar.
+      </action>
+    </release>
+    <release version="0.4" date="September 2, 2005">
+      <action dev="Tim" type="fix">
+        Create operation names from OPNAME symbols using
+        createDeclName(Decorword), so that the strokes are correctly
+        added.
+      </action>
+      <action dev="Tim" type="add">
+        Add parse support for Z pattern and rule language.
+      </action>
+      <action dev="Tim" type="add">
+        Lots of improvements to the 
+        Object-Z and TCOZ parser.
+      </action>
+      <action dev="Petra" type="update">
+        Improve error messages provided by the parser.
+      </action>
+      <action dev="Tim" type="fix" fixes-bug="1234527">
+        Allow parsing of empty schema texts.
+      </action>
+      <action dev="Petra" type="fix" fixes-bug="1200267">
+        Fix the Unicode scanner to return stroke tokens instead of
+        a DECORWORD token when, after separation of trailing subscript digits,
+        the WORD part of the DECORWORD becomes empty.
+      </action>
+      <action dev="Tim" type="fix" fixes-bug="1189143">
+        Fix the parsing of complex applications to schemas.
+      </action>
+      <action dev="Tim" type="fix">
+        Fix the parsing of theta expressions (decorations were being
+        added in reverse order).
+      </action>
+      <action dev="Petra" type="fix">
+        Fix the Unicode printer to print a GENSCH token (instead of a SCH
+        token) when a generic schema definition is printed.
+      </action>
+      <action dev="Tim" type="fix">
+        Change the parser grammer to not accept (optional)
+        formal parameters after a SCH token.
+      </action>
+      <action dev="Tim" type="fix" fixes-bug="1175303">
+        Fix the parser to parse "id? : VID" correctly.
+      </action>
+    </release>
+    <release version="0.3" date="March 17, 2005">
+      <action dev="Petra" type="add">
+        Add support for unicode supplementary characters as it is used by
+        finset and arithmos.
+      </action>
+      <action dev="Petra" type="add">
+        Add a first working version of a section manager
+        (see package net.sourceforge.czt.session)
+        that caches information
+        about Z sections like AST, operator table, etc.
+      </action>
+      <action dev="Petra" type="add">
+        Add support for multiple error messages provided by the parser:
+        The parser now does not throw an exception immediately when an
+        error has been found but tries to recover to collect more error
+        messages.
+      </action>
+      <action dev="Petra" type="add">
+        Add a check to the Parser that tests Z NAMES whether
+        the wordglue charactes SE, SW, NE, NW match and occur only
+        in nested pairs.
+      </action>
+      <action dev="Petra" type="add">
+        Add a check to the Latex to Unicode converter that tests whether
+        \begin and \end command match.
+      </action>
+      <action dev="Petra" type="add">
+        Add some more test cases.
+      </action>
+      <action dev="Tim" type="add">
+        Lots of improvements to the 
+        Object-Z parser.
+      </action>
+      <action dev="Petra" type="fix">
+        Fix the Latex to Unicode converter to allow braces in schema names.
+        Now, "\begin{schema}{S_{1}}" will be converted correctly.
+      </action>
+      <action dev="Petra" type="fix">
+        Fix the SmartScanner so that operator words in declaration lists
+        can now be parsed.
+      </action>
+      <action dev="Tim" type="fix">
+        Implement lookahead to resolve ambiguity between generic
+        instantiation expression and function application with a schema
+        as an argument (see also Z Standard, Note 4 in section 8.4 on page 38).
+      </action>
+      <action dev="Tim" type="fix">
+        Fix a bug in the parser so that set comprehension can now be parsed.
+      </action>
+      <action dev="Petra" type="fix">
+        Fix the LatexParser to provide an error message instead of throwing
+        a NullPointerException when the AST is not available.
+      </action>
+      <action dev="Petra" type="fix">
+        Improve error messages provided by the parser.
+      </action>
+    </release>
+    <release version="0.2" date="September 22, 2004">
+      <action dev="Petra" type="add">
+        Implement a visitor that annotates an AST indicating where braces are
+        needed to enforce the given priority.  This is used by printers
+        that walk over an AST and print one of the markup languages.
+      </action>
+      <action dev="Petra" type="add">
+        Add LocAnn to (AST) terms created in the parser
+        so that other tools can identify the position of the term.
+      </action>
+      <action dev="Petra" type="add">
+        Parse latex markup directives (%%Zchar etc.) and add it into
+        the AST.
+      </action>
+      <action dev="Tim" type="fix">
+        Allow soft newlines after generic parameters.
+      </action>
+      <action dev="Tim" type="fix">
+        Set mixfix in MemPred to false for a membership application in a chain
+        relation.
+      </action>
+      <action dev="Petra" type="fix">
+        Fix the Object Z parser so that it can parse the first simple
+        Object Z examples.
+      </action>
+      <action dev="Petra" type="fix">
+        Fix the CztReader to handle EOF correctly.
+        This closes bug #992029.
+      </action>
+      <action dev="Tim" type="fix">
+        Fix the parser and precedence handling visitor so that
+        the precedence of Cartesian product is handled correctly.
+      </action>
+      <action dev="Mark" type="fix">
+        Modify parser grammar to allow newlines and semicolon within
+        parenthesied predicates.
+      </action>
+      <action dev="Petra" type="fix">
+        Improve the operator table so that the rules from Section 8.3
+        of the Z standard are followed.  This includes checks that
+        a whole operator name is never defined more than once,
+        that operators with the same precedence also have the same
+        associativity, etc.
+      </action>
+      <action dev="Petra" type="fix">
+        Improve error messages in case a parse error occured
+        (compute correct line and column number).
+      </action>
+      <action dev="Mark, Petra" type="fix">
+        Fix the computation of the name of a prefix function like,
+        for instance, cardinality.
+        Now, the parser does not add a leading space to the name of
+        a prefix functions any more.  This closes bug #937623.
+      </action>
+      <action dev="Petra" type="fix">
+        Write XML files using UTF-8 encoding instead of using the
+        locale encoding.  Now the files written when using the
+        command line tools zed2zml and ozed2zml with the -out argument
+        are in UTF-8.
+      </action>
+    </release>
+
+    <release version="0.1" date="April 8, 2004">
+      <action dev="Tim, Petra" type="add" context="admin">
+        Initial Release.
+      </action>
+    </release>
+  </body>
+</document>

@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ZSect>
+        <Anns>
+            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="0" Length="1714" Col="0"/>
+        </Anns>
+        <Name>process_renaming</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Start="58" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="1" Length="15" Col="41"/>
+            </Anns>
+            <Word>circus_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="89" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="2" Length="4" Col="14"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns3:ChannelPara>
+                <Anns>
+                    <LocAnn Start="112" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="5" Col="3"/>
+                </Anns>
+                <ZDeclList>
+                    <ns3:ChannelDecl>
+                        <Anns>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex"/>
+                        </Anns>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="127" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="5" Length="1" Col="18"/>
+                                </Anns>
+                                <Word>X</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="130" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="5" Length="1" Col="21"/>
+                                </Anns>
+                                <Word>g</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <ProdExpr>
+                            <Anns>
+                                <LocAnn Start="133" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="5" Length="13" Col="33"/>
+                            </Anns>
+                            <ZExprList>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="133" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="5" Length="1" Col="24"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="133" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="5" Length="1" Col="24"/>
+                                        </Anns>
+                                        <Word>X</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="142" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="5" Length="4" Col="33"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="142" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="5" Length="4" Col="33"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </ProdExpr>
+                    </ns3:ChannelDecl>
+                </ZDeclList>
+            </ns3:ChannelPara>
+            <ns3:ChannelPara>
+                <Anns>
+                    <LocAnn Start="154" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="6" Length="36" Col="3"/>
+                </Anns>
+                <ZDeclList>
+                    <ns3:ChannelDecl>
+                        <Anns>
+                            <LocAnn Start="168" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="6" Length="22" Col="17"/>
+                        </Anns>
+                        <ZNameList/>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="168" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="6" Length="1" Col="17"/>
+                                </Anns>
+                                <Word>c</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="171" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="6" Length="1" Col="20"/>
+                                </Anns>
+                                <Word>d</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <ProdExpr>
+                            <Anns>
+                                <LocAnn Start="174" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="6" Length="16" Col="35"/>
+                            </Anns>
+                            <ZExprList>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="174" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="6" Length="4" Col="23"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="174" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="6" Length="4" Col="23"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="186" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="6" Length="4" Col="35"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="186" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="6" Length="4" Col="35"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </ProdExpr>
+                    </ns3:ChannelDecl>
+                </ZDeclList>
+            </ns3:ChannelPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="204" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="7" Length="71" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+If the process being renamed is a call, no parenthesis are needed
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="297" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="12" Length="74" Col="3"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="311" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="12" Length="16" Col="17"/>
+                    </Anns>
+                    <Word>RenamingProcess1</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:RenameProcess>
+                    <Anns>
+                        <LocAnn Start="337" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="12" Length="34" Col="43"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="337" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="12" Length="1" Col="43"/>
+                                </Anns>
+                                <Word>A</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:AssignmentPairs>
+                        <Anns>
+                            <LocAnn Start="339" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="12" Length="32" Col="45"/>
+                        </Anns>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="352" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="12" Length="1" Col="58"/>
+                                </Anns>
+                                <Word>c</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <ZExprList>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <Anns>
+                                    <LocAnn Start="357" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="12" Length="1" Col="63"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="357" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="12" Length="1" Col="63"/>
+                                    </Anns>
+                                    <Word>d</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </ZExprList>
+                    </ns3:AssignmentPairs>
+                </ns3:RenameProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="385" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="13" Length="108" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+whereas, if the process being renamed is a compound processes,
+surrounding parenthesis are required.
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="515" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="56" Col="3"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="529" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="16" Col="17"/>
+                    </Anns>
+                    <Word>RenamingProcess2</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:RenameProcess>
+                    <Anns>
+                        <LocAnn Start="555" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="16" Col="43"/>
+                    </Anns>
+                    <ns3:ExtChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="556" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="14" Col="46"/>
+                            <ParenAnn>
+                                <Anns>
+                                    <LocAnn Start="555" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="16" Col="43"/>
+                                </Anns>
+                            </ParenAnn>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="556" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="1" Col="44"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="556" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="1" Col="44"/>
+                                    </Anns>
+                                    <Word>A</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="569" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="1" Col="57"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="569" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="1" Col="57"/>
+                                    </Anns>
+                                    <Word>B</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:ExtChoiceProcess>
+                    <ns3:AssignmentPairs>
+                        <Anns>
+                            <LocAnn Start="572" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="38" Col="60"/>
+                        </Anns>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="585" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="1" Col="73"/>
+                                </Anns>
+                                <Word>c</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <ZExprList>
+                            <RefExpr Mixfix="false" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="590" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="7" Col="78"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="590" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="1" Col="78"/>
+                                    </Anns>
+                                    <Word>g</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="592" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="4" Col="80"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="592" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="4" Col="80"/>
+                                            </Anns>
+                                            <Word>?</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </ZExprList>
+                    </ns3:AssignmentPairs>
+                </ns3:RenameProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="624" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="20" Length="92" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+On the other hand, trying to mix them up can be confusing, as the next example shows.
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="740" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="56" Col="5"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="754" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="16" Col="19"/>
+                    </Anns>
+                    <Word>RenamingProcess3</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:ExtChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="780" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="16" Col="47"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="780" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="1" Col="45"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="780" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="1" Col="45"/>
+                                </Anns>
+                                <Word>A</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:RenameProcess>
+                        <Anns>
+                            <LocAnn Start="793" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="3" Col="58"/>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="794" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="1" Col="59"/>
+                                <ParenAnn>
+                                    <Anns>
+                                        <LocAnn Start="793" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="3" Col="58"/>
+                                    </Anns>
+                                </ParenAnn>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="794" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="1" Col="59"/>
+                                    </Anns>
+                                    <Word>B</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:AssignmentPairs>
+                            <Anns>
+                                <LocAnn Start="797" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="32" Col="62"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="810" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="1" Col="75"/>
+                                    </Anns>
+                                    <Word>c</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <ZExprList>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="815" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="1" Col="80"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="815" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="1" Col="80"/>
+                                        </Anns>
+                                        <Word>d</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </ns3:AssignmentPairs>
+                    </ns3:RenameProcess>
+                </ns3:ExtChoiceProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="843" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="26" Length="646" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+It represents the external choice between A, and process B with channel c renamed to d.
+
+Unfortunately, because of the nature of renaming, with respect to other Circus (and Z)
+constructs (i.e., schema substitution, action substitution, etc), the grammar becomes
+very tricky to normalise without conflicts. Thus, even with precedences being used
+(i.e., renaming being the strongest), the following example fails to parse
+\[
+     \circprocess\ RenamingProcess4 \circdef A \extchoice B \lcircrename c := d \rcircrename
+\]
+
+Renaming also works for processes with generic actuals themselves.
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="1513" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="80" Col="5"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="1527" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="16" Col="19"/>
+                    </Anns>
+                    <Word>RenamingProcess5</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:RenameProcess>
+                    <Anns>
+                        <LocAnn Start="1553" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="40" Col="45"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="1553" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="1" Col="45"/>
+                                </Anns>
+                                <Word>A</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="1554" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="6" Col="46"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="1555" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="4" Col="47"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="1555" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="4" Col="47"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:AssignmentPairs>
+                        <Anns>
+                            <LocAnn Start="1561" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="32" Col="53"/>
+                        </Anns>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="1574" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="1" Col="66"/>
+                                </Anns>
+                                <Word>c</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <ZExprList>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <Anns>
+                                    <LocAnn Start="1579" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="1" Col="71"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1579" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="1" Col="71"/>
+                                    </Anns>
+                                    <Word>d</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </ZExprList>
+                    </ns3:AssignmentPairs>
+                </ns3:RenameProcess>
+            </ns3:ProcessPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="1603" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="62" Col="5"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="1617" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="16" Col="19"/>
+                    </Anns>
+                    <Word>RenamingProcess6</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:ExtChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="1643" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="22" Col="47"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="1643" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="1" Col="45"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="1643" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="1" Col="45"/>
+                                </Anns>
+                                <Word>B</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:RenameProcess>
+                        <Anns>
+                            <LocAnn Start="1656" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="9" Col="58"/>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="1657" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="1" Col="59"/>
+                                <ParenAnn>
+                                    <Anns>
+                                        <LocAnn Start="1656" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="9" Col="58"/>
+                                    </Anns>
+                                </ParenAnn>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="true">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1657" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="1" Col="59"/>
+                                    </Anns>
+                                    <Word>A</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <Anns>
+                                        <LocAnn Start="1658" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="6" Col="60"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="1659" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="4" Col="61"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1659" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="4" Col="61"/>
+                                            </Anns>
+                                            <Word>?</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:AssignmentPairs>
+                            <Anns>
+                                <LocAnn Start="1666" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="32" Col="68"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1679" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="1" Col="81"/>
+                                    </Anns>
+                                    <Word>c</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <ZExprList>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="1684" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="1" Col="86"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="1684" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="1" Col="86"/>
+                                        </Anns>
+                                        <Word>d</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </ns3:AssignmentPairs>
+                    </ns3:RenameProcess>
+                </ns3:ExtChoiceProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="1712" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="46" Length="2" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+</Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>

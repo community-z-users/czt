@@ -1,0 +1,9 @@
+─ section simpleUtf parents standard_toolkit
+└
+
+├ TestUnicode
+simplify;
+reduce;
+└
+
+├ TestWith with enabled ( A , B , C ,  _ ↔ _  , _fun_ ) rewrite ; └

@@ -1,0 +1,27 @@
+\begin{zsection}
+  \SECTION ExprPred
+\end{zsection}
+
+\begin{zed}
+  S1 == [x : \nat; y : \power \nat]
+\end{zed}
+
+\begin{axdef}
+  y : \power \nat
+\where
+  \exists x : y @ S1
+\end{axdef}
+
+Test the case when the variable types in the signature are not fully
+resolved.
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  z == g
+\where
+  (\exists x : \nat; y : \power \nat @ z)\\
+  z = S1
+\end{axdef}

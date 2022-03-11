@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Getting started">
+  <topic label="Creating a CZT project" href="target/generated-docs/getting-started/create-project.html"/>
+  <topic label="Creating a Z specification" href="target/generated-docs/getting-started/create-spec.html"/>
+  <topic label="Syntax coloring" href="target/generated-docs/getting-started/syntax-coloring.html"/>
+  <topic label="Identifying problems in specifications" href="target/generated-docs/getting-started/identify-problem.html"/>
+  <topic label="Navigating to Z name declarations" href="target/generated-docs/getting-started/go-to-declaration.html"/>
+  <topic label="Highlighting terms" href="target/generated-docs/getting-started/highlight-term.html"/>
+</toc>

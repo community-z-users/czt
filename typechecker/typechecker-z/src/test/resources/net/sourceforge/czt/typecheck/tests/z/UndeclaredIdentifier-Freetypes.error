@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION UndeclaredIdentifier\_Freetypes
+\end{zsection}
+
+\begin{zed}
+  A ::= a | aa \ldata \{b\} \rdata &
+  B ::= b | bb \ldata A \rdata
+\end{zed} 

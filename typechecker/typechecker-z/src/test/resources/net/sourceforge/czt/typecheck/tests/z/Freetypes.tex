@@ -1,0 +1,24 @@
+\begin{zsection}
+  \SECTION Freetypes
+\end{zsection}
+
+\begin{zed}
+  A ::= a | aa \ldata B \rdata &
+  B ::= b | bb \ldata A \rdata
+\end{zed}
+
+\begin{schema}{T}[X]
+  x:X
+\end{schema} 
+
+\begin{zed}
+  D ::= d \ldata T[D] \rdata
+\end{zed}
+
+\begin{zed}
+  \vdash? \exists test\_a : \power A; test\_b : \power B @
+     test\_a = A \land
+     test\_b = B
+\end{zed}
+\begin{zed} \vdash? aa \in \power (B \cross A) \end{zed}
+\begin{zed} \vdash? bb \in \power (A \cross B) \end{zed}

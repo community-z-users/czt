@@ -1,0 +1,49 @@
+\begin{zsection}
+  \SECTION\ dot\_field\_singleenv \parents\ circus\_toolkit
+\end{zsection}
+\begin{circus}
+   \circchannel\ c: \nat \cross \nat \cross \nat \cross \nat
+\end{circus}
+
+\begin{axdef}
+   n1, n2: \nat \\
+   x?, y!, z?: \nat
+\end{axdef}
+
+\begin{axdef}
+   f : \nat \fun \nat \cross \nat
+\end{axdef}
+
+\begin{zed}
+   S == [~ y: \nat ~]
+\end{zed}
+
+For a detailed explanation of these examples, see ``./dot-field-multennv.tex''.
+%
+\begin{circus}
+  \circprocess\ DotTestSingle \circdef \circbegin
+  \also %
+   \t1 Test0 \circdef c?x?y?z \then \Skip
+   \also
+   \t1 Test1 \circdef c?x!n1.n2 \then \Skip \\
+   \t1 Test2 \circdef c!n1?x.n2 \then \Skip
+   \also
+   \t1 Test3 \circdef c.n1!n2?x \then d \Skip \\
+   \t1 Test4 \circdef d \then e \then \Skip \\
+   \t1 Test5 \circdef c~?i~!(f~i) \then \Skip
+       \also
+   \t1 Test6 \circdef c.(S.y)?z \then \Skip
+       \also
+   \t1 Test7 \circdef c.(x?)!(y!)!(z?) \then \Skip \\
+   \t1 Test8 \circdef c?x \prefixcolon (x > 1)!(f~x) \then \Skip
+    \also
+   \t1 Test9 \circdef c?x \then \\
+                  \t4 c?z \prefixcolon (z > x.1).(f~(x.2+x.3)) \then \Skip \\
+   \t1 Test10 \circdef g[\nat \cross \nat \cross \nat]?x!n1.n2 \then \Skip
+        \also
+   \t1 Test10 \circdef g.n1.(f~n1) \then \Skip \\   
+   \circspot \Skip \\
+   \circend
+\end{circus}
+
+

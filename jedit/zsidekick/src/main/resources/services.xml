@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE SERVICES SYSTEM "services.dtd">
+
+<SERVICES>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="z">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("z",
+                                net.sourceforge.czt.session.Markup.UNICODE);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="oz">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("oz",
+                                net.sourceforge.czt.session.Markup.UNICODE);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="circus">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("circus",
+                                net.sourceforge.czt.session.Markup.UNICODE);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zlatex">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("z",
+                                net.sourceforge.czt.session.Markup.LATEX);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="ozlatex">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("oz",
+                                net.sourceforge.czt.session.Markup.LATEX);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="circuslatex">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("circus",
+                                net.sourceforge.czt.session.Markup.LATEX);
+  </SERVICE>
+
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zpatt">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("zpatt",
+                                net.sourceforge.czt.session.Markup.UNICODE);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zpattlatex">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("zpatt",
+                                net.sourceforge.czt.session.Markup.LATEX);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="ozpatt">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("ozpatt",
+                            net.sourceforge.czt.session.Markup.UNICODE);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="ozpattlatex">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("ozpatt",
+                            net.sourceforge.czt.session.Markup.LATEX);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zeves">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("zeves", net.sourceforge.czt.session.Markup.UNICODE);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zeveslatex">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("zeves", net.sourceforge.czt.session.Markup.LATEX);
+  </SERVICE>
+
+
+</SERVICES>

@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION TypeMismatchInAssoParallelOpExpr\_AssoParallelOpExpr\_MtoM \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  error \sdef [x? : \power \nat; y : \nat; z? : \power \nat] \plo
+       [x! : \nat; y :  \nat; z! : \nat]
+\end{class}

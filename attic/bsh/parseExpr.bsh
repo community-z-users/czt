@@ -1,0 +1,25 @@
+parseExpr(String string)
+{
+  manager = new net.sourceforge.czt.session.SectionManager();
+  return parseExpr(manager, string);
+}
+
+parseExpr(net.sourceforge.czt.session.SectionInfo manager, String string)
+{
+  return parseExpr(manager, "standard_toolkit", string);
+}
+
+parseExpr(net.sourceforge.czt.session.SectionInfo manager,
+      String sect,
+      String string)
+{
+  src = new net.sourceforge.czt.session.StringSource(string);
+  result =
+    net.sourceforge.czt.parser.z.ParseUtils.parseExpr(src, sect, manager);
+  errors =
+    net.sourceforge.czt.typecheck.z.TypeCheckUtils.typecheck(result, manager, false, sect);
+  if (errors != null && ! errors.isEmpty()) {
+    System.err.println(errors);
+  }
+  return result;
+}

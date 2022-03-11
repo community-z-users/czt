@@ -1,0 +1,232 @@
+\documentclass{article}
+\usepackage{czt}
+
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+\title{Simple Schema Unfolding Rules in CZT}
+\author{Mark Utting}
+\begin{document}
+\maketitle
+
+This document defines simple rules for unfolding schema inclusions.
+
+\begin{zsection}
+  \SECTION simpleUnfold \parents oracle\_toolkit
+\end{zsection}
+
+Declare the jokers used in these rules.
+
+We define an infix operator for unfolding schemas.
+
+\newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+
+\begin{verbatim}
+%%Zinword \unfoldsTo unfoldsTo
+\end{verbatim}
+
+\begin{zed}
+  \relation ( \_ \unfoldsTo \_ )
+\end{zed}
+
+\begin{gendef}[SCHEMA]
+  \_ \unfoldsTo \_ : SCHEMA \rel SCHEMA
+\where
+  \forall s1,s2:SCHEMA @ s1 \unfoldsTo s2 \iff s1=s2
+\end{gendef}
+
+
+\section*{Stage 1: Unfolding Simple Schema Inclusions}
+
+The first step in the process is to move the predicates into
+the normalised result.
+\begin{zedrule}{Start}
+   [D1 | true] \unfoldsTo [D2 | P2] \\
+   P2 \land P \iff P3
+\derives
+   [D1 | P] = [D2 | P3]
+\end{zedrule}
+
+Now we handle each possible kind of declaration, from left to right.
+
+This rule matches when the first declaration is a VarDecl.
+Note that if the first declaration declares multiple variables,
+like $a,b,c:\nat$, then the matcher should automatically split this
+so that the $N:S$ pattern matches $a:\nat$ and the $b,c:\nat$
+becomes the first declaration within $D1$.
+
+\begin{zedrule}{VarDeclBaseType}
+   E :: \power E \\
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [N:E; D1 | true] \unfoldsTo [N:E; D2 | P2]
+\end{zedrule}
+
+\begin{zedrule}{VarDecl}
+   E :: \power E2 \\
+   [D1 | true] \unfoldsTo [D2 | P2] \\
+   N \in E \land P2 \iff P3
+\derives
+   [N:E; D1 | true] \unfoldsTo [N:E2; D2 | P3]
+\end{zedrule}
+
+These rules handle simple schema inclusions, where the name $N$ is
+directly defined in the specification.
+
+\begin{zedrule}{SchemaRef}
+  N \hasDefn [D1 | P1] \\
+  [D1 | true] \unfoldsTo [D2 | P2] \\
+  P1 \land P2 \iff P3
+\derives
+  N \unfoldsTo [D2 | P3]
+\end{zedrule}
+
+
+\begin{zedrule}{IncludeDecl}
+   N \unfoldsTo [D1 | P1] \\
+   [D | true] \unfoldsTo [D2 | P2] \\
+   ([D1 | true] \land [D2 | true]) :: \power [D3 | true]\\
+   P1 \land P2 \iff P3
+\derives
+   [N; D | true] \unfoldsTo [D3 | P3]
+\end{zedrule}
+
+The base case is an empty declaration list, $[|true]$.
+\begin{zedrule}{Empty}
+   [~ | true] \unfoldsTo [~ | true]
+\end{zedrule}
+
+
+\section*{Stage 2: Allowing Decorated Schema Names}
+
+This extra rule extends the above rules by handling primed schema
+references.
+
+To implement this rule, we must implement an additional kind of
+proviso: \verb!CalculateProviso!.  This defines a visitor which
+traverses the right-hand-side expression and calculates a few known
+operators, then matches the result against the left-hand-side expression.
+
+For this rule, the only operator we must implement is the
+\verb!visitDecorExpr! method, which adds the given decoration to all the
+declared names within the schema.
+
+\begin{zedrule}{DecorDecl}
+   N \unfoldsTo [D1 | P1] \\
+   [D1|P1]~' \is [D2|P2]\\
+   [D | true] \unfoldsTo [D3 | P3] \\
+   ([D2 | true] \land [D3 | true]) :: \power [D4 | true]\\
+   P2 \land P3 \iff P4
+\derives
+   [N~'; D | true] \unfoldsTo [D4 | P4]
+\end{zedrule}
+
+\begin{zedrule}{TrueLeft}
+  true \land P \iff P
+\end{zedrule}
+
+\begin{zedrule}{TrueRight}
+  P \land true \iff P
+\end{zedrule}
+
+\begin{zedrule}{Impl}
+  P \iff P
+\end{zedrule}
+
+\begin{zedrule}{ExistsSchema}
+   E1 \unfoldsTo [D1 | P1] \\
+   E2 \unfoldsTo [D2 | P2] \\
+   [D2|true] \schemaminus [D1|true] \is [D3|true]
+\derives
+   (\exists E1 @ E2) \unfoldsTo [D3 | (\exists [D1|P1] @ P2)]
+\end{zedrule}
+
+
+\section*{Examples}
+Here is an example of the results we should get.
+(These could be used as tests for the rules implementation).
+
+If we define a series of simple schemas like this:
+
+\begin{zed}
+  S1 == [x:\nat | x < 10] \\
+  S2 == [S1; y:\nat | y < x] \\
+  S3 == [S1; z:\nat | z < x]
+\end{zed}
+
+Using the $SchNorm1$ rule set, we should be able to
+do the following transformations:
+
+\begin{zed}
+  \vdash? [x : \nat | true] \unfoldsTo [x:\arithmos | x \in \nat]
+\end{zed}
+\begin{zed}
+  \vdash? [S1|true] \unfoldsTo [x:\arithmos | x<10 \land x\in\nat]
+\end{zed}
+\begin{zed}
+  \vdash? [S1; y:\nat|true] \unfoldsTo
+          [x:\arithmos~; y:\arithmos | x<10 \land x\in\nat \land y\in\nat]
+\end{zed}
+\begin{zed}
+  \vdash? [S2|true] \unfoldsTo
+          [x:\arithmos~; y:\arithmos | y<x \land (x<10 \land
+                                       x\in\nat \land y\in\nat)]
+\end{zed}
+
+Using Stage 2, we should be able to
+do the following transformations:
+
+\begin{zed}
+\vdash? [S1~' | true] \unfoldsTo [x':\arithmos | x'<10 \land x'\in\nat]
+\end{zed}
+
+This next test is not working yet.
+\begin{verbatim}
+\vdash? [S1;S1~' | true] \unfoldsTo
+        [x:\arithmos~; x':\nat | x<10 \land x\in\nat \land x'<10]
+\end{verbatim}
+
+%\begin{zed}
+\vdash? [S2~' | true] \unfoldsTo
+        [x':\arithmos~; y':\arithmos | y'<x' \land (x'<10 \land
+                                       x'\in\nat \land y'\in\nat)]
+\end{zed}
+
+(In fact, this last example is a bit difficult to implement safely,
+because it is not clear just from the syntax whether the CalculateProviso
+should prime the $x$ or not.  The \verb!visitDecorExpr! could perhaps
+use the typechecker to see if $x$ is defined within $S1$ or not, but
+that would be too complex.  I propose that \verb!visitDecorExpr! should
+be quite restrictive, and throw an exception if the schema that it
+is trying to prime contains difficult operators (operators that
+decoration does not distribute into, like schema composition,
+piping, hiding, projection, and precondition).
+
+\begin{zed}
+\vdash? [x:\arithmos|true] \unfoldsTo [x:\arithmos|true]
+\end{zed}
+
+\begin{zed}
+\vdash? (\exists [x:\arithmos|true] @ [y:\arithmos|true]) \unfoldsTo
+        [y:\arithmos | (\exists [x:\arithmos|true] @ true)]
+\end{zed}
+
+\begin{zed}
+\vdash? (\exists [x:\arithmos|true] @ [x:\arithmos|true]) \unfoldsTo
+        [ | (\exists [x:\arithmos|true] @ true)]
+\end{zed}
+
+\begin{zed}
+\vdash? (\exists [x,z:\arithmos | true] @ [y,z:\arithmos|true]) \unfoldsTo
+        [y:\arithmos | (\exists [x:\arithmos~; z:\arithmos|true] @ true)]
+\end{zed}
+
+
+Checks oracles:
+
+\begin{theorem}{TestDecorateOracle}
+\vdash?  [a : \arithmos~; b:\nat | a < b]~' \is
+         [a': \arithmos ; b' : \nat | a' < b' ]
+\end{theorem}
+
+\end{document}

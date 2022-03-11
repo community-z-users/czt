@@ -1,0 +1,150 @@
+## ##################################################
+## List handling
+## ##################################################
+
+## ******************************
+## list
+## ----
+## Takes a list of strings as argument and
+## returns a string where all the list elements
+## are concated and seperated by a comma.
+## ******************************
+#macro(list $list)
+#foreach($element in $list)
+#if($velocityCount == 1)${element}#else, ${element}#end#end#end
+
+## ******************************
+## typeVarList
+## -----------
+## Takes a list of Gnast variables as argument and
+## returns a string of variable types and variable names
+## seperated by comma.
+## This is used to build an argument list for a method
+## consisting of the given variables.
+## ******************************
+#macro(typeVarList $varList)
+#foreach($var in $varList)
+#if($velocityCount == 1)${var.Type.FullName} ${var.VarName}#else, ${var.Type.FullName} ${var.VarName}$#end#end#end
+
+## ******************************
+## factoryTypeVarList
+## -----------
+## Takes a list of Gnast properties as argument and
+## returns a string of variable types and variable names
+## seperated by comma.
+## This is used to build an argument list for the create methods
+## in the factory class.
+## ******************************
+#macro(factoryTypeVarList $varList $class)
+#foreach($var in $varList)
+#if($velocityCount != 1),#end
+#if($var.isList())java.util.List<? extends ${var.getListType()}>
+#elseif($var.isEnum())${var.getFullEnumName(false)}
+#else ${var.Type.FullName} #end ${var.VarName}#end#end
+
+## ******************************
+## varList
+## -------
+## Takes a list of Gnast variable as argument and
+## returns a string of variable names seperated by comma.
+## This is used to build an argument list for a method call
+## consisting of the given variables.
+## ******************************
+#macro(varList $varList)
+#foreach($var in $varList)
+#if($velocityCount == 1)${var.VarName}#else, ${var.VarName}$#end#end#end
+
+## ******************************
+## memList
+## -------
+## Takes a list of Gnast properties as argument and
+## returns a string of member variable names seperated by comma.
+## This is used to build an argument list for a method call
+## consisting of the given property member variables.
+## ******************************
+#macro(memList $propList)
+#foreach($prop in $propList)
+#if($velocityCount == 1)${prop.MemVarName}#else, ${prop.MemVarName}$#end#end#end
+
+## ******************************
+## getterList
+## -------
+## Takes a list of Gnast properties as argument and
+## returns a string of member variable names seperated by comma.
+## This is used to build an argument list for a method call
+## consisting of the given property member variables.
+## ******************************
+#macro(getterList $propList)
+#foreach($prop in $propList)
+#if($velocityCount == 1)${prop.GetterName}()#else, ${prop.GetterName}()$#end#end#end
+
+## ********************************
+## enumAwareFullName
+## -------
+## Given a prop and class parameter get the full package name of known enums
+## ********************************
+#macro(enumAwareFullName $prop $class)
+#if(${prop.getType().getPackage().isEmpty()})
+#if(${prop.getType().getProject()} && 
+${class.isKnownEnumeration(${prop.getType().getFullName()})})
+${prop.getType().getProject().getAstPackage()}.#end#end#end
+
+## ********************************
+## findRightAncestorPackageExtends
+## -------
+## Given set of known projects and a class of interest to extend, 
+## find among them the right extension package. 
+## ********************************
+#macro(findRightAncestorPackageExtends $projects $class)
+ #if(${class.getProject().isKnownClass(${class.getExtends()})})
+		${class.getProject().getAstPackage()}.${class.getExtends()}
+ #else
+	#foreach($p in $projects)
+		#if(${p.isKnownClass(${class.getExtends()})})
+			${p.getAstPackage()}.${class.getExtends()}
+		#end	
+	#end
+ #end
+#end
+
+## ********************************
+## findRightAncestorPackageImplExtends
+## -------
+## Given set of known projects and a class of interest to extend, 
+## find among them the right extension package. Because the isKnownClass
+## is defined well only for the AST classes, we use the trick that Extends/ImplExtends
+## follow a very strict/specific pattern. 
+## ********************************
+#macro(findRightAncestorPackageImplExtends $projects $class)
+ #if(${class.getProject().isKnownClass(${class.getExtends()})})
+		${class.getProject().getImplPackage()}.${class.getImplExtends()}
+ #else
+	#foreach($p in $projects)
+		#if(${p.isKnownClass(${class.getExtends()})})
+			${p.getImplPackage()}.${class.getImplExtends()}
+		#end	
+	#end
+ #end
+#end
+
+## ********************************
+## findRightAncestorJAXBPackage
+## -------
+## Given set of known projects and a class of interest to extend, 
+## find among them the right extension package. Left in one line 
+## because new strings were making string literals to fail. 
+## ********************************
+#macro(findRightAncestorJAXBPackage $projects $class $propName)#if(${propName} == 'String')${propName}#elseif(${class.getProject().isKnownClass(${propName})})${class.getProject().getJaxbGenPackage()}.${propName}#else#foreach($p in $projects)#if(${p.isKnownClass(${propName})})${p.getJaxbGenPackage()}.${propName}#end#end#end#end
+
+## ##################################################
+## Making class and interface generation easier
+## ##################################################
+## Adds the base package to the given package name
+#macro(package $name)
+${project.BasePackage}.$name#end
+
+#macro(fullname $class)
+${class.Name}.${class.Package}#end
+
+#macro(abstract $class)
+#if($class.Abstract) abstract#end#end

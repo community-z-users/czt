@@ -1,0 +1,9 @@
+─ section appToUtf parents zeves_toolkit , set_toolkit └
+
+─ theorem foo1 ∀ R , S : ℙ ( ℕ × ℕ ) ; x : ℕ ⦁ ( R ∪ S ) applies$to x └
+
+─ theorem foo2 ∀ R : ℙ ( ℕ × ℕ ) ; x : ℕ ⦁ R applies$to x └
+
+├ foo2 prove by rewrite ;  with predicate ( R applies$to x ) rewrite ;  └
+
+─ theorem foo3 ∀ i : ℤ ⦁ ∃ j : ℤ ⦁ j = the$integer ( i ) └ 

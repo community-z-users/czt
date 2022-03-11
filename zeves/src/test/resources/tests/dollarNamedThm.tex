@@ -1,0 +1,23 @@
+\begin{zsection}
+   \SECTION dollarNamedThm \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{Aha}
+   a: \nat
+\end{schema}
+
+\begin{schema}{Test}
+   \Delta Aha \\
+   today: Aha \\
+   byNight: Aha \pfun \nat
+\where
+   byNight~today > 0 \\
+   \exists a: Aha @ today = a
+\end{schema}
+
+\begin{zproof}[Test\$domainCheck]
+invoke \Delta Aha;
+apply Aha\$member;
+with enabled (Aha\$member, inDom) prove;
+\end{zproof}
+

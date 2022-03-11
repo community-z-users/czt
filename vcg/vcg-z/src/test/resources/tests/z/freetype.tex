@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION freetype \parents set\_toolkit
+\end{zsection}
+
+\begin{zed}
+   FT ::= a | b | c \ldata \nat \cross FT \rdata | d \ldata FT \rdata
+\end{zed}
+
+\begin{axdef}
+   v, v0, v1, v2: FT
+\where
+   d~v     = v0 \\
+   c~(0,v) = v1 \\
+   a       = v2 
+\end{axdef}
+
+\end{document}

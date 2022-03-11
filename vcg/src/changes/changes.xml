@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+  <properties>
+    <title>Release Notes</title>
+  </properties>
+
+  <body>
+    <!-- Add new releases here -->
+    <release version="1.1" date="unreleased">
+      <action dev="Leo" type="update">
+        Split into individual projects
+      </action>
+      <action dev="Leo" type="update">
+        Update the VCG for taking Mark's suggestion of a specification properties schema
+        containing all the information needed. After discussion with Andrius, we got it I think.
+      </action>
+      <!-- Sample action:
+      <action dev="JB" type="fix" due-to="Joe Contributor"
+          due-to-email="joec@apache.org" fixes-bug="123">
+          Fixed a bug in the Foo class.
+        </action>
+      Some action types have associated images. By default, images are
+      defined for 'add', 'fix', 'remove', 'update' and 'hack'. If you add
+      src/site/resources/images/<foo>.jpg images, these will
+      automatically be used for entries of type <foo>. -->
+    </release>
+    <release version="0.3" date="March 10, 2010">
+      <action dev="Leo" type="add" context="admin">
+        Initial Release.
+      </action>
+    </release>
+  </body>
+</document>

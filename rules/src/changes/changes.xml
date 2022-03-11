@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+  <properties>
+    <title>CZT Rules Release Notes</title>
+  </properties>
+
+  <body>
+    <release version="1.1" date="unreleased">
+      <action dev="Petra" type="fix">
+        Fix the proof tree so that it displays the rule or oracle
+        name as a tooltip.  It used to (incorrectly) say "No rule
+        has been applied" even when a rule has been applied.
+      </action>
+    </release>
+    <release version="1.0" date="July 2007"/>
+  </body>
+</document>

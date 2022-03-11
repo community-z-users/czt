@@ -1,0 +1,72 @@
+.color-highlight {
+  color: #225E9B;
+}
+
+body {
+  background-image:url(../images/bg.png);
+}
+
+
+#footer-czt-logo {
+  margin: 0 auto;
+  height: 200px;
+  width: 200px;
+  background-image:url(../images/czt-logo200.png);
+}
+
+.navbar .brand {
+  background-image:url(../images/czt-logo32.png);
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  padding-left: 60px;
+}
+
+
+.navbar .brand .preview {
+  padding-left: 5px;
+  font-size: 80%;
+  font-weight: bold;
+  color: #225E9B;
+}
+
+.body-content > h1, h2 {
+  margin-top: 30px;
+}
+
+h3, h4, h5, h6 {
+  margin-top: 20px;
+}
+
+.sidebar > :first-child {
+  margin-top: 0;
+}
+
+/* Indent second line of navigation if needed. */
+footer .nav-list li {
+  text-indent: -5px;
+}
+
+footer .nav-list > li > a, footer .nav-header {
+  padding-left: 20px;
+}
+
+/* Reinstate extra spacing in nested lists */
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 10.5px;
+}
+
+
+/* Spacing for definition list items (used in CZT Eclipse help) */
+dl dt {
+  margin-top: 10.5px;
+}
+
+dl dt:first-child {
+  margin-top: 0;
+}
+
+/* White links in carousel captions */
+.carousel-caption a {
+  color: white;
+}
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+<!-- ============================================================================= -->
+<!-- Define the top level topics                                                   -->
+<!-- ============================================================================= -->
+
+<toc label="CZT User Guide">
+  <topic label="Getting started">
+    <link toc="topics-getting-started.xml" />
+    <anchor id="czt_getstart" />
+  </topic>
+  <topic label="Concepts">
+    <link toc="topics-concepts.xml" />
+    <anchor id="czt_concepts" />
+  </topic>
+  <topic label="Reference">
+    <link toc="topics-reference.xml" />
+    <anchor id="czt_reference" />
+  </topic>
+
+  <topic label="Legal notice" href="target/generated-docs/legal-notice.html" />
+</toc>

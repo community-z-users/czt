@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION ParameterMismatch\_RefExpr\_Generic\_3
+\end{zsection}
+
+\begin{zed}
+  genExpr[X,Y] == 1\\
+  error == genExpr[\nat]
+\end{zed}

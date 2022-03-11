@@ -1,0 +1,111 @@
+\begin{zsection}
+  \SECTION fs \parents ns
+\end{zsection}
+
+\begin{schema}{FS}
+  SS \\
+  CS \\
+  NS \\
+  usedfids : \power FID
+\where
+  usedfids = \ran nstore \cup \{ fid : FID |
+                (\exists posn : \nat @ \theta CHAN \in \ran cstore) \} \\
+  usedfids \subseteq \dom fstore
+\end{schema}
+
+\begin{schema}{InitFS}
+  InitSS \\
+  InitCS \\
+  InitNS \\
+  usedfids' : \power FID
+\where
+  usedfids' = \emptyset
+\end{schema}
+
+\begin{schema}{createFS0}
+  \Delta FS \\
+  createSS \\
+  openCS \\
+  createNS
+\where
+  name? \in \dom nstore \implies fid = nstore(name?) \\
+  name? \notin \dom nstore \implies fid \notin usedfids
+\end{schema}
+
+\begin{schema}{direncode}
+  \Delta FS \\
+  \Xi CS \\
+  \Xi NS \\
+  dirstored~'
+\where
+  \exists dfids : \power FID @ dfids = nstore \limg dnames \rimg \land
+    dfids \ndres fstore' = dfids \ndres fstore
+\end{schema}
+
+\begin{zed}
+  createFS == createFS0 \semi direncode
+\end{zed}
+
+\begin{schema}{openFS}
+  \Delta FS \\
+  \Xi SS \\
+  openCS \\
+  lookupNS
+\where
+  fid = fid'
+\end{schema}
+
+\begin{schema}{readFS}
+  \Delta FS \\
+  ReadAS \\
+  \Xi NS
+\end{schema}
+
+\begin{schema}{writeFS}
+  \Delta FS \\
+  WriteAS \\
+  \Xi NS
+\end{schema}
+
+\begin{schema}{closeFS}
+  \Delta FS \\
+  \Xi SS \\
+  closeCS \\
+  \Xi NS
+\end{schema}
+
+\begin{schema}{unlinkFS0}
+  \Delta FS \\
+  \Xi SS \\
+  \Xi CS \\
+  destroyNS
+\end{schema}
+
+\begin{schema}{destroyFS}
+  \Delta FS \\
+  destroySS \\
+  \Xi CS \\
+  \Xi NS
+\end{schema}
+
+\begin{schema}{linkNS}
+  \Delta NS \\
+  oldname?, newname? : NAME
+\where
+  oldname? \in \dom nstore \\
+  nstore' = nstore \oplus \{ newname? \mapsto nstore (oldname?) \}
+\end{schema}
+
+\begin{schema}{moveNS}
+  \Delta NS \\
+  oldname?, newname? : NAME
+\where
+  oldname? \in \dom nstore \\
+  nstore' = (\{ oldname? \} \ndres nstore) \oplus
+            \{ newname? \mapsto nstore(oldname?) \}
+\end{schema}
+
+%\begin{zed}
+%  linkFS == (\Delta FS \land \Xi SS \land \Xi CS \land linkNS)\semi direncode \\
+%  moveFS == (\Delta FS \land \Xi SS \land \Xi CS \land moveNS)\semi direncode
+%\end{zed}

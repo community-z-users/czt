@@ -1,0 +1,21 @@
+
+\begin{zsection}
+  \SECTION\ nested_parameterised_mu \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circprocess\ NestedParameterisedMu \circdef \circbegin \\
+        \circstate S == [ y: \nat ] \\
+        A \circdef i: \nat \circspot \circmu\ X \circspot \\
+            \t1 \circblockbegin
+                (n: \nat \circspot \\
+                    \t1 \circblockbegin
+                            \circif (n = 0) \circthen y := 1 \\
+                            \circelse (n > 0) \circthen X(n -1) \circseq y := y * n \\
+                            \circfi
+                        \circblockend)
+                \circblockend \\
+            \circnote{Note the call here is ok, but the declaration of A isn't}
+        \circspot A(0) \\
+   \circend
+\end{circus}

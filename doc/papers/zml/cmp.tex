@@ -1,0 +1,1585 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{Zstan}
+\def\Zeta{{\sf Z{\small E}T{\small A}}}
+\begin{document}
+\title{Comparing Z Annotated Syntaxes:\\Towards an XML Mark-up for Standard Z}
+\author{Ian Toyn\\University of York}
+\date{January 17, 2002}
+\maketitle
+
+\begin{abstract}
+\noindent Having established some requirements for
+interchanging a Z specification between tools,
+this paper specifies a suitable mark-up by defining an XML DTD.
+It proceeds via comparison of various existing Z annotated syntaxes,
+to ensure that the mark-up will be widely usable.
+Along the way, it explains the XML notation,
+and records justifications for the design decisions.\\
+~\\
+\noindent\textbf{Keywords:} Interchange, XML, DTD, Mark-up, Z.
+\end{abstract}
+
+\section{Introduction}
+
+\subsection{What is XML and how can it be of use to Z?}
+
+XML is a textual mark-up language for documents.
+It is widely and loudly touted as being suitable for
+the interchange of information between tools.
+There have been attempts to define XML mark-ups for Z \cite{Dong01,Wordsworth99},
+but I have not seen any definition that allows for
+interchange of annotations such as the types of expressions.
+This document is intended to be a step towards a definition of XML mark-up
+for Z that allows tools to interchange Z specifications including annotations.
+
+The Z standard\cite{ISO13568} does not define an XML mark-up,
+but it does present one representation
+that is suitable for interchanging Standard Z specifications between tools,
+namely Unicode (UCS\cite{ISO10646-1,ISO10646-2}).
+However, Unicode is really only suitable for interchanging
+raw Z specifications, without any annotations.
+The advantage of XML is that it can be used
+to interchange Z specifications with annotations.
+
+\subsection{What are the requirements of a Z interchange mark-up?}\label{injectivity}
+
+\paragraph{Annotations}
+The already mentioned annotations should be accommodated
+in the interchange mark-up wherever tools wish to put them.
+The forms of individual annotations should not be constrained.
+
+\paragraph{Commonalities}
+The concrete syntax of Z provides different ways of specifying the same things.
+For example, the mathematics in a boxed schema paragraph
+may be written in an equivalent form without the box.
+Most functions provided by tools should be available
+whichever alternative concrete representation is used for their arguments.
+For example, a tool might offer to reveal the section-type environment
+of a schema paragraph regardless of whether or not it is boxed.
+This can be eased by using a common \textit{annotated syntax}
+for both concrete representations of the schema paragraph.
+Interchange will be eased if the mark-up is based on an annotated syntax
+that identifies similar commonalities to those exploited by tools.
+The design of an annotated syntax becomes interesting/difficult
+when choices have to be made between alternative commonalities,
+one of which assists the provision of one function
+while another assists the provision of a different function.
+
+\paragraph{Injectivity}
+A function that is present in most tools
+is the resurrection of concrete syntax from annotated syntax.
+When a Z specification is interchanged between tools,
+its concrete representations
+(before and after interchange, ignoring annotations)
+should remain recognisably the same.
+Consequently, the interchange mark-up for Z should capture
+sufficient information from the concrete representation 
+to be able to resurrect the same concrete phrases
+(though not necessarily the same layout).
+Returning to the example of a schema paragraph,
+this means keeping a note of whether or not the boxed representation is used.
+I am avoiding using the traditional term \textit{abstract syntax}
+because of this avoidance of loss of information from the concrete form.
+
+The annotated syntaxes used within existing tools have already
+addressed these issues of annotations, commonalities and injectivity.
+The annotated syntax used within Standard Z addresses some of these issues.
+An interchange mark-up for Z will be easier for a tool to use
+if the mark-up is similar to the tool's own annotated syntax.
+This document compares some existing annotated syntaxes
+and attempts to specify an XML mark-up
+that will be usable by the compared tools.
+An interchange mark-up for Z will be successful only if
+it can be used by many Z tools, so I would be interested to see
+comparisons with other tools' annotated syntaxes.
+Eventually, the XML mark-up should become a part of the ISO Z standard.
+
+\subsection{How is XML used?}
+
+The syntax of XML\cite{XML} is trivial,
+making it easy for tools to generate and parse,
+but its syntactic monotony provides little help to a human reader
+trying to comprehend the content of an XML document.
+XML mark-up is not something that the sane would want to write by hand.
+Expectations on the content of an XML document---how values are structured---can
+be specified separately (by hand by Z experts),
+then conformance to the specification can be checked automatically
+(by a \textit{validating parser}).
+Such a specification can be written in either of two languages:
+as a \textit{Document Type Definition} (DTD), or as an \textit{XML Schema}.
+The simple syntax of XML allows tools to communicate
+without a DTD or XML Schema (using a \textit{non-validating parser}),
+but such a specification is nevertheless useful to toolbuilders
+in defining what the tools should be able to interchange.
+
+Eventually we might have both a DTD and an XML Schema for the same XML mark-up,
+but we need to choose one to write first.
+The XML Schema language allows better specification of the types of elements
+than the DTD language, but XML Schemas are themselves written in XML,
+making them painfully difficult to write if there is no tool to generate them,
+and inevitably less readable by humans than DTDs.
+The DTD language allows specification of names for entities,
+which the XML Schema language does not---and others have said that
+this feature is needed for specifying Z.
+I suspect the DTD language is more stable than the XML Schema language:
+a book I read describes DTDs but not XML Schemas.
+
+As the comparison below proceeds, a DTD for Z is presented.
+The DTD contains: entity declarations,
+which define names to abbreviate strings of text used later in the DTD;
+element declarations,
+which define the document structure in a BNF-like way;
+and attributes,
+which are used to record distinguishing features
+and hence allow resurrection of a concrete representation like the original.
+
+\subsection{XML DTD parameters}\label{DTDparams}
+
+The DTD commences with the following declarations of parameter entities,
+to be used as the namespace prefix in names.
+\begin{verbatim}
+<!ENTITY % Z-prefix "Z">
+<!ENTITY % Z-colon ":">
+\end{verbatim}
+Any particular XML document may override these parameter entities
+to establish a different (possibly empty) XML namespace.
+Element declarations cannot use these parameter entities directly,
+because spaces might be inserted around
+the expansions of references to those parameters,
+making the element declarations unparsable.
+Instead, the element names have themselves to be declared as parameter entities.
+They should be declared before they are used,
+but to declare them all here would be to hint at conclusions
+before arguments have been presented.
+So their presentation is deferred to Section \ref{ElementNames}.
+
+\section{Comparison of annotated syntaxes for Z}
+
+\subsection{Overview of annotated syntaxes to be compared}
+
+\subsubsection{Standard Z}
+
+Standard Z's annotated syntax provides the basis for its definition
+of the type system and semantics of Z.
+These are the only functions defined on its annotated syntax.
+In particular, the standard has no need to resurrect concrete syntax.
+It has annotations for types of expressions,
+signatures of paragraphs, and section-type environments of sections.
+Commonalities are identified by \textit{syntactic transformation rules},
+which define the translation of concrete syntax to equivalent annotated syntax.
+Some of these syntactic transformation rules will be quoted below.
+
+XML mark-up will differ from Standard Z's annotated syntax
+because of the need to resurrect concrete syntax
+and the need to support a greater variety of functions and annotations.
+
+\subsubsection{\CADiZ}
+
+\CADiZ's annotated syntax supports typechecking,
+prettyprinting (i.e.\ resurrection of concrete syntax),
+interactive browsing (i.e.\ tracking of references to declarations
+and inspection of types, signatures and environments),
+and logical inference (i.e.\ transformation to equivalent notation,
+as in the course of proofs).
+%and use of Z notation as patterns in tactics for automated reasoning.
+
+In \CADiZ's annotated syntax,
+the representation of declarations plays many roles.
+As well as representing the name and expression of a declaration,
+it records the declared variable's type,
+allowing signatures to be represented as lists of declarations,
+and it records which expressions refer to it.
+An inclusion declaration brings new copies of a declaration into scope,
+so that uses of the included declaration are not
+confused with uses of the original declaration.
+Expressions record the declarations to which they refer.
+These records support interactive browsing.
+They also support logical inference rules
+regardless of variable capture side-conditions:
+the inference maintains bindings of references to declarations,
+and the prettyprinter does renaming
+wherever variable capture would otherwise appear to occur.
+The representation of declarations causes \CADiZ's annotated syntax
+to be not a tree structure but a more general graph,
+which would be inconvenient for a textual interchange mark-up such as XML.
+
+\CADiZ\cite{CADiZ} can be said to support Standard Z---the deviations
+are very minor.
+(It does have some extensions to Standard Z, but we will ignore those.)
+Although I am very familiar with \CADiZ's annotated syntax,
+it is not fixed, and has changed frequently in the past.
+I believe you will find that the XML mark-up defined below
+is not overly influenced by \CADiZ's annotated syntax
+(though \CADiZ's annotated syntax may be changed in future
+to lessen the differences).
+
+\subsubsection{\Zeta}
+
+\Zeta's annotated syntax supports typechecking,
+prettyprinting (i.e.\ resurrection of concrete syntax),
+and animation (i.e.\ automatic reduction of expressions).
+(Those are the functions of the core edition of \Zeta.)
+
+XML mark-up will differ from \Zeta's annotated syntax
+wherever \Zeta\cite{Zeta} deviates from Standard Z.
+
+%\subsection{Overview of functions on annotated syntax}
+%
+%\subsubsection{Prettyprinting}
+%
+%Prettyprinting resurrects concrete syntax from annotated syntax.
+%It needs sufficient information to be able to generate
+%notation that is recognisably similar to the original.
+%
+%\subsubsection{Typechecking}
+%
+%Typechecking needs a representation of what is currently in the environment.
+%It may also record annotations for interactive browsing,
+%such as types and the relation between references and declarations.
+%
+%\subsubsection{Interactive browsing}
+%
+%Interactive browsing reveals annotations to the user,
+%such as those recorded by typechecking.
+%
+%\subsubsection{Logical inference}
+%
+%Logical inference performs transformations for which variable capture
+%can be a serious issue.  Usually, logical inferences are disabled
+%when variable capture would occur, but \CADiZ\ takes an unusual approach.
+%\CADiZ\ performs logical inferences,
+%keeping references bound to the appropriate declarations,
+%and its prettyprinter renames things
+%where variable capture would otherwise appear to have occurred.
+%
+%\subsubsection{Animation}
+%
+%Animation, in the logical simplification approach of \Zeta,
+%amounts to a special case of logical inference.
+%
+\subsection{Correspondence between syntactic rules}
+
+The main syntactic rules
+(Specification, Section, Paragraph, Predicate and Expression)
+are present in all annotated syntaxes for Z,
+though not with the same names.
+In some tools,
+this renaming reflects the widening of syntactic rules to include non-Z phrases.
+The following table summarises these names,
+and suggests names to be used for the elements in XML.
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+{\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
+\hline
+\ASpecification & \AFont{[doc]} & \AFont{UnitAbsy[]} & \AFont{Z:Spec}\\
+\ASection & \AFont{doc} & \AFont{UnitAbsy.Section} & \AFont{Z:Sect}\\
+\AParagraph & \AFont{def} & \AFont{Item} & \AFont{Z:Para}\\
+\APredicate & \AFont{pred} & \AFont{Predicate} & \AFont{Z:Pred}\\
+\AExpression & \AFont{term} & \AFont{Expr} & \AFont{Z:Expr}\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Specification}\label{Specification}
+
+Standard Z specifications are either anonymous or sectioned.
+The standard syntactically transforms anonymous specifications
+to sectioned specifications, as follows (Z standard, clause 12.2.1.1).
+\DTanonspec
+The name $Specification$ can be anything distinct.
+Concrete syntax may be resurrected by recognising the distinct name.
+
+So, a specification can be represented as just a sequence of sections,
+and both \CADiZ\ and \Zeta\ use that representation.
+However, an XML mark-up must have a unique root element,
+and so the above table suggests the \AFont{Z:Spec} element.
+This element also provides a place for any annotations on a specification.
+The following DTD element declaration specifies the \AFont{Z:Spec} element.
+\begin{verbatim}
+<!ELEMENT %Z-Spec; (((%Z-Sect;*), %Z-SpecAnns;?) | #PCDATA)>
+\end{verbatim}
+The notation \AFont{\%Z-Spec;} is an entity reference:
+its default definition (Section \ref{ElementNames}) expands to \AFont{Z:Spec}.
+All element and attribute names in the DTD are defined by entities like this.
+The \AFont{*} means zero-or-more repetitions of what precedes it.
+A \AFont{+} means one-or-more repetitions of what precedes it.
+The \AFont{,} concatenates what precedes it with what follows it.
+The \AFont{?} means that what precedes it is optional.
+More is said about the optional annotations in the next section.
+The \AFont{|} separates alternatives.
+The parentheses define further structure explicitly,
+rather than relying on implicit precedences of notations.
+The \verb!#PCDATA! alternative (\textit{parsed character data})
+allows the unannotated Unicode representation to be given for this element.
+An example of XML mark-up for a Z specification using this Unicode alternative
+is as follows.
+\begin{zed}
+\verb#<?xml version="1.0" encoding="UTF-8" standalone="no"?>#\\
+\verb#<!DOCTYPE Z:Spec SYSTEM "ftp://ftp.cs.york.ac.uk/hise_reports/cadiz/ZSTAN/Z.dtd">#\\
+\verb#<Z:Spec>#\\
+ZEDCHAR\\
+[NAME, DATE]\\
+ENDCHAR\\
+SCHCHAR~BirthdayBook\\
+known : \power NAME~NLCHAR\\
+birthday : NAME \pfun DATE\\
+|\\
+known = dom~birthday\\
+ENDCHAR\\
+\verb#</Z:Spec>#
+\end{zed}
+
+The \AFont{xml} declaration is optional.
+If present,
+its \AFont{version} attribute must have value \AFont{"1.0"}
+(there is no alternative value for this at the time of writing).
+Its \AFont{encoding} attribute is optional,
+but giving this attribute avoids an XML parser having to guess.
+In any case, avoid the UCS-2 encoding because some Z characters
+are not on the basic multilingual plane (BMP)
+and so cannot be encoded in two bytes.
+UTF-8, UTF-16 and UCS-4 can all encode Z.
+The \AFont{standalone} attribute is optional,
+its default value being \AFont{"no"}. 
+The DTD provides default values for some attributes,
+so any XML document that relies on these defaults
+should set the \AFont{standalone} attribute to \AFont{"no"}.
+
+The \AFont{DOCTYPE} (document type) declaration
+gives the name of the document's root element
+and the address of the external DTD.
+A document type declaration can also contain an internal DTD,
+which overrides declarations in the external DTD.
+The address given for the external DTD is a suggestion:
+the DTD may not have been put anywhere yet.
+
+\AFont{<Z:Spec>} and \AFont{</Z:Spec>} delimit an occurrence
+of the \AFont{Z:Spec} element.
+In the example's parsed character data,
+$ZEDCHAR$, $SCHCHAR$, $NLCHAR$ and $ENDCHAR$
+denote individual Unicode characters.
+The UTF-8 encoding is necessarily implicit in this presentation.
+
+\subsection{Sections}
+
+The following table lists the components of a Z section.
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+{\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
+\ASection & \AFont{doc} & \AFont{UnitAbsy.Section} & \AFont{Z:Sect}\\
+\hline
+\TNAME & \AFont{word} & \AFont{Name} & \AFont{Z:Word}\\
+\AFont{seq} \TNAME & \AFont{[parent]} & \AFont{Name[]} & \AFont{Z:Word*}\\
+\AFont{seq} \AParagraph & \AFont{[def]} & \AFont{Item[]} & \AFont{Z:Para*}\\
+\ASectTypeEnv & & & \AFont{Z:SectAnns?}\\
+\hline
+\end{tabular}
+\end{center}
+The following DTD element declaration specifies the \AFont{Z:Sect} element.
+The list of parent names need not include \textit{prelude},
+as that is implicitly a parent of all sections.
+\begin{verbatim}
+<!ELEMENT %Z-Sect; ((%Z-Word;, (%Z-Word;*), (%Z-Para;*), %Z-SectAnns;?) | #PCDATA)>
+\end{verbatim}
+
+The last row in the above table contains an example of an annotation.
+It does not enumerate the annotations used by specific tools.
+In the XML mark-up, it suggests that all annotations on a section
+be gathered together into the single \AFont{Z:SectAnns} child element.
+
+The \AFont{Z:SectAnns} element should be declared appropriately
+to allow the exchange of whatever annotations that tools mutually agree on.
+A declaration suitable for the exchange of a section-type environment
+as in the Z standard is given below (see Section \ref{annotations}).
+That declaration can be overridden in any particular XML document's
+\AFont{DOCTYPE} declaration.
+
+The optionality of the \AFont{Z:SectAnns} element
+allows annotations to be omitted from some (possibly all) sections
+without having to override the declaration of the \AFont{Z:SectAnns} element.
+
+Each paragraph in a section may have its own annotations,
+as may every predicate, every expression, etc (see below).
+All annotations in this DTD are declared in the same optional and overridable
+ways as the \AFont{Z:SectAnns} element.
+
+The DTD should permit annotations almost anywhere, just to be flexible.
+Annotations on a section's name are unnecessary,
+as those annotations can be associated with the whole section.
+Annotations on parents, however, are conceivable (though unlikely).
+They were omitted above for simplicity of explanation.
+When a DTD is extracted from this document,
+the above declaration of \AFont{Z:Sect} should refer to the following
+declaration of \AFont{Z:Parent}.
+\begin{verbatim}
+<!ELEMENT %Z-Parent; ((%Z-Word;, %Z-ParentAnns;?) | #PCDATA)>
+\end{verbatim}
+
+If there are no parents,
+the \AFont{Z:Sect} element does not record whether or not
+the keyword \AFont{parents} occurred in the concrete representation.
+This doesn't matter sufficiently to deserve the declaration of an attribute.
+
+(Not surprisingly, working on this document has lead me
+to think of improvements to \CADiZ's annotated syntax.
+The above table presents a simplification in its \CADiZ\ column.
+In \CADiZ's current annotated syntax,
+the list of parents actually appears in the section header,
+which is the first paragraph in the section's list of paragraphs.
+The section itself has a \AFont{[doc]} component
+redundantly representing its parents.
+Such components are not readily serialisable as text,
+and so have no place in XML.)
+
+\subsection{Paragraphs}
+
+Some annotations will be common to all paragraphs,
+while other annotations will be specific to particular kinds of paragraphs.
+This commonality is ignored in the DTD,
+as otherwise two tags would be needed per paragraph:
+one to say that a paragraph is being marked-up,
+and a second to say which kind of paragraph.
+Instead, \AFont{Z:Para} is declared (see Section \ref{Abbreviations})
+to be a choice of any one of the following paragraph elements.
+
+\subsubsection{Given types paragraphs}\label{giventypes}
+
+The following table lists the components of a given types paragraph.
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+{\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
+Given types \AParagraph & \AFont{givdef} & \AFont{Item.AxiomaticDef[]} & \AFont{Z:GivenPara}\\
+\hline
+\AFont{seq} \TNAME & \AFont{[dec]} & \AFont{Expr.GivenType} & \AFont{Z:DeclName*}\\
+\ASignature & & & \AFont{Z:GivenParaAnns?}\\
+\hline
+\end{tabular}
+\end{center}
+
+In \CADiZ, all declarations
+(given types, generic parameters, variables)
+share the same \AFont{dec} representation.
+This has the advantage of providing a basis for
+tracking all references to each declaration.
+For the moment, I'm not worrying about
+how to represent that information as annotations.
+
+In \Zeta\ (if I've understood it correctly),
+a given types paragraph is represented as
+a sequence of \AFont{Item.AxiomaticDef}s,
+in which each \AFont{Item.AxiomaticDef}'s expression
+is an \AFont{Expr.GivenType} containing the name of a given type.
+This is an instance of a more general approach:
+\Zeta\ represents each Z global definition as an \AFont{Item.AxiomaticDef},
+using additional kinds of expressions beyond those of Standard Z
+to make this possible.
+I've yet to comprehend any additional advantages of this representation.
+Concretely, a given types paragraph (or a single given type)
+is not an expression,
+and so \Zeta's representation seems a bit forced to me.
+
+In XML, a given types paragraph is marked-up using
+the \AFont{Z:GivenPara} element,
+as specified by the following.
+
+\begin{verbatim}
+<!ELEMENT %Z-GivenPara; (((%Z-DeclName;*), %Z-GivenParaAnns;?) | #PCDATA)>
+\end{verbatim}
+
+\subsubsection{Axiomatic description paragraphs}
+
+The following table lists the components of an axiomatic description paragraph.
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+{\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
+(Generic) axiomatic description \AParagraph & \AFont{axidef} & \AFont{Item.AxiomaticDef} & \AFont{Z:AxPara}\\
+\hline
+\AFont{seq} \TNAME & \AFont{[dec]} & \AFont{NameDecl[]} & \AFont{Z:DeclName*}\\
+\AExpression & \AFont{sch} & \AFont{Expr.Text} & \AFont{Z:Sch}\\
+\ASignature & & & \AFont{Z:AxParaAnns?}\\
+\hline
+\end{tabular}
+\end{center}
+
+In \CADiZ\ and \Zeta,
+non-generic axiomatic description paragraphs are represented
+as generic ones with an empty list of generic parameters.
+Standard Z differs, as it was thought that the semantics of generics
+would be easier to understand if the semantics of non-generics
+were defined separately first.
+
+The declarations and predicate parts of an axiomatic description paragraph
+are represented differently in the different annotated syntaxes.
+Standard Z transforms them to an expression.
+\CADiZ\ retains the schema text,
+represented by a distinct rule in the annotated syntax.
+\Zeta\ views the schema text as an expression.
+I believe that some annotations can usefully be placed on schema texts,
+and that any single expression appearing where a schema text is expected
+is best represented as an inclusion in a schema text,
+so that there is somewhere to record those annotations.
+
+In XML, an axiomatic description paragraph is marked-up using
+the \AFont{Z:AxPara} element,
+as specified here.
+
+\begin{verbatim}
+<!ELEMENT %Z-AxPara; (((%Z-DeclName;*), %Z-Sch;, %Z-AxParaAnns;?) | #PCDATA)>
+\end{verbatim}
+
+The following definitions from the Z standard
+(syntactic transformations 12.2.3.1---12.2.3.4)
+show how to represent (generic) schema definition paragraphs
+and (generic) horizontal definition paragraphs
+as (generic) axiomatic description paragraphs.
+\DTschemadef
+\DTgenschemadef
+\DThorizdef
+\DTgenhorizdef
+Generic operator definition paragraphs have their operator names
+syntactically transformed to ordinary names
+(syntactic transformations 12.2.9.1---12.2.9.4)
+and hence they become generic horizontal definition paragraphs
+that can be represented as generic axiomatic description paragraphs.
+
+The XML mark-up can use these representations,
+but resurrection of the original concrete representation
+needs an enumerated attribute \AFont{Z:Box},
+declared as follows.
+
+\begin{verbatim}
+<!ATTLIST %Z-AxPara; %Z-Box; (OmitBox | AxBox | SchBox) "AxBox">
+\end{verbatim}
+
+This attribute declaration says that element \AFont{Z:AxPara}
+has an attribute called \AFont{Z:Box}
+whose value is \AFont{OmitBox} or \AFont{AxBox} or \AFont{SchBox},
+and that the attribute takes the value \AFont{AxBox} by default.
+A further attribute is needed to distinguish whether
+mixfix syntax is used for the definition of a generic operator,
+e.g. $\_ \rel \_ [X,Y] == \power(X \cross Y)$.
+
+\begin{verbatim}
+<!ATTLIST %Z-AxPara; %Z-Params; (Square | Mixfix) "Square">
+\end{verbatim}
+
+\subsubsection{Free types paragraphs}
+
+The following tables list the components of a free types paragraph.
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+{\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
+Free types \AParagraph & \AFont{datdef} & \AFont{Item.AxiomaticDef[]} & \AFont{Z:FreePara}\\
+\hline
+\AFont{seq} \CFreetype & \AFont{[fret]} & \AFont{Expr.FreeType} & \AFont{Z:FreeType+}\\
+\ASignature & & & \AFont{Z:FreeParaAnns?}\\
+\hline
+\end{tabular}
+\end{center}
+
+In \Zeta, the representation of free types paragraphs
+is similar to that of other global definitions (see \ref{giventypes}).
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+{\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
+\CFreetype & \AFont{fret} & \AFont{Expr.FreeType} & \AFont{Z:FreeType}\\
+\hline
+\TNAME & \AFont{dec} & \AFont{NameDecl} & \AFont{Z:DeclName}\\
+\AFont{seq} \CBranch & \AFont{[bra]} & \AFont{Branch[]} & \AFont{Z:Branch+}\\
+ & & & \AFont{Z:FreeTypeAnns?}\\
+\hline
+\end{tabular}
+\end{center}
+
+The representation of a branch is very different in different tools,
+and so cannot readily be tabulated.
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+{\bf Standard Z} & {\bf XML}\\
+\CBranch & \AFont{Z:Branch}\\
+\hline
+$\TNAME$ & \AFont{Z:DeclName}\\
+\AExpression & \AFont{Z:Expr?}\\
+ & \AFont{Z:BranchAnns?}\\
+\hline
+\end{tabular}
+\end{center}
+
+In \CADiZ, a \AFont{Branch}'s name and optional expression
+are both represented by a single \AFont{dec} value,
+allowing references to the name to be tracked.
+
+In \Zeta, a \AFont{Branch} is either a \AFont{Constant} or a \AFont{Function}.
+A \AFont{Constant} has just a \AFont{NameDecl},
+whereas a \AFont{Function} has both a \AFont{NameDecl} and an \AFont{Expr}.
+
+In XML, a free types paragraph is marked-up using
+the \AFont{Z:FreePara} element,
+as specified by the following DTD element declarations.
+
+\begin{verbatim}
+<!ELEMENT %Z-FreePara; ((%Z-FreeType;+, %Z-FreeParaAnns;?) | #PCDATA)>
+<!ELEMENT %Z-FreeType; ((%Z-DeclName;, %Z-Branch;+, %Z-FreeTypeAnns;?) | #PCDATA)>
+<!ELEMENT %Z-Branch; ((%Z-DeclName;, %Z-Expr;?, %Z-BranchAnns;?) | #PCDATA)>
+\end{verbatim}
+
+\subsubsection{Conjecture paragraphs}
+
+\Zeta\ does not support conjecture paragraphs.
+
+In \CADiZ, conjectures are represented as particular cases of
+a more general syntax for sequents.
+Sequents allow for zero-or-more generic parameters,
+zero-or-more levels of nested \AFont{DeclPart}s,
+zero-or-more antecedent predicates,
+zero-or-more consequent predicates,
+and a name for the sequent.
+This more general syntax assists humans doing proofs interactively,
+but adds nothing semantically: any sequent can be rearranged
+into an equivalent single-consequent form that conforms to the Z standard
+(ignoring the sequent's name, which can be thought of as an annotation).
+Other reasoning tools for Z may use different representations for sequents.
+So it seems inappropriate to define an XML mark-up for anything
+more complicated than a Standard Z (generic) conjecture.
+
+The following table lists the components of a conjecture paragraph.
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+{\bf Standard Z} & {\bf XML}\\
+(Generic) conjecture \AParagraph & \AFont{Z:ConjPara}\\
+\hline
+\AFont{seq} \TNAME & \AFont{Z:DeclName*}\\
+\APredicate & \AFont{Z:Pred}\\
+\ASignature & \AFont{Z:ConjParaAnns?}\\
+\hline
+\end{tabular}
+\end{center}
+
+In XML, a conjecture paragraph is marked-up using
+the \AFont{Z:ConjPara} element,
+as specified by the following DTD element declaration.
+
+\begin{verbatim}
+<!ELEMENT %Z-ConjPara; ((%Z-DeclName;*), %Z-Pred;, %Z-ConjParaAnns;?) | #PCDATA)>
+\end{verbatim}
+
+This representation suffices for both generic and non-generic
+conjecture paragraphs:
+the sequence of generic parameters is empty in the non-generic case.
+
+\subsubsection{Operator template paragraphs}
+
+Standard Z has operator template paragraphs in its concrete syntax
+but not in its annotated syntax,
+because they affect how the specification is parsed
+but have no further meaning themselves.
+To be able to interchange them and resurrect their concrete syntax,
+the XML mark-up must provide a representation of them.
+
+Operator templates are one of the innovations of Standard Z
+and were subject to some late changes,
+so tools are unlikely to support operator templates exactly as in Standard Z
+(excepting \CADiZ).
+The concrete syntax allows explicit declaration of precedence and associativity
+only for infix function and infix generic operators.
+Other operators have implicit precedences and associativities,
+which it is convenient to make explicit in the annotated syntax.
+
+The following table lists the components of an operator template paragraph.
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+{\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
+Operator template \AParagraph & \AFont{fixdef} & \AFont{Fixity} & \AFont{Z:OptempPara}\\
+\hline
+\AFont{Category} & \AFont{cat} & \AFont{isGeneric} & \AFont{Z:Cat}\\
+\CPrec & \AFont{nat} & \AFont{prio} & \AFont{Z:Numeral}\\
+\CAssoc & \AFont{boole} & \AFont{?} & \AFont{Z:Assoc}\\
+\AFont{Template} & \AFont{[nat,word]} & \AFont{Component[]} & \AFont{Z:Template}\\
+\hline
+\end{tabular}
+\end{center}
+
+In \CADiZ, a \AFont{Template} is represented as a list of pairs.
+While this enforces alternation of operators and operands,
+it may unfortunately appear to add an unwanted operand at the beginning
+and/or an unwanted operator at the end,
+for which distinguishable values are needed to avoid confusion.
+
+In \Zeta, a \AFont{Template} is represented as a list of \AFont{Component}s.
+Each \AFont{Component} is either a \AFont{Keyword}, \AFont{Operand} or
+\AFont{OperandList}.
+\Zeta\ appears to parse declarations of associativity,
+but it does not appear to keep a representation of associativity
+in its annotated syntax.
+Its annotated syntax also appears not to distinguish
+relation and function categories.
+
+In XML, an operator template paragraph is marked-up using
+the \AFont{Z:OptempPara} element,
+as specified by the following DTD element declarations.
+
+\begin{verbatim}
+<!ELEMENT %Z-OptempPara; ((%Z-Numeral;, %Z-Template;, %Z-OptempParaAnns;?) | #PCDATA)>
+<!ATTLIST %Z-OptempPara; %Z-Cat; (Relation | Function | Generic) #REQUIRED>
+<!ATTLIST %Z-OptempPara; %Z-Assoc; (Left | Right) "Left">
+<!ELEMENT %Z-Numeral; #PCDATA>
+<!ELEMENT %Z-Template; ((%Z-Word; | %Z-Operand; | %Z-OperandList;),
+                        (%Z-Word; | %Z-Operand; | %Z-OperandList;)+)>
+<!ELEMENT %Z-Operand; EMPTY>
+<!ELEMENT %Z-OperandList; EMPTY>
+\end{verbatim}
+
+The category and associativity are represented as XML attributes,
+because XML elements seem less suited to representing enumerations.
+The precedence is represented as parsed character data,
+in the hope that this representation might be validated better by an XML Schema
+than a DTD's best representation---a \verb!NMTOKEN! attribute---would be.
+The declaration of a template ensures that it has two-or-more components.
+
+\subsubsection{Narrative paragraphs}
+
+\CADiZ's annotated syntax represents informal text as paragraphs
+that are interleaved between other Z paragraphs.
+Standard Z does not keep narrative in its annotated syntax.
+\Zeta\ may keep it---EmbeddedText Items might do this.
+In XML, any internal structure of narrative is irrelevant here.\footnote{%
+This representation puts the informal text within the larger formal spec.
+An alternative might be to represent the formal text
+as parts of a larger narrative.}
+
+\begin{verbatim}
+<!ELEMENT %Z-NarrPara; #PCDATA>
+\end{verbatim}
+
+\subsection{Predicates}
+
+Some of the tabular comparisons presented above have been rather forced,
+and so a different structure will be tried for the comparison of predicates.
+
+\subsubsection{Concrete syntax of predicates}
+
+The interchange mark-up should distinguish all the different predicates
+of the concrete syntax, as in Figure \ref{Fig:pred}.
+
+\begin{figure}
+\begin{bnf}
+\seldef{\CPredicate}%
+ & \isd & \DCnewlinepred\bnfcomment{newline conjunction}\\
+ & \alt & \DCsemipred\bnfcomment{semicolon conjunction}\\
+ & \alt & \DCforallpred\bnfcomment{universal quantification}\\
+ & \alt & \DCexistspred\bnfcomment{existential quantification}\\
+ & \alt & \DCuniquepred\bnfcomment{unique existential quantification}\\
+ & \alt & \DCiffpred\bnfcomment{equivalence}\\
+ & \alt & \DCimppred\bnfcomment{implication}\\
+ & \alt & \DCorpred\bnfcomment{disjunction}\\
+ & \alt & \DCandpred\bnfcomment{conjunction}\\
+ & \alt & \DCnotpred\bnfcomment{negation}\\
+ & \alt & \DCrelopappl\bnfcomment{relation operator application}\\
+ & \alt & \DCschpred\bnfcomment{schema predicate}\\
+ & \alt & \DCtruthpred\bnfcomment{truth}\\
+ & \alt & \DCfalsitypred\bnfcomment{falsity}\\
+ & \alt & \DCparenpred\bnfcomment{parenthesized predicate}\\
+ & \term & \\
+\end{bnf}
+\caption{Concrete syntax of \AFont{Predicate}}\label{Fig:pred}
+\end{figure}
+
+\subsubsection{Standard Z}
+
+Standard Z defines the semantics of the majority of predicates
+by syntactic transformations to other predicates.
+For example, the following syntactic transformation rule
+defines falsity predicates.
+\DTfalsepred
+This representation is unsuitable for an interchange mark-up,
+because the replacement of one predicate by two (negation and truth)
+leaves no obvious place to record the information needed
+to resurrect the original predicate.
+Similar arguments reject most of Standard Z's representations of predicates.
+Of the remainder, a useful commonality is identified by
+the following two syntactic transformations.
+\DTnewlinepred
+\DTsemipred
+The transformations of relation operator application predicates to memberships
+(12.2.10.1---12.1.10.4) are also useful.
+
+Parentheses are eliminated, being unnecessary in
+a structured (not linear text) annotated syntax.
+Parentheses can be resurrected wherever they are necessary
+based on precedences and associativities.
+Unnecessary parentheses might be marked-up using optional annotations
+on predicates and expressions (not specified here).
+
+\subsubsection{\CADiZ}
+
+\CADiZ's annotated syntax for predicates exploits commonalities
+in quantification predicates and binary logical predicates.
+An example of a function for which this is worthwhile is typechecking.
+The particular quantifier or logical operator is recorded
+so that other functions that need to distinguish the particular
+quantifiers and logical operators, such as prettyprinting, can do so.
+\CADiZ\ uses membership as the common representation for
+relation operator application predicates,
+much like Standard Z but differing in treating equality as an operator.
+If an original predicate did not use the membership representation,
+a reference to the relation's operator template is recorded.
+Chained relations are represented as conjunctions of relations,
+with shared substructure distinguishing them from other conjunctions.
+Shared substructure is unsuitable for an interchange mark-up,
+as it is not readily serialisable.
+
+\subsubsection{\Zeta}
+
+\Zeta's annotated syntax for predicates is remarkably similar
+to that of \CADiZ.
+Ignoring non-standard Z, the only difference from \CADiZ\ is
+the additional commonality called a \AFont{Fact},
+which generalises truth and falsity predicates.
+% Chained relations?
+
+\subsubsection{XML}
+
+The XML mark-up for predicates is
+specified by the following DTD element declarations.
+\AFont{Z:Pred} is an entity (declared in Section \ref{Abbreviations})
+that abbreviates the choice of any one of these predicate elements.
+
+\begin{verbatim}
+<!ELEMENT %Z-ExprPred; ((%Z-Expr;, %Z-ExprPredAnns;?) | #PCDATA)>
+<!ELEMENT %Z-NegPred; ((%Z-Pred;, %Z-NegPredAnns;?) | #PCDATA)>
+<!ELEMENT %Z-LogPred; ((%Z-Pred;, %Z-Pred;, %Z-LogPredAnns;?) | #PCDATA)>
+<!ATTLIST %Z-LogPred; %Z-Log; (And | Or | Imp | Iff | Nl | Semi | Chain) #REQUIRED>
+<!ELEMENT %Z-QntPred; ((%Z-Sch;, %Z-Pred;, %Z-QntPredAnns;?) | #PCDATA)>
+<!ATTLIST %Z-QntPred; %Z-Qnt; (Forall | Exists | Exists1) #REQUIRED>
+<!ELEMENT %Z-MemPred; ((%Z-Expr;, %Z-Expr;, %Z-MemPredAnns;?) | #PCDATA)>
+<!ATTLIST %Z-MemPred; %Z-Fix; (Mem | Mixfix) "Mem">
+<!ELEMENT %Z-FalsePred; (%Z-FalsePredAnns;?)>
+<!ELEMENT %Z-TruePred; (%Z-TruePredAnns;?)>
+\end{verbatim}
+
+In a \AFont{Z:LogPred} element,
+the left operand is written before the right operand.
+Chained relations are represented like conjunctions
+but with the distinct \AFont{Z:Log} attribute value \AFont{Chain}.
+Some of the logical operators and quantifiers might instead
+be encoded as single mathematical symbols.
+In a \AFont{Z:MemPred} element,
+the second expression is the set denoting the relation.
+If the \AFont{Z:Fix} attribute is \AFont{Mixfix}
+then the relation expression should be a reference to an operator,
+the membership is representing a mixfix application of that operator,
+and the first expression is the operands to that operator
+(a tuple expression if more than one operand).
+
+\subsection{Expressions}
+
+The comparison of expressions uses the same structure as used
+for the comparison of predicates above.
+This structure should admit comparisons with additional annotated syntaxes
+more readily than the structure used for comparison of paragraphs.
+
+\subsubsection{Concrete syntax of expressions}
+
+The interchange mark-up should distinguish all the different expressions
+of the concrete syntax, as in Figure \ref{Fig:expr}.
+
+\begin{figure}
+\begin{bnf}
+\seldef{\CExpression}%
+ & \isd & \DCschforall\bnfcomment{schema universal quantification}\\
+ & \alt & \DCschexists\bnfcomment{schema existential quantification}\\
+ & \alt & \DCschunique\bnfcomment{schema unique existential quantification}\\
+ & \alt & \DClambda\bnfcomment{function construction}\\
+ & \alt & \DCmu\bnfcomment{definite description}\\
+ & \alt & \DCletA\\
+ & & \DCletB\\
+ & & \DCletC\bnfcomment{substitution expression}\\
+ & \alt & \DCschiff\bnfcomment{schema equivalence}\\
+ & \alt & \DCschimp\bnfcomment{schema implication}\\
+ & \alt & \DCschor\bnfcomment{schema disjunction}\\
+ & \alt & \DCschand\bnfcomment{schema conjunction}\\
+ & \alt & \DCschnot\bnfcomment{schema negation}\\
+ & \alt & \DCcond\bnfcomment{conditional}\\
+ & \alt & \DCschcomp\bnfcomment{schema composition}\\
+ & \alt & \DCschpipe\bnfcomment{schema piping}\\
+ & \alt & \DCschhide\\
+ & & \bnfcomment{schema hiding}\\
+ & \alt & \DCschproj\bnfcomment{schema projection}\\
+ & \alt & \DCschpre\bnfcomment{schema precondition}\\
+ & \alt & \DCcp\bnfcomment{Cartesian product}\\
+ & \alt & \DCpower\bnfcomment{powerset}\\
+ & \alt & \DCfungenopappl\bnfcomment{function and generic operator application}\\
+ & \alt & \DCappl\bnfcomment{application}\\
+ & \alt & \DCschdecor\bnfcomment{schema decoration}\\
+ & \alt & \DCschrenmA\\
+ & & \DCschrenmB\bnfcomment{schema renaming}\\
+ & \alt & \DCbindsel\bnfcomment{binding selection}\\
+ & \alt & \DCtuplesel\bnfcomment{tuple selection}\\
+ & \alt & \DCtheta\bnfcomment{binding construction}\\
+ & \alt & \DCreference\bnfcomment{reference}\\
+ & \alt & \DCgeninst\\
+ & & \bnfcomment{generic instantiation}\\
+ & \alt & \DCnumber\bnfcomment{number literal}\\
+ & \alt & \DCsetextn\bnfcomment{set extension}\\
+ & \alt & \DCsetcomp\bnfcomment{set comprehension}\\
+ & \alt & \DCchsetcompA\\
+ & & \DCchsetcompB\\
+ & & \bnfcomment{characteristic set comprehension}\\
+ & \alt & \DCschconst\\
+ & & \bnfcomment{schema construction}\\
+ & \alt & \DCbindextnA\\
+ & & \DCbindextnB\bnfcomment{binding extension}\\
+ & \alt & \DCtupleextn\\
+ & & \bnfcomment{tuple extension}\\
+ & \alt & \DCchmu\bnfcomment{characteristic definite description}\\
+ & \alt & \DCparenexpr\bnfcomment{parenthesized expression}\\
+ & \term & \\
+\end{bnf}
+\caption{Concrete syntax of \AFont{Expression}}\label{Fig:expr}
+\end{figure}
+
+\subsubsection{Standard Z}
+
+Standard Z's annotated syntax for expressions
+is unsuitable as a basis for an interchange mark-up
+for the same reason as its annotated syntax for predicates is unsuitable:
+compositions of several expressions are used to represent
+single concrete expressions.
+
+\subsubsection{\CADiZ}
+
+\CADiZ's annotated syntax exploits several commonalities between expressions.
+Reference expressions are treated as generic instantiation expressions
+with zero generic parameters.
+Like predicates, common representations are used for
+quantified schema expressions and for binary logical schema expressions.
+The representations of quantifiers and logical operators are
+the same as those used by predicates.
+Function operator application expressions
+are treated as (juxtaposed) application expressions.
+If the original expression did not use the juxtaposed representation,
+a reference to the corresponding operator template is recorded.
+Generic operator application expressions
+are treated as generic instantiation expressions.
+If the original expression did not use the square-bracketted representation,
+a reference to the corresponding operator template is recorded.
+
+\subsubsection{\Zeta}
+
+\Zeta's annotated syntax, like \CADiZ, treats reference expressions
+as generic instantiation expressions.
+Unlike \CADiZ, it uses a common representation for
+not just the logical schema operations
+but for all binary expressions
+(not just $\land$, $\lor$, $\implies$, $\iff$ but also
+apply, $\semi$, $\pipe$, $\project$).
+It also uses a common representation for unary expressions
+(decorate, $\hide$, $\lnot$, $\power$, $\pre$, $/$, $\theta$).
+Its class of quantifiers is extended to include the expression forms
+($\lambda$, $\mu$, $\LET$, set comprehension).
+
+I like the extension to quantifiers,
+as this commonality can be exploited by a typechecker.
+However, the only function that I can see benefitting from
+the binary and unary commonalities is prettyprinting,
+and I'm not sure these commonalities are worthwhile just for that.
+The unary case looks to be of least worth,
+since the prettyprinter needs to show considerable variation in behaviour.
+If they are provided just for prettyprinting,
+then why not also have a common representation for
+set extension, tuple extension and binding extension (and Cartesian product)?
+
+\subsubsection{XML}
+
+The XML mark-up for expressions is
+specified by the following DTD element declarations.
+\AFont{Z:Expr} is an entity (declared in Section \ref{Abbreviations})
+that abbreviates the choice of any one of these expression elements.
+
+\begin{verbatim}
+<!ELEMENT %Z-RefExpr; ((%Z-RefName;, %Z-Exprs;, %Z-RefExprAnns;?) | #PCDATA)>
+<!ATTLIST %Z-RefExpr; %Z-Inst; (Square | Mixfix) "Square">
+\end{verbatim}
+
+\AFont{Z:Exprs} is an entity (declared in section \ref{Abbreviations})
+that abbreviates a sequence of zero-or-more expressions \AFont{Z:Expr*}.
+
+If the \AFont{Z:Inst} attribute is \AFont{Mixfix}
+then the reference expression should refer to an operator
+and the instantiation should be presented using mixfix notation,
+otherwise a square-bracketted instantiation list should be presented,
+regardless of whether the reference is to an operator or not.
+
+\begin{verbatim}
+<!ELEMENT %Z-NumExpr; (%Z-Numeral;, %Z-NumExprAnns;? | #PCDATA)>
+<!ELEMENT %Z-PowerExpr; ((%Z-Expr;, %Z-PowerExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-SetExpr; ((%Z-Exprs;, %Z-SetExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-TupleExpr; ((%Z-Exprs;, %Z-TupleExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-ProdExpr; ((%Z-Exprs;, %Z-ProdExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-BindExpr; (((%Z-DeclName;, %Z-Expr;)*, %Z-BindExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-TupleselExpr; ((%Z-Expr;, %Z-Numeral;, %Z-TupleselExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-BindselExpr; ((%Z-Expr;, %Z-Name;, %Z-BindselExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-CondExpr; ((%Z-Pred;, %Z-Expr;, %Z-Expr;, %Z-CondExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-ApplExpr; ((%Z-Expr;, %Z-Expr;, %Z-ApplExprAnns;?) | #PCDATA)>
+<!ATTLIST %Z-ApplExpr; %Z-Fix; (Juxta | Mixfix) "Juxta">
+\end{verbatim}
+
+In a \AFont{Z:ApplExpr} element,
+the first expression is the set denoting the function.
+If the \AFont{Z:Fix} attribute is \AFont{Mixfix}
+then the function expression should be a reference to an operator,
+the application is representing a mixfix application of that operator,
+and the second expression is the operands to that operator
+(a tuple expression if more than one operand).
+
+\begin{verbatim}
+<!ELEMENT %Z-DecorExpr; ((%Z-Expr;, %Z-Stroke;, %Z-DecorExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-InStroke; EMPTY>
+<!ELEMENT %Z-OutStroke; EMPTY>
+<!ELEMENT %Z-NextStroke; EMPTY>
+<!ELEMENT %Z-NumStroke; (%Z-Numeral;)>
+<!ELEMENT %Z-ThetaExpr; ((%Z-Expr;, (%Z-Stroke;*), %Z-ThetaExprAnns;?) | #PCDATA)>
+\end{verbatim}
+
+\AFont{Z:Stroke} is declared to be a choice of any one of the stroke elements
+(see Section \ref{Abbreviations}).
+
+\begin{verbatim}
+<!ELEMENT %Z-SchExpr; ((%Z-Sch;, %Z-SchExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-RenmExpr; ((%Z-Expr;, %Z-Renm;+, %Z-RenmExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-Renm; ((%Z-DeclName;, %Z-RefName;, %Z-RenmAnns;?) | #PCDATA)>
+\end{verbatim}
+
+In a \AFont{Z:Renm}, the \AFont{Z:DeclName} is the new name
+and the \AFont{Z:RefName} is the old name.
+
+\begin{verbatim}
+<!ELEMENT %Z-NegExpr; ((%Z-Expr;, %Z-NegExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-PreExpr; ((%Z-Expr;, %Z-PreExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-LogExpr; ((%Z-Expr;, %Z-Expr;, %Z-LogExprAnns;?) | #PCDATA)>
+<!ATTLIST %Z-LogExpr; %Z-Log; (And | Or | Imp | Iff) #REQUIRED>
+\end{verbatim}
+
+Newline and semicolon cannot be used as conjunction operators on schemas.
+
+\begin{verbatim}
+<!ELEMENT %Z-QntExpr; ((%Z-Sch;, %Z-Expr;?, %Z-QntExprAnns;?) | #PCDATA)>
+<!ATTLIST %Z-QntExpr; %Z-Qnt; (Forall | Exists | Exists1 | Lambda | Mu | Let | Set) #REQUIRED>
+\end{verbatim}
+
+The optional \AFont{Z:Expr} element may be omitted only for
+set comprehension and definite description expressions,
+where its omission corresponds to the characteristic tuple of the schema text.
+
+\begin{verbatim}
+<!ELEMENT %Z-CompExpr; ((%Z-Expr;, %Z-Expr;, %Z-CompExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-PipeExpr; ((%Z-Expr;, %Z-Expr;, %Z-PipeExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-ProjExpr; ((%Z-Expr;, %Z-Expr;, %Z-ProjExprAnns;?) | #PCDATA)>
+<!ELEMENT %Z-HideExpr; ((%Z-Expr;, %Z-RefName;+, %Z-HideExprAnns;?) | #PCDATA)>
+\end{verbatim}
+
+In the representations of binary operations,
+the left operand is written before the right operand.
+
+\subsection{Schema texts}
+
+In Standard Z, schema texts are converted to expressions
+by a several stage process of syntactic transformation,
+from which it would be awkward to resurrect concrete syntax.
+
+In XML, a schema text is marked-up using
+the \AFont{Z:TextSch} element,
+as specified by the following DTD element declarations.
+
+\begin{verbatim}
+<!ELEMENT %Z-TextSch; ((%Z-Decls;, %Z-Pred;?, %Z-TextSchAnns;?) | #PCDATA)>
+\end{verbatim}
+
+Omission of the optional \AFont{Z:Pred} corresponds to
+omission of the $|$ part of a schema text,
+where the predicate is implicitly $true$.
+
+\AFont{Z:Sch} is an entity (declared in section \ref{Abbreviations})
+that is a synonym for \AFont{Z:TextSch}.
+
+In \CADiZ,
+multiple declarations are represented by lists of single declarations,
+with their expressions shared.
+Variable and constant declarations have a common representation.
+
+In \Zeta, declarations are either of variables, constants or inclusions,
+exactly as in the concrete syntax.
+
+In XML, \AFont{Z:Decls} is an entity (declared in section \ref{Abbreviations})
+that abbreviates a sequence of zero-or-more declarations \AFont{Z:Decl*}.
+\AFont{Z:Decl} is declared to be a choice of
+any one of the following elements (see Section \ref{Abbreviations}).
+
+\begin{verbatim}
+<!ELEMENT %Z-VarDecl; (((%Z-DeclName;*), %Z-Expr;, %Z-VarDeclAnns;?) | #PCDATA)>
+<!ELEMENT %Z-ConstDecl; ((%Z-DeclName;, %Z-Expr;, %Z-ConstDeclAnns;?) | #PCDATA)>
+<!ELEMENT %Z-InclDecl; ((%Z-Expr;, %Z-InclDeclAnns;?) | #PCDATA)>
+\end{verbatim}
+
+\subsection{Names}
+
+In Standard Z, there is a distinction in the concrete syntax
+between names that identify new declarations (\AFont{DeclName}s)
+and names that refer to existing declarations (\AFont{RefName}s).
+In the annotated syntax of Standard Z,
+these two kinds of name have a common representation.
+
+In \CADiZ, a common representation is used,
+and the distinctions are encoded on the surrounding
+declarations and expressions.
+
+In \Zeta, the annotated syntax retains the distinction between
+\AFont{NameDecl} and \AFont{NameAppl}.
+
+In XML, different annotations might be wanted on the two kinds of name,
+and so a common representation is not used.
+A form of name that cannot be annotated is also provided.
+
+\begin{verbatim}
+<!ELEMENT %Z-DeclName; ((%Z-Word;, (%Z-Stroke;*), %Z-DeclNameAnns;?) | #PCDATA)>
+<!ELEMENT %Z-RefName; ((%Z-Word;, (%Z-Stroke;*), %Z-RefNameAnns;?) | #PCDATA)>
+<!ELEMENT %Z-Name; ((%Z-Word;, (%Z-Stroke;*)) | #PCDATA)>
+<!ELEMENT %Z-Word; #PCDATA>
+\end{verbatim}
+
+Words have no substructure worth marking-up,
+and so are represented as parsed character data.
+
+\subsection{Annotations}\label{annotations}
+
+In XML, type-related annotations, based on those in the Z standard,
+are marked-up using the elements specified by
+the following DTD element declarations.
+
+\begin{verbatim}
+<!ELEMENT %Z-SectTypeEnv; ((%Z-Name;, %Z-Word;, %Z-Type;)*)>
+<!ELEMENT %Z-SchemaSig; ((%Z-Name;, %Z-Type;)*)>
+<!ELEMENT %Z-GivenType (%Z-Name;)>
+<!ELEMENT %Z-GenType (%Z-Name;)>
+<!ELEMENT %Z-PowerType (%Z-Type;)>
+<!ELEMENT %Z-ProdType (%Z-Type;, %Z-Type;+)>
+<!ELEMENT %Z-SchemaType (%Z-Signature;)>
+\end{verbatim}
+
+\AFont{Z:Type} is an entity (declared in Section \ref{Abbreviations})
+that abbreviates the choice of any one of these type elements.
+\AFont{Z:Signature} is an entity (declared in section \ref{Abbreviations})
+that is a synonym for \AFont{Z:SchemaSig}.
+These declarations may be overridden to support
+alternative non-standard types and signatures.
+
+Earlier sections of this proposal defined the places
+where annotations can appear in XML mark-up.
+The following DTD element declarations
+associate the Z standard's type-related annotations with those places.
+
+\begin{verbatim}
+<!ELEMENT %Z-SpecAnns; EMPTY>
+\end{verbatim}
+\begin{verbatim}
+<!ELEMENT %Z-SectAnns; (%Z-SectTypeEnv;)>
+<!ELEMENT %Z-ParentAnns; EMPTY>
+\end{verbatim}
+\begin{verbatim}
+<!ELEMENT %Z-GivenParaAnns (%Z-Signature;)>
+<!ELEMENT %Z-AxParaAnns (%Z-Signature;)>
+<!ELEMENT %Z-FreeParaAnns (%Z-Signature;)>
+<!ELEMENT %Z-FreeTypeAnns EMPTY>
+<!ELEMENT %Z-BranchAnns EMPTY>
+<!ELEMENT %Z-ConjParaAnns (%Z-Signature;)>
+<!ELEMENT %Z-OptempParaAnns (%Z-Signature;)>
+\end{verbatim}
+\begin{verbatim}
+<!ELEMENT %Z-ExprPredAnns EMPTY>
+<!ELEMENT %Z-NegPredAnns EMPTY>
+<!ELEMENT %Z-LogPredAnns EMPTY>
+<!ELEMENT %Z-QntPredAnns EMPTY>
+<!ELEMENT %Z-MemPredAnns EMPTY>
+<!ELEMENT %Z-FalsePredAnns EMPTY>
+<!ELEMENT %Z-TruePredAnns EMPTY>
+\end{verbatim}
+\begin{verbatim}
+<!ELEMENT %Z-RefExprAnns (%Z-Type;)>
+<!ELEMENT %Z-NumExprAnns (%Z-Type;)>
+<!ELEMENT %Z-PowerExprAnns (%Z-Type;)>
+<!ELEMENT %Z-SetExprAnns (%Z-Type;)>
+<!ELEMENT %Z-TupleExprAnns (%Z-Type;)>
+<!ELEMENT %Z-ProdExprAnns (%Z-Type;)>
+<!ELEMENT %Z-BindExprAnns (%Z-Type;)>
+<!ELEMENT %Z-TupleselExprAnns (%Z-Type;)>
+<!ELEMENT %Z-BindselExprAnns (%Z-Type;)>
+<!ELEMENT %Z-CondExprAnns (%Z-Type;)>
+<!ELEMENT %Z-ApplExprAnns (%Z-Type;)>
+<!ELEMENT %Z-DecorExprAnns (%Z-Type;)>
+<!ELEMENT %Z-ThetaExprAnns (%Z-Type;)>
+<!ELEMENT %Z-SchExprAnns (%Z-Type;)>
+<!ELEMENT %Z-RenmExprAnns (%Z-Type;)>
+<!ELEMENT %Z-RenmAnns EMPTY>
+<!ELEMENT %Z-NegExprAnns (%Z-Type;)>
+<!ELEMENT %Z-PreExprAnns (%Z-Type;)>
+<!ELEMENT %Z-LogExprAnns (%Z-Type;)>
+<!ELEMENT %Z-QntExprAnns (%Z-Type;)>
+<!ELEMENT %Z-CompExprAnns (%Z-Type;)>
+<!ELEMENT %Z-PipeExprAnns (%Z-Type;)>
+<!ELEMENT %Z-ProjExprAnns (%Z-Type;)>
+<!ELEMENT %Z-HideExprAnns (%Z-Type;)>
+\end{verbatim}
+\begin{verbatim}
+<!ELEMENT %Z-TextSchAnns (%Z-Signature;)>
+<!ELEMENT %Z-VarDeclAnns EMPTY>
+<!ELEMENT %Z-ConstDeclAnns EMPTY>
+<!ELEMENT %Z-InclDeclAnns EMPTY>
+\end{verbatim}
+\begin{verbatim}
+<!ELEMENT %Z-DeclNameAnns EMPTY>
+<!ELEMENT %Z-RefNameAnns EMPTY>
+\end{verbatim}
+
+Tools should be able to exchange whatever annotations they want to.
+This can be achieved by overriding the above element declarations
+using declarations internal to the XML document
+that is exchanged between the tools.
+
+\section{An example XML document using this DTD}
+
+The $BirthdayBook$ example of section \ref{Specification}
+is here presented again, first in full without any annotations,
+and then a part is shown with type-related annotations.
+An internal DTD is used to remove the explicit namespace prefix
+(hopelessly trying to make the example readable).
+
+\subsection{Without annotations}
+
+\begin{zed}
+\verb&<?xml version="1.0" encoding="UTF-8" standalone="no"?>&\\
+\verb&<!DOCTYPE Z:Spec SYSTEM "http://www-users.cs.york.ac.uk/~ian/zstan/Z.dtd" [&\\
+\verb&  <!ENTITY % Z-prefix "">&\\
+\verb&  <!ENTITY % Z-colon "">&\\
+\verb&]>&\\
+\verb&<Spec>&\\
+\verb& &Mathematical~toolkit~should~go~here\\
+\verb& <Sect><Word>&Specification\verb&</Word>&\\
+\verb&  <GivenPara><DeclName><Word>&NAME\verb&</Word></DeclName>&\\
+\verb&             <DeclName><Word>&DATE\verb&</Word></DeclName></GivenPara>&\\
+\verb&  <AxPara Box="SchBox">&\\
+\verb&   <TextSch>&\\
+\verb&    <ConstDecl><DeclName><Word>&BirthdayBook\verb&</Word></DeclName>&\\
+\end{zed}
+\begin{zed}
+\verb&     <SchExpr>&\\
+\verb&      <TextSch>&\\
+\verb&       <VarDecl><DeclName><Word>&known\verb&</Word></DeclName>&\\
+\verb&        <PowerExpr><RefExpr><RefName><Word>&NAME\verb&</Word></RefName></RefExpr></PowerExpr>&\\
+\verb&       </VarDecl>&\\
+\verb&       <VarDecl><DeclName><Word>&birthday\verb&</Word></DeclName>&\\
+\verb&        <RefExpr>&\\
+\verb&         <RefName><Word>&\Join\pfun\Join\verb&</Word></RefName>&\\
+\verb&         <RefExpr><RefName><Word>&NAME\verb&</Word></RefName></RefExpr>&\\
+\verb&         <RefExpr><RefName><Word>&DATE\verb&</Word></RefName></RefExpr>&\\
+\verb&        </RefExpr>&\\
+\verb&       </VarDecl>&\\
+\verb&       <RelPred>&\\
+\verb&        <TupleExpr>&\\
+\verb&         <RefExpr><RefName><Word>&known\verb&</Word></RefName></RefExpr>&\\
+\verb&         <ApplExpr>&\\
+\verb&          <RefExpr>&\\
+\verb&           <RefName><Word>&dom\verb&</Word></RefName>&\\
+\verb&           <RefExpr><RefName><Word>&NAME\verb&</Word></RefName></RefExpr>&\\
+\verb&           <RefExpr><RefName><Word>&DATE\verb&</Word></RefName></RefExpr>&\\
+\verb&          </RefExpr>&\\
+\verb&          <RefExpr><RefName><Word>&birthday\verb&</Word></RefName></RefExpr>&\\
+\verb&         </ApplExpr>&\\
+\verb&        </TupleExpr>&\\
+\verb&        <RefExpr>&\\
+\verb&         <RefName><Word>&\Join=\Join\verb&</Word></RefName>&\\
+\verb&         <PowerExpr><RefExpr><RefName><Word>&NAME\verb&</Word></RefName></RefExpr></PowerExpr>&\\
+\verb&        </RefExpr>&\\
+\verb&       </RelPred>&\\
+\verb&      </TextSch>&\\
+\verb&     </SchExpr>&\\
+\verb&    </ConstDecl>&\\
+\verb&   </TextSch>&\\
+\verb&  </AxPara>&\\
+\verb& </Sect>&\\
+\verb&</Spec>&\\
+\end{zed}
+
+\subsection{With annotations}
+
+Here is just the declaration of $known$ including some type annotations.
+
+\begin{zed}
+\verb&<VarDecl><DeclName><Word>&known\verb&</Word></DeclName>&\\
+\verb& <PowerExpr>&\\
+\verb&  <RefExpr>&\\
+\verb&   <RefName><Word>&NAME\verb&</Word></RefName>&\\
+\verb&   <PowerType><GivenType><DeclName><Word>&NAME\verb&</Word></DeclName></GivenType></PowerType>&\\
+\verb&  </RefExpr>&\\
+\verb&  <PowerType>&\\
+\verb&   <PowerType><GivenType><DeclName><Word>&NAME\verb&</Word></DeclName></GivenType></PowerType>&\\
+\verb&  </PowerType>&\\
+\verb& </PowerExpr>&\\
+\verb&</VarDecl>&\\
+\end{zed}
+
+\section{Parameter entities}
+
+\subsection{Choice abbreviations}\label{Abbreviations}
+
+These parameter entity declarations all abbreviate choices.
+They should appear in the DTD before they are used.
+Extensions to Standard Z could be captured by overriding these parameters.
+
+\begin{verbatim}
+<!ENTITY % Z-Para "(%Z-GivenPara; | %Z-AxPara; | %Z-FreePara; |
+                    %Z-ConjPara; | %Z-OptempPara; | %Z-NarrPara;)">
+<!ENTITY % Z-Pred "(%Z-ExprPred; | %Z-NegPred; | %Z-LogPred; | %Z-QntPred; |
+                    %Z-MemPred; | %Z-FalsePred; | %Z-TruePred;)">
+<!ENTITY % Z-Stroke "(%Z-InStroke; | %Z-OutStroke; | %Z-NextStroke; | %Z-NumStroke;)">
+<!ENTITY % Z-Expr "(%Z-RefExpr; | %Z-NumExpr; | %Z-PowerExpr; | %Z-SetExpr; |
+                    %Z-TupleExpr; | %Z-ProdExpr; | %Z-BindExpr; | %Z-TupleselExpr; |
+                    %Z-BindselExpr; | %Z-CondExpr; | %Z-ApplExpr; | %Z-DecorExpr; |
+                    %Z-ThetaExpr; | %Z-SchExpr; | %Z-RenmExpr; | %Z-NegExpr; |
+                    %Z-PreExpr; | %Z-LogExpr; | %Z-QntExpr; | %Z-CompExpr; |
+                    %Z-PipeExpr; | %Z-ProjExpr; | %Z-HideExpr;)">
+<!ENTITY % Z-Exprs "(%Z-Expr;*)">
+<!ENTITY % Z-Signature "(%Z-SchemaSig;)">
+<!ENTITY % Z-Type "(%Z-GivenType; | %Z-GenType; | %Z-PowerType; |
+                    %Z-ProdType; | %Z-SchemaType;)">
+<!ENTITY % Z-Sch "(%Z-TextSch;)">
+<!ENTITY % Z-Decls "(%Z-Decl;*)">
+<!ENTITY % Z-Decl "(%Z-VarDecl; | %Z-ConstDecl; | %Z-InclDecl;)">
+\end{verbatim}
+
+\subsection{Element names}\label{ElementNames}
+
+These parameter entity declarations all define element names.
+They should appear in the DTD before the element names are used,
+i.e.\ in Section \ref{DTDparams} from where they were deferred.
+
+\begin{verbatim}
+<!ENTITY % Z-Spec "%Z-prefix;%Z-colon;Spec">
+\end{verbatim}
+\begin{verbatim}
+<!ENTITY % Z-Sect "%Z-prefix;%Z-colon;Sect">
+<!ENTITY % Z-Parent "%Z-prefix;%Z-colon;Parent">
+<!ENTITY % Z-SectTypeEnv "%Z-prefix;%Z-colon;SectTypeEnv">
+\end{verbatim}
+\begin{verbatim}
+<!ENTITY % Z-GivenPara "%Z-prefix;%Z-colon;GivenPara">
+<!ENTITY % Z-AxPara "%Z-prefix;%Z-colon;AxPara">
+<!ENTITY % Z-Box "%Z-prefix;%Z-colon;Box">
+<!ENTITY % Z-Params "%Z-prefix;%Z-colon;Params">
+<!ENTITY % Z-FreePara "%Z-prefix;%Z-colon;FreePara">
+<!ENTITY % Z-FreeType "%Z-prefix;%Z-colon;FreeType">
+<!ENTITY % Z-Branch "%Z-prefix;%Z-colon;Branch">
+<!ENTITY % Z-ConjPara "%Z-prefix;%Z-colon;ConjPara">
+<!ENTITY % Z-OptempPara "%Z-prefix;%Z-colon;OptempPara">
+<!ENTITY % Z-NarrPara "%Z-prefix;%Z-colon;NarrPara">
+<!ENTITY % Z-Cat "%Z-prefix;%Z-colon;Cat">
+<!ENTITY % Z-Assoc "%Z-prefix;%Z-colon;Assoc">
+<!ENTITY % Z-Numeral "%Z-prefix;%Z-colon;Numeral">
+<!ENTITY % Z-Template "%Z-prefix;%Z-colon;Template">
+<!ENTITY % Z-Operand "%Z-prefix;%Z-colon;Operand">
+<!ENTITY % Z-OperandList "%Z-prefix;%Z-colon;OperandList">
+\end{verbatim}
+\begin{verbatim}
+<!ENTITY % Z-ExprPred "%Z-prefix;%Z-colon;ExprPred">
+<!ENTITY % Z-NegPred "%Z-prefix;%Z-colon;NegPred">
+<!ENTITY % Z-LogPred "%Z-prefix;%Z-colon;LogPred">
+<!ENTITY % Z-Log "%Z-prefix;%Z-colon;Log">
+<!ENTITY % Z-QntPred "%Z-prefix;%Z-colon;QntPred">
+<!ENTITY % Z-Qnt "%Z-prefix;%Z-colon;Qnt">
+<!ENTITY % Z-MemPred "%Z-prefix;%Z-colon;MemPred">
+<!ENTITY % Z-Fix "%Z-prefix;%Z-colon;Fix">
+<!ENTITY % Z-FalsePred "%Z-prefix;%Z-colon;FalsePred">
+<!ENTITY % Z-TruePred "%Z-prefix;%Z-colon;TruePred">
+\end{verbatim}
+\begin{verbatim}
+<!ENTITY % Z-RefExpr "%Z-prefix;%Z-colon;RefExpr">
+<!ENTITY % Z-Inst "%Z-prefix;%Z-colon;Inst">
+<!ENTITY % Z-NumExpr "%Z-prefix;%Z-colon;NumExpr">
+<!ENTITY % Z-PowerExpr "%Z-prefix;%Z-colon;PowerExpr">
+<!ENTITY % Z-SetExpr "%Z-prefix;%Z-colon;SetExpr">
+<!ENTITY % Z-TupleExpr "%Z-prefix;%Z-colon;TupleExpr">
+<!ENTITY % Z-ProdExpr "%Z-prefix;%Z-colon;ProdExpr">
+<!ENTITY % Z-BindExpr "%Z-prefix;%Z-colon;BindExpr">
+<!ENTITY % Z-TupleselExpr "%Z-prefix;%Z-colon;TupleselExpr">
+<!ENTITY % Z-BindselExpr "%Z-prefix;%Z-colon;BindselExpr">
+<!ENTITY % Z-CondExpr "%Z-prefix;%Z-colon;CondExpr">
+<!ENTITY % Z-ApplExpr "%Z-prefix;%Z-colon;ApplExpr">
+<!ENTITY % Z-Fix "%Z-prefix;%Z-colon;Fix">
+<!ENTITY % Z-DecorExpr "%Z-prefix;%Z-colon;DecorExpr">
+<!ENTITY % Z-InStroke "%Z-prefix;%Z-colon;InStroke">
+<!ENTITY % Z-OutStroke "%Z-prefix;%Z-colon;OutStroke">
+<!ENTITY % Z-NextStroke "%Z-prefix;%Z-colon;NextStroke">
+<!ENTITY % Z-NumStroke "%Z-prefix;%Z-colon;NumStroke">
+<!ENTITY % Z-ThetaExpr "%Z-prefix;%Z-colon;ThetaExpr">
+<!ENTITY % Z-SchExpr "%Z-prefix;%Z-colon;SchExpr">
+<!ENTITY % Z-RenmExpr "%Z-prefix;%Z-colon;RenmExpr">
+<!ENTITY % Z-Renm "%Z-prefix;%Z-colon;Renm">
+<!ENTITY % Z-NegExpr "%Z-prefix;%Z-colon;NegExpr">
+<!ENTITY % Z-PreExpr "%Z-prefix;%Z-colon;PreExpr">
+<!ENTITY % Z-LogExpr "%Z-prefix;%Z-colon;LogExpr">
+<!ENTITY % Z-QntExpr "%Z-prefix;%Z-colon;QntExpr">
+<!ENTITY % Z-CompExpr "%Z-prefix;%Z-colon;CompExpr">
+<!ENTITY % Z-PipeExpr "%Z-prefix;%Z-colon;PipeExpr">
+<!ENTITY % Z-ProjExpr "%Z-prefix;%Z-colon;ProjExpr">
+<!ENTITY % Z-HideExpr "%Z-prefix;%Z-colon;HideExpr">
+\end{verbatim}
+\begin{verbatim}
+<!ENTITY % Z-SchemaSig "%Z-prefix;%Z-colon;SchemaSig">
+<!ENTITY % Z-GivenType "%Z-prefix;%Z-colon;GivenType">
+<!ENTITY % Z-GenType "%Z-prefix;%Z-colon;GenType">
+<!ENTITY % Z-PowerType "%Z-prefix;%Z-colon;PowerType">
+<!ENTITY % Z-ProdType "%Z-prefix;%Z-colon;ProdType">
+<!ENTITY % Z-SchemaType "%Z-prefix;%Z-colon;SchemaType">
+\end{verbatim}
+\begin{verbatim}
+<!ENTITY % Z-TextSch "%Z-prefix;%Z-colon;Sch">
+<!ENTITY % Z-VarDecl "%Z-prefix;%Z-colon;VarDecl">
+<!ENTITY % Z-ConstDecl "%Z-prefix;%Z-colon;ConstDecl">
+<!ENTITY % Z-InclDecl "%Z-prefix;%Z-colon;InclDecl">
+\end{verbatim}
+\begin{verbatim}
+<!ENTITY % Z-DeclName "%Z-prefix;%Z-colon;DeclName">
+<!ENTITY % Z-RefName "%Z-prefix;%Z-colon;RefName">
+<!ENTITY % Z-Name "%Z-prefix;%Z-colon;Name">
+<!ENTITY % Z-Word "%Z-prefix;%Z-colon;Word">
+\end{verbatim}
+\begin{verbatim}
+<!ENTITY % Z-SpecAnns "%Z-Spec;Anns">
+<!ENTITY % Z-SectAnns "%Z-Sect;Anns">
+<!ENTITY % Z-ParentAnns "%Z-Parent;Anns">
+<!ENTITY % Z-GivenParaAnns "%Z-GivenPara;Anns">
+<!ENTITY % Z-AxParaAnns "%Z-AxPara;Anns">
+<!ENTITY % Z-FreeParaAnns "%Z-FreePara;Anns">
+<!ENTITY % Z-FreeTypeAnns "%Z-FreeType;Anns">
+<!ENTITY % Z-BranchAnns "%Z-Branch;Anns">
+<!ENTITY % Z-ConjParaAnns "%Z-ConjPara;Anns">
+<!ENTITY % Z-OptempParaAnns "%Z-OptempPara;Anns">
+<!ENTITY % Z-ExprPredAnns "%Z-ExprPred;Anns">
+<!ENTITY % Z-NegPredAnns "%Z-NegPred;Anns">
+<!ENTITY % Z-LogPredAnns "%Z-LogPred;Anns">
+<!ENTITY % Z-QntPredAnns "%Z-QntPred;Anns">
+<!ENTITY % Z-MemPredAnns "%Z-MemPred;Anns">
+<!ENTITY % Z-FalsePredAnns "%Z-FalsePred;Anns">
+<!ENTITY % Z-TruePredAnns "%Z-TruePred;Anns">
+<!ENTITY % Z-RefExprAnns "%Z-RefExpr;Anns">
+<!ENTITY % Z-NumExprAnns "%Z-NumExpr;Anns">
+<!ENTITY % Z-PowerExprAnns "%Z-PowerExpr;Anns">
+<!ENTITY % Z-SetExprAnns "%Z-SetExpr;Anns">
+<!ENTITY % Z-TupleExprAnns "%Z-TupleExpr;Anns">
+<!ENTITY % Z-ProdExprAnns "%Z-ProdExpr;Anns">
+<!ENTITY % Z-BindExprAnns "%Z-BindExpr;Anns">
+<!ENTITY % Z-TupleselExprAnns "%Z-TupleselExpr;Anns">
+<!ENTITY % Z-BindselExprAnns "%Z-BindselExpr;Anns">
+<!ENTITY % Z-CondExprAnns "%Z-CondExpr;Anns">
+<!ENTITY % Z-ApplExprAnns "%Z-ApplExpr;Anns">
+<!ENTITY % Z-DecorExprAnns "%Z-DecorExpr;Anns">
+<!ENTITY % Z-ThetaExprAnns "%Z-ThetaExpr;Anns">
+<!ENTITY % Z-SchExprAnns "%Z-SchExpr;Anns">
+<!ENTITY % Z-RenmExprAnns "%Z-RenmExpr;Anns">
+<!ENTITY % Z-RenmAnns "%Z-Renm;Anns">
+<!ENTITY % Z-NegExprAnns "%Z-NegExpr;Anns">
+<!ENTITY % Z-PreExprAnns "%Z-PreExpr;Anns">
+<!ENTITY % Z-LogExprAnns "%Z-LogExpr;Anns">
+<!ENTITY % Z-QntExprAnns "%Z-QntExpr;Anns">
+<!ENTITY % Z-CompExprAnns "%Z-CompExpr;Anns">
+<!ENTITY % Z-PipeExprAnns "%Z-PipeExpr;Anns">
+<!ENTITY % Z-ProjExprAnns "%Z-ProjExpr;Anns">
+<!ENTITY % Z-HideExprAnns "%Z-HideExpr;Anns">
+<!ENTITY % Z-TextSchAnns "%Z-TextSch;Anns">
+<!ENTITY % Z-VarDeclAnns "%Z-VarDecl;Anns">
+<!ENTITY % Z-ConstDeclAnns "%Z-ConstDecl;Anns">
+<!ENTITY % Z-InclDeclAnns "%Z-InclDecl;Anns">
+<!ENTITY % Z-DeclNameAnns "%Z-DeclName;Anns">
+<!ENTITY % Z-RefNameAnns "%Z-RefName;Anns">
+\end{verbatim}
+
+\section{Conclusions}
+
+Well, a DTD for Standard Z has been drafted,
+but it hasn't even been given to a validating parser yet.
+The comparison has been worthwhile,
+as can be seen by considering the main influences on the DTD.
+Specification's representation is influenced mainly by the form of XML.
+Section's representation is influenced mainly by \Zeta.
+Paragraph's representation is influenced mainly by Standard Z,
+with the commonality between generics and non-generics taken from
+both \CADiZ\ and \Zeta,
+and the template representation in operator templates taken from \Zeta.
+Predicate's representation is influenced mainly by \CADiZ\ and \Zeta,
+which use remarkably similar representations.
+Expression's representation falls between those of \CADiZ\ and \Zeta.
+Schema text and name's representations are influenced mainly by \Zeta.
+
+The XML mark-up clearly supports the interchange of type-related annotations.
+It allows a prettyprinter to resurrect concrete syntax.
+One thing that hasn't been defined is annotations to encode
+the relation between declarations and references to them.
+The tool that has such annotations (\CADiZ)
+keeps them in a form that is not readily serialisable.
+Maybe an interchangeable encoding of this relation could be found,
+or maybe it wouldn't be too hard to infer this relation
+from the type annotations.
+Logical inference rules and animation strategies could certainly
+be defined over annotated syntax constructed from the XML mark-up,
+but the mark-up does nothing to support
+the variable capture avoidance methods used by \CADiZ.
+
+This document began with requirements of a Z interchange mark-up,
+without considering specific requirements of an XML mark-up.
+Others have suggested that an XML mark-up should be capable of
+marking-up syntactically erroneous Z.
+The \verb!#PCDATA! alternatives support this.
+Another requirement suggested for an XML mark-up is that it
+should be possible for standard XML tools to render it via stylesheets,
+without a Z-specific tool being needed.
+I've not tried to satisfy this requirement.
+A likely area of difficulty is in generating mixfix notation
+for operator applications and names.
+An annotation on each operator template paragraph
+giving the full name of the operator,
+along with ensuring that it precedes all paragraphs that use the operator,
+might be useful to a stylesheet (but I'm guessing now).
+Insertion of necessary parentheses might also be awkward,
+but hopefully stylesheets are capable of that.
+
+This DTD has not declared any entities as names for mathematical symbols,
+as it is assumed that the XML mark-up is for use by tools
+in which the Z tokens (names, numbers, etc)
+are already in a Unicode representation.
+This would have been the part of the specification that an XML schema
+is known to be unable to express,
+so maybe an XML Schema could specify this mark-up after all.
+
+%\section*{Acknowledgements}
+%
+%Make a useful suggestion and your name could go here.
+%
+\bibliographystyle{plain}
+\bibliography{cmp}
+
+\end{document}

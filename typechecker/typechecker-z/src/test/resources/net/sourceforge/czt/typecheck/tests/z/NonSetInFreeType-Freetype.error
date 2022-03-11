@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSetInFreeType\_Freetype
+\end{zsection}
+
+\begin{zed}
+  x ::= y \ldata 1 \rdata
+\end{zed}

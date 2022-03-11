@@ -1,0 +1,81 @@
+\documentclass{article}
+\usepackage{oz}
+\newcommand{\negate}{-}
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+\title{CZT Tests for Basic Set Operations}
+\author{Mark Utting \\ \texttt{marku@cs.waikato.ac.nz}}
+\begin{document}
+\maketitle
+
+Each conjecture should evaluate to True.
+However, those conjectures whose right-hand-size contains
+the constant undefnum should have an undefined left-hand-side.
+
+\begin{axdef}
+  undefnum : \num
+\end{axdef}
+
+\section{Testing scoping issues...}
+
+\begin{zed} \vdash? \{x:\power_1 \{1\} @ \{x:x @ x\} \} = \{ \{1\} \} \end{zed}
+\begin{zed} \vdash? \{x:\power_1 \{1\} @ \{x:x | x > 0 @ x\} \} = \{ \{1\} \} \end{zed}
+
+ These next ones should be identical
+\begin{zed} \vdash? \{x:\power_1 \{1\} @ \{x:x;y:x @ y\} \} = \{ \{1\} \} \end{zed}
+\begin{zed} \vdash? \{x:\power_1 \{1\} @ \{x:x;y:x @ x\} \} = \{ \{1\} \} \end{zed}
+
+\begin{zed} \vdash? \{x:\power_1 \{1\} @ \{x,x':x @ x*2+x'*3\} \} = \{ \{5\} \} \end{zed}
+
+
+\section{Testing predicates that contain \LET...}
+NOTE: these are now illegal in standard Z, so we use \exists instead.
+\begin{zed} \vdash? (\exists x==1 @ x=1) \end{zed}
+\begin{zed} \vdash? (\exists x==1; y==1 @ x=y) \end{zed}
+
+ 13Apr2002: Jaza: This one gives sub precond error: vars {x} doesn't include y
+ (Problem is that '+' stays as a ZVar!  Why?  Perhaps range of LET
+  is not being unfolded, because traverse visitor problem?)
+\begin{zed} \vdash? 
+   (\exists x==1 @ (\exists x==x+1; y==x @ x=2 \land y=1)) 
+\end{zed}
+\begin{zed} \vdash? 
+   (\exists x==1 @ (\exists x==2; y==x+3 @ x=2 \land y=4))
+\end{zed}
+
+\section{Testing expressions that contain \LET...}
+
+\begin{zed} \vdash? (\LET x==1 @ x) = 1 \end{zed}
+\begin{zed} \vdash? (\LET x==1; y==1 @ x+y) = 2 \end{zed}
+
+\begin{zed} \vdash? (\LET x==1 @ (\LET x==x+1; y==x @ 7*x+y)) = 15 \end{zed}
+\begin{zed} \vdash? (\LET x==1 @ (\LET x==2; y==x+3 @ 7*x+y)) = 18 \end{zed}
+
+
+\section{Testing exists_1 and nested exists/forall}
+\begin{zed} \vdash?       (\exists_1 n:80 \upto 90 @ (\exists f:\negate 10 \upto 10 @ f*f=n)) \end{zed}
+\begin{zed} \vdash? \lnot (\exists_1 n:80 \upto 90 @ (\exists_1 f:\negate 10 \upto 10 @ f*f=n)) \end{zed}
+\begin{zed} \vdash? \lnot (\exists_1 n:80 \upto 90; f:\negate 10 \upto 10 @ f*f=n) \end{zed}
+\begin{zed} \vdash?       (\exists_1 n:80 \upto 90 @ (\forall f:\{\negate 9,9\} @ f*f=n)) \end{zed}
+
+
+ Complex schema nestings
+\begin{zed}
+   X == \{ 42 \} \\
+   S1 == [a:X] \land [X:\power \nat |  X=\emptyset] \\
+   S2 == (\exists X:\power \nat @ [a:X] \land [X:\power \nat | X=\emptyset])
+\end{zed}
+
+\begin{zed} \vdash? \# S1 = 1 \end{zed}
+
+ Moving predicates from types into predicate part.
+\begin{schema}{SX}
+    X : X
+\where
+    X=43
+\end{schema}
+
+\begin{zed} \vdash? \# SX = 0 \end{zed}
+
+\end{document}

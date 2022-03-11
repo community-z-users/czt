@@ -1,0 +1,9 @@
+\begin{zsection}
+  \SECTION TypeMismatchInMemPred\_MemPred
+\end{zsection}
+
+\begin{axdef}
+  a == \{1\}
+\where
+  a \in \arithmos
+\end{axdef}

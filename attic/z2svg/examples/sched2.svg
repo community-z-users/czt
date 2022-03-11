@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg
+width="100%"
+height="400"
+version="1.1"
+baseProfile="full"
+onload="init()"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:ev="http://www.w3.org/2001/xml-events">
+
+<script type="text/ecmascript" xlink:href="../src/wffs.es"/>
+
+<rect x="10" y="10" width="800" height="400" fill="silver" outline="none" onclick="deselect()"/>
+
+<g id="wff_root" fill="black" sel="true">
+  <text font-family="CZT" onclick="select(evt)">exec_inst</text>
+  
+  <g id="schematext" sel="true" break="yes">
+    <g id="net.sourceforge.czt.z.impl.InclDeclImpl@585bce45" sel="true">
+      <g id="net.sourceforge.czt.z.impl.RefExprImpl@5d1d7cb4" sel="true">
+        <text font-family="CZT" onclick="select(evt)">ΔSystem</text>
+      </g>
+    </g>
+
+    <g id="net.sourceforge.czt.z.impl.VarDeclImpl@12ab277f" sel="false" break="yes">
+      <g sel="true">
+        <text font-family="CZT" onclick="select(evt)">inst?</text>
+      </g>
+      <text font-family="CZT" onclick="select(evt)" space="5">:</text>
+      <g id="net.sourceforge.czt.z.impl.RefExprImpl@5ac777f" sel="true" break="maybe" indent="16">
+        <text font-family="CZT" onclick="select(evt)" space="5">Instruction</text>
+      </g>
+    </g>
+
+    <g id="net.sourceforge.czt.z.impl.VarDeclImpl@fcc5da9d" sel="false" break="yes">
+      <g sel="true">
+        <text font-family="CZT" onclick="select(evt)" space="5">base?</text>
+      </g>
+      <text font-family="CZT" onclick="select(evt)" space="5">:</text>
+      <g id="net.sourceforge.czt.print.ast.OperatorApplication@266877cc" sel="true" break="maybe" indent="16">
+        <g id="net.sourceforge.czt.z.impl.NumExprImpl@ab0efa0f">
+          <text font-family="CZT" onclick="select(evt)" space="5">1</text>
+        </g>
+        <g sel="true">
+          <text font-family="CZT" onclick="select(evt)" space="3">..</text>
+        </g>
+        <g id="net.sourceforge.czt.z.impl.RefExprImpl@877037fc" sel="true">
+          <text font-family="CZT" onclick="select(evt)" space="3">mem_size</text>
+        </g>
+      </g>
+    </g>
+
+
+    <g id="net.sourceforge.czt.z.impl.ExistsPredImpl@8b139e7e" sel="true" break="yes">
+      <text font-family="CZT" onclick="select(evt)">∃</text>
+      <g id="net.sourceforge.czt.z.impl.ZSchTextImpl@d5d03ebc" sel="true">
+        <g sel="false">
+          <g id="net.sourceforge.czt.z.impl.VarDeclImpl@34f10010" sel="false">
+            <g sel="true">
+              <text font-family="CZT" onclick="select(evt)" space="5">label</text>
+            </g>
+            <text font-family="CZT" onclick="select(evt)" space="5">:</text>
+            <g id="net.sourceforge.czt.z.impl.PowerExprImpl@f5479ebd" sel="true" break="maybe" indent="16">
+              <text font-family="CZT" onclick="select(evt)" space="5">ℙ</text>
+              <g id="net.sourceforge.czt.z.impl.RefExprImpl@85a46865" sel="true">
+                <text font-family="CZT" onclick="select(evt)" space="5">LABEL</text>
+              </g>
+            </g>
+          </g>
+          <text font-family="CZT" onclick="select(evt)" space="5">;</text>
+          <g id="net.sourceforge.czt.z.impl.VarDeclImpl@42eba12f" sel="false" break="maybe" indent="10">
+            <g sel="true">
+              <text font-family="CZT" onclick="select(evt)" space="5">name</text>
+            </g>
+            <text font-family="CZT" onclick="select(evt)" space="5">:</text>
+            <g id="net.sourceforge.czt.z.impl.RefExprImpl@94896675" sel="true" break="maybe" indent="16">
+              <text font-family="CZT" onclick="select(evt)" space="5">INST_NAME</text>
+            </g>
+          </g>
+          <text font-family="CZT" onclick="select(evt)" space="5">;</text>
+          <g id="net.sourceforge.czt.z.impl.VarDeclImpl@718266f3" sel="false" break="maybe" indent="10">
+            <g sel="true">
+              <text font-family="CZT" onclick="select(evt)" space="5">params</text>
+            </g>
+            <text font-family="CZT" onclick="select(evt)" space="5">:</text>
+            <g id="net.sourceforge.czt.print.ast.OperatorApplication@266877cc" sel="true" break="maybe" indent="16">
+              <g sel="true">
+                <text font-family="CZT" onclick="select(evt)" space="5">seq</text>
+              </g>
+              <g id="net.sourceforge.czt.z.impl.RefExprImpl@67cd54fa" sel="true">
+                <text font-family="CZT" onclick="select(evt)" space="3">OPERAND</text>
+              </g>
+            </g>
+          </g>
+        </g>
+        <text font-family="CZT" onclick="select(evt)" space="5">|</text>
+        <g id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true" break="maybe" indent="10">
+          <g id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true">
+            <g id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true">
+              <g id="net.sourceforge.czt.z.impl.RefExprImpl@5ad8d885" sel="true">
+                <text font-family="CZT" onclick="select(evt)" space="5">label</text>
+              </g>
+              <text font-family="CZT" onclick="select(evt)" space="5">=</text>
+              <g id="net.sourceforge.czt.z.impl.BindSelExprImpl@96e37060" sel="true" break="maybe" indent="16">
+                <g id="net.sourceforge.czt.z.impl.RefExprImpl@3c5cc076" sel="true">
+                  <text font-family="CZT" onclick="select(evt)" space="5">inst?</text>
+                </g>
+                <text font-family="CZT" onclick="select(evt)" space="3">.</text>
+                <text font-family="CZT" onclick="select(evt)" space="3">label</text>
+              </g>
+            </g>
+            <text font-family="CZT" onclick="select(evt)" space="5">∧</text>
+            <g id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true" break="maybe">
+              <g id="net.sourceforge.czt.z.impl.RefExprImpl@1fdc4a5c" sel="true">
+                <text font-family="CZT" onclick="select(evt)" space="5">name</text>
+              </g>
+              <text font-family="CZT" onclick="select(evt)" space="5">=</text>
+              <g id="net.sourceforge.czt.z.impl.BindSelExprImpl@5be6e237" sel="true" break="maybe" indent="16">
+                <g id="net.sourceforge.czt.z.impl.RefExprImpl@3c5cc076" sel="true">
+                  <text font-family="CZT" onclick="select(evt)" space="5">inst?</text>
+                </g>
+                <text font-family="CZT" onclick="select(evt)" space="3">.</text>
+                <text font-family="CZT" onclick="select(evt)" space="3">name</text>
+              </g>
+            </g>
+          </g>
+          <text font-family="CZT" onclick="select(evt)" space="5">∧</text>
+          <g id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true" break="maybe">
+            <g id="net.sourceforge.czt.z.impl.RefExprImpl@a46ff697" sel="true">
+              <text font-family="CZT" onclick="select(evt)" space="5">params</text>
+            </g>
+            <text font-family="CZT" onclick="select(evt)" space="5">=</text>
+            <g id="net.sourceforge.czt.z.impl.BindSelExprImpl@e07a8e72" sel="true" break="maybe" indent="16">
+              <g id="net.sourceforge.czt.z.impl.RefExprImpl@3c5cc076" sel="true">
+                <text font-family="CZT" onclick="select(evt)" space="5">inst?</text>
+              </g>
+              <text font-family="CZT" onclick="select(evt)" space="3">.</text>
+              <text font-family="CZT" onclick="select(evt)" space="3">params</text>
+            </g>
+          </g>
+        </g>
+      </g>
+      <text font-family="CZT" onclick="select(evt)" space="5">⦁</text>
+      <g id="net.sourceforge.czt.z.impl.ImpliesPredImpl@e44c05f3" sel="true" break="maybe" indent="16">
+        <g id="net.sourceforge.czt.z.impl.OrPredImpl@ac21050c" sel="true">
+          <g id="net.sourceforge.czt.z.impl.ExprPredImpl@72b0c9e9" sel="true">
+            <g id="net.sourceforge.czt.z.impl.OrExprImpl@d3f785c5" sel="true">
+              <g id="net.sourceforge.czt.z.impl.OrExprImpl@59fb1426" sel="true">
+                <g id="net.sourceforge.czt.z.impl.OrExprImpl@808a5ea2" sel="true">
+                  <g id="net.sourceforge.czt.z.impl.OrExprImpl@527073c2" sel="true">
+                    <g id="net.sourceforge.czt.z.impl.OrExprImpl@88ca3d83" sel="true">
+                      <g id="net.sourceforge.czt.z.impl.RefExprImpl@62602ad2">
+                        <text font-family="CZT" onclick="select(evt)" space="5">Add</text>
+                      </g>
+                      <text font-family="CZT" onclick="select(evt)" space="5">∨</text>
+                      <g id="net.sourceforge.czt.z.impl.RefExprImpl@636584b1" break="maybe">
+                        <text font-family="CZT" onclick="select(evt)" space="5">Sub</text>
+                      </g>
+                    </g>
+                    <text font-family="CZT" onclick="select(evt)" space="5">∨</text>
+                    <g id="net.sourceforge.czt.z.impl.RefExprImpl@e8a5f7e1" break="maybe">
+                      <text font-family="CZT" onclick="select(evt)" space="5">Mult</text>
+                    </g>
+                  </g>
+                  <text font-family="CZT" onclick="select(evt)" space="5">∨</text>
+                  <g id="net.sourceforge.czt.z.impl.RefExprImpl@628cfac2" break="maybe">
+                    <text font-family="CZT" onclick="select(evt)" space="5">Div</text>
+                  </g>
+                </g>
+                <text font-family="CZT" onclick="select(evt)" space="5">∨</text>
+                <g id="net.sourceforge.czt.z.impl.RefExprImpl@af1399de" break="maybe">
+                  <text font-family="CZT" onclick="select(evt)" space="5">Print</text>
+                </g>
+              </g>
+              <text font-family="CZT" onclick="select(evt)" space="5">∨</text>
+              <g id="net.sourceforge.czt.z.impl.RefExprImpl@d99242db" sel="true" break="maybe">
+                <text font-family="CZT" onclick="select(evt)" space="5">Load_Const</text>
+              </g>
+            </g>
+          </g>
+          <text font-family="CZT" onclick="select(evt)" space="5">∨</text>
+          <g id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true" break="maybe">
+            <g id="net.sourceforge.czt.z.impl.RefExprImpl@1fdc4a5c" sel="true">
+              <text font-family="CZT" onclick="select(evt)" space="5">name</text>
+            </g>
+            <text font-family="CZT" onclick="select(evt)" space="5">∈</text>
+            <g id="net.sourceforge.czt.z.impl.SetExprImpl@b2938b3a" sel="true" break="maybe" indent="16">
+              <text font-family="CZT" onclick="select(evt)" space="5">{</text>
+              <g id="net.sourceforge.czt.z.impl.RefExprImpl@1d3269f7" sel="true">
+                <text font-family="CZT" onclick="select(evt)" space="5">load</text>
+              </g>
+              <text font-family="CZT" onclick="select(evt)" space="3">,</text>
+              <g id="net.sourceforge.czt.z.impl.RefExprImpl@ee4d8b32" sel="true" break="maybe">
+                <text font-family="CZT" onclick="select(evt)" space="5">store</text>
+              </g>
+              <text font-family="CZT" onclick="select(evt)" space="5">}</text>
+            </g>
+          </g>
+        </g>
+        <text font-family="CZT" onclick="select(evt)" space="5">⇒</text>
+        <g id="net.sourceforge.czt.z.impl.ExprPredImpl@9024d222" sel="true" break="maybe" indent="16">
+          <g id="net.sourceforge.czt.z.impl.ExistsExprImpl@fe35126c" sel="true">
+            <text font-family="CZT" onclick="select(evt)" space="5">(</text>
+            <text font-family="CZT" onclick="select(evt)">∃</text>
+            <g id="net.sourceforge.czt.z.impl.ZSchTextImpl@51736c73" sel="true">
+              <g id="List" sel="true">
+                <g id="net.sourceforge.czt.z.impl.VarDeclImpl@2bb15b5d" sel="false">
+                  <g sel="true">
+                    <text font-family="CZT" onclick="select(evt)" space="5">p</text>
+                  </g>
+                  <text font-family="CZT" onclick="select(evt)" space="5">:</text>
+                  <g id="net.sourceforge.czt.print.ast.OperatorApplication@266877cc" sel="true" break="maybe" indent="16">
+                    <g sel="true">
+                      <text font-family="CZT" onclick="select(evt)" space="5">seq</text>
+                    </g>
+                    <g id="net.sourceforge.czt.z.impl.RefExprImpl@67cd54fa" sel="true" break="maybe">
+                      <text font-family="CZT" onclick="select(evt)" space="5">OPERAND</text>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <text font-family="CZT" onclick="select(evt)" space="5">|</text>
+              <g id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true" break="maybe" indent="16">
+                <g id="net.sourceforge.czt.z.impl.RefExprImpl@5e9eeb01">
+                  <text font-family="CZT" onclick="select(evt)" space="5">p</text>
+                </g>
+                <text font-family="CZT" onclick="select(evt)" space="5">=</text>
+                <g id="net.sourceforge.czt.print.ast.OperatorApplication@266877cc" sel="true" break="maybe" indent="16">
+                  <g sel="true">
+                    <text font-family="CZT" onclick="select(evt)" space="5">⟨</text>
+                  </g>
+                  <g id="net.sourceforge.czt.print.ast.Application@58ec6063" sel="true">
+                    <g id="net.sourceforge.czt.z.impl.RefExprImpl@a46ff697">
+                      <text font-family="CZT" onclick="select(evt)" space="5">params</text>
+                    </g>
+                    <g id="net.sourceforge.czt.z.impl.NumExprImpl@ab0efa0f" sel="true" break="maybe" indent="16">
+                      <text font-family="CZT" onclick="select(evt)" space="5">(</text>
+                      <text font-family="CZT" onclick="select(evt)">1</text>
+                      <text font-family="CZT" onclick="select(evt)">)</text>
+                    </g>
+                  </g>
+                  <text font-family="CZT" onclick="select(evt)" space="3">,</text>
+                  <g id="net.sourceforge.czt.print.ast.Application@58331368" sel="true" break="maybe">
+                    <g id="net.sourceforge.czt.z.impl.RefExprImpl@525ad135" sel="true">
+                      <text font-family="CZT" onclick="select(evt)" space="5">constant</text>
+                    </g>
+                    <g id="net.sourceforge.czt.print.ast.OperatorApplication@266877cc" sel="true" break="maybe">
+                      <text font-family="CZT" onclick="select(evt)" space="5">(</text>
+                      <g id="net.sourceforge.czt.print.ast.Application@c12a6495" sel="true">
+                        <g id="net.sourceforge.czt.z.impl.RefExprImpl@6549c972" sel="true">
+                          <text font-family="CZT" onclick="select(evt)">val</text>
+                        </g>
+                        <g id="net.sourceforge.czt.print.ast.Application@58ecd4c2" sel="true" break="maybe">
+                          <text font-family="CZT" onclick="select(evt)" space="5">(</text>
+                          <g id="net.sourceforge.czt.z.impl.RefExprImpl@a46ff697" sel="true">
+                            <text font-family="CZT" onclick="select(evt)">params</text>
+                          </g>
+                          <g id="net.sourceforge.czt.z.impl.NumExprImpl@ab0efdd0" sel="true" break="maybe">
+                            <text font-family="CZT" onclick="select(evt)" space="5">(</text>
+                            <text font-family="CZT" onclick="select(evt)">2</text>
+                            <text font-family="CZT" onclick="select(evt)">)</text>
+                          </g>
+                          <text font-family="CZT" onclick="select(evt)">)</text>
+                        </g>
+                      </g>
+                      <g sel="true">
+                        <text font-family="CZT" onclick="select(evt)" space="4">+</text>
+                      </g>
+                      <g id="net.sourceforge.czt.z.impl.RefExprImpl@2fb36a41" break="maybe">
+                        <text font-family="CZT" onclick="select(evt)" space="4">base?</text>
+                      </g>
+                      <text font-family="CZT" onclick="select(evt)">)</text>
+                    </g>
+                  </g>
+                  <text font-family="CZT" onclick="select(evt)" space="5">⟩</text>
+                </g>
+              </g>
+            </g>
+            <text font-family="CZT" onclick="select(evt)" space="5">⦁</text>
+            <g id="net.sourceforge.czt.z.impl.OrExprImpl@c826a79" sel="true" break="maybe" indent="16">
+              <g id="net.sourceforge.czt.z.impl.RenameExprImpl@52c71cb4" sel="true">
+                <g id="net.sourceforge.czt.z.impl.RefExprImpl@e6975617">
+                  <text font-family="CZT" onclick="select(evt)" space="5">Load</text>
+                </g>
+                <text font-family="CZT" onclick="select(evt)" space="3">[</text>
+                <g id="net.sourceforge.czt.z.impl.NewOldPairImpl@77300df1" sel="false">
+                  <g sel="true">
+                    <text font-family="CZT" onclick="select(evt)">p</text>
+                  </g>
+                  <text font-family="CZT" onclick="select(evt)" space="5">/</text>
+                  <g sel="true">
+                    <text font-family="CZT" onclick="select(evt)" space="5">params</text>
+                  </g>
+                </g>
+                <text font-family="CZT" onclick="select(evt)">]</text>
+              </g>
+              <text font-family="CZT" onclick="select(evt)" space="5">∨</text>
+              <g id="net.sourceforge.czt.z.impl.RenameExprImpl@45b1ef19" sel="true" break="maybe">
+                <g id="net.sourceforge.czt.z.impl.RefExprImpl@51862312">
+                  <text font-family="CZT" onclick="select(evt)" space="5">Store</text>
+                </g>
+                <text font-family="CZT" onclick="select(evt)" space="3">[</text>
+                <g id="net.sourceforge.czt.z.impl.NewOldPairImpl@77300df1" sel="false">
+                  <g sel="true">
+                    <text font-family="CZT" onclick="select(evt)">p</text>
+                  </g>
+                  <text font-family="CZT" onclick="select(evt)" space="5">/</text>
+                  <g sel="true">
+                    <text font-family="CZT" onclick="select(evt)" space="5">params</text>
+                  </g>
+                </g>
+                <text font-family="CZT" onclick="select(evt)">]</text>
+              </g>
+            </g>
+            <text font-family="CZT" onclick="select(evt)">)</text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</g>
+</svg>

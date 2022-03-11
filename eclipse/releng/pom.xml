@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>net.sourceforge.czt.eclipse</groupId>
+    <artifactId>czt-eclipse-parent</artifactId>
+    <version>1.6.0-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>czt-eclipse-releng</artifactId>
+  <packaging>pom</packaging>
+  
+  <name>CZT Eclipse Release Parent</name>
+    
+  <modules>
+    <module>net.sourceforge.czt.core.feature.branding</module>
+    <module>net.sourceforge.czt.core.feature</module>
+    <module>net.sourceforge.czt.eclipse.feature.branding</module>
+    <module>net.sourceforge.czt.eclipse.feature</module>
+    <module>net.sourceforge.czt.eclipse.zeves.feature.branding</module>
+    <module>net.sourceforge.czt.eclipse.zeves.feature</module>
+    <module>net.sourceforge.czt.eclipse</module>
+    <module>net.sourceforge.czt.eclipse.product.feature</module>
+    <module>net.sourceforge.czt.eclipse.repository</module>
+  </modules>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+      </plugin>
+    </plugins>
+
+    <resources>
+      <resource>
+        <!-- Replace (filter) Maven variables in .mappings files
+             (e.g. build ID, version qualifiers, etc) -->
+        <directory>.</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*.mappings</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+
+</project>

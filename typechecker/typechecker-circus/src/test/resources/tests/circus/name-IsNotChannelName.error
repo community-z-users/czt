@@ -1,0 +1,21 @@
+\begin{zsection}
+  \SECTION\ name\_IS\_NOT\_CHANNEL\_NAME \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ d
+\end{circus}
+
+\begin{axdef}
+     c: \nat
+\end{axdef}
+
+Trying to refer to a global name that doesn't have channel type.
+%
+\begin{circus}
+  \circprocess\ TypeErrorActionNames \circdef \circbegin
+  \also %
+   \t1 Test0 \circdef c  \then \Skip \\
+   \circspot \Skip \\
+   \circend
+\end{circus}

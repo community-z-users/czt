@@ -1,0 +1,29 @@
+\begin{zsection}
+  \SECTION TypeMismatchInOpExpr2\_OpExpr2 \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  ai == 1\\
+  \begin{state}
+   b : B\\
+  \end{state}  
+  OpA1 \sdef b.c.OpC1
+\end{class}
+
+\begin{class}{B}
+  bi == 1\\
+  \begin{state}
+   c : C\\
+   a : A[RenamedOpA1/OpA1]
+  \end{state}\\
+  OpB1 \sdef [x? : \nat | c.b.a.ai \in \{\}]\\
+  OpB2 \sdef c.b.a.RenamedOpA1 \land [x? : \power \nat]
+\end{class}
+
+\begin{class}{C}
+  ci == 1\\
+  \begin{state} 
+    b : B
+  \end{state}
+  OpC1 \sdef [x? : \nat]
+\end{class}

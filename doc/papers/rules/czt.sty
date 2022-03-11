@@ -1,0 +1,87 @@
+%% Style file for Community Z Tools (CZT) Project.
+%% This extends oz.sty, which defines all the symbols we need
+%% and seems to be widely available.
+
+\usepackage{oz}
+
+% Some standard Z commands
+\newenvironment{zsection}{\zed}{\endzed}
+\newcommand{\SECTION}{\boldword{section}}
+\newcommand{\parents}{\boldword{parents}}
+\newcommand{\function}{\boldword{function}}
+\newcommand{\generic}{\boldword{generic}}
+\newcommand{\relation}{\boldword{relation}}
+\newcommand{\leftassoc}{\boldword{leftassoc}}
+\newcommand{\rightassoc}{\boldword{rightassoc}}
+\newcommand{\LET}{\boldword{let}}
+\newcommand{\IF}{\boldword{if}}
+\newcommand{\THEN}{\boldword{then}}
+\newcommand{\ELSE}{\boldword{else}}
+
+%% These need defining, because they are not defined in oz.sty
+\newcommand{\listarg}{\mathrel{,,}}
+\newcommand{\varg}{\mathbin{\_}}
+\newcommand{\symdiff}{\mathbin{\ominus}}
+\newcommand{\plus}{{}^{+}}
+\newcommand{\extract}{\mathbin{\ires}}  % \ires is from oz.sty
+\newcommand{\negate}{\mathop{-}}
+\newcommand{\arithmos}{{\mathbb A}}  % oz.sty loads the AMS fonts
+\newcommand{\pipe}{\zpipe}           % \zpipe is from oz.sty
+
+%% These need redefining, because the Z standard requires
+%% something different to oz.sty (or to LaTeX, for \star!)
+\def\star{{}^{*}}   % we must override standard LaTeX \star! 
+\def\infix{\boldword{infix}}          % this overrides the oz.sty \infix.
+\def\partition{\boldword{partition}}  % overrides the oz.sty 'partitions'
+
+% Take generic parameters from [] and put in {} for oz.
+% Also, omit bottom line from outline.
+% Copied from ltcadiz.sty by ian.
+\let\ozgendef\gendef
+\def\endozgendef{\endzed \z@makeinner \z@nopar}
+\renewenvironment{gendef}[1][]{\begin{ozgendef}{#1}}{\end{ozgendef}}
+
+%% The Z Standard now uses the 'theorem' environment for conjectures.
+%% See the Z Standard defect report 13568/003,
+%% available from http://www.cs.york.ac.uk/hise/Zstandard/defects.html
+%% Here are several different styles for displaying the theorem name:
+%% As a zero-width superscript
+%\newcommand{\ZedTheoremName}[1]{\hbox to
+%        0pt{\raisebox{2ex}{\scriptsize#1}}}
+%% As a left-margin annotation
+\newcommand{\ZedTheoremName}[1]{\llap{\raisebox{0.0ex}{%
+      \scriptsize#1\hspace{0.5em}}}}
+%% Like a right-justified equation number
+%\newcommand{\ZedTheoremName}[1]{\hbox to 0pt{\hbox to
+%    \textwidth{\hbox{}\hfill{\footnotesize[#1]}}}} 
+%% Do not show it at all.
+%\newcommand{\ZedTheoremName}[1]{}
+%\renewenvironment{theorem}[1]{\zed\ZedTheoremName{#1}}{\endzed}
+\newenvironment{theorem}[1]{\zed\ZedTheoremName{#1}}{\endzed}
+
+
+%% These commands are for the ZPattern extension of Z,
+%% which makes it possible to define rewrite rules and inference rules.
+%% See zpattern_toolkit.tex for the Z-parseable parts of the definitions.
+
+\newenvironment{zedjoker}[1]{\parindent=0pt\par\hskip\zedindent$\bigstar #1\ }{$\hfill\par}
+
+% Rule syntax: \begin{zedrule}{Name} Ant1 \\ Ant2 \derive Concl \end{zedrule}
+\newenvironment{zedrule}[1]{\parindent=0pt\par\hskip\zedindent\textbf{rule }#1\vspace{-1.5ex}\infrule}{\endinfrule}
+\newcommand{\derives}{\derive{}}
+\newcommand{\substitute}{\mathrel{\curvearrowleft}}  % U+21B6
+\newcommand{\proviso}{\raisebox{0.5ex}{${}_{\blacktriangleright}\ $}}%%or\star
+%       This mapping to unicode is now in zpattern_toolkit.tex
+%       %%Zprechar \proviso U+22C6    % small star, or
+%       %%Zprechar \proviso U+25B8    % small solid triangle  |> )
+
+% Z Pattern operators for use within == provisos.
+\newcommand{\schemaminus}{\mathbin{\textbf{schemaminus}}}
+\newcommand{\schemamerge}{\mathbin{\textbf{schemamerge}}}
+\newcommand{\hasDefn}{\mathbin{\textbf{hasDefn}}}
+\newcommand{\is}{\mathbin{\textbf{is}}}
+
+% These Z Pattern operators are not used yet.
+\newcommand{\Context}{\Gamma}
+\newcommand{\notfreein}{\mathbin{\boldword{notfreein}}}
+

@@ -1,0 +1,223 @@
+
+\begin{document}
+\begin{zsection}
+  \SECTION freertos \parents zeves\_toolkit
+\end{zsection}
+
+This specification describes ...
+
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[margin=2cm, includeheadfoot]{geometry}
+\usepackage{z-eves}
+\usepackage{needspace}
+
+\begin{document}
+
+**** Context c0
+\begin{zed}
+    [CONTEXT, TASK]
+\end{zed}
+
+\begin{axdef}
+    bare\_context: CONTEXT\\
+    idle: TASK
+\end{axdef}
+
+\vspace{1em}
+**** Context c1
+\begin{zed}
+    STATE ::= nonexistent | ready | blocked | suspended | running
+\end{zed}
+
+\begin{axdef}
+   transition: STATE \rel STATE
+\where
+    transition = \{nonexistent \mapsto ready,\\
+    \t3             running \mapsto ready,\\
+    \t3             blocked \mapsto ready,\\
+    \t3             suspended \mapsto ready,\\
+    \t3             ready \mapsto running,\\
+    \t3             blocked \mapsto running,\\
+    \t3             suspended \mapsto running,\\
+    \t3             nonexistent \mapsto running,\\
+    \t3             running \mapsto suspended,\\
+    \t3             ready \mapsto suspended,\\
+    \t3             blocked \mapsto suspended,\\
+    \t3             running \mapsto blocked,\\
+    \t3             running \mapsto nonexistent,\\
+    \t3             ready \mapsto nonexistent,\\
+    \t3             blocked \mapsto nonexistent,\\
+    \t3             suspended \mapsto nonexistent\}
+\end{axdef}
+
+
+\begin{zed}
+    [QUEUE]
+\end{zed}
+
+\begin{axdef}
+    slice\_delay: \nat
+\where
+    slice\_delay = 1 %This can be treated as a unit of time
+\end{axdef}
+
+\begin{zed}
+    BOOL ::= TRUE | FALSE
+\end{zed}
+
+\begin{schema}{Task}
+    phy\_context: CONTEXT\\
+    running\_task: TASK\\
+    log\_context: TASK \fun CONTEXT\\
+    state: TASK \fun STATE\\
+    prev\_state: TASK \fun STATE\\
+    priority: TASK \fun \nat\\
+    tasks: \power TASK
+\where
+    running\_task \in tasks\\
+    idle \in tasks\\
+    state~ idle \in \{ready, running\}\\
+    (state~\inv)~ \limg \{running\} \rimg = \{running\_task\}\\
+    \forall t: TASK @ prev\_state~ t \mapsto state~ t \in transition\\
+    tasks = TASK \setminus ((state~\inv)~ \limg \{nonexistent\} \rimg)\\
+    priority~ idle = 0\\
+    \forall t: TASK | state~ t = ready @ priority~ running\_task \geq priority~ t
+\end{schema}
+
+
+\begin{schema}{Task\_Init}
+    Task~'
+\where
+    phy\_context' = bare\_context\\
+    running\_task' = idle\\
+    log\_context' = TASK \cross \{bare\_context\}\\
+    state' = (TASK \cross \{nonexistent\}) \oplus \{idle \mapsto running\}\\
+    prev\_state' = TASK \cross \{ready\}\\
+    priority' = TASK \cross \{0\}\\
+    tasks' = \{idle\}
+\end{schema}
+
+\begin{schema}{Queue}
+    queue: \power QUEUE\\
+    roundto: \nat \\
+    queue\_max\_size: QUEUE \pfun \num\\
+    queue\_size: QUEUE \pfun \num\\
+    wait\_To\_snd: TASK \pfun QUEUE\\
+    wait\_To\_rcv: TASK \pfun QUEUE\\
+    delayed\_task: \power TASK\\
+    clock: \nat\\
+    time: TASK \pfun \nat\\
+    time\_To\_slice: \nat
+\where
+    \dom~ queue\_max\_size = queue\\
+    \ran~ queue\_max\_size \subseteq \nat_1\\
+    \dom~ queue\_size = queue\\
+    \ran~ queue\_size \subseteq \nat\\
+    \forall q: QUEUE | q \in queue @ queue\_size~ q \leq queue\_max\_size~ q\\
+    \ran~ wait\_To\_snd \subseteq queue\\
+    \forall q: QUEUE | q \in queue \land wait\_To\_snd \inv \limg \{q\} \rimg \neq \emptyset\\
+    \t1 @ queue\_size~ q = queue\_max\_size~ q\\
+    \ran~ wait\_To\_rcv \subseteq queue\\
+    \forall q: QUEUE | q \in queue \land wait\_To\_rcv \inv \limg \{q\} \rimg \neq \emptyset @ queue\_size~ q = 0\\
+    \dom~ wait\_To\_snd \cap \dom~ wait\_To\_rcv = \emptyset\\
+    \dom~ wait\_To\_snd \cap delayed\_task = \emptyset\\
+    \dom~ wait\_To\_rcv \cap delayed\_task = \emptyset\\
+    \dom~ time = delayed\_task \cup \dom~ wait\_To\_snd \cup \dom~ wait\_To\_rcv\\
+    \forall t: TASK | t \in \dom~ time @ time~ t \geq clock\\
+\end{schema}
+
+\begin{schema}{Queue\_Init}
+    Queue~'
+\where
+    queue' = \emptyset\\
+    queue\_max\_size' = \emptyset\\
+    queue\_size' = \emptyset\\
+    wait\_To\_snd' = \emptyset\\
+    wait\_To\_rcv' = \emptyset\\
+    delayed\_task' = \emptyset\\
+    clock' = 0\\
+    %missing initialisation to variable?
+    roundto' = 0\\
+    time' = \emptyset\\
+    time\_To\_slice' = slice\_delay\\
+\end{schema}
+
+\begin{schema}{Mutex}
+    semaphore: \power QUEUE\\
+    mutex: \power QUEUE\\
+    mutex\_holder: QUEUE \pfun TASK\\
+    mutex\_bool: BOOL\\
+    old\_priority: TASK \pfun \nat\\
+    mut: QUEUE\\
+    tas: TASK\\
+    mutex\_bool\_2: BOOL\\
+    pri: \nat
+\where
+    mutex \cap semaphore = \emptyset\\
+\end{schema}
+
+\begin{schema}{Mutex\_Init}
+    Mutex~'\\
+    %What are these? Inputs?
+    %q: QUEUE\\
+    %t: TASK
+    q?: QUEUE \\
+    t?: TASK
+\where
+    semaphore' = \emptyset\\
+    mutex' = \emptyset\\
+    mutex\_holder' = \emptyset\\
+    mutex\_bool' = FALSE\\
+    old\_priority' = \emptyset\\
+    mut' = q?\\
+    tas' = t?\\
+    mutex\_bool\_2' = FALSE\\
+    pri' = 0
+\end{schema}
+
+\begin{schema}{FreeRTOS}
+%\zstate\\
+    Task\\
+    Queue\\
+    Mutex
+\where
+    \dom~ wait\_To\_snd \subseteq (state~\inv)~ \limg \{blocked\} \rimg\\
+    \dom~ wait\_To\_rcv \subseteq (state~\inv)~ \limg \{blocked\} \rimg\\
+    delayed\_task \subseteq (state~\inv)~ \limg \{blocked\} \rimg\\
+    semaphore \subseteq queue\\
+    \forall s: QUEUE | s \in semaphore @ queue\_max\_size~ s = 1\\
+    mutex \subseteq queue\\
+    \forall m: QUEUE | m \in mutex @ queue\_max\_size~ m = 1\\
+    \dom~ mutex\_holder = \{~ m: QUEUE | m \in mutex \land queue\_size~ m = 1 ~\}\\
+    \ran~ mutex\_holder \subseteq tasks\\
+    mutex\_bool = FALSE\\
+    \t1 \implies (\forall m: QUEUE; n: TASK\\
+    \t2     | m \in \dom~ mutex\_holder \land n \in wait\_To\_snd \inv \limg \{m\} \rimg\\
+    \t3         @ priority~ n \leq priority~ (mutex\_holder~ m))\\
+    \dom~ old\_priority = \ran~ mutex\_holder\\
+    mutex\_bool = TRUE \implies mut \in \dom~ mutex\_holder\\
+    mutex\_bool = TRUE \implies tas \in wait\_To\_snd \inv \limg \{mut\} \rimg\\
+    mutex\_bool = TRUE \implies priority~ tas > priority~ (mutex\_holder~ mut)\\
+    mutex\_bool = TRUE\\
+    \t1 \implies (\forall m: QUEUE; n: TASK\\
+    \t2     | m \in \dom~ mutex\_holder\\
+    \t2     \land (m \neq mut \implies n \in wait\_To\_snd \inv \limg \{m\} \rimg)\\
+    \t2     \land (m = mut \implies n \in wait\_To\_snd \inv \limg \{m\} \rimg \setminus \{tas\})\\
+    \t3         @ priority~ n \leq priority~ (mutex\_holder~ m))\\
+    \forall t: TASK | t \in \ran~ mutex\_holder @ priority~ t \geq old\_priority~ t\\
+    mutex\_bool\_2 = TRUE \implies pri < priority~ running\_task\\
+    mutex\_bool\_2 = TRUE \implies running\_task \notin \ran~ mutex\_holder
+\end{schema}
+
+Missing inputs for global init
+\begin{schema}{FreeRTOS\_Init}
+%\zstinit\\
+	FreeRTOS~' \\
+	q?: QUEUE \\
+	t?: TASK
+\where
+    Task\_Init \\
+    Queue\_Init \\
+    Mutex\_Init
+\end{schema}

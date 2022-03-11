@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION RedeclaredGen\_ConjPara
+\end{zsection}
+
+\begin{zed}
+  [X,X] \vdash? true
+\end{zed}

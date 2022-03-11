@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+<p>Base interfaces of the AST for Z.</p>
+
+<p>The (Java) AST for Z consists of a set of interfaces whose
+inheritance hierarchy can be seen as a tree (the abstract or annotated
+syntax tree for Z).  All Z constructs (called terms), provided in the
+Z standard package or in one of the Z extension packages, should
+extend one of the interfaces provided in this package in a way that
+the whole AST interface inheritance hierarchy forms such a tree.  The
+inner (non-leaf) interfaces are used for abstract Z constructs like
+term, predicate, and expression.  The leaf interfaces represent
+concrete Z constructs, like the truth predicate.</p>
+
+<p>Together with the interfaces, which are usually in packages named
+net.sourceforge.czt.*.ast, a set of implementation classes is provided
+which are located in packages called net.sourceforge.czt.*.impl.
+Abstract classes usually implement non-leaf interfaces, whereas
+non-abstract classes implement the leaf interfaces, which represent
+concrete Z terms.  <emph>It is strongly discouraged to use the
+implementation classes in applications explicitly.</emph> Using the
+implementation classes explicitly would restricts the application to a
+particular set of implementation classes.  An application programmer
+should use the interfaces in net.sourceforge.czt.*.ast and the object
+factories in order to get AST implementation-independent code.</p>
+
+<p>
+To provide an implementation of one of the Z terms, the programmer
+needs to implement the corresponding interface.  The new
+implementation can extend one of the existing implementation classes
+provided in net.sourceforge.czt.*.impl, or can be completely
+independend from the implementations provided there.  Special care
+must be taken to implement the <code>accept(Visitor)</code> and
+<code>getChildren()</code> methods.  These methods are used by all
+kinds of AST visitors like type checkers, XML writers, etc.</p>
+
+<p>In addition to the implementation of the Z term, an object factory
+should be provided that creates objects of the newly implemented term.
+The easiest way to provide a factory method is to overwrite the
+corresponding factory method in
+net.sourceforge.czt.*.impl.*FactoryImpl to return an instance of the
+newly implemented Z construct.
+</p>
+
+</body>
+</html>

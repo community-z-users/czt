@@ -1,0 +1,20 @@
+Most of the CZT software is licensed under the GNU General Public
+License, which can be found in the file COPYING.txt in this directory.
+
+The "CZT Sans" font is derived from the Bitstream Vera Sans
+font (about 120 Z characters were added), and is distributed
+under the original Bitstream Vera Copyright.  See LICENSE.txt
+in the fonts directory and
+http://www.gnome.org/fonts
+for details.
+
+JFlex, which is used for the CZT lexer, is licensed under the GNU
+General Public License (see COPYING.txt).
+
+Java CUP, which is used for the CZT parser, is licensed under the
+Standard ML of New Jersey.  See LICENSE_CUP.txt for more information.
+
+JUnit, which is used for testing, is licensed under the
+Common Public License, see
+http://www.opensource.org/licenses/cpl.php
+

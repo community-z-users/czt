@@ -1,0 +1,121 @@
+─ section zstaterefUtf parents zeves_toolkit └ 
+
+╷ foo : ℕ |
+ foo = 1 └ 
+
+╷ bar : ℕ |
+ bar > foo └ 
+
+
+┌ S 
+x : ℕ |
+ bar > x └ 
+
+┌ SInit 
+S ′ |
+ x′ = 0 └ 
+
+┌ AState 
+x : ℙ ℕ |
+ x ≠ ∅ └ 
+
+┌ ASInit 
+AState ′ |
+ x′ = { 0 } └ 
+
+┌ ASFin 
+AState |
+ true └ 
+
+┌ CState 
+y : seq ℕ |
+ y ≠ ⟨ ⟩ └ 
+
+┌ CSInit 
+CState ′ |
+ y′ = ⟨ 0 ⟩ └ 
+
+┌ CSFin 
+CState |
+ true └ 
+
+┌ Retr 
+AState 
+CState |
+ ran y = x └ 
+
+One schema with no z state info
+┌ Nothing 
+ΔAState |
+ true └ 
+
+┌ NothingAgain 
+ΔCState |
+ true └ 
+
+┌ AOp1 
+ΔAState 
+i? : ℕ |
+ x′ = x ∪ { i? } └ 
+
+┌ COp1 
+ΔCState 
+i? : ℕ |
+ y′ = y ⁀ ⟨ i? ⟩ └ 
+
+┌ AOp2 
+ΞAState 
+o! : ℕ |
+ o! ∈ x′ └ 
+
+┌ COp2 
+ΞCState 
+o! : ℕ |
+ o! ∈ ran y′ └ 
+
+PS: horizontally defined schemas *cannot* have state tags. That's because
+unboxed paragraphs accept multiple items and would mean more complicated lexing.
+
+┌ AOp1Sig 
+i? : ℕ 
+x : ℙ ℕ |
+ AState └ 
+
+┌ COp1Sig 
+i? : ℕ 
+y : seq ℕ |
+ CState └ 
+
+┌ AOp2Sig 
+x : ℙ ℕ |
+ AState └ 
+
+┌ COp2Sig 
+y : seq ℕ |
+ CState └ 
+
+┌ COp2DashSig 
+COp2Sig ′ 
+o! : ℕ └ 
+
+─ theorem ForwardSInitialisation ∀ CSInit ⦁ ∃ Retr ′ ⦁ ASInit └ 
+
+─ theorem ForwardSFeasibilityAOp1 ∀ AOp1Sig ; COp1Sig | pre AOp1 ∧ Retr ⦁ pre COp1 └ 
+
+─ theorem ForwardSCorrctnessAOp1 ∀ AOp1Sig ; COp1Sig ; CState ′ | pre AOp1 ∧ Retr ∧ COp1 ⦁ ∃ AState ′ | Retr ′ ⦁ AOp1 └ 
+
+─ theorem BackwardSFeasibilityAOp1 ∀ COp1Sig | ( ∀ AOp1Sig | Retr ⦁ pre AOp1 ) ⦁ pre COp1 └ 
+
+─ theorem BackwardSCorrectnessAOp1 ∀ COp1Sig | ( ∀ AOp1Sig | Retr ⦁ pre AOp1 ) ⦁ ( ∀ AState ′ ; COp1 | Retr ′ ⦁ ( ∃ AState | Retr ⦁ AOp1 ) ) └ 
+
+
+─ theorem ForwardSFeasibilityAOp2 ∀ AOp2Sig ; COp2Sig | pre AOp2 ∧ Retr ⦁ pre COp2 └ 
+
+To avoid undeclared identifiers quantify over COp2 as well
+─ theorem ForwardSCorrctnessAOp2 ∀ AOp2Sig ; COp2Sig ; COp2 | pre AOp2 ∧ Retr ∧ COp2 ⦁ ∃ AState ′ | Retr ′ ⦁ AOp2 └ 
+
+─ theorem BarwardSInitialisation ∀ CSInit ; Retr ′ ⦁ ASInit └ 
+
+─ theorem BackwardSFeasibilityAOp2 ∀ COp2Sig | ( ∀ AOp2Sig | Retr ⦁ pre AOp2 ) ⦁ pre COp2 └ 
+
+─ theorem BackwardSCorrectnessAOp2 ∀ COp2Sig | ( ∀ AOp2Sig | Retr ⦁ pre AOp2 ) ⦁ ( ∀ AState ′ ; COp2 | Retr ′ ⦁ ( ∃ AState | Retr ⦁ AOp2 ) ) └ 

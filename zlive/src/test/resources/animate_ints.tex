@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage{czt}
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+\title{CZT Tests for Basic Arithmetic Operations}
+\author{Mark Utting \\ \texttt{marku@cs.waikato.ac.nz}}
+\begin{document}
+\maketitle
+
+Each conjecture should evaluate to True.
+However, those conjectures whose right-hand-size contains
+the constant undefnum should have an undefined left-hand-side.
+
+\begin{axdef}
+  undefnum : \num
+\end{axdef}
+
+\section{Testing integer arithmetic...}
+
+\section{Testing + (addition)}
+\begin{theorem}{plus00}  \vdash?   0+0=0 \end{theorem}
+\begin{theorem}{plus01}  \vdash?   0+1=1 \end{theorem}
+\begin{theorem}{plus10}  \vdash?   1+0=1 \end{theorem}
+\begin{theorem}{plus11}  \vdash?   1+1=2 \end{theorem}
+\begin{theorem}{plusN11} \vdash?   \negate 1 + 1=0 \end{theorem}
+\begin{theorem}{plus1N1} \vdash?   1 + \negate 1 = 0 \end{theorem}
+\begin{theorem}{plusEq}  \vdash?   10 + 11 = 21 \end{theorem}
+\begin{theorem}{plusNeq} \vdash?   10 + 11 \neq 10 \end{theorem}
+\begin{theorem}{plusNot} \vdash?   \lnot (3 = 3+1) \end{theorem}
+
+\section{Testing - (subtraction)}
+\begin{theorem}{minus00}  \vdash?   0-0=0 \end{theorem}
+\begin{theorem}{minus01}  \vdash?   0-1= \negate 1 \end{theorem}
+\begin{theorem}{minus10}  \vdash?   1-0=1 \end{theorem}
+\begin{theorem}{minus11}  \vdash?   1-1=0 \end{theorem}
+\begin{theorem}{minusN11} \vdash?   \negate 1 - 1= \negate 2 \end{theorem}
+\begin{theorem}{minus1N1} \vdash?   1 - \negate 1 = 2 \end{theorem}
+\begin{theorem}{minus1011} \vdash?   10 - 11 = \negate 1 \end{theorem}
+\begin{theorem}{minus1011Not0} \vdash?   10 - 11 \neq 0 \end{theorem}
+
+
+\section{Testing * (multiplication)}
+\begin{theorem}{times00}  \vdash?   0*0=0 \end{theorem}
+\begin{theorem}{times01}  \vdash?   0*1=0 \end{theorem}
+\begin{theorem}{times10}  \vdash?   1*0=0 \end{theorem}
+\begin{theorem}{times11}  \vdash?   1*1=1 \end{theorem}
+\begin{theorem}{timesN11} \vdash?   \negate 1 * 1= \negate 1 \end{theorem}
+\begin{theorem}{times1N1} \vdash?   1 * \negate 1 = \negate 1 \end{theorem}
+\begin{theorem}{timesEq}  \vdash?   10 * 11 = 110 \end{theorem}
+\begin{theorem}{timesNeq} \vdash?   10 * 11 \neq 10 \end{theorem}
+
+
+\section{Testing div and mod   (these truncate towards -ve infinity)}
+
+\begin{theorem}{div40}  \vdash?   4 \div 0 = undefnum \end{theorem}
+\begin{theorem}{divN40} \vdash?   \negate 4 \div 0 = undefnum \end{theorem}
+\begin{theorem}{div00}  \vdash?   0 \div 0 = undefnum \end{theorem}
+
+\begin{theorem}{mod40}  \vdash?   4 \mod 0 = undefnum \end{theorem}
+\begin{theorem}{modN40} \vdash?   \negate 4 \mod 0 = undefnum \end{theorem}
+\begin{theorem}{mod00}  \vdash?   0 \mod 0 = undefnum \end{theorem}
+
+\begin{theorem}{div01}  \vdash?   0 \div 1 = 0 \end{theorem}
+\begin{theorem}{divN11} \vdash?   \negate 1 \div 1 = \negate 1 \end{theorem}
+\begin{theorem}{div11}  \vdash?   1 \div 1 = 1 \end{theorem}
+\begin{theorem}{div0N1} \vdash?   0 \div \negate 1 = 0 \end{theorem}
+\begin{theorem}{divN1N1} \vdash?   \negate 1 \div \negate 1 = 1 \end{theorem}
+\begin{theorem}{div1N1}  \vdash?   1 \div \negate 1 = \negate 1 \end{theorem}
+
+\begin{theorem}{div04} \vdash?   0 \div 4 = 0 \end{theorem}
+\begin{theorem}{div14} \vdash?   1 \div 4 = 0 \end{theorem}
+\begin{theorem}{div34} \vdash?   3 \div 4 = 0 \end{theorem}
+\begin{theorem}{div44} \vdash?   4 \div 4 = 1 \end{theorem}
+\begin{theorem}{div54} \vdash?   5 \div 4 = 1 \end{theorem}
+\begin{theorem}{div84} \vdash?   8 \div 4 = 2 \end{theorem}
+\begin{theorem}{divN14} \vdash?   \negate 1 \div 4 = \negate 1 \end{theorem}
+\begin{theorem}{divN34} \vdash?   \negate 3 \div 4 = \negate 1 \end{theorem}
+\begin{theorem}{divN44} \vdash?   \negate 4 \div 4 = \negate 1 \end{theorem}
+\begin{theorem}{divN54} \vdash?   \negate 5 \div 4 = \negate 2 \end{theorem}
+\begin{theorem}{divN84} \vdash?   \negate 8 \div 4 = \negate 2 \end{theorem}
+\begin{theorem}{div1N4} \vdash?   1 \div \negate 4 = \negate 1 \end{theorem}
+\begin{theorem}{div3N4} \vdash?   3 \div \negate 4 = \negate 1 \end{theorem}
+\begin{theorem}{div4N4} \vdash?   4 \div \negate 4 = \negate 1 \end{theorem}
+\begin{theorem}{div5N5} \vdash?   5 \div \negate 4 = \negate 2 \end{theorem}
+\begin{theorem}{div8N4} \vdash?   8 \div \negate 4 = \negate 2 \end{theorem}
+\begin{theorem}{divN1N4} \vdash?   \negate 1 \div \negate 4 = 0 \end{theorem}
+\begin{theorem}{divN3N4} \vdash?   \negate 3 \div \negate 4 = 0 \end{theorem}
+\begin{theorem}{divN4N4} \vdash?   \negate 4 \div \negate 4 = 1 \end{theorem}
+\begin{theorem}{divN5N4} \vdash?   \negate 5 \div \negate 4 = 1 \end{theorem}
+\begin{theorem}{divN8N4} \vdash?   \negate 8 \div \negate 4 = 2 \end{theorem}
+
+ These laws are from Spivey ZRM edition 2 page 108 (restricted to -4..4)
+\begin{theorem}{forallMod}   \vdash?   (\forall a,b:\negate 4 \upto 4 | b > 0 @ 0 \leq a \mod b < b) \end{theorem}
+\begin{theorem}{forallDiv}   \vdash?   (\forall a,b:\negate 4 \upto 4 | b \neq 0 @ a = (a \div b) * b + a \mod b) \end{theorem}
+\begin{theorem}{forallEqDiv} \vdash?   (\forall a,b:\negate 4 \upto 4; c:\{\negate 2, \negate 1, 1, 2\} | b \neq 0 @ (a*c) \div (b*c) = a \div b) \end{theorem}
+
+\section{Testing succ}
+\begin{theorem}{succ10} \vdash?   succ~ 10 = 11 \end{theorem}
+\begin{theorem}{succ0} \vdash?   succ~ 0 = 1 \end{theorem}
+\begin{theorem}{succN10} \vdash?   succ (\negate 10) = undefnum \end{theorem}
+\begin{theorem}{succInv} \vdash?   ((succ~\_) \inv) 10 = 9 \end{theorem}
+
+\section{Testing $<$ on integers}
+\begin{theorem}{lessThan01}  \vdash?   0<1 \end{theorem}
+\begin{theorem}{lessThan010} \vdash?   0<10 \end{theorem}
+\begin{theorem}{lessThan01020} \vdash?   0<10<20 \end{theorem}
+\begin{theorem}{lessThen10}  \vdash?   \negate 1<0 \end{theorem}
+\begin{theorem}{lessThan00}  \vdash?   \lnot 0<0 \end{theorem}
+\begin{theorem}{lessThan10}  \vdash?   \lnot 1<0 \end{theorem}
+
+\section{Testing $\leq$ on integers}
+\begin{theorem}{leq00}  \vdash?   0 \leq 0 \end{theorem}
+\begin{theorem}{leq01}  \vdash?   0 \leq 1 \end{theorem}
+\begin{theorem}{leq010} \vdash?   0 \leq 10 \end{theorem}
+\begin{theorem}{leq01020} \vdash?   0 \leq 10 \leq 20 \end{theorem}
+\begin{theorem}{leqN10} \vdash?   \negate 1 \leq 0 \end{theorem}
+\begin{theorem}{leq10}  \vdash?   \lnot 1 \leq 0 \end{theorem}
+
+\section{Testing $>$ on integers}
+\begin{theorem}{gt01}  \vdash?   \lnot 0>1 \end{theorem}
+\begin{theorem}{gt010} \vdash?   \lnot 0>10 \end{theorem}
+\begin{theorem}{gtN10} \vdash?   \lnot \negate 1>0 \end{theorem}
+\begin{theorem}{gt00}  \vdash?   \lnot 0>0 \end{theorem}
+\begin{theorem}{gt10}  \vdash?   1>0 \end{theorem}
+\begin{theorem}{gt100} \vdash?   10>0 \end{theorem}
+\begin{theorem}{gt0N1} \vdash?   0 > \negate 1 \end{theorem}
+
+\section{Testing $\geq$ on integers}
+\begin{theorem}{geq00} \vdash?         0 \geq 0 \end{theorem}
+\begin{theorem}{geq01} \vdash?   \lnot 0 \geq 1 \end{theorem}
+\begin{theorem}{geq010} \vdash?  \lnot 0 \geq 10 \end{theorem}
+\begin{theorem}{geq100} \vdash?        10 \geq 0 \end{theorem}
+\begin{theorem}{geq10} \vdash?   \lnot \negate 1 \geq 0 \end{theorem}
+\begin{theorem}{geqN1N3} \vdash?       \negate 1 \geq \negate 3 \end{theorem}
+
+\end{document}

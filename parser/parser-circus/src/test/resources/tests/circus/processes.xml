@@ -1,0 +1,2714 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NarrSect>
+        <Anns>
+            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="0" Length="2049" Col="0"/>
+        </Anns>
+        <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">\documentclass{article}
+
+\usepackage{vmargin}
+\usepackage{circus}
+
+\setpapersize{A4}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\begin{document}
+
+\title{\Circus\ Grammar Explained --- Processes}
+\author{Leonardo Freitas}
+\date{March 2006}
+
+\maketitle
+
+\begin{abstract}
+    \noindent This article documents the various ways one can declare \Circus\ processes using \LaTeX\ markup.
+    It also documents the open issues of the language related to this syntactic category.
+\end{abstract}
+
+\section{Introduction}
+
+In this file, we explain the various aspect of \Circus\ related to
+process declarations. At each section relevant to the grammar, we
+include its corresponding CUP rule, as ``Section name ---
+\texttt{grammarRule}''.
+
+\Circus\ productions must be included within the \textsf{circus}
+\LaTeX\ environment in order to be recognised by the parser.
+Therefore, to use \Circus\ one needs to have the current version of
+the \textsf{circus.sty} \LaTeX\ style file.
+
+Amongst other commands, it contains all \Circus\ keywords, and some
+useful environments.
+
+\begin{issue}[creating \texttt{circus.sty} and \texttt{circus.dtx}]
+   Make a suitable \texttt{circus.dtx} with nice and up-to-date \Circus\
+   typesetting commands, as well as embedded documentation.
+
+   Join version of \texttt{circus.sty} and add literate documentation.
+   Also, gather the information for solving the spacing problem of the
+   \code{circus} environment.
+\end{issue}
+
+\section{\Circus\ process paragraphs --- \grammar{processPara}}
+
+In \Circus\ processes are global paragraphs at section level. Other
+global paragraphs are channel, channel sets, and all other Z
+paragraphs. Firstly, we need to create a new section containing the
+\textsf{circus\_toolkit} as a parent.
+
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Start="2049" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="55" Length="26109" Col="0"/>
+        </Anns>
+        <Name>circus_processes</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Start="2107" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="56" Length="15" Col="40"/>
+            </Anns>
+            <Word>circus_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="2138" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="57" Length="606" Col="14"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\begin{verbatim}
+   begin{zsection}
+      \SECTION\ circus\_channels \parents\ circus\_toolkit
+   end{zsection}
+\end{verbatim}
+We include with each typeset text the corresponded \LaTeX\ code.
+
+\Circus\ processes enables encapsulated specification of both state and
+behavioural aspects of systems. They are defined by a process paragraph that
+introduces a name for a process description. Like schemas and axiomatic
+definitions, process paragraphs can also have formal parameters.
+\[
+   \circprocess\ [X, Y] P \circdef \cdots
+\]
+For the processes below, we define some channels.
+</Content>
+            </NarrPara>
+            <ns3:ChannelPara>
+                <Anns>
+                    <LocAnn Start="2766" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="79" Col="3"/>
+                </Anns>
+                <ZDeclList>
+                    <ns3:ChannelDecl>
+                        <Anns>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex"/>
+                        </Anns>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2781" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="79" Length="1" Col="18"/>
+                                </Anns>
+                                <Word>X</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2784" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="79" Length="1" Col="21"/>
+                                </Anns>
+                                <Word>a</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2787" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="79" Length="1" Col="24"/>
+                                </Anns>
+                                <Word>b</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <Anns>
+                                <LocAnn Start="2790" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="79" Length="1" Col="27"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2790" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="79" Length="1" Col="27"/>
+                                </Anns>
+                                <Word>X</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ns3:ChannelDecl>
+                </ZDeclList>
+            </ns3:ChannelPara>
+            <ns3:ChannelPara>
+                <Anns>
+                    <LocAnn Start="2799" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="80" Length="23" Col="3"/>
+                </Anns>
+                <ZDeclList>
+                    <ns3:ChannelDecl>
+                        <Anns>
+                            <LocAnn Start="2813" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="80" Length="9" Col="17"/>
+                        </Anns>
+                        <ZNameList/>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2813" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="80" Length="1" Col="17"/>
+                                </Anns>
+                                <Word>c</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2815" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="80" Length="1" Col="19"/>
+                                </Anns>
+                                <Word>d</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <Anns>
+                                <LocAnn Start="2818" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="80" Length="4" Col="22"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2818" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="80" Length="4" Col="22"/>
+                                </Anns>
+                                <Word>?</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ns3:ChannelDecl>
+                </ZDeclList>
+            </ns3:ChannelPara>
+            <ns3:ChannelPara>
+                <Anns>
+                    <LocAnn Start="2830" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="81" Col="3"/>
+                </Anns>
+                <ZDeclList>
+                    <ns3:ChannelDecl>
+                        <Anns>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex"/>
+                        </Anns>
+                        <ZNameList/>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2844" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="81" Length="2" Col="17"/>
+                                </Anns>
+                                <Word>s1</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2848" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="81" Length="2" Col="21"/>
+                                </Anns>
+                                <Word>s2</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Word>$$SYNCH</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ns3:ChannelDecl>
+                </ZDeclList>
+            </ns3:ChannelPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="2864" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="82" Length="2505" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+More information on the syntax of channels can be found in the \textsf{channels.pdf} file.
+
+In \Circus\ every process paragraph contains a name attached to a process description,
+where formal parameters are optional.
+\[
+    \circprocess\ [N^+] N \circdef ProcessDesc
+\]
+Process names must be unique across the specification and the available process descriptions
+are defined below. They usually come between \verb'begin{circus}...end{circus}' environments.
+
+
+
+\subsection{Process definition --- \grammar{process}}
+
+Normal process definition uses the various CSP operators to combine process.
+They are detailed below.
+
+\subsubsection{Hiding}
+
+Process hiding conceals the events from the given channel set from the given process.
+As mentioned before in the \textsf{channels.tex} file, channel set expressions cannot
+mix Z expressions with \code{BasicChannelSetExpr}, hence the need for $HCS0$ and $HCS1$.
+The typechecker will infer the type types of channels from $HCS$ in the definition of process $H_1$.
+</Content>
+            </NarrPara>
+            <ns3:ChannelSetPara>
+                <Anns>
+                    <LocAnn Start="5392" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="49" Col="4"/>
+                </Anns>
+                <ZNameList/>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="5409" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="4" Col="21"/>
+                    </Anns>
+                    <Word>HCS0</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ns3:CircusChannelSet>
+                    <Anns>
+                        <LocAnn Start="5417" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="24" Col="29"/>
+                    </Anns>
+                    <ns3:BasicChannelSetExpr>
+                        <Anns>
+                            <LocAnn Start="5417" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="24" Col="29"/>
+                        </Anns>
+                        <ns3:CircusCommunicationList>
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                <Anns>
+                                    <LocAnn Start="5427" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="1" Col="39"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="5427" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="1" Col="39"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ns3:CircusFieldList/>
+                            </ns3:Communication>
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                <Anns>
+                                    <LocAnn Start="5430" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="1" Col="42"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="5430" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="1" Col="42"/>
+                                        </Anns>
+                                        <Word>b</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ns3:CircusFieldList/>
+                            </ns3:Communication>
+                        </ns3:CircusCommunicationList>
+                    </ns3:BasicChannelSetExpr>
+                </ns3:CircusChannelSet>
+            </ns3:ChannelSetPara>
+            <ns3:ChannelSetPara>
+                <Anns>
+                    <LocAnn Start="5501" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="152" Length="46" Col="4"/>
+                </Anns>
+                <ZNameList/>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="5518" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="152" Length="4" Col="21"/>
+                    </Anns>
+                    <Word>HCS1</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ns3:CircusChannelSet>
+                    <Anns>
+                        <LocAnn Start="5526" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="152" Length="21" Col="29"/>
+                    </Anns>
+                    <ns3:BasicChannelSetExpr>
+                        <Anns>
+                            <LocAnn Start="5526" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="152" Length="21" Col="29"/>
+                        </Anns>
+                        <ns3:CircusCommunicationList>
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                <Anns>
+                                    <LocAnn Start="5536" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="152" Length="1" Col="39"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="5536" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="152" Length="1" Col="39"/>
+                                        </Anns>
+                                        <Word>c</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ns3:CircusFieldList/>
+                            </ns3:Communication>
+                        </ns3:CircusCommunicationList>
+                    </ns3:BasicChannelSetExpr>
+                </ns3:CircusChannelSet>
+            </ns3:ChannelSetPara>
+            <ns3:ChannelSetPara>
+                <Anns>
+                    <LocAnn Start="5556" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="153" Length="38" Col="4"/>
+                </Anns>
+                <ZNameList/>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="5573" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="153" Length="3" Col="21"/>
+                    </Anns>
+                    <Word>HCS</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ns3:CircusChannelSet>
+                    <Anns>
+                        <LocAnn Start="5580" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="153" Length="14" Col="33"/>
+                    </Anns>
+                    <ApplExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Start="5580" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="153" Length="14" Col="33"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <Anns>
+                                <LocAnn Start="5585" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="153" Length="4" Col="33"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="5585" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="153" Length="4" Col="33"/>
+                                </Anns>
+                                <Word> _ ? _ </Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <TupleExpr>
+                            <ZExprList>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="5580" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="153" Length="4" Col="28"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="5580" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="153" Length="4" Col="28"/>
+                                        </Anns>
+                                        <Word>HCS0</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="5590" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="153" Length="4" Col="38"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="5590" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="153" Length="4" Col="38"/>
+                                        </Anns>
+                                        <Word>HCS1</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </TupleExpr>
+                    </ApplExpr>
+                </ns3:CircusChannelSet>
+            </ns3:ChannelSetPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="5696" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="67" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="5717" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="2" Col="25"/>
+                    </Anns>
+                    <Word>H1</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="5711" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="1" Col="19"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="5714" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="1" Col="22"/>
+                        </Anns>
+                        <Word>Y</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ns3:HideProcess>
+                    <Anns>
+                        <LocAnn Start="5729" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="34" Col="58"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="5729" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="5" Col="37"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="5729" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="5" Col="37"/>
+                                </Anns>
+                                <Word>BASIC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="5734" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="15" Col="42"/>
+                                </Anns>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Start="5735" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="13" Col="45"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="5737" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="9" Col="45"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="5737" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="9" Col="45"/>
+                                            </Anns>
+                                            <Word> _ ? _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="5735" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="1" Col="43"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="5735" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="1" Col="43"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="5747" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="1" Col="55"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="5747" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="1" Col="55"/>
+                                                    </Anns>
+                                                    <Word>Y</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:CircusChannelSet>
+                        <Anns>
+                            <LocAnn Start="5760" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="3" Col="68"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <Anns>
+                                <LocAnn Start="5760" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="3" Col="68"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="5760" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="3" Col="68"/>
+                                </Anns>
+                                <Word>HCS</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ns3:CircusChannelSet>
+                </ns3:HideProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="5777" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="156" Length="1245" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\begin{verbatim}
+     begin{circus}
+         \circchannelset\ HCS0 == \lchanset a, b \rchanset \\
+         \circchannelset\ HCS1 == \lchanset c \rchanset \\
+         \circchannelset\ HCS == HCS0 \cup HCS1 \\
+         \circprocess\ H \circdef BASIC[\nat] \circhide
+                               \lchanset a[\nat], b[\nat] \rchanset \\
+         \circprocess\ [X, Y] H1 \circdef BASIC[X \setminus Y]
+                                 \circhide HCS
+     end{circus}
+\end{verbatim}
+Another interesting point is about typesetting. Although, the hiding ($\circhide$) keyword operator
+does look like the set difference ($\setminus$) operator, their Unicode characters \textbf{*must*}
+be different in order to avoid inaccurate scanning. This rule is applied everything. For instance,
+the prefixing arrow ($\then$) is slightly bigger than the else guarded command arrow ($\circthen$),
+and slightly smaller than the function symbol ($\fun$) from $relation\_toolkit$.
+
+\subsubsection{Interleaving}
+
+If $IL$ does not have generic formals, or $H_1$ does not receive adequate generic actual parameters,
+the type checker will issue an error since calls to generic process must contain enough information
+to infer the needed types.
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="7045" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="50" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="7067" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="2" Col="26"/>
+                    </Anns>
+                    <Word>IL</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="7060" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="1" Col="19"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="7063" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="1" Col="22"/>
+                        </Anns>
+                        <Word>Y</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ns3:InterleaveProcess>
+                    <Anns>
+                        <LocAnn Start="7079" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="16" Col="40"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="7079" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="1" Col="38"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="7079" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="1" Col="38"/>
+                                </Anns>
+                                <Word>H</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="7093" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="2" Col="52"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="7093" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="2" Col="52"/>
+                                </Anns>
+                                <Word>H1</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="7095" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="6" Col="54"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="7096" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="1" Col="55"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="7096" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="1" Col="55"/>
+                                        </Anns>
+                                        <Word>X</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="7099" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="1" Col="58"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="7099" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="1" Col="58"/>
+                                        </Anns>
+                                        <Word>Y</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                </ns3:InterleaveProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="7115" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="184" Length="201" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ [X, Y]\ IL \circdef H \interleave H1[X, Y]
+     end{circus}
+\end{verbatim}
+
+\subsubsection{Parallelism}
+
++ $HCS$ generic actuals
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="7336" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="60" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="7350" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="1" Col="18"/>
+                    </Anns>
+                    <Word>P</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:ParallelProcess>
+                    <Anns>
+                        <LocAnn Start="7361" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="35" Col="57"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="7361" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="5" Col="29"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="7361" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="5" Col="29"/>
+                                </Anns>
+                                <Word>BASIC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="7366" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="6" Col="34"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="7367" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="4" Col="35"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="7367" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="4" Col="35"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="7395" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="1" Col="63"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="7395" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="1" Col="63"/>
+                                </Anns>
+                                <Word>H</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:CircusChannelSet>
+                        <Anns>
+                            <LocAnn Start="7379" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="9" Col="47"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <Anns>
+                                <LocAnn Start="7379" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="9" Col="47"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="7379" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="3" Col="47"/>
+                                </Anns>
+                                <Word>HCS</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="7383" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="4" Col="51"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="7383" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="4" Col="51"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                    </ns3:CircusChannelSet>
+                </ns3:ParallelProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="7410" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="197" Length="184" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ P \circdef BASIC[\nat] \lpar HCS[\nat] \rpar H
+     end{circus}
+\end{verbatim}
+
+\subsubsection{External choice}
+
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="7614" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="208" Length="41" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="7628" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="208" Length="2" Col="18"/>
+                    </Anns>
+                    <Word>EC</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:ExtChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="7640" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="208" Length="15" Col="33"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="7640" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="208" Length="2" Col="30"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="7640" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="208" Length="2" Col="30"/>
+                                </Anns>
+                                <Word>IL</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="7654" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="208" Length="1" Col="44"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="7654" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="208" Length="1" Col="44"/>
+                                </Anns>
+                                <Word>P</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                </ns3:ExtChoiceProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="7669" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="209" Length="167" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ EC \circdef IL \extchoice P
+     end{circus}
+\end{verbatim}
+
+
+\subsubsection{Internal choice}
+
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="7856" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="56" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="7878" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="2" Col="26"/>
+                    </Anns>
+                    <Word>IC</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="7871" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="19"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="7874" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="22"/>
+                        </Anns>
+                        <Word>Y</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ns3:IntChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="7890" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="22" Col="47"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="7890" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="5" Col="38"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="7890" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="5" Col="38"/>
+                                </Anns>
+                                <Word>BASIC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="7895" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="3" Col="43"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="7896" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="44"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="7896" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="44"/>
+                                        </Anns>
+                                        <Word>X</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="7910" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="2" Col="58"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="7910" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="2" Col="58"/>
+                                </Anns>
+                                <Word>H1</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="7912" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="22" Col="60"/>
+                                </Anns>
+                                <ProdExpr>
+                                    <Anns>
+                                        <LocAnn Start="7913" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="10" Col="70"/>
+                                    </Anns>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="7913" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="61"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="7913" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="61"/>
+                                                </Anns>
+                                                <Word>Y</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="7922" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="70"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="7922" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="70"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </ProdExpr>
+                                <RefExpr Mixfix="true" Explicit="true">
+                                    <Anns>
+                                        <LocAnn Start="7925" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="8" Col="75"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="7927" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="4" Col="75"/>
+                                        </Anns>
+                                        <Word> _ ? _ </Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="7925" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="73"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="7925" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="73"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="7932" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="80"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="7932" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="1" Col="80"/>
+                                                </Anns>
+                                                <Word>Y</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                </ns3:IntChoiceProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="7948" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="222" Length="252" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ [X, Y]\ IC \circdef BASIC[X] \intchoice
+                                          H1[Y \cross X, X \fun Y]
+     end{circus}
+\end{verbatim}
+
+\subsubsection{Sequential composition}
+
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="8220" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="234" Length="40" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="8234" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="234" Length="2" Col="18"/>
+                    </Anns>
+                    <Word>SC</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:SeqProcess>
+                    <Anns>
+                        <LocAnn Start="8246" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="234" Length="14" Col="33"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="8246" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="234" Length="2" Col="30"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="8246" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="234" Length="2" Col="30"/>
+                                </Anns>
+                                <Word>EC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="8258" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="234" Length="2" Col="42"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="8258" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="234" Length="2" Col="42"/>
+                                </Anns>
+                                <Word>EC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                </ns3:SeqProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="8274" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="235" Length="2781" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ SC \circdef EC \circseq EC
+     end{circus}
+\end{verbatim}
+
+\subsubsection{Prefixing}
+
+For fields, something very tricky happens: strokes!
+Channel names are just refName (hence DECORDWORD), which
+means strokes are scanned accordingly.
+So, \verb'c?x' is tokenised differently from \verb'c~?x' as:
+\[
+(DECORWORD, "c?"), (DECORDWORD, "x") \mbox{ and} \\
+(DECORWORD, "c"), (INSTROKE, "?"), (DECORDWORD, "x")
+\]
+In this situation we run out of luck because all possible
+solutions around it do create trouble somewhere else.
+
+\begin{enumerate}
+    \item New Unicode for "?" (input field)
+
+    That means LaTeX typeset as: \verb'c\commIn x'.
+    This also incurs change in the \code{KeywordScanner} (or \code{ContextFreeScanner})
+    to recognise this new type of "word-glue".
+
+    \item Channel names without strokes
+
+    Doesn't change the fact the scanner will recognise $c?$ as
+    one DECORWORD, which means no good will be done here.
+    This in fact is the harder solution, as it demands various
+    changes in both \code{ContextFree} and \code{Latex2Unicode} scanners.
+    As a consequence, everywhere that channel appear, require
+    new productions for refName/declName and corresponding lists.
+    ABSOLUTE NIGHTMARE! Forget it.
+
+    \item Using INSTROKE to represent input field
+
+    That means disappearing with CIRCCOMMQUERY (easy) and using
+    INSTROKE instead. This does not require any change anywhere else.
+    The price to pay, is that the LaTeX must have a hard space as \verb'c~?x'.
+
+    That is somehow similar to what happens with DOT. The difference
+    is that "?" and "!" are more complicated because they can be lexed
+    as either part of a DECORWORD or as STROKES.
+
+
+\end{enumerate}
+
+
+
+\begin{issue}[Processes do not have prefixing]
+    Discussed with Ana already: processes do not have prefixing, guards, or recursion.
+\end{issue}
+
+\subsubsection{Some examples on precedences}
+
+The following processes are equivalent. The names are given as acronyms of
+the operator used, where the subscripted version is the parenthesised equivalent.
+Thus, for instance, $IC\_EC\_SC$ means a tree with $\intchoice$ as its root and
+$\extchoice$ and $\circseq$ as its left and right branches respectively.
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="11270" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="78" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="11284" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="10" Col="18"/>
+                    </Anns>
+                    <Word>IC_EC_SC</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:IntChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="11306" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="42" Col="69"/>
+                    </Anns>
+                    <ns3:ExtChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="11306" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="28" Col="55"/>
+                        </Anns>
+                        <ns3:SeqProcess>
+                            <Anns>
+                                <LocAnn Start="11306" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="14" Col="43"/>
+                            </Anns>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="11306" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="40"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="11306" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="40"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="11318" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="52"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="11318" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="52"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                        </ns3:SeqProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="11332" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="66"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="11332" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="66"/>
+                                    </Anns>
+                                    <Word>EC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:ExtChoiceProcess>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="11346" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="80"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="11346" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="80"/>
+                                </Anns>
+                                <Word>IC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="11348" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="12" Col="82"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="11349" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="4" Col="83"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="11349" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="4" Col="83"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="11355" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="4" Col="89"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="11355" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="4" Col="89"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                </ns3:IntChoiceProcess>
+            </ns3:ProcessPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="11369" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="82" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="11383" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="11" Col="18"/>
+                    </Anns>
+                    <Word>IC_EC_SC0</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:IntChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="11407" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="44" Col="73"/>
+                    </Anns>
+                    <ns3:ExtChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="11407" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="29" Col="58"/>
+                            <ParenAnn>
+                                <Anns>
+                                    <LocAnn Start="11404" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="33" Col="39"/>
+                                </Anns>
+                            </ParenAnn>
+                        </Anns>
+                        <ns3:SeqProcess>
+                            <Anns>
+                                <LocAnn Start="11407" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="14" Col="45"/>
+                                <ParenAnn>
+                                    <Anns>
+                                        <LocAnn Start="11406" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="16" Col="41"/>
+                                    </Anns>
+                                </ParenAnn>
+                            </Anns>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="11407" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="42"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="11407" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="42"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="11419" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="54"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="11419" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="54"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                        </ns3:SeqProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="11434" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="69"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="11434" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="69"/>
+                                    </Anns>
+                                    <Word>EC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:ExtChoiceProcess>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="11449" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="84"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="11449" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="84"/>
+                                </Anns>
+                                <Word>IC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="11451" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="12" Col="86"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="11452" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="4" Col="87"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="11452" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="4" Col="87"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="11458" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="4" Col="93"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="11458" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="4" Col="93"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                </ns3:IntChoiceProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="11477" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="318" Length="293" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="11982" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="79" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="11996" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="10" Col="18"/>
+                    </Anns>
+                    <Word>SC_IC_EC</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:SeqProcess>
+                    <Anns>
+                        <LocAnn Start="12018" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="43" Col="43"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="12018" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="40"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="12018" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="40"/>
+                                </Anns>
+                                <Word>SC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:IntChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="12031" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="30" Col="70"/>
+                            <ParenAnn>
+                                <Anns>
+                                    <LocAnn Start="12030" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="44" Col="52"/>
+                                </Anns>
+                            </ParenAnn>
+                        </Anns>
+                        <ns3:ExtChoiceProcess>
+                            <Anns>
+                                <LocAnn Start="12031" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="16" Col="56"/>
+                            </Anns>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12031" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="53"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12031" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="53"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12045" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="67"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12045" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="67"/>
+                                        </Anns>
+                                        <Word>EC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                        </ns3:ExtChoiceProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12059" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="81"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="true">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12059" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="81"/>
+                                    </Anns>
+                                    <Word>IC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <Anns>
+                                        <LocAnn Start="12061" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="12" Col="83"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="12062" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="4" Col="84"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="12062" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="4" Col="84"/>
+                                            </Anns>
+                                            <Word>?</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="12068" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="4" Col="90"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="12068" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="4" Col="90"/>
+                                            </Anns>
+                                            <Word>?</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:IntChoiceProcess>
+                </ns3:SeqProcess>
+            </ns3:ProcessPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="12083" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="80" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="12097" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="11" Col="18"/>
+                    </Anns>
+                    <Word>SC_IC_EC0</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:SeqProcess>
+                    <Anns>
+                        <LocAnn Start="12118" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="45" Col="42"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="12118" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="39"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="12118" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="39"/>
+                                </Anns>
+                                <Word>SC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:IntChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="12132" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="31" Col="71"/>
+                            <ParenAnn>
+                                <Anns>
+                                    <LocAnn Start="12130" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="46" Col="51"/>
+                                </Anns>
+                            </ParenAnn>
+                        </Anns>
+                        <ns3:ExtChoiceProcess>
+                            <Anns>
+                                <LocAnn Start="12132" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="16" Col="56"/>
+                                <ParenAnn>
+                                    <Anns>
+                                        <LocAnn Start="12131" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="18" Col="52"/>
+                                    </Anns>
+                                </ParenAnn>
+                            </Anns>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12132" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="53"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12132" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="53"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12146" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="67"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12146" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="67"/>
+                                        </Anns>
+                                        <Word>EC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                        </ns3:ExtChoiceProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12161" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="82"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="true">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12161" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="82"/>
+                                    </Anns>
+                                    <Word>IC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <Anns>
+                                        <LocAnn Start="12163" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="12" Col="84"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="12164" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="4" Col="85"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="12164" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="4" Col="85"/>
+                                            </Anns>
+                                            <Word>?</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="12170" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="4" Col="91"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="12170" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="4" Col="91"/>
+                                            </Anns>
+                                            <Word>?</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:IntChoiceProcess>
+                </ns3:SeqProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="12190" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="336" Length="4" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="12405" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="79" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="12419" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="10" Col="18"/>
+                    </Anns>
+                    <Word>EC_SC_IC</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:ExtChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="12441" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="43" Col="55"/>
+                    </Anns>
+                    <ns3:SeqProcess>
+                        <Anns>
+                            <LocAnn Start="12441" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="14" Col="43"/>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12441" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="40"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12441" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="40"/>
+                                    </Anns>
+                                    <Word>SC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12453" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="52"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12453" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="52"/>
+                                    </Anns>
+                                    <Word>SC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:SeqProcess>
+                    <ns3:IntChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="12468" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="16" Col="70"/>
+                            <ParenAnn>
+                                <Anns>
+                                    <LocAnn Start="12467" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="30" Col="66"/>
+                                </Anns>
+                            </ParenAnn>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12468" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="67"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12468" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="67"/>
+                                    </Anns>
+                                    <Word>EC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12482" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="81"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="true">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12482" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="81"/>
+                                    </Anns>
+                                    <Word>IC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <Anns>
+                                        <LocAnn Start="12484" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="12" Col="83"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="12485" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="4" Col="84"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="12485" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="4" Col="84"/>
+                                            </Anns>
+                                            <Word>?</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="12491" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="4" Col="90"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="12491" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="4" Col="90"/>
+                                            </Anns>
+                                            <Word>?</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:IntChoiceProcess>
+                </ns3:ExtChoiceProcess>
+            </ns3:ProcessPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="12506" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="80" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="12520" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="11" Col="18"/>
+                    </Anns>
+                    <Word>EC_SC_IC0</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:ExtChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="12542" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="44" Col="56"/>
+                    </Anns>
+                    <ns3:SeqProcess>
+                        <Anns>
+                            <LocAnn Start="12542" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="14" Col="43"/>
+                            <ParenAnn>
+                                <Anns>
+                                    <LocAnn Start="12541" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="16" Col="39"/>
+                                </Anns>
+                            </ParenAnn>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12542" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="40"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12542" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="40"/>
+                                    </Anns>
+                                    <Word>SC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12554" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="52"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12554" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="52"/>
+                                    </Anns>
+                                    <Word>SC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:SeqProcess>
+                    <ns3:IntChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="12570" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="16" Col="71"/>
+                            <ParenAnn>
+                                <Anns>
+                                    <LocAnn Start="12569" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="30" Col="67"/>
+                                </Anns>
+                            </ParenAnn>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12570" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="68"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12570" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="68"/>
+                                    </Anns>
+                                    <Word>EC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12584" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="82"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="true">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12584" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="82"/>
+                                    </Anns>
+                                    <Word>IC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <Anns>
+                                        <LocAnn Start="12586" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="12" Col="84"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="12587" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="4" Col="85"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="12587" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="4" Col="85"/>
+                                            </Anns>
+                                            <Word>?</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="12593" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="4" Col="91"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="12593" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="4" Col="91"/>
+                                            </Anns>
+                                            <Word>?</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:IntChoiceProcess>
+                </ns3:ExtChoiceProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="12613" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="347" Length="4" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="12637" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="80" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="12651" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="10" Col="18"/>
+                    </Anns>
+                    <Word>IC_SC_EC</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:IntChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="12673" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="44" Col="71"/>
+                    </Anns>
+                    <ns3:SeqProcess>
+                        <Anns>
+                            <LocAnn Start="12673" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="29" Col="43"/>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12673" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="40"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12673" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="40"/>
+                                    </Anns>
+                                    <Word>SC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:ExtChoiceProcess>
+                            <Anns>
+                                <LocAnn Start="12686" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="16" Col="56"/>
+                                <ParenAnn>
+                                    <Anns>
+                                        <LocAnn Start="12685" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="18" Col="52"/>
+                                    </Anns>
+                                </ParenAnn>
+                            </Anns>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12686" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="53"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12686" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="53"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12700" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="67"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12700" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="67"/>
+                                        </Anns>
+                                        <Word>EC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                        </ns3:ExtChoiceProcess>
+                    </ns3:SeqProcess>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="12715" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="82"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="12715" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="82"/>
+                                </Anns>
+                                <Word>IC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="12717" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="12" Col="84"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="12718" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="4" Col="85"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12718" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="4" Col="85"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="12724" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="4" Col="91"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12724" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="4" Col="91"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                </ns3:IntChoiceProcess>
+            </ns3:ProcessPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="12738" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="81" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="12752" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="11" Col="18"/>
+                    </Anns>
+                    <Word>IC_SC_EC0</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:IntChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="12774" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="45" Col="72"/>
+                    </Anns>
+                    <ns3:SeqProcess>
+                        <Anns>
+                            <LocAnn Start="12774" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="29" Col="43"/>
+                            <ParenAnn>
+                                <Anns>
+                                    <LocAnn Start="12773" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="32" Col="39"/>
+                                </Anns>
+                            </ParenAnn>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12774" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="40"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12774" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="40"/>
+                                    </Anns>
+                                    <Word>SC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:ExtChoiceProcess>
+                            <Anns>
+                                <LocAnn Start="12787" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="16" Col="56"/>
+                                <ParenAnn>
+                                    <Anns>
+                                        <LocAnn Start="12786" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="18" Col="52"/>
+                                    </Anns>
+                                </ParenAnn>
+                            </Anns>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12787" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="53"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12787" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="53"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12801" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="67"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12801" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="67"/>
+                                        </Anns>
+                                        <Word>EC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                        </ns3:ExtChoiceProcess>
+                    </ns3:SeqProcess>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="12817" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="83"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="12817" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="83"/>
+                                </Anns>
+                                <Word>IC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="12819" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="12" Col="85"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="12820" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="4" Col="86"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12820" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="4" Col="86"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="12826" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="4" Col="92"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12826" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="4" Col="92"/>
+                                        </Anns>
+                                        <Word>?</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                </ns3:IntChoiceProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="12845" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="352" Length="4" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="12869" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="117" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="12883" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="22" Col="18"/>
+                    </Anns>
+                    <Word>IL__EC_SC__IC_SC</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:InterleaveProcess>
+                    <Anns>
+                        <LocAnn Start="12917" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="69" Col="81"/>
+                    </Anns>
+                    <ns3:ExtChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="12917" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="28" Col="67"/>
+                        </Anns>
+                        <ns3:SeqProcess>
+                            <Anns>
+                                <LocAnn Start="12917" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="14" Col="55"/>
+                            </Anns>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12917" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="52"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12917" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="52"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12929" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="64"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12929" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="64"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                        </ns3:SeqProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12943" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="78"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12943" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="78"/>
+                                    </Anns>
+                                    <Word>EC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:ExtChoiceProcess>
+                    <ns3:IntChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="12958" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="28" Col="96"/>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="12958" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="93"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="12958" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="93"/>
+                                    </Anns>
+                                    <Word>EC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:SeqProcess>
+                            <Anns>
+                                <LocAnn Start="12972" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="14" Col="110"/>
+                            </Anns>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12972" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="107"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12972" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="107"/>
+                                        </Anns>
+                                        <Word>EC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="12984" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="119"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="12984" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="119"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                        </ns3:SeqProcess>
+                    </ns3:IntChoiceProcess>
+                </ns3:InterleaveProcess>
+            </ns3:ProcessPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="12995" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="122" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="13009" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="23" Col="18"/>
+                    </Anns>
+                    <Word>IL__EC_SC__IC_SC0</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:InterleaveProcess>
+                    <Anns>
+                        <LocAnn Start="13044" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="73" Col="84"/>
+                    </Anns>
+                    <ns3:ExtChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="13044" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="29" Col="69"/>
+                            <ParenAnn>
+                                <Anns>
+                                    <LocAnn Start="13042" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="32" Col="51"/>
+                                </Anns>
+                            </ParenAnn>
+                        </Anns>
+                        <ns3:SeqProcess>
+                            <Anns>
+                                <LocAnn Start="13044" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="14" Col="56"/>
+                                <ParenAnn>
+                                    <Anns>
+                                        <LocAnn Start="13043" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="16" Col="52"/>
+                                    </Anns>
+                                </ParenAnn>
+                            </Anns>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="13044" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="53"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="13044" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="53"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="13056" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="65"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="13056" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="65"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                        </ns3:SeqProcess>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="13071" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="80"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="13071" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="80"/>
+                                    </Anns>
+                                    <Word>EC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                    </ns3:ExtChoiceProcess>
+                    <ns3:IntChoiceProcess>
+                        <Anns>
+                            <LocAnn Start="13088" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="29" Col="100"/>
+                            <ParenAnn>
+                                <Anns>
+                                    <LocAnn Start="13087" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="32" Col="96"/>
+                                </Anns>
+                            </ParenAnn>
+                        </Anns>
+                        <ns3:CallProcess Usage="Parameterised">
+                            <Anns>
+                                <LocAnn Start="13088" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="97"/>
+                            </Anns>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="13088" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="97"/>
+                                    </Anns>
+                                    <Word>EC</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <ZExprList/>
+                        </ns3:CallProcess>
+                        <ns3:SeqProcess>
+                            <Anns>
+                                <LocAnn Start="13103" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="14" Col="115"/>
+                                <ParenAnn>
+                                    <Anns>
+                                        <LocAnn Start="13102" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="16" Col="111"/>
+                                    </Anns>
+                                </ParenAnn>
+                            </Anns>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="13103" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="112"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="13103" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="112"/>
+                                        </Anns>
+                                        <Word>EC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                            <ns3:CallProcess Usage="Parameterised">
+                                <Anns>
+                                    <LocAnn Start="13115" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="124"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="13115" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="124"/>
+                                        </Anns>
+                                        <Word>SC</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <ZExprList/>
+                            </ns3:CallProcess>
+                        </ns3:SeqProcess>
+                    </ns3:IntChoiceProcess>
+                </ns3:InterleaveProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="13133" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="357" Length="265" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+\subsubsection{Some examples with hard new lines and spaces}
+
+Just like in Z, it is desirable to allow special scanning of hard new lines and spaces,
+such as the \verb'\\' and \verb'\tN' symbols. This enables pretty printing and should
+not affect parsing.
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="13421" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="64" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="13443" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="3" Col="26"/>
+                    </Anns>
+                    <Word>IC2</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="13436" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="19"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="13439" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="22"/>
+                        </Anns>
+                        <Word>Y</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ns3:IntChoiceProcess>
+                    <Anns>
+                        <LocAnn Start="13456" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="29" Col="48"/>
+                    </Anns>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="13456" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="5" Col="39"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="13456" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="5" Col="39"/>
+                                </Anns>
+                                <Word>BASIC</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="13461" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="3" Col="44"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="13462" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="45"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="13462" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="45"/>
+                                        </Anns>
+                                        <Word>X</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                    <ns3:CallProcess Usage="Parameterised">
+                        <Anns>
+                            <LocAnn Start="13483" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="2" Col="66"/>
+                        </Anns>
+                        <RefExpr Mixfix="false" Explicit="true">
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="13483" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="2" Col="66"/>
+                                </Anns>
+                                <Word>H1</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList>
+                                <Anns>
+                                    <LocAnn Start="13485" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="22" Col="68"/>
+                                </Anns>
+                                <ProdExpr>
+                                    <Anns>
+                                        <LocAnn Start="13486" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="10" Col="78"/>
+                                    </Anns>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="13486" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="69"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="13486" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="69"/>
+                                                </Anns>
+                                                <Word>Y</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="13495" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="78"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="13495" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="78"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </ProdExpr>
+                                <RefExpr Mixfix="true" Explicit="true">
+                                    <Anns>
+                                        <LocAnn Start="13498" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="8" Col="83"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="13500" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="4" Col="83"/>
+                                        </Anns>
+                                        <Word> _ ? _ </Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="13498" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="81"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="13498" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="81"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="13505" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="88"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="13505" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="1" Col="88"/>
+                                                </Anns>
+                                                <Word>Y</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
+                        <ZExprList/>
+                    </ns3:CallProcess>
+                </ns3:IntChoiceProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="13521" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="367" Length="14637" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\begin{verbatim}
+     begin{circus}
+        \circprocess\ [X, Y]\ IC2 \circdef BASIC[X] \intchoice \\
+                                     \t5  H1[Y \cross X, X \fun Y]
+     end{circus}
+\end{verbatim}
+From the grammar point of view, such tokens are a nuisance: they introduce nasty conflicts,
+and badly affect the size of the parsing tables. Fortunately,
+
+CZT has a very elegant solution for this, namely a layered architecture involving around
+$10$ different specialised scanners, one of which is responsible for handling new line
+problems alone! That means, a simple configuration on the \code{NewLineScanner} terminals
+telling which tokens allows new lines before and/or after them to be treated specially.
+This directly (and specifically) implements the specialised handling of new line lexis,
+as defined in the Z standard Section $7.5$.
+
+
+
+
+\subsection{Parameterised process --- \grammar{paramProcess}}
+
+Parameteri
+
+\subsection{Indexed process --- \grammar{indexedProcess}}
+
+\end{document}
+
+
+
+</Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>

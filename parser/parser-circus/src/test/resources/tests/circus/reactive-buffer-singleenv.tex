@@ -1,0 +1,137 @@
+\documentclass{article}
+
+\usepackage{vmargin}
+\usepackage{circus}
+
+\setpapersize{A4}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
+%\setmarginsrb{20mm}{10mm}{20mm}{10mm}{12pt}{11mm}{0pt}{11mm}
+%\setmarginsrb{25mm}{20mm}{25mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\begin{document}
+
+\title{\Circus\ Example --- Reactive Buffer (unboxed)}
+\author{Leonardo Freitas}
+\date{June 2006}
+
+\maketitle
+
+\begin{zsection}
+  \SECTION\ unboxed\_reactive\_buffer \parents\ circus\_toolkit
+\end{zsection}
+
+\section{Abstract buffer specification}
+
+\begin{axdef}
+  maxbuff: \nat_1
+\end{axdef}
+
+\begin{circus}
+   \circchannel\ input, output: \nat
+\end{circus}
+
+\begin{circus}
+  \circprocess\ Buffer \circdef \circbegin
+  \also %
+    \t1 \circstate\ BufferState ~~==~~ [~ buff: \seq \nat; size: 0 \upto maxbuff | size = \#~buff \leq maxbuff ~] \\ %
+    \t1 BufferInit ~~==~~ [~ BufferState~' | buff' = \langle\rangle \land size' = 0 ~] \\
+    \t1 Input ~~\circdef~~ \lcircguard size < maxbuff \rcircguard \circguard input~?x \then InputCmd \\
+    \t1 InputCmd ~~==~~ [~ \Delta BufferState; x?: \nat | size < maxbuff \land buff' = buff \cat \langle x? \rangle \land size' = size + 1 ~] \\
+    \t1 OutputCmd ~~==~~ [~\Delta BufferState | size > 0 \land buff'= tail~buff \land size' = size - 1 ~] \\
+    \t1 Output ~~\circdef~~ \lcircguard size > 0 \rcircguard \circguard output~!(head~buff) \then OutputCmd \\
+  \circspot BufferInit \circseq\ (~\circmu X \circspot (~Input \extchoice Output~) \circseq\ X~) \\
+  \circend
+\end{circus}
+
+
+\section{A cached-head ring buffer implementation}
+
+\subsection{Controller process}
+
+\begin{axdef}
+  maxring: \nat
+\where %
+  maxring = maxbuff - 1
+\end{axdef}
+
+\begin{zed}
+    RingIndex ~~==~~ 0 \upto maxring - 1
+\end{zed}
+
+\begin{circus}
+   \circchannel\ read, write: RingIndex \cross \nat
+\end{circus}
+
+\begin{circus}
+  \circprocess\ Controller ~~\circdef~~ \circbegin
+  \also
+    \t1 \circstate\ ControllerState ~~==~~ [~ size: 0 \upto maxbuff; ringsize: 0 \upto maxring; cache: \nat; top, bot: RingIndex | ringsize = max \{ 0, size - 1 \} \land ringsize \mod maxring = (top - bot) \mod maxring ~] \\
+    \t1 InitController ~~==~~ [~ ControllerState~' | size' = 0 \land bot' = 0 \land top' = 0 ~] \\
+    \t1 CacheInput ~~==~~ [~ \Delta ControllerState; x?: \nat | size = 0 \land size' = 1 \land cache' = x? \land bot' = bot \land top' = top~] \\
+    \t1 StoreInput ~~==~~ [~ \Delta ControllerState | size > 0 \land size' = size + 1 \land cache' = cache \land bot' = bot \land top' = (top + 1) \mod maxring ~] \\
+    \t1 InputController ~~\circdef~~ \lcircguard size < maxbuff \rcircguard \circguard input~?x \then (~(\lcircguard size = 0 \rcircguard \circguard CacheInput) \extchoice (\lcircguard size > 0 \rcircguard \circguard write.top~!x \then StoreInput)~) \\
+    \t1 NoNewCache ~~==~~ [~ \Delta ControllerState | size = 1 \land size' = 0 \land bot' = bot \land top' = top~] \\
+    \t1 StoreNewCache ~~==~ [~ \Delta ControllerState; x?: \nat | size > 1 \land size' = size - 1 \land cache' = x? bot' = (bot + 1) \mod maxring \land top' = top ~] \\
+    \t1 OutputController ~~\circdef~~ \lcircguard size > 0 \rcircguard \circguard output~!cache \then (~(\lcircguard size > 1 \rcircguard \circguard read.bot~?x \then StoreNewCache) \extchoice (\lcircguard size = 1 \rcircguard \circguard NoNewCache)~) \\
+    \t1 ControllerCycle ~~\circdef~~ \circmu\ X \circspot (~ InputController \extchoice OutputController ~) \circseq X
+  \also %
+   \circspot InitController \circseq ControllerCycle \\
+  \circend
+\end{circus}
+
+\subsection{Ring cell process}
+
+\begin{circus}
+  \circchannel\ rd, wrt: \nat
+\end{circus}
+
+Because \LaTeX\ is only an intermediary representation to Unicode,
+we MUST not use the \Circus\ (Unicode) keywords within a process.
+So for example, $begin$, $process$, \textit{etc.} are not allowed.
+Thus, we have changed the state name from $val$ (keyword for parameters
+passed by value to $val\_$).
+\begin{circus}
+  \circprocess\ RingCell \circdef \circbegin
+  \also
+    \t1 \circstate\ CellState ~~==~~ [~ val\_: \nat ~] \\
+    \t1 Read \circdef rd~!val\_ \then \Skip \\
+    \t1 CellWrite ~~==~~ [~ \Delta CellState; x?: \nat | val\_' = x? ~] \\
+    \t1 Write \circdef wrt~?x \then CellWrite \\
+    \circspot Write \circseq (~\circmu\ X \circspot ( Read \extchoice Write ) \circseq\ X~) \\
+  \circend
+\end{circus}
+%
+There is no way around this. The choice is perhaps to change the keyword
+if it often happens within specifications
+
+\subsubsection{The cached-head ring buffer's behaviour}
+
+This is an example of indexed process renaming,
+on-the-fly replicated indexed process call, and
+process hiding with on-the-fly basic channel set expressions.
+Renaming causes a series of problems with generic actuals (i.e. may need look-ahead to differentiate
+from variable substitution) and on-the-fly actions.
+Once the conflicts were solved, the production in itself was not yet right, as it was not parsing the expected program.
+Like in FDR, we have chosen special parenthesis to make it clear that it is a renaming. This also avoid confusion when
+generic processes and renaming are used together.
+%
+\begin{circus}
+    % (~i: RingIndex \circindex RingCell~)[rd\_i, wrt\_i := read, write]
+    % i: RingIndex \circindex RingCell
+  \circprocess\ IRingCell \circdef (~i: RingIndex \circindex RingCell~) \lcircrename rd\_i, wrt\_i := read, write \rcircrename
+  \also
+  \circprocess\ Ring \circdef (~ \Interleave i: RingIndex \circindex IRingCell ~) \lcircindex i \rcircindex
+  \also
+  \circprocess\ CRing \circdef (~ Controller \lpar \lchanset read, write \rchanset \rpar Ring ~) \circhide \lchanset read, write \rchanset
+\end{circus}
+%
+Note that
+\begin{circus}
+  \circprocess\ IRingCellJustTesting \circdef (~i: RingIndex \circspot RingCell~) \lcircrename rd\_i, wrt\_i := read, write \rcircrename
+  \also
+  \circprocess\ IRingCellJustTesting \circdef (P \extchoice Q) \lcircrename c\_i := d \rcircrename
+
+\end{circus}
+
+\end{document}

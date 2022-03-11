@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>A 'Let' expression</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <LetExpr>
+            <SchText>
+              <ConstDecl>
+                <DeclName><Word>A</Word></DeclName>
+                <RefExpr>
+                  <RefName><Word>Horse</Word></RefName>
+                </RefExpr>
+              </ConstDecl>
+              <ConstDecl>
+                <DeclName><Word>B</Word></DeclName>
+                <RefExpr>
+                  <RefName><Word>Goat</Word></RefName>
+                </RefExpr>
+              </ConstDecl>
+            </SchText>
+            <NumExpr Value="1"/>
+          </LetExpr>         
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

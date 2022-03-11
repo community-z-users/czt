@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+  <properties>
+    <title>CZT Changes Report</title>
+  </properties>
+  <body>
+    <release version="1.0" date="July 2007" description="Major release based on ZML 2.1; tools like parser, typechecker, etc. are quite mature now">
+      <action type="update">
+        Update to changes of the Z Standard (defect reports 001..013).
+      </action>
+      <action type="update">
+        Lots of improvements and bug fixes; see the changes report
+        of the subprojects for more information.
+      </action>
+      <action type="update">
+        Use maven as build system.  This includes lots of changes to
+        the project and directory structure to follow the maven
+        conventions.
+      </action>
+      <action type="add">
+        Add a Z to B translator.
+      </action>
+    </release>
+    <release version="0.5" date="July 2006"
+      description="Release based on ZML 2.0, containing tools like parser, typechecker, animator, etc.">
+      <action dev="Mark Utting" type="add">
+        Add Z animator ZLive.
+      </action>
+      <action dev="Mark Utting" type="add">
+        Add testing tool modeljunit.
+      </action>
+      <action dev="Petra Malik" type="add">
+        The jedit plugin has been split into two (ZCharMap and ZSideKick)
+        and a new jedit plugin for zlive has been added.
+      </action>
+      <action type="add">
+        Lots of improvements and bug fixes; see the changes report
+        of the subprojects for more information.
+      </action>
+    </release>
+    <release version="0.4" date="Sept 2005"
+      description="Bugfix and improvement release">
+      <action type="add">
+        Lots of improvements and bug fixes; see the changes report
+        of the subprojects for more information.
+      </action>
+    </release>
+    <release version="0.3" date="March 2005"
+      description="Release based on ZML 1.4, containing AST classes, parser, typechecker, and a jedit plugin">
+      <action dev="Petra Malik" type="add">
+        Add a jedit plugin.
+      </action>
+      <action dev="Tim Miller" type="add">
+        Add a typechecker.
+      </action>
+      <action type="add">
+        Lots of improvements and bug fixes; see the changes report
+        of the subprojects for more information.
+      </action>
+    </release>
+    <release version="0.2" date="Sept 2004"
+      description="Release based on ZML 1.3, containing AST classes and a parser">
+      <action type="add">
+        Lots of improvements and bug fixes; see the changes report
+        of the subprojects for more information.
+      </action>
+    </release>
+    <release version="0.1" date="April 2004" description="First CZT Release"/>
+  </body>
+</document>

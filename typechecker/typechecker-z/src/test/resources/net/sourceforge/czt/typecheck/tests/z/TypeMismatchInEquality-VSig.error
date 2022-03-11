@@ -1,0 +1,18 @@
+\begin{zsection}
+  \SECTION TypeMismatchInEquality\_VSig
+\end{zsection}
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+Check that cyclic signatures do not cause problems.
+
+\begin{axdef}
+  s == g\\
+  t == g
+\where
+  t = [x : \{s\}]\\
+  t = s\\
+  s = [y : \nat]
+\end{axdef}

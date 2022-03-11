@@ -1,0 +1,88 @@
+\begin{zsection}
+\SECTION simple1 \parents zpattern\_toolkit
+\end{zsection}
+
+\begin{zedjoker}{Pred} P, P1, P2\end{zedjoker} \\
+
+\begin{zedrule}{True}
+  true
+\end{zedrule}
+
+\begin{zedrule}{False}
+  \lnot false
+\end{zedrule}
+
+\begin{zedrule}{Not}
+  P \\
+\derives
+  \lnot \lnot P
+\end{zedrule}
+
+\begin{zedrule}{OrNot}
+  P \lor \lnot P
+\end{zedrule}
+
+\begin{zedrule}{NotOr}
+  \lnot P \lor P
+\end{zedrule}
+
+\begin{zedrule}{And}
+  P1 \\
+  P2 \\
+\derives
+  P1 \land P2  
+\end {zedrule}
+
+\begin{zedrule}{Or_1}
+  P1 \\
+\derives
+  P1 \lor P2  
+\end {zedrule}
+
+\begin{zedrule}{Or_2}
+  P2 \\
+\derives
+  P1 \lor P2  
+\end {zedrule}
+
+\begin{zed}
+  \vdash? true
+\end{zed}
+
+\begin{zed}
+  \vdash? \lnot false
+\end{zed}
+
+\begin{zed}
+  \vdash? true \land true
+\end{zed}
+
+\begin{zed}
+  \vdash? true \land true \land true
+\end{zed}
+
+\begin{zed}
+  \vdash? true \lor false
+\end{zed}
+
+\begin{zed}
+  \vdash? false \lor true
+\end{zed}
+
+\begin{zed}
+  \vdash? false \lor (false \lor \lnot false)
+\end{zed}
+
+\begin{zed}
+  \vdash? 1 + 1 = 2 \lor \lnot 1 + 1 = 2
+\end{zed}
+
+\begin{zed}
+  \vdash? (false \lor \lnot \lnot true \lor false) \lor
+          (false \lor \lnot false)
+\end{zed}
+
+\begin{zed}
+  \vdash? (false \lor \lnot \lnot true \lor false) \land
+          (false \lor \lnot false)
+\end{zed}

@@ -1,0 +1,27 @@
+
+\begin{zsection}
+  \SECTION\ tc3217\_commands \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   x: \nat
+\where
+   true
+\end{axdef}
+
+\begin{circus}
+     \circchannel\ c: \nat
+     \also
+    \circprocess\ P \circdef\ \circbegin \\
+       \t1 A \circdef z: \nat \circspot \\
+            \t2 c?y \then y \prefixcolon [ (z > 2), (y' = x)] \circseq \\
+            \t2 (\circvar\ t: \nat \circspot t := x) \circseq \\
+            \t2 t := z \circseq \\
+            \t2 (\circval a: \nat; \circres b: \nat \circspot a := b)(3, z)  \circseq \\
+            \t2 \circif z = 0 \circthen \Skip \\
+            \t2 \circelse z > 0 \circthen \Stop \\
+            \t2 \circfi \\
+     	\t1 \circspot\ A(10) \\	
+     \circend
+\end{circus}
+

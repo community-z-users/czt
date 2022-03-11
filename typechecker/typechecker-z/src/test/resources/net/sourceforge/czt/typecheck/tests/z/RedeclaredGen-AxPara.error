@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION RedeclaredGen\_AxPara
+\end{zsection}
+
+\begin{zed}
+  x[X,X] == 1
+\end{zed}

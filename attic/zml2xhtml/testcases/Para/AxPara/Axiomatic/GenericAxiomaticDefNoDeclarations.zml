@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+>
+  <ZSect>
+    <Name>Generic Axiomatic Definition, without declarations</Name>
+    <AxPara>
+      <DeclName>
+        <Word>generic1</Word>
+      </DeclName>
+      <DeclName>
+        <Word>generic2</Word>
+      </DeclName>
+      <SchText>
+        <MemPred Mixfix="true">
+          <TupleExpr>
+            <ApplExpr Mixfix="true">
+              <RefExpr>
+                <RefName><Word>p</Word></RefName>
+              </RefExpr>
+              <RefExpr>
+                <RefName>
+                  <Word>#</Word>
+                </RefName>
+              </RefExpr>
+            </ApplExpr>
+            <NumExpr Value="1"/>
+          </TupleExpr>
+          <RefExpr>
+            <RefName>
+              <Word>=</Word>
+            </RefName>
+          </RefExpr>
+        </MemPred>
+        
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>

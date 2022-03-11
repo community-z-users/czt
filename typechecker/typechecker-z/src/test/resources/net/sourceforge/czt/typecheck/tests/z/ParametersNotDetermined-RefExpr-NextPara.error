@@ -1,0 +1,21 @@
+\begin{zsection}
+  \SECTION ParametersNotDetermined\_RefExpr\_NextPara 
+\end{zsection}
+
+This tests that if a subsequent paragraph can be used to determine the
+type of a variable, an error will still be raised.
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g
+\end{axdef}
+
+\begin{axdef}
+  t == g
+\where
+  t \in \power \nat\\
+  s \in \power \nat
+\end{axdef}

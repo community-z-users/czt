@@ -1,0 +1,27 @@
+\begin{zsection}
+  \SECTION BindSelExpr
+\end{zsection}
+
+\begin{zed}
+  bindExpr == \lblot one == 1, two == \{2\}, three == \power \{3\} \rblot
+\end{zed}
+
+\begin{zed} \vdash? bindExpr.one \in \nat \end{zed}
+\begin{zed} \vdash? bindExpr.two \in \power \nat \end{zed}
+\begin{zed} \vdash? bindExpr.three \in \power \power \nat \end{zed}
+
+Check that if the type is variable on the first visit, everything is 
+still handled correctly.
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s : g
+\where
+  s.one \in \nat\\
+  s.two \in \power \nat\\
+  s.three \in \power \power \nat\\
+  s = \lblot one == 1, two == \{2\}, three == \power \{3\} \rblot
+\end{axdef}

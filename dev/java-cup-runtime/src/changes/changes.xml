@@ -1,0 +1,26 @@
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+  <properties>
+    <title>Java CUP Runtime</title>
+  </properties>
+  <body>
+    <release version="0.11-a-czt01" date="2012-10-13" description="Generics and cleanup">
+      <action type="update" dev="andriusvelykis">
+        Updated to use Java Generics and avoid other warnings.
+      </action>
+    </release>
+  
+    <release version="0.11-a-r20" date="2009-08-17" description="Fixes in CUP development repository">
+      <action type="fix" due-to="Michael Petter">
+        Fixes in CUP development repository (revision 20) with message "forgot the standard constructor".
+      </action>
+    </release>
+
+    <release version="0.11-a" date="2006-06-08" description="Java CUP release 0.11a">
+      <action type="update">
+        Latest official release of CUP parser generator for Java from Technical University of Munich.
+      </action>
+    </release>
+  </body>
+</document>

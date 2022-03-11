@@ -1,0 +1,39 @@
+\begin{sidebyside}
+\begin{class}{ClassType}
+  Type2\\
+\begin{state}
+  classSig : ClassSignature
+\end{state}
+\end{class}
+\nextside
+\begin{class}{ClassRef}
+\begin{state}
+  refName : RefName\\
+  type : \seq Type2
+\end{state}
+\end{class}
+\end{sidebyside}
+\begin{sidebyside}
+\begin{class}{ClassSignature}
+\begin{state}
+  classRef : \finset ClassRef\\
+  state : Signature\\
+  attribute : DeclName \pfun Type\\
+  operation : DeclName \pfun Signature
+\where
+  classRef \neq \emptyset
+\end{state}
+\end{class}
+\nextside
+\begin{class}{ClassRefType}
+  ClassType\\
+\begin{state}
+  thisClass : ClassRef\\
+  superClass : \finset ClassRef\\
+  visiblity : \finset RefName
+\where
+  classSig.classRef = \{thisClass\}
+\end{state}  
+\end{class}
+\end{sidebyside}
+

@@ -1,0 +1,29 @@
+
+\begin{zsection}
+  \SECTION\ param\_process \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   v: \nat
+\where
+   v = 1
+\end{axdef}
+
+\begin{circus}
+    \circprocess\ [T] P \circdef  v:  T \circspot \circbegin  \\
+    \t1 \circspot \Skip \\
+    \circend
+\end{circus}
+
+
+\begin{circus}
+    \circprocess\ [T] Q \circdef  v:  T \circspot \circbegin
+\end{circus}
+
+\begin{circusaction}
+   \t1 \circspot \Stop
+\end{circusaction}
+
+\begin{circus}
+   \circend
+\end{circus}

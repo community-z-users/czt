@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION TypeMismatchInOpExpr2\_OpExpr2\_1toM \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+ error \sdef [z : \power \nat] \land
+       [x : \nat; y : \power \nat; z : \nat]
+\end{class}

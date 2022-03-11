@@ -1,0 +1,51 @@
+\begin{zsection}
+   \SECTION zeveslabels \parents standard\_toolkit
+\end{zsection}
+
+More than one labelled predicate per axiomatic box (!)
+\begin{axdef}
+   foo: \nat
+\where
+   \Label{disabled rule dFoo}
+   foo = 10
+\\
+   \Label{disabled rule dFoo2}
+   foo > 2
+\\
+   % implicitly adding label as axiom$1
+   foo < 11
+\end{axdef}
+
+\begin[disabled]{theorem}{rule lFooLemma}
+   \forall x: \nat @ x > foo
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lOptionalVDash}
+    \forall x: \nat @ x > foo
+\end{theorem}
+
+\begin{zproof}[lFooLemma]
+apply dFoo;
+prove by reduce;
+\end{zproof}
+
+\begin[disabled]{schema}{S}
+   x: \nat
+\end{schema}
+
+\begin[disabled]{zed}
+   [GS, Audit]
+\end{zed}
+
+Problem: \IF entry \in log \THEN the predicate within gets a label (!)
+\begin{axdef}
+  sizeElement0: Audit \fun  \nat \\
+  sizeLog0: \finset  Audit \fun  \nat
+\where
+    \Label{disabled rule dSizeLogEmpty0} sizeLog0~ \emptyset = 0
+    \\
+  \Label{disabled rule dSizeLog0}
+    \forall log: \finset Audit; entry: Audit @ sizeLog0~log =
+        \IF entry \in log \THEN sizeLog0~ (log \setminus \{entry\}) + sizeElement0~ entry
+        \ELSE sizeLog0~log
+\end{axdef}

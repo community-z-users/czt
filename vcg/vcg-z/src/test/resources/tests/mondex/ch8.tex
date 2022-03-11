@@ -1,0 +1,1963 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch8 \parents ch7
+\end{zsection}
+CHANGES:
+* to/status -> "toN"/"statuS"
+* changed unary minus from "- 1" to "\negate 1"
+* added missing hard space for \inv and fcn-appl
+* DecorExpr hard space
+* removed znote
+* changed \bot -> mondexError
+* changed mixed CZT/ZEves renaming to ZEves renaming: "x := 1, y/z" into "x := 1, y := z"
+* changed IF-THEN-ELSE pattern: tClearExceptionLogEafromOkayPRE
+}
+
+\chapter{Model consistency proofs}\label{ch8}
+
+We have included all the missing precondition
+calculations for all operations from Chapter~\ref{ch3}
+to Chapter~\ref{ch7}. Those not included, for instance,
+$ConWorld$ or $ConPurse$, is because they are just $true$.
+
+\section{Introduction}
+
+Due to the use of $NAT$ in $ConPurse$, we add
+an additional (obvious) forward here for automation purposes
+%
+\begin{LFRT}[$ConPurse$ $nextSeqNo$ maximal type]
+\begin{theorem}{frule fConPurseNextSeqNoMaxType}
+   \forall ConPurse @ nextSeqNo \in \num
+\end{theorem}~\end{LFRT}
+
+\section{\Abs\ model consistency proofs}\label{ch8.specproof-ab}
+
+\subsection{Existence of initial abstract state}\label{ch8.specproof-ab-init}
+
+\begin{LThm}[Existence of initial abstract state]
+\begin{theorem}{tExistsInitialAbWorld}
+   \exists AbWorld~' @ AbInitState
+\end{theorem}~\end{LThm}
+
+\subsection{Totality of abstract operations}\label{ch8.specproof-ab-total}
+
+The are the operations from Chapter~\ref{ch3}.
+For the operations to be total, we must assume not
+only the abstract operations signature.
+\begin{LNewSDef}[\Abs\  operation signature]
+\begin{zed}
+   AbOpSig ~~\defs~~ [~ AbWorld; a?: AIN ~]
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewThm}[\Abs\  operation]
+\begin{theorem}{tAbOpIsTotal}
+   \forall AbOpSig @ \pre AbOp
+\end{theorem}~\end{LNewThm}
+
+\begin{LThm}[\Abs\  ignore operation is total]
+\begin{theorem}{tAbIgnoreIsTotal}
+   \forall AbOpSig @ \pre AbIgnore
+\end{theorem}~\end{LThm}
+
+$AbTransfer$ is total because of the disjunction with $AbIgore$
+\begin{LThm}[\Abs\  transfer operation is total]
+\begin{theorem}{tAbTransferIsTotal}
+   \forall AbOpSig @ \pre AbTransfer
+\end{theorem}~\end{LThm}
+%
+Nothing is in the purse about including the preconditions of the inner
+operations from $AbTransfer$.
+%
+\begin{gzed}
+   \pre~AbTransferOkay \land \pre~AbTransferOkayTD \\
+   \pre~AbTransferLost \land \pre~AbTransferLostTD
+\end{gzed}
+%
+We include then here as well. For that we need to include the
+signature of secure operations as
+%
+\begin{LNewSDef}[\Abs\  secure operations signature]
+\begin{zed}
+   AbWorldSecureOpSig ~~\defs~~ [~ AbOpSig; TransferDetails~? ~]
+\end{zed}~\end{LNewSDef}
+%
+\begin{LNewThm}[\Abs\  secure operation precondition]
+\begin{theorem}{tAbWorldSecureOpPRE}
+   \forall AbWorldSecureOpSig | a? \in \ran~transfer \land \\
+        \t1 \theta TransferDetails? = (transfer~\inv)~a? @ \pre AbWorldSecureOp
+\end{theorem}~\end{LNewThm}
+%
+With the precondition for world secure operations, we can now
+tackle the inner transfer operations from the abstract world.
+Firstly, let us define the minimal signature for $AbTransferXXX$
+operations below.
+%
+\begin{LNewSDef}[\Abs\  secure transfer operations signature]
+\begin{schema}{AbTransferOpSig}
+    AbWorldSecureOpSig
+\where
+    a? \in \ran~transfer \\
+    \theta TransferDetails~? = (transfer~\inv)~a?
+\end{schema}~\end{LNewSDef}
+%
+After that, in order to prove that
+%
+\begin{gzed}
+   \forall AbTransferOpSig @ \pre AbTransferOkayTD
+\end{gzed}
+%
+a series of lemmas are required. They appear as negated assumptions
+in the goal after appropriate instantiation of $abAuthPurse'$.
+%
+\begin{LNewLemma}[Abstract transfer okay PRE $abAuthPurse$ maximal type]
+\begin{theorem}{rule lAbTransferOkayPREAuthPurseUpdateMaxType}
+\forall  AbWorld; TransferDetails~? | \\
+    \t1 Authentic[from?/name?] \\
+    \t1 \land  Authentic[toN?/name?] \\
+    \t1 \land  SufficientFundsProperty \\
+    \t1 \land  \lnot  from? = toN? @ \\
+        \t2 (\{(from?, \theta  AbPurse[balance := \negate~1 * value? + (abAuthPurse~from?).balance, \\
+            \t3 lost := (abAuthPurse~from?).lost])\} \\
+        \t2 \cup \{(toN?, \theta  AbPurse[balance := value? + (abAuthPurse~toN?).balance, \\
+            \t3 lost := (abAuthPurse~toN?).lost])\}) \in  \\
+        \t2 \power  (NAME \cross  \lblot balance: \num ; lost: \num \rblot)
+\end{theorem}~\end{LNewLemma}
+%
+\begin{LNewLemma}[Abstract transfer okay PRE $abAuthPurse$ maximal type]
+\begin{theorem}{rule lAbTransferOkayPREAuthPurseMaxType}
+\forall  AbWorld; TransferDetails~? | \\
+    \t1 Authentic[from?/name?] \\
+    \t1 \land Authentic[toN?/name?] \\
+    \t1 \land  SufficientFundsProperty \\
+    \t1 \land  \lnot  from? = toN? @ \\
+    \t1 abAuthPurse \oplus \\
+        \t2 (\{(from?, \theta  AbPurse[balance := \negate~1 * value? + (abAuthPurse~from?).balance, \\
+            \t3 lost := (abAuthPurse~from?).lost])\} \\
+        \t2 \cup \{(toN?, \theta  AbPurse[balance := value? + (abAuthPurse~toN?).balance, \\
+            \t3 lost := (abAuthPurse~toN?).lost])\}) \in  \\
+        \t2 \power  (NAME \cross  \lblot balance: \num ; lost: \num \rblot)
+\end{theorem}~\end{LNewLemma}
+%
+\begin{LNewLemma}[Abstract transfer okay PRE $AbWorld$ type]
+\begin{theorem}{rule lAbTransferOkayPREAbWorld}
+    \forall AbWorld; TransferDetails~? | \\
+        \t1 Authentic[from?/name?] \\
+        \t1 \land  Authentic[toN?/name?] \\
+        \t1 \land  SufficientFundsProperty \\
+        \t1 \land  \lnot  from? = toN? @ \\
+        \t1 AbWorld[abAuthPurse := abAuthPurse \oplus \\
+            \t2 (\{(from?, \theta  AbPurse[balance := \negate~1 * value? + \\
+                \t3 (abAuthPurse~from?).balance, \\
+                \t3 lost := (abAuthPurse~from?).lost])\} \\
+            \t2 \cup \{(toN?, \theta  AbPurse[balance := value? + \\
+                \t3 (abAuthPurse~toN?).balance, \\
+                \t3 lost := (abAuthPurse~toN?).lost])\})]
+\end{theorem}~\end{LNewLemma}
+%
+\begin{LNewLemma}[Abstract transfer okay PRE $\ndres$ equivalence]
+\begin{theorem}{rule lAbTransferOkayPRENDResEquiv}
+    \forall AbWorld; TransferDetails~? |
+        \t1 Authentic[from?/name?] \\
+        \t1 \land  Authentic[toN?/name?] \\
+        \t1 \land  SufficientFundsProperty \\
+        \t1 \land  \lnot  from? = toN? @ \\
+            \t2 (\{from?\} \cup  \{toN?\}) \ndres (abAuthPurse \oplus \\
+                \t3 (\{(from?, \theta AbPurse[balance := \negate~1 * value? + \\
+                \t3 (abAuthPurse~from?).balance, lost := (abAuthPurse~from?).lost])\} \\
+                \t3 \cup  \{(toN?, \theta  AbPurse[balance := value? + \\
+                \t3 (abAuthPurse~toN?).balance, lost := (abAuthPurse~toN?).lost])\}))\\
+            \t2 = (\{from?\} \cup  \{toN?\}) \ndres  abAuthPurse
+\end{theorem}~\end{LNewLemma}
+%
+\begin{LNewLemma}[Abstract transfer okay PRE $Authentic$]
+\begin{theorem}{lAbTransferOkayPREAuthentic}
+    \forall  AbWorld; TransferDetails~? | \\
+        \t1 Authentic[from?/name?] \\
+        \t1 \land  Authentic[toN?/name?] \\
+        \t1 \land  SufficientFundsProperty \\
+        \t1 \land  \lnot  from? = toN? @ \\
+            \t2 Authentic[abAuthPurse := abAuthPurse \oplus \\
+                \t3 (\{(from?, \theta AbPurse[balance := \negate~1 * value? \\
+                    \t4  + (abAuthPurse~from?).balance, \\
+                    \t4 lost := (abAuthPurse~from?).lost])\} \\
+                \t3 \cup \{~(toN?, \theta AbPurse[balance := value? + \\
+                    \t4 (abAuthPurse~toN?).balance, \\
+                    \t4 lost := (abAuthPurse~toN?).lost])~\}), 
+                    % Encoding: changed from?/name?] into
+                    name? := from?]
+               \also
+        \t1 \land Authentic[abAuthPurse := abAuthPurse \oplus \\
+                \t3 (\{(from?, \theta AbPurse[balance := \negate~1 * value? \\
+                    \t4 + (abAuthPurse~from?).balance, \\
+                    \t4 lost := (abAuthPurse~from?).lost])\} \\
+                \t3 \cup \{(toN?, \theta AbPurse[balance := value? + \\
+                    \t4 (abAuthPurse~toN?).balance, \\
+                    \t4 lost := (abAuthPurse~toN?).lost])\}), 
+                    %toN?/name?]
+                    name? := toN?]
+\end{theorem}~\end{LNewLemma}
+%
+\begin{LNewLemma}[Abstract transfer okay PRE $from?$ $\oplus$ equivalence]
+\begin{theorem}{lAbTransferOkayPREFromOPlusEquiv}
+    \forall  AbWorld; TransferDetails~? | Authentic[from?/name?] \\
+        \t1 \land  Authentic[toN?/name?] \\
+        \t1 \land  SufficientFundsProperty \\
+        \t1 \land  \lnot  from? = toN? @ \\
+            \t2 (abAuthPurse \oplus (\{(from?, \\
+                \t3 \theta AbPurse[balance := \negate~1 * value? + \\
+                    \t4 (abAuthPurse~from?).balance, \\
+                    \t4 lost := (abAuthPurse~from?).lost])\} \\
+            \t2 \cup \{(toN?, \theta AbPurse[balance := value? + \\
+                \t3 (abAuthPurse~toN?).balance, \\
+                \t3 lost := (abAuthPurse~toN?).lost])\}))~from? = \\
+            \t2 \theta AbPurse[balance := \negate~1 * value? + \\
+                \t3 (abAuthPurse~from?).balance, \\
+                \t3 lost := (abAuthPurse~from?).lost]
+\end{theorem}~\end{LNewLemma}
+%
+\begin{LNewLemma}[Abstract transfer okay PRE $toN?$ $\oplus$ equivalence]
+\begin{theorem}{lAbTransferOkayPREToOPlusEquiv}
+    \forall  AbWorld; TransferDetails~? | Authentic[from?/name?] \\
+        \t1 \land  Authentic[toN?/name?] \\
+        \t1 \land  SufficientFundsProperty \\
+        \t1 \land  \lnot  from? = toN? @ \\
+            \t2 (abAuthPurse \oplus (\{(from?, \\
+                \t3 \theta AbPurse[balance := \negate~1 * value? + \\
+                    \t4 (abAuthPurse~from?).balance, \\
+                    \t4 lost := (abAuthPurse~from?).lost])\} \\
+            \t2 \cup \{(toN?, \theta AbPurse[balance := value? + \\
+                \t3 (abAuthPurse~toN?).balance, \\
+                \t3 lost := (abAuthPurse~toN?).lost])\}))~toN? = \\
+            \t2 \theta AbPurse[balance := value? + \\
+                \t3 (abAuthPurse~toN?).balance, \\
+                \t3 lost := (abAuthPurse~toN?).lost]
+\end{theorem}~\end{LNewLemma}
+%
+Finally, by tackling those lemmas separately, we could come to the final
+precondition as
+%
+\begin{LNewThm}[Abstract transfer okay TD precondition]
+\begin{theorem}{tAbTransferOkayTDPRE}
+    \forall AbTransferOpSig |  Authentic[from?/name?] \\
+        \t1 \land Authentic[toN?/name?] \\
+        \t1 \land SufficientFundsProperty \\
+        \t1 \land from? \neq toN? @ \\
+            \t2 \pre AbTransferOkayTD
+\end{theorem}~\end{LNewThm}
+%
+For the $AbTransferOkayTD$ the calculation is similar as we just hide some elements.
+At last, we do the same for the $AbTransferLostTD$ operation, which again
+similar to $AbTransferOkayTD$, but slightly simpler to prove.
+%
+\begin{LNewThm}[Abstract transfer okay TD precondition]
+\begin{theorem}{tAbTransferLostTDPRE}
+    \forall AbTransferOpSig |  Authentic[from?/name?] \land Authentic[toN?/name?] \\
+        \t1 \land SufficientFundsProperty \land from? \neq toN? @ \pre AbTransferLostTD
+\end{theorem}~\end{LNewThm}
+
+\section{Totality of between model for purses}\label{ch8.between}
+
+These are the operations from Chapter~\ref{ch4}.
+Firstly, let us define the signature.
+%
+\begin{LNewSDef}[\Betw\  purse operations signature]
+\begin{zed}
+   BetwPurseOpSig ~~\defs~~ [~ ConPurse; m?: MESSAGE ~]
+\end{zed}~\end{LNewSDef}
+%
+\begin{LNewThm}[Increase purse okay is total]
+\begin{theorem}{tIncreasePurseOkayIsTotal}
+    \forall BetwPurseOpSig @ \pre IncreasePurseOkay
+\end{theorem}~\end{LNewThm}
+
+The number of cases in this proof is impressive. To make it
+worst, the tuple selection on $pd.from$ and $pd.to$ raises
+some trouble for \zeves\ at some predicates. This lead to
+a quite complex (surgical) choice of case analysis.
+%
+\begin{LNewThm}[Abort purse okay is total]
+\begin{theorem}{tAbortPurseOkayIsTotal}
+    \forall BetwPurseOpSig | name \in  \{~pdAuth.from, pdAuth.toN~\} @ \pre AbortPurseOkay
+\end{theorem}~\end{LNewThm}
+%
+\textbf{As a result, we found out that the operation is not total as expected,
+and conditions upon the authenticated payment details are required for
+abortion!}
+
+\section{Precondition of between model purses (Chapter~\ref{ch4})}\label{ch8.ch4}
+
+\subsection*{Simple operations}
+
+\begin{LNewThm}[Request purse precondition]
+\begin{theorem}{tReqPurseOkayPRE}
+    \forall BetwPurseOpSig | statuS = epr \\
+        \t1 \land AuthenticReqMessage @ \pre ReqPurseOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[Value purse precondition]
+\begin{theorem}{tValPurseOkayPRE}
+    \forall BetwPurseOpSig | statuS = epv \\
+        \t1 \land AuthenticValMessage @ \pre ValPurseOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[Value purse precondition]
+\begin{theorem}{tAckPurseOkayPRE}
+    \forall BetwPurseOpSig | statuS = epa \\
+        \t1 \land AuthenticAckMessage @ \pre AckPurseOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[Read exception log purse precondition]
+\begin{theorem}{tReadExceptionLogPurseEafromOkayPRE}
+    \forall BetwPurseOpSig | statuS = eaFrom \\
+        \t1 \land m? = readExceptionLog @ \\
+            \t2 \pre ReadExceptionLogPurseEafromOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[Clear exception log purse precondition]
+\begin{theorem}{tClearExceptionLogPurseEafromOkayPRE}
+    \forall BetwPurseOpSig | statuS = eaFrom \land exLog \neq \emptyset \\
+        \t1 \land m? = exceptionLogClear~(name, image~exLog) @ \\
+            \t2 \pre ClearExceptionLogPurseEafromOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[Complete read exception log precondition]
+\begin{theorem}{tReadExceptionLogEafromOkayPRE}
+   \forall BetwPurseOpSig | m? = readExceptionLog \\
+        \t1 \land name \in \{~ pdAuth.from, pdAuth.toN~\} @ \\
+            \t2 \pre ReadExceptionLogPurseOkay
+\end{theorem}\end{LNewThm}
+
+%\begin{LNewThm}[Complete clear exception log precondition]
+%\begin{theorem}{tClearExceptionLogEafromOkayPRE}
+%    \forall BetwPurseOpSig | exLog \neq \emptyset \\
+%        \t1 \land m? = exceptionLogClear (name, \\
+%            \t2 image~(exLog \cup (\IF statuS \in \{~epv, epa~\} \\
+%                \t3 \THEN \{~pdAuth~\} \ELSE \emptyset))~) \\
+%        \t1 \land name \in  \{~pdAuth.from, pdAuth.toN~\} \\
+%            \t2 @ \pre ClearExceptionLogPurseOkay
+%\end{theorem}\end{LNewThm}
+
+\begin{LNewThm}[Complete clear exception log precondition]
+\begin{theorem}{tClearExceptionLogEafromOkayPRE}
+    \forall BetwPurseOpSig | exLog \neq \emptyset \\
+        \t1 \land name \in  \{~pdAuth.from, pdAuth.toN~\} \\
+        \t1 \land 
+        (\IF statuS \in \{~ epv, epa ~\} \THEN \\
+        	\t2 [| m? = exceptionLogClear~(name, image~(exLog \cup \{~ pdAuth ~\}))] \\
+        \t1 \ELSE \\
+        	\t2 [| m? = exceptionLogClear~(name, image~(exLog \cup \emptyset))] ) \\
+        \t2 @ \pre ClearExceptionLogPurseOkay
+\end{theorem}\end{LNewThm}
+
+
+\subsection*{Start (which are complex) operations}
+
+\begin{LNewSDef}[\Betw\  purse start operations signature]
+\begin{zed}
+   BetwPurseStartOpSig ~~\defs~~ [~ BetwPurseOpSig; cpd: CounterPartyDetails ~]
+\end{zed}~\end{LNewSDef}
+
+\subsubsection*{Automation for $StartFromPurseEafromOkay$ and $StartToPurseEafromOkay$}
+
+These automation rules are tricky to prove because support for definite
+description is rather poor (and badly documented) in \zeves. Luckily, because
+the definite descriptions are given pointwise, we can rewrite then as the
+corresponding binding of the $\theta$ expressions the pointwise $\mu$
+represents. This is useful because \zeves\ have better automation support for
+bindings. Without this next lemma, the proofs involving definite description
+would not be proved. Moreover, because it is defined as an automatic rewriting
+rule rule (\textit{i.e.,} fired upon \textsf{rewrite} tactics). Therefore, the
+equality substitution takes place automatically, and pointwise $\mu$ proofs are
+amenable for full automation.
+%
+\begin{LRRT}[$\mu$-$\theta$ $PayDetails$ expressions equivalence in $startFrom$]
+\begin{theorem}{rule lStartFromMuPayDetailsEquivalence}
+   \forall name: NAMES; nextSeqNo: NAT ; cpd: CounterPartyDetails | name \neq cpd.name @ \\
+      \t1 (\mu  m: \{  PayDetails | \\
+            \t2 from = name \\
+            \t2 \land  toN = cpd.name \\
+            \t2 \land value = cpd.value \\
+            \t2 \land  fromSeqNo = nextSeqNo \\
+            \t2 \land  toSeqNo = cpd.nextSeqNo \}) = \\
+            \t3 \theta  PayDetails[from := name, toN := cpd.name, value := cpd.value, \\
+                \t4 fromSeqNo := nextSeqNo, toSeqNo := cpd.nextSeqNo]
+\end{theorem}~\end{LRRT}
+%
+It is hard because definite description have poor automation (and related
+laws) in general. Both in the Z standard (Sections $13.2.6.12$ for the type
+rules and $15.2.5.8$ for the semantics of $\mu$) and its mathematical toolkit
+(Section $B.8.3$ for definition of $\finset$ using $\mu$), and Spivey's
+reference manual (p.$111$), offer no law that could aid automation of $\mu$.
+The only possible sources we know are the \zeves\ Z toolkit, and some natural
+deduction laws from the Cadi$\num$ theorem prover and Woodcock's Z book
+(p.$53$).
+%http://www-users.cs.york.ac.uk/~ian/cadiz/mu.html
+%http://www-users.cs.york.ac.uk/~ian/cadiz/mutac.html
+
+
+\begin{LRRT}[$\mu$-$\theta$ $PayDetails$ expressions equivalence in $startTo$]
+\begin{theorem}{rule lStartToMuPayDetailsEquivalence}
+   \forall name: NAMES; nextSeqNo: NAT ; cpd: CounterPartyDetails | name \neq cpd.name @ \\
+     \t1 (\mu  m: \{  PayDetails | \\
+              \t2 toN = name \\
+              \t2 \land  from = cpd.name \\
+              \t2 \land value = cpd.value \\
+              \t2 \land  toSeqNo = nextSeqNo \\
+              \t2 \land  fromSeqNo = cpd.nextSeqNo \}) = \\
+            \t3 \theta PayDetails[from := cpd.name, toN := name, value := cpd.value, \\
+                \t4 fromSeqNo := cpd.nextSeqNo, toSeqNo := nextSeqNo]
+\end{theorem}~\end{LRRT}
+
+\begin{LNewThm}[$StartFromPurseEafromOkay$ purse precondition (avoids $Abort$)]
+\begin{theorem}{tStartFromPurseEafromOkayPRE}
+    \forall  BetwPurseStartOpSig | ValidStartFrom \\
+        \t1 \land  statuS = eaFrom \land nextSeqNo < MAX\_NAT @ \\
+            \t2 \pre StartFromPurseEafromOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$StartToPurseEafromOkay$ purse precondition (avoids $Abort$)]
+\begin{theorem}{tStartToPurseEafromOkayPRE}
+    \forall  BetwPurseStartOpSig | ValidStartTo \\
+        \t1 \land  statuS = eaFrom \land nextSeqNo < MAX\_NAT \\
+        \t1 \land cpd.nextSeqNo < nextSeqNo @ \pre StartToPurseEafromOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$StartFromPurseOkay$ precondition (considers  $Abort$)]
+\begin{theorem}{tStartFromEafromOkayPRE}
+    \forall BetwPurseStartOpSig | ValidStartFrom \\
+        \t1 \land name \in \{~ pdAuth.from, pdAuth.toN~\} \\
+        \t1 \land nextSeqNo < MAX\_NAT \\
+            \t2 @ \pre StartFromPurseOkay
+\end{theorem}~\end{LNewThm}
+
+%\begin{LRRT}[Request message of $PayDetails$ is a message]
+%\begin{theorem}{rule rReqStartToPayDetailsInMessage}
+%\forall name: NAMES; nextSeqNo: NAT; cpd: CounterPartyDetails | \\
+%    \t1 name \neq cpd.name @ req~(\theta PayDetails[from := cpd.name, \\
+%            \t3 fromSeqNo := cpd.nextSeqNo, 
+%            	%name/toN, \\
+%            	name := toN, \\
+%            %\t3 nextSeqNo/toSeqNo, \\
+%            \t3 nextSeqNo := toSeqNo, \\
+%            \t3 value := cpd.value]) \in MESSAGE
+%\end{theorem}~\end{LRRT}
+
+\begin{theorem}{rule rReqStartToPayDetailsInMessage}
+\forall name: NAMES; nextSeqNo: NAT; cpd: CounterPartyDetails | \\
+    \t1 name \neq cpd.name @ req~(\theta PayDetails[from := cpd.name, \\
+            \t3 fromSeqNo := cpd.nextSeqNo, 
+            	%name/toN, \\
+            	toN := name, \\
+            %\t3 nextSeqNo/toSeqNo, \\
+            \t3 toSeqNo := nextSeqNo, \\
+            \t3 value := cpd.value]) \in MESSAGE
+\end{theorem}~\end{LRRT}
+
+\begin{LNewThm}[$StartToPurseOkay$ precondition (considers  $Abort$)]
+\begin{theorem}{tStartToEafromOkayPRE}
+    \forall BetwPurseStartOpSig | ValidStartTo \\
+        \t1 \land cpd.nextSeqNo < nextSeqNo \\
+        \t1 \land name \in \{~ pdAuth.from, pdAuth.toN~\} \\
+        \t1 \land nextSeqNo < MAX\_NAT \\
+            \t2 @ \pre StartToPurseOkay
+\end{theorem}~\end{LNewThm}
+
+\section{\Betw\ model consistency proofs (Chapter~\ref{ch5})}\label{ch8.specproof-betw}
+
+\subsection{Existence of between initial state}\label{ch8.specproof-betw-init}
+
+\begin{LThm}[Existence of a between world initial state]
+\begin{theorem}{tExistsInitialBetweenWorld}
+  \exists BetweenWorld~' @ BetweenInitState
+\end{theorem}~\end{LThm}
+
+\subsection{Totality between operations}\label{ch8.specproof-betw-total}
+
+In this section we divide the proofs according to the order operations appear
+in Chapter~\ref{ch5}. For schemas $ConWorld$, $AuxWorld$, $NewVariables$, and
+$BetweenWorld$ do not need precondition calculation as they do not mention
+dashed or output variables.
+
+The signature for the precondition proofs contain the state invariant as well
+as input variable information. That is, the before variables involved in the
+operations we want to prove the precondition of.
+%
+\begin{LNewSDef}[\Betw\  operations signature]
+\begin{zed}
+   BetweenOpSig ~~\defs~~ [~ BetweenWorld; m?: MESSAGE; name?: NAMES ~]
+\end{zed}~\end{LNewSDef}
+
+\subsubsection{$Ignore$, $Increase$ ad $Abort$}
+
+The next proofs are related to the definitions from Section~\ref{ch5.ignore.increase.abort}.
+
+\begin{LNewThm}[\Betw\  ignore operation is total]
+\begin{theorem}{tBetwIgnoreIsTotal}
+   \forall BetweenOpSig @ \pre Ignore
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\  increase operation is total]
+\begin{theorem}{tBetwIncreaseIsTotal}
+   \forall BetweenOpSig @ \pre Increase
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\  abort operation is total]
+\begin{theorem}{tBetwAbortIsTotal}
+   \forall BetweenOpSig @ \pre Abort
+\end{theorem}~\end{LNewThm}
+
+\subsubsection{Promoted operations (with $Ignore$/$Abort$ disjuct/composition)}
+
+In this section, we divide the proofs according to the declarations of Section~\ref{ch5.promoted}
+as they are given withtout considering the fact those preconditions are trivially $true$ due to the
+disjunction with $Ignore$.
+
+\subsubsection*{Value transfer operations}
+
+\begin{LNewThm}[\Betw\  $startFrom$ operation is total]
+\begin{theorem}{tBetwStartFromIsTotal}
+   \forall BetweenOpSig @ \pre StartFrom
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\   $startTo$ operation is total]
+\begin{theorem}{tBetwStartToIsTotal}
+   \forall BetweenOpSig @ \pre StartTo
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\  request operation is total]
+\begin{theorem}{tBetwReqIsTotal}
+   \forall BetweenOpSig @ \pre Req
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\  value operation is total]
+\begin{theorem}{tBetwValIsTotal}
+   \forall BetweenOpSig @ \pre Val
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\  acknowledgement operation is total]
+\begin{theorem}{tBetwAckIsTotal}
+   \forall BetweenOpSig @ \pre Ack
+\end{theorem}~\end{LNewThm}
+
+\subsubsection*{Exception log operations}
+
+\begin{LNewThm}[\Betw\  read exception log operation is total]
+\begin{theorem}{tBetwReadExceptionLogIsTotal}
+   \forall BetweenOpSig @ \pre ReadExceptionLog
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\  clear exception log operation is total]
+\begin{theorem}{tBetwClearExceptionLogIsTotal}
+   \forall BetweenOpSig @ \pre ClearExceptionLog
+\end{theorem}~\end{LNewThm}
+
+\subsubsection{Operations at the world level only}
+
+In this section, we divide the proofs according to the declarations of Section~\ref{ch5.worldop}.
+
+\subsubsection*{Exception Log clear authorisation}
+
+$AuthoriseExLogClear$ is trivially true because of the disjunction with $Ignore$.
+%
+\begin{LNewThm}[\Betw\  authorisation to clear exception log is total]
+\begin{theorem}{tBetwAuthoriseExLogClearIsTotal}
+   \forall BetweenOpSig @ \pre AuthoriseExLogClear
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\  log archiving is total]
+\begin{theorem}{tBetwArchiveIsTotal}
+   \forall BetweenOpSig @ \pre Archive
+\end{theorem}~\end{LNewThm}
+
+\subsection{Promoted operations without $Ignore$/$Abort$}\label{ch8.specproof-betw.promotedalone}
+
+In this section we consider the promoted operations precondition
+without taking into account the disjunction with $Ignore$. This exposes
+interesting facts about the requirements for promoted operations, which
+are not present in the PRG.
+
+Instead, they are mentioned/explained in Chapter~\ref{ch14} in Section~\ref{ch14.between-special}.
+As we need them for the precondition proofs, we must introduce here the definitions that were
+originally (mentioned but not given) there.
+
+\subsubsection{Theory about functional overriding}
+
+Leave general theorems disabled to avoid conflict (or loops) with other proofs.
+On the other hand, leave the specific theorem enabled to increase the levels of
+automation.
+
+\begin{LToolkit}[Partial function element]
+\begin[disabled]{theorem}{rule rPFunElement}[X, Y]
+   \forall f: X \pfun Y; x: X; y: Y | x \in  \dom  f \land y = f~x @ (x, y) \in f
+\end{theorem}~\end{LToolkit}
+
+\begin{LToolkit}[Overridden partial function containment]
+\begin[disabled]{theorem}{rule rPFunSubsetOplusRel}[X, Y]
+   \forall f, g: X \pfun Y | g \subseteq  f @ f \oplus g = f \oplus (\dom g \dres f)
+\end{theorem}~\end{LToolkit}
+
+\begin{LToolkit}[Overriden partial function pointwise equivalence]
+\begin{theorem}{lPFunSubsetOplusUnitRel}[X, Y]
+    \forall  f: X \pfun  Y; x: X; y: Y | x \in  \dom  f \land  y = f~x @ f = f \oplus  \{(x \mapsto  y)\}
+\end{theorem}~\end{LToolkit}
+
+\subsubsection{Framing schema:~$PhiBOp$}\label{ch8.betw.promotionschema}
+
+This proofs are related to the definitions from Section~\ref{ch5.phibop}.
+Nothing is said about totality of the promotion schema for the between world.
+This in fact is quite a hard proof.
+%
+\begin{LNewSDef}[Promoted between world operations signature]
+\begin{zed}
+   PhiBOpSig ~~\defs~~ BetweenOpSig \land ConPurse
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewLemma}[Promoted $AuxWorld$ type]
+\begin{theorem}{lPromotedAuxWorldType}
+   \forall AuxWorld; ConPurse; m!: MESSAGE | name? \in \dom~conAuthPurse \\
+        \t1 \land \theta ConPurse = conAuthPurse~name? @ \\
+            \t1 AuxWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \theta ConPurse)~\}, \\
+                \t2 ether := ether \cup \{m!\}]
+\end{theorem}~\end{LNewLemma}
+
+%%%   \forall AuxWorld; \Delta ConPurse; m!: MESSAGE | name? \in \dom~conAuthPurse \\
+%%%        \t1 \land \theta ConPurse = conAuthPurse~name? \\
+%%%        \t1 \land \theta ConPurse' \notin \ran~(conAuthPurse \oplus \{~(name?, \theta ConPurse)~\}) @ \\
+%%%        \t2 AuxWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \theta ConPurse')~\}, \\
+%%%                \t3 ether := ether \cup \{m!\}]
+
+\begin{LNewLemma}[Promoted $BetweenWorld$ type]
+\begin{theorem}{lPromotedBetweenWorldType}
+   \forall PhiBOpSig; m!: MESSAGE | m! \in ether \land \\
+        \t1 name? \in \dom~conAuthPurse \land \theta ConPurse = conAuthPurse~name? @ \\
+            \t2 BetweenWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \theta ConPurse)~\}, \\
+                \t3 ether := ether \cup \{m!\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewThm}[Promoted between world schema is total]
+\begin{theorem}{tBetwPhiBOpPRE}
+   \forall PhiBOpSig | m? \in ether \land name? \in \dom~conAuthPurse \\
+        \t1 \land \theta ConPurse = conAuthPurse~name? @ \pre PhiBOp
+\end{theorem}~\end{LNewThm}
+
+\subsubsection{Separating the branches of promoted operations}
+
+\subsubsection*{$Increase$, $Abort$}
+
+\begin{LNewSDef}[Promoted $Increase$ without $Ignore$]
+\begin{zed}
+   IncreaseOkay ~~\defs~~ \exists \Delta ConPurse @ PhiBOp \land IncreasePurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $Abort$ without $Ignore$]
+\begin{zed}
+   AbortOkay ~~\defs~~ (~\exists \Delta ConPurse @ AbortPurseOkay \land [~ PhiBOp | m! = mondexError ~]~)
+\end{zed}~\end{LNewSDef}
+
+\subsubsection*{Value transfer and exception log operations}
+
+$StartFrom$ and $StartTo$ have already been defined without the $Ignore$ disjuct
+and the $Abort$ composition in Section~\ref{ch5.promoted.valuetransfer} as
+$StartFromEafromOkay$ and $StartToEafromOkay$. For these two, the names can be quite confusing
+and we summarise them here:
+
+\begin{tabular}{@{}lcl@{}}
+   \hline
+   StartFromPurseEafromOkay  & Ch~\ref{ch4} & \begin{tabular}{@{}l} successful $startFrom$ over $ConPurse$ \\ (no $Abort$ or $Ignore$) \end{tabular} \\
+   StartFromPurseOkay        & Ch~\ref{ch4} & \begin{tabular}{@{}l} $AbortPurseOkay$ composed with \\ $StartFromPurseEafromOkay$ for recovery abortion \end{tabular} \\
+   \hline
+   StartFromEafromOkay       & Ch~\ref{ch5} & \begin{tabular}{@{}l} promoted version of $StartFromPurseEafromOkay$ \\ without $Ignore$ disjunct \end{tabular} \\
+   StartFromOkay             & Ch~\ref{ch8} & \begin{tabular}{@{}l} promoted version of $StartFromPurseOkay$ without \\ $Ignore$ and $Abort$ disjuncts \end{tabular} \\
+   StartFrom                 & Ch~\ref{ch5} & \begin{tabular}{@{}l} promoted version of $StartFromPurseOkay$ with \\ $Ignore$ and $Abort$ disjuncts \end{tabular} \\
+   \hline
+\end{tabular}
+
+\bigskip %
+
+\noindent The same applies for $StartTo$, $ReadExceptionLog$, and $ClearExceptionLog$.
+
+\begin{LNewSDef}[Promoted $StartFrom$ without $Ignore$ and with $Abort$]
+\begin{zed}
+   StartFromOkay ~~\defs~~ \exists \Delta ConPurse @ PhiBOp \land StartFromPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $StartTo$ without $Ignore$ and with $Abort$]
+\begin{zed}
+   StartToOkay ~~\defs~~ \exists \Delta ConPurse @ PhiBOp \land StartToPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $Req$ without $Ignore$]
+\begin{zed}
+   ReqOkay ~~\defs~~ \exists \Delta ConPurse @ PhiBOp \land ReqPurseOkay
+\end{zed}~\end{LNewSDef}
+%
+\begin{LNewSDef}[Promoted $Val$ without $Ignore$]
+\begin{zed}
+   ValOkay ~~\defs~~ \exists \Delta ConPurse @ PhiBOp \land ValPurseOkay
+\end{zed}~\end{LNewSDef}
+%
+\begin{LNewSDef}[Promoted $Ack$ without $Ignore$]
+\begin{zed}
+   AckOkay ~~\defs~~ \exists \Delta ConPurse @ PhiBOp \land AckPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $ReadExceptionLog$ without $Ignore$ and with $Abort$]
+\begin{zed}
+   ReadExceptionLogOkay ~~\defs~~ \exists \Delta ConPurse @ PhiBOp \land ReadExceptionLogPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $ClearExceptionLog$ without $Ignore$ and with $Abort$]
+\begin{zed}
+   ClearExceptionLogOkay ~~\defs~~ \exists \Delta ConPurse @ PhiBOp \land ClearExceptionLogPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\subsubsection{Expanded $BetweenWorld$}
+
+In various proof obligations (as lemmas) for the proper instantiation of $BetweenWorld$, we need to
+expand the definitions from $AuxWorld$. Nevertheless, we do not want to clog the goals with unecessary
+information from $AuxWorld$. Therefore, we introduce expansion theorems that expand each $AuxWorld$
+element individually. This is also used in Chapters~\ref{ch10},~\ref{ch14}--\ref{ch24}, and~\ref{ch28}--\ref{ch29}.
+
+\begin{LNewLemma}[\Betw\ $fromLogged$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldFromLoggedExpansion}
+    \forall  AuxWorld @ fromLogged = \{~  pd: authenticFrom | pd.from \mapsto  pd \in  allLogs ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $toLogged$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldToLoggedExpansion}
+   \forall  AuxWorld @ toLogged = \{~  pd: authenticTo | pd.toN \mapsto  pd \in  allLogs ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $authenticFrom$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldAuthenticFromExpansion}
+    \forall AuxWorld @ authenticFrom = \{~  pd: PayDetails | pd.from \in  \dom~ conAuthPurse ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $authenticTo$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldAuthenticToExpansion}
+    \forall AuxWorld @ authenticTo = \{~  pd: PayDetails | pd.toN \in  \dom~ conAuthPurse ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $toInEpv$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldToInEpvExpansion}
+    \forall  AuxWorld @ toInEpv = \{~  pd: authenticTo | \\
+        \t1 (conAuthPurse~ pd.toN).statuS = epv \land  (conAuthPurse~ pd.toN).pdAuth = pd ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $toInEapayee$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldToInEapayeeExpansion}
+    \forall  AuxWorld @ toInEapayee = \{~ pd: authenticTo | \\
+        \t1 (conAuthPurse~ pd.toN).statuS = eaTo \land (conAuthPurse~ pd.toN).pdAuth = pd ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $fromInEpr$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldFromInEprExpansion}
+    \forall  AuxWorld @ fromInEpr = \{~  pd: authenticFrom | \\
+        \t1 (conAuthPurse~ pd.from).statuS = epr \land (conAuthPurse~ pd.from).pdAuth = pd ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $fromInEpa$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldFromInEpaExpansion}
+    \forall  AuxWorld @ fromInEpa = \{~  pd: authenticFrom | \\
+        \t1 (conAuthPurse~ pd.from).statuS = epa \land  (conAuthPurse~ pd.from).pdAuth = pd ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $allLogs$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldAllLogsExpansion}
+    \forall  AuxWorld @ allLogs = archive \cup \\
+        \t1 \{~ n: \dom~conAuthPurse; pd: PayDetails | pd \in (conAuthPurse~n).exLog ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $definitelyLost$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldDefinitelyLostExpansion}
+    \forall AuxWorld @ definitelyLost = toLogged \cap (fromLogged \cup  fromInEpa)
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $maybeLost$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldMaybeLostExpansion}
+    \forall AuxWorld @ maybeLost = (fromInEpa \cup  fromLogged) \cap  toInEpv
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $archive$ extraction ($AuxWorld$)]
+\begin{theorem}{lAuxWorldArchiveExpansion}
+    \forall AuxWorld @ archive \in \power~(\{~PayDetails @ from \mapsto \theta PayDetails~\} \cup \\
+      \t2 \{~PayDetails @ toN \mapsto \theta PayDetails ~\})
+\end{theorem}~\end{LNewLemma}
+
+
+\subsubsection{Promoted $IncreaseOkay$  and $AbortOkay$ precondition}\label{ch8.betw.promotionschema.branches}
+
+For the filtered promoted operations, we need another signature that includes the
+precondition of $PhiBOp$ itself (see theorem \textit{tBetwPhiBOpPRE} in Section~\ref{ch8.betw.promotionschema}).
+%
+\begin{LNewSDef}[Signature for promoted operations in \Betw, filtered from $Ignore$]
+\begin{schema}{PhiBOpBranchesSig}
+   PhiBOpSig
+\where
+   m? \in ether \\
+   name? \in \dom~conAuthPurse \\
+   \theta ConPurse = conAuthPurse~name?
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewThm}[$Increase$ promotion PRE without $Ignore$]
+\begin{theorem}{tBetwIncreaseOkayPRE}
+   \forall PhiBOpBranchesSig | mondexError \in ether @ \pre IncreaseOkay
+\end{theorem}~\end{LNewThm}
+
+For the abort operation, there is a quite tricky issue.
+The promotion precondition requires that
+%
+\begin{gzed}
+    \theta ConPurse = conAuthPurse~name?
+\end{gzed}
+%
+but the $AbortPurseOkay$ operation requires that the $\theta ConPurse'$
+to be included in $conAuthPurse'$ satisfy different constraints from
+$\theta ConPurse$, such as having a different status ($eaFrom$).
+Therefore, we need to capture this sublte precondition for the
+filtered verion of promoted $Abort$.
+Also note that because $conAuthPurse$ is an injection, and two different purses
+are being included for the same $name?$, we must also inforce the new purse is
+not already present, otherwise the injectivity is broken.
+
+The promoted $Abort$ requires that there exists a $\theta ConPurse'$, after
+the $AbortPurseOkay$ operation has taken place. At this stage, $statuS$ is set, and the
+promotion $PhiBOp$ have already updated $conAuthPurse'$. The problem is that $\theta ConPurse'$
+is not the same as $\theta ConPurse'$, but it will be the one associated with $name?$.
+To take this into account, we need to ensure that the resulting $conAuthPurse'$ from $PhiBOp$
+is an injection:
+%
+\begin{gzed}
+    conAuthPurse \oplus \{(name?, \theta ConPurse)\} \in NAMES \pinj ConPurse
+\end{gzed}
+%
+As $AbortPurseOkay$ will change $\theta ConPurse'$, this result must not
+be present in $conAuthPurse$, hence the update keeps its injectivity.
+Furthermore, the information about injectivity is redundant, because of the invariant in $PhiBOpBranchesSig$.
+This is discharged by the next lemma
+%
+\begin{LNewLemma}[Promoted $conAuthPurse$ is injective]
+\begin{theorem}{rule lPromotedConAuthPurseInjectivity}
+    \forall ConWorld; ConPurse; name?: NAMES | name? \in \dom conAuthPurse \\
+        \t1 \land \theta ConPurse = conAuthPurse~name? @ \\
+            \t2 conAuthPurse \oplus \{~(name?, \theta ConPurse)~\} \in NAMES \pinj ConPurse
+\end{theorem}~\end{LNewLemma}
+%
+Do not use $\Delta ConPurse$ for automation pursposes (might be innefective as the pattern might not match directly anyway).
+%
+\begin{LNewLemma}[Promoted $conAuthPurse$ updated is injective]
+\begin{theorem}{rule lPromotedConAuthNewPurseInjectivity}
+  \forall ConWorld; ConPurse; ConPurse~'; name?: NAMES | name? \in \dom~conAuthPurse \\
+        \t1 \land \theta ConPurse =  conAuthPurse~name? \\
+        \t1 \land \lnot \theta ConPurse' \in \ran~(conAuthPurse \oplus \{~( name?, \theta ConPurse)~\}) \\
+            \t2 @ conAuthPurse \oplus \{~( name?, \theta ConPurse')~\} \in  NAMES \finj ConPurse
+\end{theorem}~\end{LNewLemma}
+
+Finally, we can give the signature for $Abort$ as
+%
+\begin{LNewSDef}[Signatture for promoted $Abort$, filtering $Ignore$]
+\begin{schema}{PhiBOpAbortSig}
+   PhiBOpBranchesSig
+\where
+    %\znote{BetweenWorld for lPromotedBetweenWorldAbortType (B9-B16 but B13)}
+    mondexError \in ether
+    \also
+    %\znote{conAuthPurse update for all related theorems}
+    name \in \{~pdAuth.from, pdAuth.toN~\}
+    \also
+    %\znote{conAuthPurse oplus update in AuxWorld to keep}
+    %\znote{injectivity cases for lPromotedAuxWorldAbortType}
+    (\forall xEPV: PayDetails | xEPV.toN \in \dom conAuthPurse \\
+         \t1 \land (conAuthPurse~xEPV.toN).statuS = epv \\
+         \t1 \land (conAuthPurse~xEPV.toN).pdAuth = xEPV @ xEPV.toN \neq name?) \\
+    (\forall xEATO: PayDetails | xEATO.toN \in \dom conAuthPurse \\
+         \t1 \land (conAuthPurse~xEATO.toN).statuS = eaTo \\
+         \t1 \land (conAuthPurse~xEATO.toN).pdAuth = xEATO @ xEATO.toN \neq name?) \\
+    (\forall xEPR: PayDetails | xEPR.from \in \dom conAuthPurse \\
+         \t1 \land (conAuthPurse~xEPR.from).statuS = epr \\
+         \t1 \land (conAuthPurse~xEPR.from).pdAuth = xEPR @ xEPR.from \neq name?) \\
+    (\forall xEPA: PayDetails | xEPA.from \in \dom conAuthPurse \\
+         \t1 \land (conAuthPurse~xEPA.from).statuS = epa \\
+         \t1 \land (conAuthPurse~xEPA.from).pdAuth = xEPA @ xEPA.from \neq name?)
+    \also
+    %\znote{Possible allLogs update in AuxWorld}
+%    \znote{Is this too strong?}
+%    (name?, pdAuth) \in archive). It was.
+    pdAuth \notin exLog \implies (name?, pdAuth) \in archive
+    \also
+%    this is weaker than what we had before as
+%    \lnot (conAuthPurse name?).statuS = epv \\
+%    \lnot (conAuthPurse name?).statuS = epa \\
+%    \lnot (conAuthPurse name?).statuS = eaTo \\
+%    \lnot (conAuthPurse name?).statuS = epr \\
+%    which is just (which is too strong because it fixes \theta ConPurse)
+%    (conAuthPurse name?).statuS = eaFrom \\
+    %\znote{Inejctivity type of conAuthPurse in lPromotedAuxWorldAbortType}
+%    (\exists ConPurse' | balance' = balance \\
+%        \t1 \land exLog' = exLog \cup \\
+%            \t2 (\IF statuS = epv \lor statuS = epa \THEN \{~pdAuth~\} \ELSE \{\}) \\
+%        \t1 \land name' = name \\
+%        \t1 \land nextSeqNo' = nextSeqNo \\
+%        \t1 \land pdAuth' = pdAuth \\
+%        \t1 \land statuS' = eaFrom @ \\
+%            \t2 \lnot \theta ConPurse' \in \ran (conAuthPurse \oplus \{(name?, \theta ConPurse)\})~)
+%    which we can simplify to
+
+	%ZEves eclips ecannot have if then else predicate
+    %\lnot \theta ConPurse[exLog := exLog \cup \\
+    %    \t1 (\IF statuS = epv \lor statuS = epa \THEN \{~pdAuth~\} \ELSE \{\}), \\
+    %    \t1 statuS := eaFrom] \in \ran~(conAuthPurse \oplus \{(name?, \theta ConPurse)\})
+    
+    (\IF statuS = epv \lor statuS = epa \THEN \\
+    	\t1 [|\theta ConPurse[exLog := exLog \cup \{~pdAuth~\}, statuS := eaFrom] \notin \ran~(conAuthPurse \oplus \{(name?, \theta ConPurse)\})] \\
+    \ELSE \\
+    	\t1 [|\theta ConPurse[exLog := exLog \cup \emptyset, statuS := eaFrom] \notin \ran~(conAuthPurse \oplus \{(name?, \theta ConPurse)\})] \\
+    )
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewLemma}[Promoted $AuxWorld$ type]
+\begin{theorem}{lPromotedAuxWorldAbortType}
+%   \forall PhiBOpAbortSig @ \\
+%        AuxWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+%            \t3 \theta ConPurse'[balance' := balance, exLog' := exLog, name' := name, \\
+%                \t4 nextSeqNo' := nextSeqNo, pdAuth' := pdAuth, statuS' := eaFrom])~\}, \\
+%            \t3 ether := ether \cup  \{~mondexError~\}]
+   \forall PhiBOpAbortSig @ \\
+        \t1 \IF (statuS = epv \lor  statuS = epa) \THEN  \\
+            \t2 [|AuxWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+                \t3 \theta ConPurse'[balance' := balance, exLog' := exLog \cup \{~pdAuth~\}, \\
+                    \t4  name' := name, nextSeqNo' := nextSeqNo, pdAuth' := pdAuth,\\
+                    \t4 statuS' := eaFrom])~\}, ether := ether \cup  \{~mondexError~\}]] \\
+        \t1 \ELSE  \\
+            \t2 [|AuxWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+                \t3 \theta ConPurse'[balance' := balance, exLog' := exLog, name' := name, \\
+                    \t4 nextSeqNo' := nextSeqNo, pdAuth' := pdAuth, statuS' := eaFrom])~\}, \\
+                \t3 ether := ether \cup  \{~mondexError~\}]]
+\end{theorem}~\end{LNewLemma}
+
+The additional condition that $mondexError \in  ether$ is important for $B9--B16$ but $B13$.
+%
+\begin{LNewLemma}[Promoted $BetweenWorld$ type for $Abort$]
+\begin{theorem}{lPromotedBetweenWorldAbortType}
+%    \forall PhiBOpAbortSig | mondexError \in  ether @ \\
+%        \t2 BetweenWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+%            \t3 \theta ConPurse'[balance' := balance, exLog' := exLog, name' := name, \\
+%                \t4 nextSeqNo' := nextSeqNo, pdAuth' := pdAuth, statuS' := eaFrom])~\}, \\
+%            \t3 ether := ether \cup  \{~mondexError~\}]
+    \forall PhiBOpAbortSig @ \\
+        \t1 \IF (statuS = epv \lor  statuS = epa) \THEN  \\
+            \t2 BetweenWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+                \t3 \theta ConPurse'[balance' := balance, exLog' := exLog \cup \{~pdAuth~\}, \\
+                    \t4 name' := name, nextSeqNo' := nextSeqNo, pdAuth' := pdAuth,\\
+                    \t4 statuS' := eaFrom])~\}, ether := ether \cup  \{~mondexError~\}] \\
+        \t1 \ELSE  \\
+            \t2 BetweenWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+                \t3 \theta ConPurse'[balance' := balance, exLog' := exLog, name' := name, \\
+                    \t4 nextSeqNo' := nextSeqNo, pdAuth' := pdAuth, statuS' := eaFrom])~\}, \\
+                \t3 ether := ether \cup  \{~mondexError~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewThm}[$Abort$ promotion PRE without $Ignore$]
+\begin{theorem}{tBetwAbortOkayPRE}
+   \forall PhiBOpAbortSig @ \pre AbortOkay
+\end{theorem}~\end{LNewThm}
+
+\subsubsection{Promoted $StartFromEafromOkay$ and $StartToEafromOkay$}
+
+\begin{LNewSDef}[Signatture for promoted $StartFrom$, filtering $Ignore$]
+\begin{schema}{PhiBOpStartFromSig}
+    PhiBOpBranchesSig \\
+    ValidStartFrom
+\where
+    %\znote{Original precondition of StartFrom}
+    statuS = eaFrom \\
+    nextSeqNo < MAX\_NAT
+    \also
+
+    %\znote{BetweenWorld for lPromotedBetweenWorldAbortType (B9-B16 but B13)}
+    mondexError \in ether
+    \also
+
+    %\znote{After conAuthPurse update, we need it for B7}
+    \forall pd: PayDetails | pd.from = name? @ pd.fromSeqNo < nextSeqNo
+    \also
+
+    %\znote{Used by fromInEpr for injectivity of AuxWorld}
+%    \forall pd: PayDetails | pd.from \in \dom~conAuthPurse \land \\
+%        \t1 pd = \theta PayDetails[name/from, nextSeqNo/fromSeqNo, \\
+%            \t2 toN := cpd.name, toSeqNo := cpd.nextSeqNo, value := cpd.value] @ pd.from \neq name?
+    name \in \dom~conAuthPurse \implies name \neq name?
+    \also
+
+    %\znote{Inejctivity type of conAuthPurse in lPromotedAuxWorldStartFromType}
+    \lnot \theta ConPurse[nextSeqNo := 1 + nextSeqNo, \\
+        \t1 pdAuth := \theta PayDetails[
+        	%name/from, nextSeqNo/fromSeqNo,\\
+            from := name, fromSeqNo := nextSeqNo,\\
+            \t2 toN := cpd.name, toSeqNo := cpd.nextSeqNo, \\
+            \t2 value := cpd.value], \\
+        \t1 statuS := epr] \in \ran~(conAuthPurse \oplus \{~(name?, \theta ConPurse)~\})
+\end{schema}~\end{LNewSDef}
+
+\newpage
+
+\begin{LNewSDef}[Signatture for promoted $StartTo$, filtering $Ignore$]
+\begin{schema}{PhiBOpStartToSig}
+    PhiBOpBranchesSig \\
+    ValidStartTo
+\where
+    %\znote{Original precondition of StartFrom}
+    statuS = eaFrom \\
+    nextSeqNo < MAX\_NAT \\
+    cpd.nextSeqNo < nextSeqNo
+    \also
+
+    %\znote{After conAuthPurse update, we need it for B8}
+    \forall pd: PayDetails | pd.toN = name? @ pd.toSeqNo < nextSeqNo
+    \also
+
+    %\znote{Used by toInEpv for injectivity of AuxWorld}
+    % This comes from pdUpdated[name/to]
+    name \in \dom~conAuthPurse \implies name \neq name?
+    \also
+
+    %\znote{To avoid repeating the complex theta expression}
+    %\znote{we give it one-pointly quantified}
+    (\exists pd': PayDetails | pd' = \\
+        \t1 \theta PayDetails[from := cpd.name, fromSeqNo := cpd.nextSeqNo, \\
+            %\t2 name/toN, nextSeqNo/toSeqNo, 
+            \t2 toN := name, toSeqNo := nextSeqNo, 
+            value := cpd.value] @ \\
+
+        %\znote{B1: authenticity of updated pd from req message}
+        %\znote{That is, if the updated pd is not in the ether, for it to be}
+        %\znote{authentic for to purses, its name must had been previously.}
+        % Or should I say name = name?, which is stronger?
+        \t1 (req~pd' \notin ether \implies name \in \dom~conAuthPurse) \land \\
+
+        %\znote{B2: validation of nextSeqNo of updated pd}
+        % Or should I just \land above, and use pd'.toSeqNo < (conAuthPurse~pd'.toN).nextSeqNo?
+        \t1 (req~pd' \notin ether \implies nextSeqNo < (conAuthPurse~name).nextSeqNo) \land \\
+
+        %\znote{B10: validation of updated pd in ether}
+        \t1 (\forall pdOut: PayDetails | req~pdOut \notin ether @ pdOut \neq pd') \land \\
+
+        %\znote{Inejctivity type of conAuthPurse in lPromotedAuxWorldStartToType}
+        \t1 \lnot \theta ConPurse[nextSeqNo := 1 + nextSeqNo, pdAuth := pd', statuS := epv] \\
+            \t2 \in \ran~(conAuthPurse \oplus \{~(name?, \theta ConPurse)~\})~)
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewLemma}[Promoted $AuxWorld$ type for $StartFrom$]
+\begin{theorem}{lPromotedAuxWorldStartFromType}
+    \forall PhiBOpStartFromSig @ AuxWorld[conAuthPurse := conAuthPurse \\
+        \t1 \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo, \\
+            \t2 pdAuth := \theta PayDetails[
+            	%name/from, nextSeqNo/fromSeqNo, \\
+                from := name, fromSeqNo := nextSeqNo, \\
+                \t3 toN := ((startFrom~\inv)~m?).name, toSeqNo := ((startFrom~\inv)~m?).nextSeqNo, \\
+                \t3 value := ((startFrom~\inv)~m?).value], statuS := epr])\}, ether := ether \cup \{mondexError\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[Promoted $BetweenWorld$ type for $StartFrom$]
+\begin{theorem}{lPromotedBetweenWorldStartFromType}
+    \forall PhiBOpStartFromSig @ BetweenWorld[conAuthPurse := conAuthPurse \\
+        \t1 \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo, \\
+            \t2 pdAuth := \theta PayDetails[
+                %name/from, nextSeqNo/fromSeqNo, \\
+                from := name, fromSeqNo := nextSeqNo, \\
+                \t3 toN := ((startFrom~\inv)~m?).name, toSeqNo := ((startFrom~\inv)~m?).nextSeqNo, \\
+                \t3 value := ((startFrom~\inv)~m?).value], statuS := epr])\}, ether := ether \cup \{mondexError\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[Promoted $AuxWorld$ type for $StartTo$]
+\begin{theorem}{lPromotedAuxWorldStartToType}
+    \forall PhiBOpStartToSig @ AuxWorld[conAuthPurse := conAuthPurse \\
+        \t1 \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo, \\
+            \t2 pdAuth  := \theta PayDetails[from := ((startTo~\inv)~m?).name, \\
+                    \t3 fromSeqNo := ((startTo~\inv)~m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, \\
+                    toN := name, toSeqNo := nextSeqNo, \\
+                    \t3 value := ((startTo~\inv)~m?).value], statuS := epv])\}, \\
+            \t2 ether := ether \cup \{req~( \theta PayDetails[from := ((startTo~\inv)~m?).name, \\
+                    \t3 fromSeqNo := ((startTo~ \inv)~ m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, \\
+                    toN := name, toSeqNo := nextSeqNo, \\
+                    \t3value := ((startTo~ \inv)~ m?).value])\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[Promoted $BetweenWorld$ type for $StartTo$]
+\begin{theorem}{lPromotedBetweenWorldStartToType}
+    \forall PhiBOpStartToSig @ BetweenWorld[conAuthPurse := conAuthPurse \\
+        \t1 \oplus \{(name?, \theta ConPurse[nextSeqNo := 1 + nextSeqNo, \\
+            \t2 pdAuth  := \theta PayDetails[from := ((startTo~\inv)~m?).name, \\
+                    \t3 fromSeqNo := ((startTo~\inv)~m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, \\
+                    toN := name, toSeqNo := nextSeqNo, \\
+                    \t3 value := ((startTo~\inv)~m?).value], statuS := epv])\}, \\
+            \t2 ether := ether \cup \{req~( \theta PayDetails[from := ((startTo~\inv)~ m?).name, \\
+                    \t3 fromSeqNo := ((startTo~\inv)~ m?).nextSeqNo, 
+                    %name/toN, nextSeqNo/toSeqNo, \\
+                    toN := name, toSeqNo := nextSeqNo, \\
+                    \t3value := ((startTo~\inv)~m?).value])\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewThm}[$StartFrom$ promotion PRE without $Ignore$ and $Abort$]
+\begin{theorem}{tBetwStartFromEafromOkayPRE}
+   \forall PhiBOpStartFromSig @ \pre StartFromEafromOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$StartFrom$ promotion PRE without $Ignore$ and with $Abort$]
+\begin{theorem}{tBetwStartFromOkayPRE}
+   \forall PhiBOpStartFromSig @ \pre StartFromOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$StartTo$ promotion PRE without $Ignore$ and $Abort$]
+\begin{theorem}{tBetwStartToEafromOkayPRE}
+   \forall PhiBOpStartToSig @ \pre StartToEafromOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$StartTo$ promotion PRE without $Ignore$ and with $Abort$]
+\begin{theorem}{tBetwStartToOkayPRE}
+   \forall PhiBOpStartToSig @ \pre StartToOkay
+\end{theorem}~\end{LNewThm}
+
+\newpage
+
+\subsubsection{Promoted $ReqOkay$, $ValOkay$, annd $AckOkay$ precondition}
+
+\begin{LNewSDef}[Signatture for promoted $Req$, filtering $Ignore$]
+\begin{schema}{PhiBOpReqSig}
+    PhiBOpBranchesSig \\
+    AuthenticReqMessage
+\where
+    %\znote{Original precondition}
+    statuS = epr
+    \also
+
+%    \znote{BetweenWorld related}
+%    %val~pdAuth \notin ether \implies pdAuth \in authenticTo
+%    (val~pdAuth \notin ether \implies \\
+%        \znote{B3}
+%        \t1 pdAuth.toN \in \dom~conAuthPurse \\
+%        \t1 \land pdAuth.from \in \dom~conAuthPurse \\
+%        \t1 \land pdAuth.toSeqNo < nextSeqNo \\
+%        %From ConPurse directly
+%        %\t1 \land pdAuth.fromSeqNo < nextSeqNo \\
+%        \t1 \land (pdAuth.toN \neq name? \implies \\
+%                \t3 pdAuth.toSeqNo < (conAuthPurse~pdAuth.toN).nextSeqNo) \\
+%        \t1 \land (pdAuth.from \neq name? \implies \\
+%                \t3 pdAuth.fromSeqNo < (conAuthPurse~pdAuth.from).nextSeqNo) \\
+%        \znote{B9}
+%        \t1 \land (\forall pdIn: fromInEpr @ pdIn \neq pdAuth) \\
+%        \znote{B11}
+%        \t1 \land ((pdAuth.from, pdAuth) \notin archive \implies \\
+%                \t3 pdAuth \in (conAuthPurse pdAuth.from).exLog)~)
+%    \also
+%
+%    \znote{Used for conAuthPurse oplus update in AuxWorld to keep}
+%    \znote{injectivity cases for fromInEpr}
+%    (\forall xEPR: PayDetails | xEPR.from \in \dom conAuthPurse \\
+%         \t1 \land (conAuthPurse~xEPR.from).statuS = epr \\
+%         \t1 \land (conAuthPurse~xEPR.from).pdAuth = xEPR @ xEPR.from \neq name?)
+%    \also
+%
+%    \znote{Injectivity of AuxWorld related to fromInEpa}
+%    %\forall pd: PayDetails | pd.toN = name? @ pd \neq pdAuth \\
+%    \forall pd: PayDetails | pd.from \in \dom~conAuthPurse @ pd \neq pdAuth
+%    \also
+%
+%    \znote{Injectivity of updated conAuthPurse in AuxWorld}
+%    \lnot \theta ConPurse[balance := balance - pdAuth.value, name := pdAuth.from, \\
+%        \t1 statuS := epa] \in \ran~(conAuthPurse \oplus \{~(name?, \theta ConPurse[statuS := epr])~\})
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewSDef}[Signatture for promoted $Val$, filtering $Ignore$]
+\begin{schema}{PhiBOpValSig}
+    PhiBOpBranchesSig \\
+    AuthenticValMessage
+\where
+    %\znote{Original precondition}
+    statuS = epv
+    \also
+
+    %\znote{BetweenWorld B4}
+    %ack~pdAuth \notin ether \implies pdAuth \in authenticTo
+    ack~pdAuth \notin ether \implies pdAuth.toN \in \dom~conAuthPurse
+    \also
+
+    %\znote{Used for conAuthPurse oplus update in AuxWorld to keep}
+    %\znote{injectivity cases for lPromotedAuxWorldAbortType}
+    (\forall xEPV: PayDetails | xEPV.toN \in \dom conAuthPurse \\
+         \t1 \land (conAuthPurse~xEPV.toN).statuS = epv \\
+         \t1 \land (conAuthPurse~xEPV.toN).pdAuth = xEPV @ xEPV.toN \neq name?)
+    \also
+
+    %\znote{Injectivity of AuxWorld related to toInEapayee}
+    %\forall pd: PayDetails | pd.toN = name? @ pd \neq pdAuth \\
+    \forall pd: PayDetails | pd.toN \in \dom~conAuthPurse @ pd \neq pdAuth
+    \also
+
+    %\znote{Used is for inejctivity type of conAuthPurse in AuxWorld}
+    \lnot \theta ConPurse[balance := balance + pdAuth.value, statuS := eaTo] \\
+        \t1 \in \ran~(conAuthPurse \oplus \{~(name?, \theta ConPurse[statuS := epv])~\})
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewSDef}[Signatture for promoted $Ack$, filtering $Ignore$]
+\begin{schema}{PhiBOpAckSig}
+    PhiBOpBranchesSig \\
+    AuthenticAckMessage
+\where
+    %\znote{Original precondition}
+    statuS = epa
+    \also
+
+    %\znote{Used for conAuthPurse oplus update in AuxWorld to keep}
+    %\znote{injectivity cases for lPromotedAuxWorldAbortType}
+    (\forall xEPA: PayDetails | xEPA.from \in \dom conAuthPurse \\
+         \t1 \land (conAuthPurse~xEPA.from).statuS = epa \\
+         \t1 \land (conAuthPurse~xEPA.from).pdAuth = xEPA @ xEPA.from \neq name?)
+    \also
+
+    %\znote{Used is for inejctivity type of conAuthPurse in AuxWorld}
+    \lnot \theta ConPurse[statuS := eaFrom] \in \ran~(conAuthPurse \oplus \\
+        \t1 \{~(name?, \theta ConPurse[statuS := epa])~\})
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewLemma}[Promoted $AuxWorld$ type for $Req$]
+\begin{theorem}{lPromotedAuxWorldReqType}
+    \forall PhiBOpReqSig @ AuxWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+        \t1 \theta ConPurse[balance := balance + \negate~1 * pdAuth.value, \\
+            \t2 name := pdAuth.from, statuS := epa])~\}, \\
+        \t1 ether := ether \cup \{~ val~pdAuth~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[Promoted $BetweenWorld$ type for $Req$]
+\begin{theorem}{lPromotedBetweenWorldReqType}
+    \forall PhiBOpReqSig @ BetweenWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+        \t1 \theta ConPurse[balance := balance + \negate~1 * pdAuth.value, \\
+            \t2 name := pdAuth.from, statuS := epa])~\}, \\
+        \t1 ether := ether \cup \{~ val~pdAuth ~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[Promoted $AuxWorld$ type for $Val$]
+\begin{theorem}{lPromotedAuxWorldValType}
+    \forall PhiBOpValSig @ AuxWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+        \t1 \theta ConPurse[balance := balance + pdAuth.value, statuS := eaTo])~\}, \\
+        \t1 ether := ether \cup \{~ ack~pdAuth ~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[Promoted $BetweenWorld$ type for $Val$]
+\begin{theorem}{lPromotedBetweenWorldValType}
+    \forall PhiBOpValSig @ BetweenWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+        \t1 \theta ConPurse[balance := balance + pdAuth.value, statuS := eaTo])~\}, \\
+        \t1 ether := ether \cup \{~ ack~pdAuth ~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[Promoted $AuxWorld$ type for $Ack$]
+\begin{theorem}{lPromotedAuxWorldAckType}
+    \forall PhiBOpAckSig @ AuxWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+        \t1 \theta ConPurse[statuS := eaFrom])~\}, ether := ether \cup \{~mondexError~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[Promoted $BetweenWorld$ type for $Ack$]
+\begin{theorem}{lPromotedBetweenWorldAckType}
+    \forall PhiBOpAckSig @ BetweenWorld[conAuthPurse := conAuthPurse \oplus \{~(name?, \\
+        \t1 \theta ConPurse[statuS := eaFrom])~\}, ether := ether \cup \{~mondexError~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewThm}[$Req$ promotion PRE without $Ignore$ and $Abort$]
+\begin{theorem}{tBetwReqOkayPRE}
+   \forall PhiBOpReqSig @ \pre ReqOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$Val$ promotion PRE without $Ignore$ and $Abort$]
+\begin{theorem}{tBetwValOkayPRE}
+   \forall PhiBOpValSig  @ \pre ValOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$Ack$ promotion PRE without $Ignore$ and $Abort$]
+\begin{theorem}{tBetwAckOkayPRE}
+   \forall PhiBOpAckSig @ \pre AckOkay
+\end{theorem}~\end{LNewThm}
+
+\subsubsection{Promoted $ReadExceptionLogEafromOkay$ and $ClearExceptionLogEafromOkay$}
+
+\begin{LNewSDef}[Signatture for promoted $ReadExceptionLog$, filtering $Ignore$]
+\begin{schema}{PhiBOpReadExceptionLogSig}
+    PhiBOpBranchesSig
+\where
+    %\znote{Original precondition}
+    statuS = eaFrom \\
+    m? = readExceptionLog
+    \also
+
+    %\znote{To allow using the general BetweenWorld instantiation}
+    %\znote{In PhiBOp we have that m! is within the ether, which is bot here}
+    mondexError \in ether
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewSDef}[Signatture for promoted $ClearExceptionLog$, filtering $Ignore$]
+\begin{schema}{PhiBOpClearExceptionLogSig}
+    PhiBOpBranchesSig
+\where
+    %\znote{Original precondition}
+    statuS = eaFrom \\
+    exLog \neq \emptyset \\
+    m? = exceptionLogClear~(name, image~exLog)
+    \also
+
+    %\znote{Injectivity property of conAuthPurse for allLogs}
+    %\forall n: \dom~conAuthPurse; pd: PayDetails | pd \in (conAuthPurse~n).exLog @ n \neq name? \\
+    \forall pd: PayDetails @ \lnot pd \in (conAuthPurse~name?).exLog
+    \also
+
+    %\znote{Used is for inejctivity type of conAuthPurse in AuxWorld}
+    \lnot \theta ConPurse[exLog := \{\}] \in \ran~(conAuthPurse \oplus \{~ (name?, \theta ConPurse)~ \})
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewLemma}[Promoted $AuxWorld$ type for $ClearExceptionLog$]
+\begin{theorem}{lPromotedAuxWorldClearExceptionLogType}
+    \forall PhiBOpClearExceptionLogSig @ AuxWorld[conAuthPurse := conAuthPurse~\oplus \\
+        \t1 \{~(name?, \theta ConPurse[exLog := \{\}, statuS := eaFrom])~\}, ether := ether \cup \{~mondexError~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[Promoted $BetweenWorld$ type for $ClearExceptionLog$]
+\begin{theorem}{lPromotedBetweenWorldClearExceptionLogType}
+    \forall PhiBOpClearExceptionLogSig @ BetweenWorld[conAuthPurse := conAuthPurse~\oplus \\
+        \t1 \{~(name?, \theta ConPurse[exLog := \{\}, statuS := eaFrom])~\}, ether := ether \cup \{~mondexError~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewThm}[$ReadExceptionLog$ promotion PRE $-$ $Ignore$ $-$ $Abort$]
+\begin{theorem}{tBetwReadExceptionLogEafromOkayPRE}
+   \forall PhiBOpReadExceptionLogSig @ \pre ReadExceptionLogEafromOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$ReadExceptionLog$ promotion PRE $-$ $Ignore$ $+$ $Abort$]
+\begin{theorem}{tBetwReadExceptionLogOkayPRE}
+   \forall PhiBOpReadExceptionLogSig @ \pre ReadExceptionLogOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$ClearExceptionLog$ promotion PRE $-$ $Ignore$ $-$ $Abort$]
+\begin{theorem}{tBetwClearExceptionLogEafromOkayPRE}
+   \forall PhiBOpClearExceptionLogSig  @ \pre ClearExceptionLogEafromOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$ClearExceptionLog$ promotion PRE $-$ $Ignore$ $+$ $Abort$]
+\begin{theorem}{tBetwClearExceptionLogOkayPRE}
+   \forall PhiBOpClearExceptionLogSig @ \pre ClearExceptionLogOkay
+\end{theorem}~\end{LNewThm}
+
+\subsection{Operations at the world level only}\label{ch8.specproof-betw.worldlevelalone}
+
+As before, we also separate the $Ignore$ disjunct for $AuthoriseExLogClear$.
+As $AuthoriseExLogClear$ has already been defined without $Ignore$ in
+Section~\ref{ch5.worldop} as $AuthoriseExLogClearOkay$, we do not need to
+add it here. Instead we just prove its precondition.
+Also, as it is not a promoted operation, the signature is only of $BetweenWorld$.
+
+\begin{LNewThm}[$AuthoriseExLogClear$ PRE without $Ignore$]
+\begin{theorem}{tBetwAuthoriseExLogClearOkayPRE}
+   \forall BetweenOpSig @ \pre AuthoriseExLogClearOkay
+\end{theorem}~\end{LNewThm}
+
+The $Archive$ operation does not disjoin with $Ignore$ and is not related with $Abort$,
+so we do not need to worry about it.
+
+\section{\Conc\ model consistency proofs}\label{ch8.specproof-conc}
+
+\subsection{Existence of concrete initial state}\label{ch8.specproof-con-init}
+
+\begin{LThm}[Existence of concrete initial state]
+\begin{theorem}{tExistsInitialConWorld}
+     \exists ConWorldCh7~' @ ConInitState
+\end{theorem}~\end{LThm}
+
+\subsection{\Conc\ promotion operation precondition}\label{ch8.conc.promotionschema}
+
+\begin{LNewSDef}[\Conc\ operations signature]
+\begin{zed}
+   ConOpSig ~~\defs~~ [~ ConWorldCh7; name?: NAMES; m?: MESSAGE ~]
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[\Conc\ promoted operations signature]
+\begin{zed}
+   PhiCOpSig ~~\defs~~ ConOpSig \land ConPurse
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewThm}[\Conc\ promotion schema precondition]
+\begin{theorem}{tPhiCOpPRE}
+    \forall PhiCOpSig | name? \in \dom~conAuthPurseCh7 \\
+        \t1 \land m? \in etherCh7 \land \\
+        \t1 \theta  ConPurse = conAuthPurseCh7~name? \\
+            \t2 @ \pre PhiCOp
+\end{theorem}~\end{LNewThm}
+
+\subsection{Totality of concrete operations}\label{ch8.specproof-con-total}
+
+\begin{LNewThm}[\Conc\ Ignore is Total]
+\begin{theorem}{tCIgnoreIsTotal}
+    \forall ConOpSig @ \pre CIgnore
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Conc\ Increase is Total]
+\begin{theorem}{tCIncreaseIsTotal}
+    \forall ConOpSig @ \pre CIncrease
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Conc\ Abort is Total]
+\begin{theorem}{tCAbortIsTotal}
+    \forall ConOpSig @ \pre CAbort
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Conc\ StartFrom is Total]
+\begin{theorem}{tCStartFromIsTotal}
+    \forall ConOpSig @ \pre CStartFrom
+\end{theorem}~\end{LNewThm}
+\begin{LNewThm}[\Conc\ StartTo is Total]
+\begin{theorem}{tCStartToIsTotal}
+    \forall ConOpSig @ \pre CStartTo
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Conc\ Req is Total]
+\begin{theorem}{tCReqIsTotal}
+    \forall ConOpSig @ \pre CReq
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Conc\ Val is Total]
+\begin{theorem}{tCValIsTotal}
+    \forall ConOpSig @ \pre CVal
+\end{theorem}~\end{LNewThm}
+\begin{LNewThm}[\Conc\ Ack is Total]
+\begin{theorem}{tCAckIsTotal}
+    \forall ConOpSig @ \pre CAck
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Conc\ ReadExceptionLog is Total]
+\begin{theorem}{tCReadExceptionLogIsTotal}
+    \forall ConOpSig @ \pre CReadExceptionLog
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Conc\ ClearExceptionLog is Total]
+\begin{theorem}{tCClearExceptionLogIsTotal}
+    \forall ConOpSig @ \pre CClearExceptionLog
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Conc\ AuthoriseExceptionLogClear is Total]
+\begin{theorem}{tCAuthoriseExLogClearIsTotal}
+    \forall ConOpSig @ \pre CAuthoriseExLogClear
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Conc\ Authentic is Total]
+\begin{theorem}{tCArchiveIsTotal}
+    \forall ConOpSig @ \pre CArchive
+\end{theorem}~\end{LNewThm}
+
+\subsection{Separating the branches of promoted operations}
+
+\subsubsection*{$Increase$, $Abort$}
+
+\begin{LNewSDef}[Promoted $CIncrease$ without $CIgnore$]
+\begin{zed}
+   CIncreaseOkay ~~\defs~~ \exists \Delta ConPurse @ PhiCOp \land IncreasePurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $CAbort$ without $CIgnore$]
+\begin{zed}
+   CAbortOkay ~~\defs~~ (~\exists \Delta ConPurse @ AbortPurseOkay \land [~ PhiCOp | m! = mondexError ~]~)
+\end{zed}~\end{LNewSDef}
+
+\subsubsection*{Value transfer and exception log operations}
+
+\begin{LNewSDef}[Promoted $CStartFrom$ without $CIgnore$ and with $CAbort$]
+\begin{zed}
+   CStartFromOkay ~~\defs~~ \exists \Delta ConPurse @ PhiCOp \land StartFromPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $CStartTo$ without $CIgnore$ and with $CAbort$]
+\begin{zed}
+   CStartToOkay ~~\defs~~ \exists \Delta ConPurse @ PhiCOp \land StartToPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $CReq$ without $CIgnore$]
+\begin{zed}
+   CReqOkay ~~\defs~~ \exists \Delta ConPurse @ PhiCOp \land ReqPurseOkay
+\end{zed}~\end{LNewSDef}
+%
+\begin{LNewSDef}[Promoted $CVal$ without $CIgnore$]
+\begin{zed}
+   CValOkay ~~\defs~~ \exists \Delta ConPurse @ PhiCOp \land ValPurseOkay
+\end{zed}~\end{LNewSDef}
+%
+\begin{LNewSDef}[Promoted $CAck$ without $CIgnore$]
+\begin{zed}
+   CAckOkay ~~\defs~~ \exists \Delta ConPurse @ PhiCOp \land AckPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $CReadExceptionLog$ without $CIgnore$ and with $CAbort$]
+\begin{zed}
+   CReadExceptionLogOkay ~~\defs~~ \exists \Delta ConPurse @ PhiCOp \land ReadExceptionLogPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $ClearExceptionLog$ without $CIgnore$ and with $CAbort$]
+\begin{zed}
+   CClearExceptionLogOkay ~~\defs~~ \exists \Delta ConPurse @ PhiCOp \land ClearExceptionLogPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewSDef}[Promoted $CAuthorisedExLogClear$ without $CIgnore$]
+\begin{zed}
+   CAuthoriseExLogClearOkay ~~\defs~~ \exists \Xi ConPurse @ CPhiCOpExpLogClearNEW
+\end{zed}~\end{LNewSDef}
+
+\subsubsection{Promoted $IncreaseOkay$  and $AbortOkay$ precondition}
+
+For the filtered promoted operations, we need another signature that includes the
+precondition of $PhiBOp$ itself (see theorem \textit{tBetwPhiBOpPRE} in Section~\ref{ch8.conc.promotionschema}).
+%
+\begin{LNewSDef}[Signature for promoted operations in \Conc, filtered from $CIgnore$]
+\begin{schema}{PhiCOpBranchesSig}
+   PhiCOpSig
+\where
+   m? \in etherCh7 \\
+   name? \in \dom~conAuthPurseCh7 \\
+   \theta ConPurse = conAuthPurseCh7~name?
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewSDef}[Signatture for promoted $CIncrease$, filtering $CIgnore$]
+\begin{schema}{PhiCOpIncreaseSig}
+    PhiCOpBranchesSig \\
+\where
+   mondexError \in etherCh7
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewSDef}[Signatture for promoted $CAbort$, filtering $CIgnore$]
+\begin{schema}{PhiCOpAbortSig}
+    PhiCOpBranchesSig \\
+\where
+   mondexError \in etherCh7 \\
+   name \in \{~pdAuth.from, pdAuth.toN~\}
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewLemma}[$conAuthPurse$ injectivity and finiteness upon $\oplus$]
+\begin{theorem}{rule lConAuthPurseInjFinite}
+    \forall ConPurse; ConWorldCh7; name? :NAMES | \\
+        \t1 name? \in \dom~conAuthPurseCh7 \\
+        \t1 \land \theta ConPurse = conAuthPurseCh7~name? @ \\
+            \t2 conAuthPurseCh7 \oplus \{(name?, \theta ConPurse)\} \in NAMES \finj ConPurse
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewThm}[$CIncrease$ promotion PRE without $CIgnore$]
+\begin{theorem}{tConcIncreaseOkayPRE}
+    \forall PhiCOpIncreaseSig @ \pre CIncreaseOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$CAbort$ promotion PRE without $CIgnore$]
+\begin{theorem}{tConcAbortOkayPRE}
+   \forall PhiCOpAbortSig @  \pre CAbortOkay
+\end{theorem}~\end{LNewThm}
+
+\subsubsection{Promoted $StartFromEafromOkay$ and $StartToEafromOkay$}
+
+\begin{LNewSDef}[Signatture for promoted $CStartFrom$, filtering $CIgnore$]
+\begin{schema}{PhiCOpStartFromSig}
+    PhiCOpBranchesSig \\
+    ValidStartFrom
+\where
+    statuS = eaFrom \\
+    nextSeqNo < MAX\_NAT \\
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewSDef}[Signatture for promoted $CStartFrom$, filtering $CIgnore$]
+\begin{schema}{PhiCOpStartToSig}
+    PhiCOpBranchesSig \\
+    ValidStartTo
+\where
+    statuS = eaFrom \\
+    nextSeqNo < MAX\_NAT \\
+    cpd.nextSeqNo < nextSeqNo
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewThm}[$CStartFrom$ promotion PRE without $CIgnore$ and $CAbort$]
+\begin{theorem}{tConcStartFromOkayPRE}
+   \forall PhiCOpStartFromSig @ \pre CStartFromOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$CStartTo$ promotion PRE without $CIgnore$ and $CAbort$]
+\begin{theorem}{tConcStartToOkayPRE}
+   \forall PhiCOpStartToSig @ \pre CStartToOkay
+\end{theorem}~\end{LNewThm}
+
+\subsubsection{Promoted $ReqOkay$, $ValOkay$, annd $AckOkay$ precondition}
+
+\begin{LNewSDef}[Signatture for promoted $CReq$, filtering $CIgnore$]
+\begin{schema}{PhiCOpReqSig}
+    PhiCOpBranchesSig \\
+    AuthenticReqMessage
+\where
+    statuS = epr
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewSDef}[Signatture for promoted $CVal$, filtering $CIgnore$]
+\begin{schema}{PhiCOpValSig}
+    PhiCOpBranchesSig \\
+    AuthenticValMessage
+\where
+    statuS = epv
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewSDef}[Signatture for promoted $CAck$, filtering $CIgnore$]
+\begin{schema}{PhiCOpAckSig}
+    PhiCOpBranchesSig \\
+    AuthenticAckMessage
+\where
+    statuS = epa
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewThm}[$CReq$ promotion PRE without $CIgnore$]
+\begin{theorem}{tConcReqOkayPRE}
+   \forall PhiCOpReqSig @ \pre CReqOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$CVal$ promotion PRE without $CIgnore$]
+\begin{theorem}{tConcValOkayPRE}
+   \forall PhiCOpValSig @ \pre CValOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$CAck$ promotion PRE without $CIgnore$]
+\begin{theorem}{tConcAckOkayPRE}
+   \forall PhiCOpAckSig @ \pre CAckOkay
+\end{theorem}~\end{LNewThm}
+
+\subsubsection{Promoted $ReadExceptionLogEafromOkay$ and $ClearExceptionLogEafromOkay$}
+
+\begin{LNewSDef}[Signatture for promoted $CReadExceptionLog$, filtering $CIgnore$]
+\begin{schema}{PhiCOpReadExceptionLogSig}
+    PhiCOpBranchesSig
+\where
+    statuS = eaFrom \\
+    m? = readExceptionLog
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewSDef}[Signatture for promoted $CClearExceptionLog$, filtering $CIgnore$]
+\begin{schema}{PhiCOpClearExceptionLogSig}
+    PhiCOpBranchesSig
+\where
+    statuS = eaFrom \\
+    exLog \neq \emptyset \\
+    m? = exceptionLogClear~(name, image~exLog)
+\end{schema}~\end{LNewSDef}
+
+\begin{LNewThm}[$CReadExceptionLogOkay$ $\Phi$ PRE without $CIgnore$ and $CAbort$]
+\begin{theorem}{tConcReadExceptionLogOkayPRE}
+   \forall PhiCOpReadExceptionLogSig @ \pre CReadExceptionLogOkay
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[$CClearExceptionLogOkay$ $\Phi$ PRE without $CIgnore$ and $CAbort$]
+\begin{theorem}{tConcClearExceptionLogOkayPRE}
+   \forall PhiCOpClearExceptionLogSig  @ \pre CClearExceptionLogOkay
+\end{theorem}~\end{LNewThm}
+
+\subsection{Operations at the world level only}\label{ch8.specproof-conc.worldlevelalone}
+
+\begin{LNewThm}[$CAuthoriseExLogClear$ PRE without $CIgnore$]
+\begin{theorem}{tConcAuthoriseExLogClearOkayPRE}
+   \forall PhiCOpSig @ \pre CAuthoriseExLogClearOkay
+\end{theorem}~\end{LNewThm}
+
+\newpage
+
+\section{Summary}\label{ch8.summary}
+
+\begin{table}[ht]
+    $\begin{array}{@{}|ll|l|@{}}
+        \hline
+        \mbox{\textbf{Operation}} &  & \mbox{\textbf{Precondition}} \\
+        \hline
+        AbOp            &             & true \\
+        \hline
+        AbIgnore        &             & true \\
+        \hline
+        \multicolumn{2}{@{}|l|}{AbWorldSecureOp} & a? \in \ran~transfer \land \\
+                        &             & \theta TransferDetails? = (transfer~\inv)~a? \\
+        \hline
+        AbTransfer & AbTransferOkayTD & from? \in \dom abAuthPurse \land toN? \in \dom abAuthPurse \\
+                   &                  & \land value? \leq  (abAuthPurse~from?).balance \land from? \neq toN? \\ && \\
+                   & AbTransferLostTD & \pre AbTransferOkayTD \\
+                   & AbIgnore         & true \\
+                   & AbTransfer       & true \\
+        \hline
+    \end{array}$
+    \caption{Preconditions for \Abs\ operations (see Chapter~\ref{ch3})}
+\end{table}
+
+\begin{table}[ht]
+    $\begin{array}{@{}|l|l|@{}}
+    \hline
+    \mbox{\textbf{Operation}}         & \mbox{\textbf{Precondition}} \\
+    \hline
+    IncreasePurseOkay                 & true \\
+    \hline
+    AbortPurseOkay                    & name \in \{~pdAuth.from, pdAuth.to~\} \\
+    \hline
+    StartFromPurseEafromOkay          & m? \in \ran~startFrom \land cpd = (startFrom~\inv)~m? \land \\
+                                      & cpd.name \neq name \land cpd.value \leq balance \land \\
+                                      & statuS = eaFrom \land nextSeqNo < MAX\_NAT \\
+    \hline
+    StartFromPurseOkay                & \pre AbortPurseOkay \land m? \in \ran~startFrom \land \\
+                                      & cpd = (startFrom~\inv)~m? \land cpd.name \neq name \land \\
+                                      & cpd.value \leq balance \land nextSeqNo < MAX\_NAT \\
+    \hline
+    StartToPurseEafromOkay            & ValidStartTo \land statuS = eaFrom \\
+                                      & \land nextSeqNo < MAX\_NAT \\
+                                      & \land cpd.nextSeqNo < nextSeqNo \\
+    \hline
+    StartToPurseOkay                  & \pre AbortPurseOkay \land m? \in \ran~startTo \land \\
+                                      & cpd = (startTo~\inv)~m? \land cpd.name \neq name \land \\
+                                      & cpd.nextSeqNo < nextSeqNo \land nextSeqNo < MAX\_NAT \\
+    \hline
+    ReqPurseOkay                      & statuS = epr \land m? = req~pdAuth \\
+    \hline
+    ValPurseOkay                      & statuS = epv \land m? = val~pdAuth \\
+    \hline
+    AckPurseOkay                      & statuS = epa \land m? = ack~pdAuth \\
+    \hline
+    ReadExceptionLogPurseEafromOkay   & statuS = eaFrom \land m? = readExceptionLog \\
+    \hline
+    ReadExceptionLogPurseOkay         & \pre AbortPurseOkay \land m? = readExceptionLog \\
+    \hline
+    ClearExceptionLogPurseEafromOkay  & statuS = eaFrom \land exLog \neq \emptyset \\
+                                      & \land m? = exceptionLogClear~(name, image~exLog) \\
+    \hline
+    ClearExceptionLogPurseOkay        & \pre AbortPurseOkay \land exLog \neq \emptyset \\
+                                      & \land m? = exceptionLogClear~(name, \\
+                                      & \t2 image~(exLog \cup (\IF statuS \in \{~epv, epa~\}  \\
+                                      &                     \t6 \THEN \{~pdAuth~\} \ELSE \emptyset))) \\
+    \hline
+    \end{array}$
+    \caption{Preconditions for \Betw\ operations (see Chapter~\ref{ch4})}
+\end{table}
+
+For promoted operations without recovery from abortion (\textit{i.e.,} sequentially composed with $AbortPurseOkay$),
+the preconditions are just the same as the promoted versions. That is:
+%
+\[
+\begin{array}{lcl}
+    \pre StartFromEafromOkay         & \equiv & \pre StartFromOkay \\
+    \pre StartToEafromOkay           & \equiv & \pre StartToOkay \\
+    \pre ReadExceptionLogEafromOkay  & \equiv & \pre ReadExceptionLogOkay \\
+    \pre ClearExceptionLogEafromOkay & \equiv & \pre ClearExceptionLogOkay \\
+\end{array}
+\]
+
+\begin{table}[ht]
+    $\begin{array}{@{}|@{~}l@{~}l@{~}|@{~}l@{~}|@{}}
+    \hline
+    \mbox{\textbf{Operation}} &                     & \mbox{\textbf{Precondition}} \\
+    \hline
+    PhiBOp                    &                     & m? \in ether \land name? \in \dom~conAuthPurse \\
+                              &                     & \land \theta ConPurse = conAuthPurse~name? \\
+    \hline
+    Ignore                    &                     & true \\
+    \hline
+    Increase                  & Ignore              & true \\
+                              & IncreaseOkay        & \pre PhiBOp \land mondexError \in ether \\
+    \hline
+    Abort                     & Ignore              & true \\
+                              & AbortOkay           & \pre PhiBOp \land \pre AbortPurseOkay \land mondexError \in ether \\
+    \hline
+    StartFrom                 & Ignore              & true \\
+                              & Abort               & true \\
+                              & StartFromOkay       & \pre PhiBOp \land \pre StartFromPurseEafromOkay \land mondexError \in ether \\
+                              &                     & \land (\forall pd: PayDetails | pd.from = name? @ \\
+                              &                     &   \t1 pd.fromSeqNo < nextSeqNo) \\
+                              &                     & \land name \in \dom~conAuthPurse \implies name \neq name? \\
+                              &                     & \land \theta ConPurse[nextSeqNo := 1 + nextSeqNo, \\
+                              &                     & \ \ \ pdAuth := \theta PayDetails[name/from, \\
+                              &                     & \ \ \t1 nextSeqNo/fromSeqNo, toN := cpd.name, \\
+                              &                     & \ \ \t1 toSeqNo := cpd.nextSeqNo, value := cpd.value], \\
+                              &                     & \ \ \ statuS := epr] \notin \ran~conAuthPurse \\
+    \hline
+    StartTo                   & Ignore              & true \\
+                              & Abort               & true \\
+                              & StartToOkay         & \pre PhiBOp \land \pre StartToPurseEafromOkay \land \\
+                              &                     & (\forall pd: PayDetails | pd.toN = name? @ \\
+                              &                     &   \t1 pd.toSeqNo < nextSeqNo) \\
+                              &                     & \land name \in \dom~conAuthPurse \implies name \neq name? \\
+                              &                     & (\exists pd': PayDetails | pd' = \theta PayDetails[from := cpd.name, \\
+                              &                     & \ \ fromSeqNo := cpd.nextSeqNo, name/toN, value := cpd.value \\
+                              &                     & \ \ nextSeqNo/toSeqNo] @ (req~pd' \notin ether \implies \\
+                              &                     &           \t2 name \in \dom~conAuthPurse \land \\
+                              &                     &           \t2 nextSeqNo < (conAuthPurse~name).nextSeqNo) \land \\
+                              &                     & \ \ \ (\forall pdOut: PayDetails | req~pdOut \notin ether @ pdOut \neq pd') \\
+                              &                     & \ \ \ \land \theta ConPurse[nextSeqNo := 1 + nextSeqNo, pdAuth := pd', \\
+                              &                     &   \t2 statuS := epv] \notin \ran~conAuthPurse) \\
+    \hline
+    Req                       & Ignore              & true \\
+                              & ReqOkay             & \pre PhiBOp \land \pre ReqPurseOkay \land \\
+                              &                     & (val~pdAuth \notin ether \implies \\
+                              &                     & \ \ \ pdAuth.toN \in \dom~conAuthPurse \\
+                              &                     & \ \ \  \land pdAuth.from \in \dom~conAuthPurse \\
+                              &                     & \ \ \ \land pdAuth.toSeqNo < nextSeqNo \\
+                              &                     & \ \ \  \land (pdAuth.toN \neq name? \implies \\
+                              &                     & \ \ \ \ \ pdAuth.toSeqNo < (conAuthPurse~pdAuth.toN).nextSeqNo) \\
+                              &                     & \ \ \ \land (pdAuth.from \neq name? \implies \\
+                              &                     & \ \ \ \ \ pdAuth.fromSeqNo < (conAuthPurse~pdAuth.from).nextSeqNo) \\
+                              &                     &    \t1 \land (\forall pdIn: fromInEpr @ pdIn \neq pdAuth) \\
+                              &                     &    \t1 \land ((pdAuth.from, pdAuth) \notin archive \implies \\
+                              &                     &            \t2 pdAuth \in (conAuthPurse pdAuth.from).exLog)) \land \\
+                              &                     & (\forall xEPR: PayDetails | xEPR.from \in \dom conAuthPurse \land \\
+                              &                     & \ \ \ (conAuthPurse~xEPR.from).statuS = epr \land \\
+                              &                     & \ \ \ (conAuthPurse~xEPR.from).pdAuth = xEPR @ \\
+                              &                     &   \t2 xEPR.from \neq name?) \land \\
+                              &                     & (\forall pd: PayDetails | pd.from \in \dom~conAuthPurse @ pd \neq pdAuth) \\
+                              &                     & \land \theta ConPurse[balance := balance - pdAuth.value, \\
+                              &                     &       \t2 name := pdAuth.from, statuS := epa] \notin \ran~conAuthPurse \\
+    \hline
+    \end{array}$
+    \caption{Preconditions for promoted \Betw\ operations (see Chapter~\ref{ch5})}
+\end{table}
+
+\begin{table}[ht]
+    $\begin{array}{@{}|@{~}l@{~}l@{~}|@{~}l@{~}|@{}}
+    \hline
+    \mbox{\textbf{Operation}} &                     & \mbox{\textbf{Precondition}} \\
+    \hline
+    Val                       & Ignore              & true \\
+                              & ValOkay             & \pre PhiBOp \land \pre ValPurseOkay \land  \\
+                              &                     & (ack~pdAuth \notin ether \implies pdAuth.toN \in \dom~conAuthPurse) \land \\
+                              &                     & (\forall xEPV: PayDetails | xEPV.toN \in \dom conAuthPurse \\
+                              &                     &     \t1 \land (conAuthPurse~xEPV.toN).statuS = epv \\
+                              &                     &     \t1 \land (conAuthPurse~xEPV.toN).pdAuth = xEPV @ xEPV.toN \neq name?) \\
+                              &                     & \land (\forall pd: PayDetails | pd.toN \in \dom~conAuthPurse @ pd \neq pdAuth) \\
+                              &                     & \land \theta ConPurse[balance := balance + pdAuth.value, statuS := eaTo] \notin \\
+                              &                     &     \t3 \ran~conAuthPurse \\
+    \hline
+    Ack                       & Ignore              & true \\
+                              & AckOkay             & \pre PhiBOp \land \pre AckPurseOkay \land \\
+                              &                     & (\forall xEPA: PayDetails | xEPA.from \in \dom conAuthPurse \\
+                              &                     &    \t1 \land (conAuthPurse~xEPA.from).statuS = epa \\
+                              &                     &    \t1 \land (conAuthPurse~xEPA.from).pdAuth = xEPA @ \\
+                              &                     &       \t2 xEPA.from \neq name?) \land \\
+                              &                     & \theta ConPurse[statuS := eaFrom] \notin \ran~conAuthPurse\\
+    \hline
+    \begin{array}{@{}l@{}}
+        Read \\
+        Exception \\
+        Log
+    \end{array}               & Ignore              & true \\
+                              & \begin{array}{@{}l@{}}
+                                      Read \\
+                                      Exception \\
+                                      LogOkay
+                                  \end{array}       & \pre PhiBOp \land \pre ReadExceptionLogPurseEafromOkay \land mondexError \in ether \\
+    \hline
+    \begin{array}{@{}l@{}}
+        Clear \\
+        Exception \\
+        Log
+    \end{array}               & Ignore              & true \\
+                              & Abort               & true \\ && \\
+                              & \begin{array}{@{}l@{}}
+                                      Clear \\
+                                      Exception \\
+                                      LogOkay
+                                  \end{array}       & \begin{array}{@{}l@{}}
+                                                        \pre PhiBOp \land \pre ClearExceptionLogPurseEafromOkay \land \\
+                                                        (\forall pd: PayDetails @ \lnot pd \in (conAuthPurse~name?).exLog) \\
+                                                        \theta ConPurse[exLog := \{\}] \notin \ran~conAuthPurse
+                                                      \end{array} \\
+    \hline
+    \begin{array}{@{}l@{}}
+        Authorise \\
+        ExLog \\
+        Clear
+    \end{array}               & Ignore              & true \\
+                              & \begin{array}{@{}l@{}}
+                                      Authorise \\
+                                      ExLog \\
+                                      ClearOkay
+                                  \end{array}       & true \\
+    \hline
+    Archive                   &                     & true \\
+    \hline
+   \end{array}$
+   \caption{(cont.) Preconditions for promoted \Betw\ operations (see Chapter~\ref{ch5})}
+\end{table}
+
+\begin{table}[ht]
+    $\begin{array}{|ll|l|}
+    \hline
+    \mbox{\textbf{Operation}} &  & \mbox{\textbf{Precondition}} \\
+    \hline
+    PhiCOp                    &                 & m? \in etherCh7 \land name? \in \dom~conAuthPurseCh7 \\
+                              &                 & \land \theta ConPurse = conAuthPurseCh7~name? \\
+    \hline
+    CIgnore                   &                 & true \\
+    \hline
+    CIncrease                 & CIgnore         & true \\
+                              & CIncreaseOkay   & \pre PhiCOp \land mondexError \in ether \\
+    \hline
+    CAbort                    & CIgnore         & true \\
+                              & CAbortOkay      & \pre PhiCOp \land \pre AbortPurseOkay \land mondexError \in etherCh7 \\
+    \hline
+    CStartFrom                & CIgnore         & true \\
+                              & CAbort          & true \\
+                              & CStartFromOkay  & \pre PhiCOp \land \pre StartFromPurseEafromOkay \land \cdots \\
+    \hline
+    CStartTo                  & CIgnore         & true \\
+                              & CAbort          & true \\
+                              & CStartToOkay    & \pre PhiCOp \land \pre StartToPurseEafromOkay \land \cdots \\
+    \hline
+    CReq                      & CIgnore         & true \\
+                              & CReqOkay        & \pre PhiCOp \land \pre ReqPurseOkay \land \cdots \\
+    \hline
+    CVal                      & CIgnore         & true \\
+                              & CValOkay        & \pre PhiCOp \land \pre ValPurseOkay \land \cdots \\
+    \hline
+    CAck                      & CIgnore         & true \\
+                              & CAckOkay        & \pre PhiCOp \land \pre AckPurseOkay \land \cdots \\
+    \hline
+    \begin{array}{@{}l@{}}
+        CRead \\
+        Exception \\
+        Log
+    \end{array}               & CIgnore              & true \\
+                              & \begin{array}{@{}l@{}}
+                                      CRead \\
+                                      Exception \\
+                                      LogOkay
+                                  \end{array}       & \pre PhiCOp \land \pre ReadExceptionLogPurseEafromOkay \land \cdots \\
+    \hline
+    \begin{array}{@{}l@{}}
+        CClear \\
+        Exception \\
+        Log
+    \end{array}               & CIgnore              & true \\
+                              & \begin{array}{@{}l@{}}
+                                      CClear \\
+                                      Exception \\
+                                      LogOkay
+                                  \end{array}       & \pre PhiCOp \land \pre ClearExceptionLogPurseEafromOkay \land \cdots \\
+    \hline
+    \begin{array}{@{}l@{}}
+        CAuthorise \\
+        ExLog \\
+        Clear
+    \end{array}               & CIgnore              & true \\
+                              & \begin{array}{@{}l@{}}
+                                      CAuthorise \\
+                                      ExLog \\
+                                      ClearOkay
+                                  \end{array}       & \pre PhiCOp \land \cdots \\
+    \hline
+    CArchive                  &                     & true \\
+    \hline
+    \end{array}$
+    \caption{(Preconditions for \Conc\ operations (see Chapter~\ref{ch7})}
+\end{table}
+
+\ldefsummary %
+\lthmsummary %
+\lthmaddeddefsummary %
+\lthmaddedthmsummary %
+\lzevessummary %
+%\lpscriptsummary

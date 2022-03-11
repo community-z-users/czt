@@ -1,0 +1,58 @@
+As described in the ISO Z standard (Note 4, Section 8.4, p37), the Z
+grammar has several ambiguities.  The expression ``i [``
+can either turn out to be a generic instantitation:
+
+\begin{zed}
+  c1 == i [e1]
+\end{zed}
+
+Alternatively, it can turn out to be an application to a schema construction:
+
+\begin{zed}
+  c2 == i [e1; e2]
+\end{zed}
+
+Here are some more examples:
+
+\begin{zed}
+  c3 == x [a, b, c]
+\end{zed}
+
+should be a generic instantiation of x.
+
+\begin{zed}
+  c4 == x [ a;b;c ]
+\end{zed}
+
+and
+
+\begin{zed}
+  c5 == x [ a;b;c | true]
+\end{zed}
+
+\begin{zed}
+  c6 == x [ a;b;c : \nat]
+\end{zed}
+
+should be function applications of function x to a set of bindings (a schema).
+
+In the next test, the first should be a generic instantiation, while the 
+rest should be a function application.
+\begin{zed}
+  c7 == x [ a[\nat]]\\
+  c8 == x [ a[\nat] | true]\\
+  c9 == x [ a[\nat]; b[\nat]]\\
+  c10 == x [ a == \nat]
+\end{zed}
+
+Here are some examples provided by Ian Toyn.  The first one is an
+instantiation with \mu expression.  The second and third are
+applications to schemas formed from sets of bindings.
+
+\begin{zed}
+  c11 == \emptyset [ \mu a == 42 @ \{ a \} ] \\
+  c12 == \emptyset [ \{ \lblot x == 42 \rblot \} ;
+                     \{ \lblot x == 42 \rblot \} ] \\
+  c13 == \emptyset [ \{ ( \mu a == \lblot x == 42 \rblot ) \} ;
+                     \{ \lblot x == 42 \rblot \} ]
+\end{zed}

@@ -1,0 +1,14 @@
+\begin{zsection}
+\SECTION smalltest \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+   y: \nat
+\where
+   y > 10
+\end{schema}
+
+\begin{theorem}{test}
+
+\forall S @ \exists a: \nat | a = 1 @ \theta S [y := 1] = \theta S[a/y]
+\end{theorem}

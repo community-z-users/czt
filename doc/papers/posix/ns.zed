@@ -1,0 +1,80 @@
+\begin{zsection}
+  \SECTION ns \parents as
+\end{zsection}
+
+\begin{zed}
+  [SYL] \\
+  NAME == \seq SYL
+\end{zed}
+
+\begin{schema}{NS0}
+  nstore : NAME \pfun FID
+\end{schema}
+
+\begin{schema}{InitNS0}
+  NS0~'
+\where
+  nstore' = \emptyset
+\end{schema}
+
+\begin{schema}{createNS}
+  \Delta NS0 \\
+  name? : NAME \\
+  fid : FID
+\where
+  nstore' = nstore \oplus \{ name? \mapsto fid \}
+\end{schema}
+
+\begin{schema}{lookupNS}
+  \Xi NS0 \\
+  name? : NAME \\
+  fid' : FID
+\where
+  name? \in \dom nstore \\
+  fid' = nstore(name?)
+\end{schema}
+
+\begin{schema}{destroyNS}
+  \Delta NS0 \\
+  name? : NAME
+\where
+  name? \in \dom nstore \\
+  nstore' = \{ name? \} \ndres nstore
+\end{schema}
+
+\begin{schema}{NS}
+  NS0 \\
+  dnames : \power NAME
+\where
+  \forall f : dnames \cup \dom nstore @ front(f) \in dnames
+\end{schema}
+
+\begin{schema}{InitNS}
+  NS~' \\
+  InitNS0
+\where
+  dnames' = \emptyset
+\end{schema}
+
+\begin{schema}{lsNS}
+  \Xi NS \\
+  dir? : NAME \\
+  contents! : \power SYL
+\where
+  dir? \in dnames \\
+  contents! = last \limg \{ n: \dom nstore | n \neq \emptyset \land front~n = dir? \} \rimg
+\end{schema}
+
+\begin{axdef}
+  dirformat : FILE \pfun (SYL \pfun FID) \\
+  RootFid : FID
+\end{axdef}
+
+\begin{schema}{dirstored}
+  SS \\
+  NS
+\where
+  \ran nstore \subseteq \dom fstore \\
+  nstore = \{ n : NAME; fid : FID | n \neq \emptyset \land n \in \dom nstore \land fid = (dirformat(fstore(nstore(front~n)))) (last~n) \}
+    \cup \{ \emptyset \mapsto RootFid \}
+\end{schema}

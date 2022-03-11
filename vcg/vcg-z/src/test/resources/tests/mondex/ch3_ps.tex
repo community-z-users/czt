@@ -1,0 +1,406 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch3\_ps \parents ch3
+\end{zsection}
+CHANGES:
+* various missing hard spaces
+* removed znote
+* to/status -> "toN"/"statusS"
+* NAMES\$domainCheck no longer a goal
+}
+
+\chapter{Chapter~\ref{ch3} proofs}\label{ch3.ps}
+
+\section{A theory for purse names}
+
+For declarations in Section~\ref{ch3.pursenames}
+
+\begin{LPScript}\begin{zproof}[tNamesExistentialConsistency]
+    instantiate NAMES == \{name1, name2\};
+    instantiate n1 == name1, n2 == name2;
+    apply dExistsDistinctNames to predicate name1 = name2;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tNamesUniversalConsistency]
+    instantiate NAMES == \{name1, name2\};
+    prenex;
+    rewrite;
+    split n1 = name1;
+    simplify;
+    cases;
+    instantiate n2 == name2;
+    apply dExistsDistinctNames to predicate name1 = name2;
+    rewrite;
+    next;
+    instantiate n2\_\_1 == name1;
+    rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+%\begin{LDCheck}\begin{zproof}[NAMES\$domainCheck]
+%    rewrite;
+%\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[rInNames]
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rFiniteMember]
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lExistsName]
+    use NAMES\$declaration;
+    apply inFinset1;
+    apply extensionality;
+    prenex;
+    rewrite;
+    instantiate name == x;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lExistsDifferentNames]
+    use dNamesElem;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lExistsDifferentNameFromGivenName]
+    use dNamesDistinctElem[n1\_\_0 := n1];
+    prenex;
+    instantiate n2\_\_0 == n2;
+    rearrange;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\section{Finite space of numbers}
+
+\plink{ch3.NAT}
+
+\begin{LPScript}\begin{zproof}[tNATBoundaryConsistency]
+    instantiate MAX\_NAT == 0;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tNATDefinitionConsistency]
+    instantiate NAT == 0 \upto MAX\_NAT;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gMaxNatMaxType]
+    use MAX\_NAT\$declaration;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gMaxNatNatType]
+    use MAX\_NAT\$declaration;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rMaxNatType]
+    use MAX\_NAT\$declaration;
+    apply inNat ;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rMaxNatType2]
+    use MAX\_NAT\$declaration;
+    apply inNat ;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tNATConsistency]
+    instantiate n == 0;
+    invoke NAT;
+    rewrite;
+    use rMaxNatType;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rInNAT]
+    split x \in NAT;
+    simplify;
+    invoke NAT;
+    cases;
+    rewrite;
+    next;
+    split x \leq MAX\_NAT;
+    simplify;
+    split \lnot x \geq 0;
+    simplify;
+    rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\section{Transfer details}
+
+\plink{ch3.transferdetails}
+
+\begin{LPScript}\begin{zproof}[fTransferDetailsValueType]
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fTransferDetailsMemberMaxType]
+    with enabled (TransferDetails\$member, TransferDetails\$inSet) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fTransferDetailsMember]
+    with enabled (TransferDetails\$member, TransferDetails\$inSet) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fTransferDetailsInSetMember]
+    with enabled (TransferDetails\$member, TransferDetails\$inSet) prove by reduce;
+\end{zproof}\end{LPScript}
+
+
+\section{Security properties}
+
+\plink{ch3.security}
+
+\begin{LPScript}\begin{zproof}[fAuthenticNameType]
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\subsection*{Proofs}
+
+\begin{LDCheck}\begin{zproof}[SufficientFundsProperty\$domainCheck]
+    prove by reduce;
+\end{zproof}~\end{LDCheck}
+
+\section{Secure operations}\plink{ch3.secure.op}
+
+\begin{LPScript}\begin{zproof}[gAINTrasferPFunMaxType]
+    use transfer\$declaration;
+    invoke (\_\fun \_);
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gAINTrasferRelType]
+    use transfer\$declaration;
+    invoke (\_\fun \_);
+    invoke (\_\pfun \_);
+    invoke (\_\rel \_);
+    prove by rewrite;
+    apply inPower;
+    prove by rewrite;
+    instantiate e\_\_0 == e;
+    apply inCross2;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gAINTrasferPFunType]
+    use transfer\$declaration;
+    invoke (\_\fun \_);
+    invoke (\_\pfun \_);
+    prove by rewrite;
+    instantiate x\_\_0 == x, y1\_\_0 == y1, y2\_\_0 == y2;
+    prove by rewrite;
+    invoke (\_ \rel \_);
+    apply inPower;
+    instantiate e == (x, y1);
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gAINTransferType]
+    invoke (\_\pinj \_);
+    rewrite;
+    invoke (\_\pfun \_);
+    prove by rewrite;
+    use transfer\$injective[x\$ := y1, x\$' := y2];
+    use pairInFunction[\lblot from: NAME;toN: NAME;value: \num \rblot , AIN]
+        [f := transfer, x := y1, y := x];
+    use pairInFunction[\lblot from: NAME;toN: NAME;value: \num \rblot , AIN]
+        [f := transfer, x := y2, y := x];
+    rearrange;
+    simplify;
+    use transfer\$declaration;
+    invoke (\_ \fun \_);
+    invoke (\_ \pfun \_);
+    invoke (\_ \rel \_);
+    prove by rewrite;
+    apply inPower;
+    instantiate e == (y1, transfer~ y2);
+    instantiate e == (y2, transfer~ y2);
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rAINTransferResult]
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rAINTransferIsTotal]
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rAINTransferDomRanRel]
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+%\begin{}[rAbPurseFromDashIsNOTAuthentic]
+%prove by reduce;
+%with enabled (disjointCat, disjointUnitSeq) prove by rewrite;
+%with normalization rewrite;
+%cases;
+%apply extensionality to predicate \{(y, yP)\} = (\{from?\} \cup  \{to?\}) \ndres  abAuthPurse;
+%prove by rewrite;
+%instantiate y\_\_0 == (z, zP);
+%rewrite;
+%apply inDom to predicate from? \in  \dom  abAuthPurse;
+%prove by rewrite;
+%split (z, zP) \in  abAuthPurse;
+%rewrite;
+%cases;
+%simplify;
+%prove by rewrite;
+%\end{}
+
+\subsection*{Proofs}
+
+\begin{LDCheck}\begin{zproof}[AbWorldSecureOp\$domainCheck]
+    prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[rAbPurseLostTypeOpen]
+    apply inDom;
+    prenex;
+    use pairInFunction[NAME, \lblot balance: \num;lost: \num \rblot ]
+                            [f := purse, x := name, y := y];
+    apply AbPurse\$inSet;
+    prove by rewrite;
+    equality substitute purse~name;
+    invoke (\_\ffun \_);
+    invoke (\_\pfun \_);
+    invoke (\_\rel \_);
+    prove by rewrite;
+    apply inPower;
+    instantiate e == (name, y);
+    apply tupleInCross2;
+    apply AbPurse\$member;
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+%Exactly the same as rAbPurseLostTypeOpen
+\begin{LPScript}\begin{zproof}[rAbPurseBalanceTypeOpen]
+    apply inDom;
+    prenex;
+    use pairInFunction[NAME, \lblot balance: \num;lost: \num \rblot ]
+                            [f := purse, x := name, y := y];
+    apply AbPurse\$inSet;
+    prove by rewrite;
+    equality substitute purse~name;
+    invoke (\_\ffun \_);
+    invoke (\_\pfun \_);
+    invoke (\_\rel \_);
+    prove by rewrite;
+    apply inPower;
+    instantiate e == (name, y);
+    apply tupleInCross2;
+    apply AbPurse\$member;
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rThetaPurseInstantiated]
+    apply inDom;
+    prenex;
+    use pairInFunction[NAME, \lblot balance: \num;lost: \num \rblot ]
+                            [f := purse, x := name, y := y];
+    apply AbPurse\$inSet;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAbAuthPurseFromTransferOkayMuEquivalence]
+    apply muValue1;
+    prove by rewrite;
+    invoke;
+    prove by rewrite;
+    %\znote{The values for balance0 and lost0 do not matter.}
+    %\znote{We just need to find an existent one.}
+    instantiate balance == (abAuthPurse~from?).balance,
+        lost == (abAuthPurse~from?).lost,
+        balance\_\_0 == 1, lost\_\_0 == 1;
+    prove by rewrite;
+    invoke;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAbAuthPurseToTransferOkayMuEquivalence]
+    apply muValue1;
+    prove by rewrite;
+    invoke;
+    prove by rewrite;
+    %\znote{The values for balance0 and lost0 do not matter.}
+    %\znote{We just need to find an existent one.}
+    instantiate balance == (abAuthPurse~toN?).balance,
+        lost == (abAuthPurse~toN?).lost,
+        balance\_\_0 == 1, lost\_\_0 == 1;
+    prove by rewrite;
+    invoke;
+    prove by rewrite;
+    %Ahh! Put the rule with \geq 0 rather than nat!
+    %Nope. We need the \in \num as well, but both "\in \num \land \geq 0"
+    %cannot be together, otherwise it is not a valid rule! Well... leave it.
+    %\znote{Could not understand why the rule was not}
+    %\znote{applied directly as before. So did it by hand!}
+    use rAbPurseBalanceTypeOpen[name := toN?, purse := abAuthPurse];
+    %\znote{Due to the way Z/EVES rearranges predicates}
+    %\znote{"prove" is not helpful. So we do it ourselves.}
+    rearrange;
+    simplify;
+    apply inNat;
+    split (abAuthPurse~toN?).balance \geq 0;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lAbAuthPurseFromTransferLostMuEquivalence]
+    apply muValue1;
+    prove by rewrite;
+    invoke;
+    prove by rewrite;
+    %\znote{The values for balance0 and lost0 do not matter.}
+    %\znote{We just need to find an existent one.}
+    instantiate balance == (abAuthPurse~ from?).balance,
+        lost == (abAuthPurse~ from?).lost,
+        balance\_\_0 == 1, lost\_\_0 == 1;
+    prove by rewrite;
+    invoke;
+    prove by rewrite;
+    %\znote{Could not understand why the rule was not}
+    %\znote{applied directly as before. So did it by hand!}
+    use rAbPurseLostTypeOpen[name := from?, purse := abAuthPurse];
+    %\znote{Due to the way Z/EVES rearranges predicates}
+    %\znote{"prove" is not helpful. So we do it ourselves.}
+    rearrange;
+    simplify;
+    apply inNat;
+    split (abAuthPurse~ from?).lost \geq 0;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[AbTransferOkayTD\$domainCheck]
+    prove by rewrite;
+    cases;
+    instantiate balance == (abAuthPurse~ from?).balance,
+                lost == (abAuthPurse~ from?).lost;
+    prove by reduce;
+    instantiate balance == 0, lost == 0;
+    simplify;
+    next;
+    instantiate balance\_\_0 == (abAuthPurse~toN?).balance,
+                lost\_\_0 == (abAuthPurse~toN?).lost;
+    prove by reduce;
+    instantiate balance == 0, lost == 0;
+    %\znote{I couldn't figure out why this automatic rule is not being applied}
+    use rAbPurseBalanceTypeOpen[purse := abAuthPurse, name := toN?];
+    rearrange;
+    apply inNat;
+    simplify;
+    next;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[AbTransferLostTD\$domainCheck]
+    prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\newpage
+\section{Summary}\label{ch3.ps.summary}
+\lpscriptsummary

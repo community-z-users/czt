@@ -1,0 +1,17 @@
+
+\begin{zsection}
+  \SECTION\ tc3214\_commfields \parents\ circus\_toolkit
+\end{zsection}
+
+Input field variables are into the scope of the action following
+the prefixing as well as the following communication patterns
+after its introduction.
+%
+\begin{circus}
+     \circchannel\ c: \nat \cross \nat \cross \nat 
+     \also
+     \circprocess\ P \circdef\ \circbegin \\
+       \t1 A \circdef c?x?y!(x+y) \then \Skip 
+     	\t1 \circspot\ A \\	
+     \circend
+\end{circus}

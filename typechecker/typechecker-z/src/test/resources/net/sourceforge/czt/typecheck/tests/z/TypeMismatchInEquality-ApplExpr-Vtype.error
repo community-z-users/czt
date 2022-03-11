@@ -1,0 +1,15 @@
+\begin{zsection}
+  \SECTION TypeMismatchInEquality\_ApplExpr\_Vtype
+\end{zsection}
+
+Test that variable types are handled correctly in ApplExprs.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g
+\where
+  s(1) = 1\\
+  s = \nat
+\end{axdef}

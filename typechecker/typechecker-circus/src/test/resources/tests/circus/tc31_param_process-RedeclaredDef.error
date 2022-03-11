@@ -1,0 +1,46 @@
+
+\begin{zsection}
+  \SECTION\ tc31\_param\_process \parents\ circus\_toolkit
+\end{zsection}
+
+Declaration of $v \in \nat$ in global scope
+%
+\begin{axdef}
+   v: \nat
+\where
+   v = 1
+\end{axdef}
+
+Valid redeclaration of $v \in T$ in the $P$ process scope.
+Also valid redeclaration of $v \in \power~\nat$ in the local scope
+of action $A$ of $P$: like the $v \in T$ of $P$, this last appearance
+is within a inner scope
+%
+\begin{circus}
+    \circprocess\ [T] P \circdef  v:  T \circspot \circbegin  \\
+    A \circdef\ \circvar\ v: \power~\nat \circspot \Skip
+    \t1 \circspot A \\
+    \circend
+\end{circus}
+
+Valid redeclaration of $v \in T$ in the $Q$ process scope
+%
+\begin{circus}
+    \circprocess\ [T] Q \circdef  v:  T \circspot \circbegin
+\end{circus}
+
+Invalid redeclaration of $v \in \nat$ in the local scope for $Q$:~
+it has already been declared as a process parameters
+\begin{axdef}
+   v: \nat
+\where
+   v = 1
+\end{axdef}
+
+\begin{circusaction}
+   \t1 \circspot \Stop
+\end{circusaction}
+
+\begin{circus}
+   \circend
+\end{circus}

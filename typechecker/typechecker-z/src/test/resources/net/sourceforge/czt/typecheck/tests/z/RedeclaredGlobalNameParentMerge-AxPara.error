@@ -1,0 +1,25 @@
+\begin{zsection}
+ \SECTION RedeclaredGlobalNameParentMerge\_1 \parents prelude
+\end{zsection}
+
+\begin{zed}
+ x == 1
+\end{zed}
+
+
+\begin{zsection}
+ \SECTION RedeclaredGlobalNameParentMerge\_2 \parents prelude
+\end{zsection}
+
+\begin{zed}
+  x == 2
+\end{zed}
+
+
+\begin{zsection}
+ \SECTION RedeclaredGlobalNameParentMerge\_3 \parents
+	RedeclaredGlobalNameParentMerge\_2,
+	RedeclaredGlobalNameParentMerge\_1
+\end{zsection}
+
+

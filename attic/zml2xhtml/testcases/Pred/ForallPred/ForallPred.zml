@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zmltp="http://czt.sourceforge.net/zmltp" xsi:schemaLocation="Z.xsd Z.xsd">
+
+  <ZSect>
+    <Name>A 'Forall' (&#x2203;) predicate</Name>
+    <AxPara>
+      <SchText>
+        <ForallPred>
+          <SchText>
+            <VarDecl>
+              <DeclName>
+                <Word>x</Word>
+              </DeclName>
+              <RefExpr>
+                <RefName>
+                  <Word>
+                    Point
+                  </Word>
+                </RefName>
+              </RefExpr>
+            </VarDecl>
+          </SchText>
+          <NumExpr Value="1"/>
+        </ForallPred>         
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

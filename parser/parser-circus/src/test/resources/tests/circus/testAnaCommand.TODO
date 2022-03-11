@@ -1,0 +1,42 @@
+\begin{zsection}
+  \SECTION\ Test_parser \parents\ circus\_toolkit
+\end{zsection}
+
+
+\begin{circus}
+	\circprocess\ ProcessA  \circdef \circbegin
+\end{circus}
+
+This test is rather wicked/confusing. Given the user's intention, it should really generate an error:
+the types for parameters are not what the user expected. Worse, if typeset correctly, it wouldn't even
+typecheck. In \LaTeX\ \verb'{1 .. 10}' typesets as $1 .. 10$ and is transformed to $1 .. 10$ in Unicode as well.
+Thus, the Unicode parser sees this as a range type from $1$ to $10$, yet the user's brackets are ignored as \LaTeX\
+whitespace. The original intention was for it to be typeset as \verb'\{ 1 \upto 10 \}', which would generate the
+type error, given that you can't have a set of sets constructed that way. The actual typesetting should have been
+\verb'1 \upto 10'. These are some examples of how the multiple markup typeset available can create confusion. Other
+known examples from Z are the ones with \texttt{DecorExpr}, where \verb|S'| needs to be typeset as \verb|S~'| with
+the hard space, whereas in Unicode it doesn't have the hard space neither uses a dash, but rather its special Unicode char,
+both as stated in the Z ISO Standard!.
+%
+\begin{circusaction}
+	P \circdef \circvres s, t : {1 ..  10}; \circvres y : {50..100} \circspot Q(s,t) 
+\end{circusaction}
+
+\begin{circusaction}
+	R \circdef \circvres s, t : {1 ..  10}; y : {50..100} \circspot \Skip
+\end{circusaction}
+
+\begin{circusaction}
+	Q \circdef \circval e, f : {1..10} \circspot P(e,f,30) 
+\end{circusaction}
+	
+\begin{circusaction}
+	\circspot Q(2,3)  
+\end{circusaction}
+
+
+\begin{circus}
+  \circend
+\end{circus}
+
+

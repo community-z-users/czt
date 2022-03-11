@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION complexschemas \parents function\_toolkit
+\end{zsection}
+
+Given sets
+\begin{zed}
+   [G]
+\end{zed}
+
+Usual free types (e.g., recursive, but not mutually recursive)
+\begin{zed}
+   FT ::= constant | func \ldata \nat \cross FT \rdata
+\end{zed}
+
+trivial/usual axdef
+\begin{axdef}
+   max: \nat
+\end{axdef}
+
+State schema with generics
+\begin{schema}{State}
+   x: \nat \\
+   y: \power~\nat \\
+   f: \nat \pfun \nat 
+\where
+   y \cross y \subseteq f \\
+   x \in y \\
+   y \cap y = y
+\end{schema}
+
+\begin{schema}{Op}
+   \Delta State\\
+   in?: \nat \\
+   out!: \nat 
+\where
+   in? \neq out!
+\end{schema}
+
+\begin{zed}
+   OpHidden1 == Op \hide (out!, x) \\
+   OpHidden2 == OpHidden1 \hide (x') \\
+   OpRename1 == Op[a/x, a'/x', b/y, b'/y'] \\
+   OpRename2 == OpRename1[param?/in?, result!/out!] \\
+   OpHR	     == Op[c/x, c'/x'] \hide (c', y)
+\end{zed}

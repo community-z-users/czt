@@ -1,0 +1,25 @@
+\begin{zsection}
+  \SECTION PredExpr
+\end{zsection}
+
+\begin{zed}
+  myexpr2 == 1 = 2\\
+  myexpr3 == 1 = 3 \in \{2\}\\
+\end{zed}
+
+\begin{schema}{S}
+  x : \nat
+\end{schema}
+
+\begin{axdef}
+   x : \nat\\
+   b! : \bool
+\where
+   b! \iff true\\
+   b! \iff ((1 = 1) \implies S \implies true)\\
+\end{axdef}
+
+\begin{zed}
+  \vdash? \forall x,y,z : \bool | x \land \lnot y @
+       x = y \land z \iff z = x \land \lnot z \iff z = y
+\end{zed}

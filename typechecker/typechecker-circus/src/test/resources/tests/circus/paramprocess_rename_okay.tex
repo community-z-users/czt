@@ -1,0 +1,416 @@
+\documentclass{article}
+\usepackage{czt}
+\usepackage[color]{circus}
+
+\begin{document}
+
+\title{videocopy}
+
+\maketitle
+
+\begin{zed}
+   [VIDEOCOPYID] \\
+   [VIDEOID]\\
+   [MEMBERID] \\
+   BOOLEAN ::= T|F \\
+
+\end{zed}
+
+\begin{circus}
+     \circchannel\ addvc,discardvc,addv,discardv:VIDEOID \\
+     \circchannel\ lexistsvc,existsvc,onloan,isonloan,isnotonloan: VIDEOCOPYID \cross BOOLEAN \\
+     \circchannel\ setnotonloan,setonloan: VIDEOCOPYID \cross BOOLEAN\\
+     \circchannel\ existsv:VIDEOID \cross BOOLEAN\\
+     \circchannel\ decreasevids,increasevids:VIDEOID \cross \nat\\
+     \circchannel\ join,leave,ban:MEMBERID\\
+     \circchannel\ existsm,isbanned:MEMBERID \cross BOOLEAN\\
+     \circchannel\ decreaseloans,increaseloans:MEMBERID \cross \nat\\
+     \circchannel\ lend,return: MEMBERID \\
+     \circchannel\ existsloan:MEMBERID \cross VIDEOCOPYID \cross BOOLEAN\\
+\end{circus}
+
+\begin{circus}
+    \circprocess\ MemberInstance \circdef mid:MEMBERID \circspot \circbegin
+\end{circus}
+
+\begin{schema}{MemberInstanceState}
+	exists: BOOLEAN\\
+	banned:BOOLEAN\\
+	noofloans:\nat\\
+\end{schema}
+
+\begin{circusaction}
+   \circstate\ MemberInstanceState
+\end{circusaction}
+
+\begin{schema}{MemberInstanceStateInit}
+    ~MemberInstanceState~'
+\where
+    exists'=F\\
+    banned'=F\\
+    noofloans'=0\\
+\end{schema}
+
+\begin{schema}{MemberJoin}
+   \Delta MemberInstanceState \\
+    \where
+	exists'=T\\
+	banned'=F\\
+	noofloans'=0\\
+\end{schema}
+
+\begin{schema}{MemberLeave}
+   \Delta MemberInstanceState \\
+    \where
+    	exists'=F\\
+	banned'=banned\\
+	noofloans'=0\\
+\end{schema}
+
+\begin{schema}{MemberBanned}
+   \Delta MemberInstanceState \\
+    \where
+    exists'=exists\\
+    banned'=T\\
+    noofloans'=noofloans\\
+\end{schema}
+\begin{schema}{IncreaseNoOfLoans}
+   \Delta MemberInstanceState \\
+    \where
+	exists'=exists\\
+	banned'=banned\\
+	noofloans'=noofloans+1\\
+\end{schema}
+
+\begin{schema}{DecreaseNoOfLoans}
+   \Delta MemberInstanceState \\
+    \where
+	exists'=exists\\
+	banned'=banned\\
+	noofloans'=noofloans-1\\
+\end{schema}
+
+
+\begin{circusaction}
+     JoinMB ~~\circdef~~  \lcircguard exists=F \rcircguard  \circguard\ join?x \then  \lschexpract MemberJoin \rschexpract \\
+\end{circusaction}
+
+\begin{circusaction}
+     LeaveMB ~~\circdef~~ \lcircguard exists=T \land noofloans=0 \rcircguard  \circguard\ leave?x \then \lschexpract MemberLeave \rschexpract \\
+\end{circusaction}
+
+\begin{circusaction}
+     ExistsMember ~~\circdef~~ existsm.mid~?z \then existsm.mid!(exists) \then \Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+     IsBannedMember ~~\circdef~~ \lcircguard exists=T \rcircguard \circguard isbanned.mid~?w \then isbanned.mid!(banned) \then \Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+     BanMB ~~\circdef~~ \lcircguard exists=T \rcircguard  \circguard\ ban?x \then \lschexpract MemberBanned \rschexpract \\
+\end{circusaction}
+
+\begin{circusaction}
+     IncreaseNoLoans ~~\circdef~~ increaseloans.mid~?z \then \lschexpract IncreaseNoOfLoans \rschexpract \\
+\end{circusaction}
+
+\begin{circusaction}
+     DecreaseNoLoans ~~\circdef~~ decreaseloans.mid~?z \then \lschexpract DecreaseNoOfLoans \rschexpract \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 \circspot \lschexpract MemberInstanceStateInit \rschexpract \circseq (\circmu\ X \circspot (
+   					(JoinMB)
+					\extchoice
+					(LeaveMB)\\
+					\extchoice
+					(ExistsMember)
+					\extchoice
+					(LeaveMB)
+					\extchoice
+					(IsBannedMember)
+					\extchoice
+					\lschexpract IncreaseNoOfLoans \rschexpract\\
+					\extchoice
+					\lschexpract DecreaseNoOfLoans \rschexpract)
+					\circseq X )
+\end{circusaction}
+
+\begin{circus}
+\circend
+\end{circus}
+
+\begin{circus}
+    \circprocess MemberEntity \circdef  i:MEMBERID \circspot (MemberInstance(i))  \\
+\end{circus}
+
+
+\begin{circus}
+    \circprocess\ VideoCopyInstance \circdef vcid:VIDEOCOPYID \circspot \circbegin
+\end{circus}
+
+\begin{schema}{VideoCopyInstanceState}
+	vid:VIDEOID \\
+	exists: BOOLEAN\\
+	instore:BOOLEAN\\
+\end{schema}
+
+\begin{circusaction}
+   \circstate\ VideoCopyInstanceState
+\end{circusaction}
+
+\begin{schema}{VideoCopyInstanceStateInit}
+    ~VideoCopyInstanceState~'
+\where
+    exists'=F \\
+    instore'=F \\
+\end{schema}
+
+\begin{schema}{AddVideoCopy}
+   \Delta VideoCopyInstanceState; x?:VIDEOID\\
+    \where
+    	vid'=x?\\
+	exists'=T\\
+	instore'=T\\
+\end{schema}
+
+\begin{schema}{DiscardVideoCopy}
+   \Delta VideoCopyInstanceState \\
+    \where
+    vid'=vid\\
+    exists'=F\\
+    instore'=F\\
+\end{schema}
+
+\begin{schema}{IsOnLoan}
+   \Delta VideoCopyInstanceState \\
+    \where
+    vid'=vid\\
+    exists'=T\\
+    instore'=T\\
+\end{schema}
+
+\begin{schema}{IsNotOnLoan}
+   \Delta VideoCopyInstanceState \\
+    \where
+    vid'=vid\\
+    exists'=T\\
+    instore'=F\\
+\end{schema}
+
+\begin{circusaction}
+     AddVC \circdef \lcircguard exists=F \rcircguard  \circguard
+     				(addvc~?x\then (existsv.x?~w \then \lcircguard w=T \rcircguard \circguard \\
+						 (increasevids.x?z \then \lschexpract AddVideoCopy \rschexpract)))  \\
+\end{circusaction}
+
+\begin{circusaction}
+     DiscardVC \circdef \lcircguard exists=T \rcircguard  \circguard\ discardvc?w \then (decreasevids.vid?w \then  \lschexpract DiscardVideoCopy \rschexpract) \\
+\end{circusaction}
+
+\begin{circusaction}
+     ExistsVideoCopy \circdef existsvc.vcid?z \then existsvc.vcid!(exists) \then \Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+     InStoreVC \circdef onloan.vcid?z \then onloan.vcid!(instore) \then \Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+     OnLoanVC ~~\circdef~~ setonloan.vcid~?z \then \lschexpract IsOnLoan \rschexpract  \\
+\end{circusaction}
+
+\begin{circusaction}
+     NotOnLoanVC ~~\circdef~~ setnotonloan.vcid~?z \then \lschexpract IsNotOnLoan \rschexpract  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 \circspot \lschexpract  VideoCopyInstanceStateInit \rschexpract\circseq  (\circmu\ X \circspot (
+   					(AddVC)
+					\extchoice
+					(DiscardVC)\\
+					\extchoice
+					(ExistsVideoCopy)
+					\extchoice
+					(OnLoanVC)\\
+					\extchoice
+					(NotOnLoanVC)
+					\extchoice
+					(InStoreVC))
+					\circseq X )
+\end{circusaction}
+
+\begin{circus}
+\circend
+\end{circus}
+
+\begin{circus}
+    \circprocess VideoCopyEntity \circdef i:VIDEOCOPYID \circspot (VideoCopyInstance(i))  \\
+
+\end{circus}
+
+
+\begin{circus}
+    \circprocess\ VideoInstance \circdef vid:VIDEOID \circspot \circbegin
+\end{circus}
+
+\begin{schema}{VideoInstanceState}
+	exists: BOOLEAN\\
+	noofvideocopies:\nat
+\end{schema}
+
+\begin{circusaction}
+   \circstate\ VideoInstanceState
+\end{circusaction}
+
+\begin{schema}{VideoInstanceStateInit}
+    ~VideoInstanceState~'
+\where
+    exists'=F \\
+    noofvideocopies'=0\\
+\end{schema}
+
+\begin{schema}{AddVideo}
+   \Delta VideoInstanceState \\
+    \where
+	exists'=T\\
+	noofvideocopies'=noofvideocopies\\
+\end{schema}
+
+\begin{schema}{DiscardVideo}
+   \Delta VideoInstanceState \\
+    \where
+	exists'=F\\
+	noofvideocopies'=noofvideocopies\\
+\end{schema}
+
+\begin{schema}{IncreaseNoOfVC}
+   \Delta VideoInstanceState \\
+    \where
+	exists'=exists\\
+	noofvideocopies'=noofvideocopies+1\\
+\end{schema}
+
+\begin{schema}{DecreaseNoOfVC}
+   \Delta VideoInstanceState \\
+    \where
+	exists'=exists\\
+	noofvideocopies'=noofvideocopies-1\\
+\end{schema}
+
+\begin{circusaction}
+     AddV ~~\circdef~~ \lcircguard exists=F \rcircguard  \circguard\ addv?x\then \lschexpract AddVideo \rschexpract \\
+\end{circusaction}
+
+\begin{circusaction}
+     DiscardV ~~\circdef~~ \lcircguard exists=T \land noofvideocopies=0 \rcircguard  \circguard\\
+     					(discardv?x \then (\lschexpract DiscardVideo \rschexpract)) \\
+\end{circusaction}
+
+\begin{circusaction}
+     ExistsVideo ~~\circdef~~ existsv.vid~?z \then existsv.vid!(exists) \then \Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+     IncreaseNoVideoCopies ~~\circdef~~ increasevids.vid~?z \then \lschexpract IncreaseNoOfVC \rschexpract \\
+\end{circusaction}
+
+\begin{circusaction}
+     DecreaseNoVideoCopies ~~\circdef~~ decreasevids.vid~?z \then \lschexpract DecreaseNoOfVC \rschexpract \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 \circspot \lschexpract VideoInstanceStateInit \rschexpract \circseq  (\circmu\ X \circspot (
+   					AddV
+					\extchoice
+					DiscardV\\
+					\extchoice
+					ExistsVideo
+					\extchoice
+					IncreaseNoVideoCopies
+					\extchoice
+					DecreaseNoVideoCopies)
+					\circseq X )
+\end{circusaction}
+
+\begin{circus}
+\circend
+\end{circus}
+
+\begin{circus}
+    \circprocess VideoEntity \circdef i:VIDEOID \circspot (VideoInstance(i))  \\
+\end{circus}
+
+\begin{circus}
+    \circprocess\ LoanInstance \circdef vcid:VIDEOCOPYID \circspot \circbegin
+\end{circus}
+
+\begin{schema}{LoanInstanceState}
+	mid:MEMBERID\\
+	exists: BOOLEAN\\
+\end{schema}
+
+\begin{circusaction}
+   \circstate\ LoanInstanceState
+\end{circusaction}
+
+\begin{schema}{LoanInstanceStateInit}
+    ~LoanInstanceState~'
+\where
+    exists'=F \\
+\end{schema}
+
+\begin{schema}{LendVC}
+   \Delta LoanInstanceState; m?:MEMBERID  \\
+    \where
+	mid'=m?\\
+	exists'=T \\
+\end{schema}
+
+\begin{schema}{ReturnVC}
+   \Delta LoanInstanceState\\
+    \where
+	exists'=F \\
+\end{schema}
+
+
+\begin{circusaction}
+      Lend ~~\circdef~~ lend~?m \then (existsm.m?~w \then (isbanned.m?~x \then\\
+      					(\lcircguard w=T \land x=F  \land exists=F \rcircguard  \circguard \\
+						(existsvc.vcid?~z \then(onloan.vcid?k \then \lcircguard z=T \land k=T \rcircguard \circguard \\
+										 increaseloans.m?j\then(setonloan.vcid?y\then
+										 \lschexpract LendVC \rschexpract))))))\\
+\end{circusaction}
+			
+\begin{circusaction}
+     Return ~~\circdef~~ \lcircguard exists=F \rcircguard  \circguard\ (return?x \then (increaseloans.x?z \then\\
+     					(setnotonloan.vcid?y \then \lschexpract ReturnVC \rschexpract)))\\
+\end{circusaction}
+
+
+\begin{circusaction}
+   \t1 \circspot \lschexpract LoanInstanceStateInit \rschexpract \circseq  (\circmu\ X \circspot (
+   					(Lend)
+					\extchoice
+					(Return)\\
+					)
+					\circseq X )
+\end{circusaction}
+
+\begin{circus}
+\circend
+\end{circus}
+
+\begin{circus}
+    \circprocess LoanEntity \circdef  i:VIDEOCOPYID \circspot (LoanInstance(i))  \\
+
+\end{circus}
+
+
+\begin{circus}
+  \circprocess RNLoanEntry \circdef (i: VIDEOCOPYID \circspot LoanEntity(i)) 
+        \lcircrename existsvc := lexistsvc \rcircrename
+\end{circus}
+
+\end{document} 

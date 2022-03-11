@@ -1,0 +1,104 @@
+\documentclass[draft,a4paper,10pt,wd]{article}
+
+\usepackage{czt}
+
+\begin{document}
+
+This file contains the bag toolkit definitions as in the Z/EVES
+theorem prover. It follows Spivey's definitions, yet with the
+right flavour for Z/EVES
+
+\begin{zsection}
+\SECTION bag\_toolkit\_zeves \parents standard\_toolkit
+\end{zsection}
+
+\section{Bags }\label{def-bag}
+
+\subsection*{Operator templates}
+
+%%Zpreword \bag bag
+%%Zinchar \bcount U+266F
+%%Zinchar \otimes U+2297
+%%Zinchar \inbag U+22FF
+%%Zinword \subbageq subbageq
+%%Zinchar \uplus U+228E
+%%Zinchar \uminus U+2A41
+\begin{zed}
+    \generic (\bag \_) \\
+    \function 50 \leftassoc (\_ \bcount \_) \\
+    \function 40 \leftassoc (\_ \otimes \_) \\
+    \relation (\_ \inbag \_) \\
+    \relation (\_ \subbageq \_) \\
+    \function 30 \leftassoc (\_ \uplus \_) \\
+    \function 30 \leftassoc (\_ \uminus \_)
+\end{zed}
+
+\subsection*{Basic definitions}
+
+\begin{zed}
+  \bag X == X \pfun \nat_1
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \inbag \_: X \rel \bag X \\
+  count: \bag X \fun (X \fun \nat) \\
+  \_ \bcount \_: \bag X \cross X \fun \nat
+\where
+  \forall x: X; B: \bag X @ x \inbag B \iff x \in \dom B
+\also
+  \forall x: X; B: \bag X @ (count ~ B)x = B \bcount x
+\also
+  \forall x: X; B: \bag X @ B \bcount x = 
+    \IF x \inbag B \THEN B(x) \ELSE 0
+\end{gendef}
+
+\subsubsection*{Subbags}
+
+\begin{gendef}[X]
+  \_ \subbageq \_: \bag X \rel \bag X \\
+\where
+  \forall A, B: \bag X @ A \subbageq B \iff
+	(\forall x: X @ A \bcount x \leq B \bcount x)
+\end{gendef}
+
+\subsubsection*{Bag scaling}
+
+\begin{gendef}[X]
+  \_ \otimes \_: \nat \cross \bag X \fun \bag X
+\where
+  \forall n: \nat; B: \bag X; x: X @
+     (n \otimes B) \bcount x = n * (B \bcount x)
+\end{gendef}
+
+\subsection*{Bag union }
+
+Z/EVES' bag union is predefined, so we reuse CadiZ's
+\begin{zed}
+\_ \uplus \_ [X] == \lambda B, C: \bag X @ (\lambda x: X @ B \bcount x + C \bcount x) \nrres \{ 0 \}
+\end{zed}
+
+\subsubsection*{Bag difference}
+
+\begin{gendef}[X]
+  \_ \uminus \_: \bag X \cross \bag X \fun \bag X
+\where
+  \forall A, B: \bag X; x: X @
+     (A \uminus B) \bcount x =max \{ 0, (A \bcount x) - (B \bcount x) \}
+\end{gendef}
+
+\subsubsection*{Bag items}
+
+In Z/EVES, sequence-to-bag transformation is predefined, and a set
+of theorems hold for them. See the Z/EVES toolkit for details.
+%
+\begin{gendef}[X]
+  items: \seq X \fun \bag X
+\end{gendef}
+
+To use this file, just add  
+
+begin{zsection}
+\SECTION my\_section \parents circus\_toolkit, bag\_toolkit\_zeves
+end{zsection}
+
+within a file caled \verb'my\_section.tex'.

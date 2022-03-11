@@ -1,0 +1,159 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+\begin{zsection}
+  \SECTION markedforesttoy \parents standard\_toolkit % , forestlemmas
+\end{zsection}
+
+When I reached version 4 of the marked forest, I got to a difficulty in spotting the appropriate
+inductive definitions for the relationship between the type space $T$ and how its $links$ and
+$roots$ distribute over an $f \in Forest$, $Forest$ is a total function $T \fun T0$ (here $T0$ is
+$T$ lifted to some element outside it:~call that $null$ or $0$). We need to ensure that:
+%
+\begin{enumerate}
+	\item there is at least one root;
+		\[ \forall f: Forest @ (f~\inv)~\limg \{ null \} \rimg \neq \emptyset \]
+
+	\item all nodes are either links(ed) or roots but not both;
+		\[ \forall f: Forest @ \langle links~f, roots~f \rangle \partition T \]
+
+	\item there are no loops
+		\[ \forall f: Forest; t: T @ (t, t) \notin f\plus \equiv f\plus \cap \id~T = \emptyset \]
+
+	\item from all nodes we get to $null$ (here $0$):~forest are well-founded;
+		\[ \forall t: T @ (t, null) \in f\plus \]
+
+	\item from all links we get to its root, that gets to null;
+		\[ \forall f: Forest @ \forall t: links~f @ \exists r: roots~f @ (t,r) \in f\plus \land (r, null) \in f \]
+\end{enumerate}
+%
+In a way (as Cliff pointed out) the exercise here is not quite a toy:~it is a simplification
+(or instantiation) of the original problem. Still, given the original is already quite bare-bones,
+there wasn't that much to be removed anyway. Here, at least we get easier counter-examples and
+insights\footnote{Although strictly speaking, many insights came before and during the production of this formalisation.}
+
+\begin{zed}
+   T ~~==~~ 1 \upto 6
+   \also
+   T0 ~~==~~ 0 \upto 6
+   \also
+   TForest ~~==~~ \{~ t: T \fun T0 | t\plus \cap \id~T = \emptyset ~\}
+\end{zed}
+
+\begin{theorem}{grule gTMax}
+   T \in \power~\num
+\end{theorem}
+
+\begin{theorem}{grule gT0Max}
+   T0 \in \power~\num
+\end{theorem}
+
+\begin{theorem}{grule gTBound}
+   T \in \power~T0
+\end{theorem}
+
+Roots can never be empty; links might (e.g., all nodes are roots).
+Roots and links are finite because $T0$ is finite.
+\begin{axdef}
+   troots: (T \rel T0) \fun \power_1~T
+   \\
+   tlinks: (T \rel T) \fun \power~T
+   \\
+   offset: T
+\where
+	\Label{disabled rule dTRoots}
+	\forall tr: T \rel T0 @ troots~(tr) = (tr~\inv)~\limg \{ 0 \} \rimg
+	\\
+	\Label{disabled rule dTLinks}
+	\forall tl: T \rel T @ tlinks~(tl) = T \setminus troots~(tl)
+	\\
+	\Label{disabled rule dOffset}
+	offset = 2 % can be anything really. relax it later
+\end{axdef}
+
+\begin{zed}
+   T\_WITNESS == (\lambda v: T @ 0)
+   \also
+   T\_UPDATE == (\lambda d: T @ \IF d \in 1 \upto \#~T - offset \THEN d+offset \ELSE 0)
+\end{zed}
+%
+\[
+	T\_WITNESS ~~==~~ \{ (1,0), (2,0), (3,0), (4,0), (5,0), (6,0) \}
+	\\
+	T\_UPDATE ~~==~~  \{ (1,3), (2,4), (3,5), (4,6), (5,0), (6,0) \}
+\]
+%
+\[
+\begin{array}{lcl|lcl}
+	troots~(T\_WITNESS) & ~~=~~ & 1 \upto \#~T 					& tlinks~(T\_WITNESS) & ~~=~~ & \#~T + 1 \upto \#~T
+	\\
+						& ~~=
+	\\
+	troots~(T\_WITNESS) & ~~=~~ & 1 \upto 6						& tlinks~(T\_WITNESS) & ~~=~~ & \emptyset
+	\\
+	\hline
+	troots~(T\_UPDATE)  & ~~=~~ & \#~T + 1 - offset \upto \#~T 	& tlinks~(T\UPDATE)   & ~~=~~ & 1 \upto \#~T - offset
+	\\
+						& ~~=
+	\\
+	troots~(T\_UPDATE)  & ~~=~~ & 5 \upto 6						& tlinks~(T\UPDATE)   & ~~=~~ & 1 \upto 4
+\]
+
+\begin{theorem}{trootsTW}
+	troots~(T\_WITNESS) = 1 \upto 6
+\end{theorem}
+
+\begin{theorem}{tlinksTW}
+	tlinks~(T\_WITNESS) = 1 \upto 6
+\end{theorem}
+
+\begin{theorem}{trootsTU}
+	troots~(T\_UPDATE)  = 5 \upto 6
+\end{theorem}
+
+\begin{theorem}{tlinksTU}
+	tlinks~(T\_UPDATE)  = 1 \upto 4
+\end{theorem}
+
+The number of iterations is a function of how far from its root a link is (e.g., the link's depth).
+The induction is over the maximal number of iterations $n$ that equates to the transitive relation
+from the forest invariant:
+%
+\begin{theorem}{BareTForestWellFounded}
+	\forall t: T \fun T0 @ t\plus = \bigcup~\{~ i: \nat_1 | i \leq \#~t - \#~(troots~(t)) + 1 @ (iter~i)~t ~\}
+\end{theorem}
+%
+The bound is calculated as the number of links (e.g., all non-root elements) left in forest plus one.
+That is, all the number of iterations are bound by the maximum distance to a root, where the base case
+(e.g., where all elements in $t$ are roots) is compensated to avoid including reflexive elements.
+
+After discussing it with Cliff, a new definition of interest came up that doesn't involve transitive closure.
+It calculates the depth of a given element in $T$ as the distance to its root (backwards from the roots at depth 0).
+%
+\begin{axdef}
+	tdepth: \nat \cross (T \fun T0) \fun \power_1~T
+\where
+	\Label{disabled rule dTDepthBase}
+	\forall tb: T \fun T0 @ tdepth~(0, tb) = troots~(tb)
+	\\
+	\Label{disabled rule dTDepthInduc}
+	\forall n: \nat; t: T \fun T0 @ tdepth~(n+1, t) = \dom~(t \rres tdepth~(n, t))
+\end{axdef}
+%
+So now we can try proving this lemma about the accountability for the maximum depth depending on the roots distance
+%
+\begin{theorem}{BareTForestDepthWellFounded}
+	\forall t: T \fun T0 @ T = \bigcup~\{~ i: \nat | i \leq \#~T - \#~(troots~(t)) @ tdepth~(i, t) ~\}
+\end{theorem}
+%
+and finally, there is a clear relationship between the iterative computation of the (transitive) relation leading
+to all roots and the maximum depth to a root.
+%
+\begin{theorem}{BareTForestMaxDepthMatchesDistanceToRoots}
+	\forall t: T \fun T0 @ t\plus = \bigcup~\{~ i: \nat_1 | \dom~((iter~i)~t \rres \{~ 0 \}) = tdepth~(i-1, t) @ (iter~i)~t ~\}
+\end{theorem}
+%
+That is, to get the complete transitive relation, we need to iterate as much as the maximal depth disatance to all roots in $t$.
+
+\end{document}

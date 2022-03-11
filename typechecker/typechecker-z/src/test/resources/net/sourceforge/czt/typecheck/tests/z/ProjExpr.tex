@@ -1,0 +1,33 @@
+\begin{zsection}
+  \SECTION ProjExpr
+\end{zsection}
+
+\begin{zed} expr1 == [z : \nat] \project [z : \nat] \end{zed}
+\begin{zed} expr2 == [z : \nat] \project [x : \nat; z : \nat] \end{zed}
+\begin{zed} expr3 == [x : \nat; z : \nat] \project [z : \nat] \end{zed}
+\begin{zed} expr4 == [x : \nat; z : \nat] \project [z : \nat; x : \nat] \end{zed}
+\begin{zed} expr5 == [x : \nat; y : \nat] \project [z : \nat] \end{zed}
+
+\begin{zed} \vdash? expr1 = [z : \nat] \end{zed}
+\begin{zed} \vdash? expr2 = [x : \nat; z : \nat] \end{zed}
+\begin{zed} \vdash? expr3 = [z : \nat] \end{zed}
+\begin{zed} \vdash? expr4 = [x : \nat; z : \nat] \end{zed}
+\begin{zed} \vdash? expr5 = [z : \nat] \end{zed}
+
+Test that if the left and/or right exprs are still varaible, everything 
+is handled correctly.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  x, z : \nat\\
+  s == g\\
+  t == g
+\where
+  s \project [x : \nat]\\
+  [z : \nat] \project t\\
+  s \project t\\
+  s = [x : \nat; z : \nat]\\
+  s = t
+\end{axdef}

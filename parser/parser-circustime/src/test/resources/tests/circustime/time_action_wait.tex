@@ -1,0 +1,39 @@
+d \begin{zsection}
+   \SECTION time\_action\_wait \parents circustime\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c, d \\
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+\end{circus}
+
+tests production rule: CIRCWAIT:cw expression:e
+\begin{circusaction}
+        \t1 A \circdef \circwait 20 \\
+\end{circusaction} 
+
+same production rule with another expression for E (as requested by user)
+\begin{circusaction}
+        \t1 B \circdef \circwait 1 \upto 20  \\
+\end{circusaction} 
+
+tests production rule: CIRCWAIT refName:na COLON expression:e CIRCSPOT circusAction:ac
+\begin{circusaction}
+        \t1 C \circdef \circwait r~: 1 \upto 20 \circspot B  \\
+\end{circusaction} 
+      
+\begin{circusaction}
+     \t1 \circspot A \circseq B \circseq C \\
+\end{circusaction}
+
+
+
+\begin{circus}
+    \circend
+\end{circus}
+
+
+   

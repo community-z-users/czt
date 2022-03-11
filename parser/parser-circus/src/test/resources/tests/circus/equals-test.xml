@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NarrSect>
+        <Anns>
+            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="0" Length="2" Col="0"/>
+        </Anns>
+        <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Start="2" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="1" Length="1419" Col="1"/>
+        </Anns>
+        <Name>test</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Start="47" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="2" Length="17" Col="27"/>
+            </Anns>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="80" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="3" Length="4" Col="14"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="84" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="5" Length="204" Col="0"/>
+                </Anns>
+                <ZNameList/>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Start="102" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="172" Col="7"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Start="102" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="124" Col="7"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Start="102" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="25" Col="7"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="102" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="1" Col="3"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="105" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="1" Col="6"/>
+                                    </Anns>
+                                    <Word>y</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="false" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="108" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="19" Col="9"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="108" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="13" Col="9"/>
+                                        <ParenAnn/>
+                                    </Anns>
+                                    <Word> _ ? _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="122" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="1" Col="23"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="122" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="1" Col="23"/>
+                                            </Anns>
+                                            <Word>A</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="125" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="1" Col="26"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="125" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="6" Length="1" Col="26"/>
+                                            </Anns>
+                                            <Word>B</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Start="138" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="7" Length="15" Col="7"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="138" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="7" Length="1" Col="3"/>
+                                    </Anns>
+                                    <Word>z</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="141" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="7" Length="1" Col="6"/>
+                                    </Anns>
+                                    <Word>w</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="144" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="7" Length="9" Col="11"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="146" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="7" Length="5" Col="11"/>
+                                    </Anns>
+                                    <Word> _ ? _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="144" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="7" Length="1" Col="9"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="144" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="7" Length="1" Col="9"/>
+                                            </Anns>
+                                            <Word>A</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="152" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="7" Length="1" Col="17"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="152" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="7" Length="1" Col="17"/>
+                                            </Anns>
+                                            <Word>B</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Start="161" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="27" Col="7"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="161" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="1" Col="3"/>
+                                    </Anns>
+                                    <Word>i</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="164" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="1" Col="6"/>
+                                    </Anns>
+                                    <Word>j</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <ApplExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Start="167" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="21" Col="9"/>
+                                </Anns>
+                                <ApplExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Start="167" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="19" Col="9"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <Anns>
+                                            <LocAnn Start="167" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="1" Col="9"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="167" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="1" Col="9"/>
+                                            </Anns>
+                                            <Word>A</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="169" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="17" Col="11"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="169" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="11" Col="11"/>
+                                                <ParenAnn/>
+                                            </Anns>
+                                            <Word> _ ? _ </Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="181" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="1" Col="23"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="181" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="1" Col="23"/>
+                                                    </Anns>
+                                                    <Word>S</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="184" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="1" Col="26"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="184" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="1" Col="26"/>
+                                                    </Anns>
+                                                    <Word>T</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </ApplExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="187" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="1" Col="29"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="187" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="8" Length="1" Col="29"/>
+                                        </Anns>
+                                        <Word>B</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ApplExpr>
+                        </VarDecl>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Start="196" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="30" Col="7"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="196" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="1" Col="3"/>
+                                    </Anns>
+                                    <Word>l</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="199" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="1" Col="6"/>
+                                    </Anns>
+                                    <Word>m</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <ApplExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Start="202" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="24" Col="9"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="true">
+                                    <Anns>
+                                        <LocAnn Start="202" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="17" Col="9"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="202" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="11" Col="9"/>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <Word> _ ? _ </Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="214" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="1" Col="21"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="214" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="1" Col="21"/>
+                                                </Anns>
+                                                <Word>S</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="217" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="1" Col="24"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="217" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="1" Col="24"/>
+                                                </Anns>
+                                                <Word>T</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <Anns>
+                                        <LocAnn Start="220" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="6" Col="27"/>
+                                    </Anns>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="221" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="1" Col="28"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="221" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="1" Col="28"/>
+                                                </Anns>
+                                                <Word>A</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="224" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="1" Col="31"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="224" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="9" Length="1" Col="31"/>
+                                                </Anns>
+                                                <Word>B</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                    <AndPred And="NL">
+                        <Anns>
+                            <LocAnn Start="239" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="11" Length="35" Col="10"/>
+                        </Anns>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Start="239" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="11" Length="6" Col="3"/>
+                            </Anns>
+                            <TupleExpr>
+                                <ZExprList>
+                                    <NumExpr>
+                                        <Anns>
+                                            <LocAnn Start="239" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="11" Length="1" Col="3"/>
+                                        </Anns>
+                                        <ZNumeral Value="0">
+                                            <Anns>
+                                                <LocAnn Start="239" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="11" Length="1" Col="3"/>
+                                            </Anns>
+                                        </ZNumeral>
+                                    </NumExpr>
+                                    <NumExpr>
+                                        <Anns>
+                                            <LocAnn Start="243" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="11" Length="2" Col="7"/>
+                                        </Anns>
+                                        <ZNumeral Value="10">
+                                            <Anns>
+                                                <LocAnn Start="243" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="11" Length="2" Col="7"/>
+                                            </Anns>
+                                        </ZNumeral>
+                                    </NumExpr>
+                                </ZExprList>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <Anns>
+                                    <LocAnn Start="241" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="11" Length="2" Col="5"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="241" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="11" Length="2" Col="5"/>
+                                    </Anns>
+                                    <Word> _ &gt; _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </MemPred>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Start="253" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="12" Length="21" Col="11"/>
+                            </Anns>
+                            <TupleExpr>
+                                <Anns>
+                                    <LocAnn Start="253" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="12" Length="7" Col="3"/>
+                                </Anns>
+                                <ZExprList>
+                                    <NumExpr>
+                                        <Anns>
+                                            <LocAnn Start="254" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="12" Length="1" Col="4"/>
+                                        </Anns>
+                                        <ZNumeral Value="0">
+                                            <Anns>
+                                                <LocAnn Start="254" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="12" Length="1" Col="4"/>
+                                            </Anns>
+                                        </ZNumeral>
+                                    </NumExpr>
+                                    <NumExpr>
+                                        <Anns>
+                                            <LocAnn Start="257" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="12" Length="2" Col="7"/>
+                                        </Anns>
+                                        <ZNumeral Value="10">
+                                            <Anns>
+                                                <LocAnn Start="257" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="12" Length="2" Col="7"/>
+                                            </Anns>
+                                        </ZNumeral>
+                                    </NumExpr>
+                                </ZExprList>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false" Explicit="false">
+                                <Anns>
+                                    <LocAnn Start="265" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="12" Length="9" Col="15"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="265" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="12" Length="9" Col="15"/>
+                                        <ParenAnn/>
+                                    </Anns>
+                                    <Word> _ &gt; _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </MemPred>
+                    </AndPred>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="288" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\equals-test.tex" Line="13" Length="1133" Col="11"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+AxBox{
+ VarDecl[x, y: RefExpr{ _ U+21F8 _ [RefExpr{A, MF=false, EX=false}, RefExpr{B, MF=false, EX=false}], MF=false, EX=true}];
+ VarDecl[z, w: RefExpr{ _ U+21F8 _ [RefExpr{A, MF=false, EX=false}, RefExpr{B, MF=false, EX=false}], MF=true, EX=true}];
+ VarDecl[i, j: 
+    ApplExpr{
+        LHS=ApplExpr{
+            LHS=RefExpr{A, MF=false, EX=false}, 
+            RHS=RefExpr{ _ U+2192 _ [RefExpr{S, MF=false, EX=false}, RefExpr{T, MF=false, EX=false}], MF=false, EX=true}, 
+            MF=false}, 
+        RHS=RefExpr{B, MF=false, EX=false}, 
+        MF=false}];
+ VarDecl[l, m: 
+    ApplExpr{
+        LHS=RefExpr{ _ U+2192 _ [RefExpr{S, MF=false, EX=false}, RefExpr{T, MF=false, EX=false}], MF=false, EX=true}, 
+        RHS=TupleExpr(RefExpr{A, MF=false, EX=false}, RefExpr{B, MF=false, EX=false}), 
+        MF=false}] 
+ | 
+ AndPred{
+    LHS=MemPred{
+        LHS=TupleExpr(0, 10), 
+        RHS=RefExpr{ _ U+3E _ , MF=false, EX=false}, 
+        MF=true}, 
+    RHS=MemPred{
+        LHS=TupleExpr(0, 10), 
+        RHS=RefExpr{ _ U+3E _ , MF=false, EX=false}, 
+        MF=false}, 
+    AND=NL}
+},
+
+
+ 
+</Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>

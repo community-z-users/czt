@@ -1,0 +1,64 @@
+\begin{zsection}
+  \SECTION tcoz\_toolkit \parents standard\_toolkit, oz\_toolkit
+\end{zsection}
+
+%%Zinchar \interleave U+2AF4
+
+%%Zprechar \Interleave U+2AFC
+
+%%Zinchar \intchoice U+2293
+
+%%Zprechar \Intchoice U+2A05
+
+%%Zinword \extchoice \gch
+
+%%Zpreword \Extchoice \dgch
+
+%%Zword \Main Main
+
+%%Zword \Skip Skip
+
+%%Zword \WaitUntil waituntil
+
+%%Zchar \atime U-0001D54B
+
+%%Zword \chan chan
+%%Zword \actor actuator
+%%Zword \sensor sensor
+
+%%Zprechar \then U+21FE
+
+%%Zchar \at U+0040
+
+%%Zchar \timeout U+22B3
+
+%%Zword \Parallel \pll
+
+\begin{axdef}
+  \atime : \power \arithmos
+\end{axdef}
+
+\begin{axdef}
+  \delta : \atime
+\end{axdef}
+
+Here, we specify a $Clock$ class, which provides active objects for
+keeping the time.
+
+\begin{class}{Clock}
+\project (time)\\
+\begin{state}
+  time : \atime
+\end{state}\\
+\begin{init}
+  time = 0
+\end{init}\\
+\begin{op}{Tick}
+  \Delta (time)
+\where
+  \delta < 1\\
+  time' = time + 1
+\end{op}\\
+\Main \sdef \mu C @ (Tick @ \WaitUntil~1) %\semi C
+\end{class}
+

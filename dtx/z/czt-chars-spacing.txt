@@ -1,0 +1,196 @@
+=======================================
+Character space mappings = 130 of them
+=======================================
+%%ZpreXXXX  = \mathop{\mathstrut{#1}}
+%%ZinXXXX   = \mathrel{\mathstrut{#1}}
+%%ZpostXXXX = \mathop{\mathstrut{#1}}
+%%Zchar     = \mathord{#1}
+%%Zword     = \mathord{#1}
+
+Zpre  is an operator
+Zin   is a infix relation
+Zpost is an operator
+Zchar is an ordinary character
+Zword is an ordinary word
+
+NOTE: Zpost is usually typeset with a
+      superscript, hence spacing rules
+      differ in that case (see LaTeX
+      Companion 2Ed, Table 8.7 p.525).
+
+      One exception is \rangle in
+      sequence_toolkit.tex, which gets
+      spaced as an open/close operator
+      (\mathopen/close mode - see LaTeX
+      Companion Table 8.26 p.537).
+      Similarly, \langle is a Zprechar
+      which is spaced as open/close op.
+
+NOTE: Zchar/word is typeset ordinarily,
+      hence it follows usual convention
+
+=======================================
+Characters from prelude.tex
+=======================================
+%%Zprechar \theta U+03B8
+%%Zprechar \lambda U+03BB
+%%Zprechar \mu U+03BC
+%%Zprechar \lnot U+00AC
+%%Zprechar \forall U+2200
+%%Zprechar \exists U+2203
+%%Zprechar \power U+2119
+%%Zpreword \IF if
+%%Zpreword \LET let
+%%Zpreword \pre pre
+
+%%Zinchar \where U+007C
+%%Zinchar \land U+2227
+%%Zinchar \lor U+2228
+%%Zinchar \implies U+21D2
+%%Zinchar \iff U+21D4
+%%Zinchar \in U+2208
+%%Zinchar \spot U+2981
+%%Zinchar \hide U+29F9
+%%Zinchar \project U+2A21
+%%Zinchar \semi U+2A1F
+%%Zinchar \pipe U+2A20
+%%Zinchar \cross U+00D7
+%%Zinword \THEN then
+%%Zinword \ELSE else
+%%Zinword \function function
+%%Zinword \generic generic
+%%Zinword \relation relation
+%%Zinword \leftassoc leftassoc
+%%Zinword \rightassoc rightassoc
+%%Zinword \listarg {,}{,}
+%%Zinword \varg \_
+
+%%Zchar \Delta U+0394
+%%Zchar \Xi U+039E
+%%Zchar	\{ U+007B
+%%Zchar	\} U+007D
+%%Zchar \ldata U+27EA
+%%Zchar \rdata U+27EB
+%%Zchar \lblot U+2989
+%%Zchar \rblot U+298A
+%%Zchar \vdash U+22A2
+%%Zchar \arithmos U-0001D538
+%%Zchar \nat U+2115
+%%Zchar \alpha U+03B1
+%%Zchar \beta U+03B2
+%%Zchar \gamma U+03B3
+%%Zchar \delta U+03B4
+%%Zchar \epsilon U+03B5
+%%Zchar \zeta U+03B6
+%%Zchar \eta U+03B7
+%%Zchar \iota U+03B9
+%%Zchar \kappa U+03BA
+%%Zchar \nu U+03BD
+%%Zchar \xi U+03BE
+%%Zchar \pi U+03C0
+%%Zchar \rho U+03C1
+%%Zchar \sigma U+03C3
+%%Zchar \tau U+03C4
+%%Zchar \upsilon U+03C5
+%%Zchar \phi U+03C6
+%%Zchar \chi U+03C7
+%%Zchar \psi U+03C8
+%%Zchar \omega U+03C9
+%%Zchar \Gamma U+0393
+%%Zchar \Theta U+0398
+%%Zchar \Lambda U+039B
+%%Zchar \Pi U+03A0
+%%Zchar \Sigma U+03A3
+%%Zchar \Upsilon U+03A5
+%%Zchar \Phi U+03A6
+%%Zchar \Psi U+03A8
+%%Zchar \Omega U+03A9
+
+=======================================
+Characters from number_toolkit.tex
+=======================================
+%%Zprechar \negate U+002D
+
+%%Zinchar \leq U+2264
+%%Zinchar \geq U+2265
+%%Zinword \div div
+%%Zinword \mod mod
+
+%%Zchar \num U+2124
+
+=======================================
+Characters from set_toolkit.tex
+=======================================
+%%Zprechar \bigcup U+22C3
+%%Zprechar \bigcap U+22C2
+%%Zprechar \finset U-0001D53D
+
+%%Zinchar \rel U+2194
+%%Zinchar \fun U+2192
+%%Zinchar \neq U+2260
+%%Zinchar \notin U+2209
+%%Zinchar \subseteq U+2286
+%%Zinchar \subset U+2282
+%%Zinchar \cup U+222A
+%%Zinchar \cap U+2229
+%%Zinchar \setminus U+2216
+%%Zinchar \symdiff U+2296
+
+%%Zchar \emptyset U+2205
+
+=======================================
+Characters from relation_toolkit.tex
+=======================================
+%%Zpreword \dom dom
+%%Zpreword \ran ran
+%%Zpreword \id id
+
+%%Zinchar \mapsto U+21A6
+%%Zinchar \comp U+2A3E
+%%Zinchar \circ U+2218
+%%Zinchar \dres U+25C1
+%%Zinchar \rres U+25B7
+%%Zinchar \ndres U+2A64
+%%Zinchar \nrres U+2A65
+%%Zinchar \limg U+2987
+%%Zinchar \oplus U+2295
+
+%%Zpostchar \inv U+223C
+%%Zpostchar \rimg U+2988
+%%Zpostword \plus ^+
+%%Zpostword \star ^*
+
+=======================================
+Characters from function_toolkit.tex
+=======================================
+%%Zpreword \disjoint disjoint
+
+%%Zinchar \pfun U+21F8
+%%Zinchar \pinj U+2914
+%%Zinchar \inj U+21A3
+%%Zinchar \psurj U+2900
+%%Zinchar \surj U+2900
+%%Zinchar \bij U+2916
+%%Zinchar \ffun U+21FB
+%%Zinchar \finj U+2915
+%%Zinword \partition partition
+
+=======================================
+Characters from sequence_toolkit.tex
+=======================================
+%%Zprechar \# U+0023
+%%Zprechar \langle U+27E8
+%%Zpreword \seq seq
+%%Zpreword \iseq iseq
+
+%%Zinchar \cat U+2040
+%%Zinchar \extract U+21BF
+%%Zinchar \filter U+21BE
+%%Zinword \upto ..
+%%Zinword \prefix prefix
+%%Zinword \suffix suffix
+%%Zinword \infix infix
+%%Zinword \dcat {\cat}/
+
+%%Zpostchar \rangle U+27E9
+=======================================

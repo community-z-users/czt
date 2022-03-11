@@ -1,0 +1,74 @@
+\begin{zsection}
+  \SECTION ds \parents standard\_toolkit
+\end{zsection}
+
+This section specifies the data system (ds) of the filing system.
+
+\begin{zed}
+  BYTE == 0 \upto 255 \\
+  ZERO == 0 \\
+  FILE ~== \seq BYTE \\
+  DS ~~~~== [ file : FILE ] \\
+  InitDS == [DS~' | file' = \langle\rangle ]
+\end{zed}
+
+The $after$ operator returns the subfile that starts after a given offset.
+We write this as an explicit definition (==) rather than axiomatically,
+because it is clearer, avoids possible inconsistency, and is easier
+to evaluate.
+
+\begin{zed}
+  \function 42 \leftassoc ( \varg after \varg )
+\end{zed}
+%% NOTE: we get a syntax error on the next line (on symbol 'after')
+%%    if we put both of these declarations into a single begin/end zed.
+\vskip -2ex
+\begin{zed}
+  \varg after \varg ==
+  (\lambda f : FILE ; offset : \nat 
+     @ (\lambda i : 1 .. \#f - offset @ f(i+offset)))
+\end{zed}
+
+The $readFile$ operation is defined similar to the one in Morgan and
+Sufrin's specification but we use the usual $\Xi$ notation for convenience
+here.
+
+\begin{schema}{readFILE}\\
+  \Xi DS \\
+  offset?, length? : \nat \\
+  data! : FILE
+\where
+  data! = ( 1 \upto length? ) \dres ( file~after~offset? )
+\end{schema}
+
+The auxiliary function $zero$ returns a $FILE$ containing a given number
+of $ZERO$ bytes.
+The infix operator $shift$ takes a $FILE$ and an offset and shifts the
+content of the file by the offset.  Once again, we give an explicit
+rather than an axiomatic definition.
+
+\begin{zed}
+  zero == (\lambda n : \nat @ ( \lambda k : 1 \upto n @ ZERO ) )
+\end{zed}
+\begin{zed}
+  \function 42 \leftassoc ( \varg shift \varg )
+\end{zed}
+\vskip -2ex
+\begin{zed}
+  \varg shift \varg == (\lambda f : FILE ; offset : \nat
+        @ ( 1 \upto offset ) \ndres ( zero~offset \cat f ))
+\end{zed}
+
+While the $readFILE$ operation does not change the file, the
+$writeFile$ operation given next changes the file.  It is defined
+similar to the $writeFile$ operation given in Morgan and Sufrin's
+specification but we use the usual $\Delta$ notation for convenience
+here.
+
+\begin{schema}{writeFILE}
+  \Delta DS \\
+  offset? : \nat \\
+  data? : FILE
+\where
+  file' = ( zero~offset? \oplus file ) \oplus ( data?~shift~offset? )
+\end{schema}

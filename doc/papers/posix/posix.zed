@@ -1,0 +1,120 @@
+\begin{zsection}
+  \SECTION posix \parents standard\_toolkit
+\end{zsection}
+
+The abstract specification is a simple function from file
+identifiers to a sequence of bytes.  Initialisation sets this
+function to the empty set.
+
+For animation purposes, we set BYTE and FID to small integer ranges.
+
+\begin{zed}
+  BYTE == 0 \upto 3 \\
+  FID == 100 \upto 102 \\
+  FILE == \seq BYTE \\
+  FSTORE == FID \pfun FILE \\
+  FS == [ fs : FSTORE ] \\
+  InitFS == [ FS~' | fs' = \emptyset ]
+\end{zed}
+
+
+Two system-wide operations modify the state by creating
+an empty file with a given file identifier, which overrides
+any previous files,
+
+\begin{schema}{Create}\\
+  \Delta FS \\
+  fid? : FID 
+\where
+  fs' = fs \oplus \{ fid? \mapsto \langle \rangle \}
+\end{schema}
+
+or by removing from the file store a known file identifier
+(which implicitly requirews the file store to be non-empty.
+
+\begin{schema}{Destroy}\\
+  \Delta FS \\
+	  fid? : FID 
+\where
+  fid? \in \dom fs \land fs' = \{ fid? \} \ndres fs
+\end{schema}
+
+
+Two local operations are promoted into the file strore
+stating how an old file from a known file identifier is
+modified and updated.  The following schema includes
+a copy of the global and local states, ensuring that the
+file store is only modified at the given file identifier.
+
+\begin{schema}{XFS}\\
+  \Delta FS \\
+  f , f' : FILE \\
+  fid? : FID \\
+  offs? : \nat 
+\where
+  fid? \in \dom fs \\
+	f = fs~fid? \\
+	fs' = fs \oplus \{ fid? \mapsto f' \}
+\end{schema}
+
+
+
+Auxiliary functions:
+The zero function returns a FILE of size n with zero bytes.
+
+\begin{axdef}
+  zero : \nat \fun FILE 
+\where
+  \forall n : \nat @ zero~n = ( \lambda i : 1 \upto n @ 0 )
+\end{axdef}
+
+
+
+After returns the subfile after the given offset.
+Shift returns a shifted file by the given offset.
+
+\begin{zed}
+  \function 42 \leftassoc ( \varg shift \varg )
+\end{zed}
+\begin{zed}
+  \function 42 \leftassoc ( \varg after \varg )
+\end{zed}
+
+
+%\begin{axdef}
+%\_~shift~\_~: FILE \cross \nat \fun ( \nat \pfun BYTE ) \\
+% \_~after~\_~: FILE \cross \nat \fun FILE 
+%\where
+%  \forall f : FILE ; offs : \nat @ f~after~offs = ( offs + 1 \upto \# f ) \extract f \land f~shift~offs = ( 1 \upto offs ) \ndres ( zero~offs \cat f )
+%\end{axdef}
+\begin{zed}
+  \varg shift \varg == (\lambda f : FILE ; offs : \nat \\
+  \t2      @ ( 1 \upto offs ) \ndres ( zero~offs \cat f ))
+  \\
+  \varg after \varg == (\lambda f : FILE ; offs : \nat \\
+  \t2      @ ( offs + 1 \upto \# f ) \extract f)
+\end{zed}
+
+
+To read from a file, nothing changes and the resulting
+file is extracted from the given offset up to the required
+length, where the after operator returns the offset subfile
+for f.
+
+\begin{schema}{Read}\\
+  XFS \\
+  len? : \nat \\
+  result! : FILE 
+\where
+  f' = f \\
+  result! = ( 1 \upto len? ) \dres ( f~after~offs? )
+\end{schema}
+
+\begin{schema}{Write}\\
+  XFS \\
+  file? : FILE 
+\where
+  f' = ( zero~offs? \oplus f ) \oplus ( file?~shift~offs? )
+\end{schema}
+
+

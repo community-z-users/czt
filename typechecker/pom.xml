@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>typechecker-parent</artifactId>
+  <packaging>pom</packaging>
+
+  <name>CZT Typecheckers</name>
+  <description>
+    Parent of typecheckers for Z and Z extension specifications.
+  </description>
+  
+  <modules>
+    <module>typechecker-z</module>
+    <module>typechecker-zeves</module>
+    <module>typechecker-oz</module>
+    <module>typechecker-circus</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Apache Commons -->
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.1</version>
+        <scope>test</scope>
+      </dependency>
+      
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- Put site under /typechecker -->
+  <url>${site.url}/typechecker</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/typechecker</url>
+    </site>
+  </distributionManagement>
+
+</project>

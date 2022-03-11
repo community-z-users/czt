@@ -1,0 +1,21 @@
+# Plugin properties
+
+# Basic plugin information properties
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.activate=defer
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.name=ZEves
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.author=Leo Freitas
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.version=${project.version}
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.docs=zeves.html
+
+# Plugin dependency properties
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.depend.0=jdk 1.6
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.depend.1=jedit 04.00.04.00
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.depend.2=plugin net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin ${project.version}
+
+# Plugin menu item properties
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.menu=zeves.eval-current-line
+
+# action labels
+zeves.eval-current-line.label=Evaluate current line
+
+zeves.prompt=ZEves>

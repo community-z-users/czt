@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
+    <NarrSect>
+        <Anns>
+            <LocAnn Col="0" Length="113" Line="0" Loc="tests/z/conjectures.tex" Start="0"/>
+        </Anns>
+        <Content>The following are one paragraph (a conjecture), with the predicate in
+the conjecture conjoined using a newline.
+
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Col="0" Line="0" Loc="tests/z/conjectures.tex"/>
+        </Anns>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <ConjPara>
+                <Anns>
+                    <LocAnn Col="0" Length="44" Line="3" Loc="tests/z/conjectures.tex" Start="113"/>
+                </Anns>
+                <ZNameList/>
+                <AndPred And="NL">
+                    <Anns>
+                        <LocAnn Col="15" Length="12" Line="4" Loc="tests/z/conjectures.tex" Start="135"/>
+                    </Anns>
+                    <TruePred>
+                        <Anns>
+                            <LocAnn Col="10" Length="4" Line="4" Loc="tests/z/conjectures.tex" Start="135"/>
+                        </Anns>
+                    </TruePred>
+                    <TruePred>
+                        <Anns>
+                            <LocAnn Col="18" Length="4" Line="4" Loc="tests/z/conjectures.tex" Start="143"/>
+                        </Anns>
+                    </TruePred>
+                </AndPred>
+            </ConjPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Col="9" Length="2" Line="5" Loc="tests/z/conjectures.tex" Start="157"/>
+                </Anns>
+                <Content>
+
+</Content>
+            </NarrPara>
+            <ConjPara>
+                <Anns>
+                    <LocAnn Col="0" Length="53" Line="7" Loc="tests/z/conjectures.tex" Start="159"/>
+                </Anns>
+                <ZNameList/>
+                <AndPred And="NL">
+                    <Anns>
+                        <LocAnn Col="15" Length="21" Line="8" Loc="tests/z/conjectures.tex" Start="181"/>
+                    </Anns>
+                    <TruePred>
+                        <Anns>
+                            <LocAnn Col="10" Length="4" Line="8" Loc="tests/z/conjectures.tex" Start="181"/>
+                        </Anns>
+                    </TruePred>
+                    <ExprPred>
+                        <Anns>
+                            <LocAnn Col="18" Length="13" Line="8" Loc="tests/z/conjectures.tex" Start="189"/>
+                        </Anns>
+                        <SchExpr>
+                            <Anns>
+                                <LocAnn Col="18" Length="13" Line="8" Loc="tests/z/conjectures.tex" Start="189"/>
+                            </Anns>
+                            <ZSchText>
+                                <ZDeclList>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Col="24" Length="11" Line="8" Loc="tests/z/conjectures.tex" Start="190"/>
+                                        </Anns>
+                                        <ZNameList>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Col="19" Length="1" Line="8" Loc="tests/z/conjectures.tex" Start="190"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Col="22" Length="1" Line="8" Loc="tests/z/conjectures.tex" Start="193"/>
+                                                </Anns>
+                                                <Word>Y</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                        </ZNameList>
+                                        <RefExpr Explicit="false" Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="26" Length="4" Line="8" Loc="tests/z/conjectures.tex" Start="197"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Col="26" Length="4" Line="8" Loc="tests/z/conjectures.tex" Start="197"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </SchExpr>
+                    </ExprPred>
+                </AndPred>
+            </ConjPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Col="9" Length="54" Line="9" Loc="tests/z/conjectures.tex" Start="212"/>
+                </Anns>
+                <Content>
+
+Bug report 1234527 (parsing of empty schema text):
+
+</Content>
+            </NarrPara>
+            <ConjPara>
+                <Anns>
+                    <LocAnn Col="0" Length="60" Line="13" Loc="tests/z/conjectures.tex" Start="266"/>
+                </Anns>
+                <ZNameList/>
+                <ForallPred>
+                    <Anns>
+                        <LocAnn Col="10" Length="28" Line="14" Loc="tests/z/conjectures.tex" Start="288"/>
+                    </Anns>
+                    <ZSchText>
+                        <ZDeclList>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="19" Length="13" Line="14" Loc="tests/z/conjectures.tex" Start="296"/>
+                                </Anns>
+                                <ZNameList>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Col="18" Length="1" Line="14" Loc="tests/z/conjectures.tex" Start="296"/>
+                                        </Anns>
+                                        <Word>p</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                </ZNameList>
+                                <PowerExpr>
+                                    <Anns>
+                                        <LocAnn Col="21" Length="10" Line="14" Loc="tests/z/conjectures.tex" Start="299"/>
+                                    </Anns>
+                                    <SchExpr>
+                                        <Anns>
+                                            <LocAnn Col="28" Length="3" Line="14" Loc="tests/z/conjectures.tex" Start="306"/>
+                                        </Anns>
+                                        <ZSchText>
+                                            <ZDeclList/>
+                                        </ZSchText>
+                                    </SchExpr>
+                                </PowerExpr>
+                            </VarDecl>
+                        </ZDeclList>
+                    </ZSchText>
+                    <TruePred>
+                        <Anns>
+                            <LocAnn Col="34" Length="4" Line="14" Loc="tests/z/conjectures.tex" Start="312"/>
+                        </Anns>
+                    </TruePred>
+                </ForallPred>
+            </ConjPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Col="9" Length="1" Line="15" Loc="tests/z/conjectures.tex" Start="326"/>
+                </Anns>
+                <Content>
+</Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>
+

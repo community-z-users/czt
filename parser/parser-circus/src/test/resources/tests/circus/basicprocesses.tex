@@ -1,0 +1,107 @@
+\documentclass{article}
+
+\usepackage{vmargin}
+\usepackage{circus}
+
+\setpapersize{A4}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
+%\setmarginsrb{20mm}{10mm}{20mm}{10mm}{12pt}{11mm}{0pt}{11mm}
+%\setmarginsrb{25mm}{20mm}{25mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\begin{document}
+
+\title{\Circus\ Grammar Explained --- Basic processes}
+\author{Leonardo Freitas}
+\date{April 2007}
+
+\maketitle
+
+\begin{abstract}
+    \noindent This article documents the various ways one can declare basic \Circus\ processes using \LaTeX\ markup.
+    It also documents the open issues of the language related to this syntactic category.
+\end{abstract}
+
+\section{Introduction}
+
+\begin{zsection}
+  \SECTION\ basic\_circus\_processes \parents\ circus\_toolkit
+\end{zsection}
+
+\section{Basic \Circus\ process paragraphs --- \grammar{circusBasicProcess}}
+
+\begin{circus}
+    \circchannel\ out: \nat
+\end{circus}
+
+\subsection{Just main action --- stateless}
+
+Within a single environment
+%
+%%%%\begin{circus}
+%%%%    \circprocess\ JustMainActionBasicProcess ~~\circdef~~ \circbegin \\
+%%%%    @ out.0 \then Skip \\
+%%%%    \circend
+%%%%\end{circus}
+%%%%
+%%%%Within a multiple environments.
+%%%%%
+\begin{circus}
+    \circprocess\ JustMainActionBasicProcessMultiple ~~\circdef~~ \circbegin
+\end{circus}
+
+\begin{circusaction}
+    \circspot out.0 \then \Skip
+\end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus}
+%%%%
+%%%%\subsection{With state and within multiple environments}
+%%%%
+%%%%\begin{circus}
+%%%%    \circprocess\ FibStateMultipleEnv ~~\circdef~~ \circbegin
+%%%%\end{circus}
+%%%%
+%%%%\begin{circusaction}
+%%%%    \circstate\ FibState ~~==~~ [~ x, y: \nat ~] \\
+%%%%    InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~]
+%%%%\end{circusaction}
+%%%%
+%%%%\begin{circusaction}
+%%%%    InitFib ~~\circdef~~ out~!1 \then out~!1 \then InitFibState
+%%%%\end{circusaction}
+%%%%
+%%%%\begin{schema}{OutFibOp}
+%%%%    \Delta FibState; next!: \nat
+%%%%\where
+%%%%    next! = y' = x + y \land x' = y
+%%%%\end{schema}
+%%%%
+%%%%\begin{circusaction}
+%%%%    OutFib ~~\circdef~~ \circmu\ X @ (~ \circvar\ next: \nat @ OutFibState \circseq out~!next \then X ~)
+%%%%\end{circusaction}
+%%%%
+%%%%\begin{circusaction}
+%%%%    @ InitFib ~\circseq~ OutFib
+%%%%\end{circusaction}
+%%%%
+%%%%\begin{circus}
+%%%%    \circend
+%%%%\end{circus}
+%%%%
+%%%%\subsection{With state and within a single \texttt{circus} environment}
+%%%
+%%%\begin{circus}
+%%%    \circprocess\ Fib ~~\circdef~~ \circbegin \\
+%%%    \circstate\ FibState ~~==~~ [~ x, y: \nat ~] \\
+%%%    InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~] \\
+%%%    InitFib ~~\circdef~~ out~!1 \then out~!1 \then InitFibState \\
+%%%    OutFibState ~~==~~ [~ \Delta FibState; next!: \nat | next! = y' = x + y \land x' = y ~] \\
+%%%    OutFib ~~\circdef~~ \circmu\ X @ (~ \circvar\ next: \nat @ OutFibState \circseq out~!next \then X ~)
+%%%    @ InitFib ~\circseq~ OutFib \\
+%%%    \circend
+%%%\end{circus}
+
+\end{document} 

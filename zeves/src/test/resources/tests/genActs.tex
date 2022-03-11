@@ -1,0 +1,171 @@
+
+\begin{zsection}
+  \SECTION genActs \parents standard\_toolkit
+\end{zsection}
+
+Unfortunately, it's not possible (???) to have mixfix ApplExpr with explicit generic
+\begin{theorem}{catGen}[X]
+ (\_ \cat \_)[X] (s,t) = s
+\end{theorem}
+
+\begin{theorem}{prefixGen}[X]
+     \forall A: \power~X @ \forall S: \finset~A @ \#~S = (\# \_)[A]~S
+\end{theorem}
+Result must not have parentheses (and varargs) between "#" and genactuals and should be something like:
+<cmd name="add-paragraph"><theorem-def location="L8;C0;S142;E267;G125;Rbb1.zed"   >lNonMaximalCardEquiv
+[X]
+
+<ax-part/>&forall;  A: &Popf; (X) &bullet; &forall;  S: &Fopf; A &bullet; (#) (S)  =  (#[A]) (S)
+
+</theorem-def></cmd>
+
+
+At the moment because explicit generics in CZT asks for VARARGS, we have:
+
+<ax-part/>&forall;  A: &Popf; (X) &bullet; &forall;  S: &Fopf; A &bullet; (#) (S)  =  ((# _ )[A]) (S)
+
+Bypassed it (after revision 7859) to the right result by looking the OpStack in two places (top-1, top) for ApplExpr->RefExpr
+
+Now, if we try to do this proof, ZEves sends commands back like
+
+$
+A \in \power~X \land S \in \finset~A \implies \#[X]~S = \#[X]~A
+$
+
+which CZT fails to parser because of the explicit generics in the wrong place :-(
+\begin{zproof}[prefixGen]
+   use sizeDef[X];
+\end{zproof}
+
+***
+Cannot parse Z/EVES result:
+line 1 column 27: Syntax error in variable declaration at token RSQUARE; an expression is expected after token COLON
+line 1 column 70: Syntax error at symbol RSQUARE
+***
+
+\begin{theorem}{postfixGen}[X,Y]
+   \forall f: X \pfun Y @ q = f\inv
+\end{theorem}
+
+\begin{zproof}[postfixGen]
+   invoke (\_ \pfun \_);
+\end{zproof}
+
+\begin{theorem}{postfixGen2}[X,Y]
+    q = (\_~\inv)[X,Y] f
+\end{theorem}
+Translation for \inv actually is accepted by Z/EVES with varargs and parentheses:
+<cmd name="add-paragraph"><theorem-def location="L19;C0;S607;E680;G73;Rbb1.zed"   >postfixGen
+[X, Y]
+
+<ax-part/>q  =  (f) (( _ &suptilde;)[X, Y])
+
+</theorem-def></cmd>
+
+
+ A version without varargs that is supported by Z/EVES looks like the following:
+<cmd name="add-paragraph"><theorem-def location="L19;C0;S607;E680;G73;Rbb1.zed"   >postfixGen
+[X, Y]
+
+<ax-part/>q  =  (f) &suptilde;[X, Y]
+
+</theorem-def></cmd>
+
+
+ At the moment because of explicit generics, we have:
+
+<ax-part/>q  =  (f) ((_ &suptilde;)[X, Y]))
+
+Trouble is that being this a postfix function (rather than infix), it is treated specially :-(
+By passed it (after revision 7859) to have the middle parenthesis always with generics within as
+
+<ax-part/>q  =  (f) ((&suptilde;[X, Y]))
+
+Humm... ZEves doesn't like the extra parenthesis. :-( We need to remove then
+
+\begin{zproof}[postfixGen]
+use functionFinite[X, Y][A:=X, B:=Y];
+use invDef[Y,X][R := f];
+with enabled (sizeDef) prove;
+\end{zproof}
+
+Result must not have parentheses between "functionFinite" and genactuals and should be something like
+<cmd name="proof-command">use functionFinite[X, Y]</cmd>
+
+At the moment the RefExpr is being considered with Explicit generics (!) as if within ApplExpr or RefExpr (GenOpInst)
+
+<proof-part/>
+use (invDef[Y, X])[R := f];
+with enabled (invDef) invoke;
+use (functionFinite[X, Y])
+
+FIXED: RefExpr for UseCommand should be treated differently
+
+<proof-part/> use invDef[Y, X][R := f];
+with enabled (invDef) invoke;
+use functionFinite[X, Y]
+
+The proof also returns
+**
+Cannot parse Z/EVES result:
+line 1 column 88: Syntax error at symbol LSQUARE
+***
+
+
+\begin{theorem}{domGen}[X, Y]
+     \dom[X, Y]~A = \emptyset
+\end{theorem}
+ Result must not have parentheses between "dom" and genactuals and should be something like:
+<cmd name="add-paragraph"><theorem-def location="L29;C0;S784;E854;G70;Rbb1.zed"   >domGen
+[X, Y]
+
+<ax-part/>(<word style="roman"/>dom<word/>[X, Y]) (A)  =  &empty;
+
+</theorem-def></cmd>
+
+ Note that the same issue exists with \bigcap, \bigcup, tail, etc.
+
+This problem is fixed by the same solution to the postfix genactuals on \inv above. Now we have
+
+<ax-part/>((<word style="roman"/>dom<word/>[X, Y])) (A)  =  &empty;
+
+\begin{theorem}{cupGen}[X]
+    (\_ \cup \_)[X] (A, B) = \emptyset
+\end{theorem}
+ The above is also accepted nicely by Z/EVES and gets translated into infix relation:
+  A \cup[X] B = \emptyset
+ Which is, of course, unparseable in proof by CZT
+
+The fix above for \inv, breaks this one now because it is not sending the "_\cup_" but just "\cup.
+
+<ax-part/>((&cup;[X])) ((A, B))  =  &empty;
+
+FIX: add a check for when ApplExpr.getRightExpr() is TupleExpr, in which case the "_" should be kept,
+
+<ax-part/>((_&cup;_[X])) ((A, B))  =  &empty;
+
+FIX: zeves doesn't like this case and needs it to be
+
+<ax-part/>(((_&cup;_)[X])) ((A, B))  =  &empty;
+
+\begin{zproof}[cupGen]
+   apply extensionality;
+\end{zproof}
+***
+Cannot parse Z/EVES result:
+line 1 column 5: Syntax error at symbol RSQUARE
+***
+
+Missing parenthesis around the second argument of a nested ApplExpr
+\begin{theorem}{catSize}
+\forall  s, t: \seq~\nat @ (s \cat  t) (\# s) = 0
+\end{theorem}
+was ((s) &frown; (t)) (#) (s)  =  0
+is  ((s) &frown; (t)) ((#) (s))  =  0
+
+Missing parenthesis around the second argument of a reference expr of an ApplExpr
+\begin{theorem}{domTail}
+\forall  s: \seq~\nat @ \dom~(tail~s) = \emptyset
+\end{theorem}
+was (<word style="roman"/>dom<word/>) tail s  =  &empty;
+is  (<word style="roman"/>dom<word/>) (tail s)  =  &empty;

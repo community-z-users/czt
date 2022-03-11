@@ -1,0 +1,14 @@
+\begin{zsection}
+  \SECTION UndeclaredIdentifier\_Qnt1Expr
+\end{zsection}
+
+\begin{zed}
+  S1 == [x : \nat]\\
+\end{zed}
+
+\begin{axdef}
+  y : \nat
+\where
+  (\forall x : \nat @ S1)\\
+  x = y
+\end{axdef}

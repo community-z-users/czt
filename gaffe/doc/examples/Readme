@@ -1,0 +1,11 @@
+This directory contains example interfaces.  Until interaction with the
+animator is done, they need the use of custom History classes that fake the
+work of the animator.
+
+Fake.gaffe matches to the history class FakeHistory
+BirthdayBook.gaffe matches to the history class BirthdayBookHistory
+
+GeneratedBirthdayBook.gaffe matches to the history class BirthdayBookFullHistory
+GeneratedBirthdayBook.gaffe was generated using the following command:
+  gaffe-generate -spec ~/usr/czt/zml/examples/birthdaybook_unfolded.xml -stateSchema BirthdayBook -opSchema AddBirthday -opSchema FindBirthday -opSchema Remind -destination test.gaffe
+after this, it was edited to set the history object to BirthdayBookFullHistory

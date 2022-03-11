@@ -1,0 +1,18 @@
+\begin{zsection}
+  \SECTION TypeMismatchInRelOp\_MemPred\_Arg4
+\end{zsection}
+
+\begin{zed}
+  \relation (\_ ~aRel1~ \_ ~aRel2 ~\_ ~aRel3 ~\_)
+\end{zed}
+
+\begin{axdef}
+  \_ ~aRel1~ \_~aRel2 ~\_ ~aRel3 ~\_ :
+       \power (\nat \cross \nat \cross \nat \cross \nat)
+\end{axdef}
+
+\begin{axdef}
+  a == \{1\}
+\where
+ 1 ~aRel1~ 2 ~aRel2~ 3 ~aRel3 ~ \{1\}
+\end{axdef}

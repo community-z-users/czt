@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION TypeMismatchInParallelOpExpr\_ParallelOpExpr\_1to1 \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  error \sdef [z! : \nat] \pll [z? : \power \nat]
+\end{class}

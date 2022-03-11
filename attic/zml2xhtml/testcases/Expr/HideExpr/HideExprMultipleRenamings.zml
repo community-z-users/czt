@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+<ZSect>
+    <Name>A HideExpr thats hiding more than one thing</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <HideExpr>
+            <RefExpr>              
+              <RefName>
+                <Word>W</Word>
+              </RefName>
+            </RefExpr>
+            <Name>
+              <Word>Hello1</Word>
+            </Name>
+            <Name>	
+              <Word>Hello2</Word>
+            </Name>
+        </HideExpr>          
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+
+</Spec>

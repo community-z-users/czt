@@ -1,0 +1,50 @@
+
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+%----------------------------------
+
+\begin{zsection}
+	 \SECTION prelude\_fsb \parents~fsb\_toolkit , prelude
+\end{zsection}
+
+VC ZSection Created at Mon Jan 17 16:28:00 GMT 2011.
+
+VC5 [AXIOM] for line 130 column 1 start 3109 length 33 in "prelude"
+\begin{zed}
+theorem~vc452\_ vc\_ fsb5 \vdash ? \lnot \arithmos = \{ \}
+\end{zed}
+
+VC7 for line 137 column 1 start 3264 length 49 in "prelude"
+\begin{zed}
+theorem~axiom454\_ vc\_ fsb7 \vdash ? \exists \nat : \power \arithmos | true @ true
+\end{zed}
+
+VC9 for line 150 column 1 start 3543 length 83 in "prelude"
+\begin{zed}
+theorem~axiom456\_ vc\_ fsb9 \vdash ? \\
+   \t2 \exists number\_ literal\_ 0 : \nat ; number\_ literal\_ 1 : \nat | true @ true
+\end{zed}
+
+VC13 for line 162 column 1 start 3805 length 437 in "prelude"
+\begin{zed}
+theorem~axiom460\_ vc\_ fsb13 \vdash ? \\
+   \t2 \exists \_ + \_~: \power ( ( \arithmos \cross \arithmos ) \cross \arithmos ) | true @ \\
+    \t3 ( \forall m , n : \nat @ {\exists}_{1}~p : ( \_ + \_ ) @ p . 1 = ( m , n ) \\
+     \t4 \forall m , n : \nat @ m + n \in \nat \\
+     \t4 \forall m , n : \nat | m + 1 = n + 1 @ m = n \\
+     \t4 \forall n : \nat @ \lnot n + 1 = 0 \\
+     \t4 \forall w : \power \nat | 0 \in w \land ( \forall y : w @ y + 1 \in w ) @ w = \nat \\
+     \t4 \forall m : \nat @ m + 0 = m \\
+     \t4 \forall m , n : \nat @ m + ( n + 1 ) = ( m + n ) + 1 )
+\end{zed}
+
+
+
+ VC Z section "prelude_fsb" has $4$ interesting VCs (Total = 14; Simplified to $true$ = 10).
+
+
+
+%----------------------------------
+\end{document}

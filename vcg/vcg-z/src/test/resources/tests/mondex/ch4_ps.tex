@@ -1,0 +1,231 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch4\_ps \parents ch4
+\end{zsection}
+CHANGED:
+* added missing hard spaces
+* removed znote
+}
+
+\chapter{Chapter~\ref{ch4} proofs}
+
+\section{Message details}\plink{ch4.msgdetails}
+
+\begin{LPScript}\begin{zproof}[lExistsPayDetails]
+    use lExistsDifferentNames;
+    prenex;
+    instantiate pd == \theta PayDetails[from := n1,
+        fromSeqNo := 0, toN := n2, toSeqNo := 0, value := 0];
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\section{Value transfer operations}\plink{ch4.valTransferOp}
+
+\begin{LPScript}\begin{zproof}[fCounterPartyDetailsNameType]
+   with enabled (CounterPartyDetails\$member) prove by reduce ;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fCounterPartyDetailsValueUpperBound]
+   with enabled (CounterPartyDetails\$member) prove by reduce ;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fCounterPartyDetailsValueLowerBound]
+   with enabled (CounterPartyDetails\$member) prove by reduce ;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fCounterPartyDetailsNextSeqNoUpperBound]
+   with enabled (CounterPartyDetails\$member) prove by reduce ;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fCounterPartyDetailsNextSeqNoLowerBound]
+   with enabled (CounterPartyDetails\$member) prove by reduce ;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fCounterPartyDetailsMember]
+    with enabled (CounterPartyDetails\$member,
+                    CounterPartyDetails\$inSet) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fCounterPartyDetailsInSetMember]
+    with enabled (CounterPartyDetails\$member,
+                    CounterPartyDetails\$inSet) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\subsection{$StartFrom$}
+
+\begin{LPScript}\begin{zproof}[gMESSAGEStartFromRelType]
+    use startFrom\$declaration;
+    invoke (\_ \fun \_);
+    invoke (\_ \pfun \_);
+    invoke (\_ \rel \_);
+    %\znote{At this point fCounterPartyDetailsMember and}
+    %\znote{fCounterPartyDetailsInSetMember are used}
+    rewrite;
+    %\znote{Trivial rewriting is needed in order}
+    %\znote{not to loose information about power}
+    %\znote{type of startFrom.}
+    trivial rewrite;
+    prenex;
+    rearrange;
+    equality substitute r;
+    apply inPower;
+    prenex;
+    instantiate e\_\_0 == e;
+    with enabled (inCross2) prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gMESSAGEStartFromPFunType]
+    use startFrom\$declaration;
+    invoke (\_\fun \_);
+    invoke (\_\pfun \_);
+    %\znote{At this point gMESSAGEStartFromRelType is used}
+    prove by rewrite;
+    instantiate x\_\_0 == x, y1\_\_0 == y1, y2\_\_0 == y2;
+    %\znote{At this point fCounterPartyDetailsMember and}
+    %\znote{fCounterPartyDetailsInSetMember are used}
+    prove by rewrite;
+    invoke (\_\rel\_);
+    apply inPower;
+    instantiate e == (x, y1);
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gMESSAGEStartFromPInjType]
+    invoke (\_\pinj \_);
+    rewrite;
+    invoke (\_\pfun \_);
+    %\znote{At this point gMESSAGEStartFromRelType is used}
+    prove by rewrite;
+    %\znote{At this point gMESSAGEStartFromPFunType is used}
+    use startFrom\$injective[x\$ := y1, x\$' := y2];
+    use pairInFunction[\lblot name: NAME;nextSeqNo: \nat;value: \nat \rblot, MESSAGE]
+                          [f := startFrom, x := y1, y := x];
+    use pairInFunction[\lblot name: NAME;nextSeqNo: \nat;value: \nat \rblot, MESSAGE]
+                          [f := startFrom, x := y2, y := x];
+    %\znote{At this point fCounterPartyDetailsMember and}
+    %\znote{fCounterPartyDetailsInSetMember are used}
+    prove by rewrite;
+    use startFrom\$declaration;
+    invoke (\_ \fun \_);
+    invoke (\_ \pfun \_);
+    invoke (\_ \rel \_);
+    prove by rewrite;
+    apply inPower;
+    instantiate e == (y1, startFrom~ y2);
+    instantiate e == (y2, startFrom~ y2);
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[ValidStartFrom\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[StartFromPurseEafromOkay\$domainCheck]
+   with enabled (CounterPartyDetails\$member) prove by reduce ;
+\end{zproof}\end{LDCheck}
+
+\subsection{$StartTo$}
+
+\begin{LPScript}\begin{zproof}[gMESSAGEStartToRelType]
+    use startTo\$declaration;
+    invoke (\_ \fun \_);
+    invoke (\_ \pfun \_);
+    invoke (\_ \rel \_);
+    rewrite;
+    trivial rewrite;
+    prenex;
+    rearrange;
+    equality substitute r;
+    apply inPower;
+    prenex;
+    instantiate e\_\_0 == e;
+    with enabled (inCross2) prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gMESSAGEStartToPFunType]
+    use startTo\$declaration;
+    invoke (\_\fun \_);
+    invoke (\_\pfun \_);
+    prove by rewrite;
+    instantiate x\_\_0 == x, y1\_\_0 == y1, y2\_\_0 == y2;
+    prove by rewrite;
+    invoke (\_\rel\_);
+    apply inPower;
+    instantiate e == (x, y1);
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gMESSAGEStartToPInjType]
+    invoke (\_\pinj \_);
+    rewrite;
+    invoke (\_\pfun \_);
+    prove by rewrite;
+    use startTo\$injective[x\$ := y1, x\$' := y2];
+    use pairInFunction[\lblot name: NAME;nextSeqNo: \nat;value: \nat \rblot, MESSAGE]
+                        [f := startTo, x := y1, y := x];
+    use pairInFunction[\lblot name: NAME;nextSeqNo: \nat;value: \nat \rblot, MESSAGE]
+                        [f := startTo, x := y2, y := x];
+    prove by rewrite;
+    use startTo\$declaration;
+    invoke (\_ \fun \_);
+    invoke (\_ \pfun \_);
+    invoke (\_ \rel \_);
+    prove by rewrite;
+    apply inPower;
+    instantiate e == (y1, startTo~ y2);
+    instantiate e == (y2, startTo~ y2);
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[ValidStartTo\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[StartToPurseEafromOkay\$domainCheck]
+   with enabled (CounterPartyDetails\$member) prove by reduce ;
+\end{zproof}\end{LDCheck}
+
+\subsection{$ReqPurseOkay$}
+
+\begin{LDCheck}\begin{zproof}[AuthenticReqMessage\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[ReqPurseOkay\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\subsection{$ValPurse$}
+
+\begin{LDCheck}\begin{zproof}[AuthenticValMessage\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[ValPurseOkay\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\subsection{$AckPurse$}
+
+\begin{LDCheck}\begin{zproof}[AuthenticAckMessage\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\section{Exception logging operations}\plink{ch4.exlog}
+
+\subsection{$ReadExceptionLogPurse$}
+
+\begin{LDCheck}\begin{zproof}[ReadExceptionLogPurseEafromOkay\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\subsection{$ClearExceptionLogPurse$}
+
+\begin{LDCheck}\begin{zproof}[ClearExceptionLogPurseEafromOkay\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+
+\newpage
+\section{Summary}\label{ch4.ps.summary}
+\lpscriptsummary

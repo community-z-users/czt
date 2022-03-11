@@ -1,0 +1,55 @@
+\begin{zsection}
+ \SECTION NonExistentSelection\_Vtype
+\end{zsection}
+
+\begin{class}{A}
+  a == 1
+  \begin{state}
+    m : \nat
+  \end{state}\\
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{B}
+  a == 1\\
+  \begin{state}
+    m : \nat
+  \end{state}\\
+  Op1 \sdef [x? : \nat]\\
+\end{class}
+
+\begin{class}{C}
+  a == 1\\
+  \begin{state}
+    m : \nat
+  \end{state}\\
+  Op1 \sdef [x? : \nat]\\
+\end{class}
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s : g
+\where
+  s \in A\lor
+  s \in B\lor
+  s \in C
+\end{axdef}
+
+\begin{class}{Test}
+ \begin{state}
+   a : A\\
+   b : B\\
+   c : C
+ \where
+   s.a = 1\\
+   s.m = 1\\
+   s.none = 1\\
+   s = a\lor
+   s = b\lor
+   s = c
+ \end{state}\\
+ Op1 \sdef s.Op1\\
+\end{class}

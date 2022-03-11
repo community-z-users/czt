@@ -1,0 +1,33 @@
+\begin{zsection}
+ \SECTION TypeMismatchInEquality\_Vtype\_Attr\_1
+\end{zsection}
+
+\begin{class}{A}
+  a == 1
+  \begin{state}
+    m : \nat
+  \end{state}\\
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{B}
+  a == \{1\}\\
+  \begin{state}
+    m : \nat
+  \end{state}\\
+  Op1 \sdef [x? : \nat]\\
+\end{class}
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+The attribute 'a' is incompatiable between classes A and B
+\begin{axdef}
+  a : A\\
+  b : B\\
+  s : g
+\where
+  s = a\\
+  s = b
+\end{axdef}
