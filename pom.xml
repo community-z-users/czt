@@ -173,8 +173,8 @@
           </systemProperties>
           <!-- don't execute the tests
           <skipExec>true</skipExec> -->
-          <!-- ignore failing tests
-          <testFailureIgnore>true</testFailureIgnore> -->
+          <!-- ignore failing tests -->
+          <testFailureIgnore>true</testFailureIgnore>
         </configuration>
       </plugin>
 

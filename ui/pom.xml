@@ -105,13 +105,13 @@
           <execution>
             <phase>install</phase>
             <configuration>
-              <tasks>
+              <target>
                 <property name="dir" location="${czt.aggregate.dir}"/>
                 <mkdir dir="${dir}"/>
                 <copy failonerror="false"
                   file="${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar"
                   tofile="${dir}/${czt.jar.name}"/>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>

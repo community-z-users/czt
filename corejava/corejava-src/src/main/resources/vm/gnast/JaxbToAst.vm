@@ -202,7 +202,7 @@ public class ${class.Name}#if($ImportProject)
   }
 
   // TODO: why this restricted class is needed?
-  public Object visitElementNSImpl(@SuppressWarnings("restriction") com.sun.org.apache.xerces.internal.dom.ElementNSImpl obj)
+  public Object visitElementNSImpl(@SuppressWarnings("restriction") org.w3c.dom.Element obj)
   {
     return obj;
   }
