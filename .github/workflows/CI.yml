@@ -1,0 +1,70 @@
+# CI workflow for the CZT project - Samuel Valery 2022 
+name: CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+
+  CI:
+    runs-on: ubuntu-latest
+    
+    env:
+      BUILD_STATUS: "FAILED" # Assume failed and change if build PASSES
+      TEST_STATUS: "FAILED"  # Do the same with test results
+    
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+
+      - name: Build
+        run: echo "Execute build script here"
+
+
+      - name: Update build status
+        run: |
+          echo "Run script to check for build result"
+          ./buildall.sh | tee main_build_report.txt
+
+          # Check whether the build produced "BUILD SUCCESS" 
+          # TODO: CHANGE result to 2 instead of 1 when eclipse build is working for JDK 11 && mvn 3.8.5
+          if [ './ci_scripts/CI_build_script.sh' == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
+          
+          
+      - name: Notify the developer of the build status
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: |
+            Build Status: **${{ env.BUILD_STATUS }}**
+            A full build report can be found **[here][1]** under CI->Build.
+            
+            [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          
+          
+      - name: Test
+        if: ${{ env.BUILD_STATUS == 'passed' }}
+        run: echo "Execute test script here"
+
+
+      - name: Update test status
+        if: ${{ env.BUILD_STATUS == 'passed' }}
+        run: |
+          echo "Run script to check for test result"
+          
+          # Assume tests pass
+          echo "TEST_STATUS=PASSED" >> $GITHUB_ENV
+          echo "Test Status: Passed"
+          
+          
+      - name: Notify the developer of the test status
+        if: ${{ env.BUILD_STATUS == 'passed' }}
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: |
+            Test Status: **${{ env.TEST_STATUS }}**
+            A full test report can be found **[here][1]** under CI->Test.
+            
+            [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
