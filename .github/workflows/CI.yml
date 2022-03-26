@@ -35,7 +35,7 @@ jobs:
           ./buildall.sh | tee main_build_report.txt
 
       - name: Update build status
-        run: 
+        run: |
           echo "Run script to check for build result"
 
           ls # Check if main_build_report.txt is here ?
