@@ -38,11 +38,11 @@ jobs:
         run: |
           echo "Run script to check for build result"
 
-          ls # Check if main_build_report.txt is here ?
+          chmod +x ./ci_scripts/CI_build_script.sh
 
           # Check whether the build produced "BUILD SUCCESS" 
           # TODO: CHANGE result to 2 instead of 1 when eclipse build is working for JDK 11 && mvn 3.8.5
-          if [ './ci_scripts/CI_build_script.sh' == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
+          if [ `./ci_scripts/CI_build_script.sh` == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
           
       - name: Notify the developer of the build status
         uses: peter-evans/commit-comment@v1
@@ -54,28 +54,28 @@ jobs:
             [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
           
           
-      - name: Test
-        if: ${{ env.BUILD_STATUS == 'passed' }}
-        run: echo "Execute test script here"
-
-
-      - name: Update test status
-        if: ${{ env.BUILD_STATUS == 'passed' }}
-        run: |
-          echo "Run script to check for test result"
-          
-          # Assume tests pass
-          echo "TEST_STATUS=PASSED" >> $GITHUB_ENV
-          echo "Test Status: Passed"
-          
-          
-      - name: Notify the developer of the test status
-        if: ${{ env.BUILD_STATUS == 'passed' }}
-        uses: peter-evans/commit-comment@v1
-        with:
-          body: |
-            Test Status: **${{ env.TEST_STATUS }}**
-            A full test report can be found **[here][1]** under CI->Test.
-            
-            [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
+#      - name: Test
+#        if: ${{ env.BUILD_STATUS == 'passed' }}
+#        run: echo "Execute test script here"
+#
+#
+#      - name: Update test status
+#        if: ${{ env.BUILD_STATUS == 'passed' }}
+#        run: |
+#          echo "Run script to check for test result"
+#          
+#          # Assume tests pass
+#          echo "TEST_STATUS=PASSED" >> $GITHUB_ENV
+#          echo "Test Status: Passed"
+#          
+#          
+#      - name: Notify the developer of the test status
+#        if: ${{ env.BUILD_STATUS == 'passed' }}
+#        uses: peter-evans/commit-comment@v1
+#        with:
+#          body: |
+#            Test Status: **${{ env.TEST_STATUS }}**
+#            A full test report can be found **[here][1]** under CI->Test.
+#            
+#            [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+#
