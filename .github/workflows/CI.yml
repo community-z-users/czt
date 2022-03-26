@@ -30,12 +30,15 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build
-        run: echo "Execute build script here"
+        run: |
+          echo "Execute build script here"
+          ./buildall.sh | tee main_build_report.txt
 
       - name: Update build status
-        run: |
+        run: 
           echo "Run script to check for build result"
-          ./buildall.sh | tee main_build_report.txt
+
+          ls # Check if main_build_report.txt is here ?
 
           # Check whether the build produced "BUILD SUCCESS" 
           # TODO: CHANGE result to 2 instead of 1 when eclipse build is working for JDK 11 && mvn 3.8.5
