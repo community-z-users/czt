@@ -31,20 +31,15 @@ jobs:
 
       - name: Build
         run: |
-          echo "Execute build script here"
-          ./buildall.sh | tee main_build_report.txt
+          chmod +x ./ci_scripts/build_czt.sh # Ensure the build_czt.sh is executable
+          . ./ci_scripts/build_czt.sh # This will generate build_report.txt
 
       - name: Update build status
         run: |
-          echo "Run script to check for build result"
-
-          chmod +x ./ci_scripts/CI_build_script.sh
-
-          # Check whether the build produced "BUILD SUCCESS" 
-          # TODO: CHANGE result to 2 instead of 1 when eclipse build is working for JDK 11 && mvn 3.8.5
-          if [ `./ci_scripts/CI_build_script.sh` == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
+          chmod +x ./ci_scripts/build_status.sh # Ensure build_status.sh is executable
+          if [ `./ci_scripts/build_status.sh` == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
           
-      - name: Notify the developer of the build status
+      - name: Post Comment of Build Status to Pull Request 
         uses: peter-evans/commit-comment@v1
         with:
           body: |
