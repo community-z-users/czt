@@ -124,6 +124,26 @@
     </extensions>
 
     <plugins>
+      <!-- Code Coverage report generation -->
+      <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.7</version>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>prepare-agent</goal>
+                  </goals>
+              </execution>
+              <execution>
+                  <id>generate-code-coverage-report</id>
+                  <phase>test</phase>
+                  <goals>
+                      <goal>report</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>
       <plugin>
           <artifactId>maven-plugin-plugin</artifactId>
           <version>3.6.4</version>
@@ -136,7 +156,7 @@
           <!-- <release>11</release> -->
           <source>11</source>
           <target>11</target>
-
+          
           <compilerArgs>
               <arg>--add-exports=java.xml/com.sun.org.apache.xpath.internal=ALL-UNNAMED</arg>
           </compilerArgs>
@@ -165,6 +185,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M5</version>
         <configuration>
+            <skipAfterFailureCount>1</skipAfterFailureCount> 
           <systemProperties>
             <property>
               <name>java.util.logging.config.file</name>
@@ -173,8 +194,8 @@
           </systemProperties>
           <!-- don't execute the tests
           <skipExec>true</skipExec> -->
-          <!-- ignore failing tests -->
-          <testFailureIgnore>true</testFailureIgnore>
+          <!-- ignore failing tests
+		<testFailureIgnore>true</testFailureIgnore> -->
         </configuration>
       </plugin>
 
