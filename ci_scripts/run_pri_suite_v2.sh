@@ -56,21 +56,27 @@ echo "==========================================================================
 cat ci_scripts/text_files/modules_to_test.txt | sort -u | while read line
 do
   # Test the module
-  echo "|====>" `basename $line`
-  cd $line
-  mvn surefire:test | tee $HOME/ci_scripts/text_files/tmp.txt
-  TEST_RESULT=`cat $HOME/ci_scripts/text_files/tmp.txt | grep "BUILD SUCCESS" | wc -l`
-  if [ $TEST_RESULT == 0 ]; then
-    # Exit after test failure
-    clean_up
-    exit 1
-  fi
+  BASENAME=`basename $line`
+
+  #echo "|====>" $BASENAME
+  #cd $line
+  #mvn surefire:test | tee $HOME/ci_scripts/text_files/tmp.txt
+  #TEST_RESULT=`cat $HOME/ci_scripts/text_files/tmp.txt | grep "BUILD SUCCESS" | wc -l`
+  #if [ $TEST_RESULT == 0 ]; then
+  #  # Exit after test failure
+  #  clean_up
+  #  exit 1
+  #fi
 
   # Find dependencies
   echo "|====>" Fetching Dependencies of `basename $line`
-  mvn dependency:tree | tee $HOME/ci_scripts/text_files/tmp.txt > /dev/null
+  # mvn dependency:tree | tee $HOME/ci_scripts/text_files/tmp.txt > /dev/null
   # cut -d "]" -f2- <<< `mvn dependency:tree | grep + | grep net.sourceforge.czt`
-  cut -d ":" -f2 <<< `cat $HOME/ci_scripts/text_files/tmp.txt | grep + | grep net.sourceforge.czt` >> $HOME/ci_scripts/text_files/dependencies.txt
+  # cut -d ":" -f2 <<< `cat $HOME/ci_scripts/text_files/tmp.txt | grep + | grep net.sourceforge.czt` >> $HOME/ci_scripts/text_files/dependencies.txt
+  UNDERSCORE_BASENAME=`echo $BASENAME | tr '-' '_'`
+  cat $HOME/ci_scripts/czt_dependencies.dot | grep $UNDERSCORE_BASENAME | \
+    grep -v "$UNDERSCORE_BASENAME ->" | awk -F' -' '{print $1}' | tr '_' '-' \
+    | tr '\t' ' ' | awk '{ gsub(/ /,""); print }' >> $HOME/ci_scripts/text_files/dependencies.txt
   
   # Finished with this module, go back and start with next one
   echo "==============================================================================="
@@ -83,26 +89,40 @@ echo ""
 echo "==============================================================================="
 echo "============================== TESTING DEPENDENCIES ==========================="
 echo "==============================================================================="
+# cat ci_scripts/text_files/dependencies.txt | sort -u
+# echo "==="
+# cat ci_scripts/text_files/dependencies.txt | sort -u | while read line
+# do
+#   echo looking for $line
+#   POM_PATH=$(echo `find . -name pom.xml | grep ${line}/pom.xml`)
+#   echo $POM_PATH 
+# done
+# 
+
+
+
 cat ci_scripts/text_files/dependencies.txt | sort -u | while read line
 do
-  POM_PATH=`find . -name pom.xml | grep ${line}/pom.xml`
-  DEP_PATH=`dirname $POM_PATH`
-  BASENAME=`basename $line`
-  ALREADY_TESTED=`grep $BASENAME ci_scripts/text_files/modules_to_test.txt | wc -l`
-  if [ $ALREADY_TESTED = "0" ]; then
-    echo "|====>" $line
-    cd $DEP_PATH
-    echo $(pwd)
-    mvn surefire:test | tee $HOME/ci_scripts/text_files/tmp.txt
-    TEST_RESULT=`cat $HOME/ci_scripts/text_files/tmp.txt | grep "BUILD SUCCESS" | wc -l`
-    if [ $TEST_RESULT == 0 ]; then
-      clean_up
-      exit 1
+  POM_PATH=$(echo `find . -name pom.xml | grep ${line}/pom.xml`)
+  if [ "$POM_PATH" != "" ]; then
+    DEP_PATH=`dirname $POM_PATH`
+    BASENAME=`basename $line`
+    ALREADY_TESTED=`grep $BASENAME ci_scripts/text_files/modules_to_test.txt | wc -l`
+    if [ $ALREADY_TESTED = "0" ]; then
+      echo "|====>" $line
+      cd $DEP_PATH
+      echo $(pwd)
+      mvn surefire:test | tee $HOME/ci_scripts/text_files/tmp.txt
+      TEST_RESULT=`cat $HOME/ci_scripts/text_files/tmp.txt | grep "BUILD SUCCESS" | wc -l`
+      if [ $TEST_RESULT == 0 ]; then
+        clean_up
+        exit 1
     fi
   fi
 
   # Finished with this module, go back and start with next one
   cd $HOME 
+  fi
 done
 
 clean_up
