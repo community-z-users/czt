@@ -1,17 +1,5 @@
 digraph {
-	czt_parent -> {}
-	dev_parent -> {}
-	gnast -> {}
-	gnast_maven_plugin -> {}
-	parsergen_maven_plugin -> {}
-	java_cup_runtime -> {}
-	java_cup -> {}
-	cup_maven_plugin -> {}
-	checkstyle -> {}
-	zml -> {}
-	util -> {}
 	session -> { util }
-	corejava_src -> {}
 	corejava_parent -> { util }
 	corejava_z -> { zml  util }
 	corejava_zpatt -> { corejava_z  util }
@@ -21,34 +9,5 @@ digraph {
 	corejava_circuspatt -> { corejava_circus  corejava_z  util }
 	corejava_circustime -> { corejava_circus  corejava_circuspatt  corejava_zpatt  corejava_z  zml  util }
 	corejava_circusconf -> { corejava_circus  corejava_circuspatt  corejava_zpatt  corejava_z  zml  util }
-	parser_src -> {}
-	parser_parent -> {}
 	parser_z -> { corejava_z  session  zml }
-	parser_zpatt -> { parser_z  parser_z  corejava_zpatt }
-	parser_zeves -> { parser_z  parser_z  corejava_zeves }
-	parser_oz -> { parser_z  parser_z  zml  corejava_oz }
-	parser_ozpatt -> { parser_oz  parser_zpatt  parser_z }
-	parser_circus -> { parser_z  parser_z  zml  corejava_circus }
-	parser_circustime -> { parser_circus  parser_circus  parser_z  parser_z  zml  corejava_circus  corejava_circustime }
-	parser_circusconf -> { parser_circus  parser_circus  parser_z  parser_z  zml  corejava_circus  corejava_circusconf }
-	typechecker_parent -> {}
-	typechecker_z -> { corejava_z  parser_z  session  parser_z }
-	typechecker_zeves -> { corejava_zeves  parser_zeves  typechecker_z  parser_z  typechecker_z  parser_zeves }
-	typechecker_oz -> { parser_oz  typechecker_z  parser_z  typechecker_z }
-	typechecker_circus -> { corejava_circus  parser_circus  typechecker_z  parser_z  typechecker_z }
-	rules -> { parser_zpatt  typechecker_z  typechecker_z }
-	zlive -> { parser_z  rules }
-	gaffe -> { zlive }
-	gaffe2 -> { zlive }
-	vcg_parent -> {}
-	vcg_z -> { corejava_z  parser_z  parser_z  typechecker_z  session  typechecker_zeves }
-	z2b -> { rules }
-	z2alloy -> { rules }
-	zeves -> { typechecker_zeves  parser_z }
-	ui -> { zeves  zlive  typechecker_oz  typechecker_circus  parser_ozpatt  vcg_z  corejava_circuspatt  zml }
-	jedit_parent -> {}
-	ZSideKick -> { corejava_circus  corejava_zeves  rules  typechecker_oz  vcg_z }
-	ZCharMap -> {}
-	ZLivePlugin -> { zlive }
-	ZEvesPlugin -> { zeves }
 }

@@ -25,3 +25,4 @@ with open('ci_scripts/czt_dependencies.dot', 'w') as dot_file:
             dot_file.write(" " + line.split(":")[1].replace('-', '_') + " ")
 
     dot_file.write("}\n}\n")
+    
