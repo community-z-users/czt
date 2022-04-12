@@ -86,11 +86,6 @@
       <version>2.2.11</version>
     </dependency>
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>2.2.11</version>
-    </dependency>
-    <dependency>
       <groupId>javax.activation</groupId>
       <artifactId>activation</artifactId>
       <version>1.1.1</version>
@@ -104,7 +99,6 @@
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
       <version>2.3.3</version>
-      <scope>runtime</scope>
     </dependency>
   </dependencies>
 
@@ -196,12 +190,23 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M5</version>
         <configuration>
-            <skipAfterFailureCount>1</skipAfterFailureCount> 
+
+	  <forkMode>once</forkMode>
+
+          <skipAfterFailureCount>1</skipAfterFailureCount> 
           <systemProperties>
             <property>
               <name>java.util.logging.config.file</name>
               <value>logging.properties</value>
             </property>
+	    <property>
+	        <name>clover.server</name>
+	        <value>true</value>
+	    </property>
+	    <property>
+	        <name>clover.distributed.coverage</name>
+	        <value>ON</value>
+	    </property>
           </systemProperties>
           <!-- don't execute the tests
           <skipExec>true</skipExec> -->
