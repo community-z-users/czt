@@ -39,13 +39,13 @@ jobs:
 
       - name: Build
         run: |
-          chmod +x ./ci_scripts/build_czt.sh # Ensure the build_czt.sh is executable
-          . ./ci_scripts/build_czt.sh # This will generate build_report.txt
+          chmod +x ./ci_scripts/build/build_czt.sh # Ensure the build_czt.sh is executable
+          . ./ci_scripts/build/build_czt.sh # This will generate build_report.txt
   
       - name: Update build status
         run: |
-          chmod +x ./ci_scripts/build_status.sh # Ensure build_status.sh is executable
-          if [ `./ci_scripts/build_status.sh` == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
+          chmod +x ./ci_scripts/build/build_status.sh # Ensure build_status.sh is executable
+          if [ `./ci_scripts/build/build_status.sh` == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
           
       - name: Post Comment of Build Status to Pull Request 
         uses: peter-evans/commit-comment@v1

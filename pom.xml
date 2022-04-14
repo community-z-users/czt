@@ -129,7 +129,6 @@
     </extensions>
 
     <plugins>
-      <!-- Code Coverage report generation -->
       <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
@@ -199,14 +198,6 @@
               <name>java.util.logging.config.file</name>
               <value>logging.properties</value>
             </property>
-	    <property>
-	        <name>clover.server</name>
-	        <value>true</value>
-	    </property>
-	    <property>
-	        <name>clover.distributed.coverage</name>
-	        <value>ON</value>
-	    </property>
           </systemProperties>
           <!-- don't execute the tests
           <skipExec>true</skipExec> -->

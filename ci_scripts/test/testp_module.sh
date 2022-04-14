@@ -58,15 +58,15 @@ do
   # Test the module
   BASENAME=`basename $line`
 
-  #echo "|====>" $BASENAME
-  #cd $line
-  #mvn surefire:test | tee $HOME/ci_scripts/text_files/tmp.txt
-  #TEST_RESULT=`cat $HOME/ci_scripts/text_files/tmp.txt | grep "BUILD SUCCESS" | wc -l`
-  #if [ $TEST_RESULT == 0 ]; then
-  #  # Exit after test failure
-  #  clean_up
-  #  exit 1
-  #fi
+  echo "|====>" $BASENAME
+  cd $line
+  mvn surefire:test | tee $HOME/ci_scripts/text_files/tmp.txt
+  TEST_RESULT=`cat $HOME/ci_scripts/text_files/tmp.txt | grep "BUILD SUCCESS" | wc -l`
+  if [ $TEST_RESULT == 0 ]; then
+    # Exit after test failure
+    clean_up
+    exit 1
+  fi
 
   # Find dependencies
   echo "|====>" Fetching Dependencies of `basename $line`
@@ -74,7 +74,7 @@ do
   # cut -d "]" -f2- <<< `mvn dependency:tree | grep + | grep net.sourceforge.czt`
   # cut -d ":" -f2 <<< `cat $HOME/ci_scripts/text_files/tmp.txt | grep + | grep net.sourceforge.czt` >> $HOME/ci_scripts/text_files/dependencies.txt
   UNDERSCORE_BASENAME=`echo $BASENAME | tr '-' '_'`
-  cat $HOME/ci_scripts/czt_dependencies.dot | grep $UNDERSCORE_BASENAME | \
+  cat $HOME/ci_scripts/dependency_tree/czt_dependencies.dot | grep $UNDERSCORE_BASENAME | \
     grep -v "$UNDERSCORE_BASENAME ->" | awk -F' -' '{print $1}' | tr '_' '-' \
     | tr '\t' ' ' | awk '{ gsub(/ /,""); print }' >> $HOME/ci_scripts/text_files/dependencies.txt
   
@@ -87,19 +87,8 @@ done
 # Run the test modules found in the dependencies of the modified modules
 echo ""
 echo "==============================================================================="
-echo "============================== TESTING DEPENDENCIES ==========================="
+echo "========================== TESTING DEPENDENT MODULES =========================="
 echo "==============================================================================="
-# cat ci_scripts/text_files/dependencies.txt | sort -u
-# echo "==="
-# cat ci_scripts/text_files/dependencies.txt | sort -u | while read line
-# do
-#   echo looking for $line
-#   POM_PATH=$(echo `find . -name pom.xml | grep ${line}/pom.xml`)
-#   echo $POM_PATH 
-# done
-# 
-
-
 
 cat ci_scripts/text_files/dependencies.txt | sort -u | while read line
 do
