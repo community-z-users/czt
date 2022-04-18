@@ -1,0 +1,83 @@
+# CI workflow for the CZT project - Samuel Valery 2022 
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+
+  CI:
+    runs-on: ubuntu-latest
+    
+    env:
+      BUILD_STATUS: "FAILED" # Assume failed and change if build PASSES
+      TEST_STATUS: "FAILED"  # Do the same with test results
+    
+    steps:
+ 
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Set up Java 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
+
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.3
+        with:
+          maven-version: 3.8.5
+
+      - name: Check JDK and Maven version
+        run: |
+          java -version
+          mvn -version
+      
+
+      - name: Build
+        run: |
+          chmod +x ./ci_scripts/build/build_czt.sh # Ensure the build_czt.sh is executable
+          . ./ci_scripts/build/build_czt.sh # This will generate build_report.txt
+  
+      - name: Update build status
+        run: |
+          chmod +x ./ci_scripts/build/build_status.sh # Ensure build_status.sh is executable
+          if [ `./ci_scripts/build/build_status.sh` == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
+          
+      - name: Post Comment of Build Status to Pull Request 
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: |
+            Build Status: **${{ env.BUILD_STATUS }}**
+            A full build report can be found **[here][1]** under CI->Build.
+            
+            [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        
+                
+      - name: Test
+        if: ${{ env.BUILD_STATUS == 'PASSED' }}
+        run: |
+          chmod +x ./ci_scripts/test/full/test_full_suite.sh # Ensure the build_czt.sh is executable
+          . ./ci_scripts/test/full/test_full_suite.sh # This will generate build_report.txt
+
+
+      - name: Update test status
+        if: ${{ env.BUILD_STATUS == 'PASSED' }}
+        run: |
+          chmod +x ./ci_scripts/test/full/test_status.sh # Ensure build_status.sh is executable
+          if [ `./ci_scripts/test/full/test_status.sh` == 1 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
+          
+          
+          
+      - name: Notify the developer of the test status
+        if: ${{ env.BUILD_STATUS == 'PASSED' }}
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: |
+            Test Status: **${{ env.TEST_STATUS }}**
+            A full test report can be found **[here][1]** under CI->Test.
+            
+            [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
