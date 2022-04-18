@@ -139,11 +139,15 @@ public class Gnast implements GlobalProperties
   {
     Properties gnastProperties = loadProperties(findResource(PROPERTY_FILE));
 
+    getLogger().log( Level.INFO, "Gnast start" ); // jhr
+
     if (config.destination == null) {
       // try reading from the properties
       // otherwise use the default - local dir "."
       config.destination = new File(gnastProperties.getProperty("dest.dir", DESTINATION_DEFAULT));
     }
+    getLogger().log(Level.INFO, "Config destination = '" + config.destination.toString( ) + "'" ); //jhr
+
     defaultContext_ = removePrefix("vm.", gnastProperties);
     
     if (config.addAstFinalizer == null) {
@@ -259,11 +263,14 @@ public class Gnast implements GlobalProperties
         : (line.hasOption("vv") ? Level.FINE 
             : (line.hasOption("vvv") ? Level.FINER 
                 : Level.OFF));
+verbosity = Level.FINER; //jhr
     
+    getLogger().log( Level.INFO, "Checking template path option" ); //jhr
     String[] templates = line.getOptionValues("t");
     List<URL> templateDirs = new ArrayList<URL>();
     for (String path : templates) {
       templateDirs.add(toURL(path));
+      getLogger().log( Level.INFO, "Adding template path: " + path ); //jhr
     }
     
     return new GnastBuilder()
@@ -341,6 +348,7 @@ public class Gnast implements GlobalProperties
   public void generate()
   {
     // handleLogging();
+    getLogger().log( Level.INFO, "Gnast::generate()" ); // jhr
 
     try {
       
@@ -356,18 +364,23 @@ public class Gnast implements GlobalProperties
           || !getURLChanges(config.buildContext, config.mappingPropertiesFile, false).isEmpty();
       
       Set<String> changedBuildFiles = new HashSet<String>();
-      if (!generateAll) {
+
+      // jhr, swapped if/for so as to log all known template paths
+      for (URL templatePath : getTemplatePaths()) {
+        String str =  "Checking template path " + templatePath;
         // check if the templates have changed
-        for (URL templatePath : getTemplatePaths()) {
+        if (!generateAll) {
+          str += " for changes";
           changedBuildFiles.addAll(getURLChanges(config.buildContext, templatePath, true));
         }
+        getLogger().log( Level.INFO, str );
+      }
         
 // Avoid checking the destination for now - incremental build loops because /target is refreshed
 //        // also check destination for changes
-//        if (config.destination.exists()) {
+//        if ((!generateAll) && config.destination.exists()) {
 //          changedBuildFiles.addAll(getDirChanges(config.destination));
 //        }
-      }
       
       if (!generateAll && changedBuildFiles.isEmpty()) {
         // source schemas, template paths and build directory is up-to-date
@@ -393,7 +406,7 @@ public class Gnast implements GlobalProperties
             + " in given locations " + config.sourceSchemas);
       }
       
-      // generate the ASTs
+        // generate the ASTs
       targetProject.generate();
     }
     catch (RuntimeException e) {
@@ -407,6 +420,8 @@ public class Gnast implements GlobalProperties
         t = t.getCause();
       }
     }
+
+    getLogger().log( Level.INFO, "End Gnast::generate()" ); // jhr
   }
   
   private void resolveProjects(Collection<URL> sourceSchemas)
@@ -427,6 +442,7 @@ public class Gnast implements GlobalProperties
     
     return false;
   }
+
   
   // ################ INTERFACE GlobalProperties ####################
 
@@ -705,6 +721,8 @@ public class Gnast implements GlobalProperties
    */
   public static void main (String[] args)
   {
+    getLogger().log( Level.INFO, "Gnast::main" ); // jhr
+
     GnastBuilder config = parseArguments(args);
     if (config != null) {
       config.create().generate();

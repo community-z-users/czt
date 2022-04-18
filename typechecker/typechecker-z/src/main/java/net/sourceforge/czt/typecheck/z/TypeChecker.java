@@ -111,6 +111,9 @@ public class TypeChecker
   //the list of errors and postcheck Terms in the current paragraph
   protected List<Object> paraErrors_;
 
+  //jhr, list of errors in the current section
+  protected List<Object> sectErrors_;
+
   //the list of undeclared names
   protected List<ZName> undeclaredNames_;
 
@@ -189,6 +192,7 @@ public class TypeChecker
     carrierSet_ = new CarrierSet();
     errors_ = factory.list();
     paraErrors_ = factory.list();
+    sectErrors_ = factory.list();  // jhr
     undeclaredNames_ = factory.list();
     recursiveTypes_ = recursiveTypes;
     //disable use before decl if recursive types is also turned on

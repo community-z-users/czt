@@ -164,7 +164,10 @@ public class Apgen
 
   private void init(Properties initProps)
   {
+    LOGGER.info( "Apgen velocity template paths: " + initProps.get( "url.resource.loader.root" )); //jhr
+
     try {
+      // jhr, if velocity knows all the template paths, then it is through here
       velocity_.init(initProps);
     }
     catch (Exception e) {
@@ -193,6 +196,7 @@ public class Apgen
   public void setTemplate(String templateName)
   {
     template_ = templateName;
+    LOGGER.info( "Set Apgen velocity template : " + templateName ); //jhr
   }
 
   /**
@@ -298,9 +302,13 @@ public class Apgen
   {
     final String methodName = "generateLowLevel";
     LOGGER.entering(CLASS_NAME, methodName);
-    LOGGER.fine("Use template file " + template_ + ".");
+    LOGGER.info("Use template file " + template_ + ".");
     LOGGER.fine("Use context " + context_ + ".");
     LOGGER.fine("Use writer " + writer_ + ".");
+
+    // jhr, here be where the output file(s) are actually generated and written 
+    // out, so now you've got to go learn about org.apache.velocity and the 
+    // Velocity Template Language (.vm files)
     Template template = velocity_.getTemplate(template_);
     template.merge(context_, writer_);
     writer_.flush();
@@ -330,7 +338,7 @@ public class Apgen
 
     final String methodName = "generate";
     LOGGER.entering(CLASS_NAME, methodName);
-    LOGGER.fine("Use template file " + template_ + ".");
+    LOGGER.info("Use template file " + template_ + ".");
     LOGGER.fine("Use context " + context_ + ".");
     LOGGER.fine("Use writer " + writer_ + ".");
 

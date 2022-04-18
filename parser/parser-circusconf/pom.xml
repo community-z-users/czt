@@ -74,6 +74,22 @@
 
 
   <build>
+
+    <pluginManagement>
+      <plugins>
+        <!-- jhr, as per parser-z fix missing parsergen-maven-plugin Goal -->
+        <plugin>
+          <groupId>${czt.dev.groupId}</groupId>
+          <artifactId>parsergen-maven-plugin</artifactId>
+        </plugin>
+        <!-- jhr, likewise fix missing goal for cup-maven-plugin -->
+        <plugin>
+          <groupId>${czt.dev.groupId}</groupId>
+          <artifactId>cup-maven-plugin</artifactId>
+        </plugin>
+      </plugins>
+    </pluginManagement>     
+
     <plugins>
 
       <plugin>
