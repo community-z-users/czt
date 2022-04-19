@@ -1,0 +1,13 @@
+digraph {
+	session -> { util }
+	corejava_parent -> { util }
+	corejava_z -> { zml  util }
+	corejava_zpatt -> { corejava_z  util }
+	corejava_zeves -> { corejava_z  util }
+	corejava_oz -> { corejava_zpatt  util }
+	corejava_circus -> { corejava_zpatt  corejava_z  zml  util }
+	corejava_circuspatt -> { corejava_circus  corejava_z  util }
+	corejava_circustime -> { corejava_circus  corejava_circuspatt  corejava_zpatt  corejava_z  zml  util }
+	corejava_circusconf -> { corejava_circus  corejava_circuspatt  corejava_zpatt  corejava_z  zml  util }
+	parser_z -> { corejava_z  session  zml }
+}

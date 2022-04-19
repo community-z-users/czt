@@ -59,8 +59,8 @@ jobs:
       - name: Test
         if: ${{ env.BUILD_STATUS == 'PASSED' }}
         run: |
-          chmod +x ./ci_scripts/test/full/test_full_suite.sh # Ensure the build_czt.sh is executable
-          . ./ci_scripts/test/full/test_full_suite.sh # This will generate build_report.txt
+          chmod +x ./ci_scripts/test/full/run_tests.sh # Ensure the build_czt.sh is executable
+          . ./ci_scripts/test/full/run_tests.sh # This will generate build_report.txt
 
 
       - name: Update test status
