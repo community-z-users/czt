@@ -8,7 +8,6 @@ function set_up {
   # clear files used before
   cd $HOME
   mkdir ci_scripts/text_files/
-  echo "/home/samuelv/czt/corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/StandardZ.java" > ci_scripts/text_files/changed_files.txt
   > ci_scripts/text_files/top_level_dirs.txt
   > ci_scripts/text_files/modules_to_test.txt
   > ci_scripts/text_files/dependencies.txt
@@ -69,9 +68,6 @@ do
 
   # Find dependencies
   echo "|====>" Fetching Dependencies of `basename $line`
-  # mvn dependency:tree | tee $HOME/ci_scripts/text_files/tmp.txt > /dev/null
-  # cut -d "]" -f2- <<< `mvn dependency:tree | grep + | grep net.sourceforge.czt`
-  # cut -d ":" -f2 <<< `cat $HOME/ci_scripts/text_files/tmp.txt | grep + | grep net.sourceforge.czt` >> $HOME/ci_scripts/text_files/dependencies.txt
   UNDERSCORE_BASENAME=`echo $BASENAME | tr '-' '_'`
   cat $HOME/ci_scripts/dependency_tree/czt_dependencies.dot | grep $UNDERSCORE_BASENAME | \
     grep -v "$UNDERSCORE_BASENAME ->" | awk -F' -' '{print $1}' | tr '_' '-' \
