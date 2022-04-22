@@ -25,6 +25,9 @@ set_up
 # Get the files that have been modified in the last commit
 # git diff --name-only HEAD HEAD~1 > ci_scripts/text_files/changed_files.txt
 
+# TESTING
+echo "./corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java" > ci_scripts/text_files/changed_files.txt
+
 # Loop through modified files and find the directories they are in 
 cat ci_scripts/text_files/changed_files.txt | while read line
 do
@@ -66,18 +69,12 @@ do
     exit 1
   fi
 
-  # Find dependencies
-  echo "|====>" Fetching Dependencies of `basename $line`
-  UNDERSCORE_BASENAME=`echo $BASENAME | tr '-' '_'`
-  cat $HOME/ci_scripts/dependency_tree/czt_dependencies.dot | grep $UNDERSCORE_BASENAME | \
-    grep -v "$UNDERSCORE_BASENAME ->" | awk -F' -' '{print $1}' | tr '_' '-' \
-    | tr '\t' ' ' | awk '{ gsub(/ /,""); print }' >> $HOME/ci_scripts/text_files/dependencies.txt
-  
   # Finished with this module, go back and start with next one
   echo "==============================================================================="
   cd $HOME 
 done
 
+./ci_scripts/test/module/prioritise_modules.py
 
 # Run the test modules found in the dependencies of the modified modules
 echo ""
@@ -85,7 +82,7 @@ echo "==========================================================================
 echo "========================== TESTING DEPENDENT MODULES =========================="
 echo "==============================================================================="
 
-cat ci_scripts/text_files/dependencies.txt | sort -u | while read line
+cat ci_scripts/text_files/dependencies.txt | while read line
 do
   POM_PATH=$(echo `find . -name pom.xml | grep ${line}/pom.xml`)
   if [ "$POM_PATH" != "" ]; then
@@ -110,4 +107,4 @@ do
 done
 
 clean_up
-
+ 
