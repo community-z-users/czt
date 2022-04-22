@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-
-import os
-
-
-
 """
     Utility function to extract test class from package ending with 
     test name
 """
+
+import os
+
+
 def get_class(test_name):
     return_string = "czt"
-    for string in test_name.split('.'):
-        return_string += '_' + string
+    tokens = test_name.split('.')
+    for i, string in enumerate(tokens):
+        if (i < len(tokens) - 1): 
+            return_string += '-' + string
     return return_string
         
 
@@ -32,9 +33,8 @@ with open("coverage_data.txt", "w") as output_file:
                 with open(os.path.join(rt, filename), "r") as f:
                     for line in f:
                         if(("body" in line) and ("onload" in line) and ("net.sourceforge.czt." in line)):
-                            #print(filename)
-                            module_name = line.split("net.sourceforge.czt.")[1].split(".java")[0].strip().replace('.','_')
-                            print(module_name)
+                            module_name = line.split("net.sourceforge.czt.")[1].split(".java")[0].strip().replace('.','-')
+                            # print(module_name)
 
                         if (line.strip().startswith('<tr id="test-')):
                             is_reading = True
@@ -52,13 +52,6 @@ with open("coverage_data.txt", "w") as output_file:
                                     test_name = line.split('title="View Test Summary Page">net.sourceforge.czt.' \
                                             )[1].split('</a')[0]
                                     test_class = get_class(test_name)
-
                 
-
-
-
-
-
-
-
+os.system('cat coverage_data.txt | sort -u > tmp.txt; cat tmp.txt > coverage_data.txt; rm tmp.txt')
 
