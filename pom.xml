@@ -76,6 +76,15 @@
       <version>4.5</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Clover Code Coverage Tool -->
+    <!--
+    <dependency>
+      <groupId>com.atlassian.clover</groupId>
+      <artifactId>clover</artifactId>
+      <version>4.4.1</version>
+    </dependency>
+    -->
   </dependencies>
 
   <!-- Note that CZT dependencies are no longer managed via dependencyManagement. This is to
@@ -105,6 +114,15 @@
     </extensions>
 
     <plugins>
+      <plugin>
+          <groupId>org.openclover</groupId>
+          <artifactId>clover-maven-plugin</artifactId>
+          <version>4.4.1</version>     
+          <configuration>
+              <instrumentation>method</instrumentation>
+          </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
