@@ -67,15 +67,21 @@ def get_module_path(test_class):
         else:
             module_dir = os.path.dirname(module_dir)
 
-    print(module_dir)
+    return module_dir
 
 
-# Link test classes with path to modules
+CZT_HOME=os.getcwd()
 for test_class in OrderedDict(test_classes):
+
+    # Navigate to correct module directory
+    os.chdir(get_module_path(test_class))
     name = test_class.split('-')[-1]
-    print(name, test_classes[test_class])
 
-    get_module_path(test_class)
+    # Run the specific test
+    os.system("mvn surefire:test -Dtest=" + name)
+
+    # Go back to the CZT HOME directory for the next test
+    os.chdir(CZT_HOME)
 
 
-
+    
