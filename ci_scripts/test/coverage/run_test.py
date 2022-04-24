@@ -11,7 +11,6 @@
 """
 import os
 from collections import OrderedDict
-import time
 
 # Parse the coverage_data.txt file and extract data into 3 lists
 src_files = []
@@ -78,7 +77,9 @@ for test_class in OrderedDict(test_classes):
     name = test_class.split('-')[-1]
 
     # Run the specific test
-    os.system("mvn surefire:test -Dtest=" + name)
+    err = os.system("mvn surefire:test -Dtest=" + name)
+    if err:
+        break
 
     # Go back to the CZT HOME directory for the next test
     os.chdir(CZT_HOME)
