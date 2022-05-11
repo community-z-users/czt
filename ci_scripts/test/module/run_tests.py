@@ -45,12 +45,13 @@ def prioritise_list(unsorted_modules):
 
 
 """ Get modified modules """
-#stream = os.popen('git diff --name-only HEAD HEAD~1')
+#stream = os.popen('git diff --name-only HEAD main')
 #changed_files = stream.read().strip().split('\n')
 changed_files = ['./corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java', \
     '/home/samuelv/czt/corejava/corejava-zpatt/src/main/java/net/sourceforge/czt/zpatt/util']
 
 modified_modules = []
+print("Modified Modules:")
 for line in changed_files:
     found_module = False
     module_dir = os.path.dirname(line.strip())
@@ -61,28 +62,54 @@ for line in changed_files:
         else:
             module_dir = os.path.dirname(module_dir)
     modified_modules.append(module_dir)
-    print(module_dir)
+    print('-->', module_dir.split('/')[-1])
 
 # Remove duplicates
 modified_modules = list(set(modified_modules))
 
 
 """ Do topological sort of modified modules """
-ranked_modules = {}
+ranked_mod_modules = {}
+for module in modified_modules:
+    for other_mod in modified_modules:
+        if (other_mod != module):
+            target = module.split('/')[-1].replace('-','_').strip()
+            mod = other_mod.split('/')[-1].replace('-','_').strip()
+            rank = get_rank(mod, target)
+
+            if mod in ranked_mod_modules.keys():
+                ranked_mod_modules[mod] = max(rank, ranked_modules[mod])
+            else:
+                ranked_mod_modules[mod] = rank
+
+
+""" Do topological sort of depentent modules """
+ranked_dep_modules = {}
 for module in modified_modules:
     target = module.split('/')[-1].replace('-','_').strip()
 
     for mod in modules:
-        rank = get_rank(mod, target)
-        if rank:
-            if mod in ranked_modules.keys():
-                ranked_modules[mod] = min(rank, ranked_modules[mod])
-            else:
-                ranked_modules[mod] = rank
+        if(mod not in ranked_mod_modules.keys()):
+            rank = get_rank(mod, target)
+            if rank:
+                if mod in ranked_dep_modules.keys():
+                    ranked_dep_modules[mod] = min(rank, ranked_dep_modules[mod])
+                else:
+                    ranked_dep_modules[mod] = rank
+
 
 """ Find module paths """
 prioritised_paths = []
-for module in sorted(ranked_modules, key=ranked_modules.get):
+for module in sorted(ranked_mod_modules, key=ranked_mod_modules.get):
+    target = module.split('/')[-1].replace('_', '-').strip()
+    target = os.path.join(target, 'pom.xml')
+
+    for root, dirs, files in os.walk('.'):
+        for f in files:
+            full_path = os.path.join(root, f)
+            if (full_path.endswith(target)):
+                prioritised_paths.append(os.path.dirname(full_path))
+for module in sorted(ranked_dep_modules, key=ranked_dep_modules.get):
     target = module.split('/')[-1].replace('_', '-').strip()
     target = os.path.join(target, 'pom.xml')
 
@@ -92,6 +119,12 @@ for module in sorted(ranked_modules, key=ranked_modules.get):
             if (full_path.endswith(target)):
                 prioritised_paths.append(os.path.dirname(full_path))
 
+# Print prioritised list
+print('\nPrioritised Module List:')
+for path in prioritised_paths:
+    print('-->', path.split('/')[-1])
+
+# Test prioritised list
 CZT_HOME = os.getcwd()
 for path in prioritised_paths:
 
@@ -103,13 +136,6 @@ for path in prioritised_paths:
     err = os.system("mvn surefire:test")    
     if err:
         break
-
-    #test_passed = False
-    #for line in output:
-    #    if "BUILD SUCCESS" in line:
-    #        test_passed = True
-    #if not test_passed:
-    #    break
 
     # Go back to the CZT HO ME directory for the next test
     os.chdir(CZT_HOME)      

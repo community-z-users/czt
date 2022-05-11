@@ -31,7 +31,7 @@ def match_path(string, tokens):
             return False
     return True
 
-#stream = os.popen('git diff --name-only HEAD HEAD~1')
+#stream = os.popen('git diff --name-only HEAD main')
 #changed_files = stream.read().strip().split('\n')
 # TESTING
 changed_files = ['./corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java',
@@ -40,9 +40,12 @@ changed_files = ['./corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util
 # Match to coverage data
 test_classes = {}
 for line in changed_files:
+    print('Modified:',line)
     for i, f in enumerate(src_files):
         if match_path(line, f.split('-')):
+            print('-->', tst_files[i].split('-')[-1], 'covered', str(coverage[i]) + '%')
             test_classes[tst_files[i]] = coverage[i]
+    print()
 
 """ Utility function to get path to module from test class """
 def get_module_path(test_class):
@@ -68,6 +71,11 @@ def get_module_path(test_class):
 
     return module_dir
 
+# Print ordered list
+print("Prioritised Test Class List:")
+for i,test_class in enumerate(OrderedDict(test_classes)):
+    print(str(i+1) + '.', test_class.split('-')[-1])
+print()
 
 CZT_HOME=os.getcwd()
 for test_class in OrderedDict(test_classes):
