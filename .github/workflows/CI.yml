@@ -31,11 +31,16 @@ jobs:
         with:
           maven-version: 3.8.5
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8' 
+
       - name: Check JDK and Maven version
         run: |
           java -version
           mvn -version
-      
+          python3 --version
 
       - name: Build
         run: |
