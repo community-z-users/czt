@@ -36,7 +36,7 @@ jobs:
         with:
           python-version: '3.8' 
 
-      - name: Check JDK and Maven version
+      - name: Check JDK, Maven and Python version
         run: |
           java -version
           mvn -version

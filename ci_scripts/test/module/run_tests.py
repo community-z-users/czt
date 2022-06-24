@@ -39,11 +39,6 @@ def get_rank(module, target):
     return max(ranks)
 
 
-""" Utility function that returns topological sort of modules """
-def prioritise_list(unsorted_modules):
-    pass
-
-
 """ Get modified modules """
 #stream = os.popen('git diff --name-only HEAD main')
 #changed_files = stream.read().strip().split('\n')
@@ -137,7 +132,7 @@ for path in prioritised_paths:
     if err:
         break
 
-    # Go back to the CZT HO ME directory for the next test
+    # Go back to the CZT HOME directory for the next test
     os.chdir(CZT_HOME)      
                             
                             
