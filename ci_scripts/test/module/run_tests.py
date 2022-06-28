@@ -41,7 +41,7 @@ def get_rank(module, target):
 
 """ Get modified modules """
 # Comparing HEAD to main
-stream = os.popen('git diff --name-only HEAD main')
+stream = os.popen('git diff --name-only HEAD origin/main')
 
 # Using local changes (For testing)  
 # stream = os.popen('git diff --name-only HEAD .')
