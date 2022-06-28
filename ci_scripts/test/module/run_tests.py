@@ -131,10 +131,13 @@ for path in prioritised_paths:
     os.chdir(path)
 
     # Run the specific test 
-    print("\nTESTING:", path) 
-    err = os.system("mvn surefire:test")    
-    if err:
-        break
+    if ('eclipse' in path):
+        print("\nSKIPPING:", path)
+    else:
+        print("\nTESTING:", path) 
+        err = os.system("mvn surefire:test")    
+        if err:
+            break
 
     # Go back to the CZT HOME directory for the next test
     os.chdir(CZT_HOME)      

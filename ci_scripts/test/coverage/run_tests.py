@@ -21,7 +21,7 @@ with open("ci_scripts/test/coverage/coverage_data.txt", 'r') as data_file:
         data = line.split(',')
         src_files.append(data[0])
         tst_files.append(data[1])
-        coverage.append(float(data[2]))
+        coverage.append(int(data[2]))
 
 
 """ Utility function to match tokens to a string """
@@ -43,8 +43,8 @@ for line in changed_files:
     print('Modified:',line)
     for i, f in enumerate(src_files):
         if match_path(line, f.split('-')):
-            print('-->', tst_files[i].split('-')[-1], 'covered', str(coverage[i]) + '%')
-            test_classes[tst_files[i]] = coverage[i]
+            print('-->', tst_files[i].split('-')[-1], 'has coverage score of', str(coverage[i]))
+            test_classes[tst_files[i]] = int(coverage[i])
     print()
 
 """ Utility function to get path to module from test class """
@@ -73,12 +73,12 @@ def get_module_path(test_class):
 
 # Print ordered list
 print("Prioritised Test Class List:")
-for i,test_class in enumerate(OrderedDict(test_classes)):
+for i, test_class in enumerate(sorted(test_classes, key=test_classes.get, reverse=True)):
     print(str(i+1) + '.', test_class.split('-')[-1])
 print()
 
 CZT_HOME=os.getcwd()
-for test_class in OrderedDict(test_classes):
+for test_class in sorted(test_classes, key=test_classes.get, reverse=True):
 
     # Navigate to correct module directory
     os.chdir(get_module_path(test_class))
@@ -92,5 +92,3 @@ for test_class in OrderedDict(test_classes):
     # Go back to the CZT HOME directory for the next test
     os.chdir(CZT_HOME)
 
-
-    

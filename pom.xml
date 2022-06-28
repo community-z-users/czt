@@ -114,6 +114,7 @@
     </extensions>
 
     <plugins>
+        <!--
       <plugin>
           <groupId>org.openclover</groupId>
           <artifactId>clover-maven-plugin</artifactId>
@@ -122,7 +123,7 @@
               <instrumentation>method</instrumentation>
           </configuration>
       </plugin>
-
+        --> 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
