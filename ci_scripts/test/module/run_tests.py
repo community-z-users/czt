@@ -40,10 +40,13 @@ def get_rank(module, target):
 
 
 """ Get modified modules """
-#stream = os.popen('git diff --name-only HEAD main')
-#changed_files = stream.read().strip().split('\n')
-changed_files = ['./corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java', \
-    '/home/samuelv/czt/corejava/corejava-zpatt/src/main/java/net/sourceforge/czt/zpatt/util']
+# Comparing HEAD to main
+stream = os.popen('git diff --name-only HEAD main')
+
+# Using local changes (For testing)  
+# stream = os.popen('git diff --name-only HEAD .')
+
+changed_files = stream.read().strip().split('\n')
 
 modified_modules = []
 print("Modified Modules:")
@@ -56,8 +59,9 @@ for line in changed_files:
             found_module = True
         else:
             module_dir = os.path.dirname(module_dir)
-    modified_modules.append(module_dir)
-    print('-->', module_dir.split('/')[-1])
+    if (module_dir != "") and (module_dir not in modified_modules):
+        modified_modules.append(module_dir)
+        print('-->', module_dir.split('/')[-1])
 
 # Remove duplicates
 modified_modules = list(set(modified_modules))
@@ -73,7 +77,7 @@ for module in modified_modules:
             rank = get_rank(mod, target)
 
             if mod in ranked_mod_modules.keys():
-                ranked_mod_modules[mod] = max(rank, ranked_modules[mod])
+                ranked_mod_modules[mod] = max(rank, ranked_mod_modules[mod])
             else:
                 ranked_mod_modules[mod] = rank
 

@@ -42,31 +42,37 @@ jobs:
           mvn -version
           python3 --version
 
-      - name: Build
-        run: |
-          chmod +x ./ci_scripts/build/build_czt.sh # Ensure the build_czt.sh is executable
-          . ./ci_scripts/build/build_czt.sh # This will generate build_report.txt
-  
-      - name: Update build status
-        run: |
-          chmod +x ./ci_scripts/build/build_status.sh # Ensure build_status.sh is executable
-          if [ `./ci_scripts/build/build_status.sh` == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
-          
-      - name: Post Comment of Build Status to Pull Request 
-        uses: peter-evans/commit-comment@v1
-        with:
-          body: |
-            Build Status: **${{ env.BUILD_STATUS }}**
-            A full build report can be found **[here][1]** under CI->Build.
-            
-            [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        
+#      - name: Build
+#        run: |
+#          chmod +x ./ci_scripts/build/build_czt.sh # Ensure the build_czt.sh is executable
+#          . ./ci_scripts/build/build_czt.sh # This will generate build_report.txt
+#  
+#      - name: Update build status
+#        run: |
+#          chmod +x ./ci_scripts/build/build_status.sh # Ensure build_status.sh is executable
+#          if [ `./ci_scripts/build/build_status.sh` == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
+#          
+#      - name: Post Comment of Build Status to Pull Request 
+#        uses: peter-evans/commit-comment@v1
+#        with:
+#          body: |
+#            Build Status: **${{ env.BUILD_STATUS }}**
+#            A full build report can be found **[here][1]** under CI->Build.
+#            
+#            [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+#        
                 
       - name: Test
-        if: ${{ env.BUILD_STATUS == 'PASSED' }}
+        #if: ${{ env.BUILD_STATUS == 'PASSED' }}
         run: |
-          chmod +x ./ci_scripts/test/full/run_tests.sh # Ensure the build_czt.sh is executable
-          . ./ci_scripts/test/full/run_tests.sh # This will generate build_report.txt
+          git fetch origin main 
+          git status
+          echo ""
+          git log -1
+          echo ""
+          git diff --one-line HEAD main
+          #chmod +x ./ci_scripts/test/module/run_tests.py # Ensure the build_czt.sh is executable
+          #./ci_scripts/test/module/run_tests.py # This will generate build_report.txt
 
 
       - name: Update test status
