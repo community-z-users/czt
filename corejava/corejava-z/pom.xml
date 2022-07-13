@@ -39,6 +39,27 @@
       <!-- jhr, should be compile (or no) scope? 
            See https://maven.apache.org/pom.html#Dependencies -->
     </dependency>
+    <!-- Comet --> 
+    <dependency>
+      <groupId>tech.tablesaw</groupId>
+      <artifactId>tablesaw-core</artifactId>
+      <version>0.42.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.smartesting.comet</groupId>
+      <artifactId>javaclient</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>2.0.0-alpha7</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>2.0.0-alpha7</version>
+    </dependency>
   </dependencies>
 
   <!-- jhr, see https://maven.apache.org/pom.html#build-settings -->
