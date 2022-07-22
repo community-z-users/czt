@@ -66,7 +66,6 @@ for line in changed_files:
 # Remove duplicates
 modified_modules = list(set(modified_modules))
 
-
 """ Do topological sort of modified modules """
 ranked_mod_modules = {}
 for module in modified_modules:
@@ -123,9 +122,26 @@ print('\nPrioritised Module List:')
 for path in prioritised_paths:
     print('-->', path.split('/')[-1])
 
+# Filter prioritised list by modules that contain tests
+output = subprocess.check_output('find -wholename "*src/test"', shell=True).decode()
+testable_modules = []
+for line in output.split('\n'):
+	line = line.split('/src/test')[0]
+	line = line.split('/')[-1]
+	testable_modules.append(line)
+
+paths_to_test = []
+print("\nTestable Modules:")
+for path in prioritised_paths:
+	name = path.split('/')[-1]
+	if name in testable_modules:
+		paths_to_test.append(path)
+		print('-->', path.split('/')[-1])
+		
+
 # Test prioritised list
 CZT_HOME = os.getcwd()
-for path in prioritised_paths:
+for path in paths_to_test:
 
     # Navigate to correct module directory
     os.chdir(path)
@@ -134,10 +150,31 @@ for path in prioritised_paths:
     if ('eclipse' in path):
         print("\nSKIPPING:", path)
     else:
-        print("\nTESTING:", path) 
-        err = os.system("mvn surefire:test")    
-        if err:
-            break
+        print("\nTESTING:", path, end="", flush=True)
+        output = ""
+        try:
+            output = subprocess.check_output("mvn surefire:test", shell=True).decode()
+            print()
+        except(subprocess.CalledProcessError):
+            print(" ERROR")
+        finally:
+            output_list = output.split('\n')
+            for i, line in enumerate(output_list):
+                if ("Running" in line):
+                    fail = output_list[i+1].split("Failures: ")[-1].split(",")[0] != "0"
+                    error = output_list[i+1].split("Errors: ")[-1].split(",")[0] != "0"
+                    outcome = "[INFO] Testing "+ line.split('sourceforge.')[-1] + " : "
+                    if (fail or error):
+                        print(outcome + "FAILED".rjust(99-len(outcome)))
+                    else:
+                        print(outcome + "PASSED".rjust(99-len(outcome)))
+
+
+                     #print("[INFO] Testing", line.split('sourceforge.')[-1])
+                    # print(line, fail, error)
+
+                    #print(output_list[i+1])
+
 
     # Go back to the CZT HOME directory for the next test
     os.chdir(CZT_HOME)      
