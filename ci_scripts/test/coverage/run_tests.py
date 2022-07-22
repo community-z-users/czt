@@ -42,11 +42,11 @@ def match_path(string, tokens):
             return False
     return True
 
-#stream = os.popen('git diff --name-only HEAD main')
-#changed_files = stream.read().strip().split('\n')
+stream = os.popen('git diff --name-only HEAD main')
+changed_files = stream.read().strip().split('\n')
 # TESTING
-changed_files = ['./corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java',
-        './zml/src/main/java/net/sourceforge/czt/zml/Resources.java']
+#changed_files = ['./corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java',
+#        './zml/src/main/java/net/sourceforge/czt/zml/Resources.java']
 
 # Match to coverage data
 test_classes = {}
@@ -81,9 +81,10 @@ for test_class in sorted(test_classes, key=test_classes.get, reverse=True):
 		print("FAILED".rjust(99-len(line)))
 		break
 	else:
-		print("PASSED".rjust(100-len(line)))
+		print("PASSED".rjust(99-len(line)))
 
 # The rest of the test cycle
+FAILED_TEST = False
 if DEBUG_MODE:
 	print()
 	print("Other tests")
@@ -93,9 +94,16 @@ for test_class in unique_tests:
 	if not (test_class in test_classes.keys()):
 		line = "[INFO] Testing " + name + " : "
 		print(line, end="", flush=True)
-		err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name + " >/dev/null 2>&1")
+		err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name 
+			+ " >test_output.txt 2>&1")
 		if err:
+			FAILED_TEST = True
 			print("FAILED".rjust(99-len(line)))
-			break
+			if DEBUG_MODE:
+				os.system("cat test_output.txt")
 		else:
-			print("PASSED".rjust(100-len(line)))
+			print("PASSED".rjust(99-len(line)))
+
+os.system("rm test_output.txt")
+if FAILED_TEST:
+	exit(1)

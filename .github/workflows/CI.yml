@@ -60,22 +60,15 @@ jobs:
             A full build report can be found **[here][1]** under CI->Build.
             
             [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        
+         
                 
       - name: Test
         if: ${{ env.BUILD_STATUS == 'PASSED' }}
         run: |
           git fetch origin main 
-          chmod +x ./ci_scripts/test/module/run_tests.py # Ensure the build_czt.sh is executable
-          ./ci_scripts/test/module/run_tests.py # This will generate build_report.txt
-
-
-      - name: Update test status
-        if: ${{ env.BUILD_STATUS == 'PASSED' }}
-        run: |
-          chmod +x ./ci_scripts/test/full/test_status.sh # Ensure build_status.sh is executable
-          if [ `./ci_scripts/test/full/test_status.sh` == 1 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
-          
+          chmod +x ./ci_scripts/test/coverage/run_tests.py
+          ./ci_scripts/test/coverage/run_tests.py
+          if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
           
           
       - name: Notify the developer of the test status
