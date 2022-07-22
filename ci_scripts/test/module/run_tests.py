@@ -66,7 +66,6 @@ for line in changed_files:
 # Remove duplicates
 modified_modules = list(set(modified_modules))
 
-
 """ Do topological sort of modified modules """
 ranked_mod_modules = {}
 for module in modified_modules:
@@ -123,9 +122,26 @@ print('\nPrioritised Module List:')
 for path in prioritised_paths:
     print('-->', path.split('/')[-1])
 
+# Filter prioritised list by modules that contain tests
+output = subprocess.check_output('find -wholename "*src/test"', shell=True).decode()
+testable_modules = []
+for line in output.split('\n'):
+	line = line.split('/src/test')[0]
+	line = line.split('/')[-1]
+	testable_modules.append(line)
+
+paths_to_test = []
+print("\nTestable Modules:")
+for path in prioritised_paths:
+	name = path.split('/')[-1]
+	if name in testable_modules:
+		paths_to_test.append(path)
+		print('-->', path.split('/')[-1])
+		
+
 # Test prioritised list
 CZT_HOME = os.getcwd()
-for path in prioritised_paths:
+for path in paths_to_test:
 
     # Navigate to correct module directory
     os.chdir(path)
@@ -134,10 +150,18 @@ for path in prioritised_paths:
     if ('eclipse' in path):
         print("\nSKIPPING:", path)
     else:
-        print("\nTESTING:", path) 
-        err = os.system("mvn surefire:test")    
-        if err:
-            break
+        print("\nTESTING:", path, end="", flush=True)
+        try:
+            output = subprocess.check_output("mvn surefire:test", shell=True).decode()
+            print(" PASSED")
+        except(subprocess.CalledProcessError):
+            print(" FAILED")
+        finally:
+            print("print output here")
+
+        # err = os.system("mvn surefire:test")    
+        # if err:
+        #     break
 
     # Go back to the CZT HOME directory for the next test
     os.chdir(CZT_HOME)      
