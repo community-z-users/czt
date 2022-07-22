@@ -10,7 +10,18 @@
     3. Run the prioritised suite.
 """
 import os
+import sys
 from collections import OrderedDict
+
+DEBUG_MODE = False
+if(len(sys.argv) > 1):
+	arg = sys.argv[1]
+	if (arg.lower() == "--debug"):
+		DEBUG_MODE = True
+	else:
+		print("'" + arg + "' is not a valid argument. Remove arguments or try '--debug'")
+		exit()
+
 
 # Parse the coverage_data.txt file and extract data into 3 lists
 src_files = []
@@ -40,55 +51,51 @@ changed_files = ['./corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util
 # Match to coverage data
 test_classes = {}
 for line in changed_files:
-    print('Modified:',line)
-    for i, f in enumerate(src_files):
-        if match_path(line, f.split('-')):
-            print('-->', tst_files[i].split('-')[-1], 'has coverage score of', str(coverage[i]))
-            test_classes[tst_files[i]] = int(coverage[i])
-    print()
+	if DEBUG_MODE:
+		print('Modified:',line)
+		for i, f in enumerate(src_files):
+			if match_path(line, f.split('-')):
+				print('-->', tst_files[i].split('-')[-1], 'has coverage score of', str(coverage[i]))
+				test_classes[tst_files[i]] = int(coverage[i])
+		print()
+	else:
+		for i, f in enumerate(src_files):
+			if match_path(line, f.split('-')):
+				test_classes[tst_files[i]] = int(coverage[i])
 
-""" Utility function to get path to module from test class """
-def get_module_path(test_class):
-    # Locate test file
-    tokens = test_class.split('-')
-    for root, dirs, files in os.walk('.'):
-        for f in files:
-            full_path = os.path.join(root, f)
-            if ((test_class.replace('-','/') in full_path) and \
-                    full_path.endswith(".java") and \
-                    ('/target/' not in full_path)):
-                #print(full_path)
-                module_dir = os.path.dirname(full_path)
 
-    # Go up until you hit pom.xml
-    found_module = False
-    while not found_module:
-        target = os.path.join(module_dir, 'pom.xml')
-        if (os.path.exists(target)):
-            found_module = True
-        else:
-            module_dir = os.path.dirname(module_dir)
+# Print ordered list and run tests
+if DEBUG_MODE:
+	print("Prioritised Test Class List:")
+	for i, test_class in enumerate(sorted(test_classes, key=test_classes.get, reverse=True)):
+		print(str(i+1) + '.', test_class.split('-')[-1])
+	print()
 
-    return module_dir
-
-# Print ordered list
-print("Prioritised Test Class List:")
-for i, test_class in enumerate(sorted(test_classes, key=test_classes.get, reverse=True)):
-    print(str(i+1) + '.', test_class.split('-')[-1])
-print()
-
-CZT_HOME=os.getcwd()
+# Prioritised tests
 for test_class in sorted(test_classes, key=test_classes.get, reverse=True):
+	name = test_class.replace('-', '.')
+	line = "[INFO] Testing " + name + " : "
+	print(line, end="", flush=True)
+	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name + " >/dev/null 2>&1")
+	if err:
+		print("FAILED".rjust(99-len(line)))
+		break
+	else:
+		print("PASSED".rjust(100-len(line)))
 
-    # Navigate to correct module directory
-    os.chdir(get_module_path(test_class))
-    name = test_class.split('-')[-1]
-
-    # Run the specific test
-    err = os.system("mvn surefire:test -Dtest=" + name)
-    if err:
-        break
-
-    # Go back to the CZT HOME directory for the next test
-    os.chdir(CZT_HOME)
-
+# The rest of the test cycle
+if DEBUG_MODE:
+	print()
+	print("Other tests")
+unique_tests = list(set(tst_files))
+for test_class in unique_tests:
+	name = test_class.replace('-', '.')
+	if not (test_class in test_classes.keys()):
+		line = "[INFO] Testing " + name + " : "
+		print(line, end="", flush=True)
+		err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name + " >/dev/null 2>&1")
+		if err:
+			print("FAILED".rjust(99-len(line)))
+			break
+		else:
+			print("PASSED".rjust(100-len(line)))
