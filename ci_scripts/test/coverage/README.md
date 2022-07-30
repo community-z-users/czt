@@ -1,14 +1,11 @@
 # CZT Coverage Based TCP 
 
 1) Generate Clover Coverage Data
-    * Add the following dependency to the CZT Home pom.xml file
+    * Add the following to the Maven settings file (~/.m2/settings)
     ```
-      <!-- Clover Code Coverage Tool -->
-      <dependency>
-        <groupId>com.atlassian.clover</groupId>
-        <artifactId>clover</artifactId>
-        <version>4.4.1</version>
-      </dependency>
+      <pluginGroups>
+        <pluginGroup>org.openclover</pluginGroup>
+      </pluginGroups>
     ```
     * Run the following command:
     ```
