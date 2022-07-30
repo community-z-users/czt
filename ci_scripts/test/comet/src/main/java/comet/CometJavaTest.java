@@ -56,7 +56,7 @@ public class CometJavaTest {
             
             // Get tests from last uploaded cycle
             for (Test test : lastCycle.getTests()) {
-              System.out.println("Adding Test: " + test.getId());
+              // System.out.println("Adding Test: " + test.getId());
               tests.add(test.getId());
             }
           }
@@ -100,6 +100,7 @@ public class CometJavaTest {
       } catch (java.lang.InterruptedException | java.io.IOException | ApiException e) {
           System.out.println("Error updating test suite results");
       }
+      //CometJavaClient.showProject(projectsApi);
       System.exit(0);
     }
 

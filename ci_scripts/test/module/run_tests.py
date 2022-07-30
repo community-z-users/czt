@@ -93,7 +93,7 @@ for module in modified_modules:
                 ranked_mod_modules[mod] = rank
 
 
-""" Do topological sort of depentent modules """
+""" Do topological sort of dependent modules """
 ranked_dep_modules = {}
 for module in modified_modules:
     target = module.split('/')[-1].replace('-','_').strip()

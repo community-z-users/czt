@@ -32,7 +32,7 @@ public class CometJavaClient {
         ProjectsApi projectsApi = new ProjectsApi(defaultClient);
 
         /*
-         * Do Coverage based tcp within this module and create prioritisation list with following details:
+         * Use coverage data to create test cycle with the following information:
          *  - id: name of test
          *  - classChanged (whether the source class that this test covers changed
          *  - testChanged (whether this class changed)
