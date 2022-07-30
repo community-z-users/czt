@@ -66,15 +66,15 @@ jobs:
         if: ${{ env.BUILD_STATUS == 'PASSED' }}
         run: |
           git fetch origin main 
-		  # Module based TCP
-		  chmod +x ./ci_scripts/test/module/run_tests.py
-		  ./ci_scripts/test/module/run_tests.py
-		  if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
+          # Module based TCP
+          chmod +x ./ci_scripts/test/module/run_tests.py
+          ./ci_scripts/test/module/run_tests.py
+          if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
 
-		  # Coverage Based TCP
-		  # chmod +x ./ci_scripts/test/coverage/run_tests.py
-		  # ./ci_scripts/test/coverage/run_tests.py
-		  # if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
+          # Coverage Based TCP
+          # chmod +x ./ci_scripts/test/coverage/run_tests.py
+          # ./ci_scripts/test/coverage/run_tests.py
+          # if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
           
           
       - name: Notify the developer of the test status
