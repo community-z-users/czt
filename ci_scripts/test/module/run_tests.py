@@ -18,12 +18,16 @@ import subprocess
 # Filter prioritised list by modules that contain tests
 output = subprocess.check_output('find -wholename "*src/test"', shell=True).decode()
 testable_modules = []
+testable_modules_path = []
+print("Testable modules")
 for line in output.split('\n'):
     if line != "":
         line = line.split('/src/test')[0]
+        testable_modules_path.append(line)
+        print(line)
         line = line.split('/')[-1].replace("-", "_")
         testable_modules.append(line)
-
+print()
 
 """ Parse through czt_dependencies.dot and extract dependency relationships """
 modules = {}
@@ -130,13 +134,20 @@ for module in sorted(ranked_dep_modules, key=ranked_dep_modules.get):
                 prioritised_paths.append(os.path.dirname(full_path))
 
 
-# Print prioritised list
-print('\nPrioritised Module List:')
+# Trim prioritised list of all modules that have tests and make sure all modules are tested
 paths_to_test = []
 for path in prioritised_paths:
-    name = path.split('/')[-1]
-    if name.replace('-','_') in testable_modules:
+    if path in testable_modules_path:
         paths_to_test.append(path)
+
+for path in testable_modules_path:
+    if path not in paths_to_test:
+        paths_to_test.append(path)
+
+
+# Print prioritised list
+print('\nPrioritised Module List:')
+for path in paths_to_test:
         print('-->', path)
 
 
