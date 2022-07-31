@@ -27,7 +27,6 @@ public class CometJavaClient {
      */
 
     public static void main(String[] args) {
-
         // Initialize the client
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath(urlService);
@@ -66,6 +65,7 @@ public class CometJavaClient {
             b.close();
         } catch (java.lang.InterruptedException | java.io.IOException e) {
             System.err.println("Error collecting test case data");
+            System.exit(1);
         }
 
         /*
@@ -86,7 +86,7 @@ public class CometJavaClient {
         String testCycleId = LocalDateTime.now().toString();
         try {
           TestCycle testCycle = new TestCycle();
-          testCycle.id(testCycleId); 
+          testCycle.id(testCycleId);
           testCyclesApi.addTestCycle(prjName, testCycle, false);
 
           for(Test test : tests) {
@@ -94,6 +94,7 @@ public class CometJavaClient {
           }
         } catch (ApiException e) {
           printApiException(e);
+          System.exit(1);
         }
 
         /**
@@ -104,6 +105,7 @@ public class CometJavaClient {
         List<String> prioritisedTests = new ArrayList<>();
         try {
           TestCycle lastCycle = testCyclesApi.showLastTestCycle(prjName);
+          System.out.println("There are currently " + prevCycles.size() + " test cycles");
           System.out.println("" + lastCycle.getId() + " " + lastCycle.getTests().size());
           if (prevCycles.size() >= 10) {
             Prioritization prior = prioritizationsApi.prioritize(prjName, lastCycle.getId());
@@ -111,8 +113,6 @@ public class CometJavaClient {
           } else {
             // Return unprioritised list since prioritisation can't be generated with less than
             // ten test cycles.
-            System.out.println("There are only " + prevCycles.size() + " test cycles");
-            
             // Get tests from last uploaded cycle
             for (Test test : lastCycle.getTests()) {
               prioritisedTests.add(test.getId());
@@ -126,6 +126,7 @@ public class CometJavaClient {
 
         // Run tests
         TestsApi testsApi = new TestsApi();
+        boolean allTestsPassed = true;
         try {
           r = Runtime.getRuntime();
           
@@ -149,6 +150,7 @@ public class CometJavaClient {
               verdict.duration(duration); // Inlcude duration only if test passed
               prettyPrint(id, "PASSED");
             } else {
+              allTestsPassed = false;
               verdict.fail(true);
               prettyPrint(id, "FAILED");
             }
@@ -156,10 +158,15 @@ public class CometJavaClient {
           }
         } catch (java.lang.InterruptedException | java.io.IOException | ApiException e) {
             System.out.println("Error updating test suite results");
+            System.exit(1);
         }
 
         showProject(projectsApi);
-        System.exit(0);
+        if (allTestsPassed) {
+          System.exit(0);
+        } else {
+          System.exit(1);
+        }
     }
 
 
