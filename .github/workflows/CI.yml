@@ -13,6 +13,7 @@ jobs:
     env:
       BUILD_STATUS: "FAILED" # Assume failed and change if build PASSES
       TEST_STATUS: "FAILED"  # Do the same with test results
+      COMET_API_KEY: ${{ secrets.COMET_API_KEY }}
     
     steps:
 
@@ -71,9 +72,14 @@ jobs:
           # ./ci_scripts/test/module/run_tests.py
           # if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
 
-          # Coverage Based TCP
-          # chmod +x ./ci_scripts/test/coverage/run_tests.py
-          # ./ci_scripts/test/coverage/run_tests.py
+          # Total Coverage Based TCP
+          # chmod +x ./ci_scripts/test/coverage/total/run_tests.py
+          # ./ci_scripts/test/coverage/total/run_tests.py
+          # if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
+
+          # Additional Coverage Based TCP
+          # chmod +x ./ci_scripts/test/coverage/additional/run_tests_additional.py
+          # ./ci_scripts/test/coverage/additional/run_tests_additional.py
           # if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
 
           # Comet TCP (AI Based)

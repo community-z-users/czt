@@ -10,6 +10,9 @@ import com.smartesting.comet.model.*;
 import com.smartesting.comet.api.*; 
 import com.smartesting.comet.auth.*;
 import com.smartesting.comet.*;
+import com.smartesting.comet.model.Feature.TypeEnum;
+import static com.google.common.collect.Lists.newArrayList;
+
 
 /**
  * Comet Java Client
@@ -17,7 +20,7 @@ import com.smartesting.comet.*;
 
 public class CometJavaClient {
     private final static String urlService = "https://chiron.comet.smartesting.com";
-    private final static String apiKey = "6b3277b2-fbbe-4256-bbf5-7da7fae84eba";
+    private static String apiKey = "";
     private final static String prjName = "CZT";
 
 
@@ -33,7 +36,7 @@ public class CometJavaClient {
   
         // Configure API key authorization: ApiKeyAuth
         ApiKeyAuth ApiKeyAuth = (ApiKeyAuth) defaultClient.getAuthentication("ApiKeyAuth");
-        ApiKeyAuth.setApiKey(apiKey);
+        ApiKeyAuth.setApiKey(getApiKey());
   
         ProjectsApi projectsApi = new ProjectsApi(defaultClient);
 
@@ -55,12 +58,16 @@ public class CometJavaClient {
 
             while ((line = b.readLine()) != null) {
               String[] tokens = line.split(",");
+
               Test test = new Test();
               test.setId(tokens[0]);
-              test.setClassChanged(tokens[1].equals("True"));
-              test.setTestChanged(tokens[1].equals("True"));
-              //System.out.println(line);
+              test.put("id", tokens[0]);
+              test.put("fail", true);
+              test.put("class_changed", tokens[1].equals("True"));
+              test.put("test_changed", tokens[2].equals("True"));
+              test.put("duration", 0.01);
               tests.add(test);
+              
             }
             b.close();
         } catch (java.lang.InterruptedException | java.io.IOException e) {
@@ -76,6 +83,12 @@ public class CometJavaClient {
         try {
           final Project project = new Project();
           project.setName(prjName);
+          project.features(newArrayList(
+            new Feature().name("duration").type(TypeEnum.FLOAT).defaultValue("0.0"),
+            new Feature().name("class_changed").type(TypeEnum.BOOL).defaultValue("false"),
+            new Feature().name("test_changed").type(TypeEnum.BOOL).defaultValue("false")
+            ));
+          removeProject(projectsApi);
           projectsApi.createProject(project);
         } catch (ApiException e) {
           System.out.print("[INFO] " + prjName + " Project aready exists");
@@ -87,15 +100,18 @@ public class CometJavaClient {
         try {
           TestCycle testCycle = new TestCycle();
           testCycle.id(testCycleId);
+          testCycle.tests(tests);
           testCyclesApi.addTestCycle(prjName, testCycle, false);
 
-          for(Test test : tests) {
-            testApi.addTest(prjName, testCycleId, test);
-          }
+          // for(Test test : tests) {
+          //   testApi.addTest(prjName, testCycleId, test);
+          // }
         } catch (ApiException e) {
           printApiException(e);
           System.exit(1);
         }
+
+        showProject(projectsApi);
 
         /**
          * Get the Prioritisation, run the tests, upload the results
@@ -115,7 +131,7 @@ public class CometJavaClient {
             // ten test cycles.
             // Get tests from last uploaded cycle
             for (Test test : lastCycle.getTests()) {
-              prioritisedTests.add(test.getId());
+              prioritisedTests.add((String) test.get(("id")));
             }
           }
         } catch (NullPointerException | ApiException e) {
@@ -124,8 +140,12 @@ public class CometJavaClient {
           System.exit(1);
         }
 
+
         // Run tests
         TestsApi testsApi = new TestsApi();
+        List<TestVerdict> verdicts = new ArrayList<>();
+        // System.out.println(testCyclesApi.showLastTestCycle(prjName).getId());
+        // System.exit(0);
         boolean allTestsPassed = true;
         try {
           r = Runtime.getRuntime();
@@ -146,16 +166,22 @@ public class CometJavaClient {
             TestVerdict verdict = new TestVerdict();
             verdict.id(id);
             if (p.exitValue() == 0) {
-              verdict.fail(false);
-              verdict.duration(duration); // Inlcude duration only if test passed
+              verdict.put("id", id);
+              verdict.put("fail", false);
+              verdict.put("duration", duration);
+              // verdict.duration(duration); // Inlcude duration only if test passed
               prettyPrint(id, "PASSED");
             } else {
+              verdict.put("id", id);
               allTestsPassed = false;
-              verdict.fail(true);
+              verdict.put("fail", true);
               prettyPrint(id, "FAILED");
             }
-            testsApi.updateTest(prjName, testCyclesApi.showLastTestCycle(prjName).getId(), verdict);
+            verdicts.add(verdict);
+            // testsApi.updateTest(prjName,  testCyclesApi.showLastTestCycle(prjName).getId(), verdict);
           }
+
+          testsApi.updateSuite(prjName, testCycleId, verdicts);
         } catch (java.lang.InterruptedException | java.io.IOException | ApiException e) {
             System.out.println("Error updating test suite results");
             System.exit(1);
@@ -217,4 +243,21 @@ public class CometJavaClient {
       System.err.println("Response headers: " + e.getResponseHeaders());
     }
 
+    private static String getApiKey() {
+      Runtime r = Runtime.getRuntime();
+      try {
+          Process p = r.exec("printenv COMET_API_KEY");
+          p.waitFor();
+
+          BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
+          String key = "";
+          key = b.readLine(); // First result should be the key
+          b.close();
+          return key;
+      } catch (java.lang.InterruptedException | java.io.IOException e) {
+          System.err.println("Error getting API key");
+          System.exit(1);
+      }
+      return "";
+    }
 }

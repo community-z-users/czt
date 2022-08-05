@@ -40,15 +40,13 @@ def match_path(m_file, s_file):
 	s_file = s_file + ".java"
 	return m_file.endswith(s_file)
 
-# stream = os.popen('git diff --name-only HEAD main')
-# changed_files = stream.read().strip().split('\n')
-# TESTING
-changed_files = ['./zlive/src/main/java/net/sourceforge/czt/animation/eval/ExprComparator.java',
-       './zml/src/main/java/net/sourceforge/czt/zml/Resources.java',
-	   './corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java']
+stream = os.popen('git diff --name-only HEAD main')
+changed_files = stream.read().strip().split('\n')
 
 # Match to coverage data
 prioritisation = []
+redundant_prioritisation = []
+unprioritised = []
 
 for m_file in changed_files:
 	test_classes = {}
@@ -68,86 +66,80 @@ for m_file in changed_files:
 		next_best_test_key = "" # Keep track of best next test
 		max_additional_lines = 0
 		for key in test_classes.keys():
-			print("\n",key)
-
-
 			# Decide whether this test class has been covered before
-			print(key in prioritisation)
-			print(all(line in covered_lines for line in test_classes[key]))
 			test_run_before = key in prioritisation
 			test_fully_covered = all(line in covered_lines for line in test_classes[key])
 			if ((not test_run_before) and (not test_fully_covered)):
 				all_lines_covered = False
 				additional_lines = len(test_classes[key]) - sum(line in covered_lines for line in test_classes[key])
-				print(additional_lines)
 				if additional_lines > max_additional_lines:
-					print("here")
 					next_best_test_key = key
 					max_additional_lines = additional_lines
 
 
 		if not all_lines_covered:
+			# Add the test class to the prioritisation list and update the covered lines
 			prioritisation.append(next_best_test_key)
 			for line in test_classes[next_best_test_key]:
 				if line not in covered_lines:
 					covered_lines.append(line)
+			
+			# If this test was in the redundant_prioritisation list, remove it as it is now in the
+			# prioritised list.
+			if (next_best_test_key in redundant_prioritisation):
+				redundant_prioritisation.remove(next_best_test_key)
 
+		else:
+			# Put the tests which did not make the first prioritisation into the redundant list
+			for key in test_classes.keys():
+				if not key in prioritisation:
+					redundant_prioritisation.append(key)
 
-print(prioritisation)
-exit()
+# Collect the rest of the test classes that don't have any prioritisation
+for test in tst_files:
+	if ((not test in prioritisation) 
+			and (not test in redundant_prioritisation) 
+			and (not test in unprioritised)):
+		unprioritised.append(test)
 
+FAILED_TEST = False
 
+# Prioritised tests
+for test_class in prioritisation:
+	line = "[INFO] Testing " + test_class + " : "
+	print(line, end="", flush=True)
+	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
+	if err:
+		print("FAILED".rjust(99-len(line)))
+		FAILED_TEST=True
+		break
+	else:
+		print("PASSED".rjust(99-len(line)))
 
+# Redundant tests
+for test_class in redundant_prioritisation:
+	line = "[INFO] Testing " + test_class + " : "
+	print(line, end="", flush=True)
+	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
+	if err:
+		print("FAILED".rjust(99-len(line)))
+		FAILED_TEST=True
+		break
+	else:
+		print("PASSED".rjust(99-len(line)))
 
+# Unprioritised tests
+for test_class in unprioritised:
+	line = "[INFO] Testing " + test_class + " : "
+	print(line, end="", flush=True)
+	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
+	if err:
+		print("FAILED".rjust(99-len(line)))
+		FAILED_TEST=True
+		break
+	else:
+		print("PASSED".rjust(99-len(line)))
 
-	# if DEBUG_MODE:
-
-	# else:
-	# 	for i, f in enumerate(src_files):
-	# 		if match_path(m_file, f.split('-')):
-	# 			test_classes[tst_files[i]] = int(coverage[i])
-
-# exit()
-# # Print ordered list and run tests
-# if DEBUG_MODE:
-# 	print("Prioritised Test Class List:")
-# 	for i, test_class in enumerate(sorted(test_classes, key=test_classes.get, reverse=True)):
-# 		print(str(i+1) + '.', test_class.split('-')[-1])
-# 	print()
-
-# # Prioritised tests
-# for test_class in sorted(test_classes, key=test_classes.get, reverse=True):
-# 	name = test_class.replace('-', '.')
-# 	line = "[INFO] Testing " + name + " : "
-# 	print(line, end="", flush=True)
-# 	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name + " >/dev/null 2>&1")
-# 	if err:
-# 		print("FAILED".rjust(99-len(line)))
-# 		break
-# 	else:
-# 		print("PASSED".rjust(99-len(line)))
-
-# # The rest of the test cycle
-# FAILED_TEST = False
-# if DEBUG_MODE:
-# 	print()
-# 	print("Other tests")
-# unique_tests = list(set(tst_files))
-# for test_class in unique_tests:
-# 	name = test_class.replace('-', '.')
-# 	if not (test_class in test_classes.keys()):
-# 		line = "[INFO] Testing " + name + " : "
-# 		print(line, end="", flush=True)
-# 		err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name 
-# 			+ " >test_output.txt 2>&1")
-# 		if err:
-# 			FAILED_TEST = True
-# 			print("FAILED".rjust(99-len(line)))
-# 			if DEBUG_MODE:
-# 				os.system("cat test_output.txt")
-# 		else:
-# 			print("PASSED".rjust(99-len(line)))
-
-# os.system("rm test_output.txt")
-# if FAILED_TEST:
-# 	exit(1)
+os.system("rm test_output.txt")
+if FAILED_TEST:
+	exit(1)

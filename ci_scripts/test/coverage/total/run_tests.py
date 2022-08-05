@@ -27,7 +27,7 @@ if(len(sys.argv) > 1):
 src_files = []
 tst_files = []
 coverage = []
-with open("ci_scripts/test/coverage/coverage_data.txt", 'r') as data_file:
+with open("ci_scripts/test/coverage/total/coverage_data.txt", 'r') as data_file:
     for line in data_file:
         data = line.split(',')
         src_files.append(data[0])
@@ -71,6 +71,8 @@ if DEBUG_MODE:
 		print(str(i+1) + '.', test_class.split('-')[-1])
 	print()
 
+FAILED_TEST = False
+
 # Prioritised tests
 for test_class in sorted(test_classes, key=test_classes.get, reverse=True):
 	name = test_class.replace('-', '.')
@@ -79,12 +81,12 @@ for test_class in sorted(test_classes, key=test_classes.get, reverse=True):
 	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name + " >/dev/null 2>&1")
 	if err:
 		print("FAILED".rjust(99-len(line)))
+		FAILED_TEST=True
 		break
 	else:
 		print("PASSED".rjust(99-len(line)))
 
 # The rest of the test cycle
-FAILED_TEST = False
 if DEBUG_MODE:
 	print()
 	print("Other tests")

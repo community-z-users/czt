@@ -32,17 +32,17 @@ def match_path(file_path, data_path):
 
 """     MAIN SCRIPT     """
 stream = os.popen('git diff --name-only HEAD main')
-# MODIFIED_FILES = stream.read().strip().split('\n') 
-MODIFIED_FILES = \
-		[ "corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java",
-		  "corejava/corejava-z/src/main/java/net/sourceforge/czt/z/jaxb/JaxbXmlReader.java",
-		  "corejava/corejava-z/src/test/java/net/sourceforge/czt/base/util/XmlWriterReaderTest.java",
-		  "corejava/corejava-z/src/test/java/net/sourceforge/czt/z/jaxb/JaxbXmlWriterReaderTest.java"]
+MODIFIED_FILES = stream.read().strip().split('\n') 
+# MODIFIED_FILES = \
+# 		[ "corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java",
+# 		  "corejava/corejava-z/src/main/java/net/sourceforge/czt/z/jaxb/JaxbXmlReader.java",
+# 		  "corejava/corejava-z/src/test/java/net/sourceforge/czt/base/util/XmlWriterReaderTest.java",
+# 		  "corejava/corejava-z/src/test/java/net/sourceforge/czt/z/jaxb/JaxbXmlWriterReaderTest.java"]
 
 os.chdir("../../..")
 CZT_HOME=os.getcwd()
 
-with open("ci_scripts/test/coverage/coverage_data.txt", "r") as data:
+with open("ci_scripts/test/coverage/total/coverage_data.txt", "r") as data:
 	for line in data:
 		src, test, score = line.split(',')
 		test_module_path = test.replace('-', '.')
