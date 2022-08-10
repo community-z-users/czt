@@ -13,6 +13,8 @@ import os
 import sys
 from collections import OrderedDict
 
+print("Additional Coverage TCP System")
+
 DEBUG_MODE = False
 if(len(sys.argv) > 1):
 	arg = sys.argv[1]
@@ -51,7 +53,7 @@ unprioritised = []
 for m_file in changed_files:
 	test_classes = {}
 
-	print('Modified:',m_file)
+	# print('Modified:',m_file)
 	# Collect test classes that cover the source file
 	for i, s_file in enumerate(src_files):
 		if match_path(m_file, s_file):
@@ -140,6 +142,5 @@ for test_class in unprioritised:
 	else:
 		print("PASSED".rjust(99-len(line)))
 
-os.system("rm test_output.txt")
 if FAILED_TEST:
 	exit(1)

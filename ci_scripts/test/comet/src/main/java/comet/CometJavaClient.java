@@ -62,12 +62,12 @@ public class CometJavaClient {
               Test test = new Test();
               test.setId(tokens[0]);
               test.put("id", tokens[0]);
-              test.put("fail", true);
               test.put("class_changed", tokens[1].equals("True"));
               test.put("test_changed", tokens[2].equals("True"));
-              test.put("duration", 0.01);
               tests.add(test);
-              
+              if (tokens[1].equals("True")) {
+                System.out.println(tokens[0] + " class_changed = True")
+              }
             }
             b.close();
         } catch (java.lang.InterruptedException | java.io.IOException e) {
@@ -102,16 +102,10 @@ public class CometJavaClient {
           testCycle.id(testCycleId);
           testCycle.tests(tests);
           testCyclesApi.addTestCycle(prjName, testCycle, false);
-
-          // for(Test test : tests) {
-          //   testApi.addTest(prjName, testCycleId, test);
-          // }
         } catch (ApiException e) {
           printApiException(e);
           System.exit(1);
         }
-
-        showProject(projectsApi);
 
         /**
          * Get the Prioritisation, run the tests, upload the results
@@ -167,9 +161,7 @@ public class CometJavaClient {
             verdict.id(id);
             if (p.exitValue() == 0) {
               verdict.put("id", id);
-              verdict.put("fail", false);
               verdict.put("duration", duration);
-              // verdict.duration(duration); // Inlcude duration only if test passed
               prettyPrint(id, "PASSED");
             } else {
               verdict.put("id", id);
@@ -178,7 +170,6 @@ public class CometJavaClient {
               prettyPrint(id, "FAILED");
             }
             verdicts.add(verdict);
-            // testsApi.updateTest(prjName,  testCyclesApi.showLastTestCycle(prjName).getId(), verdict);
           }
 
           testsApi.updateSuite(prjName, testCycleId, verdicts);
@@ -224,6 +215,7 @@ public class CometJavaClient {
           projectsApi.deleteProject(prjName);
           System.out.println("Deleting Project");
         } catch (ApiException e) {
+          System.out.println(e);
           System.out.println("Problem deleting project");
         }
     }

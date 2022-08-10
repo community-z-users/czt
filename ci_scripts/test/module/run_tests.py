@@ -13,21 +13,66 @@
 import os
 import subprocess
 
+print("Module Based TCP System")
+
+""" In order to standardise testing between TCP systems, Some modules were not executed """
+BLOCKLIST_MODULES = [
+		"./attic/specreader",
+		"./attic/domainchecker",
+		"./z2prob",
+		"./corejava/corejava-circus",
+		"./corejava/corejava-circuspatt",
+		"./corejava/corejava-circusconf",
+		"./corejava/corejava-circustime",
+		"./typechecker/typechecker-circus",
+		"./typechecker/typechecker-oz",
+		"./typechecker/typechecker-zeves",
+		"./vcg/vcg-z",
+		"./parser/parser-ozpatt",
+		]
+
+BLOCKLIST_TESTS = [
+		"czt.z.impl.AstTest",
+		"czt.print.circus.PrintTest",
+		"czt.parser.circus.ParserTest",
+		"czt.parser.circus.ParserFailTest",
+		"czt.parser.circus.CyclicParentParserTest",
+		"czt.parser.zeves.ProofScriptParsingTest",
+		"czt.parser.zeves.ScanningTest",
+		"czt.parser.zeves.CyclicParentParserTest",
+		"czt.parser.zpatt.CyclicParentParserTest",
+		"czt.parser.oz.ParserTest",
+		"czt.parser.oz.LatexToUnicodeTest",
+		"czt.parser.oz.CyclicParentParserTest",
+		"czt.typecheck.z.TypeCheckerTest",
+		"czt.print.circustime.PrintTest",
+		"czt.parser.circusconf.ParserTest",
+		"czt.parser.circusconf.ParserFailTest",
+		"czt.parser.circusconf.CyclicParentParserTest",
+		"czt.rules.TypeCheckRewriteTest",
+		"czt.rules.rewriter.InnermostTest",
+		"czt.zeves.CZT2ZEvesPrintingTest",
+		"czt.print.circusconf.PrintTest",
+		"czt.parser.circustime.ParserTest",
+		"czt.parser.circustime.ParserFailTest",
+		"czt.parser.circustime.CyclicParentParserTest",
+		]
+
 
 """ Get list of modules that can be tested """
 # Filter prioritised list by modules that contain tests
 output = subprocess.check_output('find -wholename "*src/test"', shell=True).decode()
 testable_modules = []
 testable_modules_path = []
-print("Testable modules")
+# print("Testable modules")
 for line in output.split('\n'):
     if line != "":
         line = line.split('/src/test')[0]
         testable_modules_path.append(line)
-        print(line)
+		# print(line)
         line = line.split('/')[-1].replace("-", "_")
         testable_modules.append(line)
-print()
+# print()
 
 """ Parse through czt_dependencies.dot and extract dependency relationships """
 modules = {}
@@ -65,7 +110,7 @@ changed_files = stream.read().strip().split('\n')
 
 
 modified_modules = []
-print("\nModified Modules:")
+# print("\nModified Modules:")
 for line in changed_files:
     found_module = False
     module_dir = os.path.dirname(line.strip())
@@ -77,7 +122,7 @@ for line in changed_files:
             module_dir = os.path.dirname(module_dir)
     if (module_dir != "") and (module_dir not in modified_modules):
         modified_modules.append(module_dir)
-        print('-->', module_dir.split('/')[-1])
+		# print('-->', module_dir.split('/')[-1])
 
 # Remove duplicates
 modified_modules = list(set(modified_modules))
@@ -138,17 +183,19 @@ for module in sorted(ranked_dep_modules, key=ranked_dep_modules.get):
 paths_to_test = []
 for path in prioritised_paths:
     if path in testable_modules_path:
-        paths_to_test.append(path)
+        if not path in BLOCKLIST_MODULES:
+            paths_to_test.append(path)
 
 for path in testable_modules_path:
     if path not in paths_to_test:
-        paths_to_test.append(path)
+        if not path in BLOCKLIST_MODULES:
+            paths_to_test.append(path)
 
 
 # Print prioritised list
-print('\nPrioritised Module List:')
-for path in paths_to_test:
-        print('-->', path)
+# print('\nPrioritised Module List:')
+# for path in paths_to_test:
+#         print('-->', path)
 
 
 # Test prioritised list
@@ -160,23 +207,20 @@ for path in paths_to_test:
     os.chdir(path)
 
     # Run the specific test 
-    if ('eclipse' in path):
-        print("\nSKIPPING:", path)
-    else:
-        print("\nTESTING:", path, end="", flush=True)
-        output = ""
-        try:
-            output = subprocess.check_output("mvn surefire:test 2>/dev/null", shell=True).decode()
-            print()
-        except(subprocess.CalledProcessError):
-            print(" ERROR")
-        finally:
-            output_list = output.split('\n')
-            for i, line in enumerate(output_list):
-                if (("Tests run:" in line) and ("in net.sourceforge" in line)):
-                # if ("Running" in line):
-                    fail = line.split("Failures: ")[-1].split(",")[0] != "0"
-                    error = line.split("Errors: ")[-1].split(",")[0] != "0"
+    # print("\nTESTING:", path, end="", flush=True)
+    output = ""
+    try:
+        output = subprocess.check_output("mvn surefire:test 2>/dev/null", shell=True).decode()
+    except(subprocess.CalledProcessError):
+        print(" ERROR")
+    finally:
+        output_list = output.split('\n')
+        for i, line in enumerate(output_list):
+            if (("Tests run:" in line) and ("in net.sourceforge" in line)):
+                fail = line.split("Failures: ")[-1].split(",")[0] != "0"
+                error = line.split("Errors: ")[-1].split(",")[0] != "0"
+                test_name = line.split('sourceforge.')[-1]
+                if not test_name in BLOCKLIST_TESTS:
                     outcome = "[INFO] Testing "+ line.split('sourceforge.')[-1] + " : "
                     if (fail or error):
                         print(outcome + "FAILED".rjust(99-len(outcome)))

@@ -13,6 +13,8 @@ import os
 import sys
 from collections import OrderedDict
 
+print("Total Coverage TCP System")
+
 DEBUG_MODE = False
 if(len(sys.argv) > 1):
 	arg = sys.argv[1]
