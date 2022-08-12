@@ -58,16 +58,12 @@ public class CometJavaClient {
 
             while ((line = b.readLine()) != null) {
               String[] tokens = line.split(",");
-
               Test test = new Test();
               test.setId(tokens[0]);
               test.put("id", tokens[0]);
               test.put("class_changed", tokens[1].equals("True"));
               test.put("test_changed", tokens[2].equals("True"));
               tests.add(test);
-              if (tokens[1].equals("True")) {
-                System.out.println(tokens[0] + " class_changed = True")
-              }
             }
             b.close();
         } catch (java.lang.InterruptedException | java.io.IOException e) {
@@ -107,6 +103,8 @@ public class CometJavaClient {
           System.exit(1);
         }
 
+        showProject(projectsApi);
+        System.exit(0);
         /**
          * Get the Prioritisation, run the tests, upload the results
          */

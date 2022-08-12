@@ -42,7 +42,7 @@ def match_path(m_file, s_file):
 	s_file = s_file + ".java"
 	return m_file.endswith(s_file)
 
-stream = os.popen('git diff --name-only HEAD main')
+stream = os.popen('git diff --name-only HEAD origin/main')
 changed_files = stream.read().strip().split('\n')
 
 # Match to coverage data

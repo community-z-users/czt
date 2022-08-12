@@ -53,18 +53,18 @@ jobs:
           chmod +x ./ci_scripts/build/build_status.sh # Ensure build_status.sh is executable
           if [ `./ci_scripts/build/build_status.sh` == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
           
-      # - name: Post Comment of Build Status to Pull Request 
-      #   uses: peter-evans/commit-comment@v1
-      #   with:
-      #     body: |
-      #       Build Status: **${{ env.BUILD_STATUS }}**
-      #       A full build report can be found **[here][1]** under CI->Build.
+      - name: Post Comment of Build Status to Pull Request 
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: |
+            Build Status: **${{ env.BUILD_STATUS }}**
+            A full build report can be found **[here][1]** under CI->Build.
             
-      #       [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-         
-                
+            [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+
       - name: Test
-        if: ${{ env.BUILD_STATUS == 'PASSED' }}
+        # if: ${{ env.BUILD_STATUS == 'PASSED' }}
         run: |
           git fetch origin main 
           # Module based TCP
@@ -88,13 +88,13 @@ jobs:
           if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
 
           
-      # - name: Notify the developer of the test status
-      #   if: ${{ env.BUILD_STATUS == 'PASSED' }}
-      #   uses: peter-evans/commit-comment@v1
-      #   with:
-      #     body: |
-      #       Test Status: **${{ env.TEST_STATUS }}**
-      #       A full test report can be found **[here][1]** under CI->Test.
+      - name: Notify the developer of the test status
+        if: ${{ env.BUILD_STATUS == 'PASSED' }}
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: |
+            Test Status: **${{ env.TEST_STATUS }}**
+            A full test report can be found **[here][1]** under CI->Test.
             
-      #       [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 

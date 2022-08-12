@@ -31,13 +31,8 @@ def match_path(file_path, data_path):
 
 
 """     MAIN SCRIPT     """
-stream = os.popen('git diff --name-only HEAD main')
+stream = os.popen('git diff --name-only HEAD origin/main')
 MODIFIED_FILES = stream.read().strip().split('\n') 
-# MODIFIED_FILES = \
-# 		[ "corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java",
-# 		  "corejava/corejava-z/src/main/java/net/sourceforge/czt/z/jaxb/JaxbXmlReader.java",
-# 		  "corejava/corejava-z/src/test/java/net/sourceforge/czt/base/util/XmlWriterReaderTest.java",
-# 		  "corejava/corejava-z/src/test/java/net/sourceforge/czt/z/jaxb/JaxbXmlWriterReaderTest.java"]
 
 os.chdir("../../..")
 CZT_HOME=os.getcwd()
@@ -57,7 +52,6 @@ with open("ci_scripts/test/coverage/total/coverage_data.txt", "r") as data:
 				else:
 					classChanged, testChanged = TESTS[test_module_path]
 					TESTS[test_module_path] = (True, testChanged)
-
 
 for key in TESTS:
 	print(key + "," + str(TESTS[key][0]) + "," + str(TESTS[key][1]))
