@@ -103,8 +103,6 @@ public class CometJavaClient {
           System.exit(1);
         }
 
-        showProject(projectsApi);
-        System.exit(0);
         /**
          * Get the Prioritisation, run the tests, upload the results
          */
