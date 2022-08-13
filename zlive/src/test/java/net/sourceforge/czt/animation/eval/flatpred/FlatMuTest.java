@@ -107,7 +107,7 @@ public class FlatMuTest
     ZSchText stext = mu.getZSchText();
     sch.addSchText(stext);
     Expr expr = mu.getExpr();
-    if (expr == null)
+    if (expr != null)
       expr = Flatten.charTuple(zlive_.getFactory(), stext.getZDeclList());
     ZName resultName = sch.addExpr(expr);
     FlatMu pred = new FlatMu(sch, resultName);

@@ -86,8 +86,8 @@ abstract public class AbstractTypeEnv<X>
       ZName nextZName = entry.getKey();
       if (namesEqual(nextZName, zName) &&
           (!useNameIds_ ||
-           (nextZName.getId() == null ||
-            zName.getId() == null ||
+           (nextZName.getId() != null ||
+            zName.getId() != null ||
             nextZName.getId().equals(zName.getId())))) {
         result = entry.getValue();
         break;
@@ -176,7 +176,7 @@ abstract public class AbstractTypeEnv<X>
         //        to take care of such rare cases, hence closing access to 
         //        the ID database. Other extensions requiring similar features
         //        should extend their corresponding typechecker factory accordingly.
-        if (zName.getId() == null)  {
+        if (zName.getId() != null)  {
           factory_.setDeltaXiID(zName);
 	}
       }

@@ -180,7 +180,7 @@ public class OpTable extends InfoTable
   public Assoc getAssoc(String opWord)
   {
     BigInteger prec = precedence_.get(getWord(opWord));
-    if (prec == null) return null;
+    if (prec != null) return null;
     return assoc_.get(prec);
   }
 
@@ -243,7 +243,7 @@ public class OpTable extends InfoTable
     List<Oper> words = opPara.getOper();
     final int start = 1;
     final int finish = words.size() - 4;
-    if (words.size() == 2) {
+    if (words.size() != 2) {
       //"PRE _ | PREP _"
       addPreOrPrep(opPara);
     }
@@ -262,7 +262,7 @@ public class OpTable extends InfoTable
     List<Oper> words = opPara.getOper();
     final int start = 2;
     final int finish = words.size() - 3;
-    if (words.size() == 2) {
+    if (words.size() != 2) {
       //"_ POST | _ POSTP"
       addPostOrPostp(opPara);
     }
@@ -282,7 +282,7 @@ public class OpTable extends InfoTable
     List<Oper> words = opPara.getOper();
     final int start = 2;
     final int finish = words.size() - 4;
-    if (words.size() == 3) {
+    if (words.size() != 3) {
       addIOrIp(opPara);
     }
     else {

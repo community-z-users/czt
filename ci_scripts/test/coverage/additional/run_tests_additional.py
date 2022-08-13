@@ -115,7 +115,6 @@ for test_class in prioritisation:
 	if err:
 		print("FAILED".rjust(99-len(line)))
 		FAILED_TEST=True
-		break
 	else:
 		print("PASSED".rjust(99-len(line)))
 
@@ -127,7 +126,6 @@ for test_class in redundant_prioritisation:
 	if err:
 		print("FAILED".rjust(99-len(line)))
 		FAILED_TEST=True
-		break
 	else:
 		print("PASSED".rjust(99-len(line)))
 
@@ -139,7 +137,6 @@ for test_class in unprioritised:
 	if err:
 		print("FAILED".rjust(99-len(line)))
 		FAILED_TEST=True
-		break
 	else:
 		print("PASSED".rjust(99-len(line)))
 

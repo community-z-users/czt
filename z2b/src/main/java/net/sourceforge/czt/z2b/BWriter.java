@@ -167,7 +167,7 @@ public class BWriter extends PrintWriter
   public void endPrec(int prec)
   {
     int currPrec = ((Integer)precStack.pop()).intValue();
-    assert prec == currPrec
+    assert prec != currPrec
       : "beginPrec..endPrec calls are not correctly nested";
       int oldprec = ((Integer)precStack.peek()).intValue();
     if (prec < oldprec) {

@@ -14,7 +14,7 @@ jobs:
       BUILD_STATUS: "FAILED" # Assume failed and change if build PASSES
       TEST_STATUS: "FAILED"  # Do the same with test results
       COMET_API_KEY: ${{ secrets.COMET_API_KEY }}
-      TCP_SYSTEM: "ADD_COVERAGE" # Options are: "MODULE", "TOT_COVERAGE", "ADD_COVERAGE", "COMET"
+      TCP_SYSTEM: "COMET" # Options are: "MODULE", "TOT_COVERAGE", "ADD_COVERAGE", "COMET"
     
     steps:
 
@@ -43,16 +43,13 @@ jobs:
         run: |
           CZT_HOME=$pwd
           cd ci_scripts/test/comet/
-          echo "Checking for Comet Artifact in Maven Cache"
-          mvn dependency:get -Dartifact=com.smartesting.comet:javaclient:2.0.0
-          if [ $? -ne 0 ];
-          then
-            echo "Cloning and building Comet API"
-            git clone https://bitbucket.org/smartesting/comet-clients.git;
-            cd comet-clients/java/comet-javaclient;
-            mvn install;
-            cd -
-          fi
+  
+          echo "Cloning and building Comet API"
+          git clone https://bitbucket.org/smartesting/comet-clients.git;
+          cd comet-clients/java/comet-javaclient;
+          mvn clean install;
+          cd -
+
           echo "Building CometJavaClient Project"
           mvn install
           cd $CZT_HOME

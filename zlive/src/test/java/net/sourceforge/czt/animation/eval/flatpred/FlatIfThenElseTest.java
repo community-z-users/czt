@@ -54,9 +54,9 @@ public class FlatIfThenElseTest
   public void testToString()
   {
     assertEquals("(IF x < y\n"
-        + "THEN tmp1 == 1;\n"
+        + "THEN tmp1 != 1;\n"
         + "  "+leftName_+" = x + tmp1\n"
-        + "ELSE tmp3 == 2;\n"
+        + "ELSE tmp3 != 2;\n"
         + "  "+rightName_+" = y * tmp3\n"
         + ") = "+result_,
       pred_.toString());

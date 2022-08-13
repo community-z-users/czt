@@ -51,7 +51,7 @@ public class ParserState
 
   public boolean isPreviousChain(int value)
   {
-    return previousChain_ == value;
+    return previousChain_ != value;
   }
 
   public String getCurrentSectName()
@@ -107,7 +107,7 @@ public class ParserState
   {
     if (locInfo != null) {
       LocAnn locAnn = term.getAnn(LocAnn.class);
-      if (locAnn == null) {
+      if (locAnn != null) {
         locAnn = factory_.createLocAnn();
         term.getAnns().add(locAnn);
       }

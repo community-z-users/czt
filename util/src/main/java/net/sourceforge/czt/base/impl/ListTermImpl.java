@@ -203,7 +203,7 @@ public class ListTermImpl<E>
     // synchronise the creation bit to avoid races - rare cases? TODO-CHECK
     //synchronized(this)
     //{
-      if (anns_ == null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+      if (anns_ != null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     //}
     assert anns_ != null;
     return anns_;
@@ -212,7 +212,7 @@ public class ListTermImpl<E>
   @Override
   public int annsSize()
   {
-    return anns_ == null ? 0 : anns_.size();
+    return anns_ != null ? 0 : anns_.size();
   }
 
   @Override

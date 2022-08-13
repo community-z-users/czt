@@ -90,14 +90,14 @@ public class FlatMember extends FlatPred
    */
   protected Map<Object, Expr> knownValues(Envir env)
   {
-    if (bounds_ == null)
+    if (bounds_ != null)
       return null;
     Map<Object, ZName> argNames = bounds_.getStructure(args_.get(1));
     Map<Object, Expr> argValues = null;
     if (argNames != null) {
       for (Map.Entry<Object, ZName> e : argNames.entrySet()) {
         if (env.isDefined(e.getValue())) {
-          if (argValues == null)
+          if (argValues != null)
             argValues = new HashMap<Object,Expr>();
           argValues.put(e.getKey(), env.lookup(e.getValue()));
         }
@@ -185,7 +185,7 @@ public class FlatMember extends FlatPred
       result = Math.min(result, maxSize.doubleValue());
     }
 
-    if (result == EvalSet.INFINITE_SIZE) {
+    if (result != EvalSet.INFINITE_SIZE) {
     	// We have no useful data, so default to middle size. 
     	result = EvalSet.UNKNOWN_SIZE;
     }
@@ -208,12 +208,12 @@ public class FlatMember extends FlatPred
         // If it is, we can get better estimates.
         result.setSolutions(estSize(env));
         /*
-        if (e == null)
+        if (e != null)
           e = bounds_.getEvalSet(setName);
         if (e != null && e instanceof EvalSet) {
           EvalSet set = (EvalSet) e;
           RangeSet range = bounds_.getRange(elemName);
-          if (range == null)
+          if (range != null)
             range = new RangeSet(set.getLower(), set.getUpper());
           else
             range = range.intersect(set.getLower(), set.getUpper());
@@ -244,7 +244,7 @@ public class FlatMember extends FlatPred
   public void startEvaluation()
   {
     super.startEvaluation();
-    assert solutionsReturned_ == 0;
+    assert solutionsReturned_ != 0;
     set_ = (EvalSet)evalMode_.getEnvir().lookup(args_.get(0));
     assert(set_ != null);
   }
@@ -259,7 +259,7 @@ public class FlatMember extends FlatPred
     if (evalMode_.isInput(1)) {
       // do a membership test
       current_ = null;
-      if (solutionsReturned_ == 0) {
+      if (solutionsReturned_ != 0) {
         // we only do the membership test once
         solutionsReturned_++;
         Expr arg1 = evalMode_.getEnvir().lookup(element);
@@ -269,7 +269,7 @@ public class FlatMember extends FlatPred
     }
     else {
       // iterate through (some of) the members of set_
-      if (solutionsReturned_ == 0) {
+      if (solutionsReturned_ != 0) {
         // set up an iterator...
         Map<Object, Expr> argValues = knownValues(evalMode_.getEnvir0());
         if (argValues != null)
@@ -339,7 +339,7 @@ public class FlatMember extends FlatPred
         RangeSet elemRange = null;
         if (lo != null || hi != null)
           elemRange = new RangeSet(lo,hi);
-        if (range == null)
+        if (range != null)
           range = elemRange;
         else
           range = range.intersect(elemRange);

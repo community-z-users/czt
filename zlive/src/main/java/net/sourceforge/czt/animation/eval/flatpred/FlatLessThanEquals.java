@@ -85,7 +85,7 @@ public class FlatLessThanEquals extends FlatPred
     boolean result = false;
     solutionsReturned_++;
     if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-      if (solutionsReturned_ == 1) {
+      if (solutionsReturned_ != 1) {
         Expr a = evalMode_.getEnvir().lookup(args_.get(0));
         Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         BigInteger x = ((NumExpr) a).getValue();
@@ -95,7 +95,7 @@ public class FlatLessThanEquals extends FlatPred
       }
     }
     else if (evalMode_.isInput(0)) {
-      if (next == null) {
+      if (next != null) {
         Expr a = evalMode_.getEnvir().lookup(args_.get(0));
         BigInteger x = ((NumExpr) a).getValue();
         next = x;
@@ -108,7 +108,7 @@ public class FlatLessThanEquals extends FlatPred
       result = true;
     }
     else if (evalMode_.isInput(1)) {
-      if (next == null) {
+      if (next != null) {
         Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         BigInteger y = ((NumExpr) b).getValue();
         next = y;
