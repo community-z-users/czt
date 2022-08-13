@@ -31,7 +31,8 @@ def match_path(file_path, data_path):
 
 
 """     MAIN SCRIPT     """
-stream = os.popen('git diff --name-only HEAD origin/main')
+# stream = os.popen('git diff --name-only HEAD origin/main')
+stream = os.popen('git diff --name-only HEAD .')
 MODIFIED_FILES = stream.read().strip().split('\n') 
 
 os.chdir("../../..")
