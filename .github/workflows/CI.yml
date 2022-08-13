@@ -14,12 +14,15 @@ jobs:
       BUILD_STATUS: "FAILED" # Assume failed and change if build PASSES
       TEST_STATUS: "FAILED"  # Do the same with test results
       COMET_API_KEY: ${{ secrets.COMET_API_KEY }}
-      TCP_SYSTEM: "COMET" # Options are: "MODULE", "TOT_COVERAGE", "ADD_COVERAGE", "COMET"
+      TCP_SYSTEM: "TOT_COVERAGE" # Options are: "MODULE", "TOT_COVERAGE", "ADD_COVERAGE", "COMET"
     
     steps:
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
 
       - name: Set up Java 11
         uses: actions/setup-java@v2
@@ -72,6 +75,12 @@ jobs:
             A full build report can be found **[here][1]** under CI->Build.
             
             [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      - name: Check Modified Files
+        run: |
+          git fetch --all
+          echo "Modified Files:"
+          git diff --name-only HEAD HEAD^1
 
       - name: Test
         if: ${{ env.BUILD_STATUS == 'PASSED' }}

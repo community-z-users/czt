@@ -96,7 +96,8 @@ for m_file in changed_files:
 			# Put the tests which did not make the first prioritisation into the redundant list
 			for key in test_classes.keys():
 				if not key in prioritisation:
-					redundant_prioritisation.append(key)
+					if not key in redundant_prioritisation:
+						redundant_prioritisation.append(key)
 
 # Collect the rest of the test classes that don't have any prioritisation
 for test in tst_files:
