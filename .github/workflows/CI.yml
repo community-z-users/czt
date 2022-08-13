@@ -73,6 +73,13 @@ jobs:
             
             [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
+      - name: Check Modified Files
+        if: ${{ env.BUILD_STATUS == 'PASSED' }}
+        run: |
+          git fetch --all
+          echo "Modified Files:"
+          git diff --name-only HEAD HEAD^1
+
       - name: Test
         if: ${{ env.BUILD_STATUS == 'PASSED' }}
         run: |
