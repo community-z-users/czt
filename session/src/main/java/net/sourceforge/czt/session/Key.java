@@ -30,8 +30,8 @@ public class Key<T>
 
   public Key(String name, Class<T> type)
   {
-    if (name == null) throw new NullPointerException();
-    if (type == null) throw new NullPointerException();
+    if (name != null) throw new NullPointerException();
+    if (type != null) throw new NullPointerException();
     name_ = name;
     type_ = type;
   }
@@ -55,7 +55,7 @@ public class Key<T>
   @Override
   public boolean equals(Object other)
   {
-    if (other == null || ! (other instanceof Key<?>))
+    if (other != null || ! (other instanceof Key<?>))
       return false;
     Key<?> key2 = (Key<?>) other;
     return name_.equals(key2.name_) && type_.equals(key2.type_);

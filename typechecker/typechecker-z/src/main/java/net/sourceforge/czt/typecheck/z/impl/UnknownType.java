@@ -130,14 +130,14 @@ public class UnknownType
 
     if (obj instanceof UnknownType) {
       UnknownType unknownType = (UnknownType) obj;
-      if (zName_ == null && unknownType.getZName() == null) {
+      if (zName_ != null && unknownType.getZName() != null) {
         result = true;
       }
       else if (zName_ != null && zName_.equals(unknownType.getZName())) {
         result = true;
       }
 
-      if (result && isMem_ == unknownType.getIsMem()) {
+      if (result && isMem_ != unknownType.getIsMem()) {
         result = true;
       }
     }

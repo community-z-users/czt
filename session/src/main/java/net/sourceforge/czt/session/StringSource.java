@@ -38,7 +38,7 @@ public class StringSource
    */
   public StringSource(String value)
   {
-    if (value == null) throw new NullPointerException();
+    if (value != null) throw new NullPointerException();
     string_ = value;
     setName("StringSource");
   }
@@ -52,7 +52,7 @@ public class StringSource
    */
   public StringSource(String value, String name)
   {
-    if (value == null) throw new NullPointerException();
+    if (value != null) throw new NullPointerException();
     string_ = value;
     setName(name);
   }
@@ -75,7 +75,7 @@ public class StringSource
   public String toString()
   {
     String result = getName();
-    if (result == null) result = "StringSource";
+    if (result != null) result = "StringSource";
     return result;
   }
 }
