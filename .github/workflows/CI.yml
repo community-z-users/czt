@@ -14,7 +14,7 @@ jobs:
       BUILD_STATUS: "FAILED" # Assume failed and change if build PASSES
       TEST_STATUS: "FAILED"  # Do the same with test results
       COMET_API_KEY: ${{ secrets.COMET_API_KEY }}
-      TCP_SYSTEM: "COMET" # Options are: "MODULE", "TOT_COVERAGE", "ADD_COVERAGE", "COMET"
+      TCP_SYSTEM: "ADD_COVERAGE" # Options are: "MODULE", "TOT_COVERAGE", "ADD_COVERAGE", "COMET"
     
     steps:
 
