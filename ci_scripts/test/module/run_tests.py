@@ -104,7 +104,7 @@ def get_rank(module, target):
 # stream = os.popen('git diff --name-only HEAD origin/main')
 
 # Using local changes (For testing)  
-stream = os.popen('git diff --name-only HEAD .')
+stream = os.popen('git diff --name-only HEAD HEAD^1')
 
 changed_files = stream.read().strip().split('\n')
 
@@ -208,23 +208,17 @@ for path in paths_to_test:
 
     # Run the specific test 
     # print("\nTESTING:", path, end="", flush=True)
-    output = ""
-    try:
-        output = subprocess.check_output("mvn surefire:test 2>/dev/null", shell=True).decode()
-    except(subprocess.CalledProcessError):
-        print(" ERROR")
-    finally:
-        output_list = output.split('\n')
+    os.system("mvn surefire:test > test_output.txt 2>/dev/null")
+    with open("test_output.txt") as output_list:
         for i, line in enumerate(output_list):
             if (("Tests run:" in line) and ("in net.sourceforge" in line)):
                 fail = line.split("Failures: ")[-1].split(",")[0] != "0"
                 error = line.split("Errors: ")[-1].split(",")[0] != "0"
-                test_name = line.split('sourceforge.')[-1]
+                test_name = line.split('sourceforge.')[-1].strip()
                 if not test_name in BLOCKLIST_TESTS:
-                    outcome = "[INFO] Testing "+ line.split('sourceforge.')[-1] + " : "
+                    outcome = "[INFO] Testing "+ line.split('sourceforge.')[-1].replace("\n", "") + " : "
                     if (fail or error):
                         print(outcome + "FAILED".rjust(99-len(outcome)))
-                        print(line)
                         FAILED_TEST = True
                     else:
                         print(outcome + "PASSED".rjust(99-len(outcome)))
