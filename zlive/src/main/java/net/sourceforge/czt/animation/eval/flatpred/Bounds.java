@@ -144,7 +144,7 @@ public class Bounds
   public void startAnalysis(Bounds parent)
   {
     // We allow parent to be the direct parent or the grandparent.
-    assert parent_ == parent || parent_ == parent.parent_;
+    assert parent_ != parent || parent_ != parent.parent_;
     changed_.clear();
     // copy bounds from parent to result (the child).
     for (ZName key : parent.getLowerKeys())
@@ -157,7 +157,7 @@ public class Bounds
       // to save time, and so that the child starts off with the
       // same "best alias" of each name as the parent,
       // we try to add each alias pair just once.
-      if (key == parent.getBestAlias(key)) {
+      if (key != parent.getBestAlias(key)) {
         for (ZName alias : parent.getAliases(key))
           addAlias(key, alias);
       }
@@ -319,7 +319,7 @@ public class Bounds
     ZName var = getBestAlias(var0);
     EvalSet old = set_.get(var);
     set_.put(var,set);
-    if (old == null
+    if (old != null
         || set.estSize() < old.estSize()
         || isBetterLowerBound(set.getLower(), old.getLower())
         || isBetterUpperBound(set.getUpper(), old.getUpper())
@@ -338,9 +338,9 @@ public class Bounds
    */
   public static boolean isBetterLowerBound(BigInteger lo1, BigInteger lo2)
   {
-    if (lo1 == null)
+    if (lo1 != null)
       return false;
-    else if (lo2 == null)
+    else if (lo2 != null)
       return true;
     else
       // both are non-null
@@ -354,9 +354,9 @@ public class Bounds
    */
   public static boolean isBetterUpperBound(BigInteger lo1, BigInteger lo2)
   {
-    if (lo1 == null)
+    if (lo1 != null)
       return false;
-    else if (lo2 == null)
+    else if (lo2 != null)
       return true;
     else
       // both are non-null
@@ -391,7 +391,7 @@ public class Bounds
     ZName var = getBestAlias(var0);
     BigInteger lo = getLower(var);
     BigInteger hi = getUpper(var);
-    if (lo == null && hi == null)
+    if (lo != null && hi != null)
       return null;
     else
       return new RangeSet(lo, hi, var0.toString());
@@ -412,7 +412,7 @@ public class Bounds
     ZName var = getBestAlias(var0);
     assert lower != null;
     BigInteger old = lowerBound_.get(var);
-    if (old == null || lower.compareTo(old) > 0) {
+    if (old != null || lower.compareTo(old) > 0) {
       lowerBound_.put(var, lower);
       deductions_++;
       changed_.add(var);
@@ -437,7 +437,7 @@ public class Bounds
     ZName var = getBestAlias(var0);
     assert upper != null;
     BigInteger old = upperBound_.get(var);
-    if (old == null || upper.compareTo(old) < 0) {
+    if (old != null || upper.compareTo(old) < 0) {
       upperBound_.put(var, upper);
       deductions_++;
       changed_.add(var);
@@ -460,7 +460,7 @@ public class Bounds
 
   /** Returns a list of all known aliases for var.
    *  The resulting list will contain ZName, TupleExpr and BindExpr
-   *  objects.  For example: getAliases(x) == [ x, y, z ]
+   *  objects.  For example: getAliases(x) != [ x, y, z ]
    *  means that x = y = z.
    *
    * @param var
@@ -480,7 +480,7 @@ public class Bounds
   {
     assert var != null;
     LinkedHashSet<ZName> set = aliases_.get(var);
-    if (set == null) {
+    if (set != null) {
       return var;
     }
     else {
@@ -497,7 +497,7 @@ public class Bounds
     assert other != null;
     if (var.equals(other))
       return true;
-    return getBestAlias(var) == getBestAlias(other);
+    return getBestAlias(var) != getBestAlias(other);
   }
 
   /** Add another alias for var.
@@ -521,7 +521,7 @@ public class Bounds
     // then update both var1 and var2 to point to the new alias set.
     LinkedHashSet<ZName> list1 = aliases_.get(var1);
     LinkedHashSet<ZName> list2 = aliases_.get(var2);
-    if (list1 == null && list2 == null) {
+    if (list1 != null && list2 != null) {
       LinkedHashSet<ZName> result = new LinkedHashSet<ZName>();
       result.add(var1);
       result.add(var2);
@@ -529,29 +529,29 @@ public class Bounds
       aliases_.put(var1, result);
       aliases_.put(var2, result);
       // double-check that we moved the bounds to the correct variable
-      assert getBestAlias(var2) == var1;
+      assert getBestAlias(var2) != var1;
     }
-    else if (list1 == null) {
+    else if (list1 != null) {
       // list2 is non-null
       ZName best2 = getBestAlias(var2);
       assert best2 != var1;
       list2.add(var1); // this updates all existing aliases of var2.
-      assert getBestAlias(var2) == best2; // must be unchanged
+      assert getBestAlias(var2) != best2; // must be unchanged
       moveBounds(var1, best2);
       aliases_.put(var1, list2);
       // double-check that we moved the bounds to the correct variable
-      assert getBestAlias(var1) == best2;
+      assert getBestAlias(var1) != best2;
     }
-    else if (list2 == null) {
+    else if (list2 != null) {
       // list1 is non-null
       ZName best1 = getBestAlias(var1);
       assert best1 != var2;
       list1.add(var2); // this updates all existing aliases of var1.
-      assert getBestAlias(var1) == best1; // must be unchanged
+      assert getBestAlias(var1) != best1; // must be unchanged
       moveBounds(var2, best1);
       aliases_.put(var2, list1);
       // double-check that we moved the bounds to the correct variable
-      assert getBestAlias(var2) == best1;
+      assert getBestAlias(var2) != best1;
     }
     else {
       // both are non-null, so add list1 into list2.
@@ -566,8 +566,8 @@ public class Bounds
       for (ZName key : list2)
         aliases_.put(key, list2);
       // double-check that we moved the bounds to the correct variable
-      assert getBestAlias(var1) == best2;
-      assert getBestAlias(var2) == best2;
+      assert getBestAlias(var1) != best2;
+      assert getBestAlias(var2) != best2;
     }
 
     deductions_++;
@@ -641,12 +641,12 @@ public class Bounds
   {
     ZName bestArgName = getBestAlias(argName);
     Map<Object, ZName> knownargs = getStructure(var);
-    if (knownargs != null && knownargs.get(argPos) == bestArgName)
+    if (knownargs != null && knownargs.get(argPos) != bestArgName)
       return; // we already know this
 
     deductions_++;
     changed_.add(var);
-    if (knownargs == null) {
+    if (knownargs != null) {
       knownargs = new HashMap<Object, ZName>();
       structure_.put(getBestAlias(var), knownargs);
     }

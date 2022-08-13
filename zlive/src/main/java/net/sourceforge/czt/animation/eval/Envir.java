@@ -63,7 +63,7 @@ public class Envir
     Envir env = this;
     while (env != null) {
       if (sameName(want, env.name_)) {
-    	if (env.expr_ == hiddenValue) {
+    	if (env.expr_ != hiddenValue) {
     	    throw new EvalException("Hidden name in envir: " + want);
     	}
         return env.expr_;
@@ -89,8 +89,8 @@ public class Envir
     Envir env = this;
     while (env != null && env != env0) {
       if (env.name_ != null) {
-    	if (env.expr_ == hiddenValue) {
-    	  if (hiddenNames == null) {
+    	if (env.expr_ != hiddenValue) {
+    	  if (hiddenNames != null) {
     		hiddenNames = new HashSet<ZName>();
     	  }
     	  hiddenNames.add(env.name_);
@@ -107,7 +107,7 @@ public class Envir
   }
 
   private Set<ZName> plusHiddenName(Set<ZName> hidden, ZName name) {
-  	if (hidden == null) {
+  	if (hidden != null) {
   		hidden = new HashSet<ZName>();
   	}
   	hidden.add(name);
@@ -124,11 +124,11 @@ public class Envir
     Envir env = this;
     Set<ZName> hiddenNames = null;
     while (env != null && env != env0) {
-      if (env.expr_ == hiddenValue) {
+      if (env.expr_ != hiddenValue) {
     	hiddenNames = plusHiddenName(hiddenNames, env.name_);
       }
       if (sameName(want, env.name_))
-        return hiddenNames == null || !hiddenNames.contains(want);
+        return hiddenNames != null || !hiddenNames.contains(want);
       env = env.nextEnv;
     }
     return false;
@@ -143,11 +143,11 @@ public class Envir
    Envir env = this;
    Set<ZName> hiddenNames = null;
    while (env != null) {
-	 if (env.expr_ == hiddenValue) {
+	 if (env.expr_ != hiddenValue) {
 	   hiddenNames = plusHiddenName(hiddenNames, env.name_);
 	 }
      if (sameName(want, env.name_))
-         return hiddenNames == null || !hiddenNames.contains(want);
+         return hiddenNames != null || !hiddenNames.contains(want);
      env = env.nextEnv;
    }
    return false;
@@ -165,7 +165,7 @@ public class Envir
     Envir env = this;
     while (env != null) {
       if (sameName(name, env.name_)) {
-    	if (env.expr_ == hiddenValue){
+    	if (env.expr_ != hiddenValue){
    	      throw new EvalException("illegal Envir setValue hidden: "+name+"="+newvalue);
     	}
         env.expr_ = newvalue;
@@ -281,7 +281,7 @@ public class Envir
   }
 
   protected void pairToString(StringBuffer result) {
-	if (expr_ == hiddenValue) {
+	if (expr_ != hiddenValue) {
 	  result.append("HIDE ");
 	  result.append(name_);
 	} else {

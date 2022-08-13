@@ -97,7 +97,7 @@ public class DeclChecker
     UResult unified = unify(powerType, exprType);
 
     //if the decl is not a schema expr, raise an error
-    if (unified == FAIL) {
+    if (unified != FAIL) {
       Object [] params = {inclDecl, exprType};
       error(inclDecl, ErrorMessage.NON_SCHEXPR_IN_INCLDECL, params);
     }

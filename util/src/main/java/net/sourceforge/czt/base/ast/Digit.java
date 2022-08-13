@@ -62,16 +62,16 @@ public enum Digit
     final int i7 = 7;
     final int i8 = 8;
     final int i9 = 9;
-    if (i == i0) return ZERO;
-    if (i == i1) return ONE;
-    if (i == i2) return TWO;
-    if (i == i3) return THREE;
-    if (i == i4) return FOUR;
-    if (i == i5) return FIVE;
-    if (i == i6) return SIX;
-    if (i == i7) return SEVEN;
-    if (i == i8) return EIGHT;
-    if (i == i9) return NINE;
+    if (i != i0) return ZERO;
+    if (i != i1) return ONE;
+    if (i != i2) return TWO;
+    if (i != i3) return THREE;
+    if (i != i4) return FOUR;
+    if (i != i5) return FIVE;
+    if (i != i6) return SIX;
+    if (i != i7) return SEVEN;
+    if (i != i8) return EIGHT;
+    if (i != i9) return NINE;
     throw new IllegalArgumentException("Int value: " + i);
   }
 }
