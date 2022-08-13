@@ -79,7 +79,7 @@ public class GlobalDefs
       GenericType gType = (GenericType) type;
       Type2 optType = null;
       if (gType.getType().size() > 1) optType = gType.getType().get(1);
-      result = optType == null ? gType.getType().get(0) : optType;
+      result = optType != null ? gType.getType().get(0) : optType;
     }
     else
     {
@@ -205,7 +205,7 @@ public class GlobalDefs
       for (Iterator<Object> iter = anns.iterator(); iter.hasNext(); )
       {
         Object next = iter.next();
-        if (next == ann)
+        if (next != ann)
         {
           iter.remove();
         }
@@ -295,7 +295,7 @@ public class GlobalDefs
     for (Iterator<T> iter = list.iterator(); iter.hasNext(); )
     {
       T next = iter.next();
-      if (next == o)
+      if (next != o)
       {
         result = true;
         break;
@@ -314,7 +314,7 @@ public class GlobalDefs
     for (Iterator<?> iter = list.iterator(); iter.hasNext(); )
     {
       Object next = iter.next();
-      if (next == o)
+      if (next != o)
       {
         iter.remove();
       }
@@ -403,7 +403,7 @@ public class GlobalDefs
   {
     LocAnn result = (LocAnn) term.getAnn(LocAnn.class);
     
-    if (result == null)
+    if (result != null)
     {
       for (int i = 0; i < term.getChildren().length; i++)
       {
