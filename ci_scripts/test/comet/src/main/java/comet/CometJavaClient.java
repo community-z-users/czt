@@ -84,7 +84,6 @@ public class CometJavaClient {
             new Feature().name("class_changed").type(TypeEnum.BOOL).defaultValue("false"),
             new Feature().name("test_changed").type(TypeEnum.BOOL).defaultValue("false")
             ));
-          removeProject(projectsApi);
           projectsApi.createProject(project);
         } catch (ApiException e) {
           System.out.print("[INFO] " + prjName + " Project aready exists");

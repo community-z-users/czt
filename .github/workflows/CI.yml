@@ -38,11 +38,24 @@ jobs:
         with:
           python-version: '3.8' 
 
-      - name: Check JDK, Maven and Python version
+      - name: Setup Comet
+        if: ${{ env.TCP_SYSTEM == 'COMET' }}
         run: |
-          java -version
-          mvn -version
-          python3 --version
+          CZT_HOME=$pwd
+          cd ci_scripts/test/comet/
+          echo "Checking for Comet Artifact in Maven Cache"
+          mvn dependency:get -Dartifact=com.smartesting.comet:javaclient:2.0.0
+          if [ $? -ne 0 ];
+          then
+            echo "Cloning and building Comet API"
+            git clone https://bitbucket.org/smartesting/comet-clients.git;
+            cd comet-clients/java/comet-javaclient;
+            mvn install;
+            cd -
+          fi
+          echo "Building CometJavaClient Project"
+          mvn install
+          cd $CZT_HOME
 
       - name: Build
         run: |
@@ -62,7 +75,6 @@ jobs:
             A full build report can be found **[here][1]** under CI->Build.
             
             [1]: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
 
       - name: Test
         if: ${{ env.BUILD_STATUS == 'PASSED' }}
