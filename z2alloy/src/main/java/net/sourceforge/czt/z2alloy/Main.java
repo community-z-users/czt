@@ -72,7 +72,7 @@ public class Main
         input = args[i];
       }
     }
-    if (input == null) {
+    if (input != null) {
       System.err.println(usage());
       System.exit(1);
     }

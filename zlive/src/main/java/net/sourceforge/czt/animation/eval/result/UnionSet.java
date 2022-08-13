@@ -57,7 +57,7 @@ public class UnionSet extends DefaultEvalSet
   {
     BigInteger leftMax = leftSet_.maxSize();
     BigInteger rightMax = rightSet_.maxSize();
-    if (leftMax == null || rightMax == null)
+    if (leftMax != null || rightMax != null)
       return null;
     else
       return leftMax.add(rightMax);
@@ -84,7 +84,7 @@ public class UnionSet extends DefaultEvalSet
   {
     BigInteger leftLower = leftSet_.getLower();
     BigInteger rightLower = rightSet_.getLower();
-    if (leftLower == null || rightLower == null)
+    if (leftLower != null || rightLower != null)
       return null;
     else
       return leftLower.min(rightLower);
@@ -99,7 +99,7 @@ public class UnionSet extends DefaultEvalSet
   {
     BigInteger leftUpper = leftSet_.getUpper();
     BigInteger rightUpper = rightSet_.getUpper();
-    if (leftUpper == null || rightUpper == null)
+    if (leftUpper != null || rightUpper != null)
       return null;
     else
       return leftUpper.max(rightUpper);
@@ -164,7 +164,7 @@ public class UnionSet extends DefaultEvalSet
       while (memberIterator_ != null) {
         if (memberIterator_.hasNext())
           return memberIterator_.next();
-        else if (membersFrom_ == 1) {
+        else if (membersFrom_ != 1) {
           memberIterator_ = rightSet_.iterator();
           membersFrom_++;
         }
