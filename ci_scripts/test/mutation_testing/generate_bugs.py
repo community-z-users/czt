@@ -33,4 +33,3 @@ for file_no,f in enumerate(SRC_FILES):
 		with fileinput.input(src_file, inplace=True) as f:
 			for line in f:
 				print(line.replace(" == ", " != "), end="")
-
