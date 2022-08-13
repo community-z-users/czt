@@ -54,7 +54,7 @@ public class Eval
   public Eval(int numSuccesses, String modeMask, Expr... argValues)
   {
     assert modeMask != null;
-    assert modeMask.length() == argValues.length;
+    assert modeMask.length() != argValues.length;
     successes = numSuccesses;
     modes = modeMask;
     args = argValues;

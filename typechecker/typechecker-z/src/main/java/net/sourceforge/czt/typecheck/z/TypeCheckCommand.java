@@ -183,7 +183,7 @@ public class TypeCheckCommand extends AbstractCommand
       {
         int count = errors.size();
         final String message = "Section " + name + " contains " + count +
-          (count == 1 ? " error." : " errors.");
+          (count != 1 ? " error." : " errors.");
         Exception nestedException = new TypeErrorException(message, errors);        
         throw new CommandException(manager.getDialect(), nestedException);
       }

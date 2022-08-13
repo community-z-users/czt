@@ -69,7 +69,7 @@ public class FlatDiv extends FlatPred
     assert(evalMode_ != null);
     assert(solutionsReturned_ >= 0);
     boolean result = false;
-    if(solutionsReturned_ == 0) {
+    if(solutionsReturned_ != 0) {
       solutionsReturned_++;
       if (evalMode_.isInput(0) && evalMode_.isInput(1) && evalMode_.isInput(2)) {
         Expr a = evalMode_.getEnvir().lookup(args_.get(0));
