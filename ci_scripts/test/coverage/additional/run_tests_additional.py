@@ -43,7 +43,7 @@ def match_path(m_file, s_file):
 	return m_file.endswith(s_file)
 
 # stream = os.popen('git diff --name-only HEAD origin/main')
-stream = os.popen('git diff --name-only HEAD .')
+stream = os.popen('git diff --name-only HEAD HEAD^1')
 changed_files = stream.read().strip().split('\n')
 
 # Match to coverage data
@@ -115,7 +115,6 @@ for test_class in prioritisation:
 	if err:
 		print("FAILED".rjust(99-len(line)))
 		FAILED_TEST=True
-		break
 	else:
 		print("PASSED".rjust(99-len(line)))
 
@@ -127,7 +126,6 @@ for test_class in redundant_prioritisation:
 	if err:
 		print("FAILED".rjust(99-len(line)))
 		FAILED_TEST=True
-		break
 	else:
 		print("PASSED".rjust(99-len(line)))
 
@@ -139,7 +137,6 @@ for test_class in unprioritised:
 	if err:
 		print("FAILED".rjust(99-len(line)))
 		FAILED_TEST=True
-		break
 	else:
 		print("PASSED".rjust(99-len(line)))
 

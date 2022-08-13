@@ -14,7 +14,7 @@ jobs:
       BUILD_STATUS: "FAILED" # Assume failed and change if build PASSES
       TEST_STATUS: "FAILED"  # Do the same with test results
       COMET_API_KEY: ${{ secrets.COMET_API_KEY }}
-      TCP_SYSTEM: "ADD_COVERAGE" # Options are: "MODULE", "TOT_COVERAGE", "ADD_COVERAGE", "COMET"
+      TCP_SYSTEM: "COMET" # Options are: "MODULE", "TOT_COVERAGE", "ADD_COVERAGE", "COMET"
     
     steps:
 
@@ -43,16 +43,13 @@ jobs:
         run: |
           CZT_HOME=$pwd
           cd ci_scripts/test/comet/
-          echo "Checking for Comet Artifact in Maven Cache"
-          mvn dependency:get -Dartifact=com.smartesting.comet:javaclient:2.0.0
-          if [ $? -ne 0 ];
-          then
-            echo "Cloning and building Comet API"
-            git clone https://bitbucket.org/smartesting/comet-clients.git;
-            cd comet-clients/java/comet-javaclient;
-            mvn install;
-            cd -
-          fi
+  
+          echo "Cloning and building Comet API"
+          git clone https://bitbucket.org/smartesting/comet-clients.git;
+          cd comet-clients/java/comet-javaclient;
+          mvn clean install;
+          cd -
+
           echo "Building CometJavaClient Project"
           mvn install
           cd $CZT_HOME
@@ -65,7 +62,7 @@ jobs:
       - name: Update build status
         run: |
           chmod +x ./ci_scripts/build/build_status.sh # Ensure build_status.sh is executable
-          if [ `./ci_scripts/build/build_status.sh` == 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
+          if [ `./ci_scripts/build/build_status.sh` = 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
           
       - name: Post Comment of Build Status to Pull Request 
         uses: peter-evans/commit-comment@v1
@@ -86,28 +83,28 @@ jobs:
             # Module based TCP
             chmod +x ./ci_scripts/test/module/run_tests.py
             ./ci_scripts/test/module/run_tests.py
-            if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
+            if [ `echo $?` = 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
           
           elif [ $TCP_SYSTEM = "TOT_COVERAGE" ]
           then
             # Total Coverage Based TCP
             chmod +x ./ci_scripts/test/coverage/total/run_tests.py
             ./ci_scripts/test/coverage/total/run_tests.py
-            if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
+            if [ `echo $?` = 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
 
           elif [ $TCP_SYSTEM = "ADD_COVERAGE" ]
           then
             # Additional Coverage Based TCP
             chmod +x ./ci_scripts/test/coverage/additional/run_tests_additional.py
             ./ci_scripts/test/coverage/additional/run_tests_additional.py
-            if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
+            if [ `echo $?` = 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
 
           elif [ $TCP_SYSTEM = "COMET" ]
           then
             # Comet TCP (AI Based)
             chmod +x ./ci_scripts/test/comet/run_tests.sh
             ./ci_scripts/test/comet/run_tests.sh
-            if [ `echo $?` == 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
+            if [ `echo $?` = 0 ]; then echo "TEST_STATUS=PASSED" >> $GITHUB_ENV; fi;
           fi
 
           

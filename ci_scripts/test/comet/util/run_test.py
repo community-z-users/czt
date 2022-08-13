@@ -6,4 +6,7 @@ import os
 # Go back up to home dir
 os.chdir("../../..")
 
-os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + str(sys.argv[1]))
+err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + str(sys.argv[1]))
+
+if err:
+    exit(1)

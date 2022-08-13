@@ -112,20 +112,32 @@ public class CometJavaClient {
           TestCycle lastCycle = testCyclesApi.showLastTestCycle(prjName);
           System.out.println("There are currently " + prevCycles.size() + " test cycles");
           System.out.println("" + lastCycle.getId() + " " + lastCycle.getTests().size());
-          if (prevCycles.size() >= 10) {
+          if (prevCycles.size() < 10) {
+            // Create more test cycles until you have 10
+            for(int i = prevCycles.size(); i <= 10; i++) {
+              String newCycleId = LocalDateTime.now().toString();
+              try {
+                TestCycle testCycle = new TestCycle();
+                testCycle.id(newCycleId);
+                testCycle.tests(tests);
+                testCyclesApi.addTestCycle(prjName, testCycle, false);
+              } catch (ApiException e) {
+                printApiException(e);
+                System.exit(1);
+              }
+            }
+
+            lastCycle = testCyclesApi.showLastTestCycle(prjName);
             Prioritization prior = prioritizationsApi.prioritize(prjName, lastCycle.getId());
             prioritisedTests = prior.getTests();
           } else {
-            // Return unprioritised list since prioritisation can't be generated with less than
-            // ten test cycles.
-            // Get tests from last uploaded cycle
-            for (Test test : lastCycle.getTests()) {
-              prioritisedTests.add((String) test.get(("id")));
-            }
+            Prioritization prior = prioritizationsApi.prioritize(prjName, lastCycle.getId());
+            prioritisedTests = prior.getTests();
           }
         } catch (NullPointerException | ApiException e) {
           System.out.println(e.toString());
           System.err.println("Problem getting prioritisation");
+          System.out.println(e);
           System.exit(1);
         }
 
@@ -133,8 +145,6 @@ public class CometJavaClient {
         // Run tests
         TestsApi testsApi = new TestsApi();
         List<TestVerdict> verdicts = new ArrayList<>();
-        // System.out.println(testCyclesApi.showLastTestCycle(prjName).getId());
-        // System.exit(0);
         boolean allTestsPassed = true;
         try {
           r = Runtime.getRuntime();
