@@ -43,7 +43,7 @@ def match_path(m_file, s_file):
 	return m_file.endswith(s_file)
 
 # stream = os.popen('git diff --name-only HEAD origin/main')
-stream = os.popen('git diff --name-only HEAD .')
+stream = os.popen('git diff --name-only HEAD HEAD^1')
 changed_files = stream.read().strip().split('\n')
 
 # Match to coverage data

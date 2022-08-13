@@ -104,7 +104,7 @@ def get_rank(module, target):
 # stream = os.popen('git diff --name-only HEAD origin/main')
 
 # Using local changes (For testing)  
-stream = os.popen('git diff --name-only HEAD .')
+stream = os.popen('git diff --name-only HEAD HEAD^1')
 
 changed_files = stream.read().strip().split('\n')
 

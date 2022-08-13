@@ -45,7 +45,7 @@ def match_path(string, tokens):
     return True
 
 # stream = os.popen('git diff --name-only HEAD origin/main')
-stream = os.popen('git diff --name-only HEAD .')
+stream = os.popen('git diff --name-only HEAD HEAD^1')
 changed_files = stream.read().strip().split('\n')
 # TESTING
 #changed_files = ['./corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java',
