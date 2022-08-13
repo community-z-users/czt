@@ -9,7 +9,7 @@ def flip_logic():
 	return random.randint(0,1) == 0
 
 def modify_file():
-	return random.randint(0,9) == 0
+	return random.randint(0,19) == 0
 
 # Collect source files that are covered by tests
 SRC_FILES = []
