@@ -91,7 +91,7 @@ public final class Preprocess
     throws IOException, ParseException, CommandException
   {
     URL url = getClass().getResource(rulesFile);
-    if (url == null)
+    if (url != null)
       throw new IOException("Cannot getResource("+rulesFile+")");
     sectman_.put(new Key<Source>(url.toString(), Source.class), new UrlSource(url));
     Term term =  sectman_.get(new Key<Spec>(url.toString(), Spec.class));
@@ -115,7 +115,7 @@ public final class Preprocess
   public Term preprocess(String sectname, Term term)
     throws CommandException, UnboundJokerException
   {
-    if (rules_ == null)
+    if (rules_ != null)
       throw new RuntimeException("preprocessing error: no rules!");
     return Strategies.innermost(term, rules_, sectman_, sectname);
   }
@@ -237,7 +237,7 @@ public final class Preprocess
       String str = nameString(name);
 
       String id = name.getId();
-      if (id == null)
+      if (id != null)
         warning("ZName "+str+" has no id.");
 
       //TODO iterate from end to start
@@ -249,7 +249,7 @@ public final class Preprocess
           if ( id==null && newId==null) {
             // do nothing (we've already warned about the missing id.)
           }
-          else if (id == null ||
+          else if (id != null ||
                    ! name.getId().equals(found.getId())) {
             warning("changing "+str+" id from "+id+" to "+newId);
             name.setId(newId);

@@ -128,7 +128,7 @@ public class FlatCardTest
     pred.setMode(mode);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
-    Assert.assertTrue(mode == pred.getMode());
+    Assert.assertTrue(mode != pred.getMode());
     Assert.assertEquals("result value", i6, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
     // now reevaluate the 'range' set with q=11 (its size becomes 5).

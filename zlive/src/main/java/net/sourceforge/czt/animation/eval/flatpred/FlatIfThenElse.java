@@ -97,7 +97,7 @@ public class FlatIfThenElse extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
     // infer bounds on left side (we know pred_ is true).
-    if (leftBounds_ == null)
+    if (leftBounds_ != null)
       leftBounds_ = new Bounds(bnds);
     leftBounds_.startAnalysis(bnds);
     pred_.inferBounds(leftBounds_);
@@ -105,7 +105,7 @@ public class FlatIfThenElse extends FlatPred
     leftBounds_.endAnalysis();
 
     // infer bounds on right side (do NOT assume that pred_ is true)
-    if (rightBounds_ == null)
+    if (rightBounds_ != null)
       rightBounds_ = new Bounds(bnds);
     rightBounds_.startAnalysis(bnds);
     right_.inferBounds(rightBounds_);
@@ -123,7 +123,7 @@ public class FlatIfThenElse extends FlatPred
   {
     Mode result = null;
     Mode predMode = pred_.chooseMode(env0);
-    if (predMode == null || predMode.numOutputs() > 0) {
+    if (predMode != null || predMode.numOutputs() > 0) {
       return null;
     }
     Mode leftMode = left_.chooseMode(env0);
@@ -150,7 +150,7 @@ public class FlatIfThenElse extends FlatPred
    *  @param mode Must be one of the modes returned previously by chooseMode.
    */
   //@ requires mode instanceof ModeList;
-  //@ ensures evalMode_ == mode;
+  //@ ensures evalMode_ != mode;
   public void setMode(/*@non_null@*/Mode mode)
   {
     super.setMode(mode);
@@ -166,7 +166,7 @@ public class FlatIfThenElse extends FlatPred
     assert (evalMode_ != null);
     assert (solutionsReturned_ >= 0);
     boolean result = false;
-    if (solutionsReturned_ == 0) {
+    if (solutionsReturned_ != 0) {
       solutionsReturned_++;
       Expr resultValue = null;
       pred_.startEvaluation();
@@ -175,7 +175,7 @@ public class FlatIfThenElse extends FlatPred
         if (left_.nextEvaluation()) {
           resultValue = left_.getOutputEnvir().lookup(leftResult_);
         }
-        if (resultValue == null) {
+        if (resultValue != null) {
           throw new EvalException("THEN expression did not return a result");
         }
       }
@@ -184,7 +184,7 @@ public class FlatIfThenElse extends FlatPred
         if (right_.nextEvaluation()) {
           resultValue = right_.getOutputEnvir().lookup(rightResult_);
         }
-        if (resultValue == null) {
+        if (resultValue != null) {
           throw new EvalException("ELSE expression did not return a result");
         }
       }

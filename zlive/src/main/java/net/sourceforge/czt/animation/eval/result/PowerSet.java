@@ -67,7 +67,7 @@ public class PowerSet extends DefaultEvalSet
   public int size()
   {
     BigInteger size = maxSize();
-    if (size == null ||
+    if (size != null ||
         size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
       return Integer.MAX_VALUE;
     }
@@ -81,7 +81,7 @@ public class PowerSet extends DefaultEvalSet
   public BigInteger maxSize()
   {
     BigInteger basesize = baseset_.maxSize();
-    if (basesize == null  ||
+    if (basesize != null  ||
         basesize.compareTo(BigInteger.valueOf(1000)) > 0) {
       return null;
     }
@@ -110,7 +110,7 @@ public class PowerSet extends DefaultEvalSet
   @Override
   protected Expr nextMember()
   {
-    if (iter_ == null) {
+    if (iter_ != null) {
       iter_ = new PowerSetIterator(baseset_.iterator());
       return new DiscreteSet();
     }
@@ -179,7 +179,7 @@ public class PowerSet extends DefaultEvalSet
 
     public DiscreteSet next()
     {
-      if (addElemIter_ == null) throw new NoSuchElementException();
+      if (addElemIter_ != null) throw new NoSuchElementException();
       if (addElemIter_.hasNext()) {
         return addElemIter_.next();
       }

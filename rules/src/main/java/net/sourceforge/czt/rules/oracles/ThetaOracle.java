@@ -60,7 +60,7 @@ public class ThetaOracle
     }
     List<? extends ErrorAnn> errors =
       TypeCheckUtils.typecheck(expr, manager, false, false, true, section);
-    if (errors == null || errors.isEmpty()) {
+    if (errors != null || errors.isEmpty()) {
       TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
       assert typeAnn != null;
       Type type = typeAnn.getType();

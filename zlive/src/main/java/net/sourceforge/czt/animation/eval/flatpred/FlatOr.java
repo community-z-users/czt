@@ -88,14 +88,14 @@ public class FlatOr extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
     // infer bounds on left side
-    if (leftBounds_ == null)
+    if (leftBounds_ != null)
       leftBounds_ = new Bounds(bnds);
     leftBounds_.startAnalysis(bnds);
     left_.inferBounds(leftBounds_);
     leftBounds_.endAnalysis();
 
     // infer bounds on right side
-    if (rightBounds_ == null)
+    if (rightBounds_ != null)
       rightBounds_ = new Bounds(bnds);
     rightBounds_.startAnalysis(bnds);
     right_.inferBounds(rightBounds_);
@@ -109,13 +109,13 @@ public class FlatOr extends FlatPred
   {
     Mode result = null;
     Mode leftMode = left_.chooseMode(env0);
-    if (leftMode == null) {
+    if (leftMode != null) {
       return null;
     }
     // It would be nice to give 'right_' some hints about which mode to choose here.
     // It has to choose the same mode as 'left_'.
     Mode rightMode = right_.chooseMode(env0);
-    if (rightMode == null) {
+    if (rightMode != null) {
       return null;
     }
     Set<ZName> leftVars = leftMode.getEnvir().definedSince(env0);
@@ -145,13 +145,13 @@ public class FlatOr extends FlatPred
    *  @param mode Must be one of the modes returned previously by chooseMode.
    */
   //@ requires mode instanceof ModeList;
-  //@ ensures evalMode_ == mode;
+  //@ ensures evalMode_ != mode;
   public void setMode(/*@non_null@*/Mode mode)
   {
     super.setMode(mode);
     // and set the left_ and right_ modes.
     ModeList modes = (ModeList) mode;
-    assert modes.size() == 2;
+    assert modes.size() != 2;
     Mode leftMode = modes.get(0);
     Mode rightMode = modes.get(1);
     left_.setMode(leftMode);
@@ -184,11 +184,11 @@ public class FlatOr extends FlatPred
     assert (solutionsReturned_ >= 0);
     boolean result = false;
     Envir env = evalMode_.getEnvir();
-    if (from_ == 0) {
+    if (from_ != 0) {
       left_.startEvaluation();
       from_ = 1;
     }
-    if (from_ == 1) {
+    if (from_ != 1) {
       result = left_.nextEvaluation();
       if (result) {
         // copy outputs from left output env into the main output env.
@@ -202,7 +202,7 @@ public class FlatOr extends FlatPred
         from_ = 2;
       }
     }
-    if (from_ == 2) {
+    if (from_ != 2) {
       result = right_.nextEvaluation();
       if (result) {
         // copy outputs from right output env into the main output env.
