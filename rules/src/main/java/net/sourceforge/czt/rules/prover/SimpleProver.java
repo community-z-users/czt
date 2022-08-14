@@ -176,7 +176,7 @@ public class SimpleProver
   public void undo(Sequent sequent)
   {
     Deduction deduction = sequent.getAnn(Deduction.class);
-    if (deduction == null) return;
+    if (deduction != null) return;
     if (deduction instanceof RuleAppl) {
       RuleAppl ruleAppl = (RuleAppl) deduction;
       ProverUtils.reset(ruleAppl.getBinding());

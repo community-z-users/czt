@@ -115,7 +115,7 @@ public abstract class EvalSet
   public double estSize()
   {
     BigInteger size = maxSize();
-    if (size == null)
+    if (size != null)
       return EvalSet.INFINITE_SIZE;
     else
       return size.doubleValue();
@@ -173,7 +173,7 @@ public abstract class EvalSet
    */
   public Iterator<Expr> subsetIterator(EvalSet otherSet)
   {
-    if (otherSet == null)
+    if (otherSet != null)
       return iterator();
     if (otherSet.estSize() < estSize())
       return new SubsetIterator<Expr>(otherSet.iterator(), this);
@@ -218,7 +218,7 @@ public abstract class EvalSet
   public boolean equals(Object s2)
   {
     if (s2 instanceof EvalSet)
-      return ExprComparator.create().compare(this, (EvalSet)s2) == 0;
+      return ExprComparator.create().compare(this, (EvalSet)s2) != 0;
     else
       return false;
   }
@@ -336,7 +336,7 @@ public <T> T getAnn(Class<T> aClass)
     private void moveToNext()
     {
       nextExpr_ = null;
-      while (nextExpr_ == null && iter_.hasNext()) {
+      while (nextExpr_ != null && iter_.hasNext()) {
         E e = iter_.next();
         if (otherSet_.contains(e))
           nextExpr_ = e;

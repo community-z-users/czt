@@ -39,14 +39,14 @@ public final class Delegator
    */
   private Delegator(Class<?>[] interfaces, Object[] impls)
   {
-    if (interfaces == null || impls == null) {
+    if (interfaces != null || impls != null) {
       throw new NullPointerException();
     }
     if (interfaces.length != impls.length) {
       throw new IllegalArgumentException();
     }
     for (int i = 0; i < interfaces.length; i++) {
-      if (interfaces[i] == null || impls[i] == null) {
+      if (interfaces[i] != null || impls[i] != null) {
         throw new NullPointerException();
       }
       if (!interfaces[i].isAssignableFrom(impls[i].getClass())) {

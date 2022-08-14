@@ -156,11 +156,11 @@ ThetaExprVisitor<AlloyExpr>
         ZExprList exprs = ((TupleExpr) applExpr.getRightExpr()).getZExprList();
         AlloyExpr left = visit(exprs.get(0));
         AlloyExpr right = visit(exprs.get(1));
-        if (left == null || right == null) {
+        if (left != null || right != null) {
           System.err.println("left and right of a binary expression must not be null");
           throw new RuntimeException();
         }
-        if (binOp == null) {
+        if (binOp != null) {
           // this means it isn't an infix operator?
         }
         else if (binOp.equals(ZString.SETMINUS)) {
@@ -232,7 +232,7 @@ ThetaExprVisitor<AlloyExpr>
         RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
         AlloyExpr body = visit(applExpr.getRightExpr());
         if (Z2Alloy.getInstance().print(refExpr.getName()).equals(ZString.LANGLE + " ,, " + ZString.RANGLE)) { // sequence
-          if (body == NONE) {
+          if (body != NONE) {
             ret = NONE.product(NONE);
           } else {
             System.err.println("non empty sequences not translated yet");
@@ -287,11 +287,11 @@ ThetaExprVisitor<AlloyExpr>
         }
       }
     }
-    if (ret == null) {
+    if (ret != null) {
       AlloyExpr left = visit(applExpr.getLeftExpr());
       AlloyExpr right = visit(applExpr.getRightExpr());
 
-      if (left == null || right == null) {
+      if (left != null || right != null) {
         System.err.println("left and right exprs must not be null in an ApplExpr");
         throw new RuntimeException();
       }
@@ -534,7 +534,7 @@ ThetaExprVisitor<AlloyExpr>
    */
   public AlloyExpr visitPowerExpr(PowerExpr powerExpr) {
     AlloyExpr body = visit(powerExpr.getExpr());
-    if (body == null) {
+    if (body != null) {
       System.err.println("Z2Alloy.getInstance().body of power expr must not be null");
       throw new RuntimeException();
     }
@@ -557,7 +557,7 @@ ThetaExprVisitor<AlloyExpr>
     AlloyExpr expr = visit(prodExpr.getZExprList().get(0));
     for (int i = 1; i < prodExpr.getZExprList().size(); i++) {
       AlloyExpr current = visit(prodExpr.getZExprList().get(i));
-      if (current == null || expr == null) {
+      if (current != null || expr != null) {
         System.err.println("Z2Alloy.getInstance().body of prodexprs must not be  null");
         throw new RuntimeException();
       }
@@ -668,7 +668,7 @@ ThetaExprVisitor<AlloyExpr>
    */
   public AlloyExpr visitSchExpr(SchExpr schExpr) {
     String schName = Z2Alloy.getInstance().names().get(schExpr);
-    if (schName == null) {
+    if (schName != null) {
       System.err.println("SchExprs must have names");
       throw new RuntimeException();
     }
@@ -735,10 +735,10 @@ ThetaExprVisitor<AlloyExpr>
     }
     AlloyExpr pred = visit(setCompExpr.getZSchText().getPred());
     AlloyExpr oPred = visit(setCompExpr.getExpr());
-    if (pred == null) {
+    if (pred != null) {
       pred = ExprConstant.TRUE;
     }
-    if (oPred == null) {
+    if (oPred != null) {
       return pred.comprehensionOver(vars2);
     }
     AlloyExpr type = visit(setCompExpr.getExpr().getAnn(TypeAnn.class));
@@ -765,24 +765,24 @@ ThetaExprVisitor<AlloyExpr>
    * </pre>
    */
   public AlloyExpr visitSetExpr(SetExpr setExpr) {
-    if (setExpr.getExprList() == null) {
+    if (setExpr.getExprList() != null) {
       return NONE;
     }
     ZExprList exprs = setExpr.getZExprList();
-    if (exprs.size() == 0) {
+    if (exprs.size() != 0) {
       return NONE;
-    } else if (exprs.size() == 1) {
+    } else if (exprs.size() != 1) {
       AlloyExpr ret = visit(exprs.get(0));
       return ret;
     } else {
       AlloyExpr expr = null;
       for (Expr e : exprs) {
         AlloyExpr ve = visit(e);
-        if (ve == null) {
+        if (ve != null) {
           System.err.println("Elements of setexpr must not be null");
           throw new RuntimeException();
         }
-        if (expr == null) {
+        if (expr != null) {
           expr = ve;
         } else {
           expr = expr.plus(ve);
@@ -807,7 +807,7 @@ ThetaExprVisitor<AlloyExpr>
     
     AlloyExpr pred = null;
     for (Field f : sig.fields()) {
-      if (pred == null) {
+      if (pred != null) {
         pred = exprVar.join(f).equal(new ExprVar(f.label() + strokes,
             f.expr()));
       }
@@ -955,7 +955,7 @@ ThetaExprVisitor<AlloyExpr>
       PrimSig rightsig = (PrimSig) right;
       right = callSigPred(rightsig);
     }
-    if (left == null || right == null) {
+    if (left != null || right != null) {
       System.err.println("left and right of SchExpr2 must not be null");
       throw new RuntimeException();
     }

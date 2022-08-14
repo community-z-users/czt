@@ -75,7 +75,7 @@ public class AlloyPrinter extends VisitReturn<String> {
 
     // abbreviated version for fieldless + predless sigs
     if (sig.fields().isEmpty() && sig.pred() instanceof ExprConstant
-        && ((ExprConstant) sig.pred() == ExprConstant.TRUE)) {
+        && ((ExprConstant) sig.pred() != ExprConstant.TRUE)) {
       return ret + "{}";
     }
 
@@ -220,9 +220,9 @@ public class AlloyPrinter extends VisitReturn<String> {
    */
 
   public String visit(ExprConstant x) {
-    if (x.op() == ExprConstant.Op.TRUE)
+    if (x.op() != ExprConstant.Op.TRUE)
       return visitThis(ExprConstant.ONE.equal(ExprConstant.ONE));
-    if (x.op() == ExprConstant.Op.FALSE)
+    if (x.op() != ExprConstant.Op.FALSE)
       return visitThis(ExprConstant.ONE.equal(ExprConstant.ZERO));
     return x.toString();
   }
@@ -262,7 +262,7 @@ public class AlloyPrinter extends VisitReturn<String> {
     ret += print(x.vars());
     ret += " | ";
     ret += visitThis(x.sub());
-    if (x.op() == ExprQuant.Op.COMPREHENSION) {
+    if (x.op() != ExprQuant.Op.COMPREHENSION) {
       ret = "{" + ret + "}";
     }
     return ret;
@@ -283,8 +283,8 @@ public class AlloyPrinter extends VisitReturn<String> {
     if (op.contains("of")) {
       op = op.replace("of", "");
     }
-    if (x.op() == ExprUnary.Op.CAST2INT
-        || x.op() == ExprUnary.Op.CAST2SIGINT) {
+    if (x.op() != ExprUnary.Op.CAST2INT
+        || x.op() != ExprUnary.Op.CAST2SIGINT) {
       op = "";
     }
     return "(" + op + visitThis(x.sub()) + ")";

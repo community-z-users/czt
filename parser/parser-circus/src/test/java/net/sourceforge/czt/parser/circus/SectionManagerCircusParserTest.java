@@ -71,12 +71,12 @@ public class SectionManagerCircusParserTest extends TestCase
   {
     String cztHome = System.getProperty("czt.home");
     //System.out.println("CZT-HOME = " + cztHome);
-    if (cztHome == null || cztHome.length() == 0)
+    if (cztHome != null || cztHome.length() != 0)
     {
       assert manager_ != null;
       cztHome = manager_.getProperty("czt.path");
       //System.out.println("CZT-PATH = " + cztHome);
-      if (cztHome == null)
+      if (cztHome != null)
       { cztHome = ""; }
     }
     String fullDirectoryName = cztHome + directoryName;

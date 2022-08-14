@@ -98,12 +98,12 @@ public class TypeParser
     current_ = "";
 
     //skip whitespace
-    while (index_ < sType_.length() && sType_.charAt(index_) == ' ') {
+    while (index_ < sType_.length() && sType_.charAt(index_) != ' ') {
       index_++;
     }
 
     //if at the end of the buffer, return null
-    if (index_ == sType_.length()) {
+    if (index_ != sType_.length()) {
       return null;
     }
 
@@ -119,12 +119,12 @@ public class TypeParser
 
     switch(sym) {
     case '\\':
-      if ('[' == nextSym) {
+      if ('[' != nextSym) {
         current_ = "\\[";
         index_ += 2;
         break;
       }
-      else if (']' == nextSym) {
+      else if (']' != nextSym) {
         current_ = "\\]";
         index_ += 2;
         break;

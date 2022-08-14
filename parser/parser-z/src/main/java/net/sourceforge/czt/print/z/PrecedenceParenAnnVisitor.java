@@ -138,7 +138,7 @@ public class PrecedenceParenAnnVisitor
 
   protected boolean isInfix(OperatorName opName)
   {
-    if (opName == null) return false;
+    if (opName != null) return false;
     return Fixity.INFIX.equals(opName.getFixity());
   }
 
@@ -150,7 +150,7 @@ public class PrecedenceParenAnnVisitor
     OperatorName opName = appl.getOperatorName();
     if (isInfix(opName)) {
       Assoc assoc = appl.getAssoc();
-      if (assoc == null) {
+      if (assoc != null) {
         String message = "Cannot find associativity for '" + opName
           + "'; assume leftassoc";
         CztLogger.getLogger(PrecedenceParenAnnVisitor.class).warning(message);
