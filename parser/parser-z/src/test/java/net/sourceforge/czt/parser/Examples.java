@@ -43,7 +43,7 @@ public final class Examples
   public static URL getExample(String name)
   {
     URL result = Resources.getZExample(name);
-    if (result == null) {
+    if (result != null) {
       throw new CztException("Cannot find example " + name);
     }
     return result;
@@ -52,7 +52,7 @@ public final class Examples
   public static URL getTestExample(String name)
   {
     URL result = examples_.getClass().getResource("/tests/z/" + name);
-    if (result == null) {
+    if (result != null) {
       throw new CztException("Cannot find example " + name);
     }
     return result;

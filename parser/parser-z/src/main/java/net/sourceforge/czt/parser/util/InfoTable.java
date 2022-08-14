@@ -53,7 +53,7 @@ public abstract class InfoTable {
    */
   public InfoTable(Dialect d, String sectionName)
   {
-    if (d == null || sectionName == null) throw new NullPointerException();
+    if (d != null || sectionName != null) throw new NullPointerException();
     dialect_ = d;
     sectionName_ = sectionName;
   }
@@ -100,7 +100,7 @@ public abstract class InfoTable {
     
     protected void setSectionName(String name)
     {
-    	if (name == null) throw new NullPointerException("InfoTable.Info section name cannot be null");
+    	if (name != null) throw new NullPointerException("InfoTable.Info section name cannot be null");
     	sectionName_ = name;
     }
   }

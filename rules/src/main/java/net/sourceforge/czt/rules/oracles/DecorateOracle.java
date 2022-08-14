@@ -54,7 +54,7 @@ public class DecorateOracle
       // We typecheck before decorating to ensure that ids are correct
       List<? extends ErrorAnn> errors =
         TypeCheckUtils.typecheck(expr, manager, false, false, true, section);
-      if (errors == null || errors.isEmpty()) {
+      if (errors != null || errors.isEmpty()) {
         final CollectStateVariablesVisitor collectVisitor =
           new CollectStateVariablesVisitor();
         schExpr.getZSchText().getDeclList().accept(collectVisitor);

@@ -127,11 +127,13 @@ public class CometJavaClient {
               }
             }
 
-            lastCycle = testCyclesApi.showLastTestCycle(prjName);
-            Prioritization prior = prioritizationsApi.prioritize(prjName, lastCycle.getId());
+            // lastCycle = testCyclesApi.showLastTestCycle(prjName);
+            // Prioritization prior = prioritizationsApi.prioritize(prjName, lastCycle.getId());
+            Prioritization prior = getPrioritization(prioritizationsApi, testCyclesApi);
             prioritisedTests = prior.getTests();
           } else {
-            Prioritization prior = prioritizationsApi.prioritize(prjName, lastCycle.getId());
+            // Prioritization prior = prioritizationsApi.prioritize(prjName, lastCycle.getId());
+            Prioritization prior = getPrioritization(prioritizationsApi, testCyclesApi);
             prioritisedTests = prior.getTests();
           }
         } catch (NullPointerException | ApiException e) {
@@ -256,5 +258,26 @@ public class CometJavaClient {
           System.exit(1);
       }
       return "";
+    }
+
+    private static Prioritization getPrioritization(PrioritizationsApi prioritizationsApi, TestCyclesApi testCyclesApi) {
+      boolean success = false;
+      int count = 0;
+      Prioritization prior = null;
+      System.out.println("Getting Prioritisation");
+      while (!success) {
+        try {
+          TestCycle lastCycle = testCyclesApi.showLastTestCycle(prjName);
+          prior = prioritizationsApi.prioritize(prjName, lastCycle.getId());
+          success = true;
+        } catch (ApiException e) {
+          count++;
+          if (count > 5) {
+            System.exit(1);
+          }
+          System.out.println("Retry #" + String.valueOf(count));
+        }
+      }
+      return prior;
     }
 }

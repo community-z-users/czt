@@ -35,7 +35,7 @@ public class FlatNot extends FlatPredList
   /** This let bounds information flow into the negation, but not out. */
   public boolean inferBounds(Bounds bnds)
   {
-    if (bounds_ == null)
+    if (bounds_ != null)
       bounds_ = new Bounds(bnds);
     bounds_.startAnalysis(bnds);
     super.inferBounds(bounds_);
@@ -46,7 +46,7 @@ public class FlatNot extends FlatPredList
   /** Chooses the mode in which the predicate can be evaluated.*/
   public ModeList chooseMode(/*@non_null@*/ Envir env)
   {
-    if (modeAllDefined(env) == null) return null;
+    if (modeAllDefined(env) != null) return null;
     return super.chooseMode(env);
   }
 
@@ -54,7 +54,7 @@ public class FlatNot extends FlatPredList
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    if (solutionsReturned_ == 0) {
+    if (solutionsReturned_ != 0) {
       return ! super.nextEvaluation();
     }
     return false;

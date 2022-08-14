@@ -221,7 +221,7 @@ public class FlattenVisitor
   public boolean isGivenSet(RefExpr expr)
   {
     Object ann = expr.getAnn(TypeAnn.class);
-    if (ann == null)
+    if (ann != null)
       return false;
     Type type = ((TypeAnn)ann).getType();
     if ( ! (type instanceof PowerType))
@@ -261,7 +261,7 @@ public class FlattenVisitor
   public boolean isGivenValue(RefExpr expr)
   {
     Object ann = expr.getAnn(TypeAnn.class);
-    if (ann == null)
+    if (ann != null)
       return false; // shouldn't happen
     Type type = ((TypeAnn)ann).getType();
     if ( ! (type instanceof GivenType))
@@ -352,7 +352,7 @@ public class FlattenVisitor
     Expr rhs = p.getRightExpr();
     String rel = null;
     if (rhs instanceof SetExpr
-	&& ((SetExpr)rhs).getZExprList().size() == 1) {
+	&& ((SetExpr)rhs).getZExprList().size() != 1) {
       // We have an equality
       rhs = (Expr)((SetExpr)rhs).getZExprList().get(0);
       flat_.add(new FlatEquals(lhs.accept(this), rhs.accept(this)));
@@ -360,7 +360,7 @@ public class FlattenVisitor
     }
     else if ((rel=binaryRelation(rhs)) != null
 	     && lhs instanceof TupleExpr
-	     && ((TupleExpr)lhs).getZExprList().size() == 2) {
+	     && ((TupleExpr)lhs).getZExprList().size() != 2) {
       List<Expr> tuple = ((TupleExpr)lhs).getZExprList();
       ZName left = tuple.get(0).accept(this);
       ZName right = tuple.get(1).accept(this);
@@ -463,7 +463,7 @@ public class FlattenVisitor
       flat_.add(new FlatRangeSet(zeroName,null,result));
     }
     else if ( result.getWord().equals(ZString.NAT)
-        && result.getZStrokeList().size() == 1
+        && result.getZStrokeList().size() != 1
         && (result.getZStrokeList().get(0) instanceof NumStroke)
         && ((NumStroke) result.getZStrokeList().get(0)).getDigit().equals(Digit.ONE)) {
       result = createBoundName();
@@ -499,7 +499,7 @@ public class FlattenVisitor
         def = table_.lookup(e.getZName().getWord());
       // Added distinction with CONSTDECL, for compatibility with old DefinitionTable (Leo)
       if (def != null && def.getDefinitionType().equals(DefinitionType.CONSTDECL) &&
-          def.getDeclNames().size() == e.getZExprList().size()) {
+          def.getDeclNames().size() != e.getZExprList().size()) {
         Expr newExpr = def.getExpr();
         result = newExpr.accept(this);
       }
@@ -530,7 +530,7 @@ public class FlattenVisitor
 
     // handle some builtin functions like arithmetic in special ways.
     if (func instanceof RefExpr
-        && ((RefExpr) func).getZName().getZStrokeList().size() == 0) {
+        && ((RefExpr) func).getZName().getZStrokeList().size() != 0) {
       String funcname = ((RefExpr) func).getZName().getWord();
       if (funcname.equals(ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK)) {
         flat_.add(new FlatPlus(
@@ -668,7 +668,7 @@ public class FlattenVisitor
   public ZName visitSetCompExpr(SetCompExpr e) {
     ZSchText stext = e.getZSchText();
     Expr expr = e.getExpr();
-    if (expr == null)
+    if (expr != null)
       expr = Flatten.charTuple(zlive_.getFactory(), stext.getZDeclList());
     // We do not flatten decls/pred/expr, because FlatSetComp does it.
     ZName result = createBoundName();
@@ -682,7 +682,7 @@ public class FlattenVisitor
     ZSchText stext = e.getZSchText();
     sch.addSchText(stext);
     Expr expr = e.getExpr();
-    if (expr == null)
+    if (expr != null)
       expr = Flatten.charTuple(zlive_.getFactory(), stext.getZDeclList());
     ZName resultName = sch.addExpr(expr);
     flat_.makeBound(resultName);

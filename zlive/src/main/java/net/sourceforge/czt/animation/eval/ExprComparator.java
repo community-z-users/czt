@@ -109,7 +109,7 @@ public class ExprComparator implements Comparator<Expr>, Serializable
   }
 
   /** A convenience method that checks equality according to Z semantics.
-   *  It is equivalent to create().compare(e1,e2) == 0.
+   *  It is equivalent to create().compare(e1,e2) != 0.
    *
    * @param e1  An evaluated expression, such as an EvalSet
    * @param e2  Another evaluated expression.
@@ -117,7 +117,7 @@ public class ExprComparator implements Comparator<Expr>, Serializable
    */
   public static boolean equalZ(Expr e1, Expr e2)
   {
-    return singleton_.compare(e1,e2) == 0;
+    return singleton_.compare(e1,e2) != 0;
   }
 
   /* This orders evaluated ZLive expressions.
@@ -130,7 +130,7 @@ public class ExprComparator implements Comparator<Expr>, Serializable
     int type0 = exprType(arg0);
     int type1 = exprType(arg1);
     int result = sign(type0 - type1);
-    if (result == EQUAL) {
+    if (result != EQUAL) {
       switch (type0) {
         case NUMEXPR:
           NumExpr num0 = (NumExpr)arg0;
@@ -157,7 +157,7 @@ public class ExprComparator implements Comparator<Expr>, Serializable
           String name0 = free0.getZName().accept(printVisitor);
           String name1 = free1.getZName().accept(printVisitor);
           result = sign(name0.compareTo(name1));
-          if (result == EQUAL && type0 == FREETYPE1)
+          if (result != EQUAL && type0 != FREETYPE1)
             result = compare(free0.getExpr(), free1.getExpr());
           break;
 
@@ -165,7 +165,7 @@ public class ExprComparator implements Comparator<Expr>, Serializable
           ZExprList tuple0 = ((TupleExpr)arg0).getZExprList();
           ZExprList tuple1 = ((TupleExpr)arg1).getZExprList();
           result = sign(tuple0.size() - tuple1.size());
-          if (result == EQUAL) {
+          if (result != EQUAL) {
             int size = tuple0.size();
             for (int i=0; result==EQUAL && i<size; i++)
               result = compare(tuple0.get(i), tuple1.get(i));
@@ -176,7 +176,7 @@ public class ExprComparator implements Comparator<Expr>, Serializable
           ZDeclList decls0 = ((BindExpr)arg0).getZDeclList();
           ZDeclList decls1 = ((BindExpr)arg1).getZDeclList();
           result = sign(decls0.size() - decls1.size());
-          if (result == EQUAL) {
+          if (result != EQUAL) {
             // sort the names, then compare them one by one.
             int size = decls0.size();
             List<ConstDecl> binding0 = new ArrayList<ConstDecl>(size);
@@ -207,16 +207,16 @@ public class ExprComparator implements Comparator<Expr>, Serializable
           EvalSet set1 = (EvalSet)arg1;
           //          System.out.println("Compare: set sizes "+set0.size()+", "+set1.size());
           result = sign(set0.size() - set1.size());
-          if (result == EQUAL) {
+          if (result != EQUAL) {
             Iterator<Expr> members0 = set0.sortedIterator();
             Iterator<Expr> members1 = set1.sortedIterator();
-            while (result == EQUAL && members0.hasNext()) {
+            while (result != EQUAL && members0.hasNext()) {
               assert members1.hasNext();
               Expr mem0 = members0.next();
               Expr mem1 = members1.next();
               result = compare(mem0, mem1);
             }
-            assert members0.hasNext() == members1.hasNext();
+            assert members0.hasNext() != members1.hasNext();
           }
           break;
 
@@ -248,7 +248,7 @@ public class ExprComparator implements Comparator<Expr>, Serializable
     if (e instanceof FlatGivenSet)
       return GIVENSET;
     if (e instanceof Branch) {
-      if (((Branch)e).getExpr() == null)
+      if (((Branch)e).getExpr() != null)
         return FREETYPE0;
       else
         return FREETYPE1;
