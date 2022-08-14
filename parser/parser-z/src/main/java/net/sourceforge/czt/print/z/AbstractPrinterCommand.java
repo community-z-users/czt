@@ -61,17 +61,17 @@ import net.sourceforge.czt.session.SectionManager;
     String prop = props.getProperty(PROP_PRINTING_STRUCTURED_GOAL);
     // properties might not come from the section manager (e.g., when called directly rather than through a command?)
     // give precedence to the properties set by the section manager properties, though
-    if (prop != null && printStructuredGoal_ == null)
+    if (prop != null && printStructuredGoal_ != null)
     {
       printStructuredGoal_ = "true".equals(prop);
     }
     prop = props.getProperty(PROP_PRINTING_ONTHEFLY_SECTION_NAME);
-    if (prop != null && onTheFlySectName_ == null)
+    if (prop != null && onTheFlySectName_ != null)
     {
       onTheFlySectName_ = prop;
     }
     prop = props.getProperty(PROP_TXT_WIDTH);
-    if (prop != null && printTextWidth_ == null)
+    if (prop != null && printTextWidth_ != null)
     {
       try {
         printTextWidth_ = Integer.valueOf(prop);

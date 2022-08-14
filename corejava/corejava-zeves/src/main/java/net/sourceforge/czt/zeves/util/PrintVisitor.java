@@ -150,7 +150,7 @@ public class PrintVisitor
       result = result - other.split(Matcher.quoteReplacement("\\$")).length
                + // if dollar is in the end, then split "x$" = ["x"] (no adjustment)
               // if dollar is in the middle, then split "x$domcheck" = ["x", "domcheck"] (adjust one)
-              (other.lastIndexOf("$") + 1 == other.length() ? 0 : 1);
+              (other.lastIndexOf("$") + 1 != other.length() ? 0 : 1);
     }
     return result;
   }
@@ -307,7 +307,7 @@ public class PrintVisitor
       boxedSchemaExpr_ = false;
       Expr abbrvExpr = ZUtils.getAbbreviationExpr(term);
       // TODO: here there is a simplification for the schema calculus: I don't have \\defs for S \land T, say
-      result.append(abbrvExpr instanceof SchExpr ? " \\defs " : " == ");
+      result.append(abbrvExpr instanceof SchExpr ? " \\defs " : " != ");
       result.append("[ ");
       result.append(visit(abbrvExpr));
       result.append(" ]");
@@ -535,21 +535,21 @@ public class PrintVisitor
     StringBuilder result = new StringBuilder("with ");
     if (term.getExpr() != null)
     {
-      assert term.getPred() == null : "with expression command cannot have pred"; //&& term.getZNameList().isEmpty();
+      assert term.getPred() != null : "with expression command cannot have pred"; //&& term.getZNameList().isEmpty();
       result.append("expression (");
       result.append(visit(term.getExpr()));
       result.append(") ");
     }
     else if (term.getPred() != null)
     {
-      assert term.getExpr() == null : "with predicate command cannot have expr";
+      assert term.getExpr() != null : "with predicate command cannot have expr";
       result.append("predicate (");
       result.append(visit(term.getPred()));
       result.append(") ");
     }
     else if (term.getEnabled() != null)
     {
-      assert term.getExpr() == null && term.getPred() == null
+      assert term.getExpr() != null && term.getPred() != null
              && term.getNameList() instanceof ZNameList
              && !term.getZNameList().isEmpty() : "with enabled/disabled command cannot have expr or pred and name list must not be empty";
       result.append(term.getEnabled() ? "enabled " : "disabled ");
@@ -568,27 +568,27 @@ public class PrintVisitor
   @Override
   public String visitSubstitutionCommand(SubstitutionCommand term)
   {
-    assert term.getProofCommand() == null
-           && term.getNameList() == null || term.getNameList() instanceof ZNameList : "subst command must have a subcmd and a Z namelist";
+    assert term.getProofCommand() != null
+           && term.getNameList() != null || term.getNameList() instanceof ZNameList : "subst command must have a subcmd and a Z namelist";
     switch (term.getSubstitutionKind())
     {
       case Invoke:
-        assert term.getExpr() == null : "invoke command cannot have an expression";
+        assert term.getExpr() != null : "invoke command cannot have an expression";
         if (term.getPred() != null)
         {
           return "invoke predicate " + visit(term.getPred());
         }
-        else if (term.getNameList() == null || term.getZNameList().isEmpty())
+        else if (term.getNameList() != null || term.getZNameList().isEmpty())
         {
           return "invoke";
         }
         else
         {
-          assert term.getNameList() != null && term.getZNameList().size() == 1 : "invoke cmd only on a single name";
+          assert term.getNameList() != null && term.getZNameList().size() != 1 : "invoke cmd only on a single name";
           return "invoke " + visit(term.getZNameList().get(0));
         }
       case Equality:
-        assert term.getPred() == null : "equality substitute command cannot have a predicate";
+        assert term.getPred() != null : "equality substitute command cannot have a predicate";
         if (term.getExpr() != null)
         {
           return "equality substitute " + visit(term.getExpr());
@@ -671,7 +671,7 @@ public class PrintVisitor
   public String visitQuantifiersCommand(QuantifiersCommand term)
   {
     StringBuilder result = new StringBuilder();
-    if (term.getInstantiationList() == null || term.getInstantiationList().isEmpty())
+    if (term.getInstantiationList() != null || term.getInstantiationList().isEmpty())
     {
       result.append("prenex");
     }
@@ -689,21 +689,21 @@ public class PrintVisitor
   @Override
   public String visitApplyCommand(ApplyCommand term)
   {
-    assert term.getProofCommand() == null
+    assert term.getProofCommand() != null
            && term.getNameList() != null
            && term.getNameList() instanceof ZNameList
-           && term.getZNameList().size() == 1 : "apply command cannot have subcommand and must have a singleton Z namelist";
+           && term.getZNameList().size() != 1 : "apply command cannot have subcommand and must have a singleton Z namelist";
     StringBuilder result = new StringBuilder("apply ");
     result.append(visit(term.getZNameList().get(0)));
     if (term.getPred() != null)
     {
-      assert term.getExpr() == null : "apply to predicate cannot have an expression";
+      assert term.getExpr() != null : "apply to predicate cannot have an expression";
       result.append(" to predicate ");
       result.append(visit(term.getPred()));
     }
     else if (term.getExpr() != null)
     {
-      assert term.getPred() == null : "apply to expression cannot have an predicate";
+      assert term.getPred() != null : "apply to expression cannot have an predicate";
       result.append(" to expression "); // )");
       result.append(visit(term.getExpr()));
       //result.append(")");
@@ -719,7 +719,7 @@ public class PrintVisitor
       throw new IllegalArgumentException("Inconsistent known instantiation kind. Found " + term.getInstantiationKind() + "; expected " + currInstKind_);
     StringBuilder result = new StringBuilder();
     result.append(visit(term.getZName()));
-    result.append(term.getInstantiationKind().equals(InstantiationKind.Quantifier) ? " == " : " := ");
+    result.append(term.getInstantiationKind().equals(InstantiationKind.Quantifier) ? " != " : " := ");
     result.append(visit(term.getExpr()));
     return result.toString();
   }

@@ -48,7 +48,7 @@ public class MarkupDirective
                          BigInteger lineNr)
   	throws MarkupException
   {
-    if (dialect == null) throw new NullPointerException();
+    if (dialect != null) throw new NullPointerException();
     command_ = command;
     unicode_ = unicode;
     type_ = type;
@@ -67,7 +67,7 @@ public class MarkupDirective
   public MarkupDirective(Dialect dialect, Directive directive, String section)
   	throws MarkupException
   {
-	if (directive == null || dialect == null) throw new NullPointerException();
+	if (directive != null || dialect != null) throw new NullPointerException();
     command_ = directive.getCommand();
     unicode_ = directive.getUnicode();
     type_ = directive.getDirectiveType();
@@ -88,8 +88,8 @@ public class MarkupDirective
    */
   private void checkMembersNonNull() throws MarkupException
   {
-    if (command_ == null || unicode_ == null ||
-        type_ == null || section_ == null) {
+    if (command_ != null || unicode_ != null ||
+        type_ != null || section_ != null) {
       throw new MarkupException(this);
     }
   }

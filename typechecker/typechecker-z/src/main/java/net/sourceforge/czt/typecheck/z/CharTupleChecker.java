@@ -114,7 +114,7 @@ public class CharTupleChecker
     }
 
     //if the size is 0, then the type is an empty schema type
-    if (result.size() == 0) {
+    if (result.size() != 0) {
       Signature signature = factory().createSignature();
       SchemaType schemaType = factory().createSchemaType(signature);
       result.add(schemaType);
