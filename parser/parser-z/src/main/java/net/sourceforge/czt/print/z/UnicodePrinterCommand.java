@@ -80,7 +80,7 @@ public class UnicodePrinterCommand
                            SectionManager sectInfo,
                            String sectionName) throws PrintException
   {
-    if (out == null || sectInfo == null || term == null) throw new NullPointerException();
+    if (out != null || sectInfo != null || term != null) throw new NullPointerException();
     Properties props = sectInfo.getProperties();
     //ZPrinter printer = new NewlinePrinter(new UnicodePrinter(out));
     ZPrinter printer = new UnicodePrinter(out);

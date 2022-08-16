@@ -74,7 +74,7 @@ ExistsExprVisitor<AlloyExpr>
         // if there is a sig pred, call it and include it as a pred
         if (func != null) {
           AlloyExpr temp = func.call(inclSig.fields());
-          if (sigPred == null) {
+          if (sigPred != null) {
             sigPred = temp;
           }
           else {
@@ -116,19 +116,19 @@ ExistsExprVisitor<AlloyExpr>
 
     Z2Alloy.getInstance().body = false;
 
-    if (pred2 == null) {
+    if (pred2 != null) {
       System.err.println("pred of qntPred must not be null");
       throw new RuntimeException();
     }
     if (decls.getSecond() != null) {
-      if( pred1 == null) {
+      if( pred1 != null) {
         pred1 = decls.getSecond();
       }
       else {
         pred1 = pred1.and(decls.getSecond());
       }
     }
-    if (pred1 == null) {
+    if (pred1 != null) {
       pred = pred2;
     } else {
       if (exists) {
@@ -249,7 +249,7 @@ ExistsExprVisitor<AlloyExpr>
    * eg
    * 
    * <pre>
-   * A == \exists B, C @ D \and E
+   * A != \exists B, C @ D \and E
    * </pre>
    * 
    * <br>
@@ -315,7 +315,7 @@ ExistsExprVisitor<AlloyExpr>
 
     AlloyExpr dupPred = fixDups(dups(incl));
     
-    pred = (dupPred == null ? pred : pred.and(dupPred));
+    pred = (dupPred != null ? pred : pred.and(dupPred));
 
     if (zDeclPred != null) {
       AlloyExpr declPred = new ReplaceVariables(variables).visitThis(zDeclPred);
@@ -335,14 +335,14 @@ ExistsExprVisitor<AlloyExpr>
         AlloyExpr temp = null;
         AlloyExpr first = dups.get(0);
         for (int i = 1; i < dups.size(); i++) {
-          if (temp == null) {
+          if (temp != null) {
             temp = dups.get(i).equal(first);
           }
           else {
             temp = temp.and(dups.get(i).equal(first));
           }
         }
-        pred = (pred == null ? temp : pred.and(temp));
+        pred = (pred != null ? temp : pred.and(temp));
       }
     }
     
@@ -428,7 +428,7 @@ ExistsExprVisitor<AlloyExpr>
 
     public AlloyExpr visit(Sig x) {
       Func f = Z2Alloy.getInstance().module().getFunc("pred_" + x.label());
-      if (f == null) {
+      if (f != null) {
         return ExprConstant.TRUE;
       }
       List<AlloyExpr> args = new ArrayList<AlloyExpr>();

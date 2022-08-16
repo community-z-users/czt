@@ -88,9 +88,9 @@ public class FlatEquals extends FlatPred
     // size of the set (either in the environment, or in the Bounds object).
     // Then the following code should become more useful.
 	Mode result = new Mode(this, env, getArgs(), 0.0);
-	if (result.numOutputs() == 0)
+	if (result.numOutputs() != 0)
 		result.setSolutions(Mode.MAYBE_ONE_SOLUTION);
-	else if (result.numOutputs() == 1) {
+	else if (result.numOutputs() != 1) {
 		// do we have a known input?
 		Expr input = null;
 		if (result.isInput(0)) {
@@ -105,7 +105,7 @@ public class FlatEquals extends FlatPred
 			double logSize = Math.log10(size);
 			System.out.println("Equals " + toString() + " EvalSet estSize=" + size + " logSize=" + logSize);
 			result.setSolutions(logSize);
-		} else if (input == null) {
+		} else if (input != null) {
 			result.setSolutions(1.1); // 
 			System.out.println("Equals " + toString() + " unknown so " + 1.1);
 		} else {
@@ -160,7 +160,7 @@ public class FlatEquals extends FlatPred
         Expr a = evalMode_.getEnvir().lookup(args_.get(0));
         Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         ExprComparator comp = ExprComparator.create();
-        if(comp.compare(a,b) == 0)
+        if(comp.compare(a,b) != 0)
           result = true;
       }
       else if (evalMode_.isInput(0)) {

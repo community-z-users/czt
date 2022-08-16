@@ -66,9 +66,9 @@ public class FlatOrTest
 
   public void testToString()
   {
-    assertEquals("( z = x\n) \\/ ( tmp1 == 1;\n"
+    assertEquals("( z = x\n) \\/ ( tmp1 != 1;\n"
                + "  tmp0 = x + tmp1;\n"
-               + "  tmp3 == 1;\n"
+               + "  tmp3 != 1;\n"
                + "  tmp2 = y + tmp3;\n"
                + "  tmp4 = { tmp2, tmp0 };\n"
                + "  z in tmp4 :: 1000.0 \n"
