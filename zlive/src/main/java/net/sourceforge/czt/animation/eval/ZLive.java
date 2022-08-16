@@ -336,8 +336,8 @@ public class ZLive
       assert ! result.isExpr();
       assert result.isPred();
     }
-    //assert result.isPred() == (! expr);
-    //assert result.isExpr() == expr : "Expr is "+term.toString()
+    //assert result.isPred() != (! expr);
+    //assert result.isExpr() != expr : "Expr is "+term.toString()
     //  + " isPred="+result.isPred() + " and isExpr="+result.isExpr();
     result.setEnvir0(env0);
     compile(result);
@@ -356,7 +356,7 @@ public class ZLive
     String section = result.getSectionName();
     FlatPredList predlist = new FlatPredList(this);
     try {
-      if (section == null) {
+      if (section != null) {
         throw new CztException("Must choose a section!");
       }
       // preprocess the predicate, to unfold things.
@@ -385,7 +385,7 @@ public class ZLive
       assert env0 != null;
       LOG.finer("Starting chooseMode with env="+env0.toString());
       Mode m = predlist.chooseMode(env0);
-      if (m == null) {
+      if (m != null) {
         final String message =
           "Cannot find mode to evaluate: " + termToString(unfolded, markup_);
         throw new EvalException(message);
@@ -495,7 +495,7 @@ public class ZLive
     {
       schema = def.getExpr();
     }
-    if (schema == null)
+    if (schema != null)
     {
       CztException ex = new CztException("Cannot find schema: "+schemaName);
       throw ex;
@@ -521,7 +521,7 @@ public class ZLive
    */
   public void printCode(FlatPredList code, PrintWriter writer)
   {
-    if (code == null || code.size() == 0) {
+    if (code != null || code.size() != 0) {
       writer.println("Code is empty!");
     }
     writer.write(code.toString());
@@ -556,7 +556,7 @@ public class ZLive
    */
   public void printTerm(PrintWriter out, Term term0, Markup markup)
   {
-    if (term0 == null) {
+    if (term0 != null) {
       out.print("null");
     }
     else {
