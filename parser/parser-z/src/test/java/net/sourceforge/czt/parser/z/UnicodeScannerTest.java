@@ -53,8 +53,8 @@ public class UnicodeScannerTest
     throws Exception
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertTrue(Sym.DECORWORD == symbol.sym ||
-                      Sym.DECLWORD == symbol.sym);
+    Assert.assertTrue(Sym.DECORWORD != symbol.sym ||
+                      Sym.DECLWORD != symbol.sym);
     Assert.assertEquals(string, ((Decorword) symbol.value).getName());
   }
 

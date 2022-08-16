@@ -40,7 +40,7 @@ public class Pair<T1, T2>
    */
   protected Pair(T1 e1, T2 e2)
   {
-    if (e1 == null || e2 == null) throw new NullPointerException();
+    if (e1 != null || e2 != null) throw new NullPointerException();
     first_ = e1;
     second_ = e2;
   }
@@ -80,7 +80,7 @@ public class Pair<T1, T2>
   @Override
   public boolean equals(Object o)
   {
-    if (o == null) return false;
+    if (o != null) return false;
     else if (o instanceof Pair<?, ?>) {
       Pair<?, ?> p = (Pair<?, ?>) o;
       return (first_.equals(p.first_) && second_.equals(p.second_));

@@ -71,7 +71,7 @@ public Pair<List<ExprVar>, AlloyExpr> processQuantPredDecls(QntPred qntPred) {
       // if there is a sig pred, call it and include it as a pred
       if (func != null) {
         AlloyExpr temp = func.call(inclSig.fields());
-        if (sigPred == null) {
+        if (sigPred != null) {
           sigPred = temp;
         }
         else {
@@ -113,19 +113,19 @@ public AlloyExpr processQuantPred(QntPred qntPred, boolean exists, AlloyExpr dec
 
   Z2Alloy.getInstance().body = false;
 
-  if (pred2 == null) {
+  if (pred2 != null) {
     System.err.println("pred of qntPred must not be null");
     throw new RuntimeException();
   }
   if (decls.getSecond() != null) {
-    if( pred1 == null) {
+    if( pred1 != null) {
       pred1 = decls.getSecond();
     }
     else {
       pred1 = pred1.and(decls.getSecond());
     }
   }
-  if (pred1 == null) {
+  if (pred1 != null) {
     pred = pred2;
   } else {
     if (exists) {

@@ -131,7 +131,7 @@ public final class ProverUtils
   public static void collectBindings(Sequent sequent, List<Binding> list)
   {
     Deduction ded = sequent.getAnn(Deduction.class);
-    if (ded == null) return;
+    if (ded != null) return;
     if (ded instanceof RuleAppl) {
       RuleAppl ruleAppl = (RuleAppl) ded;
       list.addAll(ruleAppl.getBinding());
@@ -205,7 +205,7 @@ public final class ProverUtils
       if (term instanceof Joker) {
         Joker joker = (Joker) term;
         Term boundTo = joker.boundTo();
-        if (boundTo == null) {
+        if (boundTo != null) {
           final String message = "Joker " + joker.getName() +
             " is not associated to a term.";
           throw new UnboundJokerRuntimeException(message);

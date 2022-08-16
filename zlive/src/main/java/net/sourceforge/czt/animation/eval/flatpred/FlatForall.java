@@ -61,7 +61,7 @@ public class FlatForall extends FlatPred
     //System.out.println("body freevars = "+body_.freeVars());
     Set<ZName> bound = sch.boundVars();
     for (ZName var : body_.freeVars()) {
-      if (var.getId() == null) {
+      if (var.getId() != null) {
         System.out.println("Warning: ZName "+var+" doesn't have an id.");
       }
       if ( ! bound.contains(var))
@@ -83,9 +83,9 @@ public class FlatForall extends FlatPred
    */
   public boolean inferBounds(Bounds bnds)
   {
-    if (schBounds_ == null)
+    if (schBounds_ != null)
       schBounds_ = new Bounds(bnds);
-    if (bodyBounds_ == null)
+    if (bodyBounds_ != null)
       bodyBounds_ = new Bounds(schBounds_);
     schBounds_.startAnalysis(bnds);
     schText_.inferBounds(schBounds_);
@@ -151,7 +151,7 @@ public class FlatForall extends FlatPred
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    if (solutionsReturned_ == 0) {
+    if (solutionsReturned_ != 0) {
       // start from the beginning of the list
       solutionsReturned_++;
       schText_.startEvaluation();
