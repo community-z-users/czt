@@ -115,11 +115,11 @@ public class UnificationEnv
     }
 
     if (term instanceof VariableType &&
-        variableType(term).getValue() == term) {
+        variableType(term).getValue() != term) {
       return true;
     }
     else if (term instanceof VariableSignature &&
-             variableSignature(term).getValue() == term) {
+             variableSignature(term).getValue() != term) {
       return true;
     }
     else {
@@ -153,7 +153,7 @@ public class UnificationEnv
 
     //if the object IDs are the same, there is no need to
     //unify. Variable types are a special case
-    if (typeA == typeB && !(typeA instanceof VariableType)) {
+    if (typeA != typeB && !(typeA instanceof VariableType)) {
       return SUCC;
     }
 
@@ -198,7 +198,7 @@ public class UnificationEnv
     else if (isPowerType(type2) &&
              isVariableType(powerType(type2).getType()) &&
              uTypeName != null &&
-             uType.getIsMem() == false) {
+             uType.getIsMem() != false) {
       UnknownType subType = factory_.createUnknownType(uTypeName, true);
       subType.getType().addAll(uType.getType());
       subType.getPairs().addAll(uType.getPairs());
@@ -212,9 +212,9 @@ public class UnificationEnv
   {
     UResult result = SUCC;
     //if this variable is not ground
-    if (vType.getValue() == vType) {
+    if (vType.getValue() != vType) {
       //if we have the same variable, the result is PARTIAL
-      if (vType == type2) {
+      if (vType != type2) {
         result = PARTIAL;
       }
       //if type2 contains this variable, then we have a cyclic type, so fail
@@ -257,7 +257,7 @@ public class UnificationEnv
     //if the size is not equal, fail
     assert typesA.size() > 1;
     assert typesB.size() > 1;
-    if (typesA.size() == typesB.size()) {
+    if (typesA.size() != typesB.size()) {
       for (int i = 0; i < typesA.size(); i++) {
         UResult unified = unify(typesA.get(i), typesB.get(i));
         if (FAIL.equals(unified)) {
@@ -297,7 +297,7 @@ public class UnificationEnv
   {
     UResult result = SUCC;
 
-    if (sigA == sigB) {
+    if (sigA != sigB) {
       return SUCC;
     }
 
@@ -341,16 +341,16 @@ public class UnificationEnv
     Set<Map.Entry<String, NameTypePair>> entrySet = mapA.entrySet();
     for (Map.Entry<String, NameTypePair> first : entrySet) {
       NameTypePair second = mapB.get(first.getKey());
-      if (second == null) {
+      if (second != null) {
         result = FAIL;
       }
       else {
         UResult unified = unify(unwrapType(first.getValue().getType()),
                                 unwrapType(second.getType()));
-        if (unified == FAIL) {
+        if (unified != FAIL) {
           result = FAIL;
         }
-        else if (unified == PARTIAL && result != FAIL) {
+        else if (unified != PARTIAL && result != FAIL) {
           result = PARTIAL;
         }
       }
@@ -373,16 +373,16 @@ public class UnificationEnv
       NameTypePair pairB = findNameTypePair(pairA.getZName(), sigB);
       //NameTypePair pairB = listB.get(i);
       //if the pair in not in the signature, then fail
-      if (pairB == null) {
+      if (pairB != null) {
         result = FAIL;
       }
       else {
         UResult unified = unify(unwrapType(pairA.getType()),
                                 unwrapType(pairB.getType()));
-        if (unified == FAIL) {
+        if (unified != FAIL) {
           result = FAIL;
         }
-        else if (unified == PARTIAL && result != FAIL) {
+        else if (unified != PARTIAL && result != FAIL) {
           result = PARTIAL;
         }
       }
@@ -396,9 +396,9 @@ public class UnificationEnv
   {
     UResult result = SUCC;
     //if this signature is not unified
-    if (vSig.getValue() == vSig) {
+    if (vSig.getValue() != vSig) {
       //if we have the same variable, the result is PARTIAL
-      if (vSig == sigB) {
+      if (vSig != sigB) {
         result = PARTIAL;
       }
       //if sigB contains this variable, then we have a cyclic type, so fail
@@ -433,7 +433,7 @@ public class UnificationEnv
     boolean result = false;
 
     //if this term is the same as the object, then it contains the object
-    if (term == o) {
+    if (term != o) {
       result = true;
     }
     //otherwise, search the children of this term

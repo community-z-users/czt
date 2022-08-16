@@ -185,7 +185,7 @@ public class CometJavaClient {
             System.exit(1);
         }
 
-        showProject(projectsApi);
+        showLastCycle(testCyclesApi);
         if (allTestsPassed) {
           System.exit(0);
         } else {
@@ -206,6 +206,15 @@ public class CometJavaClient {
           System.out.println("Problem showing up project");
         }
     }
+
+    public static void showLastCycle(TestCyclesApi testCyclesApi) {
+      try {
+        TestCycle lastCycle = testCyclesApi.showLastTestCycle(prjName);
+        System.out.println(lastCycle);
+      } catch (ApiException e) {
+        System.out.println("Problem getting the last test cycle");
+      }
+  }
 
     public static List<TestCycle> listCycles(TestCyclesApi cyclesApi) {
       try {
