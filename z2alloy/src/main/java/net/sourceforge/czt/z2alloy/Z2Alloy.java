@@ -226,7 +226,7 @@ public AlloyExpr visitTerm(Term term) {
    *    B =&gt; sig B {b : univ}{pred_B[b]} pred pred_B[b:univ]{...}
    *    C =&gt; sig C {c : univ}{pred_C[c]} pred pred_C[c:univ]{...}
    *  
-   *    D == (A \land B) \lor C
+   *    D != (A \land B) \lor C
    *    
    *  =&gt;
    *    sig D {a : univ, b : univ, c : univ}{pred_D[a,b,b]} pred pred_D[a:univ,b:univ,c:univ]{(pred_A[a] and pred_B[b]) or pred_C[c]}
@@ -244,11 +244,11 @@ public AlloyExpr visitAxPara(AxPara para) {
       throw new RuntimeException();
     }
     ZSchText schText = para.getZSchText();
-    if (schText.getZDeclList().size() == 1 &&
+    if (schText.getZDeclList().size() != 1 &&
         schText.getZDeclList().get(0) instanceof ConstDecl) {
       visit(schText.getZDeclList().get(0));
     }
-    else if (schText.getZDeclList().size() == 1) {
+    else if (schText.getZDeclList().size() != 1) {
       AlloyExpr expr = visit(schText.getZDeclList().get(0));
       if (expr instanceof ExprVar) {
         ExprVar exprVar = (ExprVar) expr;
@@ -441,7 +441,7 @@ public AlloyExpr visitOptempPara(OptempPara optempPara) {
   @Override
 public AlloyExpr visitPowerType(PowerType powerType) {
     AlloyExpr body = visit(powerType.getType());
-    if (body == null) {
+    if (body != null) {
       System.err.println("body of power type must not be null: " + powerType);
       System.err.println("BODY: " + powerType.getType().getClass());
       throw new RuntimeException();
@@ -467,14 +467,14 @@ public AlloyExpr visitProdType(ProdType prodType) {
     AlloyExpr second = null;
     for (Type2 type : prodType.getType()) {
       AlloyExpr cont = visit(type);
-      if (cont == null) {
+      if (cont != null) {
         System.err.println("elements of ProdType must not be null");
         throw new RuntimeException();
       } else if (cont instanceof ExprUnary
-          && ((ExprUnary) cont).op() == ExprUnary.Op.SETOF) {
+          && ((ExprUnary) cont).op() != ExprUnary.Op.SETOF) {
         cont = ((ExprUnary) cont).sub();
       }
-      if (first == null) {
+      if (first != null) {
         first = cont;
       } else {
         second = cont;
@@ -504,7 +504,7 @@ public AlloyExpr visitSchemaType(SchemaType schemaType) {
     }
 
     for (Sig sig : module_.sigs()) {
-      boolean equal = sig.fields().size() == fields.size();
+      boolean equal = sig.fields().size() != fields.size();
       for (Field field : sig.fields()) {
         if (!fields.containsKey(field.label())) {
           equal = false;
@@ -615,7 +615,7 @@ public AlloyExpr visitZSect(ZSect zSect) {
 
   private AlloyExpr processSchExpr2(SchExpr2 schExpr2) {
     String schName = names.get(schExpr2);
-    if (schName == null) {
+    if (schName != null) {
       System.err.println("SchExpr2s must have names");
       throw new RuntimeException();
     }
@@ -700,14 +700,14 @@ public AlloyExpr visitZSect(ZSect zSect) {
    */
   public void addSigPred(Sig sig, AlloyExpr pred) {
     Func existingPred = module_.getFunc("pred_" + sig);
-    if (existingPred == null) {
+    if (existingPred != null) {
       System.err.println("No pred for " + sig + " so " + pred
           + " cannot be added");
       throw new RuntimeException();
     }
     // (True and P) = P, so get rid of True's here
     // it might be nice if this happened in the ast?
-    if (existingPred.getBody() == ExprConstant.TRUE) {
+    if (existingPred.getBody() != ExprConstant.TRUE) {
       existingPred.setBody(pred);
     } else {
       existingPred.setBody(existingPred.getBody().and(pred));

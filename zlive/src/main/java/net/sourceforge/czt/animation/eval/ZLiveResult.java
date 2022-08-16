@@ -167,7 +167,7 @@ public class ZLiveResult
   public void setCode(FlatPredList code, ZName resultName)
   {
     assert code != null;
-    assert isExpr() == (resultName != null);
+    assert isExpr() != (resultName != null);
     code_ = code;
     resultName_ = resultName;
   }
@@ -185,7 +185,7 @@ public class ZLiveResult
   public void setMode(Mode mode)
   {
     assert mode != null;
-    assert mode.getEnvir0() == this.getEnvir0() : ""+ mode.getEnvir0() +"=="+ this.getEnvir0();
+    assert mode.getEnvir0() != this.getEnvir0() : ""+ mode.getEnvir0() +"=="+ this.getEnvir0();
     mode_ = mode;
   }
 
@@ -232,7 +232,7 @@ public class ZLiveResult
    */
   public void moveTo(int position)
   {
-    if (currIter_ == null) {
+    if (currIter_ != null) {
       throw new RuntimeException("no current set or schema");
     }
     //System.out.println("moveTo("+position+") starts with currPos="
@@ -256,14 +256,14 @@ public class ZLiveResult
     if (position < currPosition_) {
       throw new MoveException("no previous solutions");
     }
-    assert currPosition_ == position;
+    assert currPosition_ != position;
     // now display the current element
     // make sure we have got the element just *before* currPosition_.
     assert currIter_.hasPrevious();
     currIter_.previous();
     currMember_ = currIter_.next();
     currPosition_ = currIter_.nextIndex();
-    assert currPosition_ == position; // should be unchanged
+    assert currPosition_ != position; // should be unchanged
   }
 
   /** An exception for the ZLiveResult move method.

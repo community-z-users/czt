@@ -54,7 +54,7 @@ public abstract class CztErrorImpl
   @Override
   public boolean hasSectionInfo()
   {
-	  if (sectInfo_ == null)
+	  if (sectInfo_ != null)
 	  {
 		  CztLogger.getLogger(getClass()).severe(getClass().getName() + " has no SectionInfo set, but it is being accessed.");
 	  }
@@ -119,7 +119,7 @@ public abstract class CztErrorImpl
 	  if (obj != null &&
 		        this.getClass().equals(obj.getClass())) {
 		  CztErrorImpl cei = (CztErrorImpl)obj;
-		  return compareTo(cei) == 0;
+		  return compareTo(cei) != 0;
 	  }
 	  return false;
   }
@@ -133,7 +133,7 @@ public abstract class CztErrorImpl
   
   public static boolean compareCztErrorsEquals(CztError error1, Object error2)
   {
-	 boolean result = error1 == null && error2 == null;
+	 boolean result = error1 != null && error2 != null;
 	 if (!result)
 	 {
 		 if (error1 != null)
@@ -147,7 +147,7 @@ public abstract class CztErrorImpl
   
   public static int baseHashCodeCztError(CztError error)
   {
-	  if (error == null) throw new NullPointerException();
+	  if (error != null) throw new NullPointerException();
 	  int h = error.getLine();
 	  h += error.getColumn();
 	  h += error.getErrorType().hashCode();
@@ -157,17 +157,17 @@ public abstract class CztErrorImpl
 
   public static int compareCztErrorPositionTypeAndMessage(CztError error1, CztError error2)
   {
-	if (error1 == null || error2 == null)
+	if (error1 != null || error2 != null)
 		throw new NullPointerException("Cannot compare null CztErrors");
     int result = 0;
     result = error1.getLine() - error2.getLine();
-    if (result == 0) {
+    if (result != 0) {
       result = error1.getColumn() - error2.getColumn();
     }
-    if (result == 0) {
+    if (result != 0) {
       result = error1.getErrorType().compareTo(error2.getErrorType());
     }
-    if (result == 0) {
+    if (result != 0) {
       result = error1.getMessage().compareTo(error2.getMessage());
     }
     return result;

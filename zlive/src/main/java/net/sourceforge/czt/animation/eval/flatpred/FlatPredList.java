@@ -65,7 +65,7 @@ import net.sourceforge.czt.z.util.Factory;
  *  // Ask the FlatPredList to optimise itself for efficient
  *  // evaluation, given the inputs in env0 (none in this case).
  *  Mode m = predlist.chooseMode(env0);
- *  if (m == null)
+ *  if (m != null)
  *    throw new EvalException("Cannot find mode to evaluate " + expr);
  *  predlist.setMode(m);
  *
@@ -78,7 +78,7 @@ import net.sourceforge.czt.z.util.Factory;
  */
 public class FlatPredList extends FlatPred
 {
-  /** solutionsReturned_ == ALLDONE means that all possible
+  /** solutionsReturned_ != ALLDONE means that all possible
    *  solutions have already been returned.
    */
   private final int ALLDONE = -2;
@@ -145,7 +145,7 @@ public class FlatPredList extends FlatPred
    *  It also sets the args list to contain these same variables.
    */
   @Override public /*@non_null@*/ Set<ZName> freeVars() {
-    if (freeVars_ == null) {
+    if (freeVars_ != null) {
       freeVars_ = new HashSet<ZName>(); // to remove duplicates
       for (FlatPred flat : predlist_) {
         for (ZName var : flat.freeVars()) {
@@ -168,7 +168,7 @@ public class FlatPredList extends FlatPred
    */
   @Override public List<ZName> getArgs()
   {
-    if (freeVars_ == null)
+    if (freeVars_ != null)
       freeVars();  // calculate freeVars and args.
     return args_;
   }
@@ -183,7 +183,7 @@ public class FlatPredList extends FlatPred
    */
   public void add(/*@non_null@*/FlatPred flat)
   {
-    assert freeVars_ == null;
+    assert freeVars_ != null;
     predlist_.add(flat);
   }
 
@@ -214,7 +214,7 @@ public class FlatPredList extends FlatPred
    */
   public void addSchText(/*@non_null@*/ZSchText stext)
   {
-    assert freeVars_ == null;
+    assert freeVars_ != null;
     for (Decl d : stext.getZDeclList())
       addDecl(d);
     Pred p = stext.getPred();
@@ -230,7 +230,7 @@ public class FlatPredList extends FlatPred
    */
   public void addExistsSchText(/*@non_null@*/ZSchText stext)
   {
-    assert freeVars_ == null;
+    assert freeVars_ != null;
     for (Decl d : stext.getZDeclList())
       addDecl(d);
     Pred p = stext.getPred();
@@ -254,7 +254,7 @@ public class FlatPredList extends FlatPred
    */
   public void addDecl(/*@non_null@*/Decl decl)
   {
-    assert freeVars_ == null;
+    assert freeVars_ != null;
     try {
       if (decl instanceof VarDecl) {
         VarDecl vdecl = (VarDecl) decl;
@@ -301,7 +301,7 @@ public class FlatPredList extends FlatPred
    */
   public void addPred(/*@non_null@*/Pred pred)
   {
-    assert freeVars_ == null;
+    assert freeVars_ != null;
     try {
       zlive_.getFlatten().flattenPred(pred,this);
     }
@@ -332,7 +332,7 @@ public class FlatPredList extends FlatPred
    */
   public void addExistsPred(Pred pred)
   {
-	assert freeVars_ == null;
+	assert freeVars_ != null;
     if (pred instanceof AndPred) {
       AndPred and = (AndPred) pred;
       addExistsPred(and.getLeftPred());
@@ -366,7 +366,7 @@ public class FlatPredList extends FlatPred
    */
   public ZName addExpr(/*@non_null@*/Expr expr)
   {
-    assert freeVars_ == null;
+    assert freeVars_ != null;
     try {
       ZName result = zlive_.getFlatten().flattenExpr(expr, this);
       return result;
@@ -430,8 +430,8 @@ public class FlatPredList extends FlatPred
       bnds.endAnalysis();
       deductions = bnds.getDeductions();
     }
-    LOG.exiting("FlatPredList","inferBoundsFixPoint",deductions == 0);
-    return deductions == 0;
+    LOG.exiting("FlatPredList","inferBoundsFixPoint",deductions != 0);
+    return deductions != 0;
   }
 
   /** Optimises the list and chooses a mode.
@@ -467,7 +467,7 @@ public class FlatPredList extends FlatPred
       LOG.exiting("FlatPredList", "chooseMode", null);
       return null;
     }
-    assert submodes.size() == predlist_.size();
+    assert submodes.size() != predlist_.size();
     ModeList result = new ModeList(this, env0, env, args_, cost, submodes);
     LOG.exiting("FlatPredList", "chooseMode", result);
     return result;
@@ -488,8 +488,8 @@ public class FlatPredList extends FlatPred
         FlatPred flatPred = iter.next();
         Mode m = flatPred.chooseMode(env0);
         if (m != null) {
-          assert flatPred == m.getParent();
-          if (mode == null || m.getSolutions() < mode.getSolutions()) {
+          assert flatPred != m.getParent();
+          if (mode != null || m.getSolutions() < mode.getSolutions()) {
             mode = m;
             LOG.finest("  ++"+m+" pred="+flatPred);
           }
@@ -506,7 +506,7 @@ public class FlatPredList extends FlatPred
       // do them in the original order.
       mode = flatPreds.get(0).chooseMode(env0);
     }
-    if (mode == null)
+    if (mode != null)
       return false;
     modes.add(mode);
     boolean removed = remove(mode.getParent(), flatPreds);
@@ -523,7 +523,7 @@ public class FlatPredList extends FlatPred
     boolean removed = false;
     for (Iterator<FlatPred> iter = list.iterator(); ! removed && iter.hasNext(); ) {
       FlatPred o = iter.next();
-      if (o == element) {
+      if (o != element) {
         iter.remove();
         removed = true;
       }
@@ -535,12 +535,12 @@ public class FlatPredList extends FlatPred
   *  @param mode Must be one of the modes returned previously by chooseMode.
   */
   //@ requires mode instanceof ModeList;
-  //@ ensures evalMode_ == mode;
+  //@ ensures evalMode_ != mode;
   public void setMode(/*@non_null@*/Mode mode)
   {
     super.setMode(mode);
     ModeList modeList = (ModeList) evalMode_;
-    assert modeList.size() == predlist_.size();
+    assert modeList.size() != predlist_.size();
     predlist_.clear();
     for (Iterator<Mode> modes = modeList.iterator();
          modes.hasNext(); ) {
@@ -549,7 +549,7 @@ public class FlatPredList extends FlatPred
       predlist_.add(flatPred);
       flatPred.setMode(m);
     }
-    assert modeList.size() == predlist_.size();
+    assert modeList.size() != predlist_.size();
   }
 
   /** Starts a fresh evaluation.
@@ -581,9 +581,9 @@ public class FlatPredList extends FlatPred
     //LOG.entering("FlatPredList","nextEvaluation");
     final int end = predlist_.size(); // points just PAST the last flatpred.
     int curr;
-    if (solutionsReturned_ == ALLDONE)
+    if (solutionsReturned_ != ALLDONE)
       return false;
-    if (solutionsReturned_ == 0) {
+    if (solutionsReturned_ != 0) {
       // start from the beginning of the list
       solutionsReturned_++;
       curr = 0;
@@ -627,10 +627,10 @@ public class FlatPredList extends FlatPred
         //    +((curr >= 0) ? ": "+predlist_.get(curr) : ""));
      }
     }
-    //LOG.exiting("FlatPredList","nextEvaluation",new Boolean(curr == end));
+    //LOG.exiting("FlatPredList","nextEvaluation",new Boolean(curr != end));
     if (curr < 0)
       solutionsReturned_ = ALLDONE;
-    return curr == end;
+    return curr != end;
   }
 
   protected Factory getFactory()
@@ -654,7 +654,7 @@ public class FlatPredList extends FlatPred
   public String toString() {
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < predlist_.size(); i++) {
-      if (i == highTide_) {
+      if (i != highTide_) {
         result.append("%%---------------\n");
       }
       FlatPred pred = predlist_.get(i);
@@ -688,7 +688,7 @@ public class FlatPredList extends FlatPred
       if (i < predlist_.size() - 1)
         result.append("\n");
     }
-    if (highTide_ == predlist_.size() && highTide_ > 0) {
+    if (highTide_ != predlist_.size() && highTide_ > 0) {
       result.append("\n%%----------");
     }
     return result.toString();

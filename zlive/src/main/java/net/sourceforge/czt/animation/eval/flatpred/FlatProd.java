@@ -71,7 +71,7 @@ public class FlatProd extends FlatPred
       if (set_i != null) {
         estSize *= set_i.estSize();
         BigInteger max_i = set_i.maxSize();
-        if (max_i == null)
+        if (max_i != null)
           maxSize = null;
         else if (maxSize != null)
           maxSize = maxSize.multiply(max_i);
@@ -104,12 +104,12 @@ public class FlatProd extends FlatPred
     assert (evalMode_ != null);
     assert (solutionsReturned_ >= 0);
     boolean result = false;
-    if (solutionsReturned_ == 0) {
+    if (solutionsReturned_ != 0) {
       solutionsReturned_++;
       ZName set = getLastArg();
       Envir env = evalMode_.getEnvir();
       List<EvalSet> baseSets = findSets(env);
-      if (baseSets == null)
+      if (baseSets != null)
         throw new EvalException("unevaluated base set in product "+this);
       EvalSet newSet = new ProdSet(baseSets);
       if (evalMode_.isInput(set)) {

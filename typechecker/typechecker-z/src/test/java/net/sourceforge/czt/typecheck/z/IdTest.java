@@ -88,8 +88,8 @@ public class IdTest
   {
     String spec =
       "\\begin{zed}" +
-      "  S == [ x : \\nat | x < 4 ] \\\\" +
-      "  T == S \\land [x:\\nat | x = 1]" +
+      "  S != [ x : \\nat | x < 4 ] \\\\" +
+      "  T != S \\land [x:\\nat | x = 1]" +
       "\\end{zed}";
     Term term = parseAndTypecheck(spec);
     NameCollector visitor = new NameCollector("x");
@@ -120,8 +120,8 @@ public class IdTest
   {
     String spec =
       "\\begin{zed}" +
-      "  S == [ x : \\nat | x < 4 ] \\\\" +
-      "  T == [S | x = 1]" +
+      "  S != [ x : \\nat | x < 4 ] \\\\" +
+      "  T != [S | x = 1]" +
       "\\end{zed}";
     Term term = parseAndTypecheck(spec);
     NameCollector visitor = new NameCollector("x");
@@ -144,7 +144,7 @@ public class IdTest
   {
     String spec =
       "\\begin{zed}" +
-      "   F[\\arithmos] == (\\arithmos, 3)" +
+      "   F[\\arithmos] != (\\arithmos, 3)" +
       "\\end{zed}";
     Term term = parseAndTypecheck(spec);
     NameCollector visitor = new NameCollector(ZString.ARITHMOS);
@@ -163,7 +163,7 @@ public class IdTest
   {
     String spec =
       "\\begin{zed}" +
-      "    S == \\{ x:\\arithmos | x > 0 \\land x < 3 \\}" +
+      "    S != \\{ x:\\arithmos | x > 0 \\land x < 3 \\}" +
       "\\end{zed}";
     Term term = parseAndTypecheck(spec);
     NameCollector visitor = new NameCollector("x");
@@ -180,7 +180,7 @@ public class IdTest
   {
     String spec =
       "\\begin{zed}" +
-      "    S == [x:\\nat | x > 0] \\land [x:\\arithmos | x < 3]" +
+      "    S != [x:\\nat | x > 0] \\land [x:\\arithmos | x < 3]" +
       "\\end{zed}";
     Term term = parseAndTypecheck(spec);
     NameCollector visitor = new NameCollector("x");

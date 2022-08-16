@@ -15,7 +15,7 @@ jobs:
       TEST_STATUS: "FAILED"  # Do the same with test results
       COMET_API_KEY: ${{ secrets.COMET_API_KEY }}
       # Options are: "MODULE", "TOT_COVERAGE", "ADD_COVERAGE", "COMET"
-      TCP_SYSTEM: "TOT_COVERAGE"
+      TCP_SYSTEM: "COMET"
     steps:
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
