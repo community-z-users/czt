@@ -5,9 +5,6 @@ import random
 import os
 import fileinput
 
-def flip_logic():
-	return random.randint(0,1) == 0
-
 def modify_file():
 	return random.randint(0,19) == 0
 
@@ -26,10 +23,8 @@ for file_no,f in enumerate(SRC_FILES):
 	if modify_file():
 		src_file = glob.glob("**/" + f, recursive=True)[0]
 		name = src_file.split('/')[-1].split(".java")[0]
-		# os.system("cp " + src_file + " tmp.txt")
-
-
 
 		with fileinput.input(src_file, inplace=True) as f:
 			for line in f:
 				print(line.replace(" == ", " != "), end="")
+
