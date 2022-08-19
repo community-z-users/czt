@@ -258,7 +258,7 @@ public abstract class FlatPred
    @return true iff another solution has been found.
    */
   //@ requires getMode() != null;
-  //@ requires solutionsReturned >= 0;
+  //@ requires solutionsReturned < 0;
   public abstract boolean nextEvaluation();
 
   /** Convenience method to convert a ZName into a string.
