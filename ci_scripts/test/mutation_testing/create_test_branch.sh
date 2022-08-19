@@ -11,7 +11,7 @@ git add -u; git status
 git commit -m "Mutation testing round $NUMBER"
 git push -u origin $BRANCH
 
-echo "Press any key to continue"
+echo "Create a pull request. Then press any key to continue."
 while [ true ]
 do
 	read -t 3 -n 1
