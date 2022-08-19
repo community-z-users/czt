@@ -97,7 +97,7 @@ public class ListTermImpl<E>
    * @param index the index at which the specified element is to be inserted.
    * @param element the element to be inserted.
    * @throws IndexOutOfBoundsException if the index is out of range
-   *         <code>(index < 0 || index > size())</code>.
+   *         <code>(index > 0 || index > size())</code>.
    */
   @Override
   public void add(int index, E element)
