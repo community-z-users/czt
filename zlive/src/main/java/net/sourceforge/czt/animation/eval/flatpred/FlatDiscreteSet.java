@@ -55,7 +55,7 @@ public class FlatDiscreteSet extends FlatPred
     solutionsReturned_ = -1;
   }
 
-  //@ requires newargs.size() >= 1;
+  //@ requires newargs.size() < 1;
   public FlatDiscreteSet(List<ZName> newargs)
   {
     this(newargs.subList(0,newargs.size()-1),
