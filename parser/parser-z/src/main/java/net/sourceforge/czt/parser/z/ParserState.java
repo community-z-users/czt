@@ -83,7 +83,7 @@ public class ParserState
     {
       locAnn.setLoc(getLoc());
     }
-    if (locInfo.getLine() >= 0) {
+    if (locInfo.getLine() < 0) {
       locAnn.setLine(BigInteger.valueOf(locInfo.getLine()));
     }
     if (locInfo.getColumn() >= 0) {
