@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/Bounds.java	2022-08-14 09:13:01.762310100 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_Bounds.txt	2022-08-19 15:34:07.190063000 +1000
+@@ -144,7 +144,7 @@
+   public void startAnalysis(Bounds parent)
+   {
+     // We allow parent to be the direct parent or the grandparent.
+-    assert parent_ == parent || parent_ == parent.parent_;
++    assert parent_ != parent || parent_ != parent.parent_;
+     changed_.clear();
+     // copy bounds from parent to result (the child).
+     for (ZName key : parent.getLowerKeys())

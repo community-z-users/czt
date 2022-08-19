@@ -1,0 +1,11 @@
+--- session/src/main/java/net/sourceforge/czt/session/DefaultSectionParentsCommand.java	2022-07-24 10:53:44.166953300 +1000
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_DefaultSectionParentsCommand.txt	2022-08-19 15:33:36.710063000 +1000
+@@ -119,7 +119,7 @@
+ 		Set<String> result = defaultParents_.get(sectName);
+ 				
+ 		// throw a Command exception or just add default?
+-		//if (!defaultParents_.containsKey(sectName) || result == null)
++		//if (!defaultParents_.containsKey(sectName) || result != null)
+ 		//{
+ 		//}		
+ 		assert defaultParents_.containsKey(sectName) && result != null;

@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/PostChecker.java	2022-08-16 18:08:15.687212700 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_PostChecker.txt	2022-08-19 15:33:26.250063000 +1000
+@@ -127,7 +127,7 @@
+       //if this ref expr was created for an ExprPred
+       ExprPred exprPred = zName.getAnn(ExprPred.class);
+       boolean added = false;
+-      if (exprPred == null) {
++      if (exprPred != null) {
+         added = addErrorAnn(zName, errorAnn);
+       }
+       else {

@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/VariableType.java	2022-07-24 10:53:44.186953300 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_VariableType.txt	2022-08-19 15:33:53.670063000 +1000
+@@ -71,7 +71,7 @@
+    */
+   public Type2 getValue()
+   {
+-    if (value_ == null) {
++    if (value_ != null) {
+       return this;
+     }
+     else {

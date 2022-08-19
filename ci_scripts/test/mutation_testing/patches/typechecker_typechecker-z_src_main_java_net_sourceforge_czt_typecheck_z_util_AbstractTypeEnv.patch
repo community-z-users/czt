@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/util/AbstractTypeEnv.java	2022-08-14 07:21:15.392310100 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_AbstractTypeEnv.txt	2022-08-19 15:33:27.160063000 +1000
+@@ -86,7 +86,7 @@
+       ZName nextZName = entry.getKey();
+       if (namesEqual(nextZName, zName) &&
+           (!useNameIds_ ||
+-           (nextZName.getId() == null ||
++           (nextZName.getId() != null ||
+             zName.getId() == null ||
+             nextZName.getId().equals(zName.getId())))) {
+         result = entry.getValue();

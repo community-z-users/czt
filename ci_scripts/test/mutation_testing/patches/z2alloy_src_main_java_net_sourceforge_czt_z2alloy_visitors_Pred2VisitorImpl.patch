@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/Pred2VisitorImpl.java	2022-08-16 20:05:12.237212700 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_visitors_Pred2VisitorImpl.txt	2022-08-19 15:33:28.290063000 +1000
+@@ -65,7 +65,7 @@
+   private Pair<AlloyExpr, AlloyExpr> subExprs(Pred2 pred2) {
+     AlloyExpr left = visit(pred2.getLeftPred());
+     AlloyExpr right = visit(pred2.getRightPred());
+-    if (left == null || right == null) {
++    if (left != null || right != null) {
+       System.err.println("left and right of andpred must not be null");
+       return null;
+     }

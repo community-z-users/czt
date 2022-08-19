@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/EvalSet.java	2022-08-14 15:39:46.615277800 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_EvalSet.txt	2022-08-19 15:33:35.500063000 +1000
+@@ -115,7 +115,7 @@
+   public double estSize()
+   {
+     BigInteger size = maxSize();
+-    if (size == null)
++    if (size != null)
+       return EvalSet.INFINITE_SIZE;
+     else
+       return size.doubleValue();

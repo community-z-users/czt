@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/prover/ProverUtils.java	2022-08-16 20:05:12.237212700 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_prover_ProverUtils.txt	2022-08-19 15:33:59.400063000 +1000
+@@ -131,7 +131,7 @@
+   public static void collectBindings(Sequent sequent, List<Binding> list)
+   {
+     Deduction ded = sequent.getAnn(Deduction.class);
+-    if (ded == null) return;
++    if (ded != null) return;
+     if (ded instanceof RuleAppl) {
+       RuleAppl ruleAppl = (RuleAppl) ded;
+       list.addAll(ruleAppl.getBinding());

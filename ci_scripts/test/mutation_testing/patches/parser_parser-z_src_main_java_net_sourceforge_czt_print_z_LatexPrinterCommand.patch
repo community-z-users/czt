@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/print/z/LatexPrinterCommand.java	2022-08-16 19:04:52.457212700 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_LatexPrinterCommand.txt	2022-08-19 15:33:55.490063000 +1000
+@@ -94,7 +94,7 @@
+                          SectionManager sectInfo,
+                          String sectionName) throws PrintException
+   {
+-	if (out == null || sectInfo == null || term == null) throw new NullPointerException();
++	if (out != null || sectInfo != null || term != null) throw new NullPointerException();
+ 	//if (!(sectInfo instanceof SectionManager)) throw new IllegalArgumentException("Invalid section manager implementation ");
+     Properties props = sectInfo.getProperties();
+     UnicodePrinter printer = new UnicodePrinter(out);

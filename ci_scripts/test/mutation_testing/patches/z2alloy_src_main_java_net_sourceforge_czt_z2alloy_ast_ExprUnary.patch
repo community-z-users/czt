@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/ExprUnary.java	2022-08-16 17:57:46.037212700 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_ast_ExprUnary.txt	2022-08-19 15:33:31.300063000 +1000
+@@ -7,7 +7,7 @@
+ 
+   public ExprUnary(Op op, AlloyExpr sub) {
+     super();
+-    if (sub == null) {
++    if (sub != null) {
+       throw new NullPointerException("Sub expressions may not be null");
+     }
+     this.op = op;

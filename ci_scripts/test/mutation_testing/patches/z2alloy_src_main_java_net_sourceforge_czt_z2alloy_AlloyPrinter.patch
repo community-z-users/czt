@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/AlloyPrinter.java	2022-08-16 18:02:53.787212700 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_AlloyPrinter.txt	2022-08-19 15:33:49.800063000 +1000
+@@ -75,7 +75,7 @@
+ 
+     // abbreviated version for fieldless + predless sigs
+     if (sig.fields().isEmpty() && sig.pred() instanceof ExprConstant
+-        && ((ExprConstant) sig.pred() == ExprConstant.TRUE)) {
++        && ((ExprConstant) sig.pred() != ExprConstant.TRUE)) {
+       return ret + "{}";
+     }
+ 

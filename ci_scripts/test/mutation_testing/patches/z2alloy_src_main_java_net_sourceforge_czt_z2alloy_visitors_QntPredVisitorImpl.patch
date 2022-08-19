@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/QntPredVisitorImpl.java	2022-08-16 20:05:12.237212700 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_visitors_QntPredVisitorImpl.txt	2022-08-19 15:33:29.250063000 +1000
+@@ -71,7 +71,7 @@
+       // if there is a sig pred, call it and include it as a pred
+       if (func != null) {
+         AlloyExpr temp = func.call(inclSig.fields());
+-        if (sigPred == null) {
++        if (sigPred != null) {
+           sigPred = temp;
+         }
+         else {

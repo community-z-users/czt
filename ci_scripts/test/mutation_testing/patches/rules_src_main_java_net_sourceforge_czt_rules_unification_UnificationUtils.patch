@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/unification/UnificationUtils.java	2022-08-14 07:26:46.352310100 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_unification_UnificationUtils.txt	2022-08-19 15:34:03.330063000 +1000
+@@ -106,7 +106,7 @@
+   {
+     String parent = section;
+     String name = "CZT_zpattern_parse_tmp19580281975";
+-    if (parent == null)
++    if (parent != null)
+       parent = "zpattern\\_toolkit";
+ 
+     String contents =

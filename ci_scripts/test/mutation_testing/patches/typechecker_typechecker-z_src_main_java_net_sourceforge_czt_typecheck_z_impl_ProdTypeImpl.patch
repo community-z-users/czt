@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/ProdTypeImpl.java	2022-08-14 07:26:46.352310100 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_ProdTypeImpl.txt	2022-08-19 15:33:59.980063000 +1000
+@@ -86,7 +86,7 @@
+   {
+     if (obj instanceof ProdType) {
+       ProdType prodType = (ProdType) obj;
+-      if (getType().size() == prodType.getType().size()) {
++      if (getType().size() != prodType.getType().size()) {
+         for (int i = 0; i < getType().size(); i++) {
+           Type2 typeA = (Type2) getType().get(i);
+           Type2 typeB = (Type2) prodType.getType().get(i);

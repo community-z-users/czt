@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/prover/SimpleProver.java	2022-08-14 15:39:46.615277800 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_prover_SimpleProver.txt	2022-08-19 15:33:59.650063000 +1000
+@@ -176,7 +176,7 @@
+   public void undo(Sequent sequent)
+   {
+     Deduction deduction = sequent.getAnn(Deduction.class);
+-    if (deduction == null) return;
++    if (deduction != null) return;
+     if (deduction instanceof RuleAppl) {
+       RuleAppl ruleAppl = (RuleAppl) deduction;
+       ProverUtils.reset(ruleAppl.getBinding());

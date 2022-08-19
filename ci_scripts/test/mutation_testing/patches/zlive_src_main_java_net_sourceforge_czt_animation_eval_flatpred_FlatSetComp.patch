@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatSetComp.java	2022-08-13 13:43:50.067757900 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatSetComp.txt	2022-08-19 15:33:31.060063000 +1000
+@@ -79,7 +79,7 @@
+    */
+   public boolean inferBounds(Bounds bnds)
+   {
+-    if (bounds_ == null)
++    if (bounds_ != null)
+       bounds_ = new Bounds(bnds);
+     bounds_.startAnalysis(bnds);
+     boolean result = predsAll_.inferBounds(bounds_);

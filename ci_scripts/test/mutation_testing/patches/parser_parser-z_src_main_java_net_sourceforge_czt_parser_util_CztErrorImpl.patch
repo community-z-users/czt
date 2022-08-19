@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/CztErrorImpl.java	2022-08-16 19:09:41.517212700 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_CztErrorImpl.txt	2022-08-19 15:34:06.340063000 +1000
+@@ -54,7 +54,7 @@
+   @Override
+   public boolean hasSectionInfo()
+   {
+-	  if (sectInfo_ == null)
++	  if (sectInfo_ != null)
+ 	  {
+ 		  CztLogger.getLogger(getClass()).severe(getClass().getName() + " has no SectionInfo set, but it is being accessed.");
+ 	  }

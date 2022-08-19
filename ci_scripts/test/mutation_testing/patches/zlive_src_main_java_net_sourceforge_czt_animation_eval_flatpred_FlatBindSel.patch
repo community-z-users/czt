@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatBindSel.java	2022-08-14 07:10:34.292310100 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatBindSel.txt	2022-08-19 15:33:37.690063000 +1000
+@@ -73,7 +73,7 @@
+     assert(evalMode_ != null);
+     assert(solutionsReturned_ >= 0);
+     boolean result = false;
+-    if(solutionsReturned_ == 0) {
++    if(solutionsReturned_ != 0) {
+       solutionsReturned_++;
+       assert evalMode_.isInput(0);
+       Expr expr = evalMode_.getEnvir().lookup(args_.get(0));

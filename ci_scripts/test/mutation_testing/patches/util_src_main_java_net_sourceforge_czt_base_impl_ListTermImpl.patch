@@ -1,0 +1,11 @@
+--- util/src/main/java/net/sourceforge/czt/base/impl/ListTermImpl.java	2022-08-16 19:06:28.977212700 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_base_impl_ListTermImpl.txt	2022-08-19 15:34:07.800063000 +1000
+@@ -203,7 +203,7 @@
+     // synchronise the creation bit to avoid races - rare cases? TODO-CHECK
+     //synchronized(this)
+     //{
+-      if (anns_ == null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
++      if (anns_ != null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+     //}
+     assert anns_ != null;
+     return anns_;

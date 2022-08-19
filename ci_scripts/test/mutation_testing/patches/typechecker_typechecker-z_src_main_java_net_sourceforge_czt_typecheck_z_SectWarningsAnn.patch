@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/SectWarningsAnn.java	2022-08-16 18:02:53.787212700 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_SectWarningsAnn.txt	2022-08-19 15:33:27.770063000 +1000
+@@ -43,7 +43,7 @@
+ 
+   public boolean isEmpty()
+   {
+-    return size() == 0;
++    return size() != 0;
+   }
+ 
+   public int size()

@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatConstTest.java	2022-08-13 13:37:35.517757900 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_FlatConstTest.txt	2022-08-19 15:33:38.480063000 +1000
+@@ -36,7 +36,7 @@
+ 
+   public void testToString()
+   {
+-    assertEquals("x == 10", pred.toString());
++    assertEquals("x != 10", pred.toString());
+   }
+ 
+   public void testEmpty()

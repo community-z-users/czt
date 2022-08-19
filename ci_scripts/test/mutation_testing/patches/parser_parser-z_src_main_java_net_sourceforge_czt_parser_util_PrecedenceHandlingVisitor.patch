@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/PrecedenceHandlingVisitor.java	2022-08-16 19:06:28.977212700 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_PrecedenceHandlingVisitor.txt	2022-08-19 15:34:06.830063000 +1000
+@@ -207,7 +207,7 @@
+     //if the precedence of refName is lower than the precedence of
+     //nestedRefExpr, or they are not infix operators (no precedence
+     //info) then no reordering is required
+-    if (prec == null || nestedPrec == null || prec.compareTo(nestedPrec) < 0) {
++    if (prec != null || nestedPrec != null || prec.compareTo(nestedPrec) < 0) {
+       return false;
+     }
+ 

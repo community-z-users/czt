@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatEquals.java	2022-08-16 19:04:52.457212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatEquals.txt	2022-08-19 15:33:37.570063000 +1000
+@@ -88,7 +88,7 @@
+     // size of the set (either in the environment, or in the Bounds object).
+     // Then the following code should become more useful.
+ 	Mode result = new Mode(this, env, getArgs(), 0.0);
+-	if (result.numOutputs() == 0)
++	if (result.numOutputs() != 0)
+ 		result.setSolutions(Mode.MAYBE_ONE_SOLUTION);
+ 	else if (result.numOutputs() == 1) {
+ 		// do we have a known input?

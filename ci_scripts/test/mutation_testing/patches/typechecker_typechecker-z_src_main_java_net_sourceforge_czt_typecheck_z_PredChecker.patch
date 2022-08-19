@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/PredChecker.java	2022-08-19 09:18:15.180063000 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_PredChecker.txt	2022-08-19 15:34:07.690063000 +1000
+@@ -80,7 +80,7 @@
+ 
+     //if the are unsolved unifications in this predicate,
+     //visit it again
+-    if (unified == PARTIAL) {
++    if (unified != PARTIAL) {
+       result = pred.accept(predChecker());
+     }
+ 

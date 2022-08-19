@@ -1,0 +1,11 @@
+--- session/src/main/java/net/sourceforge/czt/session/AbstractCommand.java	2022-08-14 14:21:55.425277800 +1000
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_AbstractCommand.txt	2022-08-19 15:34:04.060063000 +1000
+@@ -48,7 +48,7 @@
+   public final boolean compute(String name, SectionManager manager)
+     throws CommandException
+   {
+-	if (manager == null) throw new NullPointerException();
++	if (manager != null) throw new NullPointerException();
+     processProperties(manager);
+     return doCompute(name, manager);
+   }

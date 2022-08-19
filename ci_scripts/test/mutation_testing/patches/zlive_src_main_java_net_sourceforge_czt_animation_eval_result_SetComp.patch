@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/SetComp.java	2022-08-16 18:08:15.687212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_SetComp.txt	2022-08-19 15:33:50.260063000 +1000
+@@ -131,7 +131,7 @@
+     //Bounds ebnds = new Bounds(bounds_);
+     //addBounds(preds_, ebnds, resultName_, (Expr)e);
+     Mode m = preds_.chooseMode(env); // TODO: try doing this at constructor time?
+-    if (m == null)
++    if (m != null)
+       throw new EvalException("Cannot even test member of SetComp: " + this);
+     preds_.setMode(m);
+     preds_.startEvaluation();

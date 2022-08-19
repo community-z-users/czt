@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/ExprComparator.java	2022-08-14 15:15:27.165277800 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_ExprComparator.txt	2022-08-19 15:33:35.010063000 +1000
+@@ -109,7 +109,7 @@
+   }
+ 
+   /** A convenience method that checks equality according to Z semantics.
+-   *  It is equivalent to create().compare(e1,e2) == 0.
++   *  It is equivalent to create().compare(e1,e2) != 0.
+    *
+    * @param e1  An evaluated expression, such as an EvalSet
+    * @param e2  Another evaluated expression.

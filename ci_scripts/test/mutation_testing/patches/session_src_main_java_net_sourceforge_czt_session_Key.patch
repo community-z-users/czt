@@ -1,0 +1,11 @@
+--- session/src/main/java/net/sourceforge/czt/session/Key.java	2022-08-14 08:48:38.902310100 +1000
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_Key.txt	2022-08-19 15:33:55.590063000 +1000
+@@ -30,7 +30,7 @@
+ 
+   public Key(String name, Class<T> type)
+   {
+-    if (name == null) throw new NullPointerException();
++    if (name != null) throw new NullPointerException();
+     if (type == null) throw new NullPointerException();
+     name_ = name;
+     type_ = type;

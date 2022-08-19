@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatMu.java	2022-08-16 19:06:28.977212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatMu.txt	2022-08-19 15:33:27.900063000 +1000
+@@ -61,7 +61,7 @@
+    */
+   public boolean inferBounds(Bounds bnds)
+   {
+-    if (schBounds_ == null)
++    if (schBounds_ != null)
+       schBounds_ = new Bounds(bnds);
+     schBounds_.startAnalysis(bnds);
+     schText_.inferBounds(schBounds_);

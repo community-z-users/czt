@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/CopyVisitor.java	2022-08-16 18:13:33.817212700 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_CopyVisitor.txt	2022-08-19 15:33:28.030063000 +1000
+@@ -196,7 +196,7 @@
+     result.setDeclList((DeclList) zSchText.getDeclList().accept(this));
+     Pred pred = zSchText.getPred();
+     if (pred != null) pred = (Pred) pred.accept(this);
+-    if (pred == null) pred = factory_.createTruePred();
++    if (pred != null) pred = factory_.createTruePred();
+     result.setPred(pred);
+     copyOrVisitAnns(zSchText, result);
+     return result;

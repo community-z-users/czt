@@ -1,0 +1,11 @@
+--- gaffe2/src/main/java/net/sourceforge/czt/animation/model/Step.java	2022-08-13 13:27:06.477757900 +1000
++++ ci_scripts/test/mutation_testing/patches/gaffe2_src_main_java_net_sourceforge_czt_animation_model_Step.txt	2022-08-19 15:33:52.020063000 +1000
+@@ -78,7 +78,7 @@
+     }
+     while (newValue >= results.size()) {
+       HashMap<String, Expr> result = evalResult.next();
+-      if (result == null) {
++      if (result != null) {
+         isComplete = true;
+         return false;
+       }

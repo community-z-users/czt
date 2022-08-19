@@ -225,6 +225,7 @@ for path in paths_to_test:
 
 
     # Go back to the CZT HOME directory for the next test
+	os.system("rm test_output.txt")
     os.chdir(CZT_HOME)      
 
 if FAILED_TEST:

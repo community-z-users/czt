@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/Sig.java	2022-08-16 19:06:28.977212700 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_ast_Sig.txt	2022-08-19 15:33:30.680063000 +1000
+@@ -38,7 +38,7 @@
+     this.isOne = one;
+     this.isSome = some;
+     this.label = label;
+-    this.pred = pred == null ? ExprConstant.TRUE : pred;
++    this.pred = pred != null ? ExprConstant.TRUE : pred;
+     this.fields = new ArrayList<Field>();
+   }
+ 

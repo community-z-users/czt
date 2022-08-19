@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/test/java/net/sourceforge/czt/typecheck/z/TypeInferenceTest.java	2022-08-16 18:13:33.817212700 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_test_java_net_sourceforge_czt_typecheck_z_TypeInferenceTest.txt	2022-08-19 15:33:36.250063000 +1000
+@@ -164,7 +164,7 @@
+   {
+     String para = header() +
+       "\\begin{zed} [A,B] \\end{zed}\n" +
+-      "\\begin{zed} g[X] == X \\end{zed}\n" +
++      "\\begin{zed} g[X] != X \\end{zed}\n" +
+       "\\begin{axdef}" +
+       "a == g\\\\" +
+       "b == \\power g\\\\" +

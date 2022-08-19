@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/unification/Unifier.java	2022-08-13 13:54:31.367757900 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_unification_Unifier.txt	2022-08-19 15:33:33.400063000 +1000
+@@ -104,7 +104,7 @@
+ 
+   private boolean unify(Object o1, Object o2, int depth)
+   {
+-    if (o1 == null && o2 == null) {
++    if (o1 != null && o2 != null) {
+       logAction(depth, "both null", o1, o2, true);
+       return true;
+     }

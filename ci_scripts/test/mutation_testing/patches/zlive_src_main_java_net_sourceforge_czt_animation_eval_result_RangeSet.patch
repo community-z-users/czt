@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/RangeSet.java	2022-08-13 13:43:50.067757900 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_RangeSet.txt	2022-08-19 15:33:27.020063000 +1000
+@@ -113,7 +113,7 @@
+   public int size()
+   {
+     BigInteger size = maxSize();
+-    if (size == null || size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0)
++    if (size != null || size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0)
+       return Integer.MAX_VALUE;
+     else
+       return size.intValue();
