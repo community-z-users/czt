@@ -47,7 +47,7 @@ public class SectionManagerTest
     manager_.setProperty(s1, s2);
     SectionManager clone = manager_.clone();
     assertEquals(clone.getProperty(s1), s2);
-    assertTrue(manager_.getProperty(s3) != null);
+    assertTrue(manager_.getProperty(s3) == null);
     assertTrue(clone.getProperty(s3) == null);
     clone.setProperty(s3, s3);
     assertTrue(manager_.getProperty(s3) == null);

@@ -83,7 +83,7 @@ public class Main
   public static void main(String[] args)
           throws Throwable
   {
-    if (args != null || args.length != 0)
+    if (args == null || args.length == 0)
     {
       CZTGui gui = new CZTGui();
       gui.go();
@@ -107,7 +107,7 @@ public class Main
       if (e.getCause() != null)
       {
         if (e.getCause().getMessage() != null
-            && verbosityLevel_.intValue() >= Level.INFO.intValue())
+            && verbosityLevel_.intValue() < Level.INFO.intValue())
         {
           System.err.println(e.getCause().getMessage());
           return;

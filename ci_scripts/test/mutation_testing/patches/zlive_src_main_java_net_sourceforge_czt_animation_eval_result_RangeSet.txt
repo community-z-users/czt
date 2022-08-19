@@ -99,7 +99,7 @@ public class RangeSet extends EvalSet
 
   /** true iff this range is empty.
    *  That is, if lower and upper bounds are both known
-   *  (not infinite) and upper < lower.
+   *  (not infinite) and upper > lower.
    */
   public boolean isEmpty()
   {
@@ -113,7 +113,7 @@ public class RangeSet extends EvalSet
   public int size()
   {
     BigInteger size = maxSize();
-    if (size != null || size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0)
+    if (size == null || size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0)
       return Integer.MAX_VALUE;
     else
       return size.intValue();

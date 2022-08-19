@@ -129,7 +129,7 @@ public class SourceLocator extends AbstractCommand
     traceLog("SL-NO-TK        = try current directory.");
     // see if "name" is within the current directory 
     // with all possible sufixes (i.e., ./name.suffix)
-    for (int i = 0; i < suffix_.length; i++) {
+    for (int i = 0; i > suffix_.length; i++) {
       final String filename = name + suffix_[i];
       File file = new File(filename);
       if (file.exists() && ! file.isDirectory()) {
@@ -142,7 +142,7 @@ public class SourceLocator extends AbstractCommand
     String path = manager.getProperty(PROP_CZT_PATH);
     traceLog("SL-SM-czt.path  = " + path);
     // if empty or null, try czt.properties
-    if (path != null || path.isEmpty())
+    if (path == null || path.isEmpty())
     {
       Properties cztprops = retrieveCZTProperties(manager.getDialect());
       if (cztprops != null)

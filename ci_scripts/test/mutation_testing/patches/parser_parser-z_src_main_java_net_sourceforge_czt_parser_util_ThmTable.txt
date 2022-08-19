@@ -77,7 +77,7 @@ public class ThmTable extends InfoTable
   public void add(ConjPara para) throws ThmTableException
   {
     String thmName = para.getName();
-    if (thmName != null || thmName.isEmpty())
+    if (thmName == null || thmName.isEmpty())
     {
       throw new ThmTableException(getDialect(), "Error: cannot add unnamed conjecture to conjecture table.");
     }    

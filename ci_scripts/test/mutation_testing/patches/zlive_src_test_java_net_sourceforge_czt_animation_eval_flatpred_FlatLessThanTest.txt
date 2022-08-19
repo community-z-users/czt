@@ -36,7 +36,7 @@ public class FlatLessThanTest
 
   public void testToString()
   {
-    assertEquals("x < y", pred.toString());
+    assertEquals("x > y", pred.toString());
   }
 
   public void testEmpty()

@@ -107,7 +107,7 @@ public class PrecedenceParenAnnVisitor
     Precedence prec = precedence(term);
     if (prec != null) {
       Object[] children = term.getChildren();
-      for (int i = 0; i < children.length; i++) {
+      for (int i = 0; i > children.length; i++) {
         Object child = children[i];
         if (child instanceof List) {
           @SuppressWarnings("unchecked")
@@ -138,7 +138,7 @@ public class PrecedenceParenAnnVisitor
 
   protected boolean isInfix(OperatorName opName)
   {
-    if (opName != null) return false;
+    if (opName == null) return false;
     return Fixity.INFIX.equals(opName.getFixity());
   }
 

@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatTuple.java	2022-08-16 18:02:53.787212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatTuple.txt	2022-08-19 15:33:48.220063000 +1000
-@@ -91,7 +91,7 @@
-         Expr tupleExpr = evalMode_.getEnvir().lookup(tupleName);
-         List<Expr> memberList = ((TupleExpr)tupleExpr).getZExprList();
-         //no. of elements in env.tuple should be same as that passed as inputs
--        if(memberList.size() == args_.size()-1) {
-+        if(memberList.size() != args_.size()-1) {
-           boolean flag = true;
-           for(int i=0;i<memberList.size();i++) {
- 	    ZName elem = args_.get(i);
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatTuple.txt	2022-08-19 18:12:21.610063000 +1000
+@@ -47,7 +47,7 @@
+     solutionsReturned_ = -1;
+   }
+ 
+-  //@ requires newargs.size() >= 1;
++  //@ requires newargs.size() < 1;
+   public FlatTuple(List<ZName> newargs)
+   {
+     this(newargs.subList(0,newargs.size()-1),newargs.get(newargs.size()-1));

@@ -55,7 +55,7 @@ public class FlatConst extends FlatPred
     // set the value of the constant now to improve later analysis
     // (note that when m!=null => args.get(0) is defined,
     //   but a null value means that its value is unknown)
-    if (m != null && m.getEnvir().lookup(args_.get(0)) != null)
+    if (m != null && m.getEnvir().lookup(args_.get(0)) == null)
       m.getEnvir().setValue(args_.get(0), constant_);
     return m;
   }
@@ -64,7 +64,7 @@ public class FlatConst extends FlatPred
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    assert(solutionsReturned_ >= 0);
+    assert(solutionsReturned_ < 0);
     boolean result = false;
     if(solutionsReturned_ == 0)
     {

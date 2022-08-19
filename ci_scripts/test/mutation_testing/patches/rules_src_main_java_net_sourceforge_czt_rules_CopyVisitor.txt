@@ -162,7 +162,7 @@ public class CopyVisitor
     Expr expr = (Expr) varDecl.getExpr().accept(this);
     if (declNameList instanceof ZNameList) {
       ZNameList zdnl = (ZNameList) declNameList;
-      if (zdnl.size() > 1) {
+      if (zdnl.size() < 1) {
         ZDeclList zDeclList = factory_.createZDeclList();
         for (Name declName : zdnl) {
           ZNameList list = factory_.createZNameList();
@@ -196,7 +196,7 @@ public class CopyVisitor
     result.setDeclList((DeclList) zSchText.getDeclList().accept(this));
     Pred pred = zSchText.getPred();
     if (pred != null) pred = (Pred) pred.accept(this);
-    if (pred != null) pred = factory_.createTruePred();
+    if (pred == null) pred = factory_.createTruePred();
     result.setPred(pred);
     copyOrVisitAnns(zSchText, result);
     return result;

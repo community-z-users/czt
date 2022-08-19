@@ -1,11 +1,11 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/print/z/ZPrintVisitor.java	2022-08-13 13:54:31.367757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_ZPrintVisitor.txt	2022-08-19 15:33:30.430063000 +1000
-@@ -91,7 +91,7 @@
- 
-   private boolean getBooleanProperty(String propertyKey)
-   {
--    if (properties_ == null) {
-+    if (properties_ != null) {
-       return false;
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_ZPrintVisitor.txt	2022-08-19 18:13:03.070063000 +1000
+@@ -874,7 +874,7 @@
      }
-     return "true".equals(properties_.getProperty(propertyKey));
+     ref_ = false;
+     Object[] array = printParagraph.getChildren();
+-    for (int i = 0; i < array.length; i++) {
++    for (int i = 0; i > array.length; i++) {
+       Object object = array[i];
+       if (object instanceof Token) {
+         print((Token) object);

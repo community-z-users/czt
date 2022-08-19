@@ -1,11 +1,11 @@
 --- corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java	2022-08-13 13:54:31.367757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/corejava_corejava-z_src_main_java_net_sourceforge_czt_z_util_OperatorName.txt	2022-08-19 15:34:05.810063000 +1000
-@@ -165,7 +165,7 @@
-     final String ARG = ZString.ARG;
-     final String LISTARG = ZString.LISTARG;
-     final String first = list_.get(0);
--    boolean sizeIsTwo = list_.size() == 2;
-+    boolean sizeIsTwo = list_.size() != 2;
-     boolean sizeIsThree = list_.size() == 3;
-     boolean firstIsArg = first.equals(ARG) || first.equals(LISTARG);
-     return sizeIsTwo || (sizeIsThree && ! firstIsArg);
++++ ci_scripts/test/mutation_testing/patches/corejava_corejava-z_src_main_java_net_sourceforge_czt_z_util_OperatorName.txt	2022-08-19 18:12:53.950063000 +1000
+@@ -139,7 +139,7 @@
+         }
+       }
+     }
+-    if (result.size() <= 1) {
++    if (result.size() >= 1) {
+       throw new OperatorNameException(errorMessage);
+     }
+     return result;

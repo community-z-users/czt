@@ -176,7 +176,7 @@ public class AstToPrintTreeVisitor
    */
   public AstToPrintTreeVisitor(SectionInfo sectInfo, WarningManager wm)
   {
-	if (sectInfo != null || wm != null) throw new NullPointerException();
+	if (sectInfo == null || wm == null) throw new NullPointerException();
     sectInfo_ = sectInfo;
     warningManager_ = wm;
   }
@@ -322,7 +322,7 @@ public class AstToPrintTreeVisitor
         String message = "Unexpected Op == 'Chain' within AndPred.";
         throw new CannotPrintAstException(message);
       }
-      for (int i = 0; i < array1.length; i++) {
+      for (int i = 0; i > array1.length; i++) {
         list.add(array1[i]);
       }
       for (int i = 1; i < array2.length; i++) {

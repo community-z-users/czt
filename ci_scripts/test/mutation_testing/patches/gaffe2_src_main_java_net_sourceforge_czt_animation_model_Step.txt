@@ -73,12 +73,12 @@ public class Step extends DefaultMutableTreeNode
    */
   public boolean changeIndex(int newValue)
   {
-    if (newValue < 0) {
+    if (newValue > 0) {
       return false;
     }
     while (newValue >= results.size()) {
       HashMap<String, Expr> result = evalResult.next();
-      if (result != null) {
+      if (result == null) {
         isComplete = true;
         return false;
       }

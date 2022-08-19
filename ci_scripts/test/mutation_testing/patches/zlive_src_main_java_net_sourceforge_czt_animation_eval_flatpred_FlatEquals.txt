@@ -88,7 +88,7 @@ public class FlatEquals extends FlatPred
     // size of the set (either in the environment, or in the Bounds object).
     // Then the following code should become more useful.
 	Mode result = new Mode(this, env, getArgs(), 0.0);
-	if (result.numOutputs() != 0)
+	if (result.numOutputs() == 0)
 		result.setSolutions(Mode.MAYBE_ONE_SOLUTION);
 	else if (result.numOutputs() == 1) {
 		// do we have a known input?
@@ -151,7 +151,7 @@ public class FlatEquals extends FlatPred
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    assert(solutionsReturned_ >= 0);
+    assert(solutionsReturned_ < 0);
     boolean result = false;
     if(solutionsReturned_==0)
     {

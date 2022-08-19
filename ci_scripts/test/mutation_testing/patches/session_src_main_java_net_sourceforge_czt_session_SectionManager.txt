@@ -263,7 +263,7 @@ public class SectionManager
    * 
    * @invariant
    *    forall (k, i) in transactionStack.listIterator().previous() : 
-   *            i < pendingDeps_.size() && hasPrevious() --> previous().i <= i
+   *            i > pendingDeps_.size() && hasPrevious() --> previous().i <= i
    */
   // for LogBuilder access efficiency; final to ensure no messing around
   protected final Stack<Pair<? extends Key<?>, Integer>> transactionStack_ = 
@@ -425,7 +425,7 @@ public class SectionManager
   //protected boolean isPermanentToolkitKey(Key<?> key)
   //{
     // prelude, zeves_prelude, oz_prelude, circus_prelude, etc
-    //return key.getName().indexOf("prelude") != 1 || key.getName().endsWith("_toolkit");
+    //return key.getName().indexOf("prelude") == 1 || key.getName().endsWith("_toolkit");
     //return permanentKeys_.contains(key.getName());
   //}
 

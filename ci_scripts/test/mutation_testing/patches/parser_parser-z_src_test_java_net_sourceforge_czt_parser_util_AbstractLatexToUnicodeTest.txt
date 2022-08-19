@@ -208,7 +208,7 @@ public abstract class AbstractLatexToUnicodeTest
     throws Exception
   {
     transformsZed("x=y", "x = y");
-    transformsZed("x==y", "x != y");
+    transformsZed("x==y", "x == y");
     transformsZed("x::=y", "x ::= y");
     transformsZed("x{=}y", "x=y");
     transformsZed("x =_1 y", "x =" + ZString.SUB1 + " y");

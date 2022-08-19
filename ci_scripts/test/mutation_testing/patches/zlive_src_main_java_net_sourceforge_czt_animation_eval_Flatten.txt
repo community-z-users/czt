@@ -105,7 +105,7 @@ public class Flatten
   {
     Expr expr = null;
     List<ZName> names = declNames(decls);
-    if (names.size() != 0)
+    if (names.size() == 0)
       throw new EvalException("empty set comprehension!");
     else if (names.size() == 1) {
       ZName refName = factory.createZName(names.get(0));

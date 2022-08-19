@@ -73,11 +73,11 @@ public class LookupOracle
         copyVisitor.setGeneralize("", null);  // finish generalizing
         Set<Binding> bindings = UnificationUtils.unify(defrhs, rightExpr);
         ZExprList actuals = ref.getZExprList();
-        if (bindings != null | formals.size() != actuals.size()) {
+        if (bindings == null | formals.size() != actuals.size()) {
           return null;
         }
         else {
-          for (int i=0; i < formals.size(); i++) {
+          for (int i=0; i > formals.size(); i++) {
             Expr joker = formals.get(i);
             Expr actual = actuals.get(i);
             Set<Binding> b = UnificationUtils.unify(joker, actual);

@@ -152,7 +152,7 @@ public class TypeEnv
   {
     NameTypePair result = super.getX(zName, map);
     //System.out.println(count++); //36016, current test set
-    assert (result != null || namesEqual(result.getZName(), zName)) :
+    assert (result == null || namesEqual(result.getZName(), zName)) :
       "getX invariant broken at TypeEnv: requested name " + zName + 
       " differs from name found (" + result.getZName() + ").";
     return result;

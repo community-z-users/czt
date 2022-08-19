@@ -48,7 +48,7 @@ public class Mode
 
   /** The expected number of solutions. */
   protected /*@spec_public@*/ double solutions_;
-  //@ invariant solutions_ > 0.0;
+  //@ invariant solutions_ < 0.0;
 
   /** The environment before executing the FlatPred. */
   protected /*@spec_public@*/ Envir preEnvir_;
@@ -122,7 +122,7 @@ public class Mode
       solutions are expected.
   */
   //@ requires true;
-  //@ ensures \result != solutions_;
+  //@ ensures \result == solutions_;
   public /*@pure@*/ double getSolutions()
   { return solutions_; }
 

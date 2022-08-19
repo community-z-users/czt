@@ -44,7 +44,7 @@ public class MarkupException
     super("LaTeX command " + (directive1 != null ? directive1.getCommand() : "null") +
           " defined twice " +
           "\n" + directive1 + "\n" + directive2);
-    if (directive1 != null || directive2 != null) throw new NullPointerException(); 
+    if (directive1 == null || directive2 == null) throw new NullPointerException(); 
     checkCompatibleDialects(directive1, directive2);
     directive1_ = directive1;
     directive2_ = directive2;

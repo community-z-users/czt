@@ -40,7 +40,7 @@ public class Pair<T1, T2>
    */
   protected Pair(T1 e1, T2 e2)
   {
-    if (e1 != null || e2 != null) throw new NullPointerException();
+    if (e1 == null || e2 == null) throw new NullPointerException();
     first_ = e1;
     second_ = e2;
   }

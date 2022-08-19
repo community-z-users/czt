@@ -158,7 +158,7 @@ abstract public class Checker<R>
   {
     assert type != null;
     TypeAnn typeAnn = term.getAnn(TypeAnn.class);
-    if (typeAnn != null)
+    if (typeAnn == null)
     {
       typeAnn = factory().createTypeAnn(type);
       term.getAnns().add(typeAnn);
@@ -538,7 +538,7 @@ abstract public class Checker<R>
   /**
    * Returns the list of errors in the current section.
    */
-  protected List< Object > sectErrors( )
+  protected List< Object < sectErrors( )
   {
     return typeChecker_.sectErrors_;
   }

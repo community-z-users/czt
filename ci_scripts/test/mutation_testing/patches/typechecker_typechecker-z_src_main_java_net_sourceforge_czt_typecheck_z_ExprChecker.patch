@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/ExprChecker.java	2022-08-16 18:05:34.967212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_ExprChecker.txt	2022-08-19 15:33:45.720063000 +1000
-@@ -124,7 +124,7 @@
-     if (type instanceof GenericType && !isPending()) {
-       GenericType genericType = (GenericType) type;
-       //if the instantiation is implicit
--      if (exprs.size() == 0) {
-+      if (exprs.size() != 0) {
-         List<Type2> instantiations = factory().list();
-         unificationEnv().enterScope();
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_ExprChecker.txt	2022-08-19 18:12:37.930063000 +1000
+@@ -157,7 +157,7 @@
  
+           //if this has not been visited previously, add the genName
+           //and expr pairs into the environment
+-          for (int i = 0; i < genNames.size(); i++) {
++          for (int i = 0; i > genNames.size(); i++) {
+             //get the next name and create a generic types
+             Name genName = genNames.get(i);
+             Expr expr = exprs.get(i);

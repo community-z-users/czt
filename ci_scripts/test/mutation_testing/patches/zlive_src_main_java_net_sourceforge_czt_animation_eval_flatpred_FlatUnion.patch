@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatUnion.java	2022-08-19 09:18:15.190063000 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatUnion.txt	2022-08-19 18:12:36.490063000 +1000
+@@ -88,7 +88,7 @@
+   public boolean nextEvaluation()
+   {
+     assert (evalMode_ != null);
+-    assert (solutionsReturned_ >= 0);
++    assert (solutionsReturned_ < 0);
+     boolean result = false;
+     if (solutionsReturned_ != 0) {
+       solutionsReturned_++;

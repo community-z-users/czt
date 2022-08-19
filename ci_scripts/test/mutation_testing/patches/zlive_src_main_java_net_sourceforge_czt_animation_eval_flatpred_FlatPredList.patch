@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPredList.java	2022-08-19 09:18:15.190063000 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatPredList.txt	2022-08-19 18:12:35.550063000 +1000
+@@ -391,7 +391,7 @@
+     LOG.entering("FlatPredList","inferBounds",bnds);
+     for (FlatPred pred : predlist_)
+       pred.inferBounds(bnds);
+-    LOG.exiting("FlatPredList","inferBounds",bnds.getDeductions() > 0);
++    LOG.exiting("FlatPredList","inferBounds",bnds.getDeductions() < 0);
+     return bnds.getDeductions() > 0;
+   }
+ 

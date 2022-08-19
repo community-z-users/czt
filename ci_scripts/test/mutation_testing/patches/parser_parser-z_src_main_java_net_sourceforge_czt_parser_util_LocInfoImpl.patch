@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/LocInfoImpl.java	2022-08-16 18:02:19.387212700 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_LocInfoImpl.txt	2022-08-19 18:12:20.740063000 +1000
+@@ -127,7 +127,7 @@
+ public String toString()
+   {
+     StringBuffer result = new StringBuffer();
+-    if (line_ >= 0) result.append("line " + line_);
++    if (line_ < 0) result.append("line " + line_);
+     if (column_ >= 0) result.append(" column " + column_);
+     if (dialect_ != null) result.append(" dialect " + dialect_.toString());
+     if (source_ != null) result.append(" in \"" + source_ + "\"");

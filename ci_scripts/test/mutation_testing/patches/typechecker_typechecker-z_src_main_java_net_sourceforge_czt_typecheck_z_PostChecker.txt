@@ -127,7 +127,7 @@ public class PostChecker
       //if this ref expr was created for an ExprPred
       ExprPred exprPred = zName.getAnn(ExprPred.class);
       boolean added = false;
-      if (exprPred != null) {
+      if (exprPred == null) {
         added = addErrorAnn(zName, errorAnn);
       }
       else {

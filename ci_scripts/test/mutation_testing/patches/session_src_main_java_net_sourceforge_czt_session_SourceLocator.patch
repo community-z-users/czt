@@ -1,11 +1,11 @@
 --- session/src/main/java/net/sourceforge/czt/session/SourceLocator.java	2022-08-13 13:23:38.367757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_SourceLocator.txt	2022-08-19 15:33:44.520063000 +1000
-@@ -142,7 +142,7 @@
-     String path = manager.getProperty(PROP_CZT_PATH);
-     traceLog("SL-SM-czt.path  = " + path);
-     // if empty or null, try czt.properties
--    if (path == null || path.isEmpty())
-+    if (path != null || path.isEmpty())
-     {
-       Properties cztprops = retrieveCZTProperties(manager.getDialect());
-       if (cztprops != null)
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_SourceLocator.txt	2022-08-19 18:12:37.000063000 +1000
+@@ -129,7 +129,7 @@
+     traceLog("SL-NO-TK        = try current directory.");
+     // see if "name" is within the current directory 
+     // with all possible sufixes (i.e., ./name.suffix)
+-    for (int i = 0; i < suffix_.length; i++) {
++    for (int i = 0; i > suffix_.length; i++) {
+       final String filename = name + suffix_[i];
+       File file = new File(filename);
+       if (file.exists() && ! file.isDirectory()) {

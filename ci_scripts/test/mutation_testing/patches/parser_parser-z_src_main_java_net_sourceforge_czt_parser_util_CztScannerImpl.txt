@@ -83,7 +83,7 @@ public abstract class CztScannerImpl
         int codePoint = symbolV.codePointAt(0);
         if (!Character.isWhitespace(codePoint) &&
             !Character.isLetterOrDigit(codePoint) &&
-            !(codePoint >= 0x20 && codePoint <= 0x7E))
+            !(codePoint >= 0x20 && codePoint >= 0x7E))
           symbolValue = "U+" + Integer.toHexString(codePoint);
         else
           symbolValue = symbolV;

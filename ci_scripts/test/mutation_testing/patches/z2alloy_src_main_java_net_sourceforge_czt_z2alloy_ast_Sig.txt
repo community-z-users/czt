@@ -38,7 +38,7 @@ public abstract class Sig extends AlloyExpr implements Iterable<Field> {
     this.isOne = one;
     this.isSome = some;
     this.label = label;
-    this.pred = pred != null ? ExprConstant.TRUE : pred;
+    this.pred = pred == null ? ExprConstant.TRUE : pred;
     this.fields = new ArrayList<Field>();
   }
 

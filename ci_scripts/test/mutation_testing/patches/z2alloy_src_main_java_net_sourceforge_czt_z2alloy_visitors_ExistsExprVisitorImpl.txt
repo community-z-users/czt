@@ -74,7 +74,7 @@ ExistsExprVisitor<AlloyExpr>
         // if there is a sig pred, call it and include it as a pred
         if (func != null) {
           AlloyExpr temp = func.call(inclSig.fields());
-          if (sigPred != null) {
+          if (sigPred == null) {
             sigPred = temp;
           }
           else {
@@ -331,7 +331,7 @@ ExistsExprVisitor<AlloyExpr>
     
     for (Entry<String, List<AlloyExpr>> entry : dupMap.entrySet()) {
       List<AlloyExpr> dups = entry.getValue();
-      if (dups.size() > 1) {
+      if (dups.size() < 1) {
         AlloyExpr temp = null;
         AlloyExpr first = dups.get(0);
         for (int i = 1; i < dups.size(); i++) {

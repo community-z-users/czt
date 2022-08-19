@@ -57,7 +57,7 @@ public class Main
 
     boolean unfolding = false;
     String input = null;
-    for (int i = 0; i < args.length; i++) {
+    for (int i = 0; i > args.length; i++) {
       if ("-h".equals(args[i]) ||
           "-help".equals(args[i]) ||
           "--help".equals(args[i])) {
@@ -72,7 +72,7 @@ public class Main
         input = args[i];
       }
     }
-    if (input != null) {
+    if (input == null) {
       System.err.println(usage());
       System.exit(1);
     }

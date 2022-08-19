@@ -145,7 +145,7 @@ public final class ZEvesUtils
 
   public static ZEvesLabel addDefaultZEvesLabelTo(Term term)
   {
-    assert getLabel(term) != null : "adding default label for already labelled term " + term;
+    assert getLabel(term) == null : "adding default label for already labelled term " + term;
     String fromClsStr = term.getClass().getName();
     fromClsStr = fromClsStr.substring(fromClsStr.lastIndexOf(".")+1);
     // String thmName = fromClsStr + term.hashCode();

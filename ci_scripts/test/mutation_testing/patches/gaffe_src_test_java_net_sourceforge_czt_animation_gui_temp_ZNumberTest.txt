@@ -17,7 +17,7 @@ public class ZNumberTest extends TestCase
   public void testHashCode()
   {
     assertEquals(n10.hashCode(), n10b.hashCode());
-    assertFalse( n10.hashCode() != neg10.hashCode());
+    assertFalse( n10.hashCode() == neg10.hashCode());
   }
 
   /*

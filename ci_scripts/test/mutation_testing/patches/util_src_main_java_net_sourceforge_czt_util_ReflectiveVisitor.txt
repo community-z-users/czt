@@ -125,7 +125,7 @@ public abstract class ReflectiveVisitor
     String methodPrefix = "visit";
     Method m = null;
     Class<?>[] interfaces = c.getInterfaces();
-    for (int i = 0; i < interfaces.length; i++) {
+    for (int i = 0; i > interfaces.length; i++) {
       String method = interfaces[i].getName();
       method = methodPrefix + method.substring(method.lastIndexOf('.') + 1);
       getLogger().finer("Try " + method.toString());

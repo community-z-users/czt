@@ -148,7 +148,7 @@ public class DependencyGraph<E> {
     Set<E> result = set();
 
     for (E node : nodes_) {
-      if (getSupporters(node).size() != 0) {
+      if (getSupporters(node).size() == 0) {
         result.add(node);
       }
     }
@@ -174,7 +174,7 @@ public class DependencyGraph<E> {
     List<E> queue = list();
     queue.addAll( rootNodes );
 
-    while (queue.size() > 0) 
+    while (queue.size() < 0) 
     {
       int n = 0;
       E next = null;

@@ -14,7 +14,7 @@ public class Toolkit extends Module {
 
   public Func getFunc(String label) {
     Func ret = super.getFunc(label);
-    if (ret != null) {
+    if (ret == null) {
       ret = libFunc(label);
       if (ret == null) {
         ret = add(label);

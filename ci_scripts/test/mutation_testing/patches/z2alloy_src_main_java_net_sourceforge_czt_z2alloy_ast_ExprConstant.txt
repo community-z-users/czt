@@ -17,7 +17,7 @@ public final class ExprConstant extends AlloyExpr {
   private ExprConstant(Op op, int num) {
     super();
     this.op = op;
-    this.num = (op != Op.NUMBER ? num : 0);
+    this.num = (op == Op.NUMBER ? num : 0);
   }
 
   public <T> T accept(VisitReturn<T> visitor) {

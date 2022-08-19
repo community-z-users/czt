@@ -1,11 +1,11 @@
 --- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/ExistsExprVisitorImpl.java	2022-08-16 19:06:28.977212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_visitors_ExistsExprVisitorImpl.txt	2022-08-19 15:34:09.170063000 +1000
-@@ -74,7 +74,7 @@
-         // if there is a sig pred, call it and include it as a pred
-         if (func != null) {
-           AlloyExpr temp = func.call(inclSig.fields());
--          if (sigPred == null) {
-+          if (sigPred != null) {
-             sigPred = temp;
-           }
-           else {
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_visitors_ExistsExprVisitorImpl.txt	2022-08-19 18:12:44.670063000 +1000
+@@ -331,7 +331,7 @@
+     
+     for (Entry<String, List<AlloyExpr>> entry : dupMap.entrySet()) {
+       List<AlloyExpr> dups = entry.getValue();
+-      if (dups.size() > 1) {
++      if (dups.size() < 1) {
+         AlloyExpr temp = null;
+         AlloyExpr first = dups.get(0);
+         for (int i = 1; i < dups.size(); i++) {

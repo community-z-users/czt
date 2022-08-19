@@ -213,7 +213,7 @@ public class ParaChecker
       UResult unified = unify(vPowerType, exprType);
 
       //if the expr is not a set, raise an error
-      if (unified != FAIL) {
+      if (unified == FAIL) {
         Object [] params = {expr, exprType};
         error(expr, ErrorMessage.NON_SET_IN_FREETYPE, params);
       }

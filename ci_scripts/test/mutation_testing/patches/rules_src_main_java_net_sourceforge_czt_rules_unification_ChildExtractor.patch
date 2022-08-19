@@ -1,11 +1,11 @@
 --- rules/src/main/java/net/sourceforge/czt/rules/unification/ChildExtractor.java	2022-08-13 13:37:35.517757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_unification_ChildExtractor.txt	2022-08-19 15:33:33.270063000 +1000
-@@ -103,7 +103,7 @@
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_unification_ChildExtractor.txt	2022-08-19 18:12:33.080063000 +1000
+@@ -143,7 +143,7 @@
    {
-     TypeAnn typed = refExpr.getAnn(TypeAnn.class);
-     ExprList types = refExpr.getExprList();
--    if (typed == null && ! refExpr.getExplicit().booleanValue()
-+    if (typed != null && ! refExpr.getExplicit().booleanValue()
-         && types instanceof ZExprList 
-         && ((ZExprList)types).isEmpty())
-       types = proverFactory_.createJokerExprList("_T"+(typeCounter_ ++), null);
+     Object[] result = new Object[children.length + 1];
+     result[0] = name;
+-    for (int i = 0; i < children.length; i++) {
++    for (int i = 0; i > children.length; i++) {
+       result[i + 1] = children[i];
+     }
+     return result;

@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/GenericTypeImpl.java	2022-08-16 19:09:41.517212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_GenericTypeImpl.txt	2022-08-19 15:34:04.670063000 +1000
-@@ -98,7 +98,7 @@
-           !getType().equals(gType.getType())) {
-         return false;
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_GenericTypeImpl.txt	2022-08-19 18:12:34.220063000 +1000
+@@ -100,7 +100,7 @@
        }
--      if (getType().size() == gType.getType().size()) {
-+      if (getType().size() != gType.getType().size()) {
+       if (getType().size() == gType.getType().size()) {
  	if (! getType().get(0).equals(gType.getType().get(0))) return false;
- 	if (getType().size() > 1) {
+-	if (getType().size() > 1) {
++	if (getType().size() < 1) {
  	  return getType().get(1).equals(gType.getType().get(1));
+ 	}
+ 	else {

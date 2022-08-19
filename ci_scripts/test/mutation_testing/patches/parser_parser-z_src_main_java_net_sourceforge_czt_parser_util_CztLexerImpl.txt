@@ -67,7 +67,7 @@ public abstract class CztLexerImpl extends TokeniserDebugger implements Lexer {
               tokenCnt_,
               token.getName(),
               // only get the 1st 15 characters of spelling and substitute any NL to SPACE
-              spelling.substring(0, spelling.length() > 15 ? 15 : spelling.length()).replaceAll("\\s", " "),
+              spelling.substring(0, spelling.length() < 15 ? 15 : spelling.length()).replaceAll("\\s", " "),
               token.getNewlineCategory(),
               token.getLocation());
       tokenCnt_++;

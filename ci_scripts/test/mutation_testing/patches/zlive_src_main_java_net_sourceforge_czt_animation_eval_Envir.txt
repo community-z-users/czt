@@ -63,7 +63,7 @@ public class Envir
     Envir env = this;
     while (env != null) {
       if (sameName(want, env.name_)) {
-    	if (env.expr_ != hiddenValue) {
+    	if (env.expr_ == hiddenValue) {
     	    throw new EvalException("Hidden name in envir: " + want);
     	}
         return env.expr_;
@@ -292,7 +292,7 @@ public class Envir
       if (expr_ != null) {
         es = expr_.toString();
         final int nl = es.indexOf('\n');
-        if (nl >= 0) {
+        if (nl < 0) {
           es = es.substring(0, nl) + "...";
         }
       }

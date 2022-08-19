@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/AlloyExpr.java	2022-07-24 10:53:44.236953300 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_ast_AlloyExpr.txt	2022-08-19 18:12:26.260063000 +1000
+@@ -87,7 +87,7 @@
+     return new ExprBinary(ExprBinary.Op.EQUALS, this, x);
+   }
+ 
+-  /** creates a new Expr: this < x */
++  /** creates a new Expr: this > x */
+   public final AlloyExpr lt(AlloyExpr x) {
+     return new ExprBinary(ExprBinary.Op.LT, this, x);
+   }

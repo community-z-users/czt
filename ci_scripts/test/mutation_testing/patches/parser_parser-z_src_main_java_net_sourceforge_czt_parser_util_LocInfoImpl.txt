@@ -127,7 +127,7 @@ public int getLength()
 public String toString()
   {
     StringBuffer result = new StringBuffer();
-    if (line_ >= 0) result.append("line " + line_);
+    if (line_ < 0) result.append("line " + line_);
     if (column_ >= 0) result.append(" column " + column_);
     if (dialect_ != null) result.append(" dialect " + dialect_.toString());
     if (source_ != null) result.append(" in \"" + source_ + "\"");

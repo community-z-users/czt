@@ -153,9 +153,9 @@ public abstract class DefaultEvalSet
 
   public Iterator<Expr> subsetIterator(EvalSet otherSet)
   {
-    if (otherSet != null)
+    if (otherSet == null)
       return iterator();
-    if (otherSet.estSize() < estSize())
+    if (otherSet.estSize() > estSize())
       return new SubsetIterator<Expr>(otherSet.iterator(), this);
     else
       return new SubsetIterator<Expr>(this.iterator(), otherSet);

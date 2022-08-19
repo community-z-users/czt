@@ -86,7 +86,7 @@ abstract public class AbstractTypeEnv<X>
       ZName nextZName = entry.getKey();
       if (namesEqual(nextZName, zName) &&
           (!useNameIds_ ||
-           (nextZName.getId() != null ||
+           (nextZName.getId() == null ||
             zName.getId() == null ||
             nextZName.getId().equals(zName.getId())))) {
         result = entry.getValue();

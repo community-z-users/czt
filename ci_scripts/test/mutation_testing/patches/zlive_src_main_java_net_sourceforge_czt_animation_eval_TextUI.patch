@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/TextUI.java	2022-07-24 10:53:44.246953300 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_TextUI.txt	2022-08-19 15:33:57.240063000 +1000
-@@ -185,7 +185,7 @@
-   public TextUI(ZLive zlive, PrintWriter output)
-   {
-     zlive_ = zlive;
--    if (output == null)
-+    if (output != null)
-       output_ = new PrintWriter(System.out, true); // with autoflush
-     else
-       output_ = output;
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_TextUI.txt	2022-08-19 18:12:48.670063000 +1000
+@@ -124,7 +124,7 @@
+     // we go interactive with this section selected.  null means exit
+     String interactiveSection = ui.getZLive().getCurrentSection();
+     int arg = 0;
+-    while (arg < args.length) {
++    while (arg > args.length) {
+       if (args[arg].equals("--help")) {
+         output.println("Options:");
+         output.println("  --help         (print this help message)");

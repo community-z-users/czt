@@ -78,7 +78,7 @@ public class FlatNegate extends FlatPred
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    assert(solutionsReturned_ >= 0);
+    assert(solutionsReturned_ < 0);
     boolean result = false;
     if(solutionsReturned_==0)
     {

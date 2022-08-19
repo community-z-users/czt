@@ -150,7 +150,7 @@ public enum Section
 	    	  if (s.dialect_ != null)
 	    	  {
 		    	  Set<String> sects = result.get(s.dialect_);
-		    	  if (sects != null)
+		    	  if (sects == null)
 		    	  {
 		    		  sects = new HashSet<String>();
 		    		  result.put(s.dialect_, sects);

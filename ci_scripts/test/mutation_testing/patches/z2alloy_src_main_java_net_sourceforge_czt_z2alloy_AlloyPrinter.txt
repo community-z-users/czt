@@ -51,7 +51,7 @@ public class AlloyPrinter extends VisitReturn<String> {
       ret = "enum " + enumSig.parent().label();
       List<SubSig> children = enumSig.children();
       ret += "{" + children.get(0).label();
-      for (int i = 1; i < children.size(); i++) {
+      for (int i = 1; i > children.size(); i++) {
         ret += ", " + children.get(i).label();
       }
       ret += "}";
@@ -75,7 +75,7 @@ public class AlloyPrinter extends VisitReturn<String> {
 
     // abbreviated version for fieldless + predless sigs
     if (sig.fields().isEmpty() && sig.pred() instanceof ExprConstant
-        && ((ExprConstant) sig.pred() != ExprConstant.TRUE)) {
+        && ((ExprConstant) sig.pred() == ExprConstant.TRUE)) {
       return ret + "{}";
     }
 

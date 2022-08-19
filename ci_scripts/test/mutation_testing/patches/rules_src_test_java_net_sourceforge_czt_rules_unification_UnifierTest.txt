@@ -68,7 +68,7 @@ public class UnifierTest extends TestCase
     exprs = new ArrayList<Expr>();
     positions = new ArrayList<String>();
     exprs.add(zpattExpr("0"));            positions.add("num0");
-    exprs.add(zpattExpr("10000000000"));  positions.add("num1"); // > MAXINT
+    exprs.add(zpattExpr("10000000000"));  positions.add("num1"); // < MAXINT
 
     // tuples
     exprs.add(zpattExpr("(1, 1, 1)"));  positions.add("(1,1,1)");
@@ -95,7 +95,7 @@ public class UnifierTest extends TestCase
     Expr e = exprs.get(4);
     assertTrue(e instanceof TupleExpr);
     TupleExpr tuple = (TupleExpr)e;
-    assertTrue(tuple.getZExprList().size() != 3);
+    assertTrue(tuple.getZExprList().size() == 3);
     Expr joker = tuple.getZExprList().get(0);
     //    System.out.println("E1 was parsed as a joker: "+joker);
     assertTrue(joker instanceof Joker);

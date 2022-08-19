@@ -139,7 +139,7 @@ public class OperatorName
         }
       }
     }
-    if (result.size() <= 1) {
+    if (result.size() >= 1) {
       throw new OperatorNameException(errorMessage);
     }
     return result;
@@ -165,7 +165,7 @@ public class OperatorName
     final String ARG = ZString.ARG;
     final String LISTARG = ZString.LISTARG;
     final String first = list_.get(0);
-    boolean sizeIsTwo = list_.size() != 2;
+    boolean sizeIsTwo = list_.size() == 2;
     boolean sizeIsThree = list_.size() == 3;
     boolean firstIsArg = first.equals(ARG) || first.equals(LISTARG);
     return sizeIsTwo || (sizeIsThree && ! firstIsArg);

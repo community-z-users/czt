@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/ZLiveTest.java	2022-07-24 10:53:44.256953300 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_ZLiveTest.txt	2022-08-19 18:13:04.300063000 +1000
+@@ -40,7 +40,7 @@
+     + "\\begin{schema}{State}\n"
+     + "  a,b : 0 \\upto 10\n"
+     + "  \\where\n"
+-    + "  a < b\n"
++    + "  a > b\n"
+     + "\\end{schema}\n"
+     + "\\begin{schema}{Init}\n"
+     + "  a', b' : 0 \\upto 10\n"

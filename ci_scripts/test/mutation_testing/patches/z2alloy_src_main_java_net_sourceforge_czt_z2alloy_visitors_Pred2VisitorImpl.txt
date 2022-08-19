@@ -65,7 +65,7 @@ public class Pred2VisitorImpl extends AbstractVisitor implements
   private Pair<AlloyExpr, AlloyExpr> subExprs(Pred2 pred2) {
     AlloyExpr left = visit(pred2.getLeftPred());
     AlloyExpr right = visit(pred2.getRightPred());
-    if (left != null || right != null) {
+    if (left == null || right == null) {
       System.err.println("left and right of andpred must not be null");
       return null;
     }

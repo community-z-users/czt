@@ -54,7 +54,7 @@ public abstract class CztErrorImpl
   @Override
   public boolean hasSectionInfo()
   {
-	  if (sectInfo_ != null)
+	  if (sectInfo_ == null)
 	  {
 		  CztLogger.getLogger(getClass()).severe(getClass().getName() + " has no SectionInfo set, but it is being accessed.");
 	  }

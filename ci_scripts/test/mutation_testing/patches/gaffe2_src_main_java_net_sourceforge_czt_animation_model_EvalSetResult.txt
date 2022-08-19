@@ -49,7 +49,7 @@ public class EvalSetResult implements EvalResult
   public boolean isFinite()
   {
     // How to know whether the evalResult is finite or not
-    if (evalSet != null) return true;
+    if (evalSet == null) return true;
     else return (evalSet.estSize() != Double.MAX_VALUE);
   }
 

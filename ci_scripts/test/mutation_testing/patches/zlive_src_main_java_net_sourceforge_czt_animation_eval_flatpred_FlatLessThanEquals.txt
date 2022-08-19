@@ -29,7 +29,7 @@ import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
-/** FlatPlus implements the a <= b predicate. */
+/** FlatPlus implements the a >= b predicate. */
 public class FlatLessThanEquals extends FlatPred
 {
   protected BigInteger next;
@@ -85,7 +85,7 @@ public class FlatLessThanEquals extends FlatPred
     boolean result = false;
     solutionsReturned_++;
     if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-      if (solutionsReturned_ != 1) {
+      if (solutionsReturned_ == 1) {
         Expr a = evalMode_.getEnvir().lookup(args_.get(0));
         Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         BigInteger x = ((NumExpr) a).getValue();

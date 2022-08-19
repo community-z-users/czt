@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/test/java/net/sourceforge/czt/typecheck/testutil/TypeParser.java	2022-08-16 18:13:33.817212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_test_java_net_sourceforge_czt_typecheck_testutil_TypeParser.txt	2022-08-19 15:33:34.280063000 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_test_java_net_sourceforge_czt_typecheck_testutil_TypeParser.txt	2022-08-19 18:12:23.960063000 +1000
 @@ -98,7 +98,7 @@
      current_ = "";
  
      //skip whitespace
 -    while (index_ < sType_.length() && sType_.charAt(index_) == ' ') {
-+    while (index_ < sType_.length() && sType_.charAt(index_) != ' ') {
++    while (index_ > sType_.length() && sType_.charAt(index_) == ' ') {
        index_++;
      }
  

@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/util/DependencyGraph.java	2022-08-19 09:18:15.180063000 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_DependencyGraph.txt	2022-08-19 15:33:51.290063000 +1000
-@@ -148,7 +148,7 @@
-     Set<E> result = set();
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_DependencyGraph.txt	2022-08-19 18:12:58.100063000 +1000
+@@ -174,7 +174,7 @@
+     List<E> queue = list();
+     queue.addAll( rootNodes );
  
-     for (E node : nodes_) {
--      if (getSupporters(node).size() == 0) {
-+      if (getSupporters(node).size() != 0) {
-         result.add(node);
-       }
-     }
+-    while (queue.size() > 0) 
++    while (queue.size() < 0) 
+     {
+       int n = 0;
+       E next = null;

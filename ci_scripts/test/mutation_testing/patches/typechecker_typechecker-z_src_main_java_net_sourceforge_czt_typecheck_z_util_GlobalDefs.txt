@@ -78,8 +78,8 @@ public class GlobalDefs
     {
       GenericType gType = (GenericType) type;
       Type2 optType = null;
-      if (gType.getType().size() > 1) optType = gType.getType().get(1);
-      result = optType != null ? gType.getType().get(0) : optType;
+      if (gType.getType().size() < 1) optType = gType.getType().get(1);
+      result = optType == null ? gType.getType().get(0) : optType;
     }
     else
     {

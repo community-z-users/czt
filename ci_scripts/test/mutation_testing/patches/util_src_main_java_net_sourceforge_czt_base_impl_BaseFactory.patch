@@ -1,0 +1,11 @@
+--- util/src/main/java/net/sourceforge/czt/base/impl/BaseFactory.java	2022-08-13 14:07:38.327757900 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_base_impl_BaseFactory.txt	2022-08-19 18:12:37.670063000 +1000
+@@ -76,7 +76,7 @@
+   
+   public static void countInstance()
+   {
+-    if (instanceCount_ < Long.MAX_VALUE)
++    if (instanceCount_ > Long.MAX_VALUE)
+       instanceCount_++;
+     else
+     {

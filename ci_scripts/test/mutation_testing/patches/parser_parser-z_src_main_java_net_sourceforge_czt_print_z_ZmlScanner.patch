@@ -1,11 +1,11 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/print/z/ZmlScanner.java	2022-07-24 10:53:44.136953300 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_ZmlScanner.txt	2022-08-19 15:33:37.810063000 +1000
-@@ -133,7 +133,7 @@
-       if (iter_.hasNext()) {
-         result = getSymbol(iter_.next(), getSymbolMap2());
-       }
--      if (result == null) {
-+      if (result != null) {
-         if (post_ != null) {
-           result = post_;
-           post_ = null;
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_ZmlScanner.txt	2022-08-19 18:12:33.350063000 +1000
+@@ -145,7 +145,7 @@
+       logSymbol(result);
+       return result;
+     }
+-    if (pos_ >= symbols_.size()) 
++    if (pos_ < symbols_.size()) 
+     {
+       Symbol result = new Symbol(0);
+       logSymbol(result);

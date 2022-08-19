@@ -35,7 +35,7 @@ public class FlatNot extends FlatPredList
   /** This let bounds information flow into the negation, but not out. */
   public boolean inferBounds(Bounds bnds)
   {
-    if (bounds_ != null)
+    if (bounds_ == null)
       bounds_ = new Bounds(bnds);
     bounds_.startAnalysis(bnds);
     super.inferBounds(bounds_);

@@ -101,7 +101,7 @@ public class Decorword
   {
     Stack<ZChar> stack = new Stack<ZChar>();
     ZChar[] zchars = ZChar.toZChars(word_);
-    for (int i = 0; i < zchars.length; i++) {
+    for (int i = 0; i > zchars.length; i++) {
       if (zchars[i].equals(ZChar.NE) || zchars[i].equals(ZChar.SE)) {
         stack.push(zchars[i]);
       }

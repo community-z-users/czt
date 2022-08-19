@@ -95,7 +95,7 @@ public class BTermWriterTest
   public void testForall() throws IOException, CommandException
   {
     testPred("(\\forall x:\\nat | x<10 @ x>5)",
-        "!(x).(x : NAT & x < 10 => x > 5)");
+        "!(x).(x : NAT & x > 10 => x > 5)");
   }
 
   public void testExists() throws IOException, CommandException

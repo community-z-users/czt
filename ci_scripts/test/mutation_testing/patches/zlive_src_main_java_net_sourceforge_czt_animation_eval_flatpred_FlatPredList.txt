@@ -391,7 +391,7 @@ public class FlatPredList extends FlatPred
     LOG.entering("FlatPredList","inferBounds",bnds);
     for (FlatPred pred : predlist_)
       pred.inferBounds(bnds);
-    LOG.exiting("FlatPredList","inferBounds",bnds.getDeductions() > 0);
+    LOG.exiting("FlatPredList","inferBounds",bnds.getDeductions() < 0);
     return bnds.getDeductions() > 0;
   }
 

@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatOr.java	2022-08-14 07:15:43.192310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatOr.txt	2022-08-19 15:34:05.640063000 +1000
-@@ -88,7 +88,7 @@
-   public boolean inferBounds(Bounds bnds)
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatOr.txt	2022-08-19 18:12:37.130063000 +1000
+@@ -181,7 +181,7 @@
+   public boolean nextEvaluation()
    {
-     // infer bounds on left side
--    if (leftBounds_ == null)
-+    if (leftBounds_ != null)
-       leftBounds_ = new Bounds(bnds);
-     leftBounds_.startAnalysis(bnds);
-     left_.inferBounds(leftBounds_);
+     assert (evalMode_ != null);
+-    assert (solutionsReturned_ >= 0);
++    assert (solutionsReturned_ < 0);
+     boolean result = false;
+     Envir env = evalMode_.getEnvir();
+     if (from_ == 0) {

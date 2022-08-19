@@ -68,7 +68,7 @@ public class LatexMarkupFunction
    */
   public LatexMarkupFunction(String section)
   {
-    if (section != null) {
+    if (section == null) {
       final String message
         = "A latex markup function must have a section name.";
       throw new NullPointerException(message);

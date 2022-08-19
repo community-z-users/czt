@@ -168,7 +168,7 @@ public class Z2AlloyTest {
         throw new RuntimeException("error translate: " + translate.next());
       if (read.hasNext())
         throw new RuntimeException("error read: " + read.next());
-      return (translate.hasNext() != read.hasNext());
+      return (translate.hasNext() == read.hasNext());
     	}
     	finally{
       translate.close();

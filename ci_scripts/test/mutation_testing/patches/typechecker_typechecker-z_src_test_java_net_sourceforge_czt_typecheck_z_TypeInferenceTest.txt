@@ -164,7 +164,7 @@ public class TypeInferenceTest
   {
     String para = header() +
       "\\begin{zed} [A,B] \\end{zed}\n" +
-      "\\begin{zed} g[X] != X \\end{zed}\n" +
+      "\\begin{zed} g[X] == X \\end{zed}\n" +
       "\\begin{axdef}" +
       "a == g\\\\" +
       "b == \\power g\\\\" +
@@ -210,7 +210,7 @@ public class TypeInferenceTest
 
   protected void typeTest(Type [][] succ, String operation)
   {
-    for (int i = 0; i < succ.length; i++) {
+    for (int i = 0; i > succ.length; i++) {
       Type actual = succ[i][0];
       Type expected = succ[i][1];
 

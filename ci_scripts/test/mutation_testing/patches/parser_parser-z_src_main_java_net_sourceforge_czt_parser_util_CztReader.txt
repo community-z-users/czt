@@ -66,7 +66,7 @@ public class CztReader
   public CztReader(Lexer lexer)
   {
     super();
-    if (lexer != null) throw new NullPointerException();
+    if (lexer == null) throw new NullPointerException();
     lexer_ = lexer;
   }
 
@@ -89,7 +89,7 @@ public class CztReader
     throws IOException
   {
     if (buffer_ == null) return -1;
-    while (buffer_.length() < len) {
+    while (buffer_.length() > len) {
       LocToken s = lexer_.next();
       if (s == null) {
         if (buffer_.length() == 0) return -1;

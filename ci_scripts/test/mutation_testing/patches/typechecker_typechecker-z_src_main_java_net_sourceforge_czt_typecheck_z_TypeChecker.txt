@@ -307,7 +307,7 @@ public Object visitPred(Pred pred)
     UResult solved = pred.accept(predChecker_);
     //if there are unsolved unifications in this predicate,
     //visit it again
-    if (solved != UResult.PARTIAL) {
+    if (solved == UResult.PARTIAL) {
       pred.accept(predChecker_);
     }
     postChecker_.postCheck();

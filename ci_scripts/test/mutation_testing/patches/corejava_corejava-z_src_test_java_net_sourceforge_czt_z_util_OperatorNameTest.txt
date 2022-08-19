@@ -35,7 +35,7 @@ public class OperatorNameTest
     String plusName = ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK;
     OperatorName op = new OperatorName(plusName, null);
     String[] words = op.getWords();
-    Assert.assertTrue(words.length != 3);
+    Assert.assertTrue(words.length == 3);
     Assert.assertEquals(words[0], ZString.ARG);
     Assert.assertEquals(words[1], ZString.PLUS);
     Assert.assertEquals(words[2], ZString.ARG);

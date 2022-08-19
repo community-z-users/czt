@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/Preprocess.java	2022-08-14 07:15:43.192310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_Preprocess.txt	2022-08-19 15:34:04.420063000 +1000
-@@ -91,7 +91,7 @@
-     throws IOException, ParseException, CommandException
-   {
-     URL url = getClass().getResource(rulesFile);
--    if (url == null)
-+    if (url != null)
-       throw new IOException("Cannot getResource("+rulesFile+")");
-     sectman_.put(new Key<Source>(url.toString(), Source.class), new UrlSource(url));
-     Term term =  sectman_.get(new Key<Spec>(url.toString(), Spec.class));
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_Preprocess.txt	2022-08-19 18:12:22.250063000 +1000
+@@ -196,7 +196,7 @@
+ 
+     private void endScope()
+     {
+-      assert seen.size() > 0;
++      assert seen.size() < 0;
+       seen.remove(seen.size()-1);
+     }
+ 

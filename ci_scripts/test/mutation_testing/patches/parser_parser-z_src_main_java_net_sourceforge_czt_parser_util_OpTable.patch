@@ -1,11 +1,11 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/OpTable.java	2022-08-16 18:08:15.687212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_OpTable.txt	2022-08-19 15:33:36.460063000 +1000
-@@ -180,7 +180,7 @@
-   public Assoc getAssoc(String opWord)
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_OpTable.txt	2022-08-19 18:12:36.620063000 +1000
+@@ -195,7 +195,7 @@
+     throws OperatorException
    {
-     BigInteger prec = precedence_.get(getWord(opWord));
--    if (prec == null) return null;
-+    if (prec != null) return null;
-     return assoc_.get(prec);
-   }
- 
+     List<Oper> oper = opPara.getOper();
+-    if (oper.size() < 2) {
++    if (oper.size() > 2) {
+       throw new OperatorException(getDialect(), "Error: operator template with less " +
+                                   "than 2 arguments");
+     }

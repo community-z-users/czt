@@ -61,7 +61,7 @@ public class RelationMap {
   }
 
   private Sig createRelation(AlloyExpr left, AlloyExpr right, String name) {
-    if (right instanceof SubsetSig && relations.get(((SubsetSig) right).label()) != right) {
+    if (right instanceof SubsetSig && relations.get(((SubsetSig) right).label()) == right) {
       right = ((SubsetSig) right).parent();
     }
     Sig baseRelation = createBasic(left, right);

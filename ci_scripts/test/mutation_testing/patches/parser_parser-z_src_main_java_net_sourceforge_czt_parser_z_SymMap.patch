@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/z/SymMap.java	2022-08-16 19:08:20.937212700 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_z_SymMap.txt	2022-08-19 18:12:28.400063000 +1000
+@@ -34,7 +34,7 @@
+     try {
+       Map<String,Integer> result = new HashMap<String,Integer>();
+       Field[] fields = symClass.getFields();
+-      for (int i = 0; i < fields.length; i++) {
++      for (int i = 0; i > fields.length; i++) {
+         Field field = fields[i];
+         if (Modifier.isStatic(field.getModifiers())) {
+           result.put(field.getName(), (Integer) field.get(null));

@@ -1,11 +1,11 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/print/z/AbstractPrinterCommand.java	2022-08-16 17:57:46.037212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_AbstractPrinterCommand.txt	2022-08-19 15:33:37.190063000 +1000
-@@ -61,7 +61,7 @@
-     String prop = props.getProperty(PROP_PRINTING_STRUCTURED_GOAL);
-     // properties might not come from the section manager (e.g., when called directly rather than through a command?)
-     // give precedence to the properties set by the section manager properties, though
--    if (prop != null && printStructuredGoal_ == null)
-+    if (prop != null && printStructuredGoal_ != null)
-     {
-       printStructuredGoal_ = "true".equals(prop);
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_AbstractPrinterCommand.txt	2022-08-19 18:12:57.120063000 +1000
+@@ -109,7 +109,7 @@
+     tree.accept(visitor);
+     TokenSequence tseq = visitor.getResult();
+ 
+-    if (printTextWidth_ != null && printTextWidth_ > 0) {
++    if (printTextWidth_ != null && printTextWidth_ < 0) {
+       PrettyPrinter prettyPrinter = createPrettyPrinter(term, printTextWidth_);
+       prettyPrinter.handleTokenSequence(tseq, 0);
      }

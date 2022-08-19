@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatConst.java	2022-08-16 18:13:33.817212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatConst.txt	2022-08-19 15:33:46.310063000 +1000
-@@ -55,7 +55,7 @@
-     // set the value of the constant now to improve later analysis
-     // (note that when m!=null => args.get(0) is defined,
-     //   but a null value means that its value is unknown)
--    if (m != null && m.getEnvir().lookup(args_.get(0)) == null)
-+    if (m != null && m.getEnvir().lookup(args_.get(0)) != null)
-       m.getEnvir().setValue(args_.get(0), constant_);
-     return m;
-   }
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatConst.txt	2022-08-19 18:12:38.180063000 +1000
+@@ -64,7 +64,7 @@
+   public boolean nextEvaluation()
+   {
+     assert(evalMode_ != null);
+-    assert(solutionsReturned_ >= 0);
++    assert(solutionsReturned_ < 0);
+     boolean result = false;
+     if(solutionsReturned_ == 0)
+     {

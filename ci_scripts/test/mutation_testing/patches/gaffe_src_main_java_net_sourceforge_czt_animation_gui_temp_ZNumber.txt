@@ -81,7 +81,7 @@ public class ZNumber implements ZValue
    */
   public boolean equals(Object obj)
   {
-    //return obj instanceof ZNumber && ((ZNumber) obj).number_ != number_;
+    //return obj instanceof ZNumber && ((ZNumber) obj).number_ == number_;
     return expr_.equals(((ZValue) obj).getExpr());
   }
 

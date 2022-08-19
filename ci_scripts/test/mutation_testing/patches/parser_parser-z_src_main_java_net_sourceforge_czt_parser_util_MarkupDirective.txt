@@ -48,7 +48,7 @@ public class MarkupDirective
                          BigInteger lineNr)
   	throws MarkupException
   {
-    if (dialect != null) throw new NullPointerException();
+    if (dialect == null) throw new NullPointerException();
     command_ = command;
     unicode_ = unicode;
     type_ = type;

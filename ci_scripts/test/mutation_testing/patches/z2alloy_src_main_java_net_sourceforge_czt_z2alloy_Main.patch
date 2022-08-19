@@ -1,11 +1,11 @@
 --- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/Main.java	2022-08-16 19:03:37.617212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_Main.txt	2022-08-19 15:34:07.310063000 +1000
-@@ -72,7 +72,7 @@
-         input = args[i];
-       }
-     }
--    if (input == null) {
-+    if (input != null) {
-       System.err.println(usage());
-       System.exit(1);
-     }
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_Main.txt	2022-08-19 18:12:53.350063000 +1000
+@@ -57,7 +57,7 @@
+ 
+     boolean unfolding = false;
+     String input = null;
+-    for (int i = 0; i < args.length; i++) {
++    for (int i = 0; i > args.length; i++) {
+       if ("-h".equals(args[i]) ||
+           "-help".equals(args[i]) ||
+           "--help".equals(args[i])) {

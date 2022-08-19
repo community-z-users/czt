@@ -97,7 +97,7 @@ public class FlatIfThenElse extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
     // infer bounds on left side (we know pred_ is true).
-    if (leftBounds_ != null)
+    if (leftBounds_ == null)
       leftBounds_ = new Bounds(bnds);
     leftBounds_.startAnalysis(bnds);
     pred_.inferBounds(leftBounds_);
@@ -123,7 +123,7 @@ public class FlatIfThenElse extends FlatPred
   {
     Mode result = null;
     Mode predMode = pred_.chooseMode(env0);
-    if (predMode == null || predMode.numOutputs() > 0) {
+    if (predMode == null || predMode.numOutputs() < 0) {
       return null;
     }
     Mode leftMode = left_.chooseMode(env0);

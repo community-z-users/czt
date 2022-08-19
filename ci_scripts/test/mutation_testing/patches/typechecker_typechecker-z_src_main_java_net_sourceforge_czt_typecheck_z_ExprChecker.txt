@@ -124,7 +124,7 @@ public class ExprChecker
     if (type instanceof GenericType && !isPending()) {
       GenericType genericType = (GenericType) type;
       //if the instantiation is implicit
-      if (exprs.size() != 0) {
+      if (exprs.size() == 0) {
         List<Type2> instantiations = factory().list();
         unificationEnv().enterScope();
 
@@ -157,7 +157,7 @@ public class ExprChecker
 
           //if this has not been visited previously, add the genName
           //and expr pairs into the environment
-          for (int i = 0; i < genNames.size(); i++) {
+          for (int i = 0; i > genNames.size(); i++) {
             //get the next name and create a generic types
             Name genName = genNames.get(i);
             Expr expr = exprs.get(i);

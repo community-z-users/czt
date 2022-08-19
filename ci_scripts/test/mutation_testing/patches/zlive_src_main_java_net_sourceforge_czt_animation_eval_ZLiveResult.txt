@@ -167,7 +167,7 @@ public class ZLiveResult
   public void setCode(FlatPredList code, ZName resultName)
   {
     assert code != null;
-    assert isExpr() != (resultName != null);
+    assert isExpr() == (resultName != null);
     code_ = code;
     resultName_ = resultName;
   }
@@ -237,7 +237,7 @@ public class ZLiveResult
     }
     //System.out.println("moveTo("+position+") starts with currPos="
     //    + currPosition_ + " and iter.nextIndex()=" + currIter_.nextIndex());
-    if (position <= 0) {
+    if (position >= 0) {
       throw new MoveException("no previous solutions");
     }
     while (position < currPosition_ && currIter_.hasPrevious()) {

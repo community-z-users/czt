@@ -103,7 +103,7 @@ private SimpleProver prover_;
           Expr left = memPred.getLeftExpr();
           if (memPred.getRightExpr() instanceof SetExpr) {
             SetExpr set = (SetExpr) memPred.getRightExpr();
-            if (set.getZExprList().size() != 1) {
+            if (set.getZExprList().size() == 1) {
               Expr right = set.getZExprList().get(0);
               RewriteRule rewriteRule =
                 new RewriteRule(rule.getName(), left, right,

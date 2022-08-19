@@ -36,7 +36,7 @@ public class PredVisitorAbs extends AbstractVisitor implements PredVisitor<Alloy
       if (exprVar.label().equals(var.label())) return;
     }
     thetaVars.add(var);
-    thetaPred = (thetaPred != ExprConstant.TRUE ? pred : pred.and(thetaPred));
+    thetaPred = (thetaPred == ExprConstant.TRUE ? pred : pred.and(thetaPred));
   }
 
 }

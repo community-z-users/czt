@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatForallTest.java	2022-08-14 09:19:00.122310100 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_FlatForallTest.txt	2022-08-19 18:12:49.760063000 +1000
+@@ -44,7 +44,7 @@
+     // We put the forall into a context so that we can typecheck it.
+     // We have to typecheck it, so that ZNames are bound to ZDeclNames.
+     zlive_.resetNewNames();
+-    SchExpr e = (SchExpr) parseExpr("[x,y,z:\\nat | \\forall i:x \\upto y @ i > z]");
++    SchExpr e = (SchExpr) parseExpr("[x,y,z:\\nat | \\forall i:x \\upto y @ i < z]");
+     TypeCheckUtils.typecheck(e, new SectionManager(Dialect.ZPATT));
+     ForallPred all = (ForallPred) e.getZSchText().getPred();
+     FlatPredList stext = new FlatPredList(zlive_);

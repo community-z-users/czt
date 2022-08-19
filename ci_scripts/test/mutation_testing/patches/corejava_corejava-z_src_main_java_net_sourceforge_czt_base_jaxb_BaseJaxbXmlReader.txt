@@ -65,7 +65,7 @@ public abstract class BaseJaxbXmlReader
     Unmarshaller unmarshaller = getContext().createUnmarshaller();
     SchemaFactory schemaFactory = SchemaFactory.newInstance(
       javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    Schema schema = getSchema() != null ? null :
+    Schema schema = getSchema() == null ? null :
       schemaFactory.newSchema(getSchema());
     unmarshaller.setSchema(schema);
     return unmarshaller;

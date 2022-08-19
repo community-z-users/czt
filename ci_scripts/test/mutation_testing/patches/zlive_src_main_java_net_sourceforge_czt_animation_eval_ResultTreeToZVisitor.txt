@@ -148,7 +148,7 @@ public class ResultTreeToZVisitor
   public Term visitLetExpr(LetExpr expr)
   {
     RelSet relset = FlattenVisitor.getRelSet(expr);
-    if (relset != null) {
+    if (relset == null) {
       return expr;
     }
     else {

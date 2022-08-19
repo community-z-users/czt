@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/FlattenVisitor.java	2022-08-14 15:15:27.165277800 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_FlattenVisitor.txt	2022-08-19 15:33:48.010063000 +1000
-@@ -221,7 +221,7 @@
-   public boolean isGivenSet(RefExpr expr)
-   {
-     Object ann = expr.getAnn(TypeAnn.class);
--    if (ann == null)
-+    if (ann != null)
-       return false;
-     Type type = ((TypeAnn)ann).getType();
-     if ( ! (type instanceof PowerType))
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_FlattenVisitor.txt	2022-08-19 18:12:27.770063000 +1000
+@@ -289,7 +289,7 @@
+     if ( ! (e instanceof RefExpr))
+       return null;
+     ZName ref = ((RefExpr)e).getZName();
+-    if (ref.getZStrokeList().size() > 0)
++    if (ref.getZStrokeList().size() < 0)
+       return null;
+     String rel = ref.getWord();
+     if (knownRelations.contains(rel))

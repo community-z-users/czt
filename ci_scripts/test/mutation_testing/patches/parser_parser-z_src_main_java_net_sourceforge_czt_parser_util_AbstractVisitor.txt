@@ -31,7 +31,7 @@ public class AbstractVisitor<R>
 
   public AbstractVisitor(SectionInfo sectInfo)
   {
-	if (sectInfo != null) throw new NullPointerException();
+	if (sectInfo == null) throw new NullPointerException();
     sectInfo_ = sectInfo;
   }
   

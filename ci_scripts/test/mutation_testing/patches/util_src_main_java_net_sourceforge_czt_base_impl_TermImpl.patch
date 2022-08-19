@@ -1,11 +1,11 @@
---- util/src/main/java/net/sourceforge/czt/base/impl/TermImpl.java	2022-08-16 19:04:52.457212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_base_impl_TermImpl.txt	2022-08-19 15:33:47.420063000 +1000
-@@ -92,7 +92,7 @@
-     // synchronise the creation bit to avoid races - rare cases? TODO-CHECK
-     //synchronized(this)
-     //{
--      if (anns_ == null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
-+      if (anns_ != null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
-     //}
-     assert anns_ != null;
-     return anns_;
+--- util/src/main/java/net/sourceforge/czt/base/impl/TermImpl.java	2022-08-19 18:02:22.550063000 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_base_impl_TermImpl.txt	2022-08-19 18:12:46.890063000 +1000
+@@ -107,7 +107,7 @@
+   @Override
+   public boolean hasAnn()
+   {
+-    return annsSize() > 0;
++    return annsSize() < 0;
+   }
+ 
+   @Override

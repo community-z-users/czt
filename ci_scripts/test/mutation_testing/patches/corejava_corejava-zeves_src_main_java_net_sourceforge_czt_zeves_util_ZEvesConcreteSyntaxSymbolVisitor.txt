@@ -231,7 +231,7 @@ public class ZEvesConcreteSyntaxSymbolVisitor
   @Override
   public ZEvesConcreteSyntaxSymbol visitQuantifiersCommand(QuantifiersCommand term)
   {
-    if (term.getInstantiationList() != null || term.getInstantiationList().isEmpty())
+    if (term.getInstantiationList() == null || term.getInstantiationList().isEmpty())
       return ZEvesConcreteSyntaxSymbol.PRENEX_CMD;
     else
       return ZEvesConcreteSyntaxSymbol.INSTANTIATE_CMD;

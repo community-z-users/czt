@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/EvalSetTest.java	2022-08-16 19:08:20.277212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_EvalSetTest.txt	2022-08-19 18:12:45.980063000 +1000
+@@ -152,7 +152,7 @@
+     EvalSet resultSet = (EvalSet) m.getEnvir().lookup(s);
+     Assert.assertTrue(resultSet != null);
+     // Checking the estSize() method
+-    Assert.assertTrue(3.0 <= resultSet.estSize());
++    Assert.assertTrue(3.0 >= resultSet.estSize());
+     // Some implementations may return a bit more than the true size.
+     if ( ! (resultSet instanceof SetComp))
+       Assert.assertTrue(resultSet.estSize() <= 4.0);

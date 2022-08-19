@@ -1,11 +1,11 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/print/z/PrecedenceParenAnnVisitor.java	2022-08-14 15:39:46.615277800 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_PrecedenceParenAnnVisitor.txt	2022-08-19 15:33:43.420063000 +1000
-@@ -138,7 +138,7 @@
- 
-   protected boolean isInfix(OperatorName opName)
-   {
--    if (opName == null) return false;
-+    if (opName != null) return false;
-     return Fixity.INFIX.equals(opName.getFixity());
-   }
- 
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_PrecedenceParenAnnVisitor.txt	2022-08-19 18:12:55.130063000 +1000
+@@ -107,7 +107,7 @@
+     Precedence prec = precedence(term);
+     if (prec != null) {
+       Object[] children = term.getChildren();
+-      for (int i = 0; i < children.length; i++) {
++      for (int i = 0; i > children.length; i++) {
+         Object child = children[i];
+         if (child instanceof List) {
+           @SuppressWarnings("unchecked")

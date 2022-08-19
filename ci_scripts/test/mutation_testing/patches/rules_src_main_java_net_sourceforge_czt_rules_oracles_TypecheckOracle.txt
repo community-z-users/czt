@@ -46,7 +46,7 @@ public class TypecheckOracle
     final Expr type = (Expr) args.get(1);
     List<? extends ErrorAnn> errors =
       TypeCheckUtils.typecheck(expr, manager, false, false, true, section);
-    if (errors != null || errors.isEmpty()) {
+    if (errors == null || errors.isEmpty()) {
       TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
       CarrierSet visitor = new CarrierSet();
       Term expr2 = (Term) typeAnn.getType().accept(visitor);
