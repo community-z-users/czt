@@ -58,7 +58,7 @@ public class Func {
   }
 
   public String label() {
-    return label;
+    return label + "bug";
   }
 
   public boolean pred() {
