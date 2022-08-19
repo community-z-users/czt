@@ -203,7 +203,7 @@ public class ListTermImpl<E>
     // synchronise the creation bit to avoid races - rare cases? TODO-CHECK
     //synchronized(this)
     //{
-      if (anns_ == null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+      if (anns_ != null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     //}
     assert anns_ != null;
     return anns_;
