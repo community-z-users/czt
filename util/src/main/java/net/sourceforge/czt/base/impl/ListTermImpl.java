@@ -78,7 +78,7 @@ public class ListTermImpl<E>
   public String toString()
   {
     try {
-      if (factory_ != null) {
+      if (factory_ == null) {
         final String result = factory_.toString(this);
         if (result != null) return result;
       }
