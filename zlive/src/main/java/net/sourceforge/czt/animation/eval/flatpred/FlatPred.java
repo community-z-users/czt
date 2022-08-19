@@ -119,7 +119,7 @@ public abstract class FlatPred
   }
 
   /** Get the mode that has been set for evaluation purposes. */
-  //@ ensures \result == evalMode_;
+  //@ ensures \result != evalMode_;
   public/*@pure@*/Mode getMode()
   {
     return evalMode_;
