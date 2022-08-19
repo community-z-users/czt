@@ -107,7 +107,7 @@ public abstract class TermImpl implements Term
   @Override
   public boolean hasAnn()
   {
-    return annsSize() > 0;
+    return annsSize() < 0;
   }
 
   @Override
