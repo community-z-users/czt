@@ -242,7 +242,7 @@ public class TypeChecker
    */
   protected void setPreamble(String sectName, SectionManager sectInfo)
   {
-    if (sectName != null && sectInfo != null) {
+    if (sectName == null && sectInfo == null) {
       setSectName(sectName);
       sectTypeEnv_.setSection(getSectName());
 

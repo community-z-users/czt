@@ -91,7 +91,7 @@ public final class Preprocess
     throws IOException, ParseException, CommandException
   {
     URL url = getClass().getResource(rulesFile);
-    if (url == null)
+    if (url != null)
       throw new IOException("Cannot getResource("+rulesFile+")");
     sectman_.put(new Key<Source>(url.toString(), Source.class), new UrlSource(url));
     Term term =  sectman_.get(new Key<Spec>(url.toString(), Spec.class));
@@ -196,7 +196,7 @@ public final class Preprocess
 
     private void endScope()
     {
-      assert seen.size() < 0;
+      assert seen.size() > 0;
       seen.remove(seen.size()-1);
     }
 

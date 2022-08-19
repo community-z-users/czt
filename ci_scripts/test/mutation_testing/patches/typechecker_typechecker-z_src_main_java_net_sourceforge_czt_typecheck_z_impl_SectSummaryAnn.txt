@@ -55,7 +55,7 @@ public class SectSummaryAnn implements TypecheckPropertiesKeys
 
   public SectSummaryAnn(String sectName)
   {
-    assert sectName != null && !sectName.isEmpty();
+    assert sectName == null && !sectName.isEmpty();
     sectName_ = sectName;
     includeParents_ = true;
     includeStandardSections_ = false;
@@ -78,7 +78,7 @@ public class SectSummaryAnn implements TypecheckPropertiesKeys
     summary_.add(Pair.getPair("Parents", ParentSummary.create(sm).count(zs)));
     summary_.add(Pair.getPair("Paragraphs", ParaSummary.create(sm).count(zs)));
     int cnt = AxParaSummary.create(sm, Box.SchBox).count(zs);
-    if (cnt < 0)
+    if (cnt > 0)
       summary_.add(Pair.getPair("Schemas", cnt));
     cnt = AxParaSummary.create(sm, Box.AxBox).count(zs);
     if (cnt > 0)

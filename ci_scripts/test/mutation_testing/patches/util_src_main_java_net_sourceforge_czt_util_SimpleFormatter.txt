@@ -63,7 +63,7 @@ public class SimpleFormatter extends Formatter
       dat.setTime(record.getMillis());
       args[0] = dat;
       StringBuffer text = new StringBuffer();
-      if (formatter == null)
+      if (formatter != null)
       {
         formatter = new java.text.MessageFormat(format);
       }

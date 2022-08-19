@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/PostChecker.java	2022-08-16 18:08:15.687212700 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_PostChecker.txt	2022-08-20 09:45:02.952543800 +1000
+@@ -57,7 +57,7 @@
+       for (NameTypePair pair : pairs) {
+         //if the name is not in the environment, raise an error
+         Object undecAnn = pair.getZName().getAnn(UndeclaredAnn.class);
+-        if (undecAnn != null) {
++        if (undecAnn == null) {
+           ZName decorName = factory().createZName(pair.getZName(), true);
+           decorName.getZStrokeList().addAll(thetaExpr.getZStrokeList());
+           Object [] params = {decorName, thetaExpr};

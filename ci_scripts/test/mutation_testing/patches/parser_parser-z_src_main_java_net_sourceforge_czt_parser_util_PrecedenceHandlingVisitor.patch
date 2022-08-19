@@ -1,5 +1,5 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/PrecedenceHandlingVisitor.java	2022-08-16 19:06:28.977212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_PrecedenceHandlingVisitor.txt	2022-08-19 18:12:33.690063000 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_PrecedenceHandlingVisitor.txt	2022-08-20 09:45:20.402543800 +1000
 @@ -170,7 +170,7 @@
    {
      final List<Expr> wrappedExprList = wrappedExpr.getList();

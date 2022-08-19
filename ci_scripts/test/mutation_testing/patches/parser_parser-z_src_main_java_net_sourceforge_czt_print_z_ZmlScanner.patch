@@ -1,11 +1,11 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/print/z/ZmlScanner.java	2022-07-24 10:53:44.136953300 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_ZmlScanner.txt	2022-08-19 18:12:33.350063000 +1000
-@@ -145,7 +145,7 @@
-       logSymbol(result);
-       return result;
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_ZmlScanner.txt	2022-08-20 09:45:16.582543800 +1000
+@@ -101,7 +101,7 @@
+ 
+   public void prepend(Symbol s)
+   {
+-    if (iter_ != null) {
++    if (iter_ == null) {
+       pre_ = s;
      }
--    if (pos_ >= symbols_.size()) 
-+    if (pos_ < symbols_.size()) 
-     {
-       Symbol result = new Symbol(0);
-       logSymbol(result);
+     else {

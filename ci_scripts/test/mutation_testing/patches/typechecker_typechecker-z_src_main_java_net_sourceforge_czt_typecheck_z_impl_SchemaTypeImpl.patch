@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/SchemaTypeImpl.java	2022-08-16 19:05:40.207212700 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_SchemaTypeImpl.txt	2022-08-20 09:45:06.462543800 +1000
+@@ -46,7 +46,7 @@
+     Signature result = schemaType.getSignature();
+     if (result instanceof VariableSignature) {
+       VariableSignature vSig = (VariableSignature) result;
+-      if (vSig.getValue() != vSig) {
++      if (vSig.getValue() == vSig) {
+         result = vSig.getValue();
+       }
+     }

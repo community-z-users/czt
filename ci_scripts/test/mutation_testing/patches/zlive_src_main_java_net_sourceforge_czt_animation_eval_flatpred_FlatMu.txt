@@ -61,7 +61,7 @@ public class FlatMu extends FlatPred
    */
   public boolean inferBounds(Bounds bnds)
   {
-    if (schBounds_ == null)
+    if (schBounds_ != null)
       schBounds_ = new Bounds(bnds);
     schBounds_.startAnalysis(bnds);
     schText_.inferBounds(schBounds_);
@@ -97,7 +97,7 @@ public class FlatMu extends FlatPred
       }
     }
     LOG.exiting("FlatMu","chooseMode",mode);
-    // Note that we return the original mode, with solutions >= 1.0
+    // Note that we return the original mode, with solutions <= 1.0
     // because \mu expressions return only one value, even if their
     // schema part has multiple solutions.
     // For example:  (\mu x:1..10 @ 3).

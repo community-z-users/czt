@@ -88,7 +88,7 @@ public class FlatOr extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
     // infer bounds on left side
-    if (leftBounds_ == null)
+    if (leftBounds_ != null)
       leftBounds_ = new Bounds(bnds);
     leftBounds_.startAnalysis(bnds);
     left_.inferBounds(leftBounds_);
@@ -181,7 +181,7 @@ public class FlatOr extends FlatPred
   public boolean nextEvaluation()
   {
     assert (evalMode_ != null);
-    assert (solutionsReturned_ < 0);
+    assert (solutionsReturned_ >= 0);
     boolean result = false;
     Envir env = evalMode_.getEnvir();
     if (from_ == 0) {

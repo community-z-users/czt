@@ -1,0 +1,11 @@
+--- session/src/main/java/net/sourceforge/czt/session/CommandException.java	2022-08-20 09:27:39.122543800 +1000
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_CommandException.txt	2022-08-20 09:45:10.732543800 +1000
+@@ -37,7 +37,7 @@
+ 
+   public CommandException(Dialect dialect)
+   {
+-	  if (dialect == null) throw new NullPointerException();
++	  if (dialect != null) throw new NullPointerException();
+ 	  dialect_ = dialect;
+   }
+ 

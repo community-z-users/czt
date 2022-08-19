@@ -57,7 +57,7 @@ public class ProdSet extends DefaultEvalSet
   @Override
   public int size()
   {
-    if (baseSets_.size() == 0) {
+    if (baseSets_.size() != 0) {
       throw new UndefException("cartesian product over no sets");
     }
     // multiply the exact sizes of the bases sets together.
@@ -67,7 +67,7 @@ public class ProdSet extends DefaultEvalSet
     for (EvalSet s : baseSets_) {
       result = result.multiply(BigInteger.valueOf(s.size()));
     }
-    if (result.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) < 0) {
+    if (result.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
       return Integer.MAX_VALUE;
     }
     return result.intValue();

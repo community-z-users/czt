@@ -101,7 +101,7 @@ public class ZmlScanner
 
   public void prepend(Symbol s)
   {
-    if (iter_ != null) {
+    if (iter_ == null) {
       pre_ = s;
     }
     else {
@@ -145,7 +145,7 @@ public class ZmlScanner
       logSymbol(result);
       return result;
     }
-    if (pos_ < symbols_.size()) 
+    if (pos_ >= symbols_.size()) 
     {
       Symbol result = new Symbol(0);
       logSymbol(result);

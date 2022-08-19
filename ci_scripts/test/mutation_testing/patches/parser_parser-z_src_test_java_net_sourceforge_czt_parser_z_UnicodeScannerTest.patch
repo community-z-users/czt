@@ -1,0 +1,11 @@
+--- parser/parser-z/src/test/java/net/sourceforge/czt/parser/z/UnicodeScannerTest.java	2022-08-16 20:05:12.237212700 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_test_java_net_sourceforge_czt_parser_z_UnicodeScannerTest.txt	2022-08-20 09:45:17.382543800 +1000
+@@ -53,7 +53,7 @@
+     throws Exception
+   {
+     Symbol symbol = lexer_.next_token();
+-    Assert.assertTrue(Sym.DECORWORD == symbol.sym ||
++    Assert.assertTrue(Sym.DECORWORD != symbol.sym ||
+                       Sym.DECLWORD == symbol.sym);
+     Assert.assertEquals(string, ((Decorword) symbol.value).getName());
+   }

@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/DiscreteSet.java	2022-08-16 19:03:37.617212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_DiscreteSet.txt	2022-08-20 09:45:18.492543800 +1000
+@@ -92,7 +92,7 @@
+   @Override
+   public ListIterator<Expr> listIterator()
+   {
+-    if (listContents_ == null)
++    if (listContents_ != null)
+       // create a sorted no-duplicates list of elements.
+       listContents_ = new ArrayList<Expr>(contents_);
+     // We could return an unmodifiable iterator here...

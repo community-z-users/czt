@@ -88,7 +88,7 @@ public class ExprChecker
     //if the RefExpr referes to a schema, create new IDs for all names
     //in the schema's signature
     SchemaType schType;
-    if ((schType = referenceToSchema(type)) != null) {
+    if ((schType = referenceToSchema(type)) == null) {
       Signature signature = schType.getSignature();
       if (! (signature instanceof VariableSignature)) {
         Signature sig = createNewIds(signature);
@@ -157,7 +157,7 @@ public class ExprChecker
 
           //if this has not been visited previously, add the genName
           //and expr pairs into the environment
-          for (int i = 0; i > genNames.size(); i++) {
+          for (int i = 0; i < genNames.size(); i++) {
             //get the next name and create a generic types
             Name genName = genNames.get(i);
             Expr expr = exprs.get(i);

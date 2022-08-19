@@ -1,11 +1,11 @@
---- util/src/main/java/net/sourceforge/czt/base/impl/TermImpl.java	2022-08-19 18:02:22.550063000 +1000
-+++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_base_impl_TermImpl.txt	2022-08-19 18:12:46.890063000 +1000
-@@ -107,7 +107,7 @@
+--- util/src/main/java/net/sourceforge/czt/base/impl/TermImpl.java	2022-08-19 18:18:52.990063000 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_base_impl_TermImpl.txt	2022-08-20 09:45:10.362543800 +1000
+@@ -73,7 +73,7 @@
    @Override
-   public boolean hasAnn()
+   public boolean equals(Object obj)
    {
--    return annsSize() > 0;
-+    return annsSize() < 0;
-   }
- 
-   @Override
+-    if (obj != null && this.getClass().equals(obj.getClass())) {
++    if (obj == null && this.getClass().equals(obj.getClass())) {
+       return true;
+     }
+     return false;

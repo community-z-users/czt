@@ -1,11 +1,11 @@
---- util/src/main/java/net/sourceforge/czt/util/ReflectiveVisitor.java	2022-08-19 09:18:15.180063000 +1000
-+++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_util_ReflectiveVisitor.txt	2022-08-19 18:12:39.280063000 +1000
-@@ -125,7 +125,7 @@
-     String methodPrefix = "visit";
-     Method m = null;
-     Class<?>[] interfaces = c.getInterfaces();
--    for (int i = 0; i < interfaces.length; i++) {
-+    for (int i = 0; i > interfaces.length; i++) {
-       String method = interfaces[i].getName();
-       method = methodPrefix + method.substring(method.lastIndexOf('.') + 1);
-       getLogger().finer("Try " + method.toString());
+--- util/src/main/java/net/sourceforge/czt/util/ReflectiveVisitor.java	2022-08-20 09:27:39.122543800 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_util_ReflectiveVisitor.txt	2022-08-20 09:45:10.092543800 +1000
+@@ -49,7 +49,7 @@
+    */
+   public Object dispatch(Object o)
+   {
+-    if (o == null) {
++    if (o != null) {
+       return null;
+     }
+     try {

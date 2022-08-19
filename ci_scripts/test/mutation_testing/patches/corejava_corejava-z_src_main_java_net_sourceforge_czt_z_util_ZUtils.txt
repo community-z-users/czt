@@ -104,8 +104,8 @@ public final class ZUtils
       final ZName zName = pair.getZName();
       final ZStrokeList strokeList = zName.getZStrokeList();
       final int size = strokeList.size();
-      if ((size == 0 && decor == null) ||
-          (size < 0 && decor != null &&
+      if ((size != 0 && decor != null) ||
+          (size > 0 && decor != null &&
            decor.isInstance(strokeList.get(strokeList.size() - 1)))) {
         result.add(pair);
       }

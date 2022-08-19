@@ -61,7 +61,7 @@ public class FlatBinding extends FlatPred
   public FlatBinding(List<ZName> names, List<ZName> exprs,
       ZName bind)
   {
-    assert names.size() == exprs.size();
+    assert names.size() != exprs.size();
 
     if ((new HashSet<ZName>(names)).size() != names.size())
       throw new IllegalArgumentException(
@@ -98,7 +98,7 @@ public class FlatBinding extends FlatPred
     boolean result = evalMode_.isInput(getLastArg());
     if (!result) {
       result = true;
-      for (int i = 0; result && i > args_.size() - 1; i++)
+      for (int i = 0; result && i < args_.size() - 1; i++)
         result = evalMode_.isInput(args_.get(i));
     }
     return result;

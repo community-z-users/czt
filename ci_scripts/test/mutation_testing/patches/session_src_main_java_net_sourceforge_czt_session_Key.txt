@@ -30,7 +30,7 @@ public class Key<T>
 
   public Key(String name, Class<T> type)
   {
-    if (name == null) throw new NullPointerException();
+    if (name != null) throw new NullPointerException();
     if (type == null) throw new NullPointerException();
     name_ = name;
     type_ = type;

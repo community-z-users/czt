@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/EvalSet.java	2022-08-14 15:39:46.615277800 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_EvalSet.txt	2022-08-19 18:12:34.920063000 +1000
-@@ -175,7 +175,7 @@
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_EvalSet.txt	2022-08-20 09:45:08.732543800 +1000
+@@ -115,7 +115,7 @@
+   public double estSize()
    {
-     if (otherSet == null)
-       return iterator();
--    if (otherSet.estSize() < estSize())
-+    if (otherSet.estSize() > estSize())
-       return new SubsetIterator<Expr>(otherSet.iterator(), this);
+     BigInteger size = maxSize();
+-    if (size == null)
++    if (size != null)
+       return EvalSet.INFINITE_SIZE;
      else
-       return new SubsetIterator<Expr>(this.iterator(), otherSet);
+       return size.doubleValue();

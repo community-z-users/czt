@@ -1,0 +1,11 @@
+--- corejava/corejava-zeves/src/main/java/net/sourceforge/czt/zeves/util/ZEvesConcreteSyntaxSymbolVisitor.java	2022-08-13 13:43:50.057757900 +1000
++++ ci_scripts/test/mutation_testing/patches/corejava_corejava-zeves_src_main_java_net_sourceforge_czt_zeves_util_ZEvesConcreteSyntaxSymbolVisitor.txt	2022-08-20 09:45:10.672543800 +1000
+@@ -80,7 +80,7 @@
+ 
+   protected ZEvesConcreteSyntaxSymbol visit(Term term)
+   {
+-    if (term != null) return term.accept(this);
++    if (term == null) return term.accept(this);
+     return null;
+   }
+ 

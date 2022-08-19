@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatBinding.java	2022-08-13 14:02:35.887757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatBinding.txt	2022-08-19 18:12:44.800063000 +1000
-@@ -98,7 +98,7 @@
-     boolean result = evalMode_.isInput(getLastArg());
-     if (!result) {
-       result = true;
--      for (int i = 0; result && i < args_.size() - 1; i++)
-+      for (int i = 0; result && i > args_.size() - 1; i++)
-         result = evalMode_.isInput(args_.get(i));
-     }
-     return result;
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatBinding.txt	2022-08-20 09:45:04.772543800 +1000
+@@ -61,7 +61,7 @@
+   public FlatBinding(List<ZName> names, List<ZName> exprs,
+       ZName bind)
+   {
+-    assert names.size() == exprs.size();
++    assert names.size() != exprs.size();
+ 
+     if ((new HashSet<ZName>(names)).size() != names.size())
+       throw new IllegalArgumentException(

@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/VariableSignature.java	2022-08-14 08:18:46.512310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_VariableSignature.txt	2022-08-19 18:12:27.480063000 +1000
-@@ -153,7 +153,7 @@
-     if (value_ != null) {
-       result += value_.toString();
-     }
--    else if (zName_.getWord().indexOf(BETA) >= 0) {
-+    else if (zName_.getWord().indexOf(BETA) < 0) {
-       result += zName_.toString();
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_VariableSignature.txt	2022-08-20 09:45:18.232543800 +1000
+@@ -62,7 +62,7 @@
+    */
+   public Signature getValue()
+   {
+-    if (value_ == null) {
++    if (value_ != null) {
+       return this;
      }
      else {

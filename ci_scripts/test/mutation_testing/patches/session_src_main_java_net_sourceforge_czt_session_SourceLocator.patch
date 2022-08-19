@@ -1,11 +1,11 @@
 --- session/src/main/java/net/sourceforge/czt/session/SourceLocator.java	2022-08-13 13:23:38.367757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_SourceLocator.txt	2022-08-19 18:12:37.000063000 +1000
-@@ -129,7 +129,7 @@
-     traceLog("SL-NO-TK        = try current directory.");
-     // see if "name" is within the current directory 
-     // with all possible sufixes (i.e., ./name.suffix)
--    for (int i = 0; i < suffix_.length; i++) {
-+    for (int i = 0; i > suffix_.length; i++) {
-       final String filename = name + suffix_[i];
-       File file = new File(filename);
-       if (file.exists() && ! file.isDirectory()) {
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_SourceLocator.txt	2022-08-20 09:45:18.702543800 +1000
+@@ -68,7 +68,7 @@
+      */
+     for (Class<?> toolkitProvider : ToolkitProviders.INSTANCE.providers) {
+       URL toolkitUrl = locateToolkitForClass(toolkitProvider, name);
+-      if (toolkitUrl != null) {
++      if (toolkitUrl == null) {
+         return toolkitUrl;
+       }
+     }

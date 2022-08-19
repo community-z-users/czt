@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/test/java/net/sourceforge/czt/typecheck/z/TypeInferenceTest.java	2022-08-16 18:13:33.817212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_test_java_net_sourceforge_czt_typecheck_z_TypeInferenceTest.txt	2022-08-19 18:12:51.860063000 +1000
-@@ -210,7 +210,7 @@
- 
-   protected void typeTest(Type [][] succ, String operation)
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_test_java_net_sourceforge_czt_typecheck_z_TypeInferenceTest.txt	2022-08-20 09:45:02.792543800 +1000
+@@ -164,7 +164,7 @@
    {
--    for (int i = 0; i < succ.length; i++) {
-+    for (int i = 0; i > succ.length; i++) {
-       Type actual = succ[i][0];
-       Type expected = succ[i][1];
- 
+     String para = header() +
+       "\\begin{zed} [A,B] \\end{zed}\n" +
+-      "\\begin{zed} g[X] == X \\end{zed}\n" +
++      "\\begin{zed} g[X] != X \\end{zed}\n" +
+       "\\begin{axdef}" +
+       "a == g\\\\" +
+       "b == \\power g\\\\" +

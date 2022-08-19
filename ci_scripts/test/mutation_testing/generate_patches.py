@@ -47,12 +47,12 @@ for file_no,f in enumerate(SRC_FILES):
 			elif(" >= " in line):
 				line_number = i
 				break
-			# elif(" != " in line):
-			# 	line_number = i
-			# 	break
-			# elif(" == " in line):
-			# 	line_number = i
-			# 	break
+			elif(" != " in line):
+				line_number = i
+				break
+			elif(" == " in line):
+				line_number = i
+				break
 
 	with fileinput.input(name_path+".txt", inplace=True) as f:
 		for i, line in enumerate(f):
@@ -65,10 +65,10 @@ for file_no,f in enumerate(SRC_FILES):
 					print(line.replace(" > ", " < "), end="")
 				elif(" >= " in line):
 					print(line.replace(" >= ", " < "), end="")
-				# elif(" != " in line):
-				# 	print(line.replace(" != ", " == "), end="")
-				# elif(" == " in line):
-				# 	print(line.replace(" == ", " != "), end="")
+				elif(" != " in line):
+					print(line.replace(" != ", " == "), end="")
+				elif(" == " in line):
+					print(line.replace(" == ", " != "), end="")
 			else:
 				print(line, end="")
 

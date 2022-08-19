@@ -151,7 +151,7 @@ public class FuzzySet extends EvalSet
     result.append(estSize());
     result.append(",");
     result.append(maxSize_);
-    if (lower_ != null || upper_ != null) {
+    if (lower_ == null || upper_ == null) {
       result.append(",");
       result.append(new RangeSet(lower_, upper_).toString());
     }

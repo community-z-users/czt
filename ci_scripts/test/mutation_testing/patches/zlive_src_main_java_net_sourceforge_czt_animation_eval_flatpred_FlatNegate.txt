@@ -54,7 +54,7 @@ public class FlatNegate extends FlatPred
     BigInteger bUpper = bnds.getUpper(b);
 
     // propagate bounds from a to b.
-    if (aUpper != null)
+    if (aUpper == null)
       changed |= bnds.addLower(b, aUpper.negate());
     if (aLower != null)
       changed |= bnds.addUpper(b, aLower.negate());
@@ -78,7 +78,7 @@ public class FlatNegate extends FlatPred
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    assert(solutionsReturned_ < 0);
+    assert(solutionsReturned_ >= 0);
     boolean result = false;
     if(solutionsReturned_==0)
     {

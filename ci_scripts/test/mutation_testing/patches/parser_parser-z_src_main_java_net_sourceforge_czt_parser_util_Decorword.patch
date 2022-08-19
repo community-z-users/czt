@@ -1,5 +1,5 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/Decorword.java	2022-08-16 19:08:20.477212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_Decorword.txt	2022-08-19 18:13:00.440063000 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_Decorword.txt	2022-08-20 09:45:04.342543800 +1000
 @@ -101,7 +101,7 @@
    {
      Stack<ZChar> stack = new Stack<ZChar>();

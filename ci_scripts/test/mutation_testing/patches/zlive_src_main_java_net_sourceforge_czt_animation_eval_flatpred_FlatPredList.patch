@@ -1,11 +1,11 @@
---- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPredList.java	2022-08-19 09:18:15.190063000 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatPredList.txt	2022-08-19 18:12:35.550063000 +1000
-@@ -391,7 +391,7 @@
-     LOG.entering("FlatPredList","inferBounds",bnds);
-     for (FlatPred pred : predlist_)
-       pred.inferBounds(bnds);
--    LOG.exiting("FlatPredList","inferBounds",bnds.getDeductions() > 0);
-+    LOG.exiting("FlatPredList","inferBounds",bnds.getDeductions() < 0);
-     return bnds.getDeductions() > 0;
-   }
- 
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPredList.java	2022-08-20 09:27:39.122543800 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatPredList.txt	2022-08-20 09:45:02.082543800 +1000
+@@ -65,7 +65,7 @@
+  *  // Ask the FlatPredList to optimise itself for efficient
+  *  // evaluation, given the inputs in env0 (none in this case).
+  *  Mode m = predlist.chooseMode(env0);
+- *  if (m == null)
++ *  if (m != null)
+  *    throw new EvalException("Cannot find mode to evaluate " + expr);
+  *  predlist.setMode(m);
+  *

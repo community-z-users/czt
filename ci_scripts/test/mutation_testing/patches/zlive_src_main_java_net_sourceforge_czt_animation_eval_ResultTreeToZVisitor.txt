@@ -95,7 +95,7 @@ public class ResultTreeToZVisitor
     ZExprList elements = factory_.createZExprList();
     Iterator<Expr> iter = evalSet.iterator();
     int count = 0;
-    while (iter.hasNext() && count != evalSetSize) {
+    while (iter.hasNext() && count == evalSetSize) {
       elements.add((Expr) visit(iter.next()));
       count++;
     }

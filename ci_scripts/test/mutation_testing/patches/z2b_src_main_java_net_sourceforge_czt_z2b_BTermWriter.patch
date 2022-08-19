@@ -1,11 +1,11 @@
 --- z2b/src/main/java/net/sourceforge/czt/z2b/BTermWriter.java	2022-08-16 17:57:46.037212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/z2b_src_main_java_net_sourceforge_czt_z2b_BTermWriter.txt	2022-08-19 18:13:01.910063000 +1000
-@@ -283,7 +283,7 @@
++++ ci_scripts/test/mutation_testing/patches/z2b_src_main_java_net_sourceforge_czt_z2b_BTermWriter.txt	2022-08-20 09:45:08.412543800 +1000
+@@ -123,7 +123,7 @@
  
- 
-   /** Print a list of predicates, separated by '&' and newlines. */
--  //@ requires preds != null && preds.size() > 0;
-+  //@ requires preds != null && preds.size() < 0;
-   //  requires non_null_elements(preds);
-   public void printPreds(List<Pred> preds)
-   {
+     // generate a log message
+     String zname = zop;
+-    if (zop.length() == 1)
++    if (zop.length() != 1)
+       zname = "\\u" + Integer.toHexString((int) zop.charAt(0));
+     sLogger.fine("bOp(" + zname + ") returns " + bop);
+     return bop;

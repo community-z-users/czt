@@ -1,11 +1,11 @@
 --- zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatPredModel.java	2022-07-24 10:53:44.256953300 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_FlatPredModel.txt	2022-08-19 18:12:53.740063000 +1000
-@@ -150,7 +150,7 @@
-   @Action public void inferBounds()
-   {
-     int deductions = 1;
--    while (deductions > 0) {
-+    while (deductions < 0) {
-       bounds_.startAnalysis();
-       pred_.inferBounds(bounds_);
-       bounds_.endAnalysis();
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_FlatPredModel.txt	2022-08-20 09:45:14.132543800 +1000
+@@ -63,7 +63,7 @@
+   private Bounds bounds_ = new Bounds(null);
+ 
+   /** The input environment being used for testing. */
+-  //@invariant env_ == null <==> mode_ == null;
++  //@invariant env_ != null <==> mode_ != null;
+   private Envir env_;
+ 
+   /** The mode that has currently been set. */

@@ -36,7 +36,7 @@ public class FlatConstTest
 
   public void testToString()
   {
-    assertEquals("x == 10", pred.toString());
+    assertEquals("x != 10", pred.toString());
   }
 
   public void testEmpty()

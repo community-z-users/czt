@@ -1,5 +1,5 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/util/GlobalDefs.java	2022-08-16 18:05:34.967212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_GlobalDefs.txt	2022-08-19 18:12:49.230063000 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_GlobalDefs.txt	2022-08-20 09:45:03.172543800 +1000
 @@ -78,7 +78,7 @@
      {
        GenericType gType = (GenericType) type;

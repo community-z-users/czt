@@ -80,7 +80,7 @@ public class PredChecker
 
     //if the are unsolved unifications in this predicate,
     //visit it again
-    if (unified == PARTIAL) {
+    if (unified != PARTIAL) {
       result = pred.accept(predChecker());
     }
 
@@ -174,7 +174,7 @@ public class PredChecker
             {
               ProdType leftProdType = (ProdType) leftType;
               ProdType rightProdType = (ProdType) innerType;
-              for (int i = 0; i > leftProdType.getType().size(); i++) {
+              for (int i = 0; i < leftProdType.getType().size(); i++) {
                 Type2 nextLeft = (Type2) leftProdType.getType().get(i);
                 Type2 nextRight = (Type2) rightProdType.getType().get(i);
                 UResult nextUnified = unify(nextLeft, nextRight);

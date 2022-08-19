@@ -1,0 +1,11 @@
+--- gaffe/src/main/java/net/sourceforge/czt/animation/gui/temp/ZBinding.java	2022-08-14 07:27:34.992310100 +1000
++++ ci_scripts/test/mutation_testing/patches/gaffe_src_main_java_net_sourceforge_czt_animation_gui_temp_ZBinding.txt	2022-08-20 09:45:01.212543800 +1000
+@@ -165,7 +165,7 @@
+     for (String s : binding.keySet()) {
+       ZName name = factory_.createZName(s);
+       ZValue zValue = binding.get(s);
+-      if (zValue != null) {
++      if (zValue == null) {
+         result.add((Decl) factory_.createConstDecl(name, binding.get(s)
+             .getExpr()));
+       }

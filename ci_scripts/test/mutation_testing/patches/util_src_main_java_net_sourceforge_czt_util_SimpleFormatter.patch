@@ -1,0 +1,11 @@
+--- util/src/main/java/net/sourceforge/czt/util/SimpleFormatter.java	2022-08-14 08:18:46.512310100 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_util_SimpleFormatter.txt	2022-08-20 09:45:13.872543800 +1000
+@@ -63,7 +63,7 @@
+       dat.setTime(record.getMillis());
+       args[0] = dat;
+       StringBuffer text = new StringBuffer();
+-      if (formatter == null)
++      if (formatter != null)
+       {
+         formatter = new java.text.MessageFormat(format);
+       }

@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatMu.java	2022-08-16 19:06:28.977212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatMu.txt	2022-08-19 18:12:35.090063000 +1000
-@@ -97,7 +97,7 @@
-       }
-     }
-     LOG.exiting("FlatMu","chooseMode",mode);
--    // Note that we return the original mode, with solutions <= 1.0
-+    // Note that we return the original mode, with solutions >= 1.0
-     // because \mu expressions return only one value, even if their
-     // schema part has multiple solutions.
-     // For example:  (\mu x:1..10 @ 3).
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatMu.txt	2022-08-20 09:45:15.032543800 +1000
+@@ -61,7 +61,7 @@
+    */
+   public boolean inferBounds(Bounds bnds)
+   {
+-    if (schBounds_ == null)
++    if (schBounds_ != null)
+       schBounds_ = new Bounds(bnds);
+     schBounds_.startAnalysis(bnds);
+     schText_.inferBounds(schBounds_);

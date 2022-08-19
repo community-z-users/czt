@@ -64,7 +64,7 @@ public class NameTypePairImpl
     Type result = nameTypePair.getType();
     if (result instanceof VariableType) {
       VariableType vType = (VariableType) result;
-      if (vType.getValue() != null) {
+      if (vType.getValue() == null) {
         result = vType.getValue();
       }
     }

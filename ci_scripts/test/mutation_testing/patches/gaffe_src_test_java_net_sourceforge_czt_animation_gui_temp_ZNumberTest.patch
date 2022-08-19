@@ -1,0 +1,11 @@
+--- gaffe/src/test/java/net/sourceforge/czt/animation/gui/temp/ZNumberTest.java	2022-07-24 10:53:44.016953300 +1000
++++ ci_scripts/test/mutation_testing/patches/gaffe_src_test_java_net_sourceforge_czt_animation_gui_temp_ZNumberTest.txt	2022-08-20 09:45:19.602543800 +1000
+@@ -17,7 +17,7 @@
+   public void testHashCode()
+   {
+     assertEquals(n10.hashCode(), n10b.hashCode());
+-    assertFalse( n10.hashCode() == neg10.hashCode());
++    assertFalse( n10.hashCode() != neg10.hashCode());
+   }
+ 
+   /*

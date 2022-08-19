@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/TypeCheckCommand.java	2022-08-14 08:18:46.512310100 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_TypeCheckCommand.txt	2022-08-20 09:45:02.252543800 +1000
+@@ -141,7 +141,7 @@
+     // This also parses the section.
+     traceLog("TC-RETRIEVE-ZSECT = " + name);
+     ZSect zs = manager.get(new Key<ZSect>(name, ZSect.class));
+-    if (zs != null) {
++    if (zs == null) {
+       //Typechecks the given section. This will include the SectTypeEnv we
+       //are looking for into the manager.
+       SectTypeEnvAnn env = zs.getAnn(SectTypeEnvAnn.class);

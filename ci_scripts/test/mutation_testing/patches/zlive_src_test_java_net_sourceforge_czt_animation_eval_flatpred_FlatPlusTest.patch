@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatPlusTest.java	2022-08-13 13:25:27.967757900 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_FlatPlusTest.txt	2022-08-20 09:45:02.572543800 +1000
+@@ -71,7 +71,7 @@
+     Envir envXY = envX.plus(y,i20);
+     Envir envXYZ = envXY.plus(z,i30);
+     Mode m = pred.chooseMode(envXYZ);
+-    Assert.assertTrue(m != null);
++    Assert.assertTrue(m == null);
+     Assert.assertEquals(true, m.isInput(0));
+     Assert.assertEquals(true, m.isInput(1));
+     Assert.assertEquals(true, m.isInput(2));

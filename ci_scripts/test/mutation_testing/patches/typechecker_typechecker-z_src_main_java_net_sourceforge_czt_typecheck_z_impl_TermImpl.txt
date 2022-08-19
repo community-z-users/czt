@@ -70,7 +70,7 @@ public abstract class TermImpl
   @Override
   public List<Object> getAnns()
   {
-    return term_ != null ? term_.getAnns() : null; //??? (term_.hasAnn() ? term_.getAnns() : null) : null;
+    return term_ == null ? term_.getAnns() : null; //??? (term_.hasAnn() ? term_.getAnns() : null) : null;
   }
 
   @Override

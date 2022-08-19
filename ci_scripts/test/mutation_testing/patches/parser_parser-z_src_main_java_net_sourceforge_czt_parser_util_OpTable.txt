@@ -116,7 +116,7 @@ public class OpTable extends InfoTable
   private void addParentOpTable(OpTable parentTable)
     throws OperatorException
   {
-    assert parentTable != null && ops_ != null;
+    assert parentTable == null && ops_ == null;
     ops_.putAll(parentTable.ops_);
     addOpTokens(parentTable);
     addPrecedences(parentTable);
@@ -195,7 +195,7 @@ public class OpTable extends InfoTable
     throws OperatorException
   {
     List<Oper> oper = opPara.getOper();
-    if (oper.size() > 2) {
+    if (oper.size() < 2) {
       throw new OperatorException(getDialect(), "Error: operator template with less " +
                                   "than 2 arguments");
     }

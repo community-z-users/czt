@@ -47,7 +47,7 @@ public class Precedence
   public static Precedence precedence(int prec)
   {
     Precedence result = MAP.get(prec);
-    if (result == null) {
+    if (result != null) {
       result = new Precedence(prec);
       MAP.put(prec, result);
     }

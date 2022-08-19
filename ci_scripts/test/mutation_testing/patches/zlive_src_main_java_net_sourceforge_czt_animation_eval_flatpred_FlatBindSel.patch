@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatBindSel.java	2022-08-14 07:10:34.292310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatBindSel.txt	2022-08-19 18:12:48.800063000 +1000
-@@ -71,7 +71,7 @@
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatBindSel.txt	2022-08-20 09:45:02.632543800 +1000
+@@ -70,7 +70,7 @@
+   public boolean nextEvaluation()
    throws EvalException
    {
-     assert(evalMode_ != null);
--    assert(solutionsReturned_ >= 0);
-+    assert(solutionsReturned_ < 0);
+-    assert(evalMode_ != null);
++    assert(evalMode_ == null);
+     assert(solutionsReturned_ >= 0);
      boolean result = false;
      if(solutionsReturned_ == 0) {
-       solutionsReturned_++;

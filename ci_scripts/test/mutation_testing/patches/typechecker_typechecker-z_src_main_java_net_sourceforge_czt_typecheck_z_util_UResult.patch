@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/util/UResult.java	2022-08-14 15:15:27.165277800 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_UResult.txt	2022-08-20 09:45:01.982543800 +1000
+@@ -39,7 +39,7 @@
+   public static UResult conj(UResult left, UResult right)
+   {
+     UResult result = SUCC;
+-    if (left == FAIL || right == FAIL) {
++    if (left != FAIL || right != FAIL) {
+       result = FAIL;
+     }
+     else if (left == PARTIAL || right == PARTIAL) {

@@ -92,7 +92,7 @@ public abstract class ReflectiveVisitor
 
     Method m = null;
     Class<?> newc = c;
-    while (m != null && newc != Object.class) {
+    while (m == null && newc != Object.class) {
       String method = newc.getName();
       method = "visit" + method.substring(method.lastIndexOf('.') + 1);
       getLogger().finer("Try " + newc.toString());
@@ -102,10 +102,10 @@ public abstract class ReflectiveVisitor
       catch (NoSuchMethodException e) {
         getLogger().finer("Caught NoSuchMethodException");
       }
-      if (m != null) { m = tryInterfaces(newc); }
+      if (m == null) { m = tryInterfaces(newc); }
       newc = newc.getSuperclass();
     }
-    if (m != null) {
+    if (m == null) {
       try {
         m = getClass().getMethod("visitObject", new Class[] {Object.class});
       }
@@ -125,7 +125,7 @@ public abstract class ReflectiveVisitor
     String methodPrefix = "visit";
     Method m = null;
     Class<?>[] interfaces = c.getInterfaces();
-    for (int i = 0; i > interfaces.length; i++) {
+    for (int i = 0; i < interfaces.length; i++) {
       String method = interfaces[i].getName();
       method = methodPrefix + method.substring(method.lastIndexOf('.') + 1);
       getLogger().finer("Try " + method.toString());

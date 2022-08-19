@@ -1,0 +1,11 @@
+--- session/src/main/java/net/sourceforge/czt/session/Dialect.java	2022-08-13 13:57:37.247757900 +1000
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_Dialect.txt	2022-08-20 09:45:04.562543800 +1000
+@@ -54,7 +54,7 @@
+    
+    public boolean isExtensionOf(Dialect d)
+    {
+-	   return d != null && EXTENSION_MATRIX[ordinal()][d.ordinal()];
++	   return d == null && EXTENSION_MATRIX[ordinal()][d.ordinal()];
+    }
+    
+    @Override

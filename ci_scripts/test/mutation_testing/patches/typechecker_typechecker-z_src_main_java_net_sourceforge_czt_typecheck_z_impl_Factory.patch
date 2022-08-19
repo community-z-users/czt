@@ -1,5 +1,5 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/Factory.java	2022-07-24 10:53:44.186953300 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_Factory.txt	2022-08-19 18:12:57.510063000 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_Factory.txt	2022-08-20 09:45:15.682543800 +1000
 @@ -103,7 +103,7 @@
    public static Term cloneTerm(Term term, List<Term> listTerm)
    {

@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/SectSummaryAnn.java	2022-08-13 13:32:07.477757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_SectSummaryAnn.txt	2022-08-19 18:12:28.530063000 +1000
-@@ -78,7 +78,7 @@
-     summary_.add(Pair.getPair("Parents", ParentSummary.create(sm).count(zs)));
-     summary_.add(Pair.getPair("Paragraphs", ParaSummary.create(sm).count(zs)));
-     int cnt = AxParaSummary.create(sm, Box.SchBox).count(zs);
--    if (cnt > 0)
-+    if (cnt < 0)
-       summary_.add(Pair.getPair("Schemas", cnt));
-     cnt = AxParaSummary.create(sm, Box.AxBox).count(zs);
-     if (cnt > 0)
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_SectSummaryAnn.txt	2022-08-20 09:45:12.812543800 +1000
+@@ -55,7 +55,7 @@
+ 
+   public SectSummaryAnn(String sectName)
+   {
+-    assert sectName != null && !sectName.isEmpty();
++    assert sectName == null && !sectName.isEmpty();
+     sectName_ = sectName;
+     includeParents_ = true;
+     includeStandardSections_ = false;

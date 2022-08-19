@@ -1,11 +1,11 @@
---- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/util/UnificationEnv.java	2022-08-19 09:18:15.180063000 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_UnificationEnv.txt	2022-08-19 18:12:28.270063000 +1000
-@@ -124,7 +124,7 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/util/UnificationEnv.java	2022-08-20 09:27:39.122543800 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_UnificationEnv.txt	2022-08-20 09:45:14.662543800 +1000
+@@ -115,7 +115,7 @@
      }
-     else {
-       Object [] children = term.getChildren();
--      for (int i = 0; i < children.length; i++) {
-+      for (int i = 0; i > children.length; i++) {
-         if (children[i] instanceof Term &&
-             !containsObject(preTypes, (Term) children[i])) {
-           if (containsVariable((Term) children[i], preTypes)) {
+ 
+     if (term instanceof VariableType &&
+-        variableType(term).getValue() == term) {
++        variableType(term).getValue() != term) {
+       return true;
+     }
+     else if (term instanceof VariableSignature &&

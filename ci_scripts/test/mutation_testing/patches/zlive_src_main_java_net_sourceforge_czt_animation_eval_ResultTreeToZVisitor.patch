@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/ResultTreeToZVisitor.java	2022-07-24 10:53:44.246953300 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_ResultTreeToZVisitor.txt	2022-08-20 09:45:05.772543800 +1000
+@@ -95,7 +95,7 @@
+     ZExprList elements = factory_.createZExprList();
+     Iterator<Expr> iter = evalSet.iterator();
+     int count = 0;
+-    while (iter.hasNext() && count != evalSetSize) {
++    while (iter.hasNext() && count == evalSetSize) {
+       elements.add((Expr) visit(iter.next()));
+       count++;
+     }

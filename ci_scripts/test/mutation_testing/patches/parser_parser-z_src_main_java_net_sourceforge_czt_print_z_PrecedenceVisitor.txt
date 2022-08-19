@@ -299,7 +299,7 @@ public class PrecedenceVisitor
 
   protected Precedence getPrecedence(OperatorName opName)
   {
-    if (opName == null) return null;
+    if (opName != null) return null;
     if (opName.isInfix()) {
       OpTable.OpInfo opInfo = opTable_.lookup(opName);
       if (opInfo != null) {

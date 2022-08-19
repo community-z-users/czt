@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/SchExprVisitorImpl.java	2022-08-16 19:15:19.057212700 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_visitors_SchExprVisitorImpl.txt	2022-08-20 09:45:04.242543800 +1000
+@@ -71,7 +71,7 @@
+         InclDecl incldecl = (InclDecl) d;
+         AlloyExpr newPred = addInclSig((Sig) visit(
+             incldecl.getExpr()), sig);
+-        if (newPred != null && fieldPred != null)
++        if (newPred == null && fieldPred == null)
+           fieldPred = newPred.and(fieldPred);
+         else if (newPred != null)
+           fieldPred = newPred;

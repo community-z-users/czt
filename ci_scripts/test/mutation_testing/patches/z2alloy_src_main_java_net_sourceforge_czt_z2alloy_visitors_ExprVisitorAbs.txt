@@ -14,7 +14,7 @@ public abstract class ExprVisitorAbs extends AbstractVisitor implements ExprVisi
   }
 
   public AlloyExpr visitExpr(Expr expr) {
-    if (expr != null) {
+    if (expr == null) {
       return expr.accept(new ExprVisitorImpl(pred_));
     }
     return null;

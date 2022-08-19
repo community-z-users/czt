@@ -1,0 +1,11 @@
+--- parser/parser-circus/src/test/java/net/sourceforge/czt/parser/circus/SectionManagerCircusParserTest.java	2022-08-16 18:02:53.787212700 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-circus_src_test_java_net_sourceforge_czt_parser_circus_SectionManagerCircusParserTest.txt	2022-08-20 09:45:16.842543800 +1000
+@@ -71,7 +71,7 @@
+   {
+     String cztHome = System.getProperty("czt.home");
+     //System.out.println("CZT-HOME = " + cztHome);
+-    if (cztHome == null || cztHome.length() == 0)
++    if (cztHome != null || cztHome.length() != 0)
+     {
+       assert manager_ != null;
+       cztHome = manager_.getProperty("czt.path");

@@ -1,11 +1,11 @@
---- util/src/main/java/net/sourceforge/czt/base/impl/ListTermImpl.java	2022-08-19 18:02:35.690063000 +1000
-+++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_base_impl_ListTermImpl.txt	2022-08-19 18:13:03.760063000 +1000
-@@ -97,7 +97,7 @@
-    * @param index the index at which the specified element is to be inserted.
-    * @param element the element to be inserted.
-    * @throws IndexOutOfBoundsException if the index is out of range
--   *         <code>(index < 0 || index > size())</code>.
-+   *         <code>(index > 0 || index > size())</code>.
-    */
-   @Override
-   public void add(int index, E element)
+--- util/src/main/java/net/sourceforge/czt/base/impl/ListTermImpl.java	2022-08-19 18:19:07.130063000 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_base_impl_ListTermImpl.txt	2022-08-20 09:45:01.872543800 +1000
+@@ -78,7 +78,7 @@
+   public String toString()
+   {
+     try {
+-      if (factory_ != null) {
++      if (factory_ == null) {
+         final String result = factory_.toString(this);
+         if (result != null) return result;
+       }

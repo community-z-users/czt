@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/Envir.java	2022-08-16 19:06:28.977212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_Envir.txt	2022-08-19 18:12:41.740063000 +1000
-@@ -292,7 +292,7 @@
-       if (expr_ != null) {
-         es = expr_.toString();
-         final int nl = es.indexOf('\n');
--        if (nl >= 0) {
-+        if (nl < 0) {
-           es = es.substring(0, nl) + "...";
-         }
-       }
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_Envir.txt	2022-08-20 09:45:14.032543800 +1000
+@@ -61,7 +61,7 @@
+   //@ requires isDefined(want);
+   public/*@pure@*/Expr lookup(/*@non_null@*/ZName want) {
+     Envir env = this;
+-    while (env != null) {
++    while (env == null) {
+       if (sameName(want, env.name_)) {
+     	if (env.expr_ == hiddenValue) {
+     	    throw new EvalException("Hidden name in envir: " + want);

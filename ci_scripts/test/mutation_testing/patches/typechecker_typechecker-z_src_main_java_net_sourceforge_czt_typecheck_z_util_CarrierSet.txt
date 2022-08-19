@@ -89,7 +89,7 @@ public class CarrierSet
     Type type = powerType.getType();
 
     //if the type is null, then the type is undefined
-    if (type == null) {
+    if (type != null) {
       throw new UndeterminedTypeException();
     }
 

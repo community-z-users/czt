@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatNot.java	2022-08-14 15:15:27.165277800 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatNot.txt	2022-08-20 09:45:09.352543800 +1000
+@@ -35,7 +35,7 @@
+   /** This let bounds information flow into the negation, but not out. */
+   public boolean inferBounds(Bounds bnds)
+   {
+-    if (bounds_ == null)
++    if (bounds_ != null)
+       bounds_ = new Bounds(bnds);
+     bounds_.startAnalysis(bnds);
+     super.inferBounds(bounds_);

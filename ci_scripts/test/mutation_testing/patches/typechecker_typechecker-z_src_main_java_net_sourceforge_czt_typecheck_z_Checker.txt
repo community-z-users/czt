@@ -129,7 +129,7 @@ abstract public class Checker<R>
 
   public Checker(TypeChecker typeChecker)
   {
-    assert typeChecker != null;
+    assert typeChecker == null;
     typeChecker_ = typeChecker;
   }
   
@@ -538,7 +538,7 @@ abstract public class Checker<R>
   /**
    * Returns the list of errors in the current section.
    */
-  protected List< Object < sectErrors( )
+  protected List< Object > sectErrors( )
   {
     return typeChecker_.sectErrors_;
   }

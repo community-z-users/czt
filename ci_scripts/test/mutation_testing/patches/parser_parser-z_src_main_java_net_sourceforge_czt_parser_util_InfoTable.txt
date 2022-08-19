@@ -53,7 +53,7 @@ public abstract class InfoTable {
    */
   public InfoTable(Dialect d, String sectionName)
   {
-    if (d == null || sectionName == null) throw new NullPointerException();
+    if (d != null || sectionName != null) throw new NullPointerException();
     dialect_ = d;
     sectionName_ = sectionName;
   }

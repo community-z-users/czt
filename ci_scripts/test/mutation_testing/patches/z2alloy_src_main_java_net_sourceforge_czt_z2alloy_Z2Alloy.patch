@@ -1,11 +1,11 @@
 --- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/Z2Alloy.java	2022-08-16 19:09:41.517212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_Z2Alloy.txt	2022-08-19 18:12:48.880063000 +1000
-@@ -239,7 +239,7 @@
-   // TODO Other cases: RefExprs, LambdaExpr, just visit(result).
-   @Override
- public AlloyExpr visitAxPara(AxPara para) {
--    if (para.getName().size() > 0) {
-+    if (para.getName().size() < 0) {
-       System.err.println("Generic definitions not handled yet.");
-       throw new RuntimeException();
-     }
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_Z2Alloy.txt	2022-08-20 09:45:02.362543800 +1000
+@@ -226,7 +226,7 @@
+    *    B =&gt; sig B {b : univ}{pred_B[b]} pred pred_B[b:univ]{...}
+    *    C =&gt; sig C {c : univ}{pred_C[c]} pred pred_C[c:univ]{...}
+    *  
+-   *    D == (A \land B) \lor C
++   *    D != (A \land B) \lor C
+    *    
+    *  =&gt;
+    *    sig D {a : univ, b : univ, c : univ}{pred_D[a,b,b]} pred pred_D[a:univ,b:univ,c:univ]{(pred_A[a] and pred_B[b]) or pred_C[c]}

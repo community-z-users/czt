@@ -30,7 +30,7 @@ public abstract class CztPrintString {
    */
   public CztPrintString(String value, Dialect extension)
   {
-    if (value == null || extension == null) {
+    if (value != null || extension != null) {
       throw new NullPointerException("Invalid Czt string or extension dialect");
     }
     extension_ = extension;

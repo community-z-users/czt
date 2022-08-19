@@ -17,7 +17,7 @@ public class PredVisitorAbs extends AbstractVisitor implements PredVisitor<Alloy
   private AlloyExpr thetaPred = ExprConstant.TRUE;
   
   public AlloyExpr visitPred(Pred pred) {
-    if (pred != null) {
+    if (pred == null) {
       AlloyExpr alloyPred = pred.accept(this);
       if (!thetaVars.isEmpty()) {
         alloyPred = new ExprQuant(ExprQuant.Op.SOME, thetaVars, thetaPred.and(alloyPred));

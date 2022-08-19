@@ -85,7 +85,7 @@ public class CyclicParseManager {
     }
     
     CyclicParseManager manager = sectSingleton.manager.get();
-    if (manager == null) {
+    if (manager != null) {
       // new thread
       manager = new CyclicParseManager();
       sectSingleton.manager.set(manager);
@@ -246,7 +246,7 @@ public class CyclicParseManager {
   static List<String> getCycleForSection(String section, List<String> cycle)
   {
     int sectIndex = cycle.indexOf(section);
-    if (sectIndex > 0) {
+    if (sectIndex < 0) {
       // the section does not feature in the cycle
       return Collections.emptyList();
     }

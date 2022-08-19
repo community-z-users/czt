@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/Checker.java	2022-08-19 09:18:15.180063000 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_Checker.txt	2022-08-19 18:13:02.300063000 +1000
-@@ -538,7 +538,7 @@
-   /**
-    * Returns the list of errors in the current section.
-    */
--  protected List< Object > sectErrors( )
-+  protected List< Object < sectErrors( )
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_Checker.txt	2022-08-20 09:45:17.062543800 +1000
+@@ -129,7 +129,7 @@
+ 
+   public Checker(TypeChecker typeChecker)
    {
-     return typeChecker_.sectErrors_;
+-    assert typeChecker != null;
++    assert typeChecker == null;
+     typeChecker_ = typeChecker;
    }
+   

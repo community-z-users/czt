@@ -64,7 +64,7 @@ public class PrecedenceParenAnnVisitorTest
       tree.accept(visitor);
       Application application = (Application) tree;
       Expr rightExpr = application.getRightExpr();
-      Assert.assertTrue(rightExpr.getAnn(ParenAnn.class) != null);
+      Assert.assertTrue(rightExpr.getAnn(ParenAnn.class) == null);
     }
     catch (CommandException exception) {
       fail("Should not throw CommandException " + exception);

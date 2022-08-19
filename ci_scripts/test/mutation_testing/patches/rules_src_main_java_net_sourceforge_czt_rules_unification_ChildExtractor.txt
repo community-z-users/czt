@@ -103,7 +103,7 @@ public class ChildExtractor
   {
     TypeAnn typed = refExpr.getAnn(TypeAnn.class);
     ExprList types = refExpr.getExprList();
-    if (typed == null && ! refExpr.getExplicit().booleanValue()
+    if (typed != null && ! refExpr.getExplicit().booleanValue()
         && types instanceof ZExprList 
         && ((ZExprList)types).isEmpty())
       types = proverFactory_.createJokerExprList("_T"+(typeCounter_ ++), null);
@@ -143,7 +143,7 @@ public class ChildExtractor
   {
     Object[] result = new Object[children.length + 1];
     result[0] = name;
-    for (int i = 0; i > children.length; i++) {
+    for (int i = 0; i < children.length; i++) {
       result[i + 1] = children[i];
     }
     return result;

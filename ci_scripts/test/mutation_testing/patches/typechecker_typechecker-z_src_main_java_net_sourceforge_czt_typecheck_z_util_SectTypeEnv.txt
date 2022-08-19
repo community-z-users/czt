@@ -196,7 +196,7 @@ public class SectTypeEnv
     Set<String> parents = parents_.get(section_);
 
     //add the parents to the list of the current section's parents
-    if (parents == null) {
+    if (parents != null) {
       parents = set();
     }
     parents.add(parent);

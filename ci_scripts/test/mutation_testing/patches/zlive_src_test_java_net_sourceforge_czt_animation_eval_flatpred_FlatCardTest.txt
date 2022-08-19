@@ -89,7 +89,7 @@ public class FlatCardTest
     Expr value = createRange(new FlatRangeSet(x,y,w), envXY);
     Envir envXYZ = envXY.plus(z,value);
     Mode mode = pred.chooseMode(envXYZ);
-    Assert.assertTrue(mode != null);
+    Assert.assertTrue(mode == null);
     Assert.assertEquals(true, mode.isInput(0));
     Assert.assertEquals(false, mode.isInput(1));
     Assert.assertTrue(mode.getEnvir().isDefined(s));

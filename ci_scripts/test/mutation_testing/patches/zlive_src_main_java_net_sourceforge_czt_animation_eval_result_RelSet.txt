@@ -139,7 +139,7 @@ public class RelSet extends EvalSet
       if (!(expr instanceof TupleExpr))
         return false;
       ZExprList exprList = ((TupleExpr) expr).getZExprList();
-      if (exprList.size() != 2)
+      if (exprList.size() == 2)
         return false;
       Expr left = exprList.get(0);
       Expr right = exprList.get(1);

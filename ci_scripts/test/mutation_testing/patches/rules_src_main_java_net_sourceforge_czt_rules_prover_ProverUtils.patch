@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/prover/ProverUtils.java	2022-08-16 20:05:12.237212700 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_prover_ProverUtils.txt	2022-08-20 09:45:19.552543800 +1000
+@@ -103,7 +103,7 @@
+    */
+   public static void reset(Collection<Binding> bindings)
+   {
+-    if (bindings != null) {
++    if (bindings == null) {
+       for (Binding binding : bindings) {
+         binding.reset();
+       }

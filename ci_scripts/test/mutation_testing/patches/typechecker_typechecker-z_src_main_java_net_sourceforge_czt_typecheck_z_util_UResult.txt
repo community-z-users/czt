@@ -39,7 +39,7 @@ public enum UResult
   public static UResult conj(UResult left, UResult right)
   {
     UResult result = SUCC;
-    if (left == FAIL || right == FAIL) {
+    if (left != FAIL || right != FAIL) {
       result = FAIL;
     }
     else if (left == PARTIAL || right == PARTIAL) {

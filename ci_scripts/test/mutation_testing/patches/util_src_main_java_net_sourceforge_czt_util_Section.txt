@@ -147,7 +147,7 @@ public enum Section
 	      Map<String, Set<String>> result = new HashMap<String, Set<String>>();
 	      for(Section s : values())
 	      {
-	    	  if (s.dialect_ != null)
+	    	  if (s.dialect_ == null)
 	    	  {
 		    	  Set<String> sects = result.get(s.dialect_);
 		    	  if (sects == null)

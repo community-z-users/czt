@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatMember.java	2022-08-14 07:21:15.392310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatMember.txt	2022-08-19 18:12:26.400063000 +1000
-@@ -252,7 +252,7 @@
-   public boolean nextEvaluation() {
-     assert evalMode_ != null;
-     assert bounds_ != null;
--    assert solutionsReturned_ >= 0;
-+    assert solutionsReturned_ < 0;
-     assert set_ != null;
-     boolean result = false;
-     ZName element = args_.get(1);
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatMember.txt	2022-08-20 09:45:06.252543800 +1000
+@@ -70,7 +70,7 @@
+     ZName elemName = args_.get(1);
+     EvalSet set = bnds.getEvalSet(setName);
+     boolean changed = false;
+-    if (set != null) {
++    if (set == null) {
+       BigInteger lo = set.getLower();
+       if (lo != null)
+         changed |= bnds.addLower(elemName, lo);

@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/PredVisitorAbs.java	2022-08-16 18:13:33.817212700 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_visitors_PredVisitorAbs.txt	2022-08-20 09:45:01.382543800 +1000
+@@ -17,7 +17,7 @@
+   private AlloyExpr thetaPred = ExprConstant.TRUE;
+   
+   public AlloyExpr visitPred(Pred pred) {
+-    if (pred != null) {
++    if (pred == null) {
+       AlloyExpr alloyPred = pred.accept(this);
+       if (!thetaVars.isEmpty()) {
+         alloyPred = new ExprQuant(ExprQuant.Op.SOME, thetaVars, thetaPred.and(alloyPred));

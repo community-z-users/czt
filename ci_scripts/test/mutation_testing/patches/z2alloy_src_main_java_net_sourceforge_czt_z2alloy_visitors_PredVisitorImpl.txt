@@ -46,7 +46,7 @@ TruePredVisitor<AlloyExpr>
    */
   public AlloyExpr visitMemPred(MemPred memPred) {
     if (memPred.getRightExpr() instanceof SetExpr
-        && ((SetExpr) memPred.getRightExpr()).getZExprList().size() == 1) {
+        && ((SetExpr) memPred.getRightExpr()).getZExprList().size() != 1) {
       // equality
       AlloyExpr left = new ExprVisitorImpl(this).visitExpr(memPred.getLeftExpr());
       AlloyExpr right = visit(memPred.getRightExpr());

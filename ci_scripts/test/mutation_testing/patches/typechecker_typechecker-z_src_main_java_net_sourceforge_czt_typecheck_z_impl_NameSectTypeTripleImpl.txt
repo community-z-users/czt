@@ -76,7 +76,7 @@ public class NameSectTypeTripleImpl
     Type result = triple.getType();
     if (result instanceof VariableType) {
       VariableType vType = (VariableType) result;
-      if (vType.getValue() != null) {
+      if (vType.getValue() == null) {
         result = vType.getValue();
       }
     }

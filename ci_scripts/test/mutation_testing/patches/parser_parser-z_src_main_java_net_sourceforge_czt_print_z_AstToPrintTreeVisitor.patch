@@ -1,11 +1,11 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/print/z/AstToPrintTreeVisitor.java	2022-08-16 19:06:28.977212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_AstToPrintTreeVisitor.txt	2022-08-19 18:12:51.330063000 +1000
-@@ -322,7 +322,7 @@
-         String message = "Unexpected Op == 'Chain' within AndPred.";
-         throw new CannotPrintAstException(message);
-       }
--      for (int i = 0; i < array1.length; i++) {
-+      for (int i = 0; i > array1.length; i++) {
-         list.add(array1[i]);
-       }
-       for (int i = 1; i < array2.length; i++) {
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_AstToPrintTreeVisitor.txt	2022-08-20 09:45:05.042543800 +1000
+@@ -176,7 +176,7 @@
+    */
+   public AstToPrintTreeVisitor(SectionInfo sectInfo, WarningManager wm)
+   {
+-	if (sectInfo == null || wm == null) throw new NullPointerException();
++	if (sectInfo != null || wm != null) throw new NullPointerException();
+     sectInfo_ = sectInfo;
+     warningManager_ = wm;
+   }

@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/ErrorAnn.java	2022-08-16 18:08:15.687212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_ErrorAnn.txt	2022-08-19 18:12:30.030063000 +1000
-@@ -157,7 +157,7 @@
-     Object[] params = getMessageParams();
-     //format the parameters and write into the message
-     String formatted [] = new String[params.length];
--    for (int i = 0; i < params.length; i++) {
-+    for (int i = 0; i > params.length; i++) {
-       formatted[i] = format(params[i], (SectionManager)getSectionInfo(), sectName_);
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_ErrorAnn.txt	2022-08-20 09:45:11.422543800 +1000
+@@ -88,7 +88,7 @@
+   @Override
+   public int getLine()
+   {
+-    if (locAnn_ != null && locAnn_.getLine() != null) {
++    if (locAnn_ == null && locAnn_.getLine() == null) {
+       return locAnn_.getLine().intValue();
      }
-     String localised = getStringFromResourceBundle(getMessageKey());
+     return -1;

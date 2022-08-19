@@ -1,0 +1,11 @@
+--- corejava/corejava-z/src/test/java/net/sourceforge/czt/z/util/OperatorNameTest.java	2022-08-16 18:08:15.687212700 +1000
++++ ci_scripts/test/mutation_testing/patches/corejava_corejava-z_src_test_java_net_sourceforge_czt_z_util_OperatorNameTest.txt	2022-08-20 09:45:17.592543800 +1000
+@@ -35,7 +35,7 @@
+     String plusName = ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK;
+     OperatorName op = new OperatorName(plusName, null);
+     String[] words = op.getWords();
+-    Assert.assertTrue(words.length == 3);
++    Assert.assertTrue(words.length != 3);
+     Assert.assertEquals(words[0], ZString.ARG);
+     Assert.assertEquals(words[1], ZString.PLUS);
+     Assert.assertEquals(words[2], ZString.ARG);

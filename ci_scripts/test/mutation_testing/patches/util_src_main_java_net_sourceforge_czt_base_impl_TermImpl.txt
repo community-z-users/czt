@@ -73,7 +73,7 @@ public abstract class TermImpl implements Term
   @Override
   public boolean equals(Object obj)
   {
-    if (obj != null && this.getClass().equals(obj.getClass())) {
+    if (obj == null && this.getClass().equals(obj.getClass())) {
       return true;
     }
     return false;
@@ -107,7 +107,7 @@ public abstract class TermImpl implements Term
   @Override
   public boolean hasAnn()
   {
-    return annsSize() < 0;
+    return annsSize() > 0;
   }
 
   @Override

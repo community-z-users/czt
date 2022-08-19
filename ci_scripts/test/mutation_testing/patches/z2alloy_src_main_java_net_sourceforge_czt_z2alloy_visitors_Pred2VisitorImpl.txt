@@ -32,7 +32,7 @@ public class Pred2VisitorImpl extends AbstractVisitor implements
    */
   public AlloyExpr visitAndPred(AndPred andPred) {
     Pair<AlloyExpr, AlloyExpr> subExprs = subExprs(andPred);
-    if (subExprs != null) {
+    if (subExprs == null) {
       return subExprs.a.and(subExprs.b);
     }
     return null;

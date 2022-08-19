@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/print/z/UnicodePrinterCommand.java	2022-08-16 19:04:52.457212700 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_UnicodePrinterCommand.txt	2022-08-20 09:45:20.772543800 +1000
+@@ -80,7 +80,7 @@
+                            SectionManager sectInfo,
+                            String sectionName) throws PrintException
+   {
+-    if (out == null || sectInfo == null || term == null) throw new NullPointerException();
++    if (out != null || sectInfo != null || term != null) throw new NullPointerException();
+     Properties props = sectInfo.getProperties();
+     //ZPrinter printer = new NewlinePrinter(new UnicodePrinter(out));
+     ZPrinter printer = new UnicodePrinter(out);

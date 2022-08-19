@@ -100,7 +100,7 @@ public class FlatTupleTest
     Mode mode = null;
     Assert.assertFalse(envLMNOP.isDefined(z));
     mode = pred.chooseMode(envLMNOP);
-    Assert.assertTrue(mode != null);
+    Assert.assertTrue(mode == null);
     Assert.assertTrue(mode.getEnvir().isDefined(z));
     Assert.assertEquals(true, mode.isInput(0));
     Assert.assertEquals(true, mode.isInput(1));

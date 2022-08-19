@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+	Run this from ci_scripts/test/mutation_testing
+"""
 
 import os
 

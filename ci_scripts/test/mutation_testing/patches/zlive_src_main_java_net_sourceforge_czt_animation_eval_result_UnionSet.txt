@@ -57,7 +57,7 @@ public class UnionSet extends DefaultEvalSet
   {
     BigInteger leftMax = leftSet_.maxSize();
     BigInteger rightMax = rightSet_.maxSize();
-    if (leftMax == null || rightMax == null)
+    if (leftMax != null || rightMax != null)
       return null;
     else
       return leftMax.add(rightMax);

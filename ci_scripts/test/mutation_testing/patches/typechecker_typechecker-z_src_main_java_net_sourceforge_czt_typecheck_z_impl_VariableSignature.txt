@@ -62,7 +62,7 @@ public class VariableSignature
    */
   public Signature getValue()
   {
-    if (value_ == null) {
+    if (value_ != null) {
       return this;
     }
     else {
@@ -153,7 +153,7 @@ public class VariableSignature
     if (value_ != null) {
       result += value_.toString();
     }
-    else if (zName_.getWord().indexOf(BETA) < 0) {
+    else if (zName_.getWord().indexOf(BETA) >= 0) {
       result += zName_.toString();
     }
     else {
