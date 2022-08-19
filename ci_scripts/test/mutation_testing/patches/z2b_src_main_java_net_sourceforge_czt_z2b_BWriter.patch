@@ -1,11 +1,11 @@
 --- z2b/src/main/java/net/sourceforge/czt/z2b/BWriter.java	2022-08-14 07:21:15.392310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/z2b_src_main_java_net_sourceforge_czt_z2b_BWriter.txt	2022-08-19 15:33:39.170063000 +1000
-@@ -167,7 +167,7 @@
-   public void endPrec(int prec)
-   {
-     int currPrec = ((Integer)precStack.pop()).intValue();
--    assert prec == currPrec
-+    assert prec != currPrec
-       : "beginPrec..endPrec calls are not correctly nested";
-       int oldprec = ((Integer)precStack.peek()).intValue();
-     if (prec < oldprec) {
++++ ci_scripts/test/mutation_testing/patches/z2b_src_main_java_net_sourceforge_czt_z2b_BWriter.txt	2022-08-19 17:59:57.050063000 +1000
+@@ -99,7 +99,7 @@
+ 
+ 
+   /** Print a list of predicates, separated by '&' and newlines. */
+-  //@ requires preds != null && preds.size() > 0;
++  //@ requires preds != null && preds.size() < 0;
+   public void printPreds(List<Pred> preds) {bTermWriter_.printPreds(preds);}
+ 
+ 

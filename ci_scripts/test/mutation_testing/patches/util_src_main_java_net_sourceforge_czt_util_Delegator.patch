@@ -1,5 +1,5 @@
 --- util/src/main/java/net/sourceforge/czt/util/Delegator.java	2022-08-16 18:02:53.787212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_util_Delegator.txt	2022-08-19 15:33:37.060063000 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_util_Delegator.txt	2022-08-19 17:59:57.190063000 +1000
 @@ -39,7 +39,7 @@
     */
    private Delegator(Class<?>[] interfaces, Object[] impls)

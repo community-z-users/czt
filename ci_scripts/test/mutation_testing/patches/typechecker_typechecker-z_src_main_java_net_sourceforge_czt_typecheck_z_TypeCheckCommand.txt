@@ -141,7 +141,7 @@ public class TypeCheckCommand extends AbstractCommand
     // This also parses the section.
     traceLog("TC-RETRIEVE-ZSECT = " + name);
     ZSect zs = manager.get(new Key<ZSect>(name, ZSect.class));
-    if (zs != null) {
+    if (zs == null) {
       //Typechecks the given section. This will include the SectTypeEnv we
       //are looking for into the manager.
       SectTypeEnvAnn env = zs.getAnn(SectTypeEnvAnn.class);
@@ -183,7 +183,7 @@ public class TypeCheckCommand extends AbstractCommand
       {
         int count = errors.size();
         final String message = "Section " + name + " contains " + count +
-          (count != 1 ? " error." : " errors.");
+          (count == 1 ? " error." : " errors.");
         Exception nestedException = new TypeErrorException(message, errors);        
         throw new CommandException(manager.getDialect(), nestedException);
       }

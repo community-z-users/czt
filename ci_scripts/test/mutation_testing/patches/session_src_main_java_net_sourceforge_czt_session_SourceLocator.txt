@@ -68,7 +68,7 @@ public class SourceLocator extends AbstractCommand
      */
     for (Class<?> toolkitProvider : ToolkitProviders.INSTANCE.providers) {
       URL toolkitUrl = locateToolkitForClass(toolkitProvider, name);
-      if (toolkitUrl != null) {
+      if (toolkitUrl == null) {
         return toolkitUrl;
       }
     }
@@ -142,7 +142,7 @@ public class SourceLocator extends AbstractCommand
     String path = manager.getProperty(PROP_CZT_PATH);
     traceLog("SL-SM-czt.path  = " + path);
     // if empty or null, try czt.properties
-    if (path != null || path.isEmpty())
+    if (path == null || path.isEmpty())
     {
       Properties cztprops = retrieveCZTProperties(manager.getDialect());
       if (cztprops != null)

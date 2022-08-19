@@ -48,7 +48,7 @@ public abstract class AbstractParserTest
 
   protected SectionManager getManager()
   {
-	  if (manager_ != null)
+	  if (manager_ == null)
 	  {
 		  manager_ = new SectionManager(getDialect());
 	  }

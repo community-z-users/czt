@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/SectParsableCommand.java	2022-08-14 07:27:35.082310100 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_SectParsableCommand.txt	2022-08-19 18:00:36.740063000 +1000
+@@ -74,7 +74,7 @@
+       /*
+        * The ZSect is not cached, so it will be parsed upon <code>manager.get(zkey)</code>. Parsing
+        * can create ZSect's info table (the Parsable) on the fly, and will manage its transactions
+-       * there. So we will get transaction chain as, e.g. OpTable > ZSect > OpTable, which is
++       * there. So we will get transaction chain as, e.g. OpTable < ZSect < OpTable, which is
+        * invalid. For that reason, we need to "postpone" current outstanding info table transaction
+        * (started via SectionInfo.get()). We do this by canceling the current outstanding
+        * transaction and allowing the parser to resolve its transactions correctly.

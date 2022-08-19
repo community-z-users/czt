@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/SectSummaryAnn.java	2022-08-13 13:32:07.477757900 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_SectSummaryAnn.txt	2022-08-19 18:00:24.630063000 +1000
+@@ -55,7 +55,7 @@
+ 
+   public SectSummaryAnn(String sectName)
+   {
+-    assert sectName != null && !sectName.isEmpty();
++    assert sectName == null && !sectName.isEmpty();
+     sectName_ = sectName;
+     includeParents_ = true;
+     includeStandardSections_ = false;

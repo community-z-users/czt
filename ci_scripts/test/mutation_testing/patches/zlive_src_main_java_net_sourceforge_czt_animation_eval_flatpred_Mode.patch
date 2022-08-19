@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/Mode.java	2022-08-16 19:06:28.977212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_Mode.txt	2022-08-19 15:33:58.420063000 +1000
-@@ -122,7 +122,7 @@
-       solutions are expected.
-   */
-   //@ requires true;
--  //@ ensures \result == solutions_;
-+  //@ ensures \result != solutions_;
-   public /*@pure@*/ double getSolutions()
-   { return solutions_; }
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_Mode.txt	2022-08-19 17:59:57.750063000 +1000
+@@ -48,7 +48,7 @@
  
+   /** The expected number of solutions. */
+   protected /*@spec_public@*/ double solutions_;
+-  //@ invariant solutions_ > 0.0;
++  //@ invariant solutions_ < 0.0;
+ 
+   /** The environment before executing the FlatPred. */
+   protected /*@spec_public@*/ Envir preEnvir_;

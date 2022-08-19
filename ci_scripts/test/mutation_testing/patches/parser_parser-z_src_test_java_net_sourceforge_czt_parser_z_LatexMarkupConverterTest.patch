@@ -1,0 +1,11 @@
+--- parser/parser-z/src/test/java/net/sourceforge/czt/parser/z/LatexMarkupConverterTest.java	2022-08-16 18:02:19.187212700 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_test_java_net_sourceforge_czt_parser_z_LatexMarkupConverterTest.txt	2022-08-19 18:00:27.280063000 +1000
+@@ -158,7 +158,7 @@
+     LatexToUnicode lexer =
+       new LatexToUnicode(source, new SectionManager(Dialect.Z), new Properties());
+     LocToken s = null;
+-    while ( (s = lexer.next()) != null) {
++    while ( (s = lexer.next()) == null) {
+       if (s.spelling() != null) writer.write(s.spelling());
+     }
+   }

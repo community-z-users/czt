@@ -54,7 +54,7 @@ public enum Dialect {
    
    public boolean isExtensionOf(Dialect d)
    {
-	   return d != null && EXTENSION_MATRIX[ordinal()][d.ordinal()];
+	   return d == null && EXTENSION_MATRIX[ordinal()][d.ordinal()];
    }
    
    @Override

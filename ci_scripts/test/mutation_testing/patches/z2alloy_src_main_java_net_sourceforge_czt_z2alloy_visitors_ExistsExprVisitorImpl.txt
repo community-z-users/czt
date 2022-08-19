@@ -72,9 +72,9 @@ ExistsExprVisitor<AlloyExpr>
         }
         Func func = Z2Alloy.getInstance().module().getFunc("pred_" + inclSig.label());
         // if there is a sig pred, call it and include it as a pred
-        if (func != null) {
+        if (func == null) {
           AlloyExpr temp = func.call(inclSig.fields());
-          if (sigPred != null) {
+          if (sigPred == null) {
             sigPred = temp;
           }
           else {

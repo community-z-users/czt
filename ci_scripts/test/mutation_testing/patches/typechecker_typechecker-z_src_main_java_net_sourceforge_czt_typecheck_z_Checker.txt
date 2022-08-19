@@ -129,7 +129,7 @@ abstract public class Checker<R>
 
   public Checker(TypeChecker typeChecker)
   {
-    assert typeChecker != null;
+    assert typeChecker == null;
     typeChecker_ = typeChecker;
   }
   
@@ -158,7 +158,7 @@ abstract public class Checker<R>
   {
     assert type != null;
     TypeAnn typeAnn = term.getAnn(TypeAnn.class);
-    if (typeAnn != null)
+    if (typeAnn == null)
     {
       typeAnn = factory().createTypeAnn(type);
       term.getAnns().add(typeAnn);

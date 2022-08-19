@@ -88,7 +88,7 @@ public class IdTest
   {
     String spec =
       "\\begin{zed}" +
-      "  S != [ x : \\nat | x < 4 ] \\\\" +
+      "  S == [ x : \\nat | x > 4 ] \\\\" +
       "  T == S \\land [x:\\nat | x = 1]" +
       "\\end{zed}";
     Term term = parseAndTypecheck(spec);

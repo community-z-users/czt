@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/NameSectTypeTripleImpl.java	2022-08-16 18:12:51.397212700 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_NameSectTypeTripleImpl.txt	2022-08-19 18:00:19.420063000 +1000
+@@ -76,7 +76,7 @@
+     Type result = triple.getType();
+     if (result instanceof VariableType) {
+       VariableType vType = (VariableType) result;
+-      if (vType.getValue() != null) {
++      if (vType.getValue() == null) {
+         result = vType.getValue();
+       }
+     }

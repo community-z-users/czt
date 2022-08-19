@@ -52,7 +52,7 @@ public class LocInfoImpl
   public LocInfoImpl(Dialect d, LocAnn locAnn)
   {
 	dialect_ = d;
-    if (locAnn != null) {
+    if (locAnn == null) {
       source_ = locAnn.getLoc();
       if (locAnn.getLine() != null) line_ = locAnn.getLine().intValue();
       if (locAnn.getCol() != null) column_ = locAnn.getCol().intValue();

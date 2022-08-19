@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatMod.java	2022-07-24 10:53:44.256953300 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatMod.txt	2022-08-19 15:33:48.570063000 +1000
-@@ -74,7 +74,7 @@
-     assert(evalMode_ != null);
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatMod.txt	2022-08-19 18:00:11.900063000 +1000
+@@ -71,7 +71,7 @@
+   public boolean nextEvaluation()
+   throws EvalException
+   {
+-    assert(evalMode_ != null);
++    assert(evalMode_ == null);
      assert(solutionsReturned_ >= 0);
      boolean result = false;
--    if(solutionsReturned_ == 0) {
-+    if(solutionsReturned_ != 0) {
-       solutionsReturned_++;
-       if (evalMode_.isInput(0) && evalMode_.isInput(1) && evalMode_.isInput(2)) {
-         Expr a = evalMode_.getEnvir().lookup(args_.get(0));
+     if(solutionsReturned_ == 0) {

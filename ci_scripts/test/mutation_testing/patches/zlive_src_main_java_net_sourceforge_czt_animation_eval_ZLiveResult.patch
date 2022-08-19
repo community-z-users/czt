@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/ZLiveResult.java	2022-08-16 19:09:41.517212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_ZLiveResult.txt	2022-08-19 15:34:01.980063000 +1000
-@@ -167,7 +167,7 @@
-   public void setCode(FlatPredList code, ZName resultName)
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_ZLiveResult.txt	2022-08-19 17:59:55.030063000 +1000
+@@ -88,7 +88,7 @@
+    */
+   public ZLiveResult(String section, Term original)
    {
-     assert code != null;
--    assert isExpr() == (resultName != null);
-+    assert isExpr() != (resultName != null);
-     code_ = code;
-     resultName_ = resultName;
-   }
+-    assert section != null;
++    assert section == null;
+     assert original != null;
+     this.section_ = section;
+     this.original_ = original;

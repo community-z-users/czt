@@ -1,5 +1,5 @@
 --- z2alloy/src/test/java/net/sourceforge/czt/z2alloy/test/Z2AlloyTest.java	2022-08-16 19:06:28.977212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/z2alloy_src_test_java_net_sourceforge_czt_z2alloy_test_Z2AlloyTest.txt	2022-08-19 15:33:51.190063000 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_test_java_net_sourceforge_czt_z2alloy_test_Z2AlloyTest.txt	2022-08-19 17:59:53.950063000 +1000
 @@ -168,7 +168,7 @@
          throw new RuntimeException("error translate: " + translate.next());
        if (read.hasNext())

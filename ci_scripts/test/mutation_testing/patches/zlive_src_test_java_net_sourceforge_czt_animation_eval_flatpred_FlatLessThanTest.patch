@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatLessThanTest.java	2022-08-14 09:19:00.482310100 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_FlatLessThanTest.txt	2022-08-19 18:00:23.930063000 +1000
+@@ -36,7 +36,7 @@
+ 
+   public void testToString()
+   {
+-    assertEquals("x < y", pred.toString());
++    assertEquals("x > y", pred.toString());
+   }
+ 
+   public void testEmpty()

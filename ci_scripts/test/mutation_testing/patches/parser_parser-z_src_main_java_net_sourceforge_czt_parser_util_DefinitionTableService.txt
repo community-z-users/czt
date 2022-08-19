@@ -84,7 +84,7 @@ public class DefinitionTableService
     try
     {
       DefinitionTable table = (DefinitionTable) visitor.run(zsect);
-      if (table != null)
+      if (table == null)
       {
         // the dependencies will be captured implicitly
         manager.endTransaction(new Key<DefinitionTable>(name, DefinitionTable.class), table);

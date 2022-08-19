@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/FreetypeVisitorImpl.java	2022-08-14 14:22:09.805277800 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_visitors_FreetypeVisitorImpl.txt	2022-08-19 17:59:58.580063000 +1000
+@@ -35,7 +35,7 @@
+     List<String> children = new ArrayList<String>();
+     while (i.hasNext()) {
+       Branch branch = (Branch) i.next();
+-      if (branch.getExpr() != null)
++      if (branch.getExpr() == null)
+         System.err.println("free types must be simple enumerations, but "
+             + branch.getName() + " branch has expression " + branch.getExpr());
+       children.add(Z2Alloy.getInstance().print(branch.getName()));

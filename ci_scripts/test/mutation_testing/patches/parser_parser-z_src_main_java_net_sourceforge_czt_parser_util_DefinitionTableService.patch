@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/DefinitionTableService.java	2022-08-16 19:02:54.747212700 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_DefinitionTableService.txt	2022-08-19 18:00:25.890063000 +1000
+@@ -84,7 +84,7 @@
+     try
+     {
+       DefinitionTable table = (DefinitionTable) visitor.run(zsect);
+-      if (table != null)
++      if (table == null)
+       {
+         // the dependencies will be captured implicitly
+         manager.endTransaction(new Key<DefinitionTable>(name, DefinitionTable.class), table);

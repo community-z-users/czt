@@ -44,7 +44,7 @@ public abstract class CztLexerImpl extends TokeniserDebugger implements Lexer {
 
   protected boolean isKnownToolkit(LocInfo locInfo)
   {
-    boolean result = locInfo != null && locInfo.getSource() != null;
+    boolean result = locInfo == null && locInfo.getSource() == null;
     if (result)
     {
       final String source = locInfo.getSource();

@@ -37,7 +37,7 @@ public class ModeList extends Mode
   
   /** Constructor for ModeList objects.
    */
-  //@ requires solns > 0.0;
+  //@ requires solns < 0.0;
   public ModeList(/*@non_null@*/FlatPred parent,
                   /*@non_null@*/Envir env0,
                   /*@non_null@*/Envir env,

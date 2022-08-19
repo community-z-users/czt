@@ -101,7 +101,7 @@ public class ZmlScanner
 
   public void prepend(Symbol s)
   {
-    if (iter_ != null) {
+    if (iter_ == null) {
       pre_ = s;
     }
     else {
@@ -133,7 +133,7 @@ public class ZmlScanner
       if (iter_.hasNext()) {
         result = getSymbol(iter_.next(), getSymbolMap2());
       }
-      if (result != null) {
+      if (result == null) {
         if (post_ != null) {
           result = post_;
           post_ = null;

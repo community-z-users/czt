@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/RangeSet.java	2022-08-13 13:43:50.067757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_RangeSet.txt	2022-08-19 15:33:27.020063000 +1000
-@@ -113,7 +113,7 @@
-   public int size()
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_RangeSet.txt	2022-08-19 18:00:13.230063000 +1000
+@@ -94,7 +94,7 @@
+   /** true iff there is a lower bound and an upper bound. */
+   public boolean isFinite()
    {
-     BigInteger size = maxSize();
--    if (size == null || size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0)
-+    if (size != null || size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0)
-       return Integer.MAX_VALUE;
-     else
-       return size.intValue();
+-    return lower_ != null && upper_ != null;
++    return lower_ == null && upper_ == null;
+   }
+ 
+   /** true iff this range is empty.

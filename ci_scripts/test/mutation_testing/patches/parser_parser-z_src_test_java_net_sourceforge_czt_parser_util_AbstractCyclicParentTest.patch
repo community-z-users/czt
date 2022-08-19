@@ -1,0 +1,11 @@
+--- parser/parser-z/src/test/java/net/sourceforge/czt/parser/util/AbstractCyclicParentTest.java	2022-07-24 10:53:44.146953300 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_test_java_net_sourceforge_czt_parser_util_AbstractCyclicParentTest.txt	2022-08-19 18:00:36.870063000 +1000
+@@ -79,7 +79,7 @@
+       
+       File[] files = dir.listFiles();
+       List<UrlSource> sources = new ArrayList<UrlSource>();
+-      if (files != null)
++      if (files == null)
+       {
+ 	      for (File file : files) {
+ 	        URL url = file.toURI().toURL();

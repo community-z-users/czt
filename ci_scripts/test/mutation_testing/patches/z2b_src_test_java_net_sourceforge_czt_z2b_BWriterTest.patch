@@ -1,11 +1,11 @@
 --- z2b/src/test/java/net/sourceforge/czt/z2b/BWriterTest.java	2022-08-14 08:18:46.512310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/z2b_src_test_java_net_sourceforge_czt_z2b_BWriterTest.txt	2022-08-19 15:33:47.530063000 +1000
-@@ -61,7 +61,7 @@
-   /** Returns the output tokens one at a time. */
-   private String nextToken()
++++ ci_scripts/test/mutation_testing/patches/z2b_src_test_java_net_sourceforge_czt_z2b_BWriterTest.txt	2022-08-19 18:00:32.460063000 +1000
+@@ -51,7 +51,7 @@
+    */
+   private String cleanOutput()
    {
--    if (tokens == null)
-+    if (tokens != null)
-       {
- 	tokens = cleanOutput().split("[ \t\r\n]+");
- 	tokensDone = 0;
+-    assert output != null;
++    assert output == null;
+     writer.close();
+     String str = output.toString();
+     output = null;

@@ -89,7 +89,7 @@ public class FlatCardTest
     Expr value = createRange(new FlatRangeSet(x,y,w), envXY);
     Envir envXYZ = envXY.plus(z,value);
     Mode mode = pred.chooseMode(envXYZ);
-    Assert.assertTrue(mode != null);
+    Assert.assertTrue(mode == null);
     Assert.assertEquals(true, mode.isInput(0));
     Assert.assertEquals(false, mode.isInput(1));
     Assert.assertTrue(mode.getEnvir().isDefined(s));
@@ -128,7 +128,7 @@ public class FlatCardTest
     pred.setMode(mode);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
-    Assert.assertTrue(mode != pred.getMode());
+    Assert.assertTrue(mode == pred.getMode());
     Assert.assertEquals("result value", i6, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
     // now reevaluate the 'range' set with q=11 (its size becomes 5).

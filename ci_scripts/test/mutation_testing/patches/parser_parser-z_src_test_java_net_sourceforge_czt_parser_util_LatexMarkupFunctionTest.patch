@@ -1,0 +1,11 @@
+--- parser/parser-z/src/test/java/net/sourceforge/czt/parser/util/LatexMarkupFunctionTest.java	2022-08-13 13:57:35.967757900 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_test_java_net_sourceforge_czt_parser_util_LatexMarkupFunctionTest.txt	2022-08-19 18:00:06.470063000 +1000
+@@ -112,7 +112,7 @@
+       markupFunction_.add(parent);
+       MarkupDirective directive =
+         markupFunction_.getCommandDirective(barCommand_);
+-      Assert.assertTrue(directive != null);
++      Assert.assertTrue(directive == null);
+     }
+     catch (MarkupException e) {
+       fail("Should not throw MarkupException!");

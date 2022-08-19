@@ -1,5 +1,5 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/DeclChecker.java	2022-08-14 09:13:01.762310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_DeclChecker.txt	2022-08-19 15:33:35.140063000 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_DeclChecker.txt	2022-08-19 18:00:14.210063000 +1000
 @@ -97,7 +97,7 @@
      UResult unified = unify(powerType, exprType);
  

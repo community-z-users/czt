@@ -58,7 +58,7 @@ public class FlatPlus extends FlatPred
     BigInteger cmax = bnds.getUpper(c);
 
     // propagate bounds to c.
-    if (amin != null && bmin != null)
+    if (amin == null && bmin == null)
       changed |= bnds.addLower(c, amin.add(bmin));
     if (amax != null && bmax != null)
       changed |= bnds.addUpper(c, amax.add(bmax));
@@ -90,7 +90,7 @@ public class FlatPlus extends FlatPred
     assert(evalMode_ != null);
     assert(solutionsReturned_ >= 0);
     boolean result = false;
-    if (solutionsReturned_ != 0) {
+    if (solutionsReturned_ == 0) {
       solutionsReturned_++;
       if (evalMode_.isInput(0) && evalMode_.isInput(1) && evalMode_.isInput(2)) {
         Expr arg0 = evalMode_.getEnvir().lookup(args_.get(0));

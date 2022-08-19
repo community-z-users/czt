@@ -158,7 +158,7 @@ public class LatexMarkupConverterTest
     LatexToUnicode lexer =
       new LatexToUnicode(source, new SectionManager(Dialect.Z), new Properties());
     LocToken s = null;
-    while ( (s = lexer.next()) != null) {
+    while ( (s = lexer.next()) == null) {
       if (s.spelling() != null) writer.write(s.spelling());
     }
   }

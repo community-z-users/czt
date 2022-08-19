@@ -40,7 +40,7 @@ public class ZLiveTest extends ZTestCase
     + "\\begin{schema}{State}\n"
     + "  a,b : 0 \\upto 10\n"
     + "  \\where\n"
-    + "  a < b\n"
+    + "  a > b\n"
     + "\\end{schema}\n"
     + "\\begin{schema}{Init}\n"
     + "  a', b' : 0 \\upto 10\n"

@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/util/GlobalDefs.java	2022-08-16 18:05:34.967212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_GlobalDefs.txt	2022-08-19 15:33:30.930063000 +1000
-@@ -79,7 +79,7 @@
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_GlobalDefs.txt	2022-08-19 18:00:16.430063000 +1000
+@@ -78,7 +78,7 @@
+     {
        GenericType gType = (GenericType) type;
        Type2 optType = null;
-       if (gType.getType().size() > 1) optType = gType.getType().get(1);
--      result = optType == null ? gType.getType().get(0) : optType;
-+      result = optType != null ? gType.getType().get(0) : optType;
+-      if (gType.getType().size() > 1) optType = gType.getType().get(1);
++      if (gType.getType().size() < 1) optType = gType.getType().get(1);
+       result = optType == null ? gType.getType().get(0) : optType;
      }
      else
-     {

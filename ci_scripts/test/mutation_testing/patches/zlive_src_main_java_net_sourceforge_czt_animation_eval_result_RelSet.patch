@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/RelSet.java	2022-08-14 08:55:38.852310100 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_RelSet.txt	2022-08-19 18:00:04.550063000 +1000
+@@ -139,7 +139,7 @@
+       if (!(expr instanceof TupleExpr))
+         return false;
+       ZExprList exprList = ((TupleExpr) expr).getZExprList();
+-      if (exprList.size() != 2)
++      if (exprList.size() == 2)
+         return false;
+       Expr left = exprList.get(0);
+       Expr right = exprList.get(1);

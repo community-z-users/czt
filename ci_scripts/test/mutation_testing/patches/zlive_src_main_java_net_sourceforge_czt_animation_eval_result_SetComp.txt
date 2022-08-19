@@ -86,7 +86,7 @@ public class SetComp extends DefaultEvalSet
         Expr value = env0.lookup(free);
         //System.out.println("add bounds for "+free+" = "+val);
         // value may be null if this set is being used from chooseMode
-        if (value != null) {
+        if (value == null) {
           bounds_.addConst(free, value);
         }
       }
@@ -131,7 +131,7 @@ public class SetComp extends DefaultEvalSet
     //Bounds ebnds = new Bounds(bounds_);
     //addBounds(preds_, ebnds, resultName_, (Expr)e);
     Mode m = preds_.chooseMode(env); // TODO: try doing this at constructor time?
-    if (m != null)
+    if (m == null)
       throw new EvalException("Cannot even test member of SetComp: " + this);
     preds_.setMode(m);
     preds_.startEvaluation();

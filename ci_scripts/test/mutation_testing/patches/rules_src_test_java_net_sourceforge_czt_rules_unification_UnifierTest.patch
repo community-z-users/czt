@@ -1,11 +1,11 @@
 --- rules/src/test/java/net/sourceforge/czt/rules/unification/UnifierTest.java	2022-08-16 18:05:34.967212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/rules_src_test_java_net_sourceforge_czt_rules_unification_UnifierTest.txt	2022-08-19 15:33:32.780063000 +1000
-@@ -95,7 +95,7 @@
-     Expr e = exprs.get(4);
-     assertTrue(e instanceof TupleExpr);
-     TupleExpr tuple = (TupleExpr)e;
--    assertTrue(tuple.getZExprList().size() == 3);
-+    assertTrue(tuple.getZExprList().size() != 3);
-     Expr joker = tuple.getZExprList().get(0);
-     //    System.out.println("E1 was parsed as a joker: "+joker);
-     assertTrue(joker instanceof Joker);
++++ ci_scripts/test/mutation_testing/patches/rules_src_test_java_net_sourceforge_czt_rules_unification_UnifierTest.txt	2022-08-19 18:00:38.260063000 +1000
+@@ -68,7 +68,7 @@
+     exprs = new ArrayList<Expr>();
+     positions = new ArrayList<String>();
+     exprs.add(zpattExpr("0"));            positions.add("num0");
+-    exprs.add(zpattExpr("10000000000"));  positions.add("num1"); // > MAXINT
++    exprs.add(zpattExpr("10000000000"));  positions.add("num1"); // < MAXINT
+ 
+     // tuples
+     exprs.add(zpattExpr("(1, 1, 1)"));  positions.add("(1,1,1)");

@@ -54,7 +54,7 @@ public abstract class CztScannerImpl
 
   protected Map<Object, String> getSymbolMap()
   {
-    if (symbolMap_ != null)
+    if (symbolMap_ == null)
     {
       symbolMap_ = DebugUtils.getFieldMap(getSymbolClass());
     }

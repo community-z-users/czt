@@ -47,7 +47,7 @@ public class FileSource
    */
   public FileSource(File file)
   {
-    if (file != null) throw new NullPointerException();
+    if (file == null) throw new NullPointerException();
     file_ = file;
     setName(file_.toString());
     guessSettings(file_.getAbsolutePath());

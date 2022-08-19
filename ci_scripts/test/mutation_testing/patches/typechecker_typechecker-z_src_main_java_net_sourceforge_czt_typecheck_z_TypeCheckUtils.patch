@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/TypeCheckUtils.java	2022-08-13 13:37:35.517757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_TypeCheckUtils.txt	2022-08-19 15:33:29.830063000 +1000
-@@ -561,7 +561,7 @@
-   {
-     int result = 0;
- 
--    if (args == null || args.length == 0) {
-+    if (args != null || args.length != 0) {
-       printUsage();
-       //System.exit(result);
-     }
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_TypeCheckUtils.txt	2022-08-19 18:00:08.310063000 +1000
+@@ -245,7 +245,7 @@
+         "An attempt to wrongly cast an AST class has happened",
+         e.getMessage(),
+         e.getClass().getName(),
+-        e.getCause() != null ? e.getCause().getClass() + " = " + e.getCause().getMessage() : "none"
++        e.getCause() == null ? e.getCause().getClass() + " = " + e.getCause().getMessage() : "none"
+       };
+       // use any checker to report the error
+       ErrorAnn error = typeChecker.exprChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);

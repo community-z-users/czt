@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatCard.java	2022-07-24 10:53:44.246953300 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatCard.txt	2022-08-19 15:34:00.150063000 +1000
-@@ -77,7 +77,7 @@
-     assert evalMode_.isInput(args_.get(0));
-     boolean result = false;
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatCard.txt	2022-08-19 17:59:54.870063000 +1000
+@@ -54,7 +54,7 @@
      ZName setName = args_.get(0);
--    if (solutionsReturned_ == 0) {
-+    if (solutionsReturned_ != 0) {
-       solutionsReturned_++;
-       EvalSet set = (EvalSet) evalMode_.getEnvir().lookup(setName);
-       int setSize = set.size();
+     ZName sizeName = args_.get(1);
+     EvalSet set = bnds.getEvalSet(setName);
+-    if (set != null) {
++    if (set == null) {
+       BigInteger maxSize = set.maxSize();
+       if (maxSize != null)
+         changed |= bnds.addUpper(sizeName, maxSize);

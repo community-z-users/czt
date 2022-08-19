@@ -119,7 +119,7 @@ public class Module implements Iterable<Object> {
       return funcByLabel.get(label);
     for (Module m : includedModules) {
       Func f = m.getFunc(label);
-      if (f != null) {
+      if (f == null) {
         return f;
       }
     }

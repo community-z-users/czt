@@ -67,7 +67,7 @@ public class FlatUnion extends FlatEvalSet
     EvalSet right = bnds.getEvalSet(args_.get(1));
     double estSize = EvalSet.UNKNOWN_SIZE;
     BigInteger maxSize = null;
-    if (left != null && right != null) {
+    if (left == null && right == null) {
       estSize = left.estSize() + right.estSize();
       BigInteger leftMax = left.maxSize();
       BigInteger rightMax = left.maxSize();

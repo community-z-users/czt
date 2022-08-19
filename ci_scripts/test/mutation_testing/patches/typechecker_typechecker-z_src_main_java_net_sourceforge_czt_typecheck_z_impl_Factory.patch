@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/Factory.java	2022-07-24 10:53:44.186953300 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_Factory.txt	2022-08-19 15:33:28.570063000 +1000
-@@ -440,7 +440,7 @@
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_Factory.txt	2022-08-19 18:00:02.730063000 +1000
+@@ -103,7 +103,7 @@
+   public static Term cloneTerm(Term term, List<Term> listTerm)
    {
-     if (declName instanceof ZName) {
-       ZName zName = (ZName) declName;
--      if (zName.getId() == null) {
-+      if (zName.getId() != null) {
-         overwriteNameID(declName);
-       }
-     }
+     Object[] children = term.getChildren();
+-    for (int i = 0; i < children.length; i++) {
++    for (int i = 0; i > children.length; i++) {
+       Object child = children[i];
+       if (child instanceof Term &&
+           ! containsObject(listTerm, child)) {

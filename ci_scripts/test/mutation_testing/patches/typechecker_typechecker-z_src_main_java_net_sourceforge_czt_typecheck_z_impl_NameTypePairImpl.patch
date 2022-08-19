@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/NameTypePairImpl.java	2022-08-16 19:15:19.537212700 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_NameTypePairImpl.txt	2022-08-19 18:00:10.940063000 +1000
+@@ -64,7 +64,7 @@
+     Type result = nameTypePair.getType();
+     if (result instanceof VariableType) {
+       VariableType vType = (VariableType) result;
+-      if (vType.getValue() != null) {
++      if (vType.getValue() == null) {
+         result = vType.getValue();
+       }
+     }

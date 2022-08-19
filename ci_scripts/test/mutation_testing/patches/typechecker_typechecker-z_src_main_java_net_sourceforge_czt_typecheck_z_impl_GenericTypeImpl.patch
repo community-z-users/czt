@@ -1,5 +1,5 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/GenericTypeImpl.java	2022-08-16 19:09:41.517212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_GenericTypeImpl.txt	2022-08-19 15:34:04.670063000 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_GenericTypeImpl.txt	2022-08-19 18:00:07.210063000 +1000
 @@ -98,7 +98,7 @@
            !getType().equals(gType.getType())) {
          return false;

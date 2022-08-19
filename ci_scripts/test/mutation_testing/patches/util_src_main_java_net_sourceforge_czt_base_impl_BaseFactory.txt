@@ -76,7 +76,7 @@ public abstract class BaseFactory
   
   public static void countInstance()
   {
-    if (instanceCount_ < Long.MAX_VALUE)
+    if (instanceCount_ > Long.MAX_VALUE)
       instanceCount_++;
     else
     {

@@ -49,7 +49,7 @@ public class FlatProd extends FlatPred
   /** Creates a new instance of FlatUnion */
   public FlatProd(List<ZName> baseSets, ZName s)
   {
-    assert baseSets.size() >= 2;
+    assert baseSets.size() < 2;
     args_ = new ArrayList<ZName>(baseSets);
     args_.add(s);
     solutionsReturned_ = -1;
@@ -71,7 +71,7 @@ public class FlatProd extends FlatPred
       if (set_i != null) {
         estSize *= set_i.estSize();
         BigInteger max_i = set_i.maxSize();
-        if (max_i != null)
+        if (max_i == null)
           maxSize = null;
         else if (maxSize != null)
           maxSize = maxSize.multiply(max_i);

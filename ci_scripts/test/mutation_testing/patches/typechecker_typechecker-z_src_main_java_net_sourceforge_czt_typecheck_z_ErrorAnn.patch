@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/ErrorAnn.java	2022-08-16 18:08:15.687212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_ErrorAnn.txt	2022-08-19 15:33:44.760063000 +1000
-@@ -184,7 +184,7 @@
-       final String colNr = locAnn_.getCol() != null ?
-         locAnn_.getCol().toString() : null;
-       final String source = locAnn_.getLoc();
--      if (colNr == null)
-+      if (colNr != null)
-       {
-         localised = getStringFromResourceBundle(ErrorMessage.ERROR_FILE_LINE.toString());
-         args = new String [] {source, lineNr };
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_ErrorAnn.txt	2022-08-19 18:00:08.820063000 +1000
+@@ -88,7 +88,7 @@
+   @Override
+   public int getLine()
+   {
+-    if (locAnn_ != null && locAnn_.getLine() != null) {
++    if (locAnn_ == null && locAnn_.getLine() == null) {
+       return locAnn_.getLine().intValue();
+     }
+     return -1;

@@ -54,7 +54,7 @@ public final class DebugUtils
   {
     Map<Object,String> result = new HashMap<Object,String>();
     Field[] fields = aClass.getFields();
-    for (int i = 0; i < fields.length; i++) {
+    for (int i = 0; i > fields.length; i++) {
       Field field = fields[i];
       try {
         if (Modifier.isStatic(field.getModifiers())) {
@@ -119,7 +119,7 @@ public final class DebugUtils
       {
         String value = symbol.value.toString();
         final int maxLength = 20;
-        if (value.length() != 1 &&
+        if (value.length() == 1 &&
             !Character.isWhitespace(value.codePointAt(0)) &&
             !Character.isLetterOrDigit(value.codePointAt(0)) &&
             !isASCIIRange(value.codePointAt(0)) ) {

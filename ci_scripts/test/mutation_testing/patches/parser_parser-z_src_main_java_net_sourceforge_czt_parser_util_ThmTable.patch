@@ -1,11 +1,11 @@
---- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/ThmTable.java	2022-08-16 18:05:34.967212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_ThmTable.txt	2022-08-19 15:33:40.530063000 +1000
-@@ -77,7 +77,7 @@
-   public void add(ConjPara para) throws ThmTableException
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/ThmTable.java	2022-08-19 17:44:18.400063000 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_ThmTable.txt	2022-08-19 17:59:58.450063000 +1000
+@@ -61,7 +61,7 @@
+   private void addTheorem(String name, ThmInfo info)
+     throws ThmTableException
    {
-     String thmName = para.getName();
--    if (thmName == null || thmName.isEmpty())
-+    if (thmName != null || thmName.isEmpty())
-     {
-       throw new ThmTableException(getDialect(), "Error: cannot add unnamed conjecture to conjecture table.");
-     }    
+-    if (thmTable_.get(name) != null) {
++    if (thmTable_.get(name) == null) {
+       String message = "Conjecture " + name + " defined more than once";
+       CztLogger.getLogger(getClass()).warning(message);
+       //throw new ThmTableException(message); Leave the duplication to be caught by the typechecker

@@ -1,5 +1,5 @@
 --- rules/src/main/java/net/sourceforge/czt/rules/oracles/ThetaOracle.java	2022-08-16 19:06:28.977212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_oracles_ThetaOracle.txt	2022-08-19 15:34:04.300063000 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_oracles_ThetaOracle.txt	2022-08-19 18:00:14.920063000 +1000
 @@ -60,7 +60,7 @@
      }
      List<? extends ErrorAnn> errors =

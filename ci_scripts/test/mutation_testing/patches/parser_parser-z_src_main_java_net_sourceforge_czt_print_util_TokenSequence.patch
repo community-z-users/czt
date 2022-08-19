@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/print/util/TokenSequence.java	2022-08-14 07:26:08.632310100 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_util_TokenSequence.txt	2022-08-19 18:00:03.280063000 +1000
+@@ -45,7 +45,7 @@
+   private final ZPrinter printer_;
+ 
+   private int nrOfTokens_ = 0;
+-  //@ invariant nrOfTokens_ >= 0;
++  //@ invariant nrOfTokens_ < 0;
+ 
+   private int length_ = 0;
+   //@ invariant length_ >= 0;

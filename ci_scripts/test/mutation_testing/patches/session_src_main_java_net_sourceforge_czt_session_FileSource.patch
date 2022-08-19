@@ -1,0 +1,11 @@
+--- session/src/main/java/net/sourceforge/czt/session/FileSource.java	2022-08-19 09:18:15.180063000 +1000
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_FileSource.txt	2022-08-19 18:00:28.180063000 +1000
+@@ -47,7 +47,7 @@
+    */
+   public FileSource(File file)
+   {
+-    if (file != null) throw new NullPointerException();
++    if (file == null) throw new NullPointerException();
+     file_ = file;
+     setName(file_.toString());
+     guessSettings(file_.getAbsolutePath());

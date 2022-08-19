@@ -1,5 +1,5 @@
 --- corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/ZUtils.java	2022-08-14 07:10:34.292310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/corejava_corejava-z_src_main_java_net_sourceforge_czt_z_util_ZUtils.txt	2022-08-19 15:33:43.500063000 +1000
++++ ci_scripts/test/mutation_testing/patches/corejava_corejava-z_src_main_java_net_sourceforge_czt_z_util_ZUtils.txt	2022-08-19 18:00:34.170063000 +1000
 @@ -104,7 +104,7 @@
        final ZName zName = pair.getZName();
        final ZStrokeList strokeList = zName.getZStrokeList();

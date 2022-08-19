@@ -1,5 +1,5 @@
---- parser/parser-z/src/main/java/net/sourceforge/czt/parser/z/ParserState.java	2022-08-14 07:21:15.392310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_z_ParserState.txt	2022-08-19 15:33:55.960063000 +1000
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/z/ParserState.java	2022-08-19 17:43:57.210063000 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_z_ParserState.txt	2022-08-19 17:59:56.190063000 +1000
 @@ -51,7 +51,7 @@
  
    public boolean isPreviousChain(int value)

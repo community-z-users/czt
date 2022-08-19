@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatNegateTest.java	2022-08-14 07:27:35.772310100 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_FlatNegateTest.txt	2022-08-19 18:00:36.480063000 +1000
+@@ -49,7 +49,7 @@
+     Envir envX = empty.plus(x,i10);
+     Envir envXY = envX.plus(y,in10);
+     Mode m = pred.chooseMode(envXY);
+-    Assert.assertTrue(m != null);
++    Assert.assertTrue(m == null);
+     Assert.assertEquals(true, m.isInput(0));
+     Assert.assertEquals(true, m.isInput(1));
+     Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, m.getSolutions(), ACCURACY);

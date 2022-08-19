@@ -46,7 +46,7 @@ public class LatexToUnicodeTest
       new LatexToUnicode(source, manager_, new Properties());
     StringWriter result = new StringWriter();
     Token token = null;
-    while ((token = lexer.next()) != null) {
+    while ((token = lexer.next()) == null) {
       result.write(token.spelling());
     }
     result.close();

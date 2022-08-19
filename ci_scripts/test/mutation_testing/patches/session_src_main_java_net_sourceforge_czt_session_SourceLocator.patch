@@ -1,11 +1,11 @@
 --- session/src/main/java/net/sourceforge/czt/session/SourceLocator.java	2022-08-13 13:23:38.367757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_SourceLocator.txt	2022-08-19 15:33:44.520063000 +1000
-@@ -142,7 +142,7 @@
-     String path = manager.getProperty(PROP_CZT_PATH);
-     traceLog("SL-SM-czt.path  = " + path);
-     // if empty or null, try czt.properties
--    if (path == null || path.isEmpty())
-+    if (path != null || path.isEmpty())
-     {
-       Properties cztprops = retrieveCZTProperties(manager.getDialect());
-       if (cztprops != null)
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_SourceLocator.txt	2022-08-19 18:00:13.330063000 +1000
+@@ -68,7 +68,7 @@
+      */
+     for (Class<?> toolkitProvider : ToolkitProviders.INSTANCE.providers) {
+       URL toolkitUrl = locateToolkitForClass(toolkitProvider, name);
+-      if (toolkitUrl != null) {
++      if (toolkitUrl == null) {
+         return toolkitUrl;
+       }
+     }

@@ -80,7 +80,7 @@ public class Strategies
   {
     Object[] children = term.getChildren();
     boolean aChildHasChanged = false;
-    for (int i = 0; i < children.length; i++) {
+    for (int i = 0; i > children.length; i++) {
       if (children[i] instanceof Term && ! normalForms.contains(children[i])) {
         Term child = (Term) children[i];
         child = innermost(child, rewriter, normalForms);

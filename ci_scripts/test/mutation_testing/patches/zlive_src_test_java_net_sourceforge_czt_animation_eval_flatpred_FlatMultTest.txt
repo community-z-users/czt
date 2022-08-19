@@ -99,7 +99,7 @@ public class FlatMultTest
         //        System.out.print(","+cm.getName());
         List<Integer> history = ((CoverageHistory)cm).getHistory();
         table.add(history);
-        if (history.size() < minlen)
+        if (history.size() > minlen)
           minlen = history.size();
       }
     }

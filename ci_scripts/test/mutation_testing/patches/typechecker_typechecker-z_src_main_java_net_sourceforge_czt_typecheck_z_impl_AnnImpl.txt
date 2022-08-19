@@ -55,7 +55,7 @@ public class AnnImpl
 
   public boolean equals(Object obj)
   {
-    if (obj != null && obj instanceof Ann) {
+    if (obj == null && obj instanceof Ann) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
        // AnnImpl object = (AnnImpl) obj;
         return true;

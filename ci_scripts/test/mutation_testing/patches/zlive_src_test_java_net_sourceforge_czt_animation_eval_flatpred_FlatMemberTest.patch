@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatMemberTest.java	2022-08-13 13:35:55.307757900 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_FlatMemberTest.txt	2022-08-19 18:00:32.580063000 +1000
+@@ -79,7 +79,7 @@
+     env = env.plus(y,i40);
+     env = env.plus(w,i20);
+     Mode setMode = set.chooseMode(env);
+-    Assert.assertTrue(setMode != null);
++    Assert.assertTrue(setMode == null);
+     Mode memMode = mem.chooseMode(setMode.getEnvir());
+     Assert.assertTrue(memMode != null);
+     Assert.assertEquals("result value", i20, memMode.getEnvir().lookup(w));

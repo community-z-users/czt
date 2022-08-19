@@ -88,7 +88,7 @@ public class ErrorAnn
   @Override
   public int getLine()
   {
-    if (locAnn_ != null && locAnn_.getLine() != null) {
+    if (locAnn_ == null && locAnn_.getLine() == null) {
       return locAnn_.getLine().intValue();
     }
     return -1;
@@ -184,7 +184,7 @@ public class ErrorAnn
       final String colNr = locAnn_.getCol() != null ?
         locAnn_.getCol().toString() : null;
       final String source = locAnn_.getLoc();
-      if (colNr != null)
+      if (colNr == null)
       {
         localised = getStringFromResourceBundle(ErrorMessage.ERROR_FILE_LINE.toString());
         args = new String [] {source, lineNr };

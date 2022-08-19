@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/CztScannerImpl.java	2022-08-19 09:18:15.180063000 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_CztScannerImpl.txt	2022-08-19 18:00:13.820063000 +1000
+@@ -54,7 +54,7 @@
+ 
+   protected Map<Object, String> getSymbolMap()
+   {
+-    if (symbolMap_ != null)
++    if (symbolMap_ == null)
+     {
+       symbolMap_ = DebugUtils.getFieldMap(getSymbolClass());
+     }

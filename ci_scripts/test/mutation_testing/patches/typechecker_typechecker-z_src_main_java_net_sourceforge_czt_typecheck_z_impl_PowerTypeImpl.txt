@@ -46,7 +46,7 @@ public class PowerTypeImpl
     Type2 result = powerType.getType();
     if (result instanceof VariableType) {
       VariableType vType = (VariableType) result;
-      if (vType.getValue() != null) {
+      if (vType.getValue() == null) {
         result = vType.getValue();
       }
     }

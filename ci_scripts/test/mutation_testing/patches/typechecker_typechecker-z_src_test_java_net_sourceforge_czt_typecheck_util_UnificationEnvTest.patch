@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/test/java/net/sourceforge/czt/typecheck/util/UnificationEnvTest.java	2022-08-16 18:02:19.247212700 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_test_java_net_sourceforge_czt_typecheck_util_UnificationEnvTest.txt	2022-08-19 18:00:15.330063000 +1000
+@@ -88,7 +88,7 @@
+         //SchemaType - 1 name
+         {"[name1 : P(GIVEN g)]", "[name1 : P(GIVEN g)]", "SchemaType - 1 name"},
+ 
+-        //SchemaType - > 1 names
++        //SchemaType - < 1 names
+         {"[name1 : P(GIVEN g); name2 : GIVEN g; name3 : []]",
+          "[name1 : P(GIVEN g); name2 : GIVEN g; name3 : []]",
+          "SchemaType - > 1 name"},

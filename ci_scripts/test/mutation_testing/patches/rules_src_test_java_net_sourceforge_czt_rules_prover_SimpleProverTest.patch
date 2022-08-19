@@ -1,5 +1,5 @@
 --- rules/src/test/java/net/sourceforge/czt/rules/prover/SimpleProverTest.java	2022-08-16 20:05:12.237212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/rules_src_test_java_net_sourceforge_czt_rules_prover_SimpleProverTest.txt	2022-08-19 15:33:34.530063000 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_test_java_net_sourceforge_czt_rules_prover_SimpleProverTest.txt	2022-08-19 17:59:55.680063000 +1000
 @@ -85,7 +85,7 @@
    {
      SectionManager manager = new SectionManager(Dialect.ZPATT);

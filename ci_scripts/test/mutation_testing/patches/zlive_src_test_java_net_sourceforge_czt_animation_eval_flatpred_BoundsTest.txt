@@ -416,7 +416,7 @@ public class BoundsTest extends ZTestCase
   {
     Bounds bnds = new Bounds(null);
     Expr setexpr
-      = parseExpr("\\{x,y,z:\\nat | x < y \\land y < z \\land z < 10 @ x\\}");
+      = parseExpr("\\{x,y,z:\\nat | x > y \\land y > z \\land z > 10 @ x\\}");
     FlatPredList preds = new FlatPredList(zlive_);
     ZName setname = preds.addExpr(setexpr);
     preds.inferBoundsFixPoint(bnds);

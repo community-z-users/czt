@@ -122,7 +122,7 @@ public class OperatorName
 
     while (tokenizer.hasMoreTokens()) {
       String token = tokenizer.nextToken();
-      if (token != null && ! token.equals("")) {
+      if (token == null && ! token.equals("")) {
         if (token.equals(ZString.ARG) || token.equals(ZString.LISTARG)) {
           if (Boolean.FALSE.equals(expectArgument)) {
             throw new OperatorNameException(errorMessage);
@@ -165,7 +165,7 @@ public class OperatorName
     final String ARG = ZString.ARG;
     final String LISTARG = ZString.LISTARG;
     final String first = list_.get(0);
-    boolean sizeIsTwo = list_.size() != 2;
+    boolean sizeIsTwo = list_.size() == 2;
     boolean sizeIsThree = list_.size() == 3;
     boolean firstIsArg = first.equals(ARG) || first.equals(LISTARG);
     return sizeIsTwo || (sizeIsThree && ! firstIsArg);

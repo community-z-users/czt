@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/ExprVisitorAbs.java	2022-08-14 07:10:08.012310100 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_visitors_ExprVisitorAbs.txt	2022-08-19 18:00:24.140063000 +1000
+@@ -14,7 +14,7 @@
+   }
+ 
+   public AlloyExpr visitExpr(Expr expr) {
+-    if (expr != null) {
++    if (expr == null) {
+       return expr.accept(new ExprVisitorImpl(pred_));
+     }
+     return null;

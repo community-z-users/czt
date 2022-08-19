@@ -1,11 +1,11 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/MarkupException.java	2022-08-16 19:03:37.617212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_MarkupException.txt	2022-08-19 15:33:26.400063000 +1000
-@@ -44,7 +44,7 @@
-     super("LaTeX command " + (directive1 != null ? directive1.getCommand() : "null") +
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_MarkupException.txt	2022-08-19 18:00:10.300063000 +1000
+@@ -41,7 +41,7 @@
+   public MarkupException(MarkupDirective directive1,
+                          MarkupDirective directive2)
+   {
+-    super("LaTeX command " + (directive1 != null ? directive1.getCommand() : "null") +
++    super("LaTeX command " + (directive1 == null ? directive1.getCommand() : "null") +
            " defined twice " +
            "\n" + directive1 + "\n" + directive2);
--    if (directive1 == null || directive2 == null) throw new NullPointerException(); 
-+    if (directive1 != null || directive2 != null) throw new NullPointerException(); 
-     checkCompatibleDialects(directive1, directive2);
-     directive1_ = directive1;
-     directive2_ = directive2;
+     if (directive1 == null || directive2 == null) throw new NullPointerException(); 

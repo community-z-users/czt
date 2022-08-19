@@ -1,11 +1,11 @@
 --- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatLessThan.java	2022-08-14 07:26:46.362310100 +1000
-+++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatLessThan.txt	2022-08-19 15:33:55.890063000 +1000
-@@ -86,7 +86,7 @@
-     boolean result = false;
-     solutionsReturned_++;
-     if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
--      if (solutionsReturned_ == 1) {
-+      if (solutionsReturned_ != 1) {
-         Expr a = evalMode_.getEnvir().lookup(args_.get(0));
-         Expr b = evalMode_.getEnvir().lookup(args_.get(1));
-         BigInteger x = ((NumExpr) a).getValue();
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatLessThan.txt	2022-08-19 18:00:20.150063000 +1000
+@@ -29,7 +29,7 @@
+ import net.sourceforge.czt.z.ast.ZName;
+ import net.sourceforge.czt.z.util.Factory;
+ 
+-/** This implements the a < b predicate. */
++/** This implements the a > b predicate. */
+ public class FlatLessThan extends FlatPred
+ {
+   protected BigInteger next = null;

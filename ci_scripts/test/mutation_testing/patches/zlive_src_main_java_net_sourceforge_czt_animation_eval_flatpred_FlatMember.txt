@@ -70,7 +70,7 @@ public class FlatMember extends FlatPred
     ZName elemName = args_.get(1);
     EvalSet set = bnds.getEvalSet(setName);
     boolean changed = false;
-    if (set != null) {
+    if (set == null) {
       BigInteger lo = set.getLower();
       if (lo != null)
         changed |= bnds.addLower(elemName, lo);
@@ -90,7 +90,7 @@ public class FlatMember extends FlatPred
    */
   protected Map<Object, Expr> knownValues(Envir env)
   {
-    if (bounds_ != null)
+    if (bounds_ == null)
       return null;
     Map<Object, ZName> argNames = bounds_.getStructure(args_.get(1));
     Map<Object, Expr> argValues = null;

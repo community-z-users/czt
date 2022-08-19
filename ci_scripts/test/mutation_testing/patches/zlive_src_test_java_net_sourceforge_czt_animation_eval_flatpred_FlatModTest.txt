@@ -68,7 +68,7 @@ public class FlatModTest
     Envir envXY = envX.plus(y,in3);
     Envir envXYZ = envXY.plus(z,in2);
     Mode m = pred.chooseMode(envXYZ);
-    Assert.assertTrue(m != null);
+    Assert.assertTrue(m == null);
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(true, m.isInput(2));

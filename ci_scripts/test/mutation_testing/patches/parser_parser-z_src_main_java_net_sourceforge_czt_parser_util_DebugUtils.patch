@@ -1,11 +1,11 @@
 --- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/DebugUtils.java	2022-07-24 10:53:44.136953300 +1000
-+++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_DebugUtils.txt	2022-08-19 15:33:50.330063000 +1000
-@@ -119,7 +119,7 @@
-       {
-         String value = symbol.value.toString();
-         final int maxLength = 20;
--        if (value.length() == 1 &&
-+        if (value.length() != 1 &&
-             !Character.isWhitespace(value.codePointAt(0)) &&
-             !Character.isLetterOrDigit(value.codePointAt(0)) &&
-             !isASCIIRange(value.codePointAt(0)) ) {
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_DebugUtils.txt	2022-08-19 18:00:22.310063000 +1000
+@@ -54,7 +54,7 @@
+   {
+     Map<Object,String> result = new HashMap<Object,String>();
+     Field[] fields = aClass.getFields();
+-    for (int i = 0; i < fields.length; i++) {
++    for (int i = 0; i > fields.length; i++) {
+       Field field = fields[i];
+       try {
+         if (Modifier.isStatic(field.getModifiers())) {

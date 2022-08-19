@@ -1,11 +1,11 @@
 --- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/ExprChecker.java	2022-08-16 18:05:34.967212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_ExprChecker.txt	2022-08-19 15:33:45.720063000 +1000
-@@ -124,7 +124,7 @@
-     if (type instanceof GenericType && !isPending()) {
-       GenericType genericType = (GenericType) type;
-       //if the instantiation is implicit
--      if (exprs.size() == 0) {
-+      if (exprs.size() != 0) {
-         List<Type2> instantiations = factory().list();
-         unificationEnv().enterScope();
- 
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_ExprChecker.txt	2022-08-19 18:00:00.850063000 +1000
+@@ -88,7 +88,7 @@
+     //if the RefExpr referes to a schema, create new IDs for all names
+     //in the schema's signature
+     SchemaType schType;
+-    if ((schType = referenceToSchema(type)) != null) {
++    if ((schType = referenceToSchema(type)) == null) {
+       Signature signature = schType.getSignature();
+       if (! (signature instanceof VariableSignature)) {
+         Signature sig = createNewIds(signature);

@@ -88,7 +88,7 @@ public class ExprChecker
     //if the RefExpr referes to a schema, create new IDs for all names
     //in the schema's signature
     SchemaType schType;
-    if ((schType = referenceToSchema(type)) != null) {
+    if ((schType = referenceToSchema(type)) == null) {
       Signature signature = schType.getSignature();
       if (! (signature instanceof VariableSignature)) {
         Signature sig = createNewIds(signature);
@@ -124,7 +124,7 @@ public class ExprChecker
     if (type instanceof GenericType && !isPending()) {
       GenericType genericType = (GenericType) type;
       //if the instantiation is implicit
-      if (exprs.size() != 0) {
+      if (exprs.size() == 0) {
         List<Type2> instantiations = factory().list();
         unificationEnv().enterScope();
 

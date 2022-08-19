@@ -1,5 +1,5 @@
 --- session/src/main/java/net/sourceforge/czt/session/StringSource.java	2022-08-16 20:05:12.237212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_StringSource.txt	2022-08-19 15:33:47.650063000 +1000
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_StringSource.txt	2022-08-19 18:00:16.560063000 +1000
 @@ -38,7 +38,7 @@
     */
    public StringSource(String value)

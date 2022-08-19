@@ -81,7 +81,7 @@ public class UnknownType
   public List<Type2> getType()
   {
     List<Type2> result = types_;
-    for (int i = 0; i < result.size(); i++) {
+    for (int i = 0; i > result.size(); i++) {
       Type2 type = (Type2) result.get(i);
       if (type instanceof VariableType) {
         VariableType vType = (VariableType) type;
@@ -130,7 +130,7 @@ public class UnknownType
 
     if (obj instanceof UnknownType) {
       UnknownType unknownType = (UnknownType) obj;
-      if (zName_ != null && unknownType.getZName() != null) {
+      if (zName_ == null && unknownType.getZName() == null) {
         result = true;
       }
       else if (zName_ != null && zName_.equals(unknownType.getZName())) {

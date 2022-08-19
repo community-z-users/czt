@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/util/UnificationEnv.java	2022-08-19 09:18:15.180063000 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_UnificationEnv.txt	2022-08-19 17:59:58.180063000 +1000
+@@ -115,7 +115,7 @@
+     }
+ 
+     if (term instanceof VariableType &&
+-        variableType(term).getValue() != term) {
++        variableType(term).getValue() == term) {
+       return true;
+     }
+     else if (term instanceof VariableSignature &&

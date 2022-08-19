@@ -1,5 +1,5 @@
 --- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/Z2Alloy.java	2022-08-16 19:09:41.517212700 +1000
-+++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_Z2Alloy.txt	2022-08-19 15:33:59.030063000 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_Z2Alloy.txt	2022-08-19 17:59:54.530063000 +1000
 @@ -226,7 +226,7 @@
     *    B =&gt; sig B {b : univ}{pred_B[b]} pred pred_B[b:univ]{...}
     *    C =&gt; sig C {c : univ}{pred_C[c]} pred pred_C[c:univ]{...}

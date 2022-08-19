@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/PowerTypeImpl.java	2022-08-14 07:10:09.382310100 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_PowerTypeImpl.txt	2022-08-19 18:00:31.480063000 +1000
+@@ -46,7 +46,7 @@
+     Type2 result = powerType.getType();
+     if (result instanceof VariableType) {
+       VariableType vType = (VariableType) result;
+-      if (vType.getValue() != null) {
++      if (vType.getValue() == null) {
+         result = vType.getValue();
+       }
+     }

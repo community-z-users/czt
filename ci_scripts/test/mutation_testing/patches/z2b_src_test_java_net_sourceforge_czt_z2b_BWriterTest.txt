@@ -51,7 +51,7 @@ public class BWriterTest
    */
   private String cleanOutput()
   {
-    assert output != null;
+    assert output == null;
     writer.close();
     String str = output.toString();
     output = null;
@@ -61,7 +61,7 @@ public class BWriterTest
   /** Returns the output tokens one at a time. */
   private String nextToken()
   {
-    if (tokens != null)
+    if (tokens == null)
       {
 	tokens = cleanOutput().split("[ \t\r\n]+");
 	tokensDone = 0;

@@ -1,11 +1,11 @@
 --- corejava/corejava-zeves/src/main/java/net/sourceforge/czt/zeves/util/ZEvesConcreteSyntaxSymbolVisitor.java	2022-08-13 13:43:50.057757900 +1000
-+++ ci_scripts/test/mutation_testing/patches/corejava_corejava-zeves_src_main_java_net_sourceforge_czt_zeves_util_ZEvesConcreteSyntaxSymbolVisitor.txt	2022-08-19 15:33:25.800063000 +1000
-@@ -231,7 +231,7 @@
-   @Override
-   public ZEvesConcreteSyntaxSymbol visitQuantifiersCommand(QuantifiersCommand term)
++++ ci_scripts/test/mutation_testing/patches/corejava_corejava-zeves_src_main_java_net_sourceforge_czt_zeves_util_ZEvesConcreteSyntaxSymbolVisitor.txt	2022-08-19 18:00:24.690063000 +1000
+@@ -80,7 +80,7 @@
+ 
+   protected ZEvesConcreteSyntaxSymbol visit(Term term)
    {
--    if (term.getInstantiationList() == null || term.getInstantiationList().isEmpty())
-+    if (term.getInstantiationList() != null || term.getInstantiationList().isEmpty())
-       return ZEvesConcreteSyntaxSymbol.PRENEX_CMD;
-     else
-       return ZEvesConcreteSyntaxSymbol.INSTANTIATE_CMD;
+-    if (term != null) return term.accept(this);
++    if (term == null) return term.accept(this);
+     return null;
+   }
+ 
