@@ -36,6 +36,7 @@ for i, f in enumerate(patch_files):
 		# 3) Commit
 		os.system('git add -u; git commit -m "Testing bug in '+file_to_patch+'"')
 		os.system('git push -u origin dev/test-bug-'+str(i))
+		os.system('hub pull-request -m "'+"test-bug-"+str(i)+'"')
 
 		# 4) Return to starting dir and checkout previous branch
 		os.system("git checkout dev/czt-devops")
