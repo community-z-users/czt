@@ -71,7 +71,7 @@ public Pair<List<ExprVar>, AlloyExpr> processQuantPredDecls(QntPred qntPred) {
       // if there is a sig pred, call it and include it as a pred
       if (func != null) {
         AlloyExpr temp = func.call(inclSig.fields());
-        if (sigPred == null) {
+        if (sigPred != null) {
           sigPred = temp;
         }
         else {
