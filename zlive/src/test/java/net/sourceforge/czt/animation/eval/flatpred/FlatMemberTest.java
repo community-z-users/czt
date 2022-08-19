@@ -79,7 +79,7 @@ public class FlatMemberTest
     env = env.plus(y,i40);
     env = env.plus(w,i20);
     Mode setMode = set.chooseMode(env);
-    Assert.assertTrue(setMode != null);
+    Assert.assertTrue(setMode == null);
     Mode memMode = mem.chooseMode(setMode.getEnvir());
     Assert.assertTrue(memMode != null);
     Assert.assertEquals("result value", i20, memMode.getEnvir().lookup(w));
