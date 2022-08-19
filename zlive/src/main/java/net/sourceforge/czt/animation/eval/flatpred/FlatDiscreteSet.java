@@ -77,7 +77,7 @@ public class FlatDiscreteSet extends FlatPred
       hi = bounds_.getUpper(args_.get(0));
       for (int i=1; (lo != null || hi != null) && i < numElems; i++) {
         BigInteger tmp = bounds_.getLower(args_.get(i));
-        lo = (tmp == null) ? null : lo.min(tmp);
+        lo = (tmp != null) ? null : lo.min(tmp);
         tmp = bounds_.getUpper(args_.get(i));
         hi = (tmp == null) ? null : hi.max(tmp);
       }
