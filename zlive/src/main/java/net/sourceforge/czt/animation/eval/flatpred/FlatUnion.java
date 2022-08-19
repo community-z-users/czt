@@ -90,7 +90,7 @@ public class FlatUnion extends FlatEvalSet
     assert (evalMode_ != null);
     assert (solutionsReturned_ >= 0);
     boolean result = false;
-    if (solutionsReturned_ != 0) {
+    if (solutionsReturned_ == 0) {
       solutionsReturned_++;
       Envir env = evalMode_.getEnvir();
       Expr left = env.lookup(args_.get(0));

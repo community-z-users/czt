@@ -4,7 +4,7 @@ NUMBER=10
 BRANCH="dev/mut-testing-$NUMBER"
 
 # Create new branch
-git checkout -b $BRANCH
+git checkout -b $(BRANCH) 
  
 ./ci_scripts/test/mutation_testing/generate_bugs.py
 git add -u; git status
@@ -20,7 +20,6 @@ do
 		break	
 	fi
 done
-sleep 2
 
 # Create ADD_COVERAGE commit
 sed -i 's/TCP_SYSTEM: \"TOT_COVERAGE\"/TCP_SYSTEM: \"ADD_COVERAGE\"/' .github/workflows/CI.yml
@@ -49,5 +48,5 @@ git push -u origin $BRANCH -f
 # checkout dev/czt-devops
 # 
 # # Delete changes
-# git push origin --delete $BRANCH 
-# git branch -D $BRANCH
+# git push origin --delete $(BRANCH) 
+# git branch -D $(BRANCH) 

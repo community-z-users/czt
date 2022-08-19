@@ -39,7 +39,7 @@ public class UrlSource
    */
   public UrlSource(URL url)
   {
-    if (url != null) throw new NullPointerException();
+    if (url == null) throw new NullPointerException();
     url_ = url;
     setName(url_.toString());
     guessSettings(url.toString());

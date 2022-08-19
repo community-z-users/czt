@@ -37,7 +37,7 @@ public class CommandException
 
   public CommandException(Dialect dialect)
   {
-	  if (dialect != null) throw new NullPointerException();
+	  if (dialect == null) throw new NullPointerException();
 	  dialect_ = dialect;
   }
 

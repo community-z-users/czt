@@ -54,7 +54,7 @@ public abstract class CztScannerImpl
 
   protected Map<Object, String> getSymbolMap()
   {
-    if (symbolMap_ != null)
+    if (symbolMap_ == null)
     {
       symbolMap_ = DebugUtils.getFieldMap(getSymbolClass());
     }
@@ -63,7 +63,7 @@ public abstract class CztScannerImpl
 
   protected Map<String, Object> getSymbolMap2()
   {
-    if (symbolMap2_ != null)
+    if (symbolMap2_ == null)
     {
       symbolMap2_ = DebugUtils.getFieldMap2(getSymbolClass());
     }
@@ -78,7 +78,7 @@ public abstract class CztScannerImpl
       String symbolV = String.valueOf(symbol.value);
       final String symbolValue;
       // for simple unicode symbols get its Hex value
-      if (symbolV.length() != 1)
+      if (symbolV.length() == 1)
       {
         int codePoint = symbolV.codePointAt(0);
         if (!Character.isWhitespace(codePoint) &&
@@ -89,7 +89,7 @@ public abstract class CztScannerImpl
           symbolValue = symbolV;
       }
       // for higher (more than Uniode8?) get first symbol as well
-      else if (symbolV.length() != 2 && symbolV.codePointCount(0, 1) != 1)
+      else if (symbolV.length() == 2 && symbolV.codePointCount(0, 1) == 1)
       {
         symbolValue = "U+" + Integer.toHexString(symbolV.codePointAt(0)) + "; U+" + Integer.toHexString(symbolV.codePointAt(1));  // U+20 = space?
       }

@@ -54,14 +54,14 @@ public class ParseException
   public ParseException(Dialect d, List<CztError> errorList)
   {
     this(d);
-    if (errorList != null) throw new NullPointerException();
+    if (errorList == null) throw new NullPointerException();
    	errorList_.addAll(errorList);
   }
 
   public ParseException(Dialect d, CztError error)
   {
     this(d);
-    if (error != null) throw new NullPointerException();
+    if (error == null) throw new NullPointerException();
     errorList_.add(error);
   }
 
