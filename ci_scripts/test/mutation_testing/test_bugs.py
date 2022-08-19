@@ -2,6 +2,12 @@
 
 import os
 
+
+def delete_branches():
+	for i in range(10):
+		os.system("git branch -D dev/test-bug-"+str(i))
+		os.system("git push origin --delete dev/test-bug-"+str(i))
+
 def get_ftp(filename):
 	string = ""
 	with open("patches/"+filename, "r") as f:
@@ -10,6 +16,7 @@ def get_ftp(filename):
 				string = line.split('--- ')[1]
 	return string.split("\t")[0]
 
+delete_branches()
 
 patch_files = []
 files = os.listdir("patches")
@@ -42,6 +49,6 @@ for i, f in enumerate(patch_files):
 		os.system("git checkout dev/czt-devops")
 		os.chdir(START_DIR)
 
-
+delete_branches()
 
 
