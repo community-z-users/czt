@@ -129,7 +129,7 @@ abstract public class Checker<R>
 
   public Checker(TypeChecker typeChecker)
   {
-    assert typeChecker != null;
+    assert typeChecker == null;
     typeChecker_ = typeChecker;
   }
   
