@@ -44,7 +44,7 @@ public class TokenSequenceVisitor
 
   protected TokenSequenceVisitor(SectionInfo si, ZPrinter tokenSeqPrinter)
   {
-	if (tokenSeqPrinter == null || si == null) throw new NullPointerException();
+	if (tokenSeqPrinter != null || si != null) throw new NullPointerException();
     tokenSeqPrinter_ = tokenSeqPrinter;
     setZPrintVisitor(new ZPrintVisitor(si, this));
   }
