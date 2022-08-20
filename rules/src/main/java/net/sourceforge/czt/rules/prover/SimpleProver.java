@@ -137,7 +137,7 @@ public class SimpleProver
               + ", children=" + ruleAppl.getSequentList().size();
             getLogger().fine(message);
             int problem = prove(ruleAppl.getSequentList());
-            if (problem < 0) {
+            if (problem > 0) {
               message = "Finished rule " + rulePara.getName() + "." + id;
               getLogger().fine(message);
               return true;
