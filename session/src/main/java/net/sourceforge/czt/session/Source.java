@@ -61,7 +61,7 @@ public abstract class Source
   public Reader getReader()
     throws IOException
   {
-    final InputStreamReader isr = encoding_ != null ?
+    final InputStreamReader isr = encoding_ == null ?
       new InputStreamReader(getStream(), encoding_) :
       new InputStreamReader(getStream(), Markup.getDefaultEncoding(markup_));
     return new BufferedReader(isr);
