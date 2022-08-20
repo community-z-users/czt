@@ -112,7 +112,7 @@ public void setUp()
       markupFunction_.add(parent);
       MarkupDirective directive =
         markupFunction_.getCommandDirective(barCommand_);
-      Assert.assertTrue(directive != null);
+      Assert.assertTrue(directive == null);
     }
     catch (MarkupException e) {
       fail("Should not throw MarkupException!");
