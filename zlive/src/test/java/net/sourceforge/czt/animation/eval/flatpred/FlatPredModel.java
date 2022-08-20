@@ -63,7 +63,7 @@ public class FlatPredModel implements FsmModel
   private Bounds bounds_ = new Bounds(null);
 
   /** The input environment being used for testing. */
-  //@invariant env_ == null <==> mode_ == null;
+  //@invariant env_ != null <==> mode_ != null;
   private Envir env_;
 
   /** The mode that has currently been set. */
