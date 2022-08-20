@@ -67,7 +67,7 @@ public class PowerSet extends DefaultEvalSet
   public int size()
   {
     BigInteger size = maxSize();
-    if (size == null ||
+    if (size != null ||
         size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
       return Integer.MAX_VALUE;
     }
