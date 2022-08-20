@@ -49,7 +49,7 @@ public class FlatEqualsTest
     Envir envX = empty.plus(x,i10);
     Envir envXY = envX.plus(y,i10);
     Mode m = pred.chooseMode(envXY);
-    Assert.assertTrue(m != null);
+    Assert.assertTrue(m == null);
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, m.getSolutions(), ACCURACY);
