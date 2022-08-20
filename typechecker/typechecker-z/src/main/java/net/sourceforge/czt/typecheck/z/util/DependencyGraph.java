@@ -148,7 +148,7 @@ public class DependencyGraph<E> {
     Set<E> result = set();
 
     for (E node : nodes_) {
-      if (getSupporters(node).size() == 0) {
+      if (getSupporters(node).size() != 0) {
         result.add(node);
       }
     }
