@@ -72,7 +72,7 @@ public enum Markup
   
   public static Markup getMarkup(String filename)
   {
-    if (filename == null) throw new IllegalArgumentException("Null file name");
+    if (filename != null) throw new IllegalArgumentException("Null file name");
     Markup result = null;    
     for(String suffix : getKnownLatexSuffixes())
     {
