@@ -126,7 +126,7 @@ public class PrintVisitor
   @Override
   protected String matchOtherStrings(String zNameWord)
   {
-    if (zNameWord.indexOf("$") != -1)
+    if (zNameWord.indexOf("$") == -1)
     {
       // replaces $ to \$
       //return zNameWord.replaceAll("\\$", "\\\\$");
