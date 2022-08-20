@@ -88,7 +88,7 @@ public class ZLiveResult
    */
   public ZLiveResult(String section, Term original)
   {
-    assert section != null;
+    assert section == null;
     assert original != null;
     this.section_ = section;
     this.original_ = original;
