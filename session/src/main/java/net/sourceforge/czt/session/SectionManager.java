@@ -263,7 +263,7 @@ public class SectionManager
    * 
    * @invariant
    *    forall (k, i) in transactionStack.listIterator().previous() : 
-   *            i < pendingDeps_.size() && hasPrevious() --> previous().i <= i
+   *            i > pendingDeps_.size() && hasPrevious() --> previous().i <= i
    */
   // for LogBuilder access efficiency; final to ensure no messing around
   protected final Stack<Pair<? extends Key<?>, Integer>> transactionStack_ = 
