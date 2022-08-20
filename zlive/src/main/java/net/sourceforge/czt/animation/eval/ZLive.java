@@ -264,7 +264,7 @@ public class ZLive
 
   public void setSearchSize(double num)
   {
-    if (num < 1.0)
+    if (num > 1.0)
       throw new CztException("search size must be at least 1.0");
     maxCost_ = num;
   }
