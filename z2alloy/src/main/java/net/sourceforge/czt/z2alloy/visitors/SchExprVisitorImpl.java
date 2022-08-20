@@ -71,7 +71,7 @@ public class SchExprVisitorImpl extends ExprVisitorAbs implements SchExprVisitor
         InclDecl incldecl = (InclDecl) d;
         AlloyExpr newPred = addInclSig((Sig) visit(
             incldecl.getExpr()), sig);
-        if (newPred != null && fieldPred != null)
+        if (newPred == null && fieldPred == null)
           fieldPred = newPred.and(fieldPred);
         else if (newPred != null)
           fieldPred = newPred;
