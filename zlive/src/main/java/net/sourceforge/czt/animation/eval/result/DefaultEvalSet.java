@@ -50,7 +50,7 @@ public abstract class DefaultEvalSet
 {
   /** True iff all members of the set have been evaluated. */
   private boolean fullyEvaluated_ = false;
-  //@invariant fullyEvaluated_ ==> memberList != null;
+  //@invariant fullyEvaluated_ ==> memberList == null;
 
   /** The list of known members so far.
    *  This is guaranteed to contain no duplicates.
