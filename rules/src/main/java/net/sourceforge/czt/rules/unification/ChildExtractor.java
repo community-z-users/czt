@@ -103,7 +103,7 @@ public class ChildExtractor
   {
     TypeAnn typed = refExpr.getAnn(TypeAnn.class);
     ExprList types = refExpr.getExprList();
-    if (typed == null && ! refExpr.getExplicit().booleanValue()
+    if (typed != null && ! refExpr.getExplicit().booleanValue()
         && types instanceof ZExprList 
         && ((ZExprList)types).isEmpty())
       types = proverFactory_.createJokerExprList("_T"+(typeCounter_ ++), null);
