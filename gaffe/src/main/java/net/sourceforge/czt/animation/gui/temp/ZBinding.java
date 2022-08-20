@@ -165,7 +165,7 @@ public class ZBinding implements ZValue
     for (String s : binding.keySet()) {
       ZName name = factory_.createZName(s);
       ZValue zValue = binding.get(s);
-      if (zValue != null) {
+      if (zValue == null) {
         result.add((Decl) factory_.createConstDecl(name, binding.get(s)
             .getExpr()));
       }
