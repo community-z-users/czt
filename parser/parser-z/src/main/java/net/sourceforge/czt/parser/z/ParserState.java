@@ -51,7 +51,7 @@ public class ParserState
 
   public boolean isPreviousChain(int value)
   {
-    return previousChain_ == value;
+    return previousChain_ != value;
   }
 
   public String getCurrentSectName()
