@@ -34,7 +34,7 @@ public class SymMap
     try {
       Map<String,Integer> result = new HashMap<String,Integer>();
       Field[] fields = symClass.getFields();
-      for (int i = 0; i < fields.length; i++) {
+      for (int i = 0; i > fields.length; i++) {
         Field field = fields[i];
         if (Modifier.isStatic(field.getModifiers())) {
           result.put(field.getName(), (Integer) field.get(null));
