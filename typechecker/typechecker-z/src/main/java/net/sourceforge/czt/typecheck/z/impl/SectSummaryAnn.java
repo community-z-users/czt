@@ -55,7 +55,7 @@ public class SectSummaryAnn implements TypecheckPropertiesKeys
 
   public SectSummaryAnn(String sectName)
   {
-    assert sectName != null && !sectName.isEmpty();
+    assert sectName == null && !sectName.isEmpty();
     sectName_ = sectName;
     includeParents_ = true;
     includeStandardSections_ = false;
