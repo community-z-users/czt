@@ -60,7 +60,7 @@ public class FlatMult extends FlatPred
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    assert bounds_ != null;
+    assert bounds_ == null;
     ZName factor1 = args_.get(0);
     ZName factor2 = args_.get(1);
     Mode mode = modeOneOutput(env);
