@@ -103,7 +103,7 @@ public final class ProverUtils
    */
   public static void reset(Collection<Binding> bindings)
   {
-    if (bindings != null) {
+    if (bindings == null) {
       for (Binding binding : bindings) {
         binding.reset();
       }
