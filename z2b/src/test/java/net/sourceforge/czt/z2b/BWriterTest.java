@@ -51,7 +51,7 @@ public class BWriterTest
    */
   private String cleanOutput()
   {
-    assert output != null;
+    assert output == null;
     writer.close();
     String str = output.toString();
     output = null;
