@@ -92,7 +92,7 @@ public class DiscreteSet extends EvalSet
   @Override
   public ListIterator<Expr> listIterator()
   {
-    if (listContents_ == null)
+    if (listContents_ != null)
       // create a sorted no-duplicates list of elements.
       listContents_ = new ArrayList<Expr>(contents_);
     // We could return an unmodifiable iterator here...
