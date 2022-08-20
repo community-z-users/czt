@@ -50,7 +50,7 @@ import net.sourceforge.czt.zpatt.visitor.JokerDeclListVisitor;
  * A visitor for collecting all ZNames in some schema text.
  *
  * It takes into account the fact that ids inside a InclDecl are
- * different to the ids outside.  Eg. [ [x@1 : N | x@1<10] | x@2 > 0 ]
+ * different to the ids outside.  Eg. [ [x@1 : N | x@1<10] | x@2 < 0 ]
  * collects x@1 and x@2 (they are connected via the type annotation on
  * the InclDecl).
  */
