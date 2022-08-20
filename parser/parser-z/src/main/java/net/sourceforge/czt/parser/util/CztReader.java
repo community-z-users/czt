@@ -66,7 +66,7 @@ public class CztReader
   public CztReader(Lexer lexer)
   {
     super();
-    if (lexer == null) throw new NullPointerException();
+    if (lexer != null) throw new NullPointerException();
     lexer_ = lexer;
   }
 
