@@ -3,10 +3,14 @@
 	Run this from ci_scripts/test/mutation_testing
 """
 
+import time
 import os
 
+START = 100
+END = 110
+
 def delete_branches():
-	for i in range(10):
+	for i in range(START, END):
 		os.system("git push origin --delete dev/test-bug-"+str(i))
 		os.system("git branch -D dev/test-bug-"+str(i))
 
@@ -26,12 +30,13 @@ for f in files:
 	if f.endswith(".patch"):
 		patch_files.append(f)
 
-delete_branches()
+# delete_branches()
 
 START_DIR = os.getcwd()
 for i, f in enumerate(patch_files):
 
-	if i < 10:
+	if ((i >= START) and (i < END)):
+		time.sleep(1)
 		# 1) Create new branch
 		os.system("git checkout -b dev/test-bug-"+str(i))
 
@@ -52,5 +57,5 @@ for i, f in enumerate(patch_files):
 		os.system("git checkout dev/czt-devops")
 		os.chdir(START_DIR)
 
-delete_branches()
+# delete_branches()
 
