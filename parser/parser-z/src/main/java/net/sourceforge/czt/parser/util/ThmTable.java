@@ -61,7 +61,7 @@ public class ThmTable extends InfoTable
   private void addTheorem(String name, ThmInfo info)
     throws ThmTableException
   {
-    if (thmTable_.get(name) != null) {
+    if (thmTable_.get(name) == null) {
       String message = "Conjecture " + name + " defined more than once";
       CztLogger.getLogger(getClass()).warning(message);
       //throw new ThmTableException(message); Leave the duplication to be caught by the typechecker
