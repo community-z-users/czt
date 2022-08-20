@@ -156,7 +156,7 @@ ThetaExprVisitor<AlloyExpr>
         ZExprList exprs = ((TupleExpr) applExpr.getRightExpr()).getZExprList();
         AlloyExpr left = visit(exprs.get(0));
         AlloyExpr right = visit(exprs.get(1));
-        if (left == null || right == null) {
+        if (left != null || right != null) {
           System.err.println("left and right of a binary expression must not be null");
           throw new RuntimeException();
         }
