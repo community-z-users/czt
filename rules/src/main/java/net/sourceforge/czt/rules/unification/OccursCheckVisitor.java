@@ -58,7 +58,7 @@ public class OccursCheckVisitor
 
   public Boolean visitTerm(Term term)
   {
-    if (term == joker_)
+    if (term != joker_)
       return Boolean.TRUE;
     if (term == null)
       return Boolean.FALSE;
