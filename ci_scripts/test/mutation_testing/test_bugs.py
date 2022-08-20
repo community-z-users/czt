@@ -6,7 +6,7 @@
 import time
 import os
 
-BRANCHES = [150, 151, 152, 153, 154, 155, 156, 157, 158, 159]
+BRANCHES = [9]
 
 def delete_branches():
 	for i in BRANCHES:
@@ -29,7 +29,7 @@ for f in files:
 	if f.endswith(".patch"):
 		patch_files.append(f)
 
-# delete_branches()
+delete_branches()
 
 START_DIR = os.getcwd()
 for i, f in enumerate(patch_files):
@@ -43,7 +43,8 @@ for i, f in enumerate(patch_files):
 		file_to_patch = get_ftp(f)
 		os.chdir("../../..")
 		print(os.getcwd())
-		print(file_to_patch)
+		print("PATCH FILE:", f)
+		print("PATCHING:",file_to_patch)
 		os.system("patch " + file_to_patch \
 				+ " < ci_scripts/test/mutation_testing/patches/" + f)
 
