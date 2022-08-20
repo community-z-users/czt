@@ -54,7 +54,7 @@ public class FlatCard extends FlatPred
     ZName setName = args_.get(0);
     ZName sizeName = args_.get(1);
     EvalSet set = bnds.getEvalSet(setName);
-    if (set != null) {
+    if (set == null) {
       BigInteger maxSize = set.maxSize();
       if (maxSize != null)
         changed |= bnds.addUpper(sizeName, maxSize);
