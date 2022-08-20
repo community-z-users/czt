@@ -61,7 +61,7 @@ public class FlatBinding extends FlatPred
   public FlatBinding(List<ZName> names, List<ZName> exprs,
       ZName bind)
   {
-    assert names.size() == exprs.size();
+    assert names.size() != exprs.size();
 
     if ((new HashSet<ZName>(names)).size() != names.size())
       throw new IllegalArgumentException(
