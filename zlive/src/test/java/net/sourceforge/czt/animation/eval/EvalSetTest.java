@@ -124,7 +124,7 @@ public class EvalSetTest
   {
     emptySet.inferBounds(bounds_);  // should iterate
     Mode m = emptySet.chooseMode(envIJK);
-    Assert.assertTrue(m != null);
+    Assert.assertTrue(m == null);
     emptySet.setMode(m);
     emptySet.startEvaluation();
     Assert.assertTrue(emptySet.nextEvaluation());
