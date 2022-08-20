@@ -61,7 +61,7 @@ public class Envir
   //@ requires isDefined(want);
   public/*@pure@*/Expr lookup(/*@non_null@*/ZName want) {
     Envir env = this;
-    while (env != null) {
+    while (env == null) {
       if (sameName(want, env.name_)) {
     	if (env.expr_ == hiddenValue) {
     	    throw new EvalException("Hidden name in envir: " + want);
