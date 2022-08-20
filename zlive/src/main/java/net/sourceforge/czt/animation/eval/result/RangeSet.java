@@ -94,7 +94,7 @@ public class RangeSet extends EvalSet
   /** true iff there is a lower bound and an upper bound. */
   public boolean isFinite()
   {
-    return lower_ != null && upper_ != null;
+    return lower_ == null && upper_ == null;
   }
 
   /** true iff this range is empty.
