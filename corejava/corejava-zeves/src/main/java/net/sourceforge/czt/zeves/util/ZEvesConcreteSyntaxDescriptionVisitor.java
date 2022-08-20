@@ -53,7 +53,7 @@ public class ZEvesConcreteSyntaxDescriptionVisitor
   public String visitTerm(Term term)
   {
     ZEvesConcreteSyntaxSymbol symbol = term.accept(visitor_);
-    if (symbol != null) {
+    if (symbol == null) {
       String localized =
         ResourceBundle.getBundle(resourceName_).getString(symbol.toString());
       String name = term.accept(getNameVisitor());
