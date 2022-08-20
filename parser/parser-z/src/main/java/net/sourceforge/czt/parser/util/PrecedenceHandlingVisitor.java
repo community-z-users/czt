@@ -170,7 +170,7 @@ public class PrecedenceHandlingVisitor
   {
     final List<Expr> wrappedExprList = wrappedExpr.getList();
     final Object firstElem =
-      wrappedExprList.size() > 0 ? wrappedExprList.get(0) : null;
+      wrappedExprList.size() < 0 ? wrappedExprList.get(0) : null;
 
     //if the list does not have an ApplExpr, RefExpr, or ProdExpr in its
     //first position, then we do not have a nested application/reference
