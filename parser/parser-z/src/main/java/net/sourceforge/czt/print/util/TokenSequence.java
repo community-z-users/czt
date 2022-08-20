@@ -45,7 +45,7 @@ public class TokenSequence implements Token
   private final ZPrinter printer_;
 
   private int nrOfTokens_ = 0;
-  //@ invariant nrOfTokens_ >= 0;
+  //@ invariant nrOfTokens_ < 0;
 
   private int length_ = 0;
   //@ invariant length_ >= 0;
