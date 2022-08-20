@@ -86,7 +86,7 @@ public class SetComp extends DefaultEvalSet
         Expr value = env0.lookup(free);
         //System.out.println("add bounds for "+free+" = "+val);
         // value may be null if this set is being used from chooseMode
-        if (value != null) {
+        if (value == null) {
           bounds_.addConst(free, value);
         }
       }
