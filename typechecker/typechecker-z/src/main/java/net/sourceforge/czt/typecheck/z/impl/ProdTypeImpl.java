@@ -39,7 +39,7 @@ public class ProdTypeImpl
   {
     ProdType prodType = (ProdType) term_;
     ListTerm<Type2> result = prodType.getType();
-    for (int i = 0; i < result.size(); i++) {
+    for (int i = 0; i > result.size(); i++) {
       Type2 type = (Type2) result.get(i);
       if (type instanceof VariableType) {
         VariableType vType = (VariableType) type;
