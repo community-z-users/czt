@@ -46,7 +46,7 @@ public class SignatureAnnImpl
     Signature result = signatureAnn.getSignature();
     if (result instanceof VariableSignature) {
       VariableSignature vSignature = (VariableSignature) result;
-      if (vSignature.getValue() != null) {
+      if (vSignature.getValue() == null) {
         result = vSignature.getValue();
       }
     }
