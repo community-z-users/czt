@@ -88,7 +88,7 @@ public class UnificationEnvTest
         //SchemaType - 1 name
         {"[name1 : P(GIVEN g)]", "[name1 : P(GIVEN g)]", "SchemaType - 1 name"},
 
-        //SchemaType - > 1 names
+        //SchemaType - < 1 names
         {"[name1 : P(GIVEN g); name2 : GIVEN g; name3 : []]",
          "[name1 : P(GIVEN g); name2 : GIVEN g; name3 : []]",
          "SchemaType - > 1 name"},
