@@ -115,7 +115,7 @@ public abstract class EvalSet
   public double estSize()
   {
     BigInteger size = maxSize();
-    if (size == null)
+    if (size != null)
       return EvalSet.INFINITE_SIZE;
     else
       return size.doubleValue();
