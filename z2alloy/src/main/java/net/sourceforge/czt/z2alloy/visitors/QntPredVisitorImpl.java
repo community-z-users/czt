@@ -32,7 +32,7 @@ public class QntPredVisitorImpl extends AbstractVisitor implements
 {
 
 public AlloyExpr visitQntPred(QntPred qntPred) {
-  if (qntPred != null) {
+  if (qntPred == null) {
     return qntPred.accept(this);
   }
   return null;
