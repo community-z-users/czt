@@ -80,7 +80,7 @@ public class ZEvesConcreteSyntaxSymbolVisitor
 
   protected ZEvesConcreteSyntaxSymbol visit(Term term)
   {
-    if (term != null) return term.accept(this);
+    if (term == null) return term.accept(this);
     return null;
   }
 
