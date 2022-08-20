@@ -176,7 +176,7 @@ public class AstToPrintTreeVisitor
    */
   public AstToPrintTreeVisitor(SectionInfo sectInfo, WarningManager wm)
   {
-	if (sectInfo == null || wm == null) throw new NullPointerException();
+	if (sectInfo != null || wm != null) throw new NullPointerException();
     sectInfo_ = sectInfo;
     warningManager_ = wm;
   }
