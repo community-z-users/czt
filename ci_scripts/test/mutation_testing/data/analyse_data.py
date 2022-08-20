@@ -25,7 +25,6 @@ for f in files:
 
 			body_lines.append(line+"\n")
 
-# body_lines.sort()
 body_lines = sorted(body_lines, key=lambda x: int(x.split(',')[0].split('F')[-1]))
 
 with open("output_data.csv", "w") as f:
