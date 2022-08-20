@@ -68,7 +68,7 @@ public class SourceLocator extends AbstractCommand
      */
     for (Class<?> toolkitProvider : ToolkitProviders.INSTANCE.providers) {
       URL toolkitUrl = locateToolkitForClass(toolkitProvider, name);
-      if (toolkitUrl != null) {
+      if (toolkitUrl == null) {
         return toolkitUrl;
       }
     }
