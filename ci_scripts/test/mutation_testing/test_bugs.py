@@ -6,11 +6,10 @@
 import time
 import os
 
-START = 100
-END = 110
+BRANCHES = [110, 111, 112, 113, 114, 115, 116, 117, 118, 119]
 
 def delete_branches():
-	for i in range(START, END):
+	for i in BRANCHES:
 		os.system("git push origin --delete dev/test-bug-"+str(i))
 		os.system("git branch -D dev/test-bug-"+str(i))
 
@@ -35,7 +34,7 @@ for f in files:
 START_DIR = os.getcwd()
 for i, f in enumerate(patch_files):
 
-	if ((i >= START) and (i < END)):
+	if (i in BRANCHES):
 		time.sleep(1)
 		# 1) Create new branch
 		os.system("git checkout -b dev/test-bug-"+str(i))
