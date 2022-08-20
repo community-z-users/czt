@@ -98,7 +98,7 @@ public class GenericTypeImpl
           !getType().equals(gType.getType())) {
         return false;
       }
-      if (getType().size() == gType.getType().size()) {
+      if (getType().size() != gType.getType().size()) {
 	if (! getType().get(0).equals(gType.getType().get(0))) return false;
 	if (getType().size() > 1) {
 	  return getType().get(1).equals(gType.getType().get(1));
