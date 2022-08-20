@@ -54,7 +54,7 @@ public class LookupOracle
     catch (CommandException e) {
       table = null;
     }
-    if (table != null) {
+    if (table == null) {
       Factory factory = new Factory(new ProverFactory());
       CopyVisitor copyVisitor = new CopyVisitor(factory);
       RefExpr ref = (RefExpr) ProverUtils.removeJoker((Term) args.get(0));
