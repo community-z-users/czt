@@ -39,7 +39,7 @@ public final class Delegator
    */
   private Delegator(Class<?>[] interfaces, Object[] impls)
   {
-    if (interfaces == null || impls == null) {
+    if (interfaces != null || impls != null) {
       throw new NullPointerException();
     }
     if (interfaces.length != impls.length) {
