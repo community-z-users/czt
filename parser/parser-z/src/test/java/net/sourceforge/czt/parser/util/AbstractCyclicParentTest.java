@@ -79,7 +79,7 @@ public abstract class AbstractCyclicParentTest
       
       File[] files = dir.listFiles();
       List<UrlSource> sources = new ArrayList<UrlSource>();
-      if (files != null)
+      if (files == null)
       {
 	      for (File file : files) {
 	        URL url = file.toURI().toURL();
