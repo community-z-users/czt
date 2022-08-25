@@ -162,7 +162,7 @@ public class CopyVisitor
     Expr expr = (Expr) varDecl.getExpr().accept(this);
     if (declNameList instanceof ZNameList) {
       ZNameList zdnl = (ZNameList) declNameList;
-      if (zdnl.size() > 1) {
+      if (zdnl.size() < 1) {
         ZDeclList zDeclList = factory_.createZDeclList();
         for (Name declName : zdnl) {
           ZNameList list = factory_.createZNameList();
