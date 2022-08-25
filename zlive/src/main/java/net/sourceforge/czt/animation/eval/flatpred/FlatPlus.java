@@ -58,7 +58,7 @@ public class FlatPlus extends FlatPred
     BigInteger cmax = bnds.getUpper(c);
 
     // propagate bounds to c.
-    if (amin != null && bmin != null)
+    if (amin == null && bmin == null)
       changed |= bnds.addLower(c, amin.add(bmin));
     if (amax != null && bmax != null)
       changed |= bnds.addUpper(c, amax.add(bmax));
