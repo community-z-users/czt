@@ -29,7 +29,7 @@ import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
-/** This implements the a < b predicate. */
+/** This implements the a > b predicate. */
 public class FlatLessThan extends FlatPred
 {
   protected BigInteger next = null;
