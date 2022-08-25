@@ -13,17 +13,6 @@ import os
 import sys
 from collections import OrderedDict
 
-print("Additional Coverage TCP System")
-
-DEBUG_MODE = False
-if(len(sys.argv) > 1):
-	arg = sys.argv[1]
-	if (arg.lower() == "--debug"):
-		DEBUG_MODE = True
-	else:
-		print("'" + arg + "' is not a valid argument. Remove arguments or try '--debug'")
-		exit()
-
 
 # Parse the coverage_data.txt file and extract data into 3 lists
 src_files = []
@@ -42,9 +31,6 @@ def match_path(m_file, s_file):
 	s_file = s_file + ".java"
 	return m_file.endswith(s_file)
 
-# stream = os.popen('git diff --name-only HEAD origin/main')
-# stream = os.popen('git diff --name-only HEAD HEAD^1')
-# changed_files = stream.read().strip().split('\n')
 changed_files = sys.argv[1:]
 
 # Match to coverage data
@@ -107,43 +93,15 @@ for test in tst_files:
 			and (not test in unprioritised)):
 		unprioritised.append(test)
 
-FAILED_TEST = False
-
 # Prioritised tests
 for test_class in prioritisation:
 	print(test_class)
-	# line = "[INFO] Testing " + test_class + " : "
-	# print(line, end="", flush=True)
-	# err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
-	# if err:
-	# 	print("FAILED".rjust(99-len(line)))
-	# 	FAILED_TEST=True
-	# else:
-	# 	print("PASSED".rjust(99-len(line)))
 
 # Redundant tests
 for test_class in redundant_prioritisation:
 	print(test_class)
-	# line = "[INFO] Testing " + test_class + " : "
-	# print(line, end="", flush=True)
-	# err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
-	# if err:
-	# 	print("FAILED".rjust(99-len(line)))
-	# 	FAILED_TEST=True
-	# else:
-	# 	print("PASSED".rjust(99-len(line)))
 
 # Unprioritised tests
 for test_class in unprioritised:
 	print(test_class)
-	# line = "[INFO] Testing " + test_class + " : "
-	# print(line, end="", flush=True)
-	# err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
-	# if err:
-	# 	print("FAILED".rjust(99-len(line)))
-	# 	FAILED_TEST=True
-	# else:
-	# 	print("PASSED".rjust(99-len(line)))
 
-if FAILED_TEST:
-	exit(1)
