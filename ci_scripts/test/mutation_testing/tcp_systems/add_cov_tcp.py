@@ -43,8 +43,9 @@ def match_path(m_file, s_file):
 	return m_file.endswith(s_file)
 
 # stream = os.popen('git diff --name-only HEAD origin/main')
-stream = os.popen('git diff --name-only HEAD HEAD^1')
-changed_files = stream.read().strip().split('\n')
+# stream = os.popen('git diff --name-only HEAD HEAD^1')
+# changed_files = stream.read().strip().split('\n')
+changed_files = sys.argv[1:]
 
 # Match to coverage data
 prioritisation = []
@@ -110,36 +111,39 @@ FAILED_TEST = False
 
 # Prioritised tests
 for test_class in prioritisation:
-	line = "[INFO] Testing " + test_class + " : "
-	print(line, end="", flush=True)
-	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
-	if err:
-		print("FAILED".rjust(99-len(line)))
-		FAILED_TEST=True
-	else:
-		print("PASSED".rjust(99-len(line)))
+	print(test_class)
+	# line = "[INFO] Testing " + test_class + " : "
+	# print(line, end="", flush=True)
+	# err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
+	# if err:
+	# 	print("FAILED".rjust(99-len(line)))
+	# 	FAILED_TEST=True
+	# else:
+	# 	print("PASSED".rjust(99-len(line)))
 
 # Redundant tests
 for test_class in redundant_prioritisation:
-	line = "[INFO] Testing " + test_class + " : "
-	print(line, end="", flush=True)
-	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
-	if err:
-		print("FAILED".rjust(99-len(line)))
-		FAILED_TEST=True
-	else:
-		print("PASSED".rjust(99-len(line)))
+	print(test_class)
+	# line = "[INFO] Testing " + test_class + " : "
+	# print(line, end="", flush=True)
+	# err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
+	# if err:
+	# 	print("FAILED".rjust(99-len(line)))
+	# 	FAILED_TEST=True
+	# else:
+	# 	print("PASSED".rjust(99-len(line)))
 
 # Unprioritised tests
 for test_class in unprioritised:
-	line = "[INFO] Testing " + test_class + " : "
-	print(line, end="", flush=True)
-	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
-	if err:
-		print("FAILED".rjust(99-len(line)))
-		FAILED_TEST=True
-	else:
-		print("PASSED".rjust(99-len(line)))
+	print(test_class)
+	# line = "[INFO] Testing " + test_class + " : "
+	# print(line, end="", flush=True)
+	# err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
+	# if err:
+	# 	print("FAILED".rjust(99-len(line)))
+	# 	FAILED_TEST=True
+	# else:
+	# 	print("PASSED".rjust(99-len(line)))
 
 if FAILED_TEST:
 	exit(1)

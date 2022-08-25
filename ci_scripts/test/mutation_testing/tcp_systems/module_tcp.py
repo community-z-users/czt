@@ -109,7 +109,6 @@ def get_rank(module, target):
 
 # changed_files = stream.read().strip().split('\n')
 changed_files = sys.argv[1:]
-print(changed_files)
 
 
 modified_modules = []

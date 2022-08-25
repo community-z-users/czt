@@ -45,8 +45,9 @@ def match_path(string, tokens):
     return True
 
 # stream = os.popen('git diff --name-only HEAD origin/main')
-stream = os.popen('git diff --name-only HEAD HEAD^1')
-changed_files = stream.read().strip().split('\n')
+# stream = os.popen('git diff --name-only HEAD HEAD^1')
+# changed_files = stream.read().strip().split('\n')
+changed_files = sys.argv[1:]
 # TESTING
 #changed_files = ['./corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/OperatorName.java',
 #        './zml/src/main/java/net/sourceforge/czt/zml/Resources.java']
@@ -67,47 +68,39 @@ for line in changed_files:
 				test_classes[tst_files[i]] = int(coverage[i])
 
 
-# Print ordered list and run tests
-if DEBUG_MODE:
-	print("Prioritised Test Class List:")
-	for i, test_class in enumerate(sorted(test_classes, key=test_classes.get, reverse=True)):
-		print(str(i+1) + '.', test_class.split('-')[-1])
-	print()
-
 FAILED_TEST = False
 
 # Prioritised tests
 for test_class in sorted(test_classes, key=test_classes.get, reverse=True):
-	name = test_class.replace('-', '.')
-	line = "[INFO] Testing " + name + " : "
-	print(line, end="", flush=True)
-	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name + " >/dev/null 2>&1")
-	if err:
-		print("FAILED".rjust(99-len(line)))
-		FAILED_TEST=True
-	else:
-		print("PASSED".rjust(99-len(line)))
+	print(test_class)
+	# name = test_class.replace('-', '.')
+	# line = "[INFO] Testing " + name + " : "
+	# print(line, end="", flush=True)
+	# err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name + " >/dev/null 2>&1")
+	# if err:
+	# 	print("FAILED".rjust(99-len(line)))
+	# 	FAILED_TEST=True
+	# else:
+	# 	print("PASSED".rjust(99-len(line)))
 
 # The rest of the test cycle
-if DEBUG_MODE:
-	print()
-	print("Other tests")
 unique_tests = list(set(tst_files))
 for test_class in unique_tests:
-	name = test_class.replace('-', '.')
-	if not (test_class in test_classes.keys()):
-		line = "[INFO] Testing " + name + " : "
-		print(line, end="", flush=True)
-		err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name 
-			+ " >test_output.txt 2>&1")
-		if err:
-			FAILED_TEST = True
-			print("FAILED".rjust(99-len(line)))
-			if DEBUG_MODE:
-				os.system("cat test_output.txt")
-		else:
-			print("PASSED".rjust(99-len(line)))
+	print(test_class)
+# 	name = test_class.replace('-', '.')
+# 	if not (test_class in test_classes.keys()):
+# 		line = "[INFO] Testing " + name + " : "
+# 		print(line, end="", flush=True)
+# 		err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name 
+# 			+ " >test_output.txt 2>&1")
+# 		if err:
+# 			FAILED_TEST = True
+# 			print("FAILED".rjust(99-len(line)))
+# 			if DEBUG_MODE:
+# 				os.system("cat test_output.txt")
+# 		else:
+# 			print("PASSED".rjust(99-len(line)))
 
-os.system("rm test_output.txt")
-if FAILED_TEST:
-	exit(1)
+# os.system("rm test_output.txt")
+# if FAILED_TEST:
+# 	exit(1)
