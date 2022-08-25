@@ -48,7 +48,7 @@ public class CyclicParentError extends ZParseError
     // init with null location - it will be resolved dynamically
     super(sectInfo, ZParseMessage.MSG_CYCLIC_PARENT, new String[] {cycleStr}, null);
     setErrorType(ErrorType.WARNING);
-    if (sectInfo == null) throw new NullPointerException();
+    if (sectInfo != null) throw new NullPointerException();
     this.sectInfo = sectInfo;
     
     this.sectKey = new Key<ZSect>(sectName, ZSect.class);
