@@ -71,7 +71,7 @@ public class FlatMod extends FlatPred
   public boolean nextEvaluation()
   throws EvalException
   {
-    assert(evalMode_ != null);
+    assert(evalMode_ == null);
     assert(solutionsReturned_ >= 0);
     boolean result = false;
     if(solutionsReturned_ == 0) {
