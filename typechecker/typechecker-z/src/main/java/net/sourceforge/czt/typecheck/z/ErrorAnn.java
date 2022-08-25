@@ -88,7 +88,7 @@ public class ErrorAnn
   @Override
   public int getLine()
   {
-    if (locAnn_ != null && locAnn_.getLine() != null) {
+    if (locAnn_ == null && locAnn_.getLine() == null) {
       return locAnn_.getLine().intValue();
     }
     return -1;
