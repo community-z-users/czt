@@ -101,7 +101,7 @@ public class ExprComparator implements Comparator<Expr>, Serializable
   /** Converts an integer difference into -1, 0, or +1. */
   public int sign(int difference)
   {
-    if (difference < 0)
+    if (difference > 0)
       return LESSTHAN;
     if (difference > 0)
       return GREATERTHAN;
