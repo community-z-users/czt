@@ -67,13 +67,19 @@ for num in FAULT_NUMS:
 	mod_file_path = glob.glob("**/" + mod_file, recursive=True)[0]
 	modified_files.append(mod_file_path)
 
+# Parse module based TCP test table file
+# NOTE: This file describes which tests are executed from a module 
+# MOD_TEST_DATA = {}
+# with open("tcp_systems/mod_test_table.csv","r"):
+# 	pass
+
+
 
 # Get prioritization for each TCP system
 command_line_args = ""
 for path in modified_files:
 	command_line_args += " " + path
 
-# Get prioritizations
 os.system("./ci_scripts/test/mutation_testing/tcp_systems/module_tcp.py" + command_line_args)
 
 os.system("./ci_scripts/test/mutation_testing/tcp_systems/tot_cov_tcp.py" + command_line_args)
