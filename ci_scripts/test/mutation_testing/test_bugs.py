@@ -6,7 +6,7 @@
 import time
 import os
 
-BRANCHES = [9]
+BRANCHES = [52, 53, 54, 66, 67, 68, 81, 82, 86]
 
 def delete_branches():
 	for i in BRANCHES:
@@ -29,7 +29,7 @@ for f in files:
 	if f.endswith(".patch"):
 		patch_files.append(f)
 
-delete_branches()
+# delete_branches()
 
 START_DIR = os.getcwd()
 for i, f in enumerate(patch_files):
