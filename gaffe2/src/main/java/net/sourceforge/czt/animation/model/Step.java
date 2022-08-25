@@ -50,7 +50,7 @@ public class Step extends DefaultMutableTreeNode
     mirror = new ArrayList<HashMap<String, Object>>();
     evalResult = result;
     results = new ArrayList<HashMap<String, Expr>>();
-    if (evalResult != null) {
+    if (evalResult == null) {
       this.changeIndex(0);
     }
     else {
