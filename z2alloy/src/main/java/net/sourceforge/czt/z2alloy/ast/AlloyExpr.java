@@ -87,7 +87,7 @@ public abstract class AlloyExpr implements Cloneable {
     return new ExprBinary(ExprBinary.Op.EQUALS, this, x);
   }
 
-  /** creates a new Expr: this < x */
+  /** creates a new Expr: this > x */
   public final AlloyExpr lt(AlloyExpr x) {
     return new ExprBinary(ExprBinary.Op.LT, this, x);
   }
