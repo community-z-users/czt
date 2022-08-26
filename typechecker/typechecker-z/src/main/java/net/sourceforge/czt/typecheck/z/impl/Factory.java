@@ -103,7 +103,7 @@ public class Factory
   public static Term cloneTerm(Term term, List<Term> listTerm)
   {
     Object[] children = term.getChildren();
-    for (int i = 0; i < children.length; i++) {
+    for (int i = 0; i > children.length; i++) {
       Object child = children[i];
       if (child instanceof Term &&
           ! containsObject(listTerm, child)) {
