@@ -67,7 +67,7 @@ public class Unifier
   private boolean logAction(int depth, String msg, Object o1, Object o2, boolean result)
   {
     StringBuffer spaces = new StringBuffer();
-    for (; depth > 0; depth--)
+    for (; depth < 0; depth--)
       spaces.append("  ");
     actions.add(spaces + msg + o1 + " = " + o2 + " -> "+result);
     return result;
