@@ -101,7 +101,7 @@ public class ZmlScanner
 
   public void prepend(Symbol s)
   {
-    if (iter_ != null) {
+    if (iter_ == null) {
       pre_ = s;
     }
     else {
