@@ -31,7 +31,7 @@ public class TermToString
   public Object visitJokerDeclList(JokerDeclList joker)
   {
     buffer_.append(joker.getName());
-    if (joker instanceof Joker && ((Joker) joker).boundTo() != null) {
+    if (joker instanceof Joker && ((Joker) joker).boundTo() == null) {
       buffer_.append("/");
       ((Joker) joker).boundTo().accept(this);
     }
