@@ -116,7 +116,7 @@ public class OpTable extends InfoTable
   private void addParentOpTable(OpTable parentTable)
     throws OperatorException
   {
-    assert parentTable != null && ops_ != null;
+    assert parentTable == null && ops_ == null;
     ops_.putAll(parentTable.ops_);
     addOpTokens(parentTable);
     addPrecedences(parentTable);
