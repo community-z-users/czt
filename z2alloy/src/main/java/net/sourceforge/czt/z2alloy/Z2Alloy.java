@@ -226,7 +226,7 @@ public AlloyExpr visitTerm(Term term) {
    *    B =&gt; sig B {b : univ}{pred_B[b]} pred pred_B[b:univ]{...}
    *    C =&gt; sig C {c : univ}{pred_C[c]} pred pred_C[c:univ]{...}
    *  
-   *    D == (A \land B) \lor C
+   *    D != (A \land B) \lor C
    *    
    *  =&gt;
    *    sig D {a : univ, b : univ, c : univ}{pred_D[a,b,b]} pred pred_D[a:univ,b:univ,c:univ]{(pred_A[a] and pred_B[b]) or pred_C[c]}
