@@ -4,6 +4,7 @@ import os
 import sys
 from random import randrange
 import glob
+import matplotlib.pyplot as plt
 
 HOME_DIR=os.getcwd()
 
@@ -38,11 +39,12 @@ with open("data/metadata/test_lookup_table.csv", "r") as test_table:
 # Parse test/fault data result table 
 DATA_TABLE = {}
 with open("data/output_data.csv", "r") as data_table:
-	for row in data_table:
-		unpacked_row = row.strip().split(",")
-		fault_num = unpacked_row[0]
-		failed_tests = unpacked_row[1:]
-		DATA_TABLE[fault_num] = failed_tests
+	for i, row in enumerate(data_table):
+		if i > 0:
+			unpacked_row = row.strip().split(",")
+			fault_num = unpacked_row[0]
+			failed_tests = unpacked_row[1:]
+			DATA_TABLE[fault_num] = failed_tests
 
 
 # Check NUM_FAULTS input is valid
@@ -54,8 +56,8 @@ if (NUM_FAULTS > MAX_FAULTS):
 
 # Pick NUM_FAULTS random faults
 FAULT_NUMS = []
+available_faults = list(DATA_TABLE.keys())
 for i in range(NUM_FAULTS):
-	available_faults = list(DATA_TABLE.keys())
 	num = randrange(0, len(available_faults))
 	
 	# Make sure you don't get the same fault twice
@@ -63,6 +65,7 @@ for i in range(NUM_FAULTS):
 		num = randrange(0, len(available_faults))
 	FAULT_NUMS.append(available_faults[num])
 
+print("Faults introduced:", FAULT_NUMS)
 
 # Extract fault number 
 for i, fault in enumerate(FAULT_NUMS):
@@ -143,9 +146,7 @@ ADD_PRIOR = []
 with open(add_output_file,"r") as f:
 	for line in f:
 		line = line.strip().split("net.sourceforge.")[-1]
-		print(line)
 		if (line in TEST_TABLE.keys()):
-			print(line, TEST_TABLE[line])
 			ADD_PRIOR.append(TEST_TABLE[line])
 
 
@@ -154,8 +155,61 @@ TSPE = [] # Test Suite Percentage of Execution
 for i in range(90):
 	TSPE.append(int(100*((i+1)/90)))
 
-print(TSPE)
-print(len(TSPE))
+# Module TCP APFD
+MOD_FAULTS_DETECTED = []
+MOD_PFD = []
+for test in MOD_PRIOR:
+	# Check if a fault was detected
+	for fault in FAULT_NUMS:
+		if not fault in MOD_FAULTS_DETECTED: # Check for only undetected faults
+			# Check if this test detects this fault
+			if(DATA_TABLE["F"+fault][int(test)] == "X"):
+				# Add it to the detected faults list
+				MOD_FAULTS_DETECTED.append(fault)
 
+	# Update PFD score
+	MOD_PFD.append(int(100*(len(MOD_FAULTS_DETECTED)/len(FAULT_NUMS))))
+
+plt.step(TSPE, MOD_PFD)
+
+
+# Total Coverage TCP APFD
+TOT_FAULTS_DETECTED = []
+TOT_PFD = []
+for test in TOT_PRIOR:
+	# Check if a fault was detected
+	for fault in FAULT_NUMS:
+		if not fault in TOT_FAULTS_DETECTED: # Check for only undetected faults
+			# Check if this test detects this fault
+			if(DATA_TABLE["F"+fault][int(test)] == "X"):
+				# Add it to the detected faults list
+				TOT_FAULTS_DETECTED.append(fault)
+
+	# Update PFD score
+	TOT_PFD.append(int(100*(len(TOT_FAULTS_DETECTED)/len(FAULT_NUMS))))
+
+plt.step(TSPE, TOT_PFD)
+
+
+# Additional Coverage TCP APFD
+ADD_FAULTS_DETECTED = []
+ADD_PFD = []
+for test in ADD_PRIOR:
+	# Check if a fault was detected
+	for fault in FAULT_NUMS:
+		if not fault in ADD_FAULTS_DETECTED: # Check for only undetected faults
+			# Check if this test detects this fault
+			if(DATA_TABLE["F"+fault][int(test)] == "X"):
+				# Add it to the detected faults list
+				ADD_FAULTS_DETECTED.append(fault)
+
+	# Update PFD score
+	ADD_PFD.append(int(100*(len(ADD_FAULTS_DETECTED)/len(FAULT_NUMS))))
+
+# plt.plot(TSPE, ADD_PFD)
+plt.step(TSPE, ADD_PFD)
+
+plt.legend(("Module based TCP", "Total Coverage TCP", "Additional Coverage TCP"))
+plt.show()
 
 

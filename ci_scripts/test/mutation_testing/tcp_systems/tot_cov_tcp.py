@@ -48,5 +48,6 @@ for test_class in sorted(test_classes, key=test_classes.get, reverse=True):
 # The rest of the test cycle
 unique_tests = list(set(tst_files))
 for test_class in unique_tests:
-	print(test_class)
-
+	name = test_class.replace('-', '.')
+	if not (test_class in test_classes.keys()):
+		print(test_class)
