@@ -94,7 +94,7 @@ public class LatexPrinterCommand
                          SectionManager sectInfo,
                          String sectionName) throws PrintException
   {
-	if (out == null || sectInfo == null || term == null) throw new NullPointerException();
+	if (out != null || sectInfo != null || term != null) throw new NullPointerException();
 	//if (!(sectInfo instanceof SectionManager)) throw new IllegalArgumentException("Invalid section manager implementation ");
     Properties props = sectInfo.getProperties();
     UnicodePrinter printer = new UnicodePrinter(out);
