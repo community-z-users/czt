@@ -99,7 +99,7 @@ public class BWriter extends PrintWriter
 
 
   /** Print a list of predicates, separated by '&' and newlines. */
-  //@ requires preds != null && preds.size() > 0;
+  //@ requires preds != null && preds.size() < 0;
   public void printPreds(List<Pred> preds) {bTermWriter_.printPreds(preds);}
 
 
