@@ -47,7 +47,7 @@ public class FlatTuple extends FlatPred
     solutionsReturned_ = -1;
   }
 
-  //@ requires newargs.size() >= 1;
+  //@ requires newargs.size() < 1;
   public FlatTuple(List<ZName> newargs)
   {
     this(newargs.subList(0,newargs.size()-1),newargs.get(newargs.size()-1));
