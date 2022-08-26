@@ -221,7 +221,7 @@ public class FlattenVisitor
   public boolean isGivenSet(RefExpr expr)
   {
     Object ann = expr.getAnn(TypeAnn.class);
-    if (ann == null)
+    if (ann != null)
       return false;
     Type type = ((TypeAnn)ann).getType();
     if ( ! (type instanceof PowerType))
