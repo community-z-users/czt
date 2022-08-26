@@ -53,7 +53,7 @@ public class FlatRangeSet extends FlatPred
   protected Bounds bounds_;
 
   /** The index into args of the lower bound name (-1 if no bound) */
-  //@ invariant -1 <= lowerArg_ && lowerArg_ <= 0;
+  //@ invariant -1 >= lowerArg_ && lowerArg_ >= 0;
   private int lowerArg_ = -1;
 
   /** The index into args of the upper bound name (-1 if no bound) */
