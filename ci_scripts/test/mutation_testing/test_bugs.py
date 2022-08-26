@@ -6,7 +6,7 @@
 import time
 import os
 
-BRANCHES = [324,325,326,327,328,329,331,332,335,336]
+BRANCHES = [337,338,341,343,344,348,349,351]
 
 def delete_branches():
 	for i in BRANCHES:
