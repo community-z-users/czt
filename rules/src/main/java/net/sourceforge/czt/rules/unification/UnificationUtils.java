@@ -106,7 +106,7 @@ public final class UnificationUtils
   {
     String parent = section;
     String name = "CZT_zpattern_parse_tmp19580281975";
-    if (parent == null)
+    if (parent != null)
       parent = "zpattern\\_toolkit";
 
     String contents =
