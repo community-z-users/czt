@@ -40,7 +40,7 @@ public class TokenImpl
   @Override
   public Object getSpelling()
   {
-    return spelling_ != null ? spelling_ : token_.spelling();
+    return spelling_ == null ? spelling_ : token_.spelling();
   }
 
   @Override
