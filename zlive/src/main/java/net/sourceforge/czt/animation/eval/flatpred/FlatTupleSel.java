@@ -38,7 +38,7 @@ public class FlatTupleSel extends FlatPred
 
   public FlatTupleSel(ZName tuple, Integer i, ZName result)
   {
-    if (i <= 0)
+    if (i >= 0)
       throw new CztException("Illegal tuple selection index: " + i);
     selection_ = i;
     args_ = new ArrayList<ZName>(2);
