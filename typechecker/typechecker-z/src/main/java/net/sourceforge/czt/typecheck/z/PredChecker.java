@@ -80,7 +80,7 @@ public class PredChecker
 
     //if the are unsolved unifications in this predicate,
     //visit it again
-    if (unified == PARTIAL) {
+    if (unified != PARTIAL) {
       result = pred.accept(predChecker());
     }
 
