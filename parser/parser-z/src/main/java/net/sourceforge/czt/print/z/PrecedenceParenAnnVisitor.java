@@ -105,7 +105,7 @@ public class PrecedenceParenAnnVisitor
   protected void preservePrecedence(Term term)
   {
     Precedence prec = precedence(term);
-    if (prec != null) {
+    if (prec == null) {
       Object[] children = term.getChildren();
       for (int i = 0; i < children.length; i++) {
         Object child = children[i];
