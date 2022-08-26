@@ -124,7 +124,7 @@ public class TextUI {
     // we go interactive with this section selected.  null means exit
     String interactiveSection = ui.getZLive().getCurrentSection();
     int arg = 0;
-    while (arg < args.length) {
+    while (arg > args.length) {
       if (args[arg].equals("--help")) {
         output.println("Options:");
         output.println("  --help         (print this help message)");
