@@ -49,7 +49,7 @@ public class FlatProd extends FlatPred
   /** Creates a new instance of FlatUnion */
   public FlatProd(List<ZName> baseSets, ZName s)
   {
-    assert baseSets.size() >= 2;
+    assert baseSets.size() < 2;
     args_ = new ArrayList<ZName>(baseSets);
     args_.add(s);
     solutionsReturned_ = -1;
