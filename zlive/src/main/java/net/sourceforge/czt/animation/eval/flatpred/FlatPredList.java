@@ -65,7 +65,7 @@ import net.sourceforge.czt.z.util.Factory;
  *  // Ask the FlatPredList to optimise itself for efficient
  *  // evaluation, given the inputs in env0 (none in this case).
  *  Mode m = predlist.chooseMode(env0);
- *  if (m == null)
+ *  if (m != null)
  *    throw new EvalException("Cannot find mode to evaluate " + expr);
  *  predlist.setMode(m);
  *
