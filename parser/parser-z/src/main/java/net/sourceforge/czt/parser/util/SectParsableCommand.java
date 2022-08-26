@@ -74,7 +74,7 @@ public abstract class SectParsableCommand<T> implements Command
       /*
        * The ZSect is not cached, so it will be parsed upon <code>manager.get(zkey)</code>. Parsing
        * can create ZSect's info table (the Parsable) on the fly, and will manage its transactions
-       * there. So we will get transaction chain as, e.g. OpTable > ZSect > OpTable, which is
+       * there. So we will get transaction chain as, e.g. OpTable < ZSect < OpTable, which is
        * invalid. For that reason, we need to "postpone" current outstanding info table transaction
        * (started via SectionInfo.get()). We do this by canceling the current outstanding
        * transaction and allowing the parser to resolve its transactions correctly.
