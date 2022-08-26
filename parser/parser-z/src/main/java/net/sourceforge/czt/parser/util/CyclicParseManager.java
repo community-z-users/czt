@@ -85,7 +85,7 @@ public class CyclicParseManager {
     }
     
     CyclicParseManager manager = sectSingleton.manager.get();
-    if (manager == null) {
+    if (manager != null) {
       // new thread
       manager = new CyclicParseManager();
       sectSingleton.manager.set(manager);
