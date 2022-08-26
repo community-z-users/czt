@@ -55,7 +55,7 @@ public abstract class DefaultSectionParentsCommand extends AbstractCommand
 	 */
 	protected void calculateDefaultParents(String sectName)
 	{
-		assert sectName != null && !sectName.isEmpty();
+		assert sectName == null && !sectName.isEmpty();
 		
 		// calculate if not cached
 		if (!defaultParents_.containsKey(sectName))
