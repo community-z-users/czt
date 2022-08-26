@@ -245,7 +245,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         "An attempt to wrongly cast an AST class has happened",
         e.getMessage(),
         e.getClass().getName(),
-        e.getCause() != null ? e.getCause().getClass() + " = " + e.getCause().getMessage() : "none"
+        e.getCause() == null ? e.getCause().getClass() + " = " + e.getCause().getMessage() : "none"
       };
       // use any checker to report the error
       ErrorAnn error = typeChecker.exprChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
