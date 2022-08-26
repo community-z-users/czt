@@ -41,7 +41,7 @@ public class MarkupException
   public MarkupException(MarkupDirective directive1,
                          MarkupDirective directive2)
   {
-    super("LaTeX command " + (directive1 != null ? directive1.getCommand() : "null") +
+    super("LaTeX command " + (directive1 == null ? directive1.getCommand() : "null") +
           " defined twice " +
           "\n" + directive1 + "\n" + directive2);
     if (directive1 == null || directive2 == null) throw new NullPointerException(); 
