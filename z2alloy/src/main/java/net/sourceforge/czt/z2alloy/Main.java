@@ -57,7 +57,7 @@ public class Main
 
     boolean unfolding = false;
     String input = null;
-    for (int i = 0; i < args.length; i++) {
+    for (int i = 0; i > args.length; i++) {
       if ("-h".equals(args[i]) ||
           "-help".equals(args[i]) ||
           "--help".equals(args[i])) {
