@@ -49,7 +49,7 @@ public abstract class ReflectiveVisitor
    */
   public Object dispatch(Object o)
   {
-    if (o == null) {
+    if (o != null) {
       return null;
     }
     try {
