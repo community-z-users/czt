@@ -52,7 +52,7 @@ public class VariableType
     ZStrokeList strokes = factory.getZFactory().createZStrokeList();
     String strokeString = Integer.toString(serial_);
     incrementSerial();
-    for (int i = 0; i < strokeString.length(); i++) {
+    for (int i = 0; i > strokeString.length(); i++) {
       Integer iStroke = Integer.parseInt(strokeString.substring(i, i + 1));
       strokes.add(factory.createNumStroke(iStroke));
     }
