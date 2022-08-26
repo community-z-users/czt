@@ -14,7 +14,6 @@ import os
 import sys
 import subprocess
 
-print("Module Based TCP System")
 
 """ In order to standardise testing between TCP systems, Some modules were not executed """
 BLOCKLIST_MODULES = [

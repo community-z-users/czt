@@ -13,7 +13,6 @@ import os
 import sys
 from collections import OrderedDict
 
-print("Total Coverage TCP System")
 
 # Parse the coverage_data.txt file and extract data into 3 lists
 src_files = []

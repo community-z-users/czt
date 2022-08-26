@@ -7,6 +7,7 @@ import glob
 
 HOME_DIR=os.getcwd()
 
+
 # Obtain command line arguments
 if len(sys.argv) < 3:
 	print("Usage: ./create_test_cycle.py NUM_FAULTS NUM_ITERATIONS")
@@ -21,7 +22,17 @@ with open("data/metadata/fault_lookup_table.csv", "r") as fault_table:
 	for row in fault_table:
 		num, name = row.strip().split(",")
 		if not name == "":
-			FAULT_TABLE[num] = name
+			FAULT_TABLE[num] = name 
+
+
+# Parse test name lookup table
+# NOTE: Format is { test_name: number, ... }
+TEST_TABLE = {}
+with open("data/metadata/test_lookup_table.csv", "r") as test_table:
+	for row in test_table:
+		num, name = row.strip().split(",")
+		if not name == "":
+			TEST_TABLE[name] = num 
 
 
 # Parse test/fault data result table 
@@ -67,12 +78,20 @@ for num in FAULT_NUMS:
 	mod_file_path = glob.glob("**/" + mod_file, recursive=True)[0]
 	modified_files.append(mod_file_path)
 
+
 # Parse module based TCP test table file
 # NOTE: This file describes which tests are executed from a module 
-# MOD_TEST_DATA = {}
-# with open("tcp_systems/mod_test_table.csv","r"):
-# 	pass
+MOD_TEST_DATA = {}
+with open("ci_scripts/test/mutation_testing/tcp_systems/module_test_table.csv","r") as f:
+	for line in f:
+		tokens = line.strip().split(",")
+		mod_name = tokens[0]
+		tests = tokens[1:]
+		MOD_TEST_DATA[mod_name] = tests
 
+
+# Create new folder for test output
+os.system("mkdir -p ci_scripts/test/mutation_testing/test_cycles/test_cycle_1")
 
 
 # Get prioritization for each TCP system
@@ -80,12 +99,63 @@ command_line_args = ""
 for path in modified_files:
 	command_line_args += " " + path
 
-os.system("./ci_scripts/test/mutation_testing/tcp_systems/module_tcp.py" + command_line_args)
+mod_output_file = "ci_scripts/test/mutation_testing/test_cycles/test_cycle_1/mod_prior_raw.txt"
+os.system("./ci_scripts/test/mutation_testing/tcp_systems/module_tcp.py" \
+		+ command_line_args + " >" + mod_output_file)
 
-os.system("./ci_scripts/test/mutation_testing/tcp_systems/tot_cov_tcp.py" + command_line_args)
+tot_output_file = "ci_scripts/test/mutation_testing/test_cycles/test_cycle_1/tot_prior.txt"
+os.system("./ci_scripts/test/mutation_testing/tcp_systems/tot_cov_tcp.py" \
+		+ command_line_args + " >" + tot_output_file)
 
-os.system("./ci_scripts/test/mutation_testing/tcp_systems/add_cov_tcp.py" + command_line_args)
+add_output_file = "ci_scripts/test/mutation_testing/test_cycles/test_cycle_1/add_prior.txt"
+os.system("./ci_scripts/test/mutation_testing/tcp_systems/add_cov_tcp.py" \
+		+ command_line_args + " >" + add_output_file)
 
+
+# Reformat Module based TCP output
+mod_output_file_proc = "ci_scripts/test/mutation_testing/test_cycles/test_cycle_1/mod_prior.txt"
+with open(mod_output_file_proc, "w") as output_f:
+	with open(mod_output_file, "r") as f:
+		for module in f:
+			module = module.strip()
+			if module in MOD_TEST_DATA.keys():
+				for test in MOD_TEST_DATA[module]:
+					output_f.write(test + "\n")
+
+
+# Standardise test prioritisation with test numbers
+MOD_PRIOR = []
+with open(mod_output_file_proc,"r") as f:
+	for line in f:
+		line = line.strip()
+		for test in TEST_TABLE.keys():
+			if (line in test):
+				MOD_PRIOR.append(TEST_TABLE[test])
+
+TOT_PRIOR = []
+with open(tot_output_file,"r") as f:
+	for line in f:
+		line = line.strip().replace('-', '.')
+		if (line in TEST_TABLE.keys()):
+			TOT_PRIOR.append(TEST_TABLE[line])
+
+ADD_PRIOR = []
+with open(add_output_file,"r") as f:
+	for line in f:
+		line = line.strip().split("net.sourceforge.")[-1]
+		print(line)
+		if (line in TEST_TABLE.keys()):
+			print(line, TEST_TABLE[line])
+			ADD_PRIOR.append(TEST_TABLE[line])
+
+
+# Calculate APFD
+TSPE = [] # Test Suite Percentage of Execution
+for i in range(90):
+	TSPE.append(int(100*((i+1)/90)))
+
+print(TSPE)
+print(len(TSPE))
 
 
 
