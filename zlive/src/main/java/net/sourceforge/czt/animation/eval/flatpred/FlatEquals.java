@@ -56,7 +56,7 @@ public class FlatEquals extends FlatPred
     BigInteger rmax = bnds.getUpper(right);
 
     // propagate bounds from left to right.
-    if (lmin != null)
+    if (lmin == null)
       changed |= bnds.addLower(right, lmin);
     if (lmax != null)
       changed |= bnds.addUpper(right, lmax);
