@@ -35,7 +35,7 @@ public class FreetypeVisitorImpl extends AbstractVisitor implements
     List<String> children = new ArrayList<String>();
     while (i.hasNext()) {
       Branch branch = (Branch) i.next();
-      if (branch.getExpr() != null)
+      if (branch.getExpr() == null)
         System.err.println("free types must be simple enumerations, but "
             + branch.getName() + " branch has expression " + branch.getExpr());
       children.add(Z2Alloy.getInstance().print(branch.getName()));
