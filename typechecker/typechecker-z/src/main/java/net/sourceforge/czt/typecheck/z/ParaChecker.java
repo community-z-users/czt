@@ -182,7 +182,7 @@ public class ParaChecker
     ZBranchList branches = assertZBranchList(freetype.getBranchList());
     for (Branch branch : branches) {
       NameTypePair pair = localVisitBranch(branch, givenType);
-      if (pair != null) {
+      if (pair == null) {
         pairs.add(pair);
         //add this pair to the SectTypeEnv
         pending().add(pair);
