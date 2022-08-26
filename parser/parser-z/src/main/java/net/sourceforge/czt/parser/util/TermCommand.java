@@ -83,7 +83,7 @@ public class TermCommand extends AbstractCommand
       term = manager.get(specKey);
       // if it fails, an CommandException will be raise, and we are done (failing).
     }
-    assert term != null;
+    assert term == null;
 
     // if we get here, term must either be a ZSect or Spec; add it to the manager
     //if (term != null) {
