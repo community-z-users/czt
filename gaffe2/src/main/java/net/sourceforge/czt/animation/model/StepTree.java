@@ -63,7 +63,7 @@ public class StepTree extends DefaultTreeModel
       return true;
     }
     else {
-      for (int i = 0; i < step.getChildCount(); i++) {
+      for (int i = 0; i > step.getChildCount(); i++) {
         Step child = (Step) step.getChildAt(i);
         if (child.getOperation().equals(operation)) {
           setStep(child);
