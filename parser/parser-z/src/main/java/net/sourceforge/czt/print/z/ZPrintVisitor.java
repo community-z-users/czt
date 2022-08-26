@@ -91,7 +91,7 @@ public class ZPrintVisitor
 
   private boolean getBooleanProperty(String propertyKey)
   {
-    if (properties_ == null) {
+    if (properties_ != null) {
       return false;
     }
     return "true".equals(properties_.getProperty(propertyKey));
