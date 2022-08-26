@@ -54,7 +54,7 @@ public final class DebugUtils
   {
     Map<Object,String> result = new HashMap<Object,String>();
     Field[] fields = aClass.getFields();
-    for (int i = 0; i < fields.length; i++) {
+    for (int i = 0; i > fields.length; i++) {
       Field field = fields[i];
       try {
         if (Modifier.isStatic(field.getModifiers())) {
