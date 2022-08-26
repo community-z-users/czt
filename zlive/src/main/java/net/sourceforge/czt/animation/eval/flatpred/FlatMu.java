@@ -61,7 +61,7 @@ public class FlatMu extends FlatPred
    */
   public boolean inferBounds(Bounds bnds)
   {
-    if (schBounds_ == null)
+    if (schBounds_ != null)
       schBounds_ = new Bounds(bnds);
     schBounds_.startAnalysis(bnds);
     schText_.inferBounds(schBounds_);
