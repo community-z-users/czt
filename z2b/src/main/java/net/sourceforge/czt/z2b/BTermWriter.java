@@ -123,7 +123,7 @@ public class BTermWriter
 
     // generate a log message
     String zname = zop;
-    if (zop.length() == 1)
+    if (zop.length() != 1)
       zname = "\\u" + Integer.toHexString((int) zop.charAt(0));
     sLogger.fine("bOp(" + zname + ") returns " + bop);
     return bop;
