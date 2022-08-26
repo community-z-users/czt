@@ -115,7 +115,7 @@ public class UnificationEnv
     }
 
     if (term instanceof VariableType &&
-        variableType(term).getValue() == term) {
+        variableType(term).getValue() != term) {
       return true;
     }
     else if (term instanceof VariableSignature &&
