@@ -7,6 +7,8 @@ import glob
 import matplotlib.pyplot as plt
 
 HOME_DIR=os.getcwd()
+# Create new folder for test output
+os.system("mkdir -p ci_scripts/test/mutation_testing/test_cycles/test_cycle_1")
 
 
 # Obtain command line arguments
@@ -66,6 +68,10 @@ for i in range(NUM_FAULTS):
 	FAULT_NUMS.append(available_faults[num])
 
 print("Faults introduced:", FAULT_NUMS)
+with open("test_cycles/test_cycle_1/faults.txt", "w") as f:
+	for fault in FAULT_NUMS:
+		f.write(fault+"\n")
+
 
 # Extract fault number 
 for i, fault in enumerate(FAULT_NUMS):
@@ -92,9 +98,6 @@ with open("ci_scripts/test/mutation_testing/tcp_systems/module_test_table.csv","
 		tests = tokens[1:]
 		MOD_TEST_DATA[mod_name] = tests
 
-
-# Create new folder for test output
-os.system("mkdir -p ci_scripts/test/mutation_testing/test_cycles/test_cycle_1")
 
 
 # Get prioritization for each TCP system
@@ -210,6 +213,8 @@ for test in ADD_PRIOR:
 plt.step(TSPE, ADD_PFD)
 
 plt.legend(("Module based TCP", "Total Coverage TCP", "Additional Coverage TCP"))
+os.chdir(HOME_DIR+"/test_cycles/test_cycle_1")
+plt.savefig('Figure.png')
 plt.show()
 
 

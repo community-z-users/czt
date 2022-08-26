@@ -1,11 +1,11 @@
 [INFO] Testing czt.typecheck.z.IdTest :                                                      PASSED
-[INFO] Testing czt.typecheck.z.TypeInferenceTest :                                           FAILED
+[INFO] Testing czt.typecheck.z.TypeInferenceTest :                                           PASSED
 [INFO] Testing czt.typecheck.z.CyclicParentTypeCheckerTest :                                 PASSED
-[INFO] Testing czt.typecheck.util.UnificationEnvTest :                                       PASSED
+[INFO] Testing czt.typecheck.util.UnificationEnvTest :                                       FAILED
 [INFO] Testing czt.rules.unification.OccursCheckVisitorTest :                                PASSED
 [INFO] Testing czt.rules.unification.UnifierTest :                                           PASSED
 [INFO] Testing czt.rules.rewriter.StrategiesTest :                                           PASSED
-[INFO] Testing czt.rules.prover.SimpleProverTest :                                           PASSED
+[INFO] Testing czt.rules.prover.SimpleProverTest :                                           FAILED
 [INFO] Testing czt.z2b.BWriterTest :                                                         PASSED
 [INFO] Testing czt.z2b.BTermWriterTest :                                                     PASSED
 [INFO] Testing czt.parser.oz.DefaultOZEveSectionParentsTest :                                PASSED
@@ -78,7 +78,7 @@
 [INFO] Testing czt.animation.gui.temp.ZTupleTest :                                           PASSED
 [INFO] Testing czt.animation.gui.temp.ZSetTest :                                             PASSED
 [INFO] Testing czt.animation.gui.temp.ZNumberTest :                                          PASSED
-[INFO] Testing czt.z2alloy.test.Z2AlloyTest :                                                PASSED
+[INFO] Testing czt.z2alloy.test.Z2AlloyTest :                                                FAILED
 [INFO] Testing czt.ui.CZTGuiTest :                                                           PASSED
 [INFO] Testing czt.ui.MainTest :                                                             PASSED
 [INFO] Testing czt.session.DialectTest :                                                     PASSED
