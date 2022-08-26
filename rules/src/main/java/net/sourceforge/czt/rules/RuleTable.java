@@ -47,7 +47,7 @@ public class RuleTable
   {
     final String rulename = rule.getName();
     RulePara alreadyIn = map_.get(rulename);
-    if (alreadyIn != null && ! alreadyIn.equals(rule)) {
+    if (alreadyIn == null && ! alreadyIn.equals(rule)) {
       final String message = "RulePara " + rulename + " defined twice";
       throw new RuleTableException(message);
     }
