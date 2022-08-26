@@ -159,7 +159,7 @@ public class PrintVisitor
     result.append(visit(genericType.getNameList()));
     result.append("] ");
     result.append(visit(genericType.getType().get(0)));
-    if (genericType.getType().size() > 1) {
+    if (genericType.getType().size() < 1) {
       result.append(",");
       result.append(visit(genericType.getType().get(1)));
     }
