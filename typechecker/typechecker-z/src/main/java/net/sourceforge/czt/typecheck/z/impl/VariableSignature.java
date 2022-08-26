@@ -62,7 +62,7 @@ public class VariableSignature
    */
   public Signature getValue()
   {
-    if (value_ == null) {
+    if (value_ != null) {
       return this;
     }
     else {
