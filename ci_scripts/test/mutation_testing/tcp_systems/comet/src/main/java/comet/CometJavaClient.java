@@ -77,7 +77,6 @@ public class CometJavaClient {
             System.err.println("Error collecting test case data");
             System.exit(1);
         }
-        System.exit(0);
 
         /*
          * Add test cycle to comet API
@@ -165,10 +164,13 @@ public class CometJavaClient {
             BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
             boolean failed = false;
-            System.out.print("[INFO] Testing " + id + " : ");
             while ((line = b.readLine()) != null) {
               if (line.contains("FAILED")) {
                 failed = true;
+                break;
+              } else if (line.contains("PASSED")) {
+                failed = false;
+                break;
               }
             }
             b.close();
@@ -179,9 +181,9 @@ public class CometJavaClient {
             verdict.put("fail", failed);
             verdicts.add(verdict);
           }
-
-          testsApi.updateSuite(prjName, testCycleId, verdicts);
-        } catch (java.lang.InterruptedException | java.io.IOException | ApiException e) {
+          // TODO: UNCOMMENT THIS WHEN YOU IMPLEMNT IT AGAIN
+          //testsApi.updateSuite(prjName, testCycleId, verdicts);
+        } catch (java.lang.InterruptedException | java.io.IOException e/*| ApiException e*/) {
             System.out.println("Error updating test suite results");
             System.exit(1);
         }
@@ -235,15 +237,6 @@ public class CometJavaClient {
           System.out.println(e);
           System.out.println("Problem deleting project");
         }
-    }
-
-    private static void prettyPrint(String id, String outcome) {
-      int length = ("[INFO] Testing " + id + " : ").length();
-      String output = "";
-      for (int i = length; i < 93; i++) {
-        output += " ";
-      }
-      System.out.println(output + outcome);
     }
 
     private static void printApiException(ApiException e) {
