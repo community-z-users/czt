@@ -102,6 +102,10 @@ def create_test_cycle(NUM_FAULTS, CYCLE_NUM, ITERATION):
 	os.system("./ci_scripts/test/mutation_testing/tcp_systems/add_cov_tcp.py" \
 			+ command_line_args + " >" + add_output_file)
 
+	comet_output_file = "ci_scripts/test/mutation_testing/"+ITERATION_DIR+"/comet_prior.txt"
+	os.system("./ci_scripts/test/mutation_testing/tcp_systems/comet_tcp.py" \
+			+ command_line_args + " >" + comet_output_file)
+
 	# Reformat Module based TCP output
 	mod_output_file_proc = "ci_scripts/test/mutation_testing/"+ITERATION_DIR+"/mod_prior.txt"
 	with open(mod_output_file_proc, "w") as output_f:
@@ -134,6 +138,14 @@ def create_test_cycle(NUM_FAULTS, CYCLE_NUM, ITERATION):
 			line = line.strip().split("net.sourceforge.")[-1]
 			if (line in TEST_TABLE.keys()):
 				ADD_PRIOR.append(TEST_TABLE[line])
+
+	COMET_PRIOR = []
+	with open(comet_output_file,"r") as f:
+		for line in f:
+			line = line.strip()
+			if (line.startswith("czt.")):
+				if (line in TEST_TABLE.keys()):
+					COMET_PRIOR.append(TEST_TABLE[line])
 
 	# Calculate APFD
 	TSPE = [] # Test Suite Percentage of Execution
@@ -185,6 +197,21 @@ def create_test_cycle(NUM_FAULTS, CYCLE_NUM, ITERATION):
 		# Update PFD score
 		ADD_PFD.append(int(100*(len(ADD_FAULTS_DETECTED)/NUM_FAULTS)))
 
+	# Comet Coverage TCP APFD
+	COMET_FAULTS_DETECTED = []
+	COMET_PFD = []
+	for test in COMET_PRIOR:
+		# Check if a fault was detected
+		for fault in FAULT_NUMS:
+			if not fault in COMET_FAULTS_DETECTED: # Check for only undetected faults
+				# Check if this test detects this fault
+				if(DATA_TABLE["F"+fault][int(test)] == "X"):
+					# Add it to the detected faults list
+					COMET_FAULTS_DETECTED.append(fault)
+
+		# Update PFD score
+		COMET_PFD.append(int(100*(len(COMET_FAULTS_DETECTED)/NUM_FAULTS)))
+
 	# Save output Data
 	os.chdir(HOME)
 	with open(ITERATION_DIR+"/output_data.csv", "w") as f:
@@ -203,9 +230,10 @@ def create_test_cycle(NUM_FAULTS, CYCLE_NUM, ITERATION):
 			f.write(str(TSPE[i]) + "," + str(data) + "\n")
 		f.write("\n")
 
-	# plt.legend(("Module based TCP", "Total Coverage TCP", "Additional Coverage TCP"))
-	# plt.savefig('Figure.png')
-	# plt.show()
+		f.write("comet_coverage_tcp\n")
+		for i, data in enumerate(COMET_PFD):
+			f.write(str(TSPE[i]) + "," + str(data) + "\n")
+		f.write("\n")
 
 
 # Main script =================================================================

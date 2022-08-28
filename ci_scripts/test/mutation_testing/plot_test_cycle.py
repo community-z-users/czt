@@ -16,12 +16,14 @@ ITERATION_DIRS = os.listdir("test_cycles/test_cycle_"+CYCLE_NUM)
 module_tcp_data = {}
 total_tcp_data = {}
 additional_tcp_data = {}
+comet_tcp_data = {}
 for i in ITERATION_DIRS:
 	with open("test_cycles/test_cycle_"+CYCLE_NUM+"/"+i+"/output_data.csv", "r") as f:
 		# Init graphs
 		module_tcp_data[i] = []
 		total_tcp_data[i] = []
 		additional_tcp_data[i] = []
+		comet_tcp_data[i] = []
 
 		current_graph = ""
 		for line in f:
@@ -38,6 +40,8 @@ for i in ITERATION_DIRS:
 					total_tcp_data[i].append(int(line.split(",")[-1]))
 				elif (current_graph == "add_coverage_tcp"):
 					additional_tcp_data[i].append(int(line.split(",")[-1]))
+				elif (current_graph == "comet_coverage_tcp"):
+					comet_tcp_data[i].append(int(line.split(",")[-1]))
 				
 
 
@@ -46,21 +50,28 @@ for i in range(90):
 	TSPE.append(int(100*((i+1)/90)))
 
 # Plot module data
-plt.subplot(131)
+plt.subplot(141)
 plt.title("Module Based TCP")
 for i in module_tcp_data:
 	plt.plot(TSPE, module_tcp_data[i])
 
 # Plot total coverage data
-plt.subplot(132)
+plt.subplot(142)
 plt.title("Total Coverage Based TCP")
 for i in total_tcp_data:
 	plt.plot(TSPE, total_tcp_data[i])
 
 # Plot Additional coverage data
-plt.subplot(133)
+plt.subplot(143)
 plt.title("Additional Coverage Based TCP")
 for i in additional_tcp_data:
 	plt.plot(TSPE, additional_tcp_data[i])
 
+# Plot Comet coverage data
+plt.subplot(144)
+plt.title("Comet Coverage Based TCP")
+for i in comet_tcp_data:
+	plt.plot(TSPE, comet_tcp_data[i])
+
 plt.show()
+

@@ -181,9 +181,8 @@ public class CometJavaClient {
             verdict.put("fail", failed);
             verdicts.add(verdict);
           }
-          // TODO: UNCOMMENT THIS WHEN YOU IMPLEMNT IT AGAIN
-          //testsApi.updateSuite(prjName, testCycleId, verdicts);
-        } catch (java.lang.InterruptedException | java.io.IOException e/*| ApiException e*/) {
+          testsApi.updateSuite(prjName, testCycleId, verdicts);
+        } catch (java.lang.InterruptedException | java.io.IOException | ApiException e) {
             System.out.println("Error updating test suite results");
             System.exit(1);
         }
