@@ -192,11 +192,6 @@ for path in testable_modules_path:
             paths_to_test.append(path)
 
 
-# Print prioritised list
-# print('\nPrioritised Module List:')
-# for path in paths_to_test:
-#         print('-->', path)
-
 
 # Test prioritised list
 CZT_HOME = os.getcwd()
@@ -207,7 +202,6 @@ for path in paths_to_test:
     os.chdir(path)
 
     # Run the specific test 
-    # print("\nTESTING:", path, end="", flush=True)
     os.system("mvn surefire:test > test_output.txt 2>/dev/null")
     with open("test_output.txt") as output_list:
         for i, line in enumerate(output_list):

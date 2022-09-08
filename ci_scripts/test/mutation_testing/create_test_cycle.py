@@ -147,12 +147,12 @@ def create_test_cycle(NUM_FAULTS, CYCLE_NUM, ITERATION):
 				if (line in TEST_TABLE.keys()):
 					COMET_PRIOR.append(TEST_TABLE[line])
 
-	# Calculate APFD
+	# Calculate APFD Graph
 	TSPE = [] # Test Suite Percentage of Execution
 	for i in range(90):
 		TSPE.append(int(100*((i+1)/90)))
 
-	# Module TCP APFD
+	# Module TCP APFD Graph
 	MOD_FAULTS_DETECTED = []
 	MOD_PFD = []
 	for test in MOD_PRIOR:
@@ -167,7 +167,7 @@ def create_test_cycle(NUM_FAULTS, CYCLE_NUM, ITERATION):
 		# Update PFD score
 		MOD_PFD.append(int(100*(len(MOD_FAULTS_DETECTED)/NUM_FAULTS)))
 
-	# Total Coverage TCP APFD
+	# Total Coverage TCP APFD Graph
 	TOT_FAULTS_DETECTED = []
 	TOT_PFD = []
 	for test in TOT_PRIOR:
@@ -182,7 +182,7 @@ def create_test_cycle(NUM_FAULTS, CYCLE_NUM, ITERATION):
 		# Update PFD score
 		TOT_PFD.append(int(100*(len(TOT_FAULTS_DETECTED)/NUM_FAULTS)))
 
-	# Additional Coverage TCP APFD
+	# Additional Coverage TCP APFD Graph
 	ADD_FAULTS_DETECTED = []
 	ADD_PFD = []
 	for test in ADD_PRIOR:
@@ -197,7 +197,7 @@ def create_test_cycle(NUM_FAULTS, CYCLE_NUM, ITERATION):
 		# Update PFD score
 		ADD_PFD.append(int(100*(len(ADD_FAULTS_DETECTED)/NUM_FAULTS)))
 
-	# Comet Coverage TCP APFD
+	# Comet Coverage TCP APFD Graph
 	COMET_FAULTS_DETECTED = []
 	COMET_PFD = []
 	for test in COMET_PRIOR:

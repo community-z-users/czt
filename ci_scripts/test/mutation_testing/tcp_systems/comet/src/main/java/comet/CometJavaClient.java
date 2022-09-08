@@ -21,7 +21,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class CometJavaClient {
     private final static String urlService = "https://chiron.comet.smartesting.com";
     private static String apiKey = "";
-    private final static String prjName = "CZT";
+    private final static String prjName = "CZT-mut-testing";
 
 
     /** 
@@ -253,6 +253,7 @@ public class CometJavaClient {
           BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
           String key = "";
           key = b.readLine(); // First result should be the key
+          System.out.println(key);
           b.close();
           return key;
       } catch (java.lang.InterruptedException | java.io.IOException e) {
@@ -274,7 +275,7 @@ public class CometJavaClient {
           success = true;
         } catch (ApiException e) {
           count++;
-          if (count > 5) {
+          if (count > 10) {
             System.exit(1);
           }
           System.out.println("Retry #" + String.valueOf(count));

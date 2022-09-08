@@ -6,6 +6,8 @@ from random import randrange
 import glob
 import matplotlib.pyplot as plt
 
+# Global variables
+NUM_TESTS = 90
 
 # Get test cycle to plot
 CYCLE_NUM = sys.argv[1]
@@ -46,29 +48,37 @@ for i in ITERATION_DIRS:
 
 
 TSPE = [] # Test Suite Percentage of Execution
-for i in range(90):
+for i in range(NUM_TESTS):
 	TSPE.append(int(100*((i+1)/90)))
 
 # Plot module data
 plt.subplot(141)
+plt.xlim((-5,110))
+plt.ylim((-5,110))
 plt.title("Module Based TCP")
 for i in module_tcp_data:
 	plt.plot(TSPE, module_tcp_data[i])
 
 # Plot total coverage data
 plt.subplot(142)
+plt.xlim((-5,110))
+plt.ylim((-5,110))
 plt.title("Total Coverage Based TCP")
 for i in total_tcp_data:
 	plt.plot(TSPE, total_tcp_data[i])
 
 # Plot Additional coverage data
 plt.subplot(143)
+plt.xlim((-5,110))
+plt.ylim((-5,110))
 plt.title("Additional Coverage Based TCP")
 for i in additional_tcp_data:
 	plt.plot(TSPE, additional_tcp_data[i])
 
 # Plot Comet coverage data
 plt.subplot(144)
+plt.xlim((-5,110))
+plt.ylim((-5,110))
 plt.title("Comet Coverage Based TCP")
 for i in comet_tcp_data:
 	plt.plot(TSPE, comet_tcp_data[i])

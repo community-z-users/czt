@@ -4,7 +4,7 @@ import subprocess
 
 first_module = True
 
-with open('ci_scripts/dependency_tree/czt_dependencies.dot', 'w') as dot_file:
+with open ('ci_scripts/dependency_tree/czt_dependencies.dot', 'w') as dot_file:
     dot_file.write("digraph {")
 
     # Read in output from 'mvn dependency:tree' call
