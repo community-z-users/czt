@@ -34,12 +34,18 @@ with open("data/output_data.csv", "r") as data_table:
 # Get test cycle to plot
 CYCLE_NUM = sys.argv[1]
 
-
 # Get iterations
 ITERATION_DIRS = os.listdir("test_cycles/test_cycle_"+CYCLE_NUM)
 ITERATION_DIRS_PATH = []
 for ITERATION_DIR in ITERATION_DIRS:
 	ITERATION_DIRS_PATH.append("test_cycles/test_cycle_"+CYCLE_NUM+"/"+ITERATION_DIR)
+
+
+# Generate X axis for plots (percentage of tests executed)
+TSPE = [] # Test Suite Percentage of Execution
+for i in range(NUM_TESTS):
+    TSPE.append(int(100*((i+1)/NUM_TESTS)))
+
 
 MOD_APFD = []
 TOT_APFD = []
@@ -98,6 +104,7 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 	# Module TCP APFD Graph
 	MOD_FAULTS_DETECTED = []
 	MOD_PFD = []
+	MOD_FAULT_INDEX = []
 	i = 0
 	for test in MOD_PRIOR:
 		test_num = str(int(test)+1) # change from zero index
@@ -112,10 +119,16 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 						MOD_FAULTS_DETECTED.append(fault)
 
 						# Update PFD score
-						MOD_PFD.append(i)
+						MOD_FAULT_INDEX.append(i)
+			MOD_PFD.append(int(100*(len(MOD_FAULTS_DETECTED)/NUM_FAULTS)))	
 	
+	# Plot Module coverage data
+	plt.subplot(141)
+	plt.plot(TSPE,MOD_PFD)
+				
 	# Total Coverage TCP APFD Graph
 	TOT_FAULTS_DETECTED = []
+	TOT_FAULT_INDEX = []
 	TOT_PFD = []
 	i = 0
 	for test in TOT_PRIOR:
@@ -131,10 +144,16 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 						TOT_FAULTS_DETECTED.append(fault)
 
 						# Update PFD score
-						TOT_PFD.append(i)
+						TOT_FAULT_INDEX.append(i)
+			TOT_PFD.append(int(100*(len(TOT_FAULTS_DETECTED)/NUM_FAULTS)))	
+
+	# Plot Total coverage data
+	plt.subplot(142)
+	plt.plot(TSPE,TOT_PFD)
 
 	# Additional Coverage TCP APFD Graph
 	ADD_FAULTS_DETECTED = []
+	ADD_FAULT_INDEX = []
 	ADD_PFD = []
 	i = 0
 	for i,test in enumerate(ADD_PRIOR):
@@ -150,10 +169,16 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 						ADD_FAULTS_DETECTED.append(fault)
 
 						# Update PFD score
-						ADD_PFD.append(i)
+						ADD_FAULT_INDEX.append(i)
+			ADD_PFD.append(int(100*(len(ADD_FAULTS_DETECTED)/NUM_FAULTS)))	
+
+	# Plot Additional coverage data
+	plt.subplot(143)
+	plt.plot(TSPE,ADD_PFD)
 
 	# Comet Coverage TCP APFD Graph
 	COMET_FAULTS_DETECTED = []
+	COMET_FAULT_INDEX = []
 	COMET_PFD = []
 	i = 0
 	for i,test in enumerate(COMET_PRIOR):
@@ -169,19 +194,29 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 						COMET_FAULTS_DETECTED.append(fault)
 
 						# Update PFD score
-						COMET_PFD.append(i)
+						COMET_FAULT_INDEX.append(i)
+			COMET_PFD.append(int(100*(len(COMET_FAULTS_DETECTED)/NUM_FAULTS)))	
+
+	# Plot Additional coverage data
+	plt.subplot(144)
+	plt.plot(TSPE,COMET_PFD)
 
 
-	assert len(MOD_PFD) == NUM_FAULTS, 'Error in Module TCP '+"ITERATION:"+ITERATION_DIR+" "+str(len(MOD_PFD))+" != "+str(NUM_FAULTS)
-	assert len(TOT_PFD) == NUM_FAULTS, 'Error in Total Coverage TCP'+"ITERATION:"+ITERATION_DIR+" "+str(len(TOT_PFD))+" != "+str(NUM_FAULTS)
-	assert len(ADD_PFD) == NUM_FAULTS, 'Error in Additional Coverage TCP'+"ITERATION:"+ITERATION_DIR+" "+str(len(ADD_PFD))+" != "+str(NUM_FAULTS)
-	assert len(COMET_PFD) == NUM_FAULTS, 'Error in Comet TCP'+"ITERATION:"+ITERATION_DIR+ITERATION_DIR+" "+str(len(COMET_PFD))+" != "+str(NUM_FAULTS)
+	assert len(MOD_FAULT_INDEX) == NUM_FAULTS, 'Error in Module TCP '+"ITERATION:"+\
+			ITERATION_DIR+" "+str(len(MOD_FAULT_INDEX))+" != "+str(NUM_FAULTS)
+	assert len(TOT_FAULT_INDEX) == NUM_FAULTS, 'Error in Total Coverage TCP'+\
+			"ITERATION:"+ITERATION_DIR+" "+str(len(TOT_FAULT_INDEX))+" != "+str(NUM_FAULTS)
+	assert len(ADD_FAULT_INDEX) == NUM_FAULTS, 'Error in Additional Coverage TCP'+\
+			"ITERATION:"+ITERATION_DIR+" "+str(len(ADD_FAULT_INDEX))+" != "+str(NUM_FAULTS)
+	assert len(COMET_FAULT_INDEX) == NUM_FAULTS, 'Error in Comet TCP'+"ITERATION:"+\
+			ITERATION_DIR+ITERATION_DIR+" "+str(len(COMET_FAULT_INDEX))+" != "+str(NUM_FAULTS)
 
 
-	MOD_APFD.append(1 - (sum(MOD_PFD))/(NUM_FAULTS*NUM_TESTS) - 1/(2*NUM_TESTS))
-	TOT_APFD.append(1 - (sum(TOT_PFD))/(NUM_FAULTS*NUM_TESTS) - 1/(2*NUM_TESTS))
-	ADD_APFD.append(1 - (sum(ADD_PFD))/(NUM_FAULTS*NUM_TESTS) - 1/(2*NUM_TESTS))
-	COMET_APFD.append(1 - (sum(COMET_PFD))/(NUM_FAULTS*NUM_TESTS) - 1/(2*NUM_TESTS))
+	MOD_APFD.append(1 - (sum(MOD_FAULT_INDEX))/(NUM_FAULTS*NUM_TESTS) - 1/(2*NUM_TESTS))
+	TOT_APFD.append(1 - (sum(TOT_FAULT_INDEX))/(NUM_FAULTS*NUM_TESTS) - 1/(2*NUM_TESTS))
+	ADD_APFD.append(1 - (sum(ADD_FAULT_INDEX))/(NUM_FAULTS*NUM_TESTS) - 1/(2*NUM_TESTS))
+	COMET_APFD.append(1 - (sum(COMET_FAULT_INDEX))/(NUM_FAULTS*NUM_TESTS) - 1/(2*NUM_TESTS))
+
 
 AV_MOD_APFD = sum(MOD_APFD)/len(MOD_APFD)
 AV_TOT_APFD = sum(TOT_APFD)/len(TOT_APFD)
@@ -191,3 +226,26 @@ print("Module:\t\t\t", AV_MOD_APFD)
 print("Total Coverage:\t\t",AV_TOT_APFD)
 print("Additional Coverage:\t",AV_ADD_APFD)
 print("Comet:\t\t\t",AV_COMET_APFD)
+
+
+
+# Show plots
+plt.subplot(141)
+plt.xlim((-5,110))
+plt.ylim((-5,110))
+plt.title("Module Based TCP")
+plt.subplot(142)
+plt.xlim((-5,110))
+plt.ylim((-5,110))
+plt.title("Total Coverage Based TCP")
+plt.subplot(143)
+plt.xlim((-5,110))
+plt.ylim((-5,110))
+plt.title("Additional Coverage Based TCP")
+plt.subplot(144)
+plt.xlim((-5,110))
+plt.ylim((-5,110))
+plt.title("Comet Based TCP")
+plt.show()
+
+
