@@ -7,8 +7,8 @@ import glob
 import matplotlib.pyplot as plt
 
 # Global variables
-#BLOCKLIST_TESTS = ['43','44','47','48','50','51','53','54','56','66','74','75','80','81','83','85','86','89']
-BLOCKLIST_TESTS = []
+BLOCKLIST_TESTS = ['43','44','47','48','50','51','53','54','56','66','74','75','80','81','83','85','86','89']
+#BLOCKLIST_TESTS = []
 NUM_TESTS = 90 - len(BLOCKLIST_TESTS)
 
 # Parse test name lookup table

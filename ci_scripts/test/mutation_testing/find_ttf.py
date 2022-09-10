@@ -5,6 +5,7 @@ import sys
 from random import randrange
 import glob
 import matplotlib.pyplot as plt
+from statistics import median, mean
 
 # Global variables
 BLOCKLIST_TESTS = ['43','44','47','48','50','51','53','54','56','66','74','75','80','81','83','85','86','89']
@@ -32,13 +33,10 @@ with open("data/output_data.csv", "r") as data_table:
 
 # Parse TTF metadata file
 TEST_DURATIONS = {}
-#print(100*"=")
 with open("data/metadata/ttf_data.txt", "r") as f:
 	for line in f:
 		test_name, duration = line.strip().split(' ')
 		TEST_DURATIONS[test_name] = float(duration)
-		#print(test_name, duration)
-#print(100*"=")
 
 # Get test cycle to plot
 CYCLE_NUM = sys.argv[1]
@@ -60,6 +58,10 @@ MOD_TTF = []
 TOT_TTF = []
 ADD_TTF = []
 COMET_TTF = []
+MOD_NTF = []
+TOT_NTF = []
+ADD_NTF = []
+COMET_NTF = []
 for ITERATION_DIR in ITERATION_DIRS_PATH:
 
 	FAULT_NUMS = []
@@ -68,7 +70,6 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 			FAULT_NUMS.append(line.strip())
 
 	NUM_FAULTS=len(FAULT_NUMS)
-	#print("Introduced",NUM_FAULTS,"faults:",FAULT_NUMS)
 	 
 	mod_output_file_proc = ITERATION_DIR+"/mod_prior.txt"
 
@@ -134,8 +135,8 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 				MOD_PASSED_TESTS.append(TEST_DURATIONS[MOD_PRIOR_NAMES[i]])
 		else:
 			break
-	#print("mod:",MOD_PASSED_TESTS,sum(MOD_PASSED_TESTS))
 	MOD_TTF.append(sum(MOD_PASSED_TESTS))
+	MOD_NTF.append(len(MOD_PASSED_TESTS))
 	
 	# Total Coverage TCP APFD Graph
 	TOT_PASSED_TESTS = []
@@ -153,8 +154,8 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 				TOT_PASSED_TESTS.append(TEST_DURATIONS[TOT_PRIOR_NAMES[i]])
 		else:
 			break
-	#print("tot:",TOT_PASSED_TESTS,"tot:",sum(TOT_PASSED_TESTS))
 	TOT_TTF.append(sum(TOT_PASSED_TESTS))
+	TOT_NTF.append(len(TOT_PASSED_TESTS))
 
 	# Additional Coverage TCP APFD Graph
 	ADD_PASSED_TESTS = []
@@ -172,8 +173,8 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 				ADD_PASSED_TESTS.append(TEST_DURATIONS[ADD_PRIOR_NAMES[i]])
 		else:
 			break
-	#print("add:",ADD_PASSED_TESTS,"add:",sum(ADD_PASSED_TESTS))
 	ADD_TTF.append(sum(ADD_PASSED_TESTS))
+	ADD_NTF.append(len(ADD_PASSED_TESTS))
 
 	# Comet Coverage TCP APFD Graph
 	COMET_PASSED_TESTS = []
@@ -192,19 +193,38 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 				COMET_PASSED_TESTS.append(TEST_DURATIONS[COMET_PRIOR_NAMES[i]])
 		else:
 			break
-	#print("comet:",COMET_PASSED_TESTS,"comet:",sum(COMET_PASSED_TESTS))
 	COMET_TTF.append(sum(COMET_PASSED_TESTS))
+	COMET_NTF.append(len(COMET_PASSED_TESTS))
 
-	#print()
 
-
-AV_MOD_TTF = sum(MOD_TTF)/len(MOD_TTF)
-AV_TOT_TTF = sum(TOT_TTF)/len(TOT_TTF)
-AV_ADD_TTF = sum(ADD_TTF)/len(ADD_TTF)
-AV_COMET_TTF = sum(COMET_TTF)/len(COMET_TTF)
+AV_MOD_TTF = mean(MOD_TTF)
+AV_TOT_TTF = mean(TOT_TTF)
+AV_ADD_TTF = mean(ADD_TTF)
+AV_COMET_TTF = mean(COMET_TTF)
+print("Mean of TTF")
 print("Module:\t\t\t", AV_MOD_TTF)
 print("Total Coverage:\t\t",AV_TOT_TTF)
 print("Additional Coverage:\t",AV_ADD_TTF)
 print("Comet:\t\t\t",AV_COMET_TTF)
 
+
+MED_MOD_TTF = median(MOD_TTF)
+MED_TOT_TTF = median(TOT_TTF)
+MED_ADD_TTF = median(ADD_TTF)
+MED_COMET_TTF = median(COMET_TTF)
+print("\nMedian of TTF")
+print("Module:\t\t\t", MED_MOD_TTF)
+print("Total Coverage:\t\t",MED_TOT_TTF)
+print("Additional Coverage:\t",MED_ADD_TTF)
+print("Comet:\t\t\t",MED_COMET_TTF)
+
+MED_MOD_NTF = mean(MOD_NTF)
+MED_TOT_NTF = mean(TOT_NTF)
+MED_ADD_NTF = mean(ADD_NTF)
+MED_COMET_NTF = mean(COMET_NTF)
+print("\nAverage number of tests before failure")
+print("Module:\t\t\t", MED_MOD_NTF)
+print("Total Coverage:\t\t",MED_TOT_NTF)
+print("Additional Coverage:\t",MED_ADD_NTF)
+print("Comet:\t\t\t",MED_COMET_NTF)
 

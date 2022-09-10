@@ -6,6 +6,9 @@ from random import randrange
 import glob
 import matplotlib.pyplot as plt
 
+
+BLOCKLIST_FAULTS = ['F0','F18','F21','F32','F33','F45','F48','F50','F52','F97','F109','F137','F173','F240','F327','F175']
+
 # Create test cycle function ===================================================
 def create_test_cycle(NUM_FAULTS, CYCLE_NUM, ITERATION):
 	HOME=os.getcwd()
@@ -54,9 +57,10 @@ def create_test_cycle(NUM_FAULTS, CYCLE_NUM, ITERATION):
 		num = randrange(0, len(available_faults))
 		
 		# Make sure you don't get the same fault twice
-		while (available_faults[num] in FAULT_NUMS):
+		while ((available_faults[num] in FAULT_NUMS) and not(available_faults[num] in BLOCKLIST_FAULTS)):
 			num = randrange(0, len(available_faults))
 		FAULT_NUMS.append(available_faults[num])
+	print(FAULT_NUMS)
 
 	with open(ITERATION_DIR+"/faults.txt", "w") as f:
 		for fault in FAULT_NUMS:
