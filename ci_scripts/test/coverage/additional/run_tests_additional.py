@@ -42,8 +42,8 @@ def match_path(m_file, s_file):
 	s_file = s_file + ".java"
 	return m_file.endswith(s_file)
 
-# stream = os.popen('git diff --name-only HEAD origin/main')
-stream = os.popen('git diff --name-only HEAD HEAD^1')
+stream = os.popen('git diff --name-only HEAD origin/main')
+#stream = os.popen('git diff --name-only HEAD HEAD^1')
 changed_files = stream.read().strip().split('\n')
 
 # Match to coverage data
@@ -112,34 +112,44 @@ FAILED_TEST = False
 for test_class in prioritisation:
 	line = "[INFO] Testing " + test_class + " : "
 	print(line, end="", flush=True)
-	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
+	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >test_output.txt 2>&1")
 	if err:
-		print("FAILED".rjust(99-len(line)))
+		print("FAILED".rjust(99-len(line)), flush=True)
 		FAILED_TEST=True
+		os.system("cat test_output.txt")
+		os.system("rm test_output.txt")
+		exit(1)
 	else:
-		print("PASSED".rjust(99-len(line)))
+		print("PASSED".rjust(99-len(line)), flush=True)
 
 # Redundant tests
 for test_class in redundant_prioritisation:
 	line = "[INFO] Testing " + test_class + " : "
 	print(line, end="", flush=True)
-	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
+	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >test_output.txt 2>&1")
 	if err:
-		print("FAILED".rjust(99-len(line)))
+		print("FAILED".rjust(99-len(line)), flush=True)
 		FAILED_TEST=True
+		os.system("cat test_output.txt")
+		os.system("rm test_output.txt")
+		exit(1)
 	else:
-		print("PASSED".rjust(99-len(line)))
+		print("PASSED".rjust(99-len(line)), flush=True)
 
 # Unprioritised tests
 for test_class in unprioritised:
 	line = "[INFO] Testing " + test_class + " : "
 	print(line, end="", flush=True)
-	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >/dev/null 2>&1")
+	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + test_class + " >test_output.txt 2>&1")
 	if err:
-		print("FAILED".rjust(99-len(line)))
+		print("FAILED".rjust(99-len(line)), flush=True)
 		FAILED_TEST=True
+		os.system("cat test_output.txt")
+		os.system("rm test_output.txt")
+		exit(1)
 	else:
-		print("PASSED".rjust(99-len(line)))
+		print("PASSED".rjust(99-len(line)), flush=True)
 
+os.system("rm test_output.txt")
 if FAILED_TEST:
 	exit(1)

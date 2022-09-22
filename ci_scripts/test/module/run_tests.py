@@ -101,10 +101,10 @@ def get_rank(module, target):
 
 """ Get modified modules """
 # Comparing HEAD to main
-# stream = os.popen('git diff --name-only HEAD origin/main')
+stream = os.popen('git diff --name-only HEAD origin/main')
 
 # Using local changes (For testing)  
-stream = os.popen('git diff --name-only HEAD HEAD^1')
+#stream = os.popen('git diff --name-only HEAD HEAD^1')
 
 changed_files = stream.read().strip().split('\n')
 
@@ -212,10 +212,13 @@ for path in paths_to_test:
                 if not test_name in BLOCKLIST_TESTS:
                     outcome = "[INFO] Testing "+ line.split('sourceforge.')[-1].replace("\n", "") + " : "
                     if (fail or error):
-                        print(outcome + "FAILED".rjust(99-len(outcome)))
+                        print(outcome + "FAILED".rjust(99-len(outcome)), flush=True)
                         FAILED_TEST = True
+                        os.system("cat test_output.txt")
+                        os.system("rm test_output.txt")
+                        exit(1)
                     else:
-                        print(outcome + "PASSED".rjust(99-len(outcome)))
+                        print(outcome + "PASSED".rjust(99-len(outcome)), flush=True)
 
 
     # Go back to the CZT HOME directory for the next test

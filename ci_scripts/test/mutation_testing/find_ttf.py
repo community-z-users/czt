@@ -218,6 +218,16 @@ print("Total Coverage:\t\t",MED_TOT_TTF)
 print("Additional Coverage:\t",MED_ADD_TTF)
 print("Comet:\t\t\t",MED_COMET_TTF)
 
+RE_MOD_TTF = mean(MOD_TTF) * 1.36
+RE_TOT_TTF = mean(TOT_TTF) * 3.21
+RE_ADD_TTF = mean(ADD_TTF) * 3.24
+RE_COMET_TTF = mean(COMET_TTF) * 3.58
+print("\nReal scaled mean of TTF")
+print("Module:\t\t\t", RE_MOD_TTF)
+print("Total Coverage:\t\t",RE_TOT_TTF)
+print("Additional Coverage:\t",RE_ADD_TTF)
+print("Comet:\t\t\t",RE_COMET_TTF)
+
 MED_MOD_NTF = mean(MOD_NTF)
 MED_TOT_NTF = mean(TOT_NTF)
 MED_ADD_NTF = mean(ADD_NTF)
