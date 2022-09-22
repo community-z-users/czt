@@ -15,7 +15,7 @@ jobs:
       TEST_STATUS: "FAILED"  # Do the same with test results
       COMET_API_KEY: ${{ secrets.COMET_API_KEY }}
       # Options are: "MODULE", "TOT_COVERAGE", "ADD_COVERAGE", "COMET"
-      TCP_SYSTEM: "MODULE"
+      TCP_SYSTEM: "TOT_COVERAGE"
     steps:
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -68,7 +68,7 @@ jobs:
           if [ `./ci_scripts/build/build_status.sh` = 1 ]; then echo "BUILD_STATUS=PASSED" >> $GITHUB_ENV; fi;
           
       - name: Post Comment of Build Status to Pull Request 
-        uses: peter-evans/commit-comment@v1
+        uses: peter-evans/commit-comment@v2
         with:
           body: |
             Build Status: **${{ env.BUILD_STATUS }}**
@@ -83,6 +83,7 @@ jobs:
           git diff --name-only HEAD HEAD^1
 
       - name: Test
+        continue-on-error: true
         if: ${{ env.BUILD_STATUS == 'PASSED' }}
         run: |
           git fetch origin main 
@@ -119,7 +120,7 @@ jobs:
           
       - name: Notify the developer of the test status
         if: ${{ env.BUILD_STATUS == 'PASSED' }}
-        uses: peter-evans/commit-comment@v1
+        uses: peter-evans/commit-comment@v2
         with:
           body: |
             Test Status: **${{ env.TEST_STATUS }}**

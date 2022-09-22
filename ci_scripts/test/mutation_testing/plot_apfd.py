@@ -5,10 +5,11 @@ import sys
 from random import randrange
 import glob
 import matplotlib.pyplot as plt
+from statistics import median
 
 # Global variables
-BLOCKLIST_TESTS = ['43','44','47','48','50','51','53','54','56','66','74','75','80','81','83','85','86','89']
-#BLOCKLIST_TESTS = []
+#BLOCKLIST_TESTS = ['43','44','47','48','50','51','53','54','56','66','74','75','80','81','83','85','86','89']
+BLOCKLIST_TESTS = []
 NUM_TESTS = 90 - len(BLOCKLIST_TESTS)
 
 # Parse test name lookup table
@@ -218,10 +219,25 @@ for ITERATION_DIR in ITERATION_DIRS_PATH:
 	COMET_APFD.append(1 - (sum(COMET_FAULT_INDEX))/(NUM_FAULTS*NUM_TESTS) - 1/(2*NUM_TESTS))
 
 
+# Mean
 AV_MOD_APFD = sum(MOD_APFD)/len(MOD_APFD)
 AV_TOT_APFD = sum(TOT_APFD)/len(TOT_APFD)
 AV_ADD_APFD = sum(ADD_APFD)/len(ADD_APFD)
 AV_COMET_APFD = sum(COMET_APFD)/len(COMET_APFD)
+print("Mean APFD")
+print("Module:\t\t\t", AV_MOD_APFD)
+print("Total Coverage:\t\t",AV_TOT_APFD)
+print("Additional Coverage:\t",AV_ADD_APFD)
+print("Comet:\t\t\t",AV_COMET_APFD)
+
+print()
+
+# Median
+AV_MOD_APFD = median(MOD_APFD)
+AV_TOT_APFD = median(TOT_APFD)
+AV_ADD_APFD = median(ADD_APFD)
+AV_COMET_APFD = median(COMET_APFD)
+print("Median APFD")
 print("Module:\t\t\t", AV_MOD_APFD)
 print("Total Coverage:\t\t",AV_TOT_APFD)
 print("Additional Coverage:\t",AV_ADD_APFD)
