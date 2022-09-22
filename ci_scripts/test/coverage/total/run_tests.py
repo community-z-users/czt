@@ -81,10 +81,13 @@ for test_class in sorted(test_classes, key=test_classes.get, reverse=True):
 	name = test_class.replace('-', '.')
 	line = "[INFO] Testing " + name + " : "
 	print(line, end="", flush=True)
-	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name + " >/dev/null 2>&1")
+	err = os.system("mvn surefire:test -DfailIfNoTests=false -Dtest=" + name + " >test_output.txt 2>&1")
 	if err:
-		print("FAILED".rjust(99-len(line)))
+		print("FAILED".rjust(99-len(line)), flush=True)
 		FAILED_TEST=True
+		os.system("cat test_output.txt")
+		os.system("rm test_output.txt")
+		exit(1)
 	else:
 		print("PASSED".rjust(99-len(line)))
 
@@ -102,7 +105,7 @@ for test_class in unique_tests:
 			+ " >test_output.txt 2>&1")
 		if err:
 			FAILED_TEST = True
-			print("FAILED".rjust(99-len(line)))
+			print("FAILED".rjust(99-len(line)), flush=True)
 			os.system("cat test_output.txt")
 			os.system("rm test_output.txt")
 			exit(1)
