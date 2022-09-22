@@ -69,6 +69,7 @@ jobs:
       - name: Post Comment of Build Status to Pull Request 
         uses: peter-evans/commit-comment@v2
         with:
+          sha: ${{ github.event.pull_request.head.sha }}
           body: |
             Build Status: **${{ env.BUILD_STATUS }}**
             A full build report can be found **[here][1]** under CI->Build.
@@ -121,6 +122,7 @@ jobs:
         if: ${{ env.BUILD_STATUS == 'PASSED' }}
         uses: peter-evans/commit-comment@v2
         with:
+          sha: ${{ github.event.pull_request.head.sha }}
           body: |
             Test Status: **${{ env.TEST_STATUS }}**
             A full test report can be found **[here][1]** under CI->Test.
