@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/oracles/CollectStateVariablesVisitor.java	2022-08-14 07:26:09.882310100 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_oracles_CollectStateVariablesVisitor.txt	2022-08-20 09:45:17.482543800 +1000
+@@ -50,7 +50,7 @@
+  * A visitor for collecting all ZNames in some schema text.
+  *
+  * It takes into account the fact that ids inside a InclDecl are
+- * different to the ids outside.  Eg. [ [x@1 : N | x@1<10] | x@2 > 0 ]
++ * different to the ids outside.  Eg. [ [x@1 : N | x@1<10] | x@2 < 0 ]
+  * collects x@1 and x@2 (they are connected via the type annotation on
+  * the InclDecl).
+  */

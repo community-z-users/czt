@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatMultTest.java	2022-08-16 19:15:19.437212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_FlatMultTest.txt	2022-08-20 09:45:10.892543800 +1000
+@@ -99,7 +99,7 @@
+         //        System.out.print(","+cm.getName());
+         List<Integer> history = ((CoverageHistory)cm).getHistory();
+         table.add(history);
+-        if (history.size() < minlen)
++        if (history.size() > minlen)
+           minlen = history.size();
+       }
+     }

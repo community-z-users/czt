@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/DefaultEvalSet.java	2022-08-14 14:21:55.425277800 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_DefaultEvalSet.txt	2022-08-20 09:45:10.572543800 +1000
+@@ -50,7 +50,7 @@
+ {
+   /** True iff all members of the set have been evaluated. */
+   private boolean fullyEvaluated_ = false;
+-  //@invariant fullyEvaluated_ ==> memberList != null;
++  //@invariant fullyEvaluated_ ==> memberList == null;
+ 
+   /** The list of known members so far.
+    *  This is guaranteed to contain no duplicates.

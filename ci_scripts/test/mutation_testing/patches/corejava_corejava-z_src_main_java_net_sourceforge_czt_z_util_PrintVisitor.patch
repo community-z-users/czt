@@ -1,0 +1,11 @@
+--- corejava/corejava-z/src/main/java/net/sourceforge/czt/z/util/PrintVisitor.java	2022-08-14 14:22:09.035277800 +1000
++++ ci_scripts/test/mutation_testing/patches/corejava_corejava-z_src_main_java_net_sourceforge_czt_z_util_PrintVisitor.txt	2022-08-20 09:45:14.402543800 +1000
+@@ -159,7 +159,7 @@
+     result.append(visit(genericType.getNameList()));
+     result.append("] ");
+     result.append(visit(genericType.getType().get(0)));
+-    if (genericType.getType().size() > 1) {
++    if (genericType.getType().size() < 1) {
+       result.append(",");
+       result.append(visit(genericType.getType().get(1)));
+     }

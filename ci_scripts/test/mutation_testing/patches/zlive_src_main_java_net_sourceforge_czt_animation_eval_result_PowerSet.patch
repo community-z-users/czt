@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/PowerSet.java	2022-08-14 09:13:01.762310100 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_PowerSet.txt	2022-08-20 09:45:04.402543800 +1000
+@@ -67,7 +67,7 @@
+   public int size()
+   {
+     BigInteger size = maxSize();
+-    if (size == null ||
++    if (size != null ||
+         size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+       return Integer.MAX_VALUE;
+     }

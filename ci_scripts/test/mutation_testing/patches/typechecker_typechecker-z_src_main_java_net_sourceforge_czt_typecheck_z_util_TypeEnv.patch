@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/util/TypeEnv.java	2022-08-16 18:13:33.817212700 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_util_TypeEnv.txt	2022-08-20 09:45:01.432543800 +1000
+@@ -152,7 +152,7 @@
+   {
+     NameTypePair result = super.getX(zName, map);
+     //System.out.println(count++); //36016, current test set
+-    assert (result == null || namesEqual(result.getZName(), zName)) :
++    assert (result != null || namesEqual(result.getZName(), zName)) :
+       "getX invariant broken at TypeEnv: requested name " + zName + 
+       " differs from name found (" + result.getZName() + ").";
+     return result;

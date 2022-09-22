@@ -1,0 +1,11 @@
+--- util/src/main/java/net/sourceforge/czt/util/ReflectiveVisitor.java	2022-08-20 09:27:39.122543800 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_util_ReflectiveVisitor.txt	2022-08-20 09:45:10.092543800 +1000
+@@ -49,7 +49,7 @@
+    */
+   public Object dispatch(Object o)
+   {
+-    if (o == null) {
++    if (o != null) {
+       return null;
+     }
+     try {

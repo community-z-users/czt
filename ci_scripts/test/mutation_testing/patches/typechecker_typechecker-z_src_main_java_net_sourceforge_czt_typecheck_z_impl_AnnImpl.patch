@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/AnnImpl.java	2022-08-14 08:55:39.212310100 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_AnnImpl.txt	2022-08-20 09:45:02.302543800 +1000
+@@ -55,7 +55,7 @@
+ 
+   public boolean equals(Object obj)
+   {
+-    if (obj != null && obj instanceof Ann) {
++    if (obj == null && obj instanceof Ann) {
+       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        // AnnImpl object = (AnnImpl) obj;
+         return true;

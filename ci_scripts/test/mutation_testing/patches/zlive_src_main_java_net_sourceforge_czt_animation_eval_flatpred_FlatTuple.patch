@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatTuple.java	2022-08-16 18:02:53.787212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatTuple.txt	2022-08-20 09:45:20.242543800 +1000
+@@ -47,7 +47,7 @@
+     solutionsReturned_ = -1;
+   }
+ 
+-  //@ requires newargs.size() >= 1;
++  //@ requires newargs.size() < 1;
+   public FlatTuple(List<ZName> newargs)
+   {
+     this(newargs.subList(0,newargs.size()-1),newargs.get(newargs.size()-1));

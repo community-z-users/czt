@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/FuzzySet.java	2022-08-16 18:12:51.027212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_FuzzySet.txt	2022-08-20 09:45:14.242543800 +1000
+@@ -151,7 +151,7 @@
+     result.append(estSize());
+     result.append(",");
+     result.append(maxSize_);
+-    if (lower_ != null || upper_ != null) {
++    if (lower_ == null || upper_ == null) {
+       result.append(",");
+       result.append(new RangeSet(lower_, upper_).toString());
+     }

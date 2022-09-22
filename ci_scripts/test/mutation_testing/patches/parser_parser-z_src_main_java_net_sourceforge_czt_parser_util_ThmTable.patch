@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/ThmTable.java	2022-08-19 18:02:49.600063000 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_ThmTable.txt	2022-08-20 09:45:06.892543800 +1000
+@@ -61,7 +61,7 @@
+   private void addTheorem(String name, ThmInfo info)
+     throws ThmTableException
+   {
+-    if (thmTable_.get(name) != null) {
++    if (thmTable_.get(name) == null) {
+       String message = "Conjecture " + name + " defined more than once";
+       CztLogger.getLogger(getClass()).warning(message);
+       //throw new ThmTableException(message); Leave the duplication to be caught by the typechecker

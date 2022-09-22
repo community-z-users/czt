@@ -1,0 +1,11 @@
+--- util/src/main/java/net/sourceforge/czt/base/impl/ListTermImpl.java	2022-08-19 18:19:07.130063000 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_base_impl_ListTermImpl.txt	2022-08-20 09:45:01.872543800 +1000
+@@ -78,7 +78,7 @@
+   public String toString()
+   {
+     try {
+-      if (factory_ != null) {
++      if (factory_ == null) {
+         final String result = factory_.toString(this);
+         if (result != null) return result;
+       }

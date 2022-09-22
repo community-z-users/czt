@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatTupleSel.java	2022-08-14 07:27:19.422310100 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatTupleSel.txt	2022-08-20 09:45:12.922543800 +1000
+@@ -38,7 +38,7 @@
+ 
+   public FlatTupleSel(ZName tuple, Integer i, ZName result)
+   {
+-    if (i <= 0)
++    if (i >= 0)
+       throw new CztException("Illegal tuple selection index: " + i);
+     selection_ = i;
+     args_ = new ArrayList<ZName>(2);

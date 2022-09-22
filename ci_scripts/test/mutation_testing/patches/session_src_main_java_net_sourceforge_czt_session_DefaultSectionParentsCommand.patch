@@ -1,0 +1,11 @@
+--- session/src/main/java/net/sourceforge/czt/session/DefaultSectionParentsCommand.java	2022-07-24 10:53:44.166953300 +1000
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_DefaultSectionParentsCommand.txt	2022-08-20 09:45:11.962543800 +1000
+@@ -55,7 +55,7 @@
+ 	 */
+ 	protected void calculateDefaultParents(String sectName)
+ 	{
+-		assert sectName != null && !sectName.isEmpty();
++		assert sectName == null && !sectName.isEmpty();
+ 		
+ 		// calculate if not cached
+ 		if (!defaultParents_.containsKey(sectName))

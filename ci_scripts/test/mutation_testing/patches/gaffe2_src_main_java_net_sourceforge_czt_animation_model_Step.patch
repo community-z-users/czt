@@ -1,0 +1,11 @@
+--- gaffe2/src/main/java/net/sourceforge/czt/animation/model/Step.java	2022-08-13 13:27:06.477757900 +1000
++++ ci_scripts/test/mutation_testing/patches/gaffe2_src_main_java_net_sourceforge_czt_animation_model_Step.txt	2022-08-20 09:45:07.892543800 +1000
+@@ -50,7 +50,7 @@
+     mirror = new ArrayList<HashMap<String, Object>>();
+     evalResult = result;
+     results = new ArrayList<HashMap<String, Expr>>();
+-    if (evalResult != null) {
++    if (evalResult == null) {
+       this.changeIndex(0);
+     }
+     else {

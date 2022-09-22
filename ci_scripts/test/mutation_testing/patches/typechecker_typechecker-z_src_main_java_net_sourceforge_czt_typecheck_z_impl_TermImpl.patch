@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/TermImpl.java	2022-07-24 10:53:44.186953300 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_TermImpl.txt	2022-08-20 09:45:05.882543800 +1000
+@@ -70,7 +70,7 @@
+   @Override
+   public List<Object> getAnns()
+   {
+-    return term_ != null ? term_.getAnns() : null; //??? (term_.hasAnn() ? term_.getAnns() : null) : null;
++    return term_ == null ? term_.getAnns() : null; //??? (term_.hasAnn() ? term_.getAnns() : null) : null;
+   }
+ 
+   @Override

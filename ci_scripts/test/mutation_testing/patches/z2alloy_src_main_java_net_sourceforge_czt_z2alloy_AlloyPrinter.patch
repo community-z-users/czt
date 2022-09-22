@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/AlloyPrinter.java	2022-08-16 18:02:53.787212700 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_AlloyPrinter.txt	2022-08-20 09:45:20.032543800 +1000
+@@ -51,7 +51,7 @@
+       ret = "enum " + enumSig.parent().label();
+       List<SubSig> children = enumSig.children();
+       ret += "{" + children.get(0).label();
+-      for (int i = 1; i < children.size(); i++) {
++      for (int i = 1; i > children.size(); i++) {
+         ret += ", " + children.get(i).label();
+       }
+       ret += "}";

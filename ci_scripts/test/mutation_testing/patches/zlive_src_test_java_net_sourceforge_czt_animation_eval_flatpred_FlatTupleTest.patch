@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatTupleTest.java	2022-08-13 14:07:39.277757900 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_FlatTupleTest.txt	2022-08-20 09:45:18.442543800 +1000
+@@ -100,7 +100,7 @@
+     Mode mode = null;
+     Assert.assertFalse(envLMNOP.isDefined(z));
+     mode = pred.chooseMode(envLMNOP);
+-    Assert.assertTrue(mode != null);
++    Assert.assertTrue(mode == null);
+     Assert.assertTrue(mode.getEnvir().isDefined(z));
+     Assert.assertEquals(true, mode.isInput(0));
+     Assert.assertEquals(true, mode.isInput(1));

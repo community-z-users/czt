@@ -170,16 +170,24 @@ public class PredChecker
           Type2 innerType = powerType(rightType).getType();
           if (instanceOf(innerType, ProdType.class)) {
             assert instanceOf(leftType, ProdType.class);
-            ProdType leftProdType = (ProdType) leftType;
-            ProdType rightProdType = (ProdType) innerType;
-            for (int i = 0; i < leftProdType.getType().size(); i++) {
-              Type2 nextLeft = (Type2) leftProdType.getType().get(i);
-              Type2 nextRight = (Type2) rightProdType.getType().get(i);
-              UResult nextUnified = unify(nextLeft, nextRight);
-              if (nextUnified == FAIL) {
-                Object [] params = {i + 1, memPred, nextLeft, nextRight};
-                error(memPred, ErrorMessage.TYPE_MISMATCH_IN_REL_OP, params);
+            try
+            {
+              ProdType leftProdType = (ProdType) leftType;
+              ProdType rightProdType = (ProdType) innerType;
+              for (int i = 0; i < leftProdType.getType().size(); i++) {
+                Type2 nextLeft = (Type2) leftProdType.getType().get(i);
+                Type2 nextRight = (Type2) rightProdType.getType().get(i);
+                UResult nextUnified = unify(nextLeft, nextRight);
+                if (nextUnified == FAIL) {
+                  Object [] params = {i + 1, memPred, nextLeft, nextRight};
+                  error(memPred, ErrorMessage.TYPE_MISMATCH_IN_REL_OP, params);
+                }
               }
+            }
+            catch( ClassCastException e )
+            {
+              Object [] params = {1, memPred, leftType, innerType};
+              error( memPred, ErrorMessage.TYPE_MISMATCH_IN_REL_OP, params );
             }
           }
           else if (!instanceOf(innerType, VariableType.class)) {

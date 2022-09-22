@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatBinding.java	2022-08-13 14:02:35.887757900 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatBinding.txt	2022-08-20 09:45:04.772543800 +1000
+@@ -61,7 +61,7 @@
+   public FlatBinding(List<ZName> names, List<ZName> exprs,
+       ZName bind)
+   {
+-    assert names.size() == exprs.size();
++    assert names.size() != exprs.size();
+ 
+     if ((new HashSet<ZName>(names)).size() != names.size())
+       throw new IllegalArgumentException(

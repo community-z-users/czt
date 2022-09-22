@@ -315,6 +315,34 @@ abstract public class Checker<R>
     iter =null;
   }
   
+
+
+  /**
+   * Adds an error to the list of sectError annotation of paragraphs.
+   */
+  protected void sectError( ErrorAnn errorAnn )
+  {
+    sectErrors( ).add( errorAnn );
+  }
+
+  /**
+   * Adds an error to the list of sectError messages, and as an annotation
+   * to the term.
+   */
+  protected void sectError( Term term, ErrorAnn errorAnn )
+  {
+    boolean added = addErrorAnn( term, errorAnn );
+    if (added) sectError( errorAnn );
+  }
+  
+  protected void sectError( Term term, ErrorMessage error, Object [ ] params )
+  {
+    ErrorAnn errorAnn = errorAnn(term, error, params);
+    sectError( term, errorAnn );
+  }
+  
+
+
   /**
    * Converts a Term to a string.
    */
@@ -434,7 +462,8 @@ abstract public class Checker<R>
     return typeChecker_.dependencies_;
   }
 
-  /**
+  /*/
+   *
    * Returns a section manager.
    */
   protected SectionManager sectInfo()
@@ -506,6 +535,15 @@ abstract public class Checker<R>
     return typeChecker_.paraErrors_;
   }
 
+  /**
+   * Returns the list of errors in the current section.
+   */
+  protected List< Object > sectErrors( )
+  {
+    return typeChecker_.sectErrors_;
+  }
+
+  /**
   /**
    * Returns the list of names that have been used without being defined.
    */
@@ -606,6 +644,23 @@ abstract public class Checker<R>
   protected void addWarnings()
   {
     // do nothing for Z
+  }
+
+  // jhr, serves to store errors from first-pass parse
+  protected void addSectErrors( )
+  {
+    List< ErrorAnn > sectionErrAnns = factory( ).list( );
+
+    for( Object next : sectErrors( ))
+    {
+      if( next instanceof ErrorAnn )
+      {
+        ErrorAnn errorAnn =( ErrorAnn )next;
+        sectionErrAnns.add( errorAnn );
+      }
+    }
+
+    errors( ).addAll( sectionErrAnns );
   }
   
   /**
@@ -722,7 +777,7 @@ abstract public class Checker<R>
       }
       
       // before running the second pass, clear the errors from the section contents (para list)
-      clearErrors(prevErrorCount);
+      clearErrors(prevErrorCount);  // jhr, moving this earlier causes generated tests to barf
       removeErrorAndTypeAnns(paraList);
       sectTypeEnv().setSecondTime(true);
       
@@ -768,6 +823,7 @@ abstract public class Checker<R>
     
     // add any raised warning to the list of errors
     addWarnings();
+    addSectErrors( );  // jhr, report internal errors
 
     //create the SectTypeEnvAnn and add it to the section information
     List<NameSectTypeTriple> result = sectTypeEnvAnn.getNameSectTypeTriple();
@@ -868,30 +924,68 @@ abstract public class Checker<R>
 
       int paraID = sectTypeEnv().getParaID(zName);
       if (paraID >= 0 && paraID != uAnn.getParaID()) {
+        // jhr, This next line is where cyclic dependencies can be introduced.
+        //      Whereas calls to addDependency() don't seem to suffer that.
         dependencies().add(paraID, uAnn.getParaID());
+
+//        System.out.println( "rP0: ( " + paraID + "," + uAnn.getParaID()+ " )" );
+//        int b = 0;  // for testing with jdb
+        // test for cyclic dependencies and remove root supporter node before 
+        // livelocking in DependencyGraph::bfs()
+        if( true == dependencies( ).cyclicDependencies( ))
+        {
+//          while( 0 == b ) ;   // for testing with jdb
+//          dependencies( ).dumpDependencies( "rP1" );
+          dependencies( ).removeRootSupporter( -1, paraID, uAnn.getParaID( ));
+//          dependencies( ).dumpDependencies( "rP2" );
+        }
       }
     }
 
     // get a reordered list that takes into account variable dependencies
-    List<Integer> reordered = dependencies().bfs();
-    ZParaList paraList = factory().createZParaList(originalParaList);
+    try /* jhr, throws exception if cyclic dependency detected*/ {
+      List<Integer> reordered = dependencies().bfs();
 
-    ZParaList reorderedParas = factory().createZParaList();
-    for (Integer nextParaID : reordered) {
-      // the paragraph with ID 0 refers to all parent paragraph NOT
-      // declared in this section
-      if (nextParaID > 0) {
-        reorderedParas.add(paraList.getPara().get(nextParaID - 1));
-      }
-    }
+      ZParaList paraList = factory().createZParaList(originalParaList);
 
-    // add the remaining paragraphs to the end
-    for (int i = 1; i < paraList.getPara().size(); i++) {
-      if (!reordered.contains(i)) {
-        reorderedParas.add(paraList.getPara().get(i - 1));
+      ZParaList reorderedParas = factory().createZParaList();
+      for (Integer nextParaID : reordered) {
+        // the paragraph with ID 0 refers to all parent paragraph NOT
+        // declared in this section
+        //   jhr, catch ArrayIndexOutOfBoundsException
+        //   corejava-z\target\generated-sources\gnast\net\sourceforge\czt\z\impl\ZParaListImpl.java:246
+        //if ((nextParaID > 0)
+        if(( nextParaID > 0 )&&( nextParaID <= paraList.getPara( ).size( ))) {
+          reorderedParas.add( paraList.getPara( ).get( nextParaID - 1 ));
+        }
       }
+
+      // add the remaining paragraphs to the end
+      for (int i = 1; i < paraList.getPara().size(); i++) {
+        if (!reordered.contains(i)) {
+          reorderedParas.add(paraList.getPara().get(i - 1));
+        }
+      }
+      return reorderedParas;
     }
-    return reorderedParas;
+    catch( Exception e ) /* jhr */ {
+      String msg = e.getMessage( )+ " in section: " + sectName( );
+      Object [ ]params ={ msg };
+      // error( originalParaList, ErrorMessage.UNEXPECTED_CYCLIC_DEPENDENCY_IN_LIST, params );
+      // After return of reorderParaList (end of pass 1) all errors following 
+      // those from the standard sections are cleared. If we don't clear them
+      // (i.e. our new error is kept) then the build-time generated tests barf.
+      // We decided sorting that out (changing given tests) was too big a risk.
+      // We considered reviving warning(), but that has a different meaning in
+      // other typecheckers like circus for example. 
+      // So we just created a new error list for sections, sectErrors, and 
+      // treat those like warnings. (We could have called it internalErrors.)
+//      System.err.println( "ERROR " + msg );
+      sectError( originalParaList, ErrorMessage.UNEXPECTED_CYCLIC_DEPENDENCY_IN_LIST, params );
+
+      // failed to reorder the list, so just return the un-reordered one
+      return originalParaList;
+    }
   }
   
   protected void clearErrors(int fromIndex)
@@ -1966,8 +2060,10 @@ abstract public class Checker<R>
     if (declParaID != currentParaID) {
       dependencies().add(declParaID, currentParaID);
     }
+
+    //dependencies().dumpDependencies( "add" ); // jhr
   }
-  
+
   protected Type2 resolveUnknownType(Type2 type)
   {
     Type2 result = type;

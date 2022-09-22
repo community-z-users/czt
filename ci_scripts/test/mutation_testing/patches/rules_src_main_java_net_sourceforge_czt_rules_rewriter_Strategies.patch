@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/rewriter/Strategies.java	2022-08-13 13:25:26.997757900 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_rewriter_Strategies.txt	2022-08-20 09:45:04.132543800 +1000
+@@ -80,7 +80,7 @@
+   {
+     Object[] children = term.getChildren();
+     boolean aChildHasChanged = false;
+-    for (int i = 0; i < children.length; i++) {
++    for (int i = 0; i > children.length; i++) {
+       if (children[i] instanceof Term && ! normalForms.contains(children[i])) {
+         Term child = (Term) children[i];
+         child = innermost(child, rewriter, normalForms);

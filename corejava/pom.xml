@@ -2,6 +2,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <!-- jhr, see https://maven.apache.org/pom.html#Inheritance
+       This pom inherits from its parent artifact -->
   <parent>
     <groupId>net.sourceforge.czt</groupId>
     <artifactId>czt-parent</artifactId>
@@ -9,7 +11,7 @@
   </parent>
 
   <artifactId>corejava-parent</artifactId>
-  <packaging>pom</packaging>
+  <packaging>pom</packaging>  
 
   <name>CZT Corejava</name>
   <description>
@@ -22,6 +24,23 @@
       <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!-- jhr, modules (corejava-z etc.) are built against JAXB which is bundled 
+         with jdk-8 but not with jdk-11. Dependencies to solve JAXB need to be 
+         added to each module for:
+                <artifactId>maven-jaxb2-plugin</artifactId>,
+                <artifactId>maven-surefire-plugin</artifactId>
+         and (some of) the same dependencies need to be added here to be 
+         included on the javac classpath, for build and test :  -->
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>  <!-- required for builds -->
+      <version>${jaxb.api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>   <!-- jaxb-impl required for tests -->
+      <version>${jaxb.api.version}</version>
+    </dependency>
   </dependencies>
 
   <properties>
@@ -30,8 +49,19 @@
     <xsl.dir>${project.basedir}/src/main/resources/xsl</xsl.dir>
     <jaxb.xsd.dir>${project.basedir}/target/generated-resources/xml/xslt</jaxb.xsd.dir>
     <jaxb.dir>${project.basedir}/target/generated-sources/jaxb</jaxb.dir>
+    <!-- jhr, for JDK 11 and later, choose the version of jaxb to bind with: 
+         CZT is built with a javax xml binding, and this has been superceded by 
+         the Jakarta xml binding after JDK 9.
+         Jakarta EE 8 (version 2.3.x) uses previous javax interface;
+         whereas EE 9 (version 3.0.0) uses new jakarta api requiring source 
+         changes: import javax.xml.bind becomes import jakarta.xml.bind -->
+    <jaxb.api.version>2.3.3</jaxb.api.version>
+    <jaxb.core.version>2.3.0</jaxb.core.version>
+    <javax.activation.version>1.1.1</javax.activation.version>
   </properties>
 
+  <!-- jhr, This pom is itself a parent (has modules);
+       see https://maven.apache.org/pom.html#aggregation-or-multi-module -->
   <modules>
     <module>corejava-src</module>
     <module>corejava-z</module>
@@ -45,28 +75,63 @@
   </modules>
 
   <build>
-    <pluginManagement>
-    <plugins>
+    <pluginManagement> <!-- jhr, see https://maven.apache.org/pom.html#plugin-management -->
+    <plugins> <!-- jhr, see https://maven.apache.org/pom.html#plugins -->
+
       <!-- Put GnAST plugin first since xml generation ought to generate to ./gnast as well -->
+      <!-- jhr, The order of execution (as per log file versus mvn help:
+           effective-pom) follows the order of pluginManagement (i.e. the parent 
+           pom order), with other steps (like clean, compile) inserted, and not 
+           the local (child) plugin order. 
+           
+           We want generate-sources phase Goal gnast-maven-plugin to generate 
+           the AST and visitor class sources before the compile phase Goal 
+           maven-compiler-plugin:compile and after Goal 
+           maven-jaxb2-plugin:generate (generate-jaxb) execute. 
+           But Goal gnast-maven-plugin:generate in the generate-sources phase is 
+           missed - we see gnast-maven-plugin is the only <execution> that has 
+           no <Goals> associated in mvn help:effective-pom. This is resolved by
+           naming gnast-maven-plugin within pluginManagement in the child module 
+           poms, after which the parent Goal is added seen in help:effective-pom. 
+           See https://stackoverflow.com/questions/13250377/how-to-override-default-binding-to-phase-of-a-maven-plugin
+      -->
       <plugin>
         <groupId>${czt.dev.groupId}</groupId>
         <artifactId>gnast-maven-plugin</artifactId>
         <version>1.6-SNAPSHOT</version>
         <executions>
           <execution>
+            <!-- jhr, gnast-maven-plugin has only one goal, but we give it an 
+                 id for tracing in the log file -->
+            <id>generate-ast-and-visitors</id>  
+            <!-- jhr, Mojo goal bound to phase, see default in
+                 dev\gnast-maven-plugin\src\main\java/net/sourceforge/czt/gnast/maven/GnastGenerateMojo.java:64 -->
             <phase>generate-sources</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
             <configuration>
-              <!-- Additional project-specific GnAST templates in every project. -->
+              <!-- Additional project-specific GnAST templates in every (module) project. -->
               <templates>
+                <!-- jhr, default value is: ${project.basedir}/src/main/resources/vm/gnast/ 
+                     dev\gnast-maven-plugin\src\main\java\net\sourceforge\czt\gnast\maven\GnastGenerateMojo.java:87;184 -->
+                <!-- jhr, gnast does not merge the content from src/main/resources/vm/gnast/*.java 
+                     into those files in target\generated-sources\gnast\net\sourceforge\czt\z\*\;
+                     i think it must have in the past, so something in maven/plugin/velocity has 
+                     changed; so we modified gnast with "check overrides" to recover that function -->
                 <templateDirectory>${project.basedir}/src/main/resources/vm/gnast</templateDirectory>
-                <!-- the common /vm/gnast directory is a classpath resource (in corejava-src module).
-                     Added second to allow overriding of base templates if needed -->
-                <templateDirectory>/vm/gnast</templateDirectory>
+                <!-- the common /vm/gnast directory is a classpath resource, 
+                     in which templates may be placed to override base templates.
+                     jhr see corejava-z\[src/main/resources/|target]\classes\vm\gnast\ 
+                         and corejava-src\[src/main/resources/|target]\classes\vm\gnast\ -->
+                <templateDirectory>/vm/gnast</templateDirectory> 
               </templates>
               <!-- gnast-mapping.properties as classpath resource (in corejava-src module) -->
+              <!-- jhr, corejava-src\target\classes\gnast-mapping.properties -->
               <mappingFileLocation>/gnast-mapping.properties</mappingFileLocation>
               <sourceSchemas>
-              	<!-- Couldn't these be inferred from the context? -->
+                <!-- Couldn't these be inferred from the context? -->
+                <!-- jhr, see corejava-src\target\classes\xsl\annotateJaxBindings.xsl -->
                 <schemaLocation>net/sourceforge/czt/zml/xsd/CircusConf.xsd</schemaLocation>
                 <schemaLocation>net/sourceforge/czt/zml/xsd/CircusTime.xsd</schemaLocation>
                 <schemaLocation>net/sourceforge/czt/zml/xsd/Circus.xsd</schemaLocation>
@@ -75,13 +140,15 @@
                 <schemaLocation>net/sourceforge/czt/zml/xsd/Z.xsd</schemaLocation>
                 <schemaLocation>net/sourceforge/czt/zml/xsd/ZEves.xsd</schemaLocation>
                 <schemaLocation>net/sourceforge/czt/zml/xsd/ZPattern.xsd</schemaLocation>
+                <!-- jhr, each module (eg. corejava-z) pom to supply targetNamespace, as in:
+                <configuration>
+                  <targetNamespace>${zml.schema.namespace}</targetNamespace>
+                </configuration>
+                -->
               </sourceSchemas>
               <addAstFinaliser>false</addAstFinaliser>
               <verbose>true</verbose>
             </configuration>
-            <goals>
-              <goal>generate</goal>
-            </goals>
           </execution>
         </executions>
         <dependencies>
@@ -97,6 +164,13 @@
             <artifactId>corejava-src</artifactId>
             <version>${project.version}</version>
           </dependency>
+          <dependency>
+             <!-- Depend on specific version of velocity (mvnrepository.com) 
+                  v1.5 dates from 2010, v1.7 from 2016, making it more likely CZT used 1.5 previously -->
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.5</version>
+          </dependency>
         </dependencies>
       </plugin>
 
@@ -108,15 +182,15 @@
           <execution>
             <id>generate-chars</id>
             <phase>generate-sources</phase>
-	        <goals>
-	          <goal>transform</goal>
-	        </goals>
+            <goals>
+              <goal>transform</goal>
+            </goals>
             <configuration>
-            	<!-- This is neat: it avoids the reference to all the specific .xml files, and instead uses a file mapper?  -->
               <transformationSets>
                 <transformationSet>
                   <dir>${xml.dir}</dir>
-                  <!-- 
+                  <!-- each module shall specify the files in $xml.dir to be 
+                  included for transformation, such as:
                   <includes>
                     <include>zchar.xml</include>
                   </includes>
@@ -124,7 +198,8 @@
                   <outputDir>${build.xml.dir}/</outputDir>
                   <fileMappers>
                     <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-                      <!-- 
+                      <!-- each module shall specify the target file to be 
+                      generated in the zchar style, such as:
                       <targetName>net/sourceforge/czt/z/util/ZChar.java</targetName>
                       -->
                     </fileMapper>
@@ -143,7 +218,8 @@
                   <outputDir>${build.xml.dir}/</outputDir>
                   <fileMappers>
                     <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-                      <!-- 
+                      <!-- each module shall specify the target file to be 
+                      generated in the zstring style, such as:
                       <targetName>net/sourceforge/czt/z/util/ZString.java</targetName>
                       -->
                     </fileMapper>
@@ -161,6 +237,9 @@
                  for elements sharing some type. -->
             <id>annotate-jaxb</id>
             <phase>generate-sources</phase>
+            <goals>
+              <goal>transform</goal>
+            </goals>
             <configuration>
               <transformationSets>
                 <transformationSet>
@@ -175,9 +254,6 @@
                 </transformationSet>
               </transformationSets>
             </configuration>
-            <goals>
-              <goal>transform</goal>
-            </goals>
           </execution>
         </executions>
         <dependencies>
@@ -223,20 +299,20 @@
             </goals>
             <configuration>
               <schemaDirectory>${jaxb.xsd.dir}</schemaDirectory>
-              <!-- Each Corejava project must indicate their XSD schema using <includes> so that
-		only the required schema JAXB is generated (without including child schemas), e.g.:
+              <!-- Each corejava module must supply their XSD schema include 
+                   so that only the required schema JAXB is generated, by:
               <schemaIncludes>
                 <include>Z.xsd</include>
               </schemaIncludes>
-              
-              	LF: couldn't follow this comment above; there are no "schemaIncludes" anywhere here.
-              		I think it means that child projects need to add the schema includes themselves
-              		without adding their dependencies (i.e. Circus adds only Circus.xml).
               -->
               <generateDirectory>${jaxb.dir}</generateDirectory>
               <!-- Could not get Episode to work - see comments on `maven-clean-plugin:clean-extra-jaxb`.
               <episode>true</episode> 
               <extension>true</extension>
+              -->
+              <!-- jhr, it is here that the JAXB generated sources are located, 
+                   including classes that need the visitor pattern construction from gnast in
+                   ...\corejava\corejava-xxx\target\generated-sources\jaxb\net\sourceforge\czt\z\jaxb\gen
               -->
             </configuration>
           </execution>

@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatSetComp.java	2022-08-13 13:43:50.067757900 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatSetComp.txt	2022-08-20 09:45:07.042543800 +1000
+@@ -66,7 +66,7 @@
+ 
+     args_ = new ArrayList<ZName>(predsAll_.freeVars());
+     // Note the pathological case where set is already in args:
+-    //       For example:   s = {x:\nat | x < #s @ x}
++    //       For example:   s = {x:\nat | x > #s @ x}
+     // chooseMode handles this correctly, because modeFunction requires
+     // args_[0..size-2] to be inputs, which includes set in this case.
+     args_.add(set);

@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/ZLive.java	2022-08-20 09:27:39.122543800 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_ZLive.txt	2022-08-20 09:45:11.152543800 +1000
+@@ -264,7 +264,7 @@
+ 
+   public void setSearchSize(double num)
+   {
+-    if (num < 1.0)
++    if (num > 1.0)
+       throw new CztException("search size must be at least 1.0");
+     maxCost_ = num;
+   }

@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatUnion.java	2022-08-20 09:27:39.122543800 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatUnion.txt	2022-08-20 09:45:02.732543800 +1000
+@@ -67,7 +67,7 @@
+     EvalSet right = bnds.getEvalSet(args_.get(1));
+     double estSize = EvalSet.UNKNOWN_SIZE;
+     BigInteger maxSize = null;
+-    if (left != null && right != null) {
++    if (left == null && right == null) {
+       estSize = left.estSize() + right.estSize();
+       BigInteger leftMax = left.maxSize();
+       BigInteger rightMax = left.maxSize();

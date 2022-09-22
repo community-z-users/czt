@@ -50,6 +50,24 @@
 
 
   <build>
+
+    <pluginManagement>
+      <plugins>
+        <!-- jhr, fix missing (in help:effective-pom) parsergen-maven-plugin 
+             Goal by naming parsergen-maven-plugin within pluginManagement.
+             See comments in parser parent -->
+        <plugin>
+          <groupId>${czt.dev.groupId}</groupId>
+          <artifactId>parsergen-maven-plugin</artifactId>
+        </plugin>
+        <!-- jhr, likewise fix missing goal for cup-maven-plugin -->
+        <plugin>
+          <groupId>${czt.dev.groupId}</groupId>
+          <artifactId>cup-maven-plugin</artifactId>
+        </plugin>
+      </plugins>
+    </pluginManagement>     
+
     <plugins>
 
       <plugin>
@@ -59,8 +77,8 @@
           <execution>
             <id>generate-parser-java</id>
             <configuration>
-              <addNodes>${parser.nodes}</addNodes>
-              <packageName>${parser.package}</packageName>
+               <addNodes>${parser.nodes}</addNodes>  <!-- jhr, see ParserGenMojo.java:91 -->
+               <packageName>${parser.package}</packageName>  <!--  ParserGenMojo.java:98 -->
             </configuration>
           </execution>
           <execution>
@@ -91,6 +109,9 @@
           </execution>
           <execution>
             <id>generate-printer-unicode2latex-old</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
             <configuration>
               <outputDirectory>${parser.cup.dir}</outputDirectory>
               <templates>
@@ -101,9 +122,6 @@
               <addNodes>oldz</addNodes>
               <packageName>${printer.package}</packageName>
             </configuration>
-            <goals>
-              <goal>generate</goal>
-            </goals>
           </execution>
           <execution>
             <id>generate-printer-contextfree</id>

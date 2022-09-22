@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/parser/util/CyclicParseManager.java	2022-07-24 10:53:44.136953300 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_parser_util_CyclicParseManager.txt	2022-08-20 09:45:20.352543800 +1000
+@@ -85,7 +85,7 @@
+     }
+     
+     CyclicParseManager manager = sectSingleton.manager.get();
+-    if (manager == null) {
++    if (manager != null) {
+       // new thread
+       manager = new CyclicParseManager();
+       sectSingleton.manager.set(manager);

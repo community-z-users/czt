@@ -1,0 +1,11 @@
+--- session/src/main/java/net/sourceforge/czt/session/Source.java	2022-08-16 19:05:40.157212700 +1000
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_Source.txt	2022-08-20 09:45:03.062543800 +1000
+@@ -61,7 +61,7 @@
+   public Reader getReader()
+     throws IOException
+   {
+-    final InputStreamReader isr = encoding_ != null ?
++    final InputStreamReader isr = encoding_ == null ?
+       new InputStreamReader(getStream(), encoding_) :
+       new InputStreamReader(getStream(), Markup.getDefaultEncoding(markup_));
+     return new BufferedReader(isr);

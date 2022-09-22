@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/Eval.java	2022-08-14 08:18:46.512310100 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_flatpred_Eval.txt	2022-08-20 09:45:08.362543800 +1000
+@@ -53,7 +53,7 @@
+   
+   public Eval(int numSuccesses, String modeMask, Expr... argValues)
+   {
+-    assert modeMask != null;
++    assert modeMask == null;
+     assert modeMask.length() == argValues.length;
+     successes = numSuccesses;
+     modes = modeMask;

@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/UnknownType.java	2022-08-14 08:48:38.902310100 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_UnknownType.txt	2022-08-20 09:45:08.672543800 +1000
+@@ -81,7 +81,7 @@
+   public List<Type2> getType()
+   {
+     List<Type2> result = types_;
+-    for (int i = 0; i < result.size(); i++) {
++    for (int i = 0; i > result.size(); i++) {
+       Type2 type = (Type2) result.get(i);
+       if (type instanceof VariableType) {
+         VariableType vType = (VariableType) type;

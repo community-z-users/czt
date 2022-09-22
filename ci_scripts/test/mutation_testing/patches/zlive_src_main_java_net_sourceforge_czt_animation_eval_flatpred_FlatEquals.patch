@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatEquals.java	2022-08-16 19:04:52.457212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatEquals.txt	2022-08-20 09:45:18.392543800 +1000
+@@ -56,7 +56,7 @@
+     BigInteger rmax = bnds.getUpper(right);
+ 
+     // propagate bounds from left to right.
+-    if (lmin != null)
++    if (lmin == null)
+       changed |= bnds.addLower(right, lmin);
+     if (lmax != null)
+       changed |= bnds.addUpper(right, lmax);

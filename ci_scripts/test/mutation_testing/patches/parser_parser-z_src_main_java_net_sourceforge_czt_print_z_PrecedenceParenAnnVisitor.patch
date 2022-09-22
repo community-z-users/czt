@@ -1,0 +1,11 @@
+--- parser/parser-z/src/main/java/net/sourceforge/czt/print/z/PrecedenceParenAnnVisitor.java	2022-08-14 15:39:46.615277800 +1000
++++ ci_scripts/test/mutation_testing/patches/parser_parser-z_src_main_java_net_sourceforge_czt_print_z_PrecedenceParenAnnVisitor.txt	2022-08-20 09:45:17.912543800 +1000
+@@ -105,7 +105,7 @@
+   protected void preservePrecedence(Term term)
+   {
+     Precedence prec = precedence(term);
+-    if (prec != null) {
++    if (prec == null) {
+       Object[] children = term.getChildren();
+       for (int i = 0; i < children.length; i++) {
+         Object child = children[i];

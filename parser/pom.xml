@@ -71,9 +71,20 @@
           <executions>
             <execution>
               <id>generate-parser-java</id>
+              <!-- jhr, Mojo goal bound to phase, see default in
+                   dev\parsergen-maven-plugin\src\main\java\net\sourceforge\czt\parsergen\maven\ParserGenMojo.java:56 -->
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>generate</goal>
+              </goals>
               <configuration>
+                <!-- jhr, default value is: ${project.build.directory}/generated-sources/parsergen
+                     dev\parsergen-maven-plugin\src\main\java\net\sourceforge\czt\parsergen\maven\ParserGenMojo.java:67 -->
                 <outputDirectory>${parser.java.dir}</outputDirectory>
                 <templates>
+                  <!-- jhr, template files are in parser\parser-src\target\classes\templates\ 
+                       dev\parsergen-maven-plugin\src\main\java\net\sourceforge\czt\parsergen\maven\ParserGenMojo.java:81
+                       output goes to parser-z\target\generated-sources\parsergen\net\sourceforge\czt\parser\z -->
                   <template>${template.dir}/LatexParser.xml</template>
                   <template>${template.dir}/UnicodeParser.xml</template>
                   <template>${template.dir}/LatexToUnicode.xml</template>
@@ -86,15 +97,18 @@
                   <template>${template.dir}/KeywordScanner.xml</template>
                   <template>${template.dir}/SmartScanner.xml</template>
                 </templates>
+                <!-- jhr, dev\parsergen-maven-plugin\src\main\java\net\sourceforge\czt\parsergen\maven\ParserGenMojo.java:107 -->
                 <fileExtension>java</fileExtension>
+                <!-- jhr, dev\parsergen-maven-plugin\src\main\java\net\sourceforge\czt\parsergen\maven\ParserGenMojo.java:125 -->
                 <compileSource>true</compileSource>
               </configuration>
-              <goals>
-                <goal>generate</goal>
-              </goals>
             </execution>
             <execution>
               <id>generate-parser-java-symmap</id>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>generate</goal>
+              </goals>
               <configuration>
                 <outputDirectory>${parser.java.dir}</outputDirectory>
                 <templates>
@@ -103,12 +117,13 @@
                 <fileExtension>java</fileExtension>
                 <compileSource>true</compileSource>
               </configuration>
-              <goals>
-                <goal>generate</goal>
-              </goals>
             </execution>
             <execution>
               <id>generate-parser-cup</id>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>generate</goal>
+              </goals>
               <configuration>
                 <outputDirectory>${parser.cup.dir}</outputDirectory>
                 <templates>
@@ -116,12 +131,13 @@
                 </templates>
                 <fileExtension>cup</fileExtension>
               </configuration>
-              <goals>
-                <goal>generate</goal>
-              </goals>
             </execution>
             <execution>
               <id>generate-parser-jflex</id>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>generate</goal>
+              </goals>
               <configuration>
                 <outputDirectory>${parser.jflex.dir}</outputDirectory>
                 <templates>
@@ -130,12 +146,13 @@
                 </templates>
                 <fileExtension>jflex</fileExtension>
               </configuration>
-              <goals>
-                <goal>generate</goal>
-              </goals>
             </execution>
             <execution>
               <id>generate-printer-unicode2latex</id>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>generate</goal>
+              </goals>
               <configuration>
                 <outputDirectory>${parser.cup.dir}</outputDirectory>
                 <templates>
@@ -143,12 +160,13 @@
                 </templates>
                 <fileExtension>cup</fileExtension>
               </configuration>
-              <goals>
-                <goal>generate</goal>
-              </goals>
             </execution>
             <execution>
               <id>generate-printer-contextfree</id>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>generate</goal>
+              </goals>
               <configuration>
                 <outputDirectory>${parser.jflex.dir}</outputDirectory>
                 <templates>
@@ -156,9 +174,6 @@
                 </templates>
                 <fileExtension>jflex</fileExtension>
               </configuration>
-              <goals>
-                <goal>generate</goal>
-              </goals>
             </execution>
           </executions>
           <dependencies>
@@ -178,6 +193,9 @@
           <executions>
             <execution>
               <phase>process-sources</phase>
+              <goals>
+                <goal>generate</goal>
+              </goals>
               <configuration>
                 <outputDirectory>${project.build.directory}/generated-sources/jflex</outputDirectory>
                 <lexDefinitions>
@@ -188,9 +206,6 @@
                 <verbose>true</verbose>
                 -->
               </configuration>
-              <goals>
-                <goal>generate</goal>
-              </goals>
             </execution>
           </executions>
         </plugin>
@@ -202,6 +217,9 @@
           <executions>
             <execution>
               <phase>process-sources</phase>
+              <goals>
+                <goal>generate</goal>
+              </goals>
               <configuration>
                 <sourceDirectory>${parser.cup.dir}</sourceDirectory>
                 <!--
@@ -212,9 +230,6 @@
                 <suppressGeneratedJavaWarningsUnchecked>true</suppressGeneratedJavaWarningsUnchecked>
                 <suppressGeneratedJavaWarningsUnused>true</suppressGeneratedJavaWarningsUnused>
               </configuration>
-              <goals>
-                <goal>generate</goal>
-              </goals>
             </execution>
           </executions>
         </plugin>

@@ -1,0 +1,618 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< ci_scripts:comet_testing >----------------------
+[INFO] Building comet_testing 0.0.1
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ comet_testing ---
+[INFO] Deleting /home/samuelv/czt/ci_scripts/test/mutation_testing/tcp_systems/comet/target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ comet_testing ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ comet_testing ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 1 source file to /home/samuelv/czt/ci_scripts/test/mutation_testing/tcp_systems/comet/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ comet_testing ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/samuelv/czt/ci_scripts/test/mutation_testing/tcp_systems/comet/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ comet_testing ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ comet_testing ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ comet_testing ---
+[INFO] Building jar: /home/samuelv/czt/ci_scripts/test/mutation_testing/tcp_systems/comet/target/comet_testing-0.0.1.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ comet_testing ---
+[INFO] Installing /home/samuelv/czt/ci_scripts/test/mutation_testing/tcp_systems/comet/target/comet_testing-0.0.1.jar to /home/samuelv/.m2/repository/ci_scripts/comet_testing/0.0.1/comet_testing-0.0.1.jar
+[INFO] Installing /home/samuelv/czt/ci_scripts/test/mutation_testing/tcp_systems/comet/pom.xml to /home/samuelv/.m2/repository/ci_scripts/comet_testing/0.0.1/comet_testing-0.0.1.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.619 s
+[INFO] Finished at: 2022-09-05T20:21:59+10:00
+[INFO] ------------------------------------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< ci_scripts:comet_testing >----------------------
+[INFO] Building comet_testing 0.0.1
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec-maven-plugin:3.1.0:java (default-cli) @ comet_testing ---
+6b3277b2-fbbe-4256-bbf5-7da7fae84eba
+CZT-mut-testing Comet Java Client
+z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/ExprVisitorImpl.java
+z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/Toolkit.java
+zlive/src/main/java/net/sourceforge/czt/animation/eval/Preprocess.java
+zlive/src/main/java/net/sourceforge/czt/animation/eval/Flatten.java
+zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatDiv.java
+gaffe/src/main/java/net/sourceforge/czt/animation/gui/temp/ZBinding.java
+util/src/main/java/net/sourceforge/czt/util/ReflectiveVisitor.java
+typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/TypeChecker.java
+rules/src/main/java/net/sourceforge/czt/rules/prover/SimpleProver.java
+typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/TermImpl.java
+typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/TypeCheckCommand.java
+typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/util/UResult.java
+z2b/src/main/java/net/sourceforge/czt/z2b/Create.java
+rules/src/main/java/net/sourceforge/czt/rules/RuleTable.java
+parser/parser-z/src/main/java/net/sourceforge/czt/print/z/UnicodePrinterCommand.java
+parser/parser-z/src/main/java/net/sourceforge/czt/parser/z/SymMap.java
+[INFO] CZT-mut-testing Project aready existsThere are currently 102 test cycles
+2022-09-05T20:22:02.764759 90
+Getting Prioritisation
+Retry #1
+Retry #2
+czt.parser.z.ParserTest
+czt.animation.eval.flatpred.FlatOrTest
+czt.parser.z.CyclicParentParserTest
+czt.animation.eval.flatpred.FlatTupleSelTest
+czt.parser.z.LatexToUnicodeTest
+czt.print.z.PrecedenceParenAnnVisitorTest
+czt.animation.eval.flatpred.FlatSetCompTest
+czt.animation.eval.flatpred.FlatProdTest
+czt.animation.eval.result.RelSetTest
+czt.animation.eval.flatpred.FlatForallTest
+czt.rules.unification.UnifierTest
+czt.animation.eval.flatpred.FlatIfThenElseTest
+czt.animation.eval.EnvirTest
+czt.animation.eval.flatpred.FlatBindSelTest
+czt.animation.eval.flatpred.FlatBindingTest
+czt.typecheck.z.TypeInferenceTest
+czt.z2alloy.test.Z2AlloyTest
+czt.typecheck.z.CyclicParentTypeCheckerTest
+czt.rules.prover.SimpleProverTest
+czt.rules.rewriter.StrategiesTest
+czt.animation.eval.ZLiveTest
+czt.z2b.BTermWriterTest
+czt.print.z.ZmlPrinterTest
+czt.typecheck.z.IdTest
+czt.parser.z.LatexMarkupConverterTest
+czt.animation.eval.flatpred.BoundsTest
+czt.animation.eval.ExprComparatorTest
+czt.animation.eval.result.SetCompTest
+czt.animation.eval.flatpred.FlatMuTest
+czt.animation.eval.flatpred.FlatNotTest
+czt.z.jaxb.JaxbXmlWriterReaderTest
+czt.animation.eval.flatpred.FlatDivTest
+czt.animation.eval.flatpred.FlatCardTest
+czt.animation.gui.temp.ZBindingTest
+czt.animation.eval.flatpred.FlatDiscreteSetTest
+czt.animation.eval.result.PowerSetTest
+czt.typecheck.util.UnificationEnvTest
+czt.rules.unification.OccursCheckVisitorTest
+czt.animation.eval.flatpred.FlatRangeSetTest
+czt.animation.eval.EvalSetTest
+czt.animation.eval.result.RangeSetTest
+czt.animation.eval.flatpred.FlatUnionTest
+czt.animation.test.model.StepTreeTest
+czt.animation.gui.temp.ZSetTest
+czt.animation.eval.result.ProdSetTest
+czt.animation.eval.flatpred.FlatMultTest
+czt.animation.eval.flatpred.FlatLessThanTest
+czt.animation.eval.flatpred.FlatLessThanEqualsTest
+czt.animation.eval.flatpred.FlatNegateTest
+czt.animation.eval.flatpred.FlatMemberTest
+czt.animation.eval.flatpred.FlatTupleTest
+czt.animation.eval.flatpred.FlatEqualsTest
+czt.animation.eval.flatpred.FlatConstTest
+czt.animation.eval.flatpred.FlatPlusTest
+czt.animation.eval.flatpred.FlatModTest
+czt.animation.gui.temp.ZGivenTest
+czt.animation.eval.result.DiscreteSetTest
+czt.animation.eval.flatpred.ModeTest
+czt.animation.gui.temp.ZNumberTest
+czt.animation.gui.temp.ZTupleTest
+czt.zeves.util.DescriptionTest
+czt.parser.z.SectFromSpecParserTest
+czt.parser.zeves.DefaultZEveSectionParentsTest
+czt.parser.zpatt.DefaultZPattSectionParentsTest
+czt.parser.z.DefaultZSectionParentsTest
+czt.parser.oz.DefaultOZEveSectionParentsTest
+czt.parser.circusconf.DefaultCircusConfSectionParentsTest
+czt.parser.circustime.DefaultCircusTimeSectionParentsTest
+czt.parser.circus.DefaultCircusSectionParentsTest
+czt.parser.z.UnicodeScannerTest
+czt.parser.util.LatexMarkupFunctionTest
+czt.util.DelegatorTest
+czt.z2b.BWriterTest
+czt.animation.test.model.EvalSetResultTest
+czt.util.TermAnnTest
+czt.z.util.ZUtilsTest
+czt.parser.zeves.OnTheFlyParsingTest
+czt.animation.test.model.StepTest
+czt.parser.circus.ParserUtilsTest
+czt.session.SectionManagerTest
+czt.session.DialectTest
+czt.parser.circustime.ParserUtilsTest
+czt.parser.util.CyclicParserManagerTest
+czt.parser.circusconf.ParserUtilsTest
+czt.parser.circus.SectionManagerCircusParserTest
+czt.parser.circustime.SectionManagerCircusTimeParserTest
+czt.ui.CZTGuiTest
+czt.parser.circusconf.SectionManagerCircusConfParserTest
+czt.ui.MainTest
+czt.z.util.OperatorNameTest
+class TestCycle {
+    id: 2022-09-05T20:22:02.764759
+    tests: [class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.EnvirTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.EvalSetTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.animation.eval.ExprComparatorTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.animation.eval.flatpred.BoundsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatBindingTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatBindSelTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatCardTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatConstTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatDiscreteSetTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.animation.eval.flatpred.FlatDivTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatEqualsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatForallTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatIfThenElseTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatLessThanEqualsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatLessThanTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatMemberTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatModTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatMultTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.animation.eval.flatpred.FlatMuTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatNegateTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.animation.eval.flatpred.FlatNotTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatOrTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatPlusTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatProdTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatRangeSetTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatSetCompTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatTupleSelTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatTupleTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.FlatUnionTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.flatpred.ModeTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.result.DiscreteSetTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.result.PowerSetTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.result.ProdSetTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.result.RangeSetTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.eval.result.RelSetTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.animation.eval.result.SetCompTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.animation.eval.ZLiveTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.animation.gui.temp.ZBindingTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.gui.temp.ZGivenTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.gui.temp.ZNumberTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.gui.temp.ZSetTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.animation.gui.temp.ZTupleTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.animation.test.model.EvalSetResultTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.animation.test.model.StepTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.animation.test.model.StepTreeTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.circusconf.DefaultCircusConfSectionParentsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.circusconf.ParserUtilsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.circusconf.SectionManagerCircusConfParserTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.circus.DefaultCircusSectionParentsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.circus.ParserUtilsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.circus.SectionManagerCircusParserTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.circustime.DefaultCircusTimeSectionParentsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.circustime.ParserUtilsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.circustime.SectionManagerCircusTimeParserTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.oz.DefaultOZEveSectionParentsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.util.CyclicParserManagerTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.util.LatexMarkupFunctionTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.parser.z.CyclicParentParserTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.z.DefaultZSectionParentsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.zeves.DefaultZEveSectionParentsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.zeves.OnTheFlyParsingTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.parser.z.LatexMarkupConverterTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.parser.z.LatexToUnicodeTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.parser.z.ParserTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.zpatt.DefaultZPattSectionParentsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.parser.z.SectFromSpecParserTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.parser.z.UnicodeScannerTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.print.z.PrecedenceParenAnnVisitorTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.print.z.ZmlPrinterTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.rules.prover.SimpleProverTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.rules.rewriter.StrategiesTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.rules.unification.OccursCheckVisitorTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=false, id=czt.rules.unification.UnifierTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.session.DialectTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.session.SectionManagerTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.typecheck.util.UnificationEnvTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.typecheck.z.CyclicParentTypeCheckerTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.typecheck.z.IdTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.typecheck.z.TypeInferenceTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.ui.CZTGuiTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.ui.MainTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.util.DelegatorTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.util.TermAnnTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.z2alloy.test.Z2AlloyTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.z2b.BTermWriterTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.z2b.BWriterTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.zeves.util.DescriptionTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=true, test_changed=false, class_changed=true, id=czt.z.jaxb.JaxbXmlWriterReaderTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.z.util.OperatorNameTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }, class Test {
+        {duration=0.0, fail=false, test_changed=false, class_changed=false, id=czt.z.util.ZUtilsTest}
+        id: null
+        fail: false
+        duration: 0.0
+    }]
+    sinceLast: 0
+    filesChanged: 0
+    insertions: 0
+    deletions: 0
+}

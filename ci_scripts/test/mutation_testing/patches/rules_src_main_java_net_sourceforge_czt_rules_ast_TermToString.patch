@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/ast/TermToString.java	2022-08-16 19:08:20.567212700 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_ast_TermToString.txt	2022-08-20 09:45:13.822543800 +1000
+@@ -31,7 +31,7 @@
+   public Object visitJokerDeclList(JokerDeclList joker)
+   {
+     buffer_.append(joker.getName());
+-    if (joker instanceof Joker && ((Joker) joker).boundTo() != null) {
++    if (joker instanceof Joker && ((Joker) joker).boundTo() == null) {
+       buffer_.append("/");
+       ((Joker) joker).boundTo().accept(this);
+     }

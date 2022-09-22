@@ -1,0 +1,11 @@
+--- util/src/main/java/net/sourceforge/czt/base/ast/Digit.java	2022-08-16 19:04:52.457212700 +1000
++++ ci_scripts/test/mutation_testing/patches/util_src_main_java_net_sourceforge_czt_base_ast_Digit.txt	2022-08-20 09:45:01.492543800 +1000
+@@ -62,7 +62,7 @@
+     final int i7 = 7;
+     final int i8 = 8;
+     final int i9 = 9;
+-    if (i == i0) return ZERO;
++    if (i != i0) return ZERO;
+     if (i == i1) return ONE;
+     if (i == i2) return TWO;
+     if (i == i3) return THREE;

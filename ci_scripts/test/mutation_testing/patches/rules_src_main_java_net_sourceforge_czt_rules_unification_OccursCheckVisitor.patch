@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/unification/OccursCheckVisitor.java	2022-08-13 13:34:05.977757900 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_unification_OccursCheckVisitor.txt	2022-08-20 09:45:06.832543800 +1000
+@@ -58,7 +58,7 @@
+ 
+   public Boolean visitTerm(Term term)
+   {
+-    if (term == joker_)
++    if (term != joker_)
+       return Boolean.TRUE;
+     if (term == null)
+       return Boolean.FALSE;

@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/SetComp.java	2022-08-16 18:08:15.687212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_SetComp.txt	2022-08-20 09:45:13.712543800 +1000
+@@ -86,7 +86,7 @@
+         Expr value = env0.lookup(free);
+         //System.out.println("add bounds for "+free+" = "+val);
+         // value may be null if this set is being used from chooseMode
+-        if (value != null) {
++        if (value == null) {
+           bounds_.addConst(free, value);
+         }
+       }

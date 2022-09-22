@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/AbstractVisitor.java	2022-08-14 07:26:08.582310100 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_visitors_AbstractVisitor.txt	2022-08-20 09:45:12.652543800 +1000
+@@ -7,7 +7,7 @@
+ public class AbstractVisitor {
+ 
+   protected AlloyExpr visit(Term t) {
+-    if (t != null) {
++    if (t == null) {
+       return t.accept(Z2Alloy.getInstance());
+     }
+     return null;

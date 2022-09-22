@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/ExprComparator.java	2022-08-14 15:15:27.165277800 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_ExprComparator.txt	2022-08-20 09:45:07.152543800 +1000
+@@ -101,7 +101,7 @@
+   /** Converts an integer difference into -1, 0, or +1. */
+   public int sign(int difference)
+   {
+-    if (difference < 0)
++    if (difference > 0)
+       return LESSTHAN;
+     if (difference > 0)
+       return GREATERTHAN;

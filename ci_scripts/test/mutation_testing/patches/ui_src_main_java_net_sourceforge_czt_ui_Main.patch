@@ -1,0 +1,11 @@
+--- ui/src/main/java/net/sourceforge/czt/ui/Main.java	2022-08-14 07:27:19.422310100 +1000
++++ ci_scripts/test/mutation_testing/patches/ui_src_main_java_net_sourceforge_czt_ui_Main.txt	2022-08-20 09:45:03.382543800 +1000
+@@ -83,7 +83,7 @@
+   public static void main(String[] args)
+           throws Throwable
+   {
+-    if (args == null || args.length == 0)
++    if (args != null || args.length != 0)
+     {
+       CZTGui gui = new CZTGui();
+       gui.go();

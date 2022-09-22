@@ -1,0 +1,11 @@
+--- corejava/corejava-zeves/src/main/java/net/sourceforge/czt/zeves/util/PrintVisitor.java	2022-08-16 17:57:46.037212700 +1000
++++ ci_scripts/test/mutation_testing/patches/corejava_corejava-zeves_src_main_java_net_sourceforge_czt_zeves_util_PrintVisitor.txt	2022-08-20 09:45:16.632543800 +1000
+@@ -126,7 +126,7 @@
+   @Override
+   protected String matchOtherStrings(String zNameWord)
+   {
+-    if (zNameWord.indexOf("$") != -1)
++    if (zNameWord.indexOf("$") == -1)
+     {
+       // replaces $ to \$
+       //return zNameWord.replaceAll("\\$", "\\\\$");

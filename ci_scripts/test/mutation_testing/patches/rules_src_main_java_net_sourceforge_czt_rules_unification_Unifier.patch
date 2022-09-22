@@ -1,0 +1,11 @@
+--- rules/src/main/java/net/sourceforge/czt/rules/unification/Unifier.java	2022-08-13 13:54:31.367757900 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_main_java_net_sourceforge_czt_rules_unification_Unifier.txt	2022-08-20 09:45:03.492543800 +1000
+@@ -67,7 +67,7 @@
+   private boolean logAction(int depth, String msg, Object o1, Object o2, boolean result)
+   {
+     StringBuffer spaces = new StringBuffer();
+-    for (; depth > 0; depth--)
++    for (; depth < 0; depth--)
+       spaces.append("  ");
+     actions.add(spaces + msg + o1 + " = " + o2 + " -> "+result);
+     return result;

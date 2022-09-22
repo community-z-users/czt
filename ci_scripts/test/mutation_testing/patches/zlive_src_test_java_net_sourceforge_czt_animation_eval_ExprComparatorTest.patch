@@ -1,0 +1,11 @@
+--- zlive/src/test/java/net/sourceforge/czt/animation/eval/ExprComparatorTest.java	2022-08-14 14:22:09.585277800 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_test_java_net_sourceforge_czt_animation_eval_ExprComparatorTest.txt	2022-08-20 09:45:05.302543800 +1000
+@@ -69,7 +69,7 @@
+ 
+     // sets (ordered by size, then lexigraphically on sorted members)
+     addset("3 \\upto 1");  positions.add(600);
+-    addset("\\{ x:0 \\upto 10 | x > 20 \\}");  positions.add(600);
++    addset("\\{ x:0 \\upto 10 | x < 20 \\}");  positions.add(600);
+     addset("1 \\upto 3");  positions.add(601);
+     addset("\\{ 1, 3, 5 \\}");  positions.add(602);
+     addset("\\{ 5, 3, 1, 3 \\}");  positions.add(602);

@@ -1,0 +1,11 @@
+--- rules/src/test/java/net/sourceforge/czt/rules/unification/UnifierTest.java	2022-08-16 18:05:34.967212700 +1000
++++ ci_scripts/test/mutation_testing/patches/rules_src_test_java_net_sourceforge_czt_rules_unification_UnifierTest.txt	2022-08-20 09:45:08.102543800 +1000
+@@ -68,7 +68,7 @@
+     exprs = new ArrayList<Expr>();
+     positions = new ArrayList<String>();
+     exprs.add(zpattExpr("0"));            positions.add("num0");
+-    exprs.add(zpattExpr("10000000000"));  positions.add("num1"); // > MAXINT
++    exprs.add(zpattExpr("10000000000"));  positions.add("num1"); // < MAXINT
+ 
+     // tuples
+     exprs.add(zpattExpr("(1, 1, 1)"));  positions.add("(1,1,1)");

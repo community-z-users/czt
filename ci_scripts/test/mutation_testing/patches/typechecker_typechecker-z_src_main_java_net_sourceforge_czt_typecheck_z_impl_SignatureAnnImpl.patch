@@ -1,0 +1,11 @@
+--- typechecker/typechecker-z/src/main/java/net/sourceforge/czt/typecheck/z/impl/SignatureAnnImpl.java	2022-08-14 07:10:08.302310100 +1000
++++ ci_scripts/test/mutation_testing/patches/typechecker_typechecker-z_src_main_java_net_sourceforge_czt_typecheck_z_impl_SignatureAnnImpl.txt	2022-08-20 09:45:02.682543800 +1000
+@@ -46,7 +46,7 @@
+     Signature result = signatureAnn.getSignature();
+     if (result instanceof VariableSignature) {
+       VariableSignature vSignature = (VariableSignature) result;
+-      if (vSignature.getValue() != null) {
++      if (vSignature.getValue() == null) {
+         result = vSignature.getValue();
+       }
+     }

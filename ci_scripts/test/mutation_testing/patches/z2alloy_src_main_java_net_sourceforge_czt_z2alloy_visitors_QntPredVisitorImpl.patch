@@ -1,0 +1,11 @@
+--- z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/QntPredVisitorImpl.java	2022-08-19 18:02:12.920063000 +1000
++++ ci_scripts/test/mutation_testing/patches/z2alloy_src_main_java_net_sourceforge_czt_z2alloy_visitors_QntPredVisitorImpl.txt	2022-08-20 09:45:12.762543800 +1000
+@@ -32,7 +32,7 @@
+ {
+ 
+ public AlloyExpr visitQntPred(QntPred qntPred) {
+-  if (qntPred != null) {
++  if (qntPred == null) {
+     return qntPred.accept(this);
+   }
+   return null;

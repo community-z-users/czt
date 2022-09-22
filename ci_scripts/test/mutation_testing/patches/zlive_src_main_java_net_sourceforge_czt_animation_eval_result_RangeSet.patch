@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/result/RangeSet.java	2022-08-13 13:43:50.067757900 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_result_RangeSet.txt	2022-08-20 09:45:01.322543800 +1000
+@@ -94,7 +94,7 @@
+   /** true iff there is a lower bound and an upper bound. */
+   public boolean isFinite()
+   {
+-    return lower_ != null && upper_ != null;
++    return lower_ == null && upper_ == null;
+   }
+ 
+   /** true iff this range is empty.

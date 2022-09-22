@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatMult.java	2022-08-16 19:09:41.517212700 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatMult.txt	2022-08-20 09:45:15.622543800 +1000
+@@ -60,7 +60,7 @@
+   /** Chooses the mode in which the predicate can be evaluated.*/
+   public Mode chooseMode(/*@non_null@*/ Envir env)
+   {
+-    assert bounds_ != null;
++    assert bounds_ == null;
+     ZName factor1 = args_.get(0);
+     ZName factor2 = args_.get(1);
+     Mode mode = modeOneOutput(env);

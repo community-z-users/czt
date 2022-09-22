@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatNegate.java	2022-08-14 07:26:51.472310100 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatNegate.txt	2022-08-20 09:45:08.312543800 +1000
+@@ -54,7 +54,7 @@
+     BigInteger bUpper = bnds.getUpper(b);
+ 
+     // propagate bounds from a to b.
+-    if (aUpper != null)
++    if (aUpper == null)
+       changed |= bnds.addLower(b, aUpper.negate());
+     if (aLower != null)
+       changed |= bnds.addUpper(b, aLower.negate());

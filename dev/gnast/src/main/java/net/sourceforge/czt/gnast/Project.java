@@ -275,7 +275,8 @@ public class Project
    * Concatenates all template paths into one comma-separated string.
    * @return
    */
-  private String getTemplatePathURLs() {
+  private String getTemplatePathURLs() 
+  {
     
     List<URL> templatePaths = new ArrayList<URL>();
     
@@ -298,7 +299,290 @@ public class Project
     
     return concat.toString();
   }
+
+  /**
+   * checkResourceOverrides
+   *
+   * @author Julian Rose
+   *
+   * <p>Append pom template directory (src/main/resources/vm/gnast) resource
+   *    overrides to target files.</p>
+   *
+   * <p>Gnast (or velocity) should append Interface and Class resource overrides 
+   * for files located in the TemplateDirectories named in pom.xml. But for files
+   * (or paths) with spaces in the name this does not happen, so we do it here.</p>
+   *
+   * @param  c the JAstObject for which output is written.
+   * @return <code>n/a</code>
+   */
+  private void checkResourceOverrides( JAstObject c )
+  {
+    logInfo("check overrides for " + c.getName( ));
+
+    String srcInterface = "";
+    String srcClass = "";
+    String src = "";
+
+    // Find and build the src path name
+    for( URL templatePath : global_.getTemplatePaths( )) 
+    {
+      // if there are spaces in a pathname then velocity fails to process correctly
+      logInfo( "check template path for space " + templatePath.toString( ));
+      if( templatePath.toString( ).contains( " " ) ||
+          templatePath.toString( ).contains( "%20" ))
+      {
+        src = templatePath.toString( );
+        //logInfo( "check overrides template path " + src );
+        if( src.startsWith( "file:" )) // we're interested in java (snippet) files
+        {
+          logInfo( "check overrides src path = " + src );
+          src = src.substring( "file:".length( ));  // strip the lead "file:"
+          // convert filename to locale
+          if( 1 < src.split( ":" ).length )  // then it is a windows drive separator, as in C:
+          {
+            if( src.startsWith( "/" ))
+            {
+              src = src.substring( "/".length( ));  // strip the lead slash (that followed "file:")
+            }
+            src = src.replace( "/", File.separator ).replace( "%20", " " );
+          }
+          else
+          {
+            // we should be on a linux host, nothing to do
+          }
+          break;  // terminate for loop cause we're done looking for snippets
+        }
+        else // we're not interested in "jar:" or others
+        {
+        }
+      }
+    }
+
+    if( 0 < src.length( ))
+    {
+      // build the src interface and class names
+      StringBuilder concat = new StringBuilder( );
+      concat.append( src );
+      if ( !( src.endsWith( File.separator )))
+      {
+        concat.append( File.separator );
+      }
+      concat.append( c.getName( ));
+      src = concat.toString( );
+      srcInterface =( src + ".java" );
+      logInfo( "check overrides srcInterface = " + srcInterface );
+      srcClass =( src + "Impl.java" );
+      logInfo( "check overrides srcClass = " + srcClass );
+    }
+
+    if( 0 < srcInterface.length( ))
+    {
+      String dstInterface = global_.toFileName( c.getPackage( ), c.getName( ));
+      updateResourceOverrides( dstInterface, srcInterface );
+    }
+
+    if( 0 < srcClass.length( ))
+    {
+      String dstClass = global_.toFileName( c.getImplPackage( ), c.getImplName( ));
+      updateResourceOverrides( dstClass, srcClass );
+    }
+  }
   
+  /**
+   * checkResourceOverrides
+   *
+   * @param  id name of the AST for which output is written.
+   * @return <code>n/a</code>
+   */
+  private void checkResourceOverrides( String id )
+  {
+    logInfo( "check overrides for id = " + id );
+
+    String src = "";
+    String srcName = "";
+    String dstName = "";
+
+    // Find and build the src path name
+    for( URL templatePath : global_.getTemplatePaths( )) 
+    {
+      // if there are spaces in a pathname then velocity fails to process correctly
+      logInfo( "check overrides template path for space " + templatePath.toString( ));
+      if( templatePath.toString( ).contains( " " ) ||
+          templatePath.toString( ).contains( "%20" ))
+      {
+        src = templatePath.toString( );
+        //logInfo( "check overrides template path " + src );
+        if( src.startsWith( "file:" )) // we're interested in java (snippet) files
+        {
+          logInfo( "check overrides src path = " + src );
+          src = src.substring( "file:".length( ));  // strip the lead "file:"
+          // convert filename to locale
+          if( 1 < src.split( ":" ).length )  // then it is a windows drive separator, as in C:
+          {
+            if( src.startsWith( "/" ))
+            {
+              src = src.substring( "/".length( ));  // strip the lead slash (that followed "file:")
+            }
+            src = src.replace( "/", File.separator ).replace( "%20", " " );
+          }
+          else
+          {
+            // we should be on a linux host, nothing to do
+          }
+          break;  // terminate for loop cause we're done looking for snippets
+        }
+        else // we're not interested in "jar:" or others
+        {
+        }
+      }
+    }
+    logInfo( "check overrides src = " + src );
+
+    if( 0 < src.length( ))
+    {
+      String name = project_.getClassName( id );
+      String packageName = project_.getPackage( id );
+      logInfo( "check overrides name = " + name + " packageName = " + packageName );
+      if(( null == name )||( null == packageName ))
+      {
+        logSevere("Cannot check resources for id " + id + " in project " + getName( ));
+      }
+      else
+      {
+        // build the src name
+        StringBuilder concat = new StringBuilder( );
+        concat.append( src );
+        if ( !( src.endsWith( File.separator )))
+        {
+          concat.append( File.separator );
+        }
+        concat.append( name );
+        concat.append( ".java" );
+        srcName = concat.toString( );
+        logInfo( "check overrides srcName = " + srcName );
+        dstName = global_.toFileName( getBasePackage( ) + "." + packageName, name );
+        logInfo( "check overrides dstName = " + dstName );
+      }
+    }
+
+    if(( 0 < srcName.length( ))&&( 0 < dstName.length( )))
+    {
+      updateResourceOverrides( dstName, srcName );
+    }
+  }
+
+  /**
+   * updateResourceOverrides
+   *
+   * <p>Append src/main/resources/vm/gnast overrides to target files.</p>
+   *
+   * <p>If the source and target interface file exist then try to append to the 
+   * target </p>
+   *
+   * @param  dst the destination file name as a string
+   *         src the source file name as a string
+   * @return <code>n/a</code>
+   */
+  private void updateResourceOverrides( String dst, String src )
+  {
+    char CRLF;  /* a char is 2 bytes in java */
+    if( File.separator.equals( "/" ))
+    {
+      CRLF = 0x0a;  // unix-like
+    }
+    else
+    {
+      CRLF = 0x0d0a; // windows
+    }
+
+    File srcIf = new File( src );
+    //logInfo( "check overrides src exists" );
+    if(( true == srcIf.exists( ))&&( true == srcIf.isFile( )))
+    {
+      logInfo( "check overrides dst = " + dst );
+      if( 0 < dst.length( ))
+      {
+        File dstIf = new File( dst );
+        if(( true == dstIf.exists( ))&&( true == dstIf.isFile( )))
+        {
+          //logInfo( "check overrides dst exists" );
+          try
+          {
+            RandomAccessFile rDstIf = new RandomAccessFile( dstIf, "rwd" );
+            RandomAccessFile rSrcIf = new RandomAccessFile( srcIf, "r" );
+            {
+              int ch;
+              long dstPos = rDstIf.length( ) - 1;
+              logInfo( "check overrides dst file length = " + Long.toString( dstPos ));
+              while( 0 < dstPos )
+              {
+                ch = rDstIf.readByte( ) & 0x00ff;
+                //logInfo( "ch = " + Integer.toString( ch ));
+                // seek back over char just read 
+                dstPos--;  
+                //logInfo( "seek " + Long.toString( dstPos ));
+                rDstIf.seek( dstPos );
+                // look for ending '}' that should mark end of class / interface
+                if( 0x7d == ch )  // in-code '}' confuses vim syntactic brace pairing
+                   break;
+              }
+              if( 0 < dstPos )
+              {
+                //logInfo( "writeChar" );
+                // replace '}' with a comment just to demark velocity gen from overrides
+                rDstIf.writeChar( CRLF );
+                rDstIf.writeChar( CRLF );
+                rDstIf.writeBytes( "/*** OVERRIDES ***/" );
+                rDstIf.writeChar( CRLF );
+                rDstIf.writeChar( CRLF );
+
+                long srcLen = rSrcIf.length( ) << 1;  
+                /* length is in chars (2 bytes), and we're writing bytes */
+                logInfo( "check overrides src file length (bytes) = " + Long.toString( srcLen ));
+                for( int i = 0; srcLen > i; i += 2 /* sizeof( char )== 2 */ )
+                {
+                  ch = rSrcIf.readByte( );  /* get I/O Error if we read past EOF */
+                  rDstIf.writeByte( ch );
+                }
+                //logInfo( "finish" );
+                rDstIf.writeChar( CRLF );
+                rDstIf.writeChar( CRLF );
+                rDstIf.writeBytes( "/*** END OVERRIDES ***/" );
+                rDstIf.writeChar( CRLF );
+                rDstIf.writeChar( CRLF );
+                rDstIf.writeBytes( " }" );  // replace final '}'
+                rDstIf.writeChar( CRLF );
+                rDstIf.writeChar( CRLF );
+              }
+              else
+              {
+                logInfo( "check overrides failed to find ending brace in " + dst );
+              }
+            }
+
+            rSrcIf.close( );
+            rDstIf.close( );
+            logInfo( "check overrides updated " + dst );
+          }
+          catch( java.io.FileNotFoundException e )
+          {
+            logSevere( "File not found " + e.getMessage( ));
+          }
+          catch( java.io.EOFException e )
+          {
+            // as EOFException is derived from IOException it must appear 
+            // earlier in the catch list
+            logSevere( "EOF error " + e.getMessage( ));
+          }
+          catch( java.io.IOException e )
+          {
+            logSevere( "I/O error " + e.getMessage( ));
+          }
+        }
+      }
+    }
+  }
+
   public Map<String, ? extends JAstObject> getAstClasses()
   {
   	return Collections.unmodifiableMap(project_.getAstClasses());
@@ -327,8 +611,10 @@ public class Project
   public void generate()
     throws Exception
   {
+    logInfo( "Generating project" );  //jhr
+
     Map<?, ?> classes = project_.getAstClasses();
-    Properties initProps = new Properties();
+    Properties initProps = new Properties();   // jhr, java.util.Poperties
     initProps.put("velocimacro.library", "macros.vm");
     /*
      * Use URL resource loader. This way we can indicate template roots both from the JAR files
@@ -338,6 +624,9 @@ public class Project
     initProps.put("resource.loader", "url");
     initProps.put("url.resource.loader.root", getTemplatePathURLs());
     initProps.put("url.resource.loader.class", "org.apache.velocity.runtime.resource.loader.URLResourceLoader");
+
+    //jhr
+    logInfo( "Project Template paths: " + getTemplatePathURLs( ));
     
     apgen_ = new Apgen(global_.getDefaultContext(), initProps);
     if (project_.getImportProject() != null) {
@@ -369,15 +658,34 @@ public class Project
     // ******************************
     // AstToJaxb, JaxbToAst
     // ******************************
+    logInfo("Writing AstToJaxb" );
     generate("AstToJaxb");
+    checkResourceOverrides( "AstToJaxb" );
+    logInfo("Writing JaxbToAst" );
     generate("JaxbToAst");
+    checkResourceOverrides( "JaxbToAst" );
 
+    logInfo("Writing AstVisitor" );
     generate("AstVisitor");
+    checkResourceOverrides( "AstVisitor" );
+
+    logInfo("Writing factory" );
     generate("factory");
+    checkResourceOverrides( "factory" );
+    logInfo("Writing factoryImpl" );
     generate("factoryImpl");
+    checkResourceOverrides( "factoryImpl" );
+
+    logInfo("Writing convFactory" );
     generate("convFactory");
+    checkResourceOverrides( "convFactory" );
+    logInfo("Writing flyFactory" );
     generate("flyFactory");
+    checkResourceOverrides( "flyFactory" );
+
+    logInfo("Writing createVisitor" );
     generate("createVisitor");
+    checkResourceOverrides( "createVisitor" );
 
     // ******************************
     // Generate Ast Classes and Interfaces
@@ -389,20 +697,23 @@ public class Project
       apgen_.addToContext("class", c);
       Set<String> astFileNames = getAstFileNames(c);
 
-      logFine("Generating class file for " + c.getName());
+      logInfo("Generating class file for " + c.getName());
       filename = global_.toFileName(c.getImplPackage(),
                                     c.getImplName());
       createFileIfNeeded(filename, "AstClass.vm", astFileNames);
 
-      logFine("Generating interface file for " + c.getName());
+      logInfo("Generating interface file for " + c.getName());
       filename = global_.toFileName(c.getPackage(),
                                     c.getName());
       createFileIfNeeded(filename, "AstInterface.vm", astFileNames);
 
-      logFine("Generating visitor for " + c.getName());
+      logInfo("Generating visitor for " + c.getName());
       filename = global_.toFileName(getVisitorPackage(),
                                     c.getName() + "Visitor");
       createFileIfNeeded(filename, "AstVisitorInterface.vm", astFileNames);
+
+      // jhr
+      checkResourceOverrides( c );
     }
 
     Map<String, List<String>> enumClasses = project_.getEnumerations();
@@ -412,8 +723,11 @@ public class Project
 
       filename = global_.toFileName(getAstPackage(),
                                     enumName);
+      logInfo("Generating enum for " + filename );
       createFileIfNeeded(filename, "Enum.vm", Collections.<String>emptySet());
     }
+
+    logInfo( "End Generating project" );  //jhr
   }
 
   // ****************** INTERFACE JProject ************************

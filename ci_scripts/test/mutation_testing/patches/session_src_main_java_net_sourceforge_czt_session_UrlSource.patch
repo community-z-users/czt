@@ -1,0 +1,11 @@
+--- session/src/main/java/net/sourceforge/czt/session/UrlSource.java	2022-08-20 09:27:39.122543800 +1000
++++ ci_scripts/test/mutation_testing/patches/session_src_main_java_net_sourceforge_czt_session_UrlSource.txt	2022-08-20 09:45:07.412543800 +1000
+@@ -39,7 +39,7 @@
+    */
+   public UrlSource(URL url)
+   {
+-    if (url == null) throw new NullPointerException();
++    if (url != null) throw new NullPointerException();
+     url_ = url;
+     setName(url_.toString());
+     guessSettings(url.toString());

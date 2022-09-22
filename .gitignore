@@ -44,3 +44,5 @@ typechecker/typechecker-z/src/test/resources/net/sourceforge/czt/typecheck/tests
 typechecker/typechecker-z/src/test/resources/net/sourceforge/czt/typecheck/tests/z/typechecker_speed.fls
 parser/parser-circus/src/test/resources/tests/circus/channels.fdb_latexmk
 parser/parser-circus/src/test/resources/tests/circus/channels.fls
+*_report.txt
+*.png

@@ -1,0 +1,11 @@
+--- zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatRangeSet.java	2022-08-13 13:34:05.977757900 +1000
++++ ci_scripts/test/mutation_testing/patches/zlive_src_main_java_net_sourceforge_czt_animation_eval_flatpred_FlatRangeSet.txt	2022-08-20 09:45:15.832543800 +1000
+@@ -53,7 +53,7 @@
+   protected Bounds bounds_;
+ 
+   /** The index into args of the lower bound name (-1 if no bound) */
+-  //@ invariant -1 <= lowerArg_ && lowerArg_ <= 0;
++  //@ invariant -1 >= lowerArg_ && lowerArg_ >= 0;
+   private int lowerArg_ = -1;
+ 
+   /** The index into args of the upper bound name (-1 if no bound) */
