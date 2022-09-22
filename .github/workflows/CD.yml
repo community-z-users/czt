@@ -1,0 +1,18 @@
+name: CD
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  CD:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy
+        if: ${{ github.event.review.state == 'approved' }}
+        uses: "pascalgn/automerge-action@v0.14.3"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_METHOD: "squash"
