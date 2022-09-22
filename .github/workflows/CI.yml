@@ -83,6 +83,7 @@ jobs:
           git diff --name-only HEAD HEAD^1
 
       - name: Test
+        continue-on-error: true
         if: ${{ env.BUILD_STATUS == 'PASSED' }}
         run: |
           git fetch origin main 

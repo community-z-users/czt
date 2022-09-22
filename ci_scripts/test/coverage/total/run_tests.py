@@ -103,8 +103,9 @@ for test_class in unique_tests:
 		if err:
 			FAILED_TEST = True
 			print("FAILED".rjust(99-len(line)))
-			if DEBUG_MODE:
-				os.system("cat test_output.txt")
+			os.system("cat test_output.txt")
+			os.system("rm test_output.txt")
+			exit(1)
 		else:
 			print("PASSED".rjust(99-len(line)))
 
