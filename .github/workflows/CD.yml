@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: automerge
-      - name: automerge
+        name: automerge
         if: ${{ github.event.review.state == 'approved' }}
         uses: "pascalgn/automerge-action@v0.14.3"
         env:
