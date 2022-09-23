@@ -1,16 +1,17 @@
-name: CD
+name: automerge
 
 on:
   pull_request_review:
     types: [submitted]
 
 jobs:
-  CD:
+  automerge:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy
+      - id: automerge
+      - name: automerge
         if: ${{ github.event.review.state == 'approved' }}
         uses: "pascalgn/automerge-action@v0.14.3"
         env:
