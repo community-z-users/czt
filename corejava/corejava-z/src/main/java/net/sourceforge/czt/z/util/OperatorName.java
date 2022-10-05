@@ -211,7 +211,7 @@ public class OperatorName
 
   public String[] getWords()
   {
-    return list_.toArray(new String[0]);
+    return null;//list_.toArray(new String[0]);
   }
 
   @Override
