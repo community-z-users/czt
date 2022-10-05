@@ -147,7 +147,7 @@ public class OperatorName
 
   public String getWord()
   {
-    return word_;
+    return null;//word_;
   }
 
   public StrokeList getStrokes()
