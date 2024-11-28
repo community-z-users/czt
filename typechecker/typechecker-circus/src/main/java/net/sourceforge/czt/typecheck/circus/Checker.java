@@ -2436,6 +2436,7 @@ public abstract class Checker<R>
       }
       else 
       {
+      	factory().merge(second, first);
         it.remove();
       }
     }
