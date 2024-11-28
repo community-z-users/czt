@@ -1,0 +1,79 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+\begin{zsection}
+  \SECTION channel\_examples \parents circus\_toolkit
+\end{zsection}
+
+\begin{zed}
+	[ID]
+\end{zed}
+
+\begin{axdef}
+	id1, id2 : ID
+\end{axdef}
+
+\begin{circus}
+	\circchannel c1 : \nat \\
+	\circchannel c2 : \nat \cross \nat \\
+	\circchannel c3 : ID \cross \nat \cross \nat
+\end{circus}
+
+\section{Accepted now, and should continue to be accepted}
+
+\begin{circus}
+	\circchannelset set1 == \lchanset c1 \rchanset \\
+	\circchannelset set2 == \lchanset c2 \rchanset \\
+	\circchannelset set3 == \lchanset c1, c2 \rchanset \\
+	\circchannelset set4 == \lchanset c2, c3 \rchanset
+\end{circus}
+
+\section{Rejected now, but should be accepted}
+
+\begin{circus}
+	% partial instantiation should be allowed
+	\circchannelset set5 == \lchanset c2.1 \rchanset \\
+	\circchannelset set6 == \lchanset c3.id1.2 \rchanset \\
+	\circchannelset set7 == \lchanset c2.1, c3.id1.2 \rchanset \\
+	% partial instantiation with explicit choices should be allowed
+	\circchannelset set8 == \lchanset c2?x.2, c2.1?y, c2?x?y \rchanset \\
+	\circchannelset set9 == \lchanset c3.id1?xy, c3.id2?x.2 \rchanset \\
+	% fully instantiated events should be allowed
+	\circchannelset set10 == \lchanset c1.1, c2.1.2, c3.id1.1.2, c2.2.3 \rchanset \\
+	\circchannelset set11 == \lchanset c2.(1, 2), c3.(id1,1).2 \rchanset \\
+	% a mixture of fully and partially instantiated events should be allowed
+	\circchannelset set12 == \lchanset c1.1, c2.1, c3.id1, c2.2 \rchanset \\
+	\circchannelset set13 == \lchanset c1.1, c2?x.1, c3.id2?x.2, c2.2 \rchanset \\
+	% quantified events should be allowed
+	\circchannelset set14 == \lchanset c2?x \prefixcolon (x \mod 2 = 0)?y \prefixcolon (y \mod 2 = 1) \rchanset
+\end{circus}
+
+\section{Rejected now, and should remain rejected}
+
+\circtoolsoff
+\begin{circus}
+	% wrong type
+	\circchannelset set15 == \lchanset c2.id1 \rchanset \\
+	\circchannelset set16 == \lchanset c3.1.2.3 \rchanset \\
+	% too many values
+	\circchannelset set17 == \lchanset c2.1.2.3 \rchanset \\
+	% not a channel
+	\circchannelset set18 == \lchanset 1, id1, 1+2 \rchanset \\
+	% non channelset braces with incompletely instantiated events
+	\circchannelset set19 == \{ c2.1 \} \\
+	\circchannelset set20 == \{ c1, c2 \} \\
+\end{circus}
+\circtoolson
+
+\section{Rejected now, but could be implemented if needed}
+
+\circtoolsoff
+\begin{circus}
+	% channel sets as plain sets of events
+	\circchannelset set21 == \{ c1.1, c2.1.2 \} \\
+\end{circus}
+\circtoolson
+
+
+\end{document}

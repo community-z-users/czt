@@ -139,7 +139,10 @@ public class ExprChecker
     List<NameTypePair> pairs = term.getCommunicationList().accept(commChecker());
 
     // avoid duplicates    
-    checkForDuplicateNames(pairs, term);
+    //checkForDuplicateNames(pairs, term);
+    // allow duplicates in basic channel sets to allow for cases like
+    // \lchanset c1?x.1, c1.2?y \rchanset. Type signature will be the first pair
+    removeDuplicateNames(pairs);
     
     int i = 1;
     for(NameTypePair pair : pairs)

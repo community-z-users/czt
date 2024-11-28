@@ -2419,7 +2419,29 @@ public abstract class Checker<R>
     }
     checkForDuplicateNames(znl, term);
   }
-  
+
+  protected void removeDuplicateNames(List<NameTypePair> pairs)
+  {
+    Iterator<NameTypePair> it = pairs.iterator();
+    Map<String, ZName> map = factory().hashMap();
+    while (it.hasNext())
+    {
+      NameTypePair ntp = it.next();
+      ZName first = ZUtils.assertZName(ntp.getZName());
+      String firstName = ZUtils.toStringZName(first);
+      ZName second = map.get(firstName);
+      if (second == null)
+      {
+        map.put(firstName.intern(), first);
+      }
+      else 
+      {
+        it.remove();
+      }
+    }
+    map = null;
+  }
+
   protected CircusCommunicationList visit(CircusAction term)     
   {
     if ((term instanceof MuAction) && 
